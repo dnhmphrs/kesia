@@ -1,316 +1,240 @@
 <!DOCTYPE html>
 <html lang="en-GB">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Kes Inkersole</title>
-	<meta name="description" content="Kes Inkersole is a creative strategist and internet equalities researcher based in London.">
-	<meta name="author" content="Kes Inkersole">
-	<meta name="keywords" content="Kesia Inkersole, Kes Inkersole, creative strategist, internet equalities, researcher, London, UAL, LCF, CCI">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>kes inkersole</title>
+<meta name="description" content="Kesia Inkersole — freelance creative strategist & internet equalities researcher, based in london.">
+<meta name="author" content="Kes Inkersole">
+<meta name="keywords" content="Kesia Inkersole, Kes Inkersole, creative strategist, internet equalities, researcher, London, UAL">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<meta property="og:type" content="website">
+<meta property="og:title" content="kes inkersole">
+<meta property="og:description" content="kes inkersole — freelance creative strategist & internet equalities researcher, based in london.">
+<meta property="og:image" content="https://kesia-coral.vercel.app/square.png">
+<meta property="og:url" content="https://kesia-coral.vercel.app">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="kes inkersole">
+<meta name="twitter:description" content="kes inkersole — freelance creative strategist & internet equalities researcher, based in london.">
+<meta name="twitter:image" content="https://kesia-coral.vercel.app/square.png">
+<style>
+/* black, paper, one pink. the pink is for when something is playing. */
+:root {
+  --paper: #f3f2ee;
+  --ink: #0e0e0e;
+  --rule: #c8c6bf;
+  --hot: #ff2e88;
+  --mono: ui-monospace, Menlo, Consolas, "DejaVu Sans Mono", "Courier New", monospace;
+  --sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --gut: clamp(16px, 2.2vw, 32px);
+}
+html { background: var(--paper); color: var(--ink); }
+body { margin: 0; padding: var(--gut) var(--gut) 0; font: 16px/1.42 var(--sans); overflow-wrap: break-word; }
+a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: .16em; }
+a:visited { text-decoration-style: dotted; }
+a:hover { background: var(--ink); color: var(--paper); text-decoration: none; }
+::selection { background: var(--hot); color: var(--ink); }
+p { margin: 0 0 .8em; }
 
-	<style>
-	/* prof. dr. style: browser defaults, maintained by hand.
-	   one colour, and it only shows up when something is live or touched. */
-	:root { --hot: magenta; }
+/* ---------- top: name on the left, radio on the right ---------- */
+.top { display: grid; gap: 18px 40px; grid-template-columns: minmax(0, 1fr); grid-template-areas: "who" "fm" "intro"; align-items: start; }
+@media (min-width: 900px) {
+  .top { grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr); grid-template-areas: "who fm" "intro fm"; }
+}
+.who { grid-area: who; }
+.fm { grid-area: fm; }
+.intro { grid-area: intro; font-size: 18px; line-height: 1.4; max-width: 64ch; }
+h1 { font: 700 clamp(34px, 4.2vw, 60px)/.95 var(--sans); letter-spacing: -.035em; margin: 0 0 12px; }
+h1 small { font: 400 13px/1 var(--mono); letter-spacing: 0; white-space: nowrap; vertical-align: .9em; }
+.role { font-size: 18px; margin: 0; }
 
-	html { -webkit-text-size-adjust: 100%; }
-	body {
-		margin: 8px;
-		background: #fff;
-		color: #000;
-		font-family: "Arial Narrow", "Helvetica Neue Condensed", "HelveticaNeue-Condensed", Arial, sans-serif;
-		font-stretch: condensed;
-		font-size: 21px;
-		line-height: 1.25;
-		overflow-wrap: break-word;
-	}
-	a:hover, a:focus-visible, a.highlight { background: var(--hot); color: #000; outline: none; }
-	::selection { background: var(--hot); color: #000; }
-	button { font-family: inherit; font-size: 15px; vertical-align: 2px; cursor: pointer; }
-	ul { margin-top: 0; }
-	li { margin: 0; }
+/* ---------- KES FM, in black ---------- */
+.fm h2 { display: inline; font: 700 13px/1.3 var(--mono); margin: 0; }
+.ident { display: inline; font-size: 14px; line-height: 1.4; margin: 0; }
+.deck { background: var(--ink); color: var(--paper); padding: 12px 12px 10px; margin-top: 10px; }
+.lcd { font: 12px/1.4 var(--mono); }
+.lcd-top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2px 12px; font-size: 13px; }
+.status { color: var(--hot); }
+.ticker { overflow: hidden; white-space: nowrap; border-block: 1px solid #3a3a3a; margin: 8px 0; padding: 3px 0; }
+.ticker > div { display: inline-block; }
+.ticker span { padding-right: .5em; }
+.tracker { display: grid; grid-template-columns: repeat(32, minmax(0, 1fr)); gap: 1px; text-align: center; font-size: 11px; }
+.tracker span { background: #1c1c1c; padding: 2px 0; }
+.tracker .rest { opacity: .35; }
+.tracker .rev { color: #ff9ccc; }
+.tracker .up { color: #ffd60a; }
+.tracker .roll { text-decoration: underline; }
+.tracker .on { background: var(--hot); color: var(--ink); }
+.lcd-info { margin-top: 6px; font-size: 11px; color: #a8a6a0; display: flex; flex-wrap: wrap; gap: 0 12px; }
+.lcd-info .rev { color: #ff9ccc; } .lcd-info .up { color: #ffd60a; }
+.keys { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; margin-top: 12px; }
+.keys > div { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
+.keys .lbl { font: 11px var(--mono); color: #a8a6a0; margin-right: 2px; }
+.keys button { font: 12px/1 var(--mono); background: transparent; color: var(--paper); border: 1px solid #5a5a5a; border-radius: 0; padding: 7px 8px; cursor: pointer; }
+.keys button:hover { border-color: var(--paper); }
+.keys button:active { translate: 0 1px; }
+.keys button[aria-pressed="true"] { background: var(--paper); color: var(--ink); border-color: var(--paper); }
+.keys .go, .keys .go[aria-pressed="true"] { background: var(--hot); color: var(--ink); border-color: var(--hot); font-weight: 700; padding: 9px 14px; }
+.keys .stop { background: var(--paper); color: var(--ink); border-color: var(--paper); font-weight: 700; padding: 9px 14px; }
+.deck button:focus-visible, .floatstop:focus-visible { outline: 2px solid var(--hot); outline-offset: 2px; }
+.vol { font: 11px var(--mono); color: #a8a6a0; display: flex; align-items: center; gap: 6px; }
+.vol input { width: 6rem; accent-color: var(--hot); }
+.textin { margin: 10px 0 0; font: 12px/1.4 var(--mono); }
+.deck a { color: var(--paper); }
+.deck a:hover { background: var(--hot); color: var(--ink); }
+.floatstop { position: fixed; right: 16px; bottom: 16px; z-index: 5; font: 700 13px/1 var(--mono); background: var(--hot); color: var(--ink);
+  border: 2px solid var(--ink); border-radius: 0; padding: 11px 14px; cursor: pointer; }
+.floatstop[hidden] { display: none; }
+@keyframes run { to { translate: -50% 0; } }
+@media (prefers-reduced-motion: no-preference) { .ticker > div { animation: run 70s linear infinite; } }
 
-	/* images, running across the page */
-	.image-row { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 2em; }
-	.image-module { margin: 0; width: min-content; }
-	.image-module img { display: block; height: clamp(180px, 19vw, 300px); width: auto; aspect-ratio: 3 / 2; object-fit: cover; background: #eee; }
-	.image-module img.tall { aspect-ratio: 4 / 5; }
-	figcaption { font-size: 13px; line-height: 1.2; margin-top: 4px; }
+/* ---------- the index: one row per slice of the break ---------- */
+.idx { width: 100%; border-collapse: collapse; table-layout: fixed; margin: 44px 0 0; }
+.idx caption { caption-side: top; text-align: left; font: 13px/1.45 var(--mono); padding: 0 0 10px; max-width: 90ch; }
+.c-n { width: 4.6em; } .c-w { width: 17%; } .c-k { width: 15%; } .c-p { width: 300px; }
+.idx th { font: 400 11px/1.2 var(--mono); text-align: left; padding: 0 12px 6px 0; border-bottom: 2px solid var(--ink); }
+.idx td { border-top: 1px solid var(--rule); padding: 5px 12px 5px 0; vertical-align: top; }
+.idx tr.g td { border-top-color: var(--ink); }
+.idx .n { font: 12px/1.75 var(--mono); }
+.idx .w, .idx .k { font-size: 14px; line-height: 1.5; }
+.idx .k { font-family: var(--mono); font-size: 12px; line-height: 1.75; }
+.idx .dd > span { display: none; }
+.idx .dd::before { content: '"'; font-family: var(--mono); }
+.idx .free .t { font: 13px/1.6 var(--mono); padding-top: 6px; }
+.idx tr.lit td { background: var(--hot); }
+.idx tr.lit td[rowspan] { background: none; }
+.pic img { display: inline-block; vertical-align: top; width: 132px; height: auto; aspect-ratio: 3 / 2; margin: 2px 6px 4px 0;
+  background: #dddbd4; filter: grayscale(1) contrast(1.05); }
+.idx tr:hover .pic img, .idx tr.lit .pic img { filter: none; }
+.cap { display: block; font: 11px/1.3 var(--mono); margin-bottom: 2px; }
 
-	.foot { margin-top: 3em; }
+/* ---------- bottom ---------- */
+.foot { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0 40px; border-top: 2px solid var(--ink); margin-top: 44px; padding: 14px 0 28px; }
+@media (min-width: 900px) { .foot { grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr); } }
+.bio { font-size: 15px; }
+.colo { font: 12px/1.55 var(--mono); }
 
-	/* KES FM, reskinned: default buttons, a plain readout, the one colour */
-	.fm { margin: 1em 0 2.5em; }
-	.fm h2 { font: inherit; margin: 0; }
-	.fm .ident { margin: 0 0 .6em; }
-	.deck { border: 1px solid #000; padding: 10px; }
-	.lcd { font: 14px/1.45 ui-monospace, Menlo, Consolas, "DejaVu Sans Mono", "Courier New", monospace; }
-	.lcd-top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0 1em; }
-	.status { padding: 0 .3em; }
-	body.on-air .status { background: var(--hot); }
-	.ticker { overflow: hidden; white-space: nowrap; border-block: 1px dotted #000; margin: .4em 0; padding: .1em 0; }
-	.ticker > div { display: inline-block; }
-	.ticker span { padding-right: .5em; }
-	.tracker { display: grid; grid-template-columns: repeat(16, 1fr); gap: 2px; text-align: center; font-size: 13px; }
-	.tracker span { padding: 1px 0; }
-	.tracker .rest { color: #999; }
-	.lcd .rev { background: #000; color: #fff; }
-	.lcd .up { font-weight: bold; }
-	.tracker .roll { text-decoration: underline; }
-	.tracker .on { background: var(--hot); color: #000; }
-	.lcd-info { margin-top: .4em; font-size: 12px; color: #444; display: flex; flex-wrap: wrap; gap: 0 1em; }
-	.lcd-info .rev { padding: 0 .2em; }
-	.keys { display: flex; flex-wrap: wrap; gap: .5em 1.4em; align-items: center; margin-top: .7em; padding-top: .7em; border-top: 1px dotted #000; }
-	.keys > div { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
-	.keys .lbl, .vol { font: 12px ui-monospace, Menlo, Consolas, "DejaVu Sans Mono", monospace; margin-right: 2px; }
-	.fm button, .floatstop {
-		font: 15px/1.2 "Arial Narrow", "Helvetica Neue Condensed", Arial, sans-serif; font-stretch: condensed;
-		color: #000; background: #efefef; border: 1px solid #767676; border-radius: 3px; padding: 2px 7px; vertical-align: 0;
-	}
-	.fm button:hover { background: #e3e3e3; }
-	.fm button:active { background: #f7f7f7; }
-	.fm button[aria-pressed="true"] { background: #000; color: #fff; border-color: #000; }
-	.fm .go[aria-pressed="true"] { background: var(--hot); color: #000; }
-	button:focus-visible { outline: 2px solid #000; outline-offset: 1px; }
-	.vol { display: flex; align-items: center; gap: .4em; }
-	.vol input { width: 7rem; accent-color: #000; }
-	.textin { margin: .7em 0 0; }
-	.floatstop { position: fixed; right: 8px; bottom: 8px; z-index: 5; background: var(--hot); border-color: #000; padding: 5px 10px; }
-	.floatstop[hidden] { display: none; }
-
-	@keyframes run { to { translate: -50% 0; } }
-	@media (prefers-reduced-motion: no-preference) { .ticker > div { animation: run 70s linear infinite; } }
-
-	@media (max-width: 700px) {
-		body { margin: 16px; font-size: 18px; }
-		.image-row { gap: 8px; }
-		.image-module { width: calc(50% - 4px); }
-		.image-module img { width: 100%; height: auto; }
-		.tracker { grid-template-columns: repeat(8, 1fr); }
-		.keys { gap: .6em 1em; }
-	}
-	</style>
+/* ---------- phones: the table turns into a list ---------- */
+@media (max-width: 700px) {
+  .idx, .idx tbody, .idx tr, .idx td, .idx caption { display: block; }
+  .idx thead, .idx colgroup { display: none; }
+  .idx tr { display: flex; flex-wrap: wrap; column-gap: 8px; position: relative; padding: 6px 0 6px 2.9em; border-top: 1px solid var(--rule); }
+  .idx tr.g { border-top-color: var(--ink); }
+  .idx td { border: 0; padding: 0; }
+  .idx .n { position: absolute; left: 0; top: 6px; }
+  .idx .t { flex: 1 0 100%; }
+  .idx .w:empty { display: none; }
+  .idx .dd > span { display: inline; }
+  .idx .dd::before { content: none; }
+  .idx .pic:empty { display: none; }
+  .idx .pic { flex: 1 0 100%; margin-top: 6px; }
+  .pic img { width: calc(50% - 4px); margin-right: 4px; }
+  .idx .free .t { padding-top: 0; }
+  .idx tr.free { min-height: 2em; }
+  .idx tr.lit { background: var(--hot); }
+  .tracker { grid-template-columns: repeat(16, minmax(0, 1fr)); }
+  .intro { font-size: 17px; }
+}
+</style>
 </head>
-
 <body>
 
-	<!-- INTRO  --------------------------------------------------------------->
-	<p>
-		<button onclick="location.href='mailto:inkersolekesia@gmail.com'">inkersolekesia@gmail.com ↗</button>
-		<button onclick="location.href='mailto:inkersolekesia@gmail.com?subject=work'">available for work ↗</button>
-	</p>
-	<p>
-		I’m Kes Inkersole, a creative strategist and internet equalities researcher based in London. My practice focuses on understanding and critiquing the impacts of emerging technologies on people, culture, and the planet. I work collectively to rethink the narratives and behaviours surrounding technologies, prioritising collaborative research as a process for testing, imagining and prototyping more equitable, alternative futures. I’m an associate lecturer at UAL (LCF + CCI), and I’ve worked with Neu Futur, <em>DAZED</em>, <a href="https://co-matter.com/project/networked-worlds" target="_blank">co—matter</a>, <a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1" target="_blank">MØRNING</a>, WeTransfer, <a href="https://www.protein.xyz/dirty-words-4-community/" target="_blank">Protein</a>, <a href="https://midnight.agency/thoughts/dreaming-and-designing-more-accessible-web" target="_blank">Midnight Agency</a>, <a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1" target="_blank">Softer</a> and Selfridges. Below you’ll find some projects for fun, some for funds, and some writing and talking. There is no CV spreadsheet: my CV and portfolio are on request, <a class="highlight" href="mailto:inkersolekesia@gmail.com">by email</a>, if you are curious about that. (there is also a <a href="#fm">jungle machine</a> further down. it does not autoplay.)
-		<br>
-		<br>
-	</p>
+<!-- hello, view-source person. everything is in this one file.
+     the radio engine is the big script at the bottom: it's tuned, so leave it be.
+     the index rows are numbered 00-1F because that's how many slices the break has. -->
 
+<header class="top">
 
-	<!-- LATENT SPACE  --------------------------------------------------------------->
-	<p>
-		<a class="extra" href="https://latent-space.vercel.app/" target="_blank">LATENT SPACE (experiment)</a>
-		<button onclick="window.open('https://latent-space.vercel.app/', '_blank', 'noopener')">latent-space.vercel.app ↗</button>
-		<br>
-		A project for fun rather than funds. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur, with <em>Lorem Ipsum</em> and <em>Dolor Sit</em>. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-	</p>
-	<div class="image-row">
-		<figure class="image-module">
-			<img src="https://picsum.photos/seed/latent/600/400" width="600" height="400" alt="placeholder photograph">
-			<figcaption>20XX Lorem, Ipsum Gallery (London), Photo by Lorem Ipsum</figcaption>
-		</figure>
-		<figure class="image-module">
-			<img class="tall" src="https://picsum.photos/seed/space/400/500" width="400" height="500" alt="placeholder photograph">
-			<figcaption></figcaption>
-		</figure>
-		<figure class="image-module">
-			<img src="https://picsum.photos/seed/vector/600/400" width="600" height="400" alt="placeholder photograph">
-			<figcaption>20XX Dolor, Sit Amet Space (London), Photo by Lorem Ipsum</figcaption>
-		</figure>
-	</div>
+<div class="who">
+<h1>kes inkersole <small>(kesia if we're being formal)</small></h1>
+<p class="role">freelance creative strategist &amp; internet equalities researcher, london. available for work.</p>
+</div>
 
-	<!-- PRO(TECH)T  --------------------------------------------------------------->
-	<p>
-		<a class="extra" href="https://protecht.vercel.app/" target="_blank">PRO(TECH)T (experiment)</a>
-		<button onclick="window.open('https://protecht.vercel.app/', '_blank', 'noopener')">protecht.vercel.app ↗</button>
-		<br>
-		Another one for fun. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
-	</p>
-	<div class="image-row">
-		<figure class="image-module">
-			<img src="https://picsum.photos/seed/protect/600/400" width="600" height="400" alt="placeholder photograph">
-			<figcaption>Lorem ipsum dolor sit amet, Photo by Lorem Ipsum</figcaption>
-		</figure>
-		<figure class="image-module">
-			<img src="https://picsum.photos/seed/shield/600/400" width="600" height="400" alt="placeholder photograph">
-			<figcaption></figcaption>
-		</figure>
-	</div>
+<section class="fm" id="fm" aria-labelledby="fm-h">
+<h2 id="fm-h">KES FM 170.0</h2>
+<p class="ident">isn't a real station. it's this page, drumming a jungle break out of oscillators and noise, live in your browser: no samples, no files. nothing plays until you press on air, and stop always stops it.</p>
+<div class="deck">
+<div class="lcd">
+<div class="lcd-top"><span>KES FM ((( 170.0 )))</span><span class="status" id="status" role="status">off air</span></div>
+<div class="ticker" aria-hidden="true"><div><span>big up all the junglists ✦ big up everyone reading the source code ✦ big up the UAL lot, LCF + CCI ✦ big up Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges ✦ text in: inkersolekesia@gmail.com ✦ respect to the sound systems, pirates and producers who built all this ✦ lorem ipsum dolor sit amet ✦</span><span>big up all the junglists ✦ big up everyone reading the source code ✦ big up the UAL lot, LCF + CCI ✦ big up Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges ✦ text in: inkersolekesia@gmail.com ✦ respect to the sound systems, pirates and producers who built all this ✦ lorem ipsum dolor sit amet ✦</span></div></div>
+<div class="tracker" id="tracker" aria-hidden="true"></div>
+<div class="lcd-info" aria-hidden="true"><span id="lcdinfo">break: straight · bass: sub · cute: off</span><span><span class="rev">pink</span> = reversed · <span class="up">yellow</span> = pitched up · underline = roll</span></div>
+</div>
 
-	<!-- MØRNING Ø  --------------------------------------------------------------->
-	<p>
-		<a class="extra" href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1" target="_blank">MØRNING Ø (commission)</a>
-		<button onclick="window.open('https://www.instagram.com/p/CwOEAMetgc1/?img_index=1', '_blank', 'noopener')">instagram post ↗</button>
-		<br>
-		A commission, for MØRNING. At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident. Similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Thank you so much to my collaborators Lorem Ipsum (design), Dolor Sit (research) and Amet Consectetur (words).
-	</p>
-	<div class="image-row">
-		<figure class="image-module">
-			<img class="tall" src="https://picsum.photos/seed/morning/400/500" width="400" height="500" alt="placeholder photograph">
-			<figcaption>20XX Lorem, Consectetur Studio (London), Photo by Dolor Sit</figcaption>
-		</figure>
-		<figure class="image-module">
-			<img class="tall" src="https://picsum.photos/seed/dawn/400/500" width="400" height="500" alt="placeholder photograph">
-			<figcaption></figcaption>
-		</figure>
-		<figure class="image-module">
-			<img src="https://picsum.photos/seed/zero/600/400" width="600" height="400" alt="placeholder photograph">
-			<figcaption>Art Direction by Lorem Ipsum, Photo by Dolor Sit</figcaption>
-		</figure>
-	</div>
+<div class="keys">
+<div><button class="go" id="go" type="button" aria-pressed="false">▶ on air</button><button class="stop" id="stop" type="button">■ stop</button></div>
+<div role="group" aria-label="break"><span class="lbl">break</span><button type="button" data-break="straight" aria-pressed="true">straight</button><button type="button" data-break="chopped" aria-pressed="false">chopped</button><button type="button" data-break="rollin" aria-pressed="false">rollin'</button><button type="button" id="chop" aria-pressed="false">✂ chop it</button></div>
+<div role="group" aria-label="bass"><span class="lbl">bass</span><button type="button" data-bass="sub" aria-pressed="true">sub</button><button type="button" data-bass="reese" aria-pressed="false">reese</button><button type="button" data-bass="off" aria-pressed="false">off</button></div>
+<div><button type="button" id="cute" aria-pressed="false">✿ cute</button><button type="button" id="pullup">⟲ pull up</button><button type="button" id="siren">siren</button></div>
+<label class="vol">vol <input type="range" id="vol" min="0" max="1" step="0.05" value="0.5"></label>
+</div>
+<p class="textin">text in your shout-outs: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
+</div>
+</section>
+<button class="floatstop" id="floatstop" type="button" hidden>■ stop KES FM</button>
 
-	<!-- NETWORKED WORLDS  --------------------------------------------------------------->
-	<p>
-		<a class="extra" href="https://co-matter.com/project/networked-worlds" target="_blank">NETWORKED WORLDS (commission)</a>
-		<button onclick="window.open('https://co-matter.com/project/networked-worlds', '_blank', 'noopener')">co-matter.com ↗</button>
-		<br>
-		A commission for co—matter. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. It was featured in <em>Lorem</em>, <em>Ipsum</em> and <em>Dolor</em>.
-	</p>
-	<div class="image-row">
-		<figure class="image-module">
-			<img src="https://picsum.photos/seed/network/600/400" width="600" height="400" alt="placeholder photograph">
-			<figcaption>20XX Lorem, Ipsum Gallery (London), Photo by Lorem Ipsum</figcaption>
-		</figure>
-		<figure class="image-module">
-			<img src="https://picsum.photos/seed/worlds/600/400" width="600" height="400" alt="placeholder photograph">
-			<figcaption>20XX Ipsum, Dolor Sit Hall (London), Photo by Amet Consectetur</figcaption>
-		</figure>
-		<figure class="image-module">
-			<img class="tall" src="https://picsum.photos/seed/matter/400/500" width="400" height="500" alt="placeholder photograph">
-			<figcaption></figcaption>
-		</figure>
-	</div>
+<div class="intro">
+<p>my practice focuses on understanding and critiquing the impacts of emerging technologies on people, culture, and the planet. i'm particularly interested in working collectively to rethink the narratives and behaviours surrounding technologies — prioritising collaborative research as a process for testing, imagining and prototyping more equitable, alternative futures.</p>
+<p>i'm an associate lecturer at UAL (LCF + CCI), and i've worked with Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer and Selfridges. cv and portfolio on request: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a>.</p>
+</div>
 
-	<!-- DIRTY WORDS  --------------------------------------------------------------->
-	<p>
-		<a class="extra" href="https://www.protein.xyz/dirty-words-4-community/" target="_blank">DIRTY WORDS #4: COMMUNITY (report)</a>
-		<button onclick="window.open('https://www.protein.xyz/dirty-words-4-community/', '_blank', 'noopener')">protein.xyz ↗</button>
-		<br>
-		A community report for Protein, the fourth in <em>Dirty Words</em>. Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae.
-	</p>
-	<div class="image-row">
-		<figure class="image-module">
-			<img src="https://picsum.photos/seed/dirty/600/400" width="600" height="400" alt="placeholder photograph">
-			<figcaption>Lorem ipsum, Photo by Dolor Sit</figcaption>
-		</figure>
-		<figure class="image-module">
-			<img class="tall" src="https://picsum.photos/seed/words/400/500" width="400" height="500" alt="placeholder photograph">
-			<figcaption></figcaption>
-		</figure>
-	</div>
+</header>
 
-	<!-- KES FM  --------------------------------------------------------------->
-	<section class="fm" id="fm" aria-labelledby="fm-h">
-	<h2 id="fm-h">KES FM 170.0 (jungle machine)</h2>
-	<p class="ident">This is not a radio station, it’s this website: a small jungle machine running in your browser. The break is drummed out of oscillators and noise, recorded at 136bpm, played back at 170 and chopped into slices, which is what the old samplers did to records. No samples, no files. Nothing plays until you press on air, and stop always stops it.</p>
-	<div class="deck">
-	<div class="lcd">
-	<div class="lcd-top"><span>KES FM ((( 170.0 )))</span><span class="status" id="status" role="status">off air</span></div>
-	<div class="ticker" aria-hidden="true"><div><span>big up all the junglists / big up everyone reading the source code / big up the UAL lot, LCF + CCI / big up Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges / text in: inkersolekesia@gmail.com / respect to the sound systems, pirates and producers who built all this / lorem ipsum dolor sit amet /</span><span>big up all the junglists / big up everyone reading the source code / big up the UAL lot, LCF + CCI / big up Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges / text in: inkersolekesia@gmail.com / respect to the sound systems, pirates and producers who built all this / lorem ipsum dolor sit amet /</span></div></div>
-	<div class="tracker" id="tracker" aria-hidden="true"></div>
-	<div class="lcd-info" aria-hidden="true"><span id="lcdinfo">break: straight · bass: sub · cute: off</span><span><span class="rev">inverted</span> = reversed · <span class="up">bold</span> = pitched up · underline = roll</span></div>
-	</div>
+<table class="idx">
+<caption>everything, numbered 00 to 1F like the slices of the break up there. press on air and the machine plays down the list. press chopped and it reads me out of order.</caption>
+<colgroup><col class="c-n"><col class="c-t"><col class="c-w"><col class="c-k"><col class="c-p"></colgroup>
+<thead><tr><th>slice</th><th>thing</th><th>with / where</th><th>kind</th><th>pics (placeholders)</th></tr></thead>
+<tbody>
 
-	<div class="keys">
-	<div><button class="go" id="go" type="button" aria-pressed="false">▶ on air</button><button class="stop" id="stop" type="button">■ stop</button></div>
-	<div role="group" aria-label="break"><span class="lbl">break</span><button type="button" data-break="straight" aria-pressed="true">straight</button><button type="button" data-break="chopped" aria-pressed="false">chopped</button><button type="button" data-break="rollin" aria-pressed="false">rollin'</button><button type="button" id="chop" aria-pressed="false">✂ chop it</button></div>
-	<div role="group" aria-label="bass"><span class="lbl">bass</span><button type="button" data-bass="sub" aria-pressed="true">sub</button><button type="button" data-bass="reese" aria-pressed="false">reese</button><button type="button" data-bass="off" aria-pressed="false">off</button></div>
-	<div><button type="button" id="cute" aria-pressed="false">✿ cute</button><button type="button" id="pullup">⟲ pull up</button><button type="button" id="siren">siren</button></div>
-	<label class="vol">vol <input type="range" id="vol" min="0" max="1" step="0.05" value="0.5"></label>
-	</div>
-	<p class="textin">text in your shout-outs: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
-	</div>
-	</section>
-	<button class="floatstop" id="floatstop" type="button" hidden>■ stop KES FM</button>
+<tr class="g" data-slice="00"><td class="n">00</td><td class="t"><a href="https://latent-space.vercel.app/">latent space</a></td><td class="w"></td><td class="k">for fun</td><td class="pic"></td></tr>
+<tr data-slice="01"><td class="n">01</td><td class="t"><a href="https://protecht.vercel.app/">pro(tech)t</a></td><td class="w"></td><td class="k dd"><span>for fun</span></td><td class="pic"></td></tr>
 
-	<!-- WRITING  --------------------------------------------------------------->
-	<p>
-		<a class="extra">SELECTED WRITING</a>
-		<br><i>everything else is on request, like the cv</i>
-	</p>
-	<ul>
-		<li>Protein, “<a href="https://www.protein.xyz/sex-and-the-internet/" target="_blank">Mindy Seu on sex and the internet</a>”</li>
-		<li>Midnight Agency, “<a href="https://midnight.agency/thoughts/dreaming-and-designing-more-accessible-web" target="_blank">Dreaming and designing a more accessible web</a>”</li>
-		<li>Midnight Agency, “<a href="https://midnight.agency/thoughts/coding-a-more-creative-and-playful-web" target="_blank">Coding a more creative and playful web</a>”</li>
-		<li>Midnight Agency, “<a href="https://midnight.agency/thoughts/composing-a-flexible-and-modular-web" target="_blank">Composing a flexible and modular web</a>”</li>
-		<li>morningfyi, <i>Burn After Reading</i> 020, “<a href="https://morningfyi.substack.com/p/020-uh-oh-meet" target="_blank">Uh oh, meet o</a>”</li>
-		<li>morningfyi, <i>Burn After Reading</i> 024, “<a href="https://morningfyi.substack.com/p/024-entering-limb-with" target="_blank">Entering limbo, with o</a>”</li>
-	</ul>
+<tr class="g" data-slice="02"><td class="n">02</td><td class="t"><a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1">MØRNING Ø</a></td><td class="w">MØRNING</td><td class="k">for funds</td><td class="pic"><img src="https://picsum.photos/seed/morning/600/400" width="600" height="400" alt="MØRNING Ø (placeholder photo)" loading="lazy"></td></tr>
+<tr data-slice="03"><td class="n">03</td><td class="t"><a href="https://co-matter.com/project/networked-worlds">networked worlds</a></td><td class="w">co—matter</td><td class="k dd"><span>for funds</span></td><td class="pic"><img src="https://picsum.photos/seed/networked/600/400" width="600" height="400" alt="networked worlds (placeholder photo)" loading="lazy"><span class="cap">lorem ipsum dolor sit amet</span></td></tr>
+<tr data-slice="04"><td class="n">04</td><td class="t"><a href="https://www.protein.xyz/dirty-words-4-community/">dirty words #4: community report</a></td><td class="w">Protein</td><td class="k dd"><span>for funds</span></td><td class="pic"></td></tr>
 
-	<!-- PODCASTS  --------------------------------------------------------------->
-	<p>
-		<a class="extra">SELECTED PODCASTS</a>
-		<br><i>headphones on. newest first, roughly</i>
-	</p>
-	<ul>
-		<li>“<a href="https://podcasts.apple.com/gb/podcast/mindy-seu-on-collaboration-community-and/id1449302502?i=1000597869409" target="_blank">Mindy Seu on collaboration, community and the <em>Cyberfeminism Index</em></a>”</li>
-		<li>Protein Forum, “<a href="https://soundcloud.com/proteincommunity/protein-forum-what-can-web2-organisations-learn-from-web3-communities" target="_blank">What can web2 organisations learn from web3 communities?</a>”</li>
-		<li>“<a href="https://podcasts.apple.com/gb/podcast/cherie-hu-on-water-musics-journey-through-web3/id1449302502?i=1000581859804" target="_blank">Cherie Hu on Water &amp; Music’s journey through web3</a>”</li>
-		<li>“<a href="https://podcasts.apple.com/gb/podcast/molly-dickson-on-dao-activism-and-fighting-for/id1449302502?i=1000578164761" target="_blank">Molly Dickson on DAO activism</a>”</li>
-		<li>“<a href="https://podcasts.apple.com/gb/podcast/dame-on-the-need-for-education-accessibility/id1449302502?i=1000559829008" target="_blank">Dame on education, accessibility and inclusivity in web3</a>”</li>
-		<li>“<a href="https://podcasts.apple.com/gb/podcast/nadia-piet-on-creative-ai-and-protopian-futures/id1449302502?i=1000559822732" target="_blank">Nadia Piet on creative AI and protopian futures</a>”</li>
-		<li>“<a href="https://podcasts.apple.com/gb/podcast/cyn-bahati-on-her-journey-into-web3-with-her-family/id1449302502?i=1000559818509" target="_blank">Cyn Bahati on her journey into web3 with her family</a>”</li>
-		<li>“<a href="https://podcasts.apple.com/gb/podcast/latash%C3%A1-on-the-potential-of-web3-for-music-artists/id1449302502?i=1000552812458" target="_blank">Latashá on the potential of web3 for music artists</a>”</li>
-	</ul>
+<tr class="g" data-slice="05"><td class="n">05</td><td class="t"><a href="https://www.protein.xyz/sex-and-the-internet/">mindy seu on sex and the internet</a></td><td class="w">Protein</td><td class="k">writing</td><td class="pic"></td></tr>
+<tr data-slice="06"><td class="n">06</td><td class="t"><a href="https://midnight.agency/thoughts/dreaming-and-designing-more-accessible-web">dreaming and designing a more accessible web</a></td><td class="w">Midnight Agency</td><td class="k dd"><span>writing</span></td><td class="pic"></td></tr>
+<tr data-slice="07"><td class="n">07</td><td class="t"><a href="https://midnight.agency/thoughts/coding-a-more-creative-and-playful-web">coding a more creative and playful web</a></td><td class="w dd"><span>Midnight Agency</span></td><td class="k dd"><span>writing</span></td><td class="pic"></td></tr>
+<tr data-slice="08"><td class="n">08</td><td class="t"><a href="https://midnight.agency/thoughts/composing-a-flexible-and-modular-web">composing a flexible and modular web</a></td><td class="w dd"><span>Midnight Agency</span></td><td class="k dd"><span>writing</span></td><td class="pic"></td></tr>
+<tr data-slice="09"><td class="n">09</td><td class="t"><a href="https://morningfyi.substack.com/p/020-uh-oh-meet">burn after reading: uh oh meet o</a></td><td class="w">MØRNING</td><td class="k dd"><span>writing</span></td><td class="pic"></td></tr>
+<tr data-slice="0A"><td class="n">0A</td><td class="t"><a href="https://morningfyi.substack.com/p/024-entering-limb-with">burn after reading: entering limbo, with o</a></td><td class="w dd"><span>MØRNING</span></td><td class="k dd"><span>writing</span></td><td class="pic"></td></tr>
 
-	<!-- TALKS, WORKSHOPS, RESIDENCIES  --------------------------------------------------------------->
-	<p>
-		<a class="extra">TALKS, WORKSHOPS AND RESIDENCIES</a>
-		<br><i>out of the browser, occasionally</i>
-	</p>
-	<ul>
-		<li><a href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1" target="_blank">Olden residency</a></li>
-		<li><a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1" target="_blank">Softer London</a>, talk + workshop</li>
-		<li><a href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard" target="_blank">Tech Yard</a>, UAL Creative Computing Institute public programme, workshop</li>
-		<li><a href="https://www.instagram.com/p/BslwSSPH5Rc/?img_index=2" target="_blank">Ovar It</a></li>
-	</ul>
-	<div class="image-row">
-		<figure class="image-module">
-			<img src="https://picsum.photos/seed/olden/600/400" width="600" height="400" alt="placeholder photograph">
-			<figcaption>20XX Lorem, Ipsum Residency (Lorem), Photo by Lorem Ipsum</figcaption>
-		</figure>
-		<figure class="image-module">
-			<img class="tall" src="https://picsum.photos/seed/softer/400/500" width="400" height="500" alt="placeholder photograph">
-			<figcaption>20XX Dolor, Sit Amet (London), Photo by Lorem Ipsum</figcaption>
-		</figure>
-		<figure class="image-module">
-			<img src="https://picsum.photos/seed/yard/600/400" width="600" height="400" alt="placeholder photograph">
-			<figcaption>20XX Ipsum, Consectetur Room (London), Photo by Dolor Sit</figcaption>
-		</figure>
-		<figure class="image-module">
-			<img class="tall" src="https://picsum.photos/seed/ovary/400/500" width="400" height="500" alt="placeholder photograph">
-			<figcaption></figcaption>
-		</figure>
-	</div>
+<tr class="g" data-slice="0B"><td class="n">0B</td><td class="t"><a href="https://podcasts.apple.com/gb/podcast/mindy-seu-on-collaboration-community-and/id1449302502?i=1000597869409">mindy seu on collaboration, community and the cyberfeminism index</a></td><td class="w">apple podcasts</td><td class="k">podcast (good for the bus)</td><td class="pic"></td></tr>
+<tr data-slice="0C"><td class="n">0C</td><td class="t"><a href="https://soundcloud.com/proteincommunity/protein-forum-what-can-web2-organisations-learn-from-web3-communities">what can web2 organisations learn from web3 communities?</a></td><td class="w">Protein, on soundcloud</td><td class="k dd"><span>podcast</span></td><td class="pic"></td></tr>
+<tr data-slice="0D"><td class="n">0D</td><td class="t"><a href="https://podcasts.apple.com/gb/podcast/cherie-hu-on-water-musics-journey-through-web3/id1449302502?i=1000581859804">cherie hu on water &amp; music's journey through web3</a></td><td class="w">apple podcasts</td><td class="k dd"><span>podcast</span></td><td class="pic"></td></tr>
+<tr data-slice="0E"><td class="n">0E</td><td class="t"><a href="https://podcasts.apple.com/gb/podcast/molly-dickson-on-dao-activism-and-fighting-for/id1449302502?i=1000578164761">molly dickson on dao activism</a></td><td class="w dd"><span>apple podcasts</span></td><td class="k dd"><span>podcast</span></td><td class="pic"></td></tr>
+<tr data-slice="0F"><td class="n">0F</td><td class="t"><a href="https://podcasts.apple.com/gb/podcast/dame-on-the-need-for-education-accessibility/id1449302502?i=1000559829008">dame on education, accessibility and inclusivity in web3</a></td><td class="w dd"><span>apple podcasts</span></td><td class="k dd"><span>podcast</span></td><td class="pic"></td></tr>
+<tr data-slice="10"><td class="n">10</td><td class="t"><a href="https://podcasts.apple.com/gb/podcast/nadia-piet-on-creative-ai-and-protopian-futures/id1449302502?i=1000559822732">nadia piet on creative ai and protopian futures</a></td><td class="w dd"><span>apple podcasts</span></td><td class="k dd"><span>podcast</span></td><td class="pic"></td></tr>
+<tr data-slice="11"><td class="n">11</td><td class="t"><a href="https://podcasts.apple.com/gb/podcast/cyn-bahati-on-her-journey-into-web3-with-her-family/id1449302502?i=1000559818509">cyn bahati on her journey into web3 with her family</a></td><td class="w dd"><span>apple podcasts</span></td><td class="k dd"><span>podcast</span></td><td class="pic"></td></tr>
+<tr data-slice="12"><td class="n">12</td><td class="t"><a href="https://podcasts.apple.com/gb/podcast/latash%C3%A1-on-the-potential-of-web3-for-music-artists/id1449302502?i=1000552812458">latasha on the potential of web3 for music artists</a></td><td class="w dd"><span>apple podcasts</span></td><td class="k dd"><span>podcast</span></td><td class="pic"></td></tr>
 
-	<!-- TEACHING  --------------------------------------------------------------->
-	<p>
-		<a class="extra">TEACHING</a><br>
-		I’m an associate lecturer at UAL, at London College of Fashion (LCF) and the Creative Computing Institute (CCI). At CCI I’ve also run a workshop for the <a href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard" target="_blank">Tech Yard</a> public programme. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, ut enim ad minim veniam.
-	</p>
+<tr class="g" data-slice="13"><td class="n">13</td><td class="t"><a href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1">olden residency</a></td><td class="w"></td><td class="k">residency</td><td class="pic"><img src="https://picsum.photos/seed/olden/600/400" width="600" height="400" alt="olden residency (placeholder photo)" loading="lazy"><img src="https://picsum.photos/seed/residency/600/400" width="600" height="400" alt="olden residency (placeholder photo)" loading="lazy"><span class="cap">lorem ipsum, photos by dolor sit</span></td></tr>
+<tr class="g" data-slice="14"><td class="n">14</td><td class="t"><a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1">softer london</a></td><td class="w">Softer</td><td class="k">talk + workshop</td><td class="pic"><img src="https://picsum.photos/seed/softer/600/400" width="600" height="400" alt="softer london talk + workshop (placeholder photo)" loading="lazy"><span class="cap">lorem ipsum, photo by dolor sit</span></td></tr>
+<tr class="g" data-slice="15"><td class="n">15</td><td class="t"><a href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard">tech yard</a></td><td class="w">UAL CCI</td><td class="k">workshop</td><td class="pic"><img src="https://picsum.photos/seed/techyard/600/400" width="600" height="400" alt="tech yard workshop (placeholder photo)" loading="lazy"></td></tr>
+<tr class="g" data-slice="16"><td class="n">16</td><td class="t"><a href="https://www.instagram.com/p/BslwSSPH5Rc/?img_index=2">ovar it</a></td><td class="w"></td><td class="k">other bits</td><td class="pic"></td></tr>
 
-	<!-- CREDENTIALS  --------------------------------------------------------------->
-	<p>
-		<a class="extra">CREDENTIALS</a><br>
-		MA Internet Equalities. BA Creative Direction. PhD [ ? ].
-	</p>
+<tr class="g" data-slice="17"><td class="n">17</td><td class="t">associate lecturer</td><td class="w">UAL (LCF + CCI)</td><td class="k">teaching</td><td class="pic"></td></tr>
 
-	<!-- FOOTER  --------------------------------------------------------------->
-	<p class="foot">
-		This website was last updated on 1 October 2026, and it is always in progress. The layout is borrowed, with credit, from <a href="http://mindyseu.com" target="_blank">mindyseu.com</a>, which borrows from Olia Lialina’s <a href="http://contemporary-home-computing.org/prof-dr-style/" target="_blank">Prof. Dr.</a> style: browser defaults, maintained by hand, plus one colour. There are no cookies, analytics or tracking pixels on this page; given the research, it would be embarrassing otherwise. Everything written by me on this page is licensed under the Creative Commons Attribution-NonCommercial 4.0 International <a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">License</a>. You don’t need to ask permission to use it, but please give credit.
-		<br>
-		<br>
-		thank you for visiting. log off sometimes x
-	</p>
+<tr class="g" data-slice="18"><td class="n">18</td><td class="t">MA internet equalities</td><td class="w"></td><td class="k">uni stuff</td><td class="pic"></td></tr>
+<tr data-slice="19"><td class="n">19</td><td class="t">BA creative direction</td><td class="w"></td><td class="k dd"><span>uni stuff</span></td><td class="pic"></td></tr>
+<tr data-slice="1A"><td class="n">1A</td><td class="t">PhD [ ? ]</td><td class="w">...dreaming...</td><td class="k dd"><span>uni stuff</span></td><td class="pic"></td></tr>
+
+<tr class="g" data-slice="1B"><td class="n">1B</td><td class="t"><a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></td><td class="w">cv + portfolio on request</td><td class="k">contact</td><td class="pic"></td></tr>
+
+<!-- 1C-1F: empty on purpose -->
+<tr class="g free" data-slice="1C"><td class="n">1C</td><td class="t" colspan="4" rowspan="4">-- -- -- empty. i'm available for work, so these four don't have to be: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></td></tr>
+<tr class="free" data-slice="1D"><td class="n">1D</td></tr>
+<tr class="free" data-slice="1E"><td class="n">1E</td></tr>
+<tr class="free" data-slice="1F"><td class="n">1F</td></tr>
+
+</tbody>
+</table>
+
+<footer class="foot">
+<p class="bio"><b>bio, in the third person, for listings and press:</b> Kesia Inkersole is a freelance creative strategist and internet equalities researcher based in London. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+<p class="colo">last updated 1 october 2026. one html file, after olia lialina's <a href="http://contemporary-home-computing.org/prof-dr-style/">prof. dr. style</a>: no web fonts, no cookies, no analytics. the photos are placeholders from picsum until i swap the real ones in, and they're the only thing loading from anyone else's server. the only thing here that moves by itself is the ticker. the only thing that makes noise is KES FM, and only when you ask. something broken? <a href="mailto:inkersolekesia@gmail.com">tell me</a> &lt;3</p>
+</footer>
 
 <script>
 /* ===== KES FM engine: paste VERBATIM, do not edit =====
@@ -690,22 +614,27 @@ function look() {}
 
 </script>
 
-	<script>
-		(function () {
-			var off = "Kes Inkersole — in progress, like the internet — ", on = "KES FM 170.0 ● on air — ", text = off, was = false;
-			(function titleScroller() {
-				if (onAir !== was) { was = onAir; text = onAir ? on : off; }
-				document.title = text;
-				text = text.substr(1) + text.substr(0, 1);
-				setTimeout(titleScroller, 500);
-			})();
-		})();
-
-		console.log("hello, source reader x");
-		console.log("no cookies, no analytics, no pixels. you are not the product here.");
-		console.log("KES FM is in here too. it will never autoplay. press ▶ on air.");
-		console.log("say hi: inkersolekesia@gmail.com");
-	</script>
+<script>
+/* not the engine. this just lights up whichever row the break is on,
+   by watching the tracker. stops when the radio stops. */
+(function () {
+  var tracker = document.getElementById("tracker"), rows = {}, lit = null;
+  [].forEach.call(document.querySelectorAll("tr[data-slice]"), function (r) { rows[r.getAttribute("data-slice")] = r; });
+  function sync() {
+    var on = document.body.classList.contains("on-air") && !still ? tracker.querySelector(".on") : null;
+    var row = on ? rows[on.textContent.trim()] || null : null;
+    if (row === lit) return;
+    if (lit) lit.classList.remove("lit");
+    if (row) row.classList.add("lit");
+    lit = row;
+  }
+  new MutationObserver(sync).observe(tracker, { subtree: true, childList: true, attributes: true, attributeFilter: ["class"] });
+  new MutationObserver(function () {
+    document.title = document.body.classList.contains("on-air") ? "((( on air ))) kes inkersole" : "kes inkersole";
+    sync();
+  }).observe(document.body, { attributes: true, attributeFilter: ["class"] });
+})();
+</script>
 
 </body>
 </html>

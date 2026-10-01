@@ -19,7 +19,9 @@
 <meta name="twitter:description" content="kes inkersole — freelance creative strategist &amp; internet equalities researcher, based in london.">
 <meta name="twitter:image" content="https://kesia-coral.vercel.app/square.png">
 <style>
-/* kes: the whole palette lives here. strawberry, periwinkle, butter, a bit of leaf */
+/* kes: the whole palette lives here.
+   soft side: strawberry, periwinkle, butter, a bit of leaf.
+   'ard side: warning tape, acid, chrome, 3am black. neither side wins. */
 :root {
   --paper: #fff8f3;
   --ink: #2e1f33;
@@ -31,28 +33,39 @@
   --butter: #fff3b8;
   --blush: #ffe3ec;
   --sky: #e6eaff;
+  --tape: #ffd60a;
+  --night: #141116;
+  --acid: #b5f23d;
+  --chrome: linear-gradient(180deg, #ffffff 0%, #c3c8d0 24%, #f6f7f9 42%, #7c8490 60%, #dfe2e7 80%, #9ea5af 100%);
   --mono: ui-monospace, Menlo, Consolas, "DejaVu Sans Mono", "Courier New", monospace;
+  --loud: Impact, "Haettenschweiler", "Arial Narrow Bold", "Arial Black", sans-serif;
+  --fat: "Arial Black", "Arial Bold", Gadget, Arial, sans-serif;
+  --gut: clamp(1rem, 4vw, 4rem);
 }
+* { box-sizing: border-box; }
 body {
   margin: 0;
-  padding: 2.5rem clamp(1rem, 4vw, 4rem) 0;
+  padding: 0 var(--gut);
   background: var(--paper);
   color: var(--ink);
   font: 1.125rem/1.45 "Times New Roman", Times, serif;
 }
-::selection { background: var(--blush); color: var(--pink-ink); }
+::selection { background: var(--acid); color: var(--night); }
 a { color: var(--blue); text-decoration-thickness: 1px; text-underline-offset: .15em; }
 a:visited { color: var(--plum); }
 a:hover { background: var(--blush); color: var(--pink-ink); }
 mark { background: var(--butter); color: inherit; padding: 0 .15em; }
-h1 { font-size: 3rem; font-weight: normal; margin: 0 0 1rem; }
+h1 { font-size: 3rem; font-weight: normal; margin: 0 0 1rem; line-height: 1.1; }
 h1 span { color: var(--pink); display: inline-block; transition: transform .3s; }
 h1:hover span { transform: scale(1.25) rotate(-12deg); }
-h2 { font: 1rem/1.3 var(--mono); color: var(--pink-ink); margin: 0 0 .6rem; }
+h2 { font: 1rem/1.3 var(--mono); color: var(--pink-ink); margin: 0 0 .7rem; }
 ul { margin: 0; padding-left: 1.4em; list-style: "☆ "; }
 li::marker { color: var(--pink); }
 li:hover { list-style-type: "★ "; }
 li + li { margin-top: .3em; }
+
+/* tracklist numbers: the page is a tape, side A then side B */
+.trk { display: inline-block; font: 1rem/1 var(--loud); letter-spacing: .04em; background: var(--night); color: var(--tape); padding: .2em .35em .15em; margin-right: .45em; transform: rotate(-4deg); }
 
 /* ascii: b = pink, i = leaf, em = periwinkle */
 pre { font: 15px/1.1 var(--mono); margin: 0; color: var(--blue); }
@@ -61,69 +74,345 @@ pre b { color: var(--pink); }
 pre i { color: var(--leaf); }
 pre em { color: var(--blue); }
 
-/* top: hello, new-ish, and the little computer whose cable runs off the page */
+/* WARNING TAPE ---------------------------------------------------------- */
+.tape {
+  margin: 0 calc(-1 * var(--gut));
+  overflow: hidden;
+  background: var(--tape);
+  color: var(--night);
+  font: 1.05rem/1 var(--loud);
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  border-block: 3px solid var(--night);
+}
+.tape::before, .tape::after {
+  content: ""; display: block; height: 7px;
+  background: repeating-linear-gradient(-45deg, var(--night) 0 7px, var(--tape) 7px 14px);
+}
+.tape div { display: flex; width: max-content; animation: tape 60s linear infinite; }
+.tape span { padding: .45rem 0 .4rem; }
+.tape:hover div { animation-play-state: paused; }
+@keyframes tape { to { transform: translateX(-50%); } }
+
+/* two strips crossing over the top of the station */
+.cross { position: relative; height: 7rem; margin: 0 calc(-1 * var(--gut)) -3.4rem; overflow: hidden; z-index: 2; pointer-events: none; }
+.cross .tape { position: absolute; left: -10%; width: 120%; margin: 0; top: 2rem; transform: rotate(-2.2deg); }
+.cross .tape + .tape { transform: rotate(1.8deg); background: var(--acid); }
+.cross .tape + .tape::before, .cross .tape + .tape::after { background: repeating-linear-gradient(45deg, var(--night) 0 7px, var(--acid) 7px 14px); }
+.cross .tape div { animation-duration: 90s; }
+.cross .tape + .tape div { animation-direction: reverse; }
+
+/* TOP: hello, the wall, the flyer --------------------------------------- */
 header {
   display: grid;
-  grid-template-columns: auto minmax(0, 31rem) minmax(14rem, 1fr);
-  grid-template-areas: "pc hello new" "cable cable cable";
-  column-gap: 4rem;
-  align-items: end;
+  grid-template-columns: minmax(0, 29rem) minmax(0, 1fr) minmax(15rem, 22rem);
+  grid-template-areas: "hello wall flyer";
+  column-gap: clamp(2rem, 4vw, 4rem);
+  row-gap: 2.5rem;
+  align-items: center;
+  padding: 3rem 0 1rem;
 }
-.hello { grid-area: hello; padding-bottom: 1rem; max-width: 34rem; }
+.hello { grid-area: hello; }
 .hello p { margin: 0 0 .6em; }
-.new { grid-area: new; justify-self: end; max-width: 28rem; background: var(--butter); padding: 1rem 1.5rem 1.25rem; margin-bottom: 2rem; transform: rotate(-.7deg); }
-.pc { grid-area: pc; }
-.cable { grid-area: cable; display: flex; }
-.wire { flex: 1; overflow: hidden; padding-bottom: 3px; }
-.wire span { display: inline-block; margin-left: -30ch; animation: send 6s linear infinite paused; }
-header:hover .wire span { animation-play-state: running; }
-@keyframes send { to { transform: translateX(30ch); } }
+.hello .ident { font: .95rem/1.3 var(--mono); color: var(--pink-ink); margin-bottom: 1.2rem; }
+.hello .ident b { background: var(--night); color: var(--acid); font-weight: normal; padding: .1em .4em; }
+
+/* graf. a throw-up, done in css, on my own wall */
+.wall { grid-area: wall; container-type: inline-size; text-align: center; padding: 1rem 0; }
+.throwup {
+  position: relative;
+  display: inline-block;
+  isolation: isolate;
+  margin: 0;
+  padding: .12em .3em .38em .18em;
+  font-family: var(--fat);
+  font-weight: 900;
+  font-size: 7rem;
+  font-size: clamp(4rem, 30cqi, 10rem);
+  line-height: .9;
+  letter-spacing: -.05em;
+  color: var(--pink);
+  white-space: nowrap;
+  user-select: none;
+}
+.throwup > span {
+  position: relative; z-index: 1; display: inline-block;
+  text-shadow:
+    .03em 0 var(--ink), -.03em 0 var(--ink), 0 .03em var(--ink), 0 -.03em var(--ink),
+    .022em .022em var(--ink), -.022em .022em var(--ink), .022em -.022em var(--ink), -.022em -.022em var(--ink),
+    .065em 0 var(--acid), -.065em 0 var(--acid), 0 .065em var(--acid), 0 -.065em var(--acid),
+    .046em .046em var(--acid), -.046em .046em var(--acid), .046em -.046em var(--acid), -.046em -.046em var(--acid),
+    .085em .02em var(--ink), .02em .085em var(--ink), .1em .1em 0 var(--ink), .12em .12em 0 var(--ink);
+}
+.throwup > span:nth-child(1) { transform: rotate(-9deg) translateY(.03em); }
+.throwup > span:nth-child(2) { transform: rotate(6deg) translateY(-.07em); margin-left: -.02em; }
+.throwup > span:nth-child(3) { transform: rotate(-3deg) translateY(.02em); margin-left: -.03em; }
+.drip {
+  position: absolute; z-index: -1; top: .6em; left: 20%;
+  width: .085em; height: .62em;
+  background: var(--pink);
+  border-radius: 0 0 .06em .06em;
+  box-shadow: 0 0 0 .022em var(--ink);
+  transform-origin: top;
+  animation: drip 5s ease-in-out infinite alternate;
+}
+.drip::after { content: ""; position: absolute; left: -.015em; bottom: -.04em; width: .115em; height: .115em; border-radius: 50%; background: var(--pink); }
+span:nth-child(2) > .drip { left: 44%; height: .82em; animation-delay: -2s; }
+span:nth-child(3) > .drip { left: 52%; height: .5em; animation-delay: -3.5s; }
+@keyframes drip { from { transform: scaleY(.8); } to { transform: scaleY(1.06); } }
+.arrow {
+  position: absolute; z-index: -1; right: -.62em; top: -.08em;
+  font-size: .5em; font-style: normal; color: var(--acid);
+  transform: rotate(-38deg);
+  text-shadow: .05em 0 var(--ink), -.05em 0 var(--ink), 0 .05em var(--ink), 0 -.05em var(--ink), .1em .1em 0 var(--ink);
+}
+.spark { position: absolute; z-index: 2; font-style: normal; font-size: .3em; color: #fff; text-shadow: .06em 0 var(--ink), -.06em 0 var(--ink), 0 .06em var(--ink), 0 -.06em var(--ink); }
+.spark:nth-of-type(1) { left: .2em; top: .5em; }
+.spark:nth-of-type(2) { right: .9em; bottom: .25em; font-size: .22em; color: var(--tape); }
+
+/* a sticker slap */
+.nametag {
+  display: block; width: 12.5rem; margin: .4rem auto 0;
+  background: #fff; color: #fff;
+  border-radius: .7rem; overflow: hidden;
+  box-shadow: 0 0 0 2px rgba(46, 31, 51, .15), 4px 5px 0 rgba(46, 31, 51, .2);
+  transform: rotate(-5deg);
+  text-align: center;
+}
+.nametag b { display: block; background: var(--blue); font: 1.9rem/1 var(--fat); letter-spacing: .06em; padding: .45rem 0 .05rem; }
+.nametag small { display: block; background: var(--blue); font: bold .8rem/1 Arial, sans-serif; padding: .2rem 0 .5rem; }
+.nametag span { display: block; color: var(--pink); font: italic bold 2.6rem/1.15 "Times New Roman", Times, serif; padding: .15rem 0 .1rem; transform: rotate(-5deg) skewX(-14deg); text-shadow: 1px 1px 0 var(--pink-ink), 0 0 3px rgba(228, 66, 127, .45); }
+.nametag::after { content: ""; display: block; height: .7rem; background: var(--blue); }
+
+/* the flyer */
+.flyer {
+  grid-area: flyer;
+  position: relative;
+  background: var(--acid);
+  color: var(--night);
+  padding: 1.9rem 1.5rem 1.3rem;
+  transform: rotate(1.3deg);
+  box-shadow: 7px 7px 0 var(--night);
+}
+.flyer::before, .flyer::after {
+  content: ""; position: absolute; top: -.7rem; width: 5rem; height: 1.4rem;
+  background: repeating-linear-gradient(-45deg, var(--night) 0 7px, var(--tape) 7px 14px);
+  opacity: .92;
+}
+.flyer::before { left: -.4rem; transform: rotate(-24deg); }
+.flyer::after { right: -.4rem; transform: rotate(21deg); }
+.flyer .presents { font: 1rem/1 var(--loud); letter-spacing: .14em; text-transform: uppercase; margin: 0 0 .35rem; }
+.flyer h2 {
+  font: 2.7rem/1 var(--fat); letter-spacing: -.03em; color: var(--pink); margin: 0 0 1rem;
+  text-shadow: .035em 0 var(--night), -.035em 0 var(--night), 0 .035em var(--night), 0 -.035em var(--night), .025em .025em var(--night), -.025em -.025em var(--night), .025em -.025em var(--night), -.025em .025em var(--night), .09em .09em 0 #fff;
+}
+.flyer h2 span { font: 1.1rem var(--mono); color: var(--night); text-shadow: none; letter-spacing: 0; vertical-align: middle; }
+.flyer li::marker { color: var(--night); }
+.flyer .small { font: .82rem/1.45 var(--mono); margin: 1.1rem 0 0; padding-top: .7rem; border-top: 3px dashed var(--night); }
+.flyer .small a { color: var(--night); }
+.flyer .small a:hover { background: var(--night); color: var(--acid); }
+
+/* an acid smiley with blusher on */
+.smiley {
+  position: absolute; top: -1.6rem; right: 1.1rem;
+  width: 4.4rem; height: 4.4rem; border-radius: 50%;
+  border: 3px solid var(--night);
+  background:
+    radial-gradient(ellipse .32rem .5rem at 34% 38%, var(--night) 96%, transparent 100%),
+    radial-gradient(ellipse .32rem .5rem at 66% 38%, var(--night) 96%, transparent 100%),
+    radial-gradient(circle at 20% 64%, #ff8db8 0 .42rem, transparent .46rem),
+    radial-gradient(circle at 80% 64%, #ff8db8 0 .42rem, transparent .46rem),
+    var(--tape);
+  transform: rotate(14deg);
+  transition: transform .4s;
+}
+.smiley::after { content: ""; position: absolute; left: 24%; right: 24%; top: 50%; height: 26%; border: .22rem solid var(--night); border-top: 0; border-radius: 0 0 3rem 3rem; }
+.flyer:hover .smiley { transform: rotate(-346deg); }
+
+/* KES FM: the station ---------------------------------------------------- */
+.station {
+  position: relative;
+  z-index: 1;
+  margin: 0 calc(-1 * var(--gut));
+  padding: 5rem var(--gut) 3rem;
+  background: var(--night);
+  color: #ece8f1;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 2.5rem clamp(2rem, 5vw, 5rem);
+  align-items: start;
+}
+.station a { color: #c3cbff; }
+.station a:visited { color: #e5b9ff; }
+.station a:hover { background: var(--pink); color: #fff; }
+.boombox { font-size: 15px; font-size: min(15px, calc((100vw - 2 * var(--gut)) / 36)); color: #c9ced6; }
+.boombox b { color: #ff77ab; }
+.boombox i { color: var(--acid); font-style: normal; }
+.boombox em { color: var(--tape); font-style: normal; }
+.boombox .cone.on { background: var(--pink); color: var(--night); }
+
+.deck { display: flex; flex-wrap: wrap; gap: .55rem; margin: 1.3rem 0 0; max-width: 35rem; }
+.key {
+  font: .95rem/1 var(--fat);
+  color: var(--night);
+  background: var(--chrome);
+  border: 2px solid #000;
+  border-radius: .4rem;
+  padding: .75rem .9rem .65rem;
+  box-shadow: inset 0 1px 0 #fff, 0 5px 0 #000;
+  cursor: pointer;
+  transition: transform .05s;
+}
+.key:hover { filter: brightness(1.08); }
+.key:active, .key[aria-pressed="true"] { transform: translateY(4px); box-shadow: inset 0 1px 0 #fff, 0 1px 0 #000; }
+.key[aria-pressed="true"] { background: var(--acid); }
+.key.play[aria-pressed="true"] { background: var(--pink); color: #fff; }
+.key:focus-visible, .sides button:focus-visible, .vol input:focus-visible { outline: 3px solid var(--tape); outline-offset: 3px; }
+.key:disabled { opacity: .45; cursor: not-allowed; }
+.sides { font: .9rem/1 var(--mono); color: #a9a3b3; margin: 1.3rem 0 0; display: flex; flex-wrap: wrap; align-items: center; gap: .45rem; }
+.sides button { font: .9rem/1 var(--mono); color: #ece8f1; background: none; border: 1px dashed #6c6474; border-radius: 2rem; padding: .4rem .75rem; cursor: pointer; }
+.sides button[aria-pressed="true"] { background: var(--tape); color: var(--night); border: 1px solid var(--tape); }
+.readout { font: .95rem/1.5 var(--mono); color: var(--acid); margin: 1.1rem 0 0; display: flex; flex-wrap: wrap; gap: .2rem 1.2rem; }
+.onair { color: #8a8392; }
+.onair.live { color: #ff4f7e; animation: blink 1.4s steps(2, start) infinite; }
+@keyframes blink { to { visibility: hidden; } }
+#steps { letter-spacing: .25em; white-space: pre; }
+#lvl { white-space: pre; }
+#steps i { font-style: normal; }
+#steps i.now { background: var(--acid); color: var(--night); }
+.vol { display: flex; align-items: center; gap: .6rem; margin: .9rem 0 0; font: .9rem var(--mono); color: #a9a3b3; }
+.vol input { accent-color: var(--pink); width: 10rem; max-width: 50vw; }
+
+.studio { max-width: 44rem; }
+.studio h2 { margin: 0 0 1.2rem; color: #a9a3b3; }
+.studio h2 strong {
+  display: block; font: clamp(2.6rem, 6vw, 5rem)/.95 var(--loud); letter-spacing: .02em; text-transform: uppercase;
+  background: var(--chrome); -webkit-background-clip: text; background-clip: text; color: transparent;
+  margin-bottom: .35rem;
+}
+.studio p { margin: 0 0 .9rem; }
+.studio .mc {
+  font: 1rem/1.4 var(--mono);
+  background: var(--blush); color: var(--ink);
+  padding: .7rem .9rem;
+  margin: 1.4rem 0 1.6rem;
+  transform: rotate(-.7deg);
+  box-shadow: 5px 5px 0 var(--pink);
+  min-height: 3.2rem;
+}
+.studio h3 { font: 1rem/1 var(--loud); letter-spacing: .1em; text-transform: uppercase; color: var(--tape); margin: 0 0 .6rem; }
+.studio ul { list-style: "✦ "; }
+.studio li::marker { color: var(--acid); }
+.studio .small { font: .85rem/1.55 var(--mono); color: #b7b0c0; margin-top: 1.5rem; }
 
 /* the lists sit side by side and wrap when the window gets narrow */
-.row { display: flex; flex-wrap: wrap; gap: 2rem 3rem; margin: 3rem 0; }
+.row { display: flex; flex-wrap: wrap; gap: 2rem 3rem; margin: 3.5rem 0; }
 .row > section { flex: 1 1 17rem; max-width: 42rem; }
 .row > .wide { flex-grow: 1.6; }
 .row p { margin: 0 0 .7em; }
 
-.photos { margin: 0; }
-.photos div { display: flex; gap: .75rem; }
+/* the tape pack */
+.tapes { list-style: none; padding: 0; }
+.tapes li { position: relative; padding-left: 4.4em; }
+.tapes li::before { content: "[o=o]"; position: absolute; left: 0; top: .2em; font: .8em/1.2 var(--mono); color: var(--pink); }
+.tapes li:hover::before { content: "[o-o]"; color: var(--night); background: var(--acid); }
+
+.photos { position: relative; margin: 0; }
+.photos div { position: relative; display: flex; gap: .75rem; overflow: hidden; }
 .photos img { flex: 1 1 auto; width: auto; height: 15rem; min-width: 0; object-fit: cover; background: var(--blush); }
 .photos img:nth-child(even) { background: var(--sky); }
 figcaption { font-size: 1rem; margin-top: .4rem; }
+.photos .corner { position: absolute; top: 2.2rem; right: -4rem; width: 20rem; transform: rotate(32deg); margin: 0; text-align: center; }
+.photos .corner span { padding: .35rem 0 .3rem; }
+.photos .smiley { top: -1.5rem; left: 1.2rem; right: auto; transform: rotate(-12deg); z-index: 1; }
+.photos:hover .smiley { transform: rotate(348deg); }
+.slap170 {
+  position: absolute; right: 1.5rem; bottom: 2.2rem; z-index: 1;
+  width: 5.6rem; height: 5.6rem; border-radius: 50%;
+  display: grid; place-content: center; text-align: center;
+  background: var(--night); color: var(--acid);
+  border: .3rem solid #fff; box-shadow: 0 0 0 2px var(--night);
+  font: 1.6rem/0.9 var(--loud); letter-spacing: .02em;
+  transform: rotate(-10deg);
+}
+.slap170 small { display: block; font: .7rem/1.2 var(--mono); color: #fff; letter-spacing: 0; }
+
+/* the night bus, with somebody's tag on the window */
+.bus { position: relative; width: max-content; margin-top: 2.5rem; color: var(--ink); transition: transform 1.5s ease-in; }
+.bus:hover { transform: translateX(3rem); }
+.bus .tag {
+  position: absolute; left: 6ch; top: .55em;
+  font: italic bold 2.1em/1 "Times New Roman", Times, serif;
+  color: var(--pink); letter-spacing: -.04em;
+  transform: rotate(-9deg) skewX(-18deg);
+  text-shadow: 1px 1px 0 var(--pink-ink), 0 0 2px rgba(228, 66, 127, .6);
+}
+.bus .tag::after { content: ""; position: absolute; left: .35em; top: .78em; width: 2px; height: .55em; background: var(--pink); border-radius: 0 0 2px 2px; transform: skewX(18deg); }
+
+/* sleeve notes */
+.notes {
+  background: var(--butter);
+  border-left: 1.1rem solid var(--night);
+  border-image: repeating-linear-gradient(45deg, var(--night) 0 9px, var(--tape) 9px 18px) 1;
+  padding: 1.8rem clamp(1.2rem, 3vw, 2.5rem) 1.6rem;
+  margin: 1rem 0 0;
+}
+.notes h2 { display: flex; flex-wrap: wrap; align-items: baseline; gap: .2rem 1rem; margin-bottom: 1.2rem; }
+.stencil {
+  position: relative; font: 2.4rem/1 var(--loud); letter-spacing: .08em; text-transform: uppercase; color: var(--night);
+  text-shadow: 0 0 .08em rgba(20, 17, 22, .55), .04em .03em .12em rgba(20, 17, 22, .25);
+}
+.stencil::after { content: ""; position: absolute; left: 0; right: 0; top: 47%; height: .07em; background: var(--butter); }
+.notes ul { columns: 2 24rem; column-gap: 3rem; list-style: "✿ "; }
+.notes li { break-inside: avoid; margin: 0 0 .8em; }
+.notes li b { font-family: var(--fat); font-size: .9em; }
 
 footer { margin-top: 4rem; }
 footer pre, .bus { color: var(--ink); }
 footer pre { overflow: hidden; }
-.bus { width: max-content; margin-top: 2.5rem; transition: transform 1.5s ease-in; }
-.bus:hover { transform: translateX(3rem); }
 footer p { font-size: 1rem; margin: 1rem 0 2rem; max-width: 44rem; }
 .wink, footer:hover .eyes { display: none; }
 footer:hover .wink { display: inline; }
 
-@media (max-width: 1100px) {
-  header { grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "hello hello" "pc new" "cable cable"; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+@media (max-width: 1180px) {
+  header { grid-template-columns: minmax(0, 1fr) minmax(15rem, 22rem); grid-template-areas: "hello hello" "wall flyer"; }
+  .hello { max-width: 40rem; }
 }
-@media (max-width: 640px) {
-  body { padding-top: 1.5rem; }
+@media (max-width: 960px) {
+  .station { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 680px) {
   h1 { font-size: 2.25rem; }
   pre { font-size: 13px; }
-  header { grid-template-columns: minmax(0, 1fr); grid-template-areas: "hello" "pc" "cable" "new"; }
-  .new { margin: 2.5rem 0 0; }
+  header { grid-template-columns: minmax(0, 1fr); grid-template-areas: "hello" "wall" "flyer"; padding-top: 2rem; }
+  .flyer { margin: 1.5rem .2rem 0; }
+  .cross { height: 6rem; margin-bottom: -2.8rem; }
+  .station { padding-top: 4.2rem; }
   .photos div { display: grid; grid-template-columns: 1fr 1fr; }
   .photos img { width: 100%; height: 9rem; }
   .photos img:first-child { grid-column: span 2; }
+  .slap170 { width: 4.6rem; height: 4.6rem; font-size: 1.3rem; bottom: 2.6rem; right: .8rem; }
+  .bus:hover { transform: none; }
+  .stencil { font-size: 1.9rem; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .wire span { animation: none; }
-  .bus, h1 span { transition: none; }
+  .tape div, .drip, .onair.live { animation: none; }
+  .bus, h1 span, .smiley { transition: none; }
 }
 </style>
 </head>
 <body>
 
+<!-- the tape. it says what this is -->
+<div class="tape" aria-hidden="true"><div><span>&nbsp;♡ kes fm 170.0 ♡ broadcasting from one html file in london ♡ big up all the junglists ♡ no cookies, no tracking ♡ strictly lorem ipsum ♡ press play when you're ready ♡ kes fm 170.0 ♡ broadcasting from one html file in london ♡ big up all the junglists ♡ no cookies, no tracking ♡ strictly lorem ipsum ♡ press play when you're ready</span><span>&nbsp;♡ kes fm 170.0 ♡ broadcasting from one html file in london ♡ big up all the junglists ♡ no cookies, no tracking ♡ strictly lorem ipsum ♡ press play when you're ready ♡ kes fm 170.0 ♡ broadcasting from one html file in london ♡ big up all the junglists ♡ no cookies, no tracking ♡ strictly lorem ipsum ♡ press play when you're ready</span></div></div>
+
 <header>
 
 <div class="hello">
+<p class="ident">you're tuned to <b>kes fm 170.0</b> ((•))</p>
 <h1>hello, i'm kes <span>♡</span></h1>
 
 <p>kesia inkersole, freelance creative strategist &amp; internet equalities researcher, based in london.</p>
@@ -133,44 +422,115 @@ footer:hover .wink { display: inline; }
 <p>i'm <mark>available for work right now</mark>, so <a href="mailto:inkersolekesia@gmail.com">say hi</a> :)</p>
 </div>
 
+<!-- a throw-up. css only, on my own wall, so nobody's getting nicked -->
+<div class="wall">
+<p class="throwup" aria-hidden="true"><span>k<i class="drip"></i></span><span>e<i class="drip"></i></span><span>s<i class="drip"></i><i class="arrow">➜</i></span><i class="spark">✦</i><i class="spark">✦</i></p>
+<div class="nametag" role="img" aria-label="a hello my name is sticker with kes written on it in pink marker"><b>HELLO</b><small>my name is</small><span>kes ♡</span></div>
+</div>
+
 <!-- NEW ----------------------------------------------------------------
      kes: swap the lorem ipsum for whatever's going on -->
-<section class="new">
-<h2>new-ish&nbsp;*:･ﾟ✧</h2>
+<section class="flyer" aria-labelledby="new-h">
+<div class="smiley" aria-hidden="true"></div>
+<p class="presents">kes fm presents</p>
+<h2 id="new-h">new-ish <span>*:･ﾟ✧</span></h2>
 <ul>
 <li>lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
 <li>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</li>
 <li>ut enim ad minim veniam, quis nostrud exercitation</li>
 </ul>
+<p class="small">doors: whenever · til: you close the tab<br>
+all ages · free entry · comfy shoes<br>
+info line: <a href="mailto:inkersolekesia@gmail.com">say hi</a></p>
 </section>
-
-<!-- a little computer. hover it and the hearts go down the wire -->
-<pre class="pc" role="img" aria-label="ascii drawing of a little computer with a heart on its screen, its cable running off the edge of the page">
-  ______________________
- |  __________________  |
- | |                  | |
- | |   <b>&lt;3&lt;3</b>    <b>&lt;3&lt;3</b>   | |
- | | <b>&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3</b> | |
- | | <b>&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3</b> | |
- | |   <b>&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3</b>   | |
- | |     <b>&lt;3&lt;3&lt;3&lt;3</b>     | |
- | |       <b>&lt;3&lt;3</b>       | |
- | |        <b>&lt;3</b>        | |
- | |__________________| |
- |                      |
- |  <b>o</b>          ______   |
- |______________________|\
-   |__________________|   \</pre>
-<pre class="cable" aria-hidden="true"><span>                           \</span><span class="wire"><span>_____________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>_______________</span></span></pre>
 
 </header>
 
 
-<!-- PROJECTS + WRITING --------------------------------------------------->
+<!-- KES FM. a pirate station that lives in the page. it never plays by itself -->
+<div class="cross" aria-hidden="true">
+<div class="tape"><div><span>&nbsp;◀◀ pull up ◀◀ pull up ◀◀ from the top ◀◀ pull up ◀◀ pull up ◀◀ from the top ◀◀ pull up ◀◀ pull up ◀◀ from the top ◀◀ pull up ◀◀ pull up ◀◀ from the top</span><span>&nbsp;◀◀ pull up ◀◀ pull up ◀◀ from the top ◀◀ pull up ◀◀ pull up ◀◀ from the top ◀◀ pull up ◀◀ pull up ◀◀ from the top ◀◀ pull up ◀◀ pull up ◀◀ from the top</span></div></div>
+<div class="tape"><div><span>&nbsp;♡ 170 bpm ♡ amen ♡ reese ♡ sub ♡ 170 bpm ♡ amen ♡ reese ♡ sub ♡ 170 bpm ♡ amen ♡ reese ♡ sub ♡ 170 bpm ♡ amen ♡ reese ♡ sub ♡ 170 bpm ♡ amen ♡ reese ♡ sub</span><span>&nbsp;♡ 170 bpm ♡ amen ♡ reese ♡ sub ♡ 170 bpm ♡ amen ♡ reese ♡ sub ♡ 170 bpm ♡ amen ♡ reese ♡ sub ♡ 170 bpm ♡ amen ♡ reese ♡ sub ♡ 170 bpm ♡ amen ♡ reese ♡ sub</span></div></div>
+</div>
+
+<section class="station" id="kesfm" aria-labelledby="fm-h">
+
+<div class="rig">
+<pre class="boombox" role="img" aria-label="ascii drawing of a boombox with its aerial up, a heart in each speaker and a cassette labelled side A, kes fm, C90. the dial is tuned past the end of the FM band, to 170.0">
+                                                     <i>o ) )</i>
+                                                    /
+             .------------------------------.      /
+             |  .------------------------.  |     /
+ .-----------'--'------------------------'--'-----------.
+ |  .------------------------------------------------.  |
+ |  | <em>88  92  96  100  104  108</em> . . . <b>170.0</b>   <em>KES FM</em> |  |
+ |  '-----------------------------------<b>^</b>------------'  |
+ |                                                      |
+ |   .------.    .----------------------.    .------.   |
+ |  /  .--.  \   | <em>side A</em>  <b>kes fm</b>  <em>C90</em>  |   /  .--.  \  |
+ | |  ( <b class="cone">&lt;3</b> )  |  |   (<i class="reel">|</i>)  ______  (<i class="reel">|</i>)   |  |  ( <b class="cone">&lt;3</b> )  | |
+ |  \  '--'  /   |    /__o______o__\    |   \  '--'  /  |
+ |   '------'    '----------------------'    '------'   |
+ |                                                      |
+ |______________________________________________________|
+    (__)                                          (__)</pre>
+
+<div class="deck" role="group" aria-label="jungle machine">
+<button type="button" class="key play" data-act="play" aria-pressed="false">▶ play</button>
+<button type="button" class="key" data-act="stop">■ stop</button>
+<button type="button" class="key" data-act="pull">◀◀ pull up</button>
+<button type="button" class="key" data-act="chop" aria-pressed="false">✂ chop</button>
+<button type="button" class="key" data-act="bass">bass: reese + sub</button>
+<button type="button" class="key" data-act="horn">♡ horn</button>
+</div>
+
+<div class="sides" role="group" aria-label="which break">
+<span>break:</span>
+<button type="button" data-pat="amen" aria-pressed="true">amen</button>
+<button type="button" data-pat="think" aria-pressed="false">think</button>
+<button type="button" data-pat="half" aria-pressed="false">half-time</button>
+</div>
+
+<div class="readout" aria-hidden="true">
+<span class="onair">● off air</span>
+<span id="steps"><i>.</i><i>.</i><i>.</i><i>.</i><i>.</i><i>.</i><i>.</i><i>.</i><i>.</i><i>.</i><i>.</i><i>.</i><i>.</i><i>.</i><i>.</i><i>.</i></span>
+<span>bar <span id="bar">000</span></span>
+<span id="lvl">[            ]</span>
+</div>
+
+<label class="vol">vol <input type="range" id="vol" min="0" max="100" value="55"></label>
+<p class="sr" id="status" aria-live="polite"></p>
+</div>
+
+<div class="studio">
+<h2 id="fm-h"><strong>kes fm 170.0</strong> ((•)) the jungle machine ♡</h2>
+
+<p>a tiny pirate station that lives in this page. press play and your browser builds a jungle beat from scratch: an amen-style break at 170bpm, a reese bass, and a sub underneath it. <b>pull up</b> rewinds it, <b>chop</b> cuts the break up, and <b>horn</b> is a horn.</p>
+
+<p class="mc" id="mc">(｡･ω･｡) standing by. nothing plays till you press play.</p>
+
+<h3>shout-outs</h3>
+<ul>
+<li>big up all the junglists</li>
+<li>big up everyone on slow wifi, old phones and cracked screens</li>
+<li>big up everyone listening with a screen reader, this one's for you</li>
+<li>big up UAL, LCF + CCI</li>
+<li>and Neu Futur, DAZED, co&#8288;—&#8288;matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer and Selfridges</li>
+</ul>
+
+<p class="small">text-ins: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a> (it's an email, it still counts)<br>
+frequency: 170.0, which isn't one. FM stops at 108. it's the tempo.<br>
+it never plays by itself. ■ stop or esc turns it off. every sound is synthesised in your browser: no samples, no stream, nothing tracked. headphones if you want to hear the sub.</p>
+</div>
+
+</section>
+
+
+<!-- SIDE A: PROJECTS + WRITING ------------------------------------------->
 <div class="row">
 
 <section>
-<h2>projects (for fun)&nbsp;♪</h2>
+<h2><b class="trk">A1</b>projects (for fun)&nbsp;♪</h2>
 <ul>
 <li><a href="https://latent-space.vercel.app/">latent space</a> — lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
 <li><a href="https://protecht.vercel.app/">pro(tech)t</a> — lorem ipsum dolor sit amet, sed do eiusmod tempor</li>
@@ -178,7 +538,7 @@ footer:hover .wink { display: inline; }
 </section>
 
 <section>
-<h2>projects (for funds)&nbsp;(£‿£)</h2>
+<h2><b class="trk">A2</b>projects (for funds)&nbsp;(£‿£)</h2>
 <ul>
 <li><a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1">MØRNING Ø</a> — lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
 <li><a href="https://co-matter.com/project/networked-worlds">networked worlds</a> (co&#8288;—&#8288;matter) — lorem ipsum dolor sit amet, ut labore et dolore</li>
@@ -187,7 +547,7 @@ footer:hover .wink { display: inline; }
 </section>
 
 <section class="wide">
-<h2>writing&nbsp;✎</h2>
+<h2><b class="trk">A3</b>writing&nbsp;✎</h2>
 <ul>
 <li><a href="https://www.protein.xyz/sex-and-the-internet/">mindy seu on sex and the internet</a> (Protein)</li>
 <li><a href="https://midnight.agency/thoughts/dreaming-and-designing-more-accessible-web">dreaming and designing a more accessible web</a> (Midnight Agency)</li>
@@ -202,7 +562,7 @@ footer:hover .wink { display: inline; }
 
 
 <!-- kes: these photos are placeholders. swap the src for your own pics,
-     write real alt text, and fix the caption -->
+     write real alt text, and fix the caption. the stickers can stay -->
 <figure class="photos">
 <div>
 <img src="https://picsum.photos/seed/morning1/320/240" width="320" height="240" alt="lorem ipsum dolor sit amet">
@@ -210,17 +570,20 @@ footer:hover .wink { display: inline; }
 <img src="https://picsum.photos/seed/morning3/320/240" width="320" height="240" alt="lorem ipsum dolor sit amet">
 <img src="https://picsum.photos/seed/morning4/240/240" width="240" height="240" alt="lorem ipsum dolor sit amet">
 <img src="https://picsum.photos/seed/morning5/320/240" width="320" height="240" alt="lorem ipsum dolor sit amet">
+<p class="tape corner" aria-hidden="true"><span>&nbsp;caution ♡ lorem ipsum ♡ caution ♡ lorem ipsum ♡ caution ♡ lorem ipsum ♡</span></p>
 </div>
+<span class="smiley" aria-hidden="true"></span>
+<span class="slap170" aria-hidden="true">170<small>kes fm</small></span>
 <figcaption>↑ MØRNING Ø, lorem ipsum dolor sit amet. photos by lorem ipsum</figcaption>
 </figure>
 
 
-<!-- PODCASTS, ELSEWHERE, ABOUT ------------------------------------------->
+<!-- SIDE B: PODCASTS, ELSEWHERE, ABOUT ----------------------------------->
 <div class="row">
 
 <section class="wide">
-<h2>podcasts (good for the bus)&nbsp;♫</h2>
-<ul>
+<h2><b class="trk">B1</b>the tape pack: podcasts (good for the night bus)&nbsp;♫</h2>
+<ul class="tapes">
 <li><a href="https://podcasts.apple.com/gb/podcast/mindy-seu-on-collaboration-community-and/id1449302502?i=1000597869409">mindy seu on collaboration, community and the cyberfeminism index</a></li>
 <li><a href="https://soundcloud.com/proteincommunity/protein-forum-what-can-web2-organisations-learn-from-web3-communities">what can web2 organisations learn from web3 communities?</a></li>
 <li><a href="https://podcasts.apple.com/gb/podcast/cherie-hu-on-water-musics-journey-through-web3/id1449302502?i=1000581859804">cherie hu on water &amp; music's journey through web3</a></li>
@@ -233,7 +596,7 @@ footer:hover .wink { display: inline; }
 </section>
 
 <section>
-<h2>elsewhere&nbsp;⋆</h2>
+<h2><b class="trk">B2</b>elsewhere&nbsp;⋆</h2>
 <ul>
 <li><a href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1">olden residency</a></li>
 <li><a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1">softer london</a> — talk + workshop</li>
@@ -241,20 +604,20 @@ footer:hover .wink { display: inline; }
 <li><a href="https://www.instagram.com/p/BslwSSPH5Rc/?img_index=2">ovar it</a></li>
 </ul>
 
-<!-- the bus. hover it -->
-<pre class="bus" role="img" aria-label="ascii drawing of a pink london bus with a heart on its destination board" title="ah. just missed it">
+<!-- the night bus. hover it -->
+<pre class="bus" role="img" aria-label="ascii drawing of a pink london night bus with N and a heart on its destination board. someone has tagged kes on the top deck window in pink marker" title="ah. just missed it">
   <b>______________________________</b>
  <b>|</b>  <em>___</em>   <em>___</em>   <em>___</em>   <em>___</em>  <b>___</b>  <b>|</b>
- <b>|</b> <em>|___|</em> <em>|___|</em> <em>|___|</em> <em>|___|</em><b>|&lt;3</b> <b>|</b> <b>|</b>
+ <b>|</b> <em>|___|</em> <em>|___|</em> <em>|___|</em> <em>|___|</em><b>|N&lt;3</b><b>|</b> <b>|</b>
  <b>|______________________________|</b>
  <b>|</b>  <em>___</em>   <em>___</em>   <em>___</em>   <em>___</em>   <b>__</b>  <b>|</b>
  <b>|</b> <em>|___|</em> <em>|___|</em> <em>|___|</em> <em>|___|</em> <b>|</b>  <b>|</b> <b>|</b>
  <b>|_________________________|__|_|</b>
-     (_)                (_)</pre>
+     (_)                (_)<span class="tag" aria-hidden="true">kes</span></pre>
 </section>
 
 <section class="wide">
-<h2>the longer version&nbsp;✿</h2>
+<h2><b class="trk">B3</b>the longer version&nbsp;✿</h2>
 <p>my practice focuses on understanding and critiquing the impacts of emerging technologies on people, culture, and the planet. i'm particularly interested in working collectively to rethink the narratives and behaviours surrounding technologies — prioritising collaborative research as a process for testing, imagining and prototyping more equitable, alternative futures.</p>
 
 <p>MA internet equalities, BA creative direction, 🔮 ...dreaming... PhD...</p>
@@ -266,18 +629,32 @@ footer:hover .wink { display: inline; }
 </div>
 
 
+<!-- SLEEVE NOTES. credit where it's due -->
+<section class="notes" aria-labelledby="notes-h">
+<h2 id="notes-h"><span class="stencil">sleeve notes</span> <span>credits where they're due ✿</span></h2>
+<ul>
+<li><b>jungle</b> came out of Black British sound system culture in London in the early 90s: reggae, dub and dancehall bass weight, MCs, hip hop breaks and hardcore rave, sped up and passed around on pirate radio and tape packs. this page borrows the vocabulary. it doesn't own any of it.</li>
+<li><b>the amen break</b> is a few seconds of drums from "Amen, Brother" by The Winstons (1969), played by G.C. Coleman. it's one of the most sampled recordings ever, and neither Coleman nor the band were paid for its second life. the machine up there plays a synthesised version of his pattern, so: thank you, G.C.</li>
+<li><b>pirate radio</b>, run off tower block roofs with a text-in number read out between tunes, is where a lot of this music got heard first.</li>
+<li><b>graffiti writers</b> made the tags, throw-ups, drips and wildstyle arrows this page is doing impressions of. the throw-up up top is css, on my own wall.</li>
+<li><b>kaomoji</b> come from japanese text culture (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧</li>
+<li><b>lorem ipsum</b> is cicero, roughly, scrambled. sorry cicero.</li>
+</ul>
+</section>
+
+
 <footer>
-<pre role="img" aria-label="ascii garden: a bunny sitting by a little sign that says thanks for stopping by, next to a row of flowers">
-  ___________________________        <b>*</b>                                  <b>'</b>                                  <b>.</b>     <b>*</b>                                  <b>'</b>                                  <b>.</b>     <b>*</b>                                  <b>'</b>                                  <b>.</b>     <b>*</b>                                  <b>'</b>                                  <b>.</b>     <b>*</b>                                  <b>'</b>                                  <b>.</b>
- | thanks for stopping by <b>&lt;3</b> |     <b>.-.</b>                 <em>.</em>                              <em>*</em>                        <b>.-.</b>                 <em>.</em>                              <em>*</em>                        <b>.-.</b>                 <em>.</em>                              <em>*</em>                        <b>.-.</b>                 <em>.</em>                              <em>*</em>                        <b>.-.</b>                 <em>.</em>                              <em>*</em>
- |___________________________|    <b>(</b> <em>o</em> <b>)</b>                      <em>.-.</em>   <b>@</b>                            <b>@</b>       <em>.-.</em>   <b>(</b> <em>o</em> <b>)</b>                      <em>.-.</em>   <b>@</b>                            <b>@</b>       <em>.-.</em>   <b>(</b> <em>o</em> <b>)</b>                      <em>.-.</em>   <b>@</b>                            <b>@</b>       <em>.-.</em>   <b>(</b> <em>o</em> <b>)</b>                      <em>.-.</em>   <b>@</b>                            <b>@</b>       <em>.-.</em>   <b>(</b> <em>o</em> <b>)</b>                      <em>.-.</em>   <b>@</b>                            <b>@</b>       <em>.-.</em>
-          | |                      <b>'-'</b>      <b>\V/</b> <b>&lt;3</b>          <em>(</em> <b>o</b> <em>)</em>  <i>|/</i>             <b>.-.</b>  <b>\V/</b>      <i>|/</i> <b>&lt;3</b>  <em>(</em> <b>o</b> <em>)</em>   <b>'-'</b>      <b>\V/</b> <b>&lt;3</b>          <em>(</em> <b>o</b> <em>)</em>  <i>|/</i>             <b>.-.</b>  <b>\V/</b>      <i>|/</i> <b>&lt;3</b>  <em>(</em> <b>o</b> <em>)</em>   <b>'-'</b>      <b>\V/</b> <b>&lt;3</b>          <em>(</em> <b>o</b> <em>)</em>  <i>|/</i>             <b>.-.</b>  <b>\V/</b>      <i>|/</i> <b>&lt;3</b>  <em>(</em> <b>o</b> <em>)</em>   <b>'-'</b>      <b>\V/</b> <b>&lt;3</b>          <em>(</em> <b>o</b> <em>)</em>  <i>|/</i>             <b>.-.</b>  <b>\V/</b>      <i>|/</i> <b>&lt;3</b>  <em>(</em> <b>o</b> <em>)</em>   <b>'-'</b>      <b>\V/</b> <b>&lt;3</b>          <em>(</em> <b>o</b> <em>)</em>  <i>|/</i>             <b>.-.</b>  <b>\V/</b>      <i>|/</i> <b>&lt;3</b>  <em>(</em> <b>o</b> <em>)</em>
-   /) /)  | |                       <i>|</i>        <i>|</i>   <i>|/</i>  <em>@</em>       <em>'-'</em>  <i>\|</i>  <em>\V/</em>        <b>(</b> <em>o</em> <b>)</b>  <i>|</i>      <i>\|</i>   <i>|/</i>  <em>'-'</em>     <i>|</i>        <i>|</i>   <i>|/</i>  <em>@</em>       <em>'-'</em>  <i>\|</i>  <em>\V/</em>        <b>(</b> <em>o</em> <b>)</b>  <i>|</i>      <i>\|</i>   <i>|/</i>  <em>'-'</em>     <i>|</i>        <i>|</i>   <i>|/</i>  <em>@</em>       <em>'-'</em>  <i>\|</i>  <em>\V/</em>        <b>(</b> <em>o</em> <b>)</b>  <i>|</i>      <i>\|</i>   <i>|/</i>  <em>'-'</em>     <i>|</i>        <i>|</i>   <i>|/</i>  <em>@</em>       <em>'-'</em>  <i>\|</i>  <em>\V/</em>        <b>(</b> <em>o</em> <b>)</b>  <i>|</i>      <i>\|</i>   <i>|/</i>  <em>'-'</em>     <i>|</i>        <i>|</i>   <i>|/</i>  <em>@</em>       <em>'-'</em>  <i>\|</i>  <em>\V/</em>        <b>(</b> <em>o</em> <b>)</b>  <i>|</i>      <i>\|</i>   <i>|/</i>  <em>'-'</em>
-  ( <span class="eyes">^.^</span><span class="wink">^.~</span> ) | |                       <i>|/</i>       <i>|/</i> <i>\|</i>  <i>\|</i>       <i>\|</i>    <i>|</i>   <i>|/</i>     <b>&lt;3</b>  <b>'-'</b>   <i>|/</i>      <i>|</i>  <i>\|</i>   <i>\|</i>      <i>|/</i>       <i>|/</i> <i>\|</i>  <i>\|</i>       <i>\|</i>    <i>|</i>   <i>|/</i>     <b>&lt;3</b>  <b>'-'</b>   <i>|/</i>      <i>|</i>  <i>\|</i>   <i>\|</i>      <i>|/</i>       <i>|/</i> <i>\|</i>  <i>\|</i>       <i>\|</i>    <i>|</i>   <i>|/</i>     <b>&lt;3</b>  <b>'-'</b>   <i>|/</i>      <i>|</i>  <i>\|</i>   <i>\|</i>      <i>|/</i>       <i>|/</i> <i>\|</i>  <i>\|</i>       <i>\|</i>    <i>|</i>   <i>|/</i>     <b>&lt;3</b>  <b>'-'</b>   <i>|/</i>      <i>|</i>  <i>\|</i>   <i>\|</i>      <i>|/</i>       <i>|/</i> <i>\|</i>  <i>\|</i>       <i>\|</i>    <i>|</i>   <i>|/</i>     <b>&lt;3</b>  <b>'-'</b>   <i>|/</i>      <i>|</i>  <i>\|</i>   <i>\|</i>
-  (")_(") | |                      <i>\|</i>   <i>\|/</i> <i>\|</i>   <i>|</i>   <i>|</i>  <i>,|,</i>   <i>|</i>    <i>|/</i>  <i>|</i>  <i>\|/</i> <i>\|</i>   <i>|</i>   <i>\|</i>  <i>,|,</i>  <i>|/</i>  <i>|</i>    <i>|</i>     <i>\|</i>   <i>\|/</i> <i>\|</i>   <i>|</i>   <i>|</i>  <i>,|,</i>   <i>|</i>    <i>|/</i>  <i>|</i>  <i>\|/</i> <i>\|</i>   <i>|</i>   <i>\|</i>  <i>,|,</i>  <i>|/</i>  <i>|</i>    <i>|</i>     <i>\|</i>   <i>\|/</i> <i>\|</i>   <i>|</i>   <i>|</i>  <i>,|,</i>   <i>|</i>    <i>|/</i>  <i>|</i>  <i>\|/</i> <i>\|</i>   <i>|</i>   <i>\|</i>  <i>,|,</i>  <i>|/</i>  <i>|</i>    <i>|</i>     <i>\|</i>   <i>\|/</i> <i>\|</i>   <i>|</i>   <i>|</i>  <i>,|,</i>   <i>|</i>    <i>|/</i>  <i>|</i>  <i>\|/</i> <i>\|</i>   <i>|</i>   <i>\|</i>  <i>,|,</i>  <i>|/</i>  <i>|</i>    <i>|</i>     <i>\|</i>   <i>\|/</i> <i>\|</i>   <i>|</i>   <i>|</i>  <i>,|,</i>   <i>|</i>    <i>|/</i>  <i>|</i>  <i>\|/</i> <i>\|</i>   <i>|</i>   <i>\|</i>  <i>,|,</i>  <i>|/</i>  <i>|</i>    <i>|</i>
+<pre role="img" aria-label="ascii garden: a bunny in headphones sitting by a little sign that says big up yourself for stopping by, next to a speaker stack with kes fm painted on it and a row of flowers">
+  ____________________________________   .------------------.        <b>*</b>                                  <b>'</b>                                  <b>.</b>     <b>*</b>                                  <b>'</b>                                  <b>.</b>     <b>*</b>                                  <b>'</b>                                  <b>.</b>     <b>*</b>                                  <b>'</b>                                  <b>.</b>     <b>*</b>                                  <b>'</b>                                  <b>.</b>
+ | big up yourself for stopping by <b>&lt;3</b> |  | (<em>o</em>)  <b>KES FM</b>  (<em>o</em>) |      <b>.-.</b>                 <em>.</em>                              <em>*</em>                        <b>.-.</b>                 <em>.</em>                              <em>*</em>                        <b>.-.</b>                 <em>.</em>                              <em>*</em>                        <b>.-.</b>                 <em>.</em>                              <em>*</em>                        <b>.-.</b>                 <em>.</em>                              <em>*</em>
+ |____________________________________|  |------------------|     <b>(</b> <em>o</em> <b>)</b>                      <em>.-.</em>   <b>@</b>                            <b>@</b>       <em>.-.</em>   <b>(</b> <em>o</em> <b>)</b>                      <em>.-.</em>   <b>@</b>                            <b>@</b>       <em>.-.</em>   <b>(</b> <em>o</em> <b>)</b>                      <em>.-.</em>   <b>@</b>                            <b>@</b>       <em>.-.</em>   <b>(</b> <em>o</em> <b>)</b>                      <em>.-.</em>   <b>@</b>                            <b>@</b>       <em>.-.</em>   <b>(</b> <em>o</em> <b>)</b>                      <em>.-.</em>   <b>@</b>                            <b>@</b>       <em>.-.</em>
+           | |                           |   .----------.   |      <b>'-'</b>      <b>\V/</b> <b>&lt;3</b>          <em>(</em> <b>o</b> <em>)</em>  <i>|/</i>             <b>.-.</b>  <b>\V/</b>      <i>|/</i> <b>&lt;3</b>  <em>(</em> <b>o</b> <em>)</em>   <b>'-'</b>      <b>\V/</b> <b>&lt;3</b>          <em>(</em> <b>o</b> <em>)</em>  <i>|/</i>             <b>.-.</b>  <b>\V/</b>      <i>|/</i> <b>&lt;3</b>  <em>(</em> <b>o</b> <em>)</em>   <b>'-'</b>      <b>\V/</b> <b>&lt;3</b>          <em>(</em> <b>o</b> <em>)</em>  <i>|/</i>             <b>.-.</b>  <b>\V/</b>      <i>|/</i> <b>&lt;3</b>  <em>(</em> <b>o</b> <em>)</em>   <b>'-'</b>      <b>\V/</b> <b>&lt;3</b>          <em>(</em> <b>o</b> <em>)</em>  <i>|/</i>             <b>.-.</b>  <b>\V/</b>      <i>|/</i> <b>&lt;3</b>  <em>(</em> <b>o</b> <em>)</em>   <b>'-'</b>      <b>\V/</b> <b>&lt;3</b>          <em>(</em> <b>o</b> <em>)</em>  <i>|/</i>             <b>.-.</b>  <b>\V/</b>      <i>|/</i> <b>&lt;3</b>  <em>(</em> <b>o</b> <em>)</em>
+   /) /)   | |                           |  (     <b>&lt;3</b>     )  |       <i>|</i>        <i>|</i>   <i>|/</i>  <em>@</em>       <em>'-'</em>  <i>\|</i>  <em>\V/</em>        <b>(</b> <em>o</em> <b>)</b>  <i>|</i>      <i>\|</i>   <i>|/</i>  <em>'-'</em>     <i>|</i>        <i>|</i>   <i>|/</i>  <em>@</em>       <em>'-'</em>  <i>\|</i>  <em>\V/</em>        <b>(</b> <em>o</em> <b>)</b>  <i>|</i>      <i>\|</i>   <i>|/</i>  <em>'-'</em>     <i>|</i>        <i>|</i>   <i>|/</i>  <em>@</em>       <em>'-'</em>  <i>\|</i>  <em>\V/</em>        <b>(</b> <em>o</em> <b>)</b>  <i>|</i>      <i>\|</i>   <i>|/</i>  <em>'-'</em>     <i>|</i>        <i>|</i>   <i>|/</i>  <em>@</em>       <em>'-'</em>  <i>\|</i>  <em>\V/</em>        <b>(</b> <em>o</em> <b>)</b>  <i>|</i>      <i>\|</i>   <i>|/</i>  <em>'-'</em>     <i>|</i>        <i>|</i>   <i>|/</i>  <em>@</em>       <em>'-'</em>  <i>\|</i>  <em>\V/</em>        <b>(</b> <em>o</em> <b>)</b>  <i>|</i>      <i>\|</i>   <i>|/</i>  <em>'-'</em>
+ d( <span class="eyes">^.^</span><span class="wink">^.~</span> )b | |                           |   '----------'   |          <i>|/</i>       <i>|/</i> <i>\|</i>  <i>\|</i>       <i>\|</i>    <i>|</i>   <i>|/</i>     <b>&lt;3</b>  <b>'-'</b>   <i>|/</i>      <i>|</i>  <i>\|</i>   <i>\|</i>      <i>|/</i>       <i>|/</i> <i>\|</i>  <i>\|</i>       <i>\|</i>    <i>|</i>   <i>|/</i>     <b>&lt;3</b>  <b>'-'</b>   <i>|/</i>      <i>|</i>  <i>\|</i>   <i>\|</i>      <i>|/</i>       <i>|/</i> <i>\|</i>  <i>\|</i>       <i>\|</i>    <i>|</i>   <i>|/</i>     <b>&lt;3</b>  <b>'-'</b>   <i>|/</i>      <i>|</i>  <i>\|</i>   <i>\|</i>      <i>|/</i>       <i>|/</i> <i>\|</i>  <i>\|</i>       <i>\|</i>    <i>|</i>   <i>|/</i>     <b>&lt;3</b>  <b>'-'</b>   <i>|/</i>      <i>|</i>  <i>\|</i>   <i>\|</i>      <i>|/</i>       <i>|/</i> <i>\|</i>  <i>\|</i>       <i>\|</i>    <i>|</i>   <i>|/</i>     <b>&lt;3</b>  <b>'-'</b>   <i>|/</i>      <i>|</i>  <i>\|</i>   <i>\|</i>
+  (")_(")  | |                           |__________________|      <i>\|</i>   <i>\|/</i> <i>\|</i>   <i>|</i>   <i>|</i>  <i>,|,</i>   <i>|</i>    <i>|/</i>  <i>|</i>  <i>\|/</i> <i>\|</i>   <i>|</i>   <i>\|</i>  <i>,|,</i>  <i>|/</i>  <i>|</i>    <i>|</i>     <i>\|</i>   <i>\|/</i> <i>\|</i>   <i>|</i>   <i>|</i>  <i>,|,</i>   <i>|</i>    <i>|/</i>  <i>|</i>  <i>\|/</i> <i>\|</i>   <i>|</i>   <i>\|</i>  <i>,|,</i>  <i>|/</i>  <i>|</i>    <i>|</i>     <i>\|</i>   <i>\|/</i> <i>\|</i>   <i>|</i>   <i>|</i>  <i>,|,</i>   <i>|</i>    <i>|/</i>  <i>|</i>  <i>\|/</i> <i>\|</i>   <i>|</i>   <i>\|</i>  <i>,|,</i>  <i>|/</i>  <i>|</i>    <i>|</i>     <i>\|</i>   <i>\|/</i> <i>\|</i>   <i>|</i>   <i>|</i>  <i>,|,</i>   <i>|</i>    <i>|/</i>  <i>|</i>  <i>\|/</i> <i>\|</i>   <i>|</i>   <i>\|</i>  <i>,|,</i>  <i>|/</i>  <i>|</i>    <i>|</i>     <i>\|</i>   <i>\|/</i> <i>\|</i>   <i>|</i>   <i>|</i>  <i>,|,</i>   <i>|</i>    <i>|/</i>  <i>|</i>  <i>\|/</i> <i>\|</i>   <i>|</i>   <i>\|</i>  <i>,|,</i>  <i>|/</i>  <i>|</i>    <i>|</i>
 <i>^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^^'^</i></pre>
 
-<p>last updated 1 october 2026, in the <a href="http://contemporary-home-computing.org/prof-dr-style/">prof. dr. style</a> (with a bit of colour). if anything on here doesn't work for you (screen reader, old phone, slow wifi), please <a href="mailto:inkersolekesia@gmail.com">tell me</a>.</p>
+<p>last updated 1 october 2026, in the <a href="http://contemporary-home-computing.org/prof-dr-style/">prof. dr. style</a> (with a bit of colour, and now some bass). if anything on here doesn't work for you (screen reader, old phone, slow wifi), please <a href="mailto:inkersolekesia@gmail.com">tell me</a>.</p>
 </footer>
 
 <script>
@@ -285,11 +662,407 @@ console.log('hi :)');
 console.log('i wanted to write my name in 𝓯𝓪𝓷𝓬𝔂 𝓵𝓮𝓽𝓽𝓮𝓻𝓼 on the page, but some screen readers read them out as maths symbols. so they live down here instead:');
 console.log('★ 𝓴𝓮𝓼 𝓲𝓷𝓴𝓮𝓻𝓼𝓸𝓵𝓮 ★');
 console.log('no cookies, no analytics, nobody watching you here ♡');
+console.log('kes fm 170.0: every sound is made right here in your browser with the web audio api. read on if you want to see how the break is built ↓');
 console.log('inkersolekesia@gmail.com');
-// leave the tab and it misses you
-document.addEventListener('visibilitychange', function () {
-  document.title = document.hidden ? 'come back x' : 'kes inkersole ♡';
-});
+
+/* ---------------------------------------------------------------------
+   KES FM 170.0: the jungle machine
+   no samples. kick, snare, ride and hats are built from oscillators and
+   noise, the reese is two detuned saws through a wobbling filter, the
+   sub is a sine. it only starts when someone presses play.
+   --------------------------------------------------------------------- */
+(function () {
+  'use strict';
+  var $ = function (s) { return document.querySelector(s); };
+  var $$ = function (s) { return Array.prototype.slice.call(document.querySelectorAll(s)); };
+
+  var mcEl = $('#mc'), statusEl = $('#status'), barEl = $('#bar'), lvlEl = $('#lvl'), airEl = $('.onair');
+  var cells = $$('#steps i'), reels = $$('.reel'), cones = $$('.cone');
+  var playKey = $('[data-act="play"]'), chopKey = $('[data-act="chop"]'), bassKey = $('[data-act="bass"]');
+  var homeTitle = 'kes inkersole ♡';
+
+  function say(line) { mcEl.textContent = line; }
+  function tell(line) { statusEl.textContent = line; }
+
+  var AC = window.AudioContext || window.webkitAudioContext;
+  if (!AC) {
+    say('(・・ ) this browser can\'t make sound from scratch, sorry. the rest of the page still works ♡');
+    $$('.deck button, .sides button').forEach(function (b) { b.disabled = true; });
+    return;
+  }
+
+  var BPM = 170, STEP = 60 / BPM / 4;
+
+  /* the breaks. one string per drum, 16 steps a bar.
+     X = snare, x = ghost snare (quieter). k: x = kick. r: x = ride, c = crash. h: x = hat, o = open hat.
+     the amen is G.C. Coleman's pattern from "Amen, Brother", give or take. */
+  var PATS = {
+    amen: [
+      { k: 'x.x.......xx....', s: '....X..x.x..X..x', r: 'x.x.x.x.x.x.x.x.' },
+      { k: 'x.x.......xx....', s: '....X..x.x..X..x', r: 'x.x.x.x.x.x.x.x.' },
+      { k: 'x.x.......x.....', s: '....X..x.x....X.', r: 'x.x.x.x.x.x.x.x.' },
+      { k: '..x.......x.....', s: '.x..X..x.x....X.', r: 'x.x.x.x.x.c.x.x.' }
+    ],
+    think: [
+      { k: 'x......x..x.....', s: '....X..x....X...', h: 'xxxxxxxxxxxxxxxx' },
+      { k: 'x......x..x..x..', s: '....X..x....X..x', h: 'xxxxxxxxxxxxxxox' },
+      { k: 'x......x..x.....', s: '....X..x....X...', h: 'xxxxxxxxxxxxxxxx' },
+      { k: 'x......x..x.....', s: '....X..x..x.XxXx', h: 'xxxxxxxxxxxx....' }
+    ],
+    half: [
+      { k: 'x.........x.....', s: '........X.......', r: 'x.x.x.x.x.x.x.x.' },
+      { k: 'x.........x.....', s: '........X.....x.', r: 'x.x.x.x.x.x.x.x.' },
+      { k: 'x.x.......x.....', s: '........X.......', r: 'x.x.x.x.x.x.x.x.' },
+      { k: 'x.........x.....', s: '........X..x.xX.', r: 'x.x.x.x.x.x.c...' }
+    ]
+  };
+  var PAT_LINES = {
+    amen: 'ヽ(⌐■_■)ノ♪ back on the amen',
+    think: '┌(・。・)┘♪ switching to the think break',
+    half: '(˘▾˘)~♪ half-time. let the bass breathe'
+  };
+
+  /* four bars of bass in G minor. [step, midi note, length in steps] */
+  var BASS = [];
+  [[0, 31, 6], [6, 31, 2], [10, 34, 3], [13, 36, 3],
+   [16, 31, 10], [26, 29, 3], [29, 34, 3],
+   [32, 27, 6], [38, 27, 2], [42, 31, 2], [44, 34, 4],
+   [48, 29, 8], [56, 38, 4], [60, 36, 4]].forEach(function (n) { BASS[n[0]] = n; });
+  var BASS_NAMES = ['bass: reese + sub', 'bass: sub only', 'bass: off'];
+
+  var LINES = [
+    'big up all the junglists ♡',
+    'big up everyone on slow wifi and old phones',
+    'big up everyone listening with a screen reader',
+    'no cookies on this station, just breaks',
+    'the drums are G.C. Coleman\'s pattern. respect due',
+    'turn it down if someone\'s sleeping x',
+    'shout-out DAZED, Protein, co—matter, MØRNING, WeTransfer',
+    'text-ins: inkersolekesia@gmail.com',
+    'press pull up if you want that one again',
+    'shout-out UAL, LCF + CCI ♡'
+  ];
+  var FACES = ['ヽ(⌐■_■)ノ♪', '(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧', '┌(・。・)┘♪', '♪(´ε｀ )', '\\(^o^)/'];
+  var lineN = 0;
+
+  var ctx, out, master, drums, bassF, reeseBus, subBus, analyser, noise, wave;
+  var playing = false, timer = 0, sleepT = 0, raf = 0;
+  var step = 0, nextT = 0, bars = 0, pat = 'amen', chop = false, chopMap = null, bassMode = 0;
+  var vol = 0.55, queue = [], rewindUntil = 0, quietAt = 0;
+  var spin = '|/-\\', rot = 0, coneOff = 0, lastCell = null;
+
+  function drive(k) {
+    var n = 1024, c = new Float32Array(n);
+    for (var i = 0; i < n; i++) { var x = i / (n - 1) * 2 - 1; c[i] = Math.tanh(k * x) / Math.tanh(k); }
+    return c;
+  }
+  function level() { return 0.75 * vol * vol; }
+
+  function boot() {
+    if (ctx) return;
+    ctx = new AC();
+    out = ctx.createGain();
+    master = ctx.createGain(); master.gain.value = level();
+    var comp = ctx.createDynamicsCompressor();
+    comp.threshold.value = -16; comp.knee.value = 8; comp.ratio.value = 4; comp.attack.value = 0.004; comp.release.value = 0.12;
+    analyser = ctx.createAnalyser(); analyser.fftSize = 1024; wave = new Uint8Array(analyser.fftSize);
+    master.connect(comp); comp.connect(out); out.connect(analyser); analyser.connect(ctx.destination);
+
+    // drums go through a bit of grit and a slightly dark filter, like an old sampler
+    var grit = ctx.createWaveShaper(); grit.curve = drive(2.4); grit.oversample = '2x';
+    var dark = ctx.createBiquadFilter(); dark.type = 'lowpass'; dark.frequency.value = 11000;
+    drums = ctx.createGain(); drums.gain.value = 0.8;
+    drums.connect(grit); grit.connect(dark); dark.connect(master);
+
+    // reese: a resonant lowpass that drifts open and shut
+    bassF = ctx.createBiquadFilter(); bassF.type = 'lowpass'; bassF.frequency.value = 520; bassF.Q.value = 5;
+    var lfo = ctx.createOscillator(), depth = ctx.createGain();
+    lfo.frequency.value = 0.23; depth.gain.value = 300;
+    lfo.connect(depth); depth.connect(bassF.frequency); lfo.start();
+    var growl = ctx.createWaveShaper(); growl.curve = drive(1.6);
+    reeseBus = ctx.createGain();
+    bassF.connect(growl); growl.connect(reeseBus); reeseBus.connect(master);
+    subBus = ctx.createGain(); subBus.connect(master);
+
+    noise = ctx.createBuffer(1, ctx.sampleRate, ctx.sampleRate);
+    var d = noise.getChannelData(0);
+    for (var i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+  }
+
+  function env(g, t, peak, attack, decay) {
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(Math.max(peak, 0.0002), t + attack);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + attack + decay);
+  }
+  function hiss(t, v, type, f, q, dur) {
+    var s = ctx.createBufferSource(), fl = ctx.createBiquadFilter(), g = ctx.createGain();
+    s.buffer = noise; fl.type = type; fl.frequency.value = f; fl.Q.value = q;
+    env(g, t, v, 0.002, dur);
+    s.connect(fl); fl.connect(g); g.connect(drums);
+    s.start(t, Math.random() * 0.6); s.stop(t + dur + 0.05);
+  }
+
+  /* the kit */
+  function kick(t, v) {
+    var o = ctx.createOscillator(), g = ctx.createGain();
+    o.frequency.setValueAtTime(170, t);
+    o.frequency.exponentialRampToValueAtTime(55, t + 0.06);
+    o.frequency.exponentialRampToValueAtTime(42, t + 0.25);
+    env(g, t, v, 0.003, 0.26);
+    o.connect(g); g.connect(drums); o.start(t); o.stop(t + 0.32);
+    hiss(t, v * 0.3, 'bandpass', 3200, 1, 0.012);
+  }
+  function snare(t, v) {
+    hiss(t, v * 0.85, 'bandpass', 1700, 0.6, v > 0.6 ? 0.2 : 0.09);
+    hiss(t, v * 0.45, 'highpass', 6000, 0.7, 0.08);
+    var o = ctx.createOscillator(), g = ctx.createGain();
+    o.type = 'triangle';
+    o.frequency.setValueAtTime(230, t); o.frequency.exponentialRampToValueAtTime(170, t + 0.05);
+    env(g, t, v * 0.7, 0.002, 0.07);
+    o.connect(g); g.connect(drums); o.start(t); o.stop(t + 0.12);
+  }
+  function hat(t, v, open) { hiss(t, v * 0.32, 'highpass', 8000, 0.8, open ? 0.2 : 0.035); }
+  var METAL = [263, 400, 421, 474, 587, 845];
+  function ride(t, v, crash) {
+    var bp = ctx.createBiquadFilter(), hp = ctx.createBiquadFilter(), g = ctx.createGain(), dur = crash ? 1.1 : 0.32;
+    bp.type = 'bandpass'; bp.frequency.value = 9500; bp.Q.value = 0.6;
+    hp.type = 'highpass'; hp.frequency.value = 6000;
+    env(g, t, v * (crash ? 0.16 : 0.09), 0.002, dur);
+    METAL.forEach(function (f) {
+      var o = ctx.createOscillator(); o.type = 'square'; o.frequency.value = f * 1.9;
+      o.connect(bp); o.start(t); o.stop(t + dur + 0.05);
+    });
+    bp.connect(hp); hp.connect(g); g.connect(drums);
+    if (crash) hiss(t, v * 0.25, 'highpass', 5000, 0.5, 0.9);
+  }
+
+  function mtof(m) { return 440 * Math.pow(2, (m - 69) / 12); }
+  function bassNote(t, m, dur) {
+    var f = mtof(m), end = t + dur;
+    var s = ctx.createOscillator(), sg = ctx.createGain();
+    s.frequency.value = f;
+    sg.gain.setValueAtTime(0.0001, t); sg.gain.exponentialRampToValueAtTime(0.42, t + 0.012);
+    sg.gain.setValueAtTime(0.42, end - 0.03); sg.gain.exponentialRampToValueAtTime(0.0001, end);
+    s.connect(sg); sg.connect(subBus); s.start(t); s.stop(end + 0.02);
+    if (bassMode !== 0) return;
+    var g = ctx.createGain();
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.2, t + 0.02);
+    g.gain.setValueAtTime(0.2, end - 0.04); g.gain.exponentialRampToValueAtTime(0.0001, end);
+    [-11, 11].forEach(function (c) {
+      var o = ctx.createOscillator(); o.type = 'sawtooth'; o.frequency.value = f * 2; o.detune.value = c;
+      o.connect(g); o.start(t); o.stop(end + 0.02);
+    });
+    g.connect(bassF);
+  }
+
+  /* chop: every bar, shuffle which slice of the break plays on each step */
+  function makeChop() {
+    var m = [0];
+    for (var i = 1; i < 16; i++) {
+      var r = Math.random();
+      m[i] = r < 0.4 ? i : r < 0.58 ? m[i - 1] : (Math.random() * 16) | 0;
+    }
+    return m;
+  }
+
+  function playStep(s, t) {
+    var b = s >> 4, i = s & 15, bar = PATS[pat][b];
+    if (i === 0) chopMap = chop ? makeChop() : null;
+    var j = chopMap ? chopMap[i] : i, glyph = '.', k = false;
+    if (chop && b === 3 && i >= 12) {
+      // snare roll into the next four
+      var v = 0.35 + (i - 12) * 0.18;
+      snare(t, v); snare(t + STEP / 2, v + 0.08);
+      glyph = '#';
+    } else {
+      var kc = bar.k[j], sc = bar.s[j], rc = bar.r ? bar.r[j] : '.', hc = bar.h ? bar.h[j] : '.';
+      if (kc === 'x') { kick(t, 0.95); k = true; glyph = 'o'; }
+      if (sc === 'X') { snare(t, 0.95); glyph = 'X'; }
+      else if (sc === 'x') { snare(t, 0.38); if (glyph === '.') glyph = 'x'; }
+      if (rc === 'x') ride(t, 0.9); else if (rc === 'c') ride(t, 1, true);
+      if (hc === 'x') hat(t, j % 2 ? 0.55 : 1); else if (hc === 'o') hat(t, 1, true);
+      if (glyph === '.' && (rc !== '.' || hc !== '.')) glyph = '-';
+    }
+    if (bassMode < 2 && BASS[s]) bassNote(t, BASS[s][1], BASS[s][2] * STEP);
+    queue.push({ s: s, t: t, g: glyph, k: k });
+  }
+
+  function sched() {
+    var ahead = document.hidden ? 1.5 : 0.12;
+    while (nextT < ctx.currentTime + ahead) {
+      playStep(step, nextT);
+      nextT += STEP;
+      step = (step + 1) % 64;
+    }
+  }
+
+  /* the horn. three blasts, slightly out of tune with itself */
+  function horn() {
+    var t = ctx.currentTime + 0.02;
+    var sh = ctx.createWaveShaper(), bp = ctx.createBiquadFilter(), g = ctx.createGain();
+    sh.curve = drive(3); bp.type = 'bandpass'; bp.frequency.value = 1400; bp.Q.value = 0.7;
+    g.gain.value = 0;
+    sh.connect(bp); bp.connect(g); g.connect(master);
+    [[0, 0.11], [0.15, 0.11], [0.3, 0.62]].forEach(function (h) {
+      var st = t + h[0], en = st + h[1];
+      g.gain.setValueAtTime(0, st); g.gain.linearRampToValueAtTime(0.22, st + 0.012);
+      g.gain.setValueAtTime(0.22, en - 0.03); g.gain.linearRampToValueAtTime(0, en);
+      [0, 9, -7, 1203].forEach(function (c) {
+        var o = ctx.createOscillator(); o.type = 'sawtooth'; o.detune.value = c;
+        o.frequency.setValueAtTime(560, st); o.frequency.exponentialRampToValueAtTime(466, st + 0.05);
+        o.connect(sh); o.start(st); o.stop(en + 0.02);
+      });
+    });
+    return t + 1;
+  }
+
+  /* the rewind: a wobbly, falling whoosh, like the record being dragged back */
+  function rewindFx(t) {
+    var dur = 1.15, n = 300, fc = new Float32Array(n), pc = new Float32Array(n);
+    for (var i = 0; i < n; i++) {
+      var x = i / (n - 1), w = 1 + 0.55 * Math.sin(2 * Math.PI * (6 * x + 9 * x * x));
+      fc[i] = 300 + 2600 * Math.pow(1 - x, 1.6) * w;
+      pc[i] = 40 + 260 * Math.pow(1 - x, 1.4) * w;
+    }
+    var s = ctx.createBufferSource(), bp = ctx.createBiquadFilter(), o = ctx.createOscillator(), og = ctx.createGain(), g = ctx.createGain();
+    s.buffer = noise; s.loop = true;
+    bp.type = 'bandpass'; bp.Q.value = 2.5; bp.frequency.setValueCurveAtTime(fc, t, dur);
+    o.type = 'sawtooth'; o.frequency.setValueCurveAtTime(pc, t, dur); og.gain.value = 0.35;
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.9, t + 0.03);
+    g.gain.setValueAtTime(0.9, t + dur * 0.6); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    s.connect(bp); o.connect(og); og.connect(bp); bp.connect(g); g.connect(master);
+    s.start(t); s.stop(t + dur + 0.05); o.start(t); o.stop(t + dur + 0.05);
+  }
+
+  function wake() {
+    boot();
+    clearTimeout(sleepT);
+    if (ctx.state === 'suspended') ctx.resume();
+    out.gain.cancelScheduledValues(ctx.currentTime);
+    out.gain.setValueAtTime(1, ctx.currentTime);
+  }
+  function snooze(after) {
+    clearTimeout(sleepT);
+    sleepT = setTimeout(function () { if (!playing && ctx) ctx.suspend(); }, after);
+  }
+
+  function play() {
+    wake();
+    if (playing) return;
+    playing = true;
+    var now = ctx.currentTime;
+    [[drums, 0.8], [reeseBus, 1], [subBus, 1]].forEach(function (p) { p[0].gain.cancelScheduledValues(now); p[0].gain.setValueAtTime(p[1], now); });
+    step = 0; bars = 0; queue = []; rewindUntil = 0; nextT = now + 0.08;
+    cells.forEach(function (c) { c.textContent = '.'; c.className = ''; });
+    sched();
+    timer = setInterval(sched, 25);
+    say('ヽ(⌐■_■)ノ♪ you\'re tuned to kes fm 170.0. big up all the junglists');
+    tell('playing');
+    ui(); loop();
+  }
+  function stop() {
+    if (!ctx || !playing) return;
+    playing = false;
+    clearInterval(timer);
+    out.gain.setTargetAtTime(0, ctx.currentTime, 0.02);
+    queue = []; quietAt = ctx.currentTime + 0.6;
+    say('(˘ω˘) off air. thanks for listening x');
+    tell('stopped');
+    ui(); snooze(700);
+  }
+  function pullUp() {
+    if (!playing) { say('(・・ ) nothing to pull up yet. press play first'); return; }
+    var t = ctx.currentTime + 0.01, back = t + STEP * 16;
+    [[drums, 0.8], [reeseBus, 1], [subBus, 1]].forEach(function (p) {
+      p[0].gain.cancelScheduledValues(t);
+      p[0].gain.setTargetAtTime(0, t, 0.015);
+      p[0].gain.setValueAtTime(p[1], back - 0.005);
+    });
+    rewindFx(t);
+    queue = queue.filter(function (q) { return q.t < t; });
+    step = 0; nextT = back; rewindUntil = back;
+    say('◀◀ pull up! from the top ┌(・。・)┘♪');
+  }
+
+  function ui() {
+    playKey.setAttribute('aria-pressed', playing ? 'true' : 'false');
+    airEl.textContent = playing ? '● on air' : '● off air';
+    airEl.classList.toggle('live', playing);
+    if (!document.hidden) document.title = playing ? '♪ kes fm 170.0 ♡' : homeTitle;
+  }
+
+  function pad(n) { return ('00' + n).slice(-3); }
+  function loop() {
+    cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(draw);
+  }
+  function draw() {
+    var now = ctx.currentTime;
+    while (queue.length && queue[0].t <= now) {
+      var q = queue.shift(), c = cells[q.s & 15];
+      if (lastCell) lastCell.className = '';
+      c.textContent = q.g; c.className = 'now'; lastCell = c;
+      if (now >= rewindUntil) { rot = (rot + 1) % 4; reels.forEach(function (r) { r.textContent = spin[rot]; }); }
+      if (q.k) { cones.forEach(function (e) { e.classList.add('on'); }); coneOff = now + 0.08; }
+      if ((q.s & 15) === 0) {
+        bars++; barEl.textContent = pad(bars % 1000);
+        if (bars > 1 && bars % 8 === 1) { say(FACES[lineN % FACES.length] + ' ' + LINES[lineN % LINES.length]); lineN++; }
+      }
+    }
+    if (now < rewindUntil) { rot = (rot + 3) % 4; reels.forEach(function (r) { r.textContent = spin[rot]; }); }
+    if (coneOff && now > coneOff) { cones.forEach(function (e) { e.classList.remove('on'); }); coneOff = 0; }
+    analyser.getByteTimeDomainData(wave);
+    var sum = 0;
+    for (var i = 0; i < wave.length; i += 4) { var x = (wave[i] - 128) / 128; sum += x * x; }
+    var n = Math.min(12, Math.round(Math.sqrt(sum / (wave.length / 4)) * 48));
+    lvlEl.textContent = '[' + '|'.repeat(n) + ' '.repeat(12 - n) + ']';
+    if (playing || now < quietAt) { raf = requestAnimationFrame(draw); }
+    else {
+      lvlEl.textContent = '[            ]';
+      if (lastCell) lastCell.className = '';
+      cones.forEach(function (e) { e.classList.remove('on'); });
+    }
+  }
+
+  document.querySelector('.deck').addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (!b) return;
+    var act = b.getAttribute('data-act');
+    if (act === 'play') { playing ? stop() : play(); }
+    else if (act === 'stop') { stop(); }
+    else if (act === 'pull') { pullUp(); }
+    else if (act === 'chop') {
+      chop = !chop; b.setAttribute('aria-pressed', chop ? 'true' : 'false');
+      say(chop ? '✂ chopping up the break (and a snare roll every fourth bar)' : '(｡･ω･｡) back to the straight break');
+    }
+    else if (act === 'bass') {
+      bassMode = (bassMode + 1) % 3; b.textContent = BASS_NAMES[bassMode];
+      say(['(ง •̀_•́)ง reese back in', '(˘ω˘) just the sub now. headphones help', '(・・ ) bass off. drums only'][bassMode]);
+    }
+    else if (act === 'horn') {
+      wake(); horn();
+      say('(ﾉ≧∀≦)ﾉ ♡ horn ♡');
+      if (!playing) { quietAt = ctx.currentTime + 1.1; loop(); snooze(1500); }
+    }
+  });
+  $$('.sides button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      pat = b.getAttribute('data-pat');
+      $$('.sides button').forEach(function (o) { o.setAttribute('aria-pressed', o === b ? 'true' : 'false'); });
+      say(PAT_LINES[pat]);
+    });
+  });
+  $('#vol').addEventListener('input', function (e) {
+    vol = e.target.value / 100;
+    if (master) master.gain.setTargetAtTime(level(), ctx.currentTime, 0.03);
+  });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && playing) stop(); });
+
+  // leave the tab and it misses you (it keeps playing if it's on, though)
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) document.title = playing ? '♪ still on air x' : 'come back x';
+    else document.title = playing ? '♪ kes fm 170.0 ♡' : homeTitle;
+  });
+})();
 </script>
 </body>
 </html>

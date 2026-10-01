@@ -7,7 +7,7 @@
 <meta name="description" content="Kesia Inkersole — freelance creative strategist & internet equalities researcher, based in london.">
 <meta name="author" content="Kes Inkersole">
 <meta name="color-scheme" content="light">
-<meta name="theme-color" content="#fff7f1">
+<meta name="theme-color" content="#ffd60a">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <meta property="og:type" content="website">
 <meta property="og:title" content="kes inkersole">
@@ -18,6 +18,7 @@
 <meta name="twitter:image" content="https://kesia-coral.vercel.app/square.png">
 <style>
 :root {
+  /* the soft bit, same as before */
   --paper: #fff7f1;
   --ink: #3b1f47;     /* plum, instead of black */
   --pink: #ff5ca8;
@@ -29,80 +30,231 @@
   --butter: #ffec85;
   --blush: #ffe3ee;
   --sky: #e7e9ff;
+  /* the 'ard bit */
+  --night: #17111b;   /* black, with a bit of plum in it */
+  --hazard: #ffd60a;  /* warning tape */
+  --acid: #b6ff3b;    /* acid green, only ever on black */
+  --chrome: linear-gradient(180deg, #fff 0%, #e2e3ec 32%, #8d8b9c 48%, #3a3644 52%, #b8b6c6 72%, #fff 100%);
+  --tape: repeating-linear-gradient(-45deg, var(--night) 0 11px, var(--hazard) 11px 22px);
   --mono: Menlo, Consolas, "DejaVu Sans Mono", "Liberation Mono", "Courier New", monospace;
+  --fat: "Arial Black", "Arial Bold", Gadget, "Helvetica Neue", Arial, sans-serif;
+  --gut: clamp(16px, 3vw, 48px);
 }
 html { background: var(--paper); color: var(--ink); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
-body { margin: 0; padding: 12px clamp(16px, 3vw, 48px) 0; font: 17px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif; }
-::selection { background: var(--pink); color: #fff; }
+body { margin: 0; padding: 0 var(--gut); font: 17px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif; overflow-x: clip; }
+::selection { background: var(--hazard); color: var(--night); }
 
 a { color: var(--blue); text-decoration-color: #3d4ee055; text-underline-offset: 3px; }
 a:visited { color: var(--lilac); }
 a:hover { color: var(--rose); text-decoration: underline wavy var(--pink); }
-a:focus-visible { outline: 2px dashed var(--pink); outline-offset: 2px; }
+a:focus-visible, button:focus-visible, input:focus-visible { outline: 3px dashed var(--pink); outline-offset: 3px; }
 
-h1, h2 { font: bold 1rem/1.3 var(--mono); color: var(--rose); margin: 0 0 .6em; }
-h2 i { font-style: normal; color: var(--pink); }
-h1 { font-size: 1.6rem; }
-h2 span, mark { background: linear-gradient(transparent 45%, var(--butter) 45%, var(--butter) 92%, transparent 92%); color: inherit; }
-ul { list-style: none; margin: 0; padding: 0; }
+h1, h2, h3 { margin: 0 0 .6em; }
+ul, ol { list-style: none; margin: 0; padding: 0; }
 li { padding-left: 1.3em; margin-bottom: .3em; }
 li::before { content: "☆"; display: inline-block; width: 1.3em; margin-left: -1.3em; color: var(--gold); }
 li:hover::before { content: "★"; color: var(--pink); }
+mark { background: linear-gradient(transparent 45%, var(--butter) 45%, var(--butter) 92%, transparent 92%); color: inherit; }
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
-/* ascii. all plain ascii characters, so it lines up in any monospace font */
+/* ---------- warning tape, top and bottom of the page ---------- */
+.tape { margin: 0 calc(-1 * var(--gut)); background: var(--hazard); color: var(--night); overflow: hidden; border-block: 7px solid transparent; border-image: var(--tape) 7; }
+.tape div { display: flex; width: max-content; animation: run 60s linear infinite; }
+.tape span { font: 900 13px/1 var(--fat); letter-spacing: .08em; text-transform: uppercase; white-space: pre; padding: 6px 0 5px; }
+@keyframes run { to { transform: translateX(-50%); } }
+
+/* ---------- ascii. all plain ascii characters, so it lines up in any monospace font ---------- */
 .art { font: 15px/1.15 var(--mono); margin: 0; white-space: pre; color: var(--ink); }
 .art .p { color: var(--pink); }
 .art .n { color: var(--pink); font-weight: bold; }
+.art .r { color: var(--rose); font-weight: bold; }
 .art .b, .wire { color: var(--blue); }
 .art .y { color: var(--gold); }
 .art .l { color: var(--lilac); }
 .art .g { color: var(--mint); }
+.art .k { color: var(--ink); }
 .wire i { color: var(--pink); font-style: normal; }
 .shut { display: none; }
 header:hover .open { display: none; }
 header:hover .shut { display: inline; }
 
-/* the banner is 126 characters wide, so it's sized to fill the page */
-header { container-type: inline-size; margin-bottom: 28px; }
-.banner { font-size: 1.1vw; font-size: min(32px, 100cqi / 77.5); }
-.banner.small { display: none; font-size: min(17px, 100cqi / 23.4); }
+/* the banner is 120 characters wide, so it's sized to fill the page */
+header { container-type: inline-size; margin: 22px 0 26px; }
+.banner { font-size: 1vw; font-size: min(32px, 100cqi / 73.8); }
+.banner.small { display: none; font-size: min(17px, 100cqi / 30.8); }
 
-.hello { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 4fr) auto; gap: 32px 56px; align-items: start; margin-bottom: 64px; }
+/* ---------- hello ---------- */
+.hello { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 4fr) auto; gap: 32px 48px; align-items: start; margin-bottom: 56px; }
 .hello p { font-size: 1.15rem; margin: 0 0 .8em; max-width: 34em; }
-.lately { background: var(--blush); border-radius: 18px; padding: 18px 24px 12px; }
+
+/* the "hello my name is" sticker, slapped on */
+.slap { display: inline-block; margin: 0 0 22px; background: #fff; border-radius: 14px; overflow: hidden; transform: rotate(-2.5deg); box-shadow: 0 0 0 3px var(--pink), 5px 7px 0 3px #3b1f4722; text-align: center; }
+.slap b { display: block; background: var(--pink); color: #fff; font: 900 26px/1 var(--fat); letter-spacing: .06em; text-transform: uppercase; padding: 10px 28px 2px; }
+.slap small { display: block; background: var(--pink); color: #fff; font: bold 13px/1 var(--mono); padding: 2px 0 9px; }
+.slap span { display: block; padding: 4px 34px 16px 26px; font: italic 900 clamp(48px, 5.4vw, 72px)/1.05 var(--fat); color: var(--ink); letter-spacing: -.06em; transform: skewX(-12deg) rotate(-3deg); }
+.slap span i { font-style: normal; color: var(--pink); font-size: .6em; vertical-align: .35em; letter-spacing: 0; }
+
+/* lately, as an early-90s rave flyer (but it's lorem ipsum) */
+.flyer { position: relative; background: var(--night); color: #f4eef7; border-radius: 6px; padding: 22px 24px 16px; box-shadow: 6px 6px 0 var(--pink); transform: rotate(.8deg); margin-top: 8px; }
+.flyer .pre { font: bold 12px/1.2 var(--mono); letter-spacing: .2em; text-transform: uppercase; color: var(--acid); margin: 0 0 4px; }
+.flyer h2 { font: italic 900 clamp(44px, 4.4vw, 64px)/1 var(--fat); letter-spacing: -.04em; margin: 0 0 .25em; }
+.chrome { background: var(--chrome); -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-stroke: 1px #ffffff66; filter: drop-shadow(3px 3px 0 var(--pink)); padding-right: .1em; }
+.flyer li::before { content: "✦"; color: var(--acid); }
+.flyer li:hover::before { content: "✦"; color: var(--pink); }
+.flyer .fine { font: 12px/1.4 var(--mono); color: #c9bfd0; border-top: 2px dashed #ffffff33; padding-top: 10px; margin: 14px 0 0; }
+.burst { position: absolute; right: 14px; top: -26px; width: 92px; height: 92px; display: grid; place-items: center; text-align: center; background: var(--hazard); color: var(--night); font: 900 13px/1.05 var(--fat); text-transform: uppercase; clip-path: polygon(50% 0, 61% 18%, 82% 8%, 80% 30%, 100% 36%, 86% 52%, 100% 68%, 79% 72%, 82% 93%, 61% 83%, 50% 100%, 39% 83%, 18% 93%, 21% 72%, 0 66%, 14% 52%, 0 36%, 20% 30%, 18% 8%, 39% 18%); transform: rotate(12deg); }
 .bunny:hover { animation: hop .5s; }
 @keyframes hop { 40% { transform: translateY(-8px); } }
 
+/* ---------- kes fm, the jungle machine ---------- */
+.radio { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 40px 56px; align-items: start; margin-bottom: 64px; }
+.box { container-type: inline-size; position: relative; background: var(--night); color: #efe8f3; border-radius: 28px; padding: 26px clamp(14px, 2.4vw, 30px) 22px; margin-top: 30px; box-shadow: inset 0 0 0 3px #4a4352, inset 0 0 0 6px var(--night), inset 0 0 0 8px #9b98aa, 0 10px 0 -2px #00000022; }
+.box::before { /* the handle */ content: ""; position: absolute; left: 22%; right: 22%; top: -26px; height: 30px; border: 7px solid #9b98aa; border-bottom: 0; border-radius: 20px 20px 0 0; }
+.box .strip { position: absolute; left: 34px; top: -12px; background: var(--hazard); border-block: 5px solid transparent; border-image: var(--tape) 5; color: var(--night); font: 900 11px/1 var(--fat); letter-spacing: .1em; padding: 4px 10px 3px; text-transform: uppercase; transform: rotate(-3deg); }
+.brand { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 14px; margin: 6px 0 2px; }
+.brand b { font: italic 900 clamp(34px, 4vw, 54px)/1 var(--fat); letter-spacing: -.03em; }
+.lamp { font: bold 11px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; border: 2px solid #5c5465; color: #8c8396; border-radius: 99px; padding: 5px 10px 4px; }
+.box.on .lamp { border-color: #ff3b6b; color: #fff; background: #ff3b6b; box-shadow: 0 0 14px #ff3b6b; }
+.ident { font: 13px/1.4 var(--mono); color: #bdb3c6; margin: 0 0 16px; }
+.mid { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 18px; align-items: center; }
+.spk { position: relative; width: clamp(84px, 8.4vw, 128px); aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, #3b3442 0 13%, #09070b 14% 18%, #2f2836 19% 42%, #09070b 43% 46%, #262029 47% 68%, #09070b 69% 72%, #57505f 73%); box-shadow: 0 0 0 4px #9b98aa, 0 0 0 7px #2a2430; transition: transform .07s; }
+.spk::after { content: "♡"; position: absolute; inset: 0; display: grid; place-items: center; color: var(--pink); font: bold 15px/1 var(--mono); }
+.box.thump .spk { transform: scale(1.06); }
+.lcd { background: #0a1806; color: var(--acid); border-radius: 10px; padding: 10px 12px 8px; box-shadow: inset 0 0 0 2px #24391b, inset 0 0 22px #b6ff3b1f; text-shadow: 0 0 6px #b6ff3b88; font: 14px/1.45 var(--mono); }
+.lcd p { margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cells { display: grid; grid-template-columns: repeat(16, minmax(0, 1fr)); gap: 3px; margin: 8px 0; }
+.cells span { text-align: center; border: 1px solid #2c4a1f; border-radius: 3px; font: bold 12px/20px var(--mono); color: #79a646; text-shadow: none; }
+.cells span:nth-child(4n+1) { border-color: #4f7a35; }
+.cells .rv { color: var(--pink); }
+.cells .st { text-decoration: underline; }
+.cells .on { background: var(--acid); color: var(--night); }
+.cass { display: flex; align-items: center; gap: 10px; margin-top: 10px; background: #ece6f1; color: var(--night); border-radius: 8px; padding: 7px 10px; box-shadow: inset 0 0 0 2px #b9b1c2; font: bold 12px/1.3 var(--mono); }
+.cass span { flex: 1; text-align: center; background: var(--blush); border-radius: 4px; padding: 3px 6px; }
+.reel { flex: none; width: 30px; height: 30px; border-radius: 50%; border: 3px dashed var(--night); background: radial-gradient(circle, #fff 0 24%, var(--night) 25% 34%, #cfc8d6 35%); animation: spin 1.4s linear infinite paused; }
+.box.on .reel { animation-play-state: running; }
+@keyframes spin { to { transform: rotate(-360deg); } }
+
+.keys { display: flex; flex-wrap: wrap; gap: 12px 10px; margin: 20px 0 6px; }
+.key { font: 900 16px/1 var(--fat); text-transform: lowercase; padding: 13px 16px 12px; border-radius: 9px; border: 2px solid var(--night); background: linear-gradient(#fdfcff, #c8c4d2); color: var(--night); box-shadow: 0 4px 0 #7a7486, 0 5px 0 2px var(--night); cursor: pointer; }
+.key:active { transform: translateY(3px); box-shadow: 0 1px 0 #7a7486, 0 2px 0 2px var(--night); }
+.key.play { background: linear-gradient(#ecffcf, var(--acid)); }
+.key.stop { background: var(--hazard); font-size: 18px; padding-inline: 22px; }
+.key.pull { background: linear-gradient(#ffd6ea, var(--pink)); }
+.key[disabled] { opacity: .4; cursor: not-allowed; transform: none; }
+.ctl { display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: center; margin-top: 16px; font: 13px/1.2 var(--mono); color: #cfc6d8; }
+.grp { display: inline-flex; align-items: center; gap: 8px; }
+.grp > span:first-child { color: #9f95aa; }
+.pill { display: inline-flex; border: 2px solid #5c5465; border-radius: 99px; overflow: hidden; }
+.ctl button { font: bold 13px/1 var(--mono); background: transparent; color: #efe8f3; border: 0; padding: 8px 11px 7px; cursor: pointer; }
+.ctl button + button { border-left: 2px solid #5c5465; }
+.ctl button[aria-pressed="true"] { background: var(--acid); color: var(--night); }
+.ctl .solo { border: 2px solid #5c5465; border-radius: 99px; }
+.ctl .solo[disabled] { opacity: .4; cursor: not-allowed; }
+.ctl label { display: inline-flex; align-items: center; gap: 8px; }
+.ctl input[type="range"] { width: 120px; accent-color: var(--pink); }
+.ctl output { color: var(--acid); min-width: 2.5em; }
+.textin { margin: 18px 0 0; padding-top: 12px; border-top: 2px dashed #ffffff26; font: 13px/1.4 var(--mono); color: #bdb3c6; }
+.box a { color: var(--acid); text-decoration-color: #b6ff3b66; }
+.box a:hover { color: var(--pink); }
+.smiley { position: absolute; right: 22px; top: -30px; width: 64px; height: 64px; border-radius: 50%; border: 3px solid var(--night); transform: rotate(14deg);
+  background: radial-gradient(circle at 26% 62%, #ff8fc2 0 9%, transparent 10%), radial-gradient(circle at 74% 62%, #ff8fc2 0 9%, transparent 10%), var(--hazard); }
+.smiley::before { content: ""; position: absolute; left: 30%; top: 22%; width: 9%; height: 24%; border-radius: 50%; background: var(--night); box-shadow: 15px 0 0 var(--night); }
+.smiley::after { content: ""; position: absolute; left: 22%; right: 22%; top: 40%; height: 30%; border: 4px solid var(--night); border-top: 0; border-radius: 0 0 99px 99px; }
+.nope .keys, .nope .ctl { display: none; }
+.sorry { display: none; }
+.nope .sorry { display: block; }
+
+.notes p { margin: 0 0 .9em; max-width: 36em; }
+.notes .how li::before { content: "→"; color: var(--pink); }
+.due { margin-top: 22px; background: var(--butter); border-radius: 18px; padding: 18px 22px 8px; position: relative; }
+.due::before { content: ""; position: absolute; left: 24px; top: -9px; width: 86px; height: 18px; background: var(--tape); transform: rotate(-4deg); }
+.due h3 { font: bold 1rem/1.3 var(--mono); color: var(--rose); }
+.due p { font-size: .97rem; }
+
+/* tags, like a marker on a bus seat */
+.tag { display: inline-block; margin: 0 0 .7em; font: italic 900 clamp(24px, 2.3vw, 32px)/1.1 var(--fat); letter-spacing: -.05em; color: var(--blue); transform: rotate(-2deg) skewX(-10deg); text-shadow: 2px 2px 0 var(--butter); }
+.tag::after { content: ""; display: block; height: 4px; width: 86%; margin: 3px 0 0 6%; background: currentColor; border-radius: 99px; transform: rotate(-1.2deg); }
+.tag i { font-style: normal; font-size: .55em; letter-spacing: 0; vertical-align: .3em; color: var(--pink); }
+.tag.rose { color: var(--rose); }
+.tag.mint { color: var(--mint); }
+.tag.lilac { color: var(--lilac); }
+
+/* ---------- the wall, with a throw-up on it ---------- */
+.wall { position: relative; margin: 0 0 32px; padding: 26px 24px 30px; border-radius: 6px;
+  background:
+    linear-gradient(var(--paper) 3px, transparent 0) 0 0 / 100% 30px,
+    conic-gradient(at 3px 50%, transparent 75%, var(--paper) 0) 0 0 / 64px 60px,
+    conic-gradient(at 3px 50%, transparent 75%, var(--paper) 0) 32px 30px / 64px 60px,
+    var(--blush); }
+.throw { position: relative; z-index: 0; margin: 0; font: 900 clamp(36px, 5.6vw, 84px)/1.02 var(--fat); letter-spacing: -.03em; color: var(--pink); -webkit-text-stroke: 3px var(--ink); paint-order: stroke fill; transform: rotate(-2deg);
+  text-shadow: 1px 1px 0 var(--ink), 2px 2px 0 var(--ink), 3px 3px 0 var(--ink), 4px 4px 0 var(--ink), 5px 5px 0 var(--ink), 6px 6px 0 var(--ink), 8px 7px 0 var(--butter); }
+.throw .sm { font-size: .62em; color: var(--sky); white-space: nowrap; }
+.dr { position: relative; }
+.dr::after { content: ""; position: absolute; z-index: -1; left: 38%; top: 70%; width: .14em; height: .62em; background: var(--pink); border: 3px solid var(--ink); border-top: 0; border-radius: 0 0 99px 99px; transform-origin: top; animation: drip 5s ease-in-out infinite alternate; }
+.sm .dr::after { background: var(--sky); }
+.dr:nth-of-type(2n)::after { height: .9em; animation-delay: -2s; }
+@keyframes drip { from { transform: scaleY(.55); } to { transform: scaleY(1.08); } }
+.wall .smiley { right: 4%; top: auto; bottom: -22px; transform: rotate(-10deg); }
+
 .funds { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px 40px; margin-bottom: 56px; }
 .funds p { margin: 0 0 .6em; max-width: 36em; }
-.photos { display: flex; gap: 8px; }
+.photos { position: relative; display: flex; gap: 8px; padding-top: 6px; }
+.photos::before, .photos::after { content: ""; position: absolute; z-index: 1; top: -2px; width: 64px; height: 16px; background: var(--tape); opacity: .92; }
+.photos::before { left: 10px; transform: rotate(-7deg); }
+.photos::after { right: 10px; transform: rotate(6deg); }
 .photos img { flex: 1.5 1 0; min-width: 0; height: auto; border-radius: 8px; background: var(--sky); transition: transform .2s; }
 .photos img.tall { flex-grow: .75; }
 .photos img:nth-child(2n) { background: var(--blush); }
 .photos img:hover { transform: rotate(-2deg); }
 .photos img:nth-child(2n):hover { transform: rotate(2deg); }
 .cap { font: 13px/1.4 var(--mono); color: var(--lilac); }
+.funds a { font-weight: bold; }
 
 .lists { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0 48px; margin-bottom: 24px; }
 .lists section { margin-bottom: 32px; }
 .pods { grid-column: span 2; }
-.pods ul { columns: 2; column-gap: 48px; }
-.pods li { break-inside: avoid; }
 
-.dolls { overflow: hidden; margin: 8px 0 32px; }
+/* podcasts, as a tape pack */
+.pack { background: var(--night); color: #fff; border-radius: 8px 8px 0 0; padding: 12px 16px 10px; margin: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; box-shadow: 5px 5px 0 var(--lilac); }
+.pack b { font: italic 900 clamp(24px, 2.3vw, 32px)/1 var(--fat); letter-spacing: -.04em; }
+.pack small { font: bold 12px/1.2 var(--mono); color: var(--acid); letter-spacing: .14em; text-transform: uppercase; }
+.tapes { counter-reset: tape; columns: 2; column-gap: 14px; border: 3px solid var(--night); border-top: 0; border-radius: 0 0 8px 8px; padding: 14px 14px 6px; background: var(--paper); box-shadow: 5px 5px 0 var(--lilac); }
+.tapes li { counter-increment: tape; break-inside: avoid; position: relative; padding: 8px 12px 8px 58px; margin: 0 0 10px; border: 2px solid var(--ink); border-radius: 5px; background: var(--sky); line-height: 1.35; }
+.tapes li:nth-child(4n+2) { background: var(--blush); }
+.tapes li:nth-child(4n+3) { background: var(--butter); }
+.tapes li:nth-child(4n+4) { background: #dff5e8; }
+.tapes li::before { content: "tape " counter(tape, decimal-leading-zero); position: absolute; left: 0; top: 0; bottom: 0; width: 46px; margin: 0; display: grid; place-items: center; background: var(--night); color: var(--hazard); font: bold 10px/1.1 var(--mono); text-align: center; padding: 0 4px; border-radius: 2px 0 0 2px; }
+.tapes li:hover::before { content: "tape " counter(tape, decimal-leading-zero); color: var(--acid); }
 
-.serious { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 32px 56px; align-items: start; margin-bottom: 40px; }
+.crowd, .sky { overflow: hidden; }
+.crowd { margin: 8px 0 36px; }
+
+/* the serious bit, stencilled */
+.serious { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 32px 56px; align-items: start; margin-bottom: 48px; }
 .serious > div > p:first-of-type { font-size: 1.25rem; max-width: 34em; }
-.hi { background: var(--sky); border-radius: 18px; padding: 18px 24px; }
-.hi p { margin: 0 0 .8em; max-width: 40em; }
-.meadow { overflow: hidden; padding-bottom: 6px; }
+.stencil { font: 900 clamp(30px, 3.4vw, 46px)/1 var(--fat); letter-spacing: .1em; text-transform: uppercase; }
+.stencil span { color: transparent; background: linear-gradient(var(--ink) 0 45%, transparent 45% 55%, var(--ink) 55%); -webkit-background-clip: text; background-clip: text; filter: drop-shadow(0 0 3px #3b1f4766); }
+.stencil i { font: normal bold 1rem var(--mono); letter-spacing: 0; text-transform: none; color: var(--pink); vertical-align: middle; margin-left: .4em; }
 
+/* say hi, through a bus window, with someone's marker on it */
+.hi { position: relative; border-radius: 26px; padding: 30px 26px 14px; background: linear-gradient(155deg, #f4f8ff 0%, #dfe9ff 45%, #eef2ff 46%, #e3ecff 100%); box-shadow: inset 0 0 0 7px var(--night), 0 0 0 9px var(--pink), 0 0 0 13px var(--night); margin: 13px; }
+.hi p { margin: 0 0 .8em; max-width: 40em; }
+.hi .next { font: bold 12px/1.2 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--hazard); background: var(--night); display: inline-block; padding: 6px 10px 5px; border-radius: 4px; }
+.scrawl { position: absolute; right: 22px; top: 18px; font: italic 900 30px/1 var(--fat); color: var(--rose); opacity: .78; letter-spacing: -.08em; transform: rotate(-9deg) skewX(-16deg); }
+.scrawl::after { content: ""; display: block; height: 3px; background: currentColor; border-radius: 99px; margin-top: 2px; transform: rotate(4deg); }
+
+@media (prefers-reduced-motion: reduce) {
+  .tape div, .dr::after, .reel { animation: none; }
+  .box.thump .spk { transform: none; }
+}
 @media (max-width: 1240px) {
   .lists { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
 }
 @media (max-width: 1100px) {
   .hello { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
   .hello > div:first-child { grid-row: span 2; }
+  .radio { grid-template-columns: minmax(0, 1fr); }
+  .notes { max-width: 760px; }
 }
 @media (max-width: 900px) {
   .funds, .serious { grid-template-columns: minmax(0, 1fr); }
@@ -115,57 +267,71 @@ header { container-type: inline-size; margin-bottom: 28px; }
   .hello, .lists { grid-template-columns: minmax(0, 1fr); }
   .hello > div:first-child { grid-row: auto; }
   .pods { grid-column: auto; }
-  .pods ul { columns: 1; }
+  .tapes { columns: 1; }
   .art { font-size: 13px; }
+  .flyer { transform: none; }
+  .wall { padding: 20px 14px 26px; }
+}
+@container (max-width: 540px) {
+  .spk { display: none; }
+  .mid { grid-template-columns: minmax(0, 1fr); }
+  .smiley { width: 52px; height: 52px; right: 12px; }
 }
 </style>
 </head>
 <body>
 
-<!-- hiya, you're reading the source :) it's still mostly just html, take whatever's useful x -->
+<!-- hiya, you're reading the source :) it's still mostly just html, take whatever's useful x
+     big up for reading this far. the jungle machine is the script at the bottom. -->
+
+<div class="tape" aria-hidden="true"><div><span>  ⚠ caution  ⚠ cute but 'ard  ⚠ kes fm, 170 on your dial  ⚠ (◕‿◕✿)  ⚠ no autoplay, promise  ⚠ still mostly just html  ⚠ nothing sampled  ⚠ big up all the junglists  </span><span>  ⚠ caution  ⚠ cute but 'ard  ⚠ kes fm, 170 on your dial  ⚠ (◕‿◕✿)  ⚠ no autoplay, promise  ⚠ still mostly just html  ⚠ nothing sampled  ⚠ big up all the junglists  </span></div></div>
 
 <header>
-<!-- me and the internet, in ascii. the little <3 on the cable moves (the script's at the bottom) -->
+<!-- my computer, with its headphones on, wired into the pirate rig on the tower block. the little <3 on the cable moves -->
 <pre class="art banner big" aria-hidden="true">
-                <span class="b">.---------------.</span>                   <span class="y">.                    *                     +</span>
-               <span class="b">( hello, world</span> <span class="p">&lt;3</span> <span class="b">)</span>          <span class="y">*                                       .                          *</span>
-                <span class="b">'-----.---------'</span>                            <span class="y">+                                         .</span>
-                     <span class="b">/</span>                <span class="y">.                                        +</span>                               .-----------.
-   .----------------.                                                                                          |    ---    |
-   | .------------. |                                                                                          | .-------. |
-   | |            | |       <span class="n">_                                _                                _</span>                | |       | |
-   | |  ^      <span class="open">^</span><span class="shut">-</span>  | |      <span class="n">( )                     _        ( )                              (_ )</span>              | | <span class="p">_  _</span>  | |
-   | |  <span class="p">..</span>  w  <span class="p">..</span> | |      <span class="n">| |/')    __    ___    (_)  ___  | |/')    __   _ __   ___    _    | |    __</span>        | |<span class="p">( \/ )</span> | |
-   | |            | |      <span class="n">| , &lt;   /'__`\/',__)   | |/' _ `\| , &lt;   /'__`\( '__)/',__) /'_`\  | |  /'__`\</span>      | | <span class="p">\  /</span>  | |
-   | '------------' |      <span class="n">| |\`\ (  ___/\__, \   | || ( ) || |\`\ (  ___/| |   \__, \( (_) ) | | (  ___/</span>      | |  <span class="p">\/</span>   | |
-   |  ==        o   |      <span class="n">(_) (_)`\____)(____/   (_)(_) (_)(_) (_)`\____)(_)   (____/`\___/'(___)`\____)</span>      | |       | |
-   '----------------'         <span class="y">.                                                             +</span>                  | '-------' |
-       _|______|_                                         <span class="y">*</span>                                                    |    (_)    |
-      [__________]<span class="b">=.</span>                                                  <span class="y">.</span>                                        '-----.-----'
-                   <span class="b">'</span><span class="wire">-------------------------------------------------------------------------------------------------</span><span class="b">'</span>
+   <span class="b">.-------------------.</span>  <span class="y">.      *</span>                        <span class="p">&lt;3</span>          <span class="y">.        *</span>
+  <span class="b">(  big up, world!</span> <span class="p">&lt;</span><span class="b">3  )</span>   <span class="n">.----.   .-----.</span> <span class="y">+</span> <span class="n">.-----------.     .---------.</span>
+   <span class="b">'---.---------------'</span>    <span class="n">|</span> <span class="y">*</span>  <span class="n">|</span><span class="k">::</span><span class="n">/     /</span><span class="k">:::</span> <span class="n">|    .------'</span><span class="k">::</span>  <span class="n">/    .-----'</span><span class="k">::</span>              <span class="y">.</span>           <span class="p">(((</span> | <span class="p">)))</span>
+      <span class="b">/</span>                     <span class="n">|</span><span class="y">'</span>   <span class="n">|</span><span class="k">:</span><span class="n">/     /</span><span class="k">:::</span>  <span class="n">|</span> <span class="y">*</span>  <span class="n">|</span><span class="k">:::::::::</span> <span class="n">|</span> <span class="y">*</span>  <span class="n">|</span><span class="k">:::::::::</span>                   <span class="y">*</span>         <span class="b">-+-</span>
+     <span class="l">.------------.</span>         <span class="n">|    |/     /</span><span class="k">:::</span>   <span class="n">|    |</span><span class="k">::</span>        <span class="n">|</span><span class="y">'</span>   <span class="n">'-----.</span>      .--------------.           <span class="b">|</span>
+   <span class="l">.'              '.</span>       <span class="n">|          /</span><span class="k">:::</span>    <span class="n">|    '----.      \          \</span><span class="k">:</span>    |  <span class="l">(o)    (o)</span>  |    .------'------.
+  <span class="l">/</span>.----------------.<span class="l">\</span>      <span class="n">|          \</span><span class="k">::</span>     <span class="n">|    .----'</span><span class="k">::</span>     <span class="n">'-----.    |</span><span class="k">:</span>   |  <span class="p">..</span>   w   <span class="p">..</span> |    | [] [] [] [] |
+ <span class="l">.-</span>| .------------. |<span class="l">-.</span>     <span class="n">|    |\</span> <span class="y">+</span>   <span class="n">\</span><span class="k">:</span>     <span class="n">|    |</span><span class="k">:::::::      :::::</span><span class="n">|    |</span><span class="k">:</span>   |<span class="k">==============</span>|    | [] [] [] [] |
+ <span class="l">|</span><span class="p">#</span><span class="l">|</span> |  ^      <span class="open">^</span><span class="shut">-</span>  | |<span class="l">#</span><span class="p">|</span>     <span class="n">|    |</span><span class="k">:</span><span class="n">\     \</span><span class="k">:</span>    <span class="n">|    |</span><span class="k">::</span>         <span class="n">.------'</span><span class="y">.</span>   <span class="n">/</span><span class="k">:</span>   |  <span class="l">.--------.</span>  | <span class="p">)</span>  | [] [] &lt;<span class="p">3</span> [] |
+ <span class="l">'-</span>| |  <span class="p">.</span>.  w  <span class="p">.</span>. | |<span class="l">-'</span>     <span class="n">|    |</span><span class="k">::</span><span class="n">\     \</span><span class="k">:</span>   <span class="n">|    '------.   (           /</span><span class="k">::</span>   | <span class="l">( ( (  ) ) )</span> |  <span class="p">)</span> | [] [] [] [] |  <span class="y">.</span>
+   | |            | |       <span class="n">'----'</span><span class="k">::</span> <span class="n">'-----'</span><span class="k">:</span>  <span class="n">'-----------'</span><span class="k">::</span>  <span class="n">'---------'</span><span class="k">:::</span>   |  <span class="l">'--------'</span>  |    | [] [] [] [] |
+   | '------------' |        <span class="k">:</span><span class="n">|</span><span class="k">:::::  :</span><span class="n">|</span><span class="k">::::::  ::</span><span class="n">|</span><span class="k">:::::</span><span class="n">|</span><span class="k">:::::   :::</span><span class="n">|</span><span class="k">::</span><span class="n">|</span><span class="k">:::::</span>    |<span class="k">==============</span>|    | [] ^<span class="l">^</span> [] [] |
+   |  ==        o   |         <span class="n">|        |          |     '           |  |</span>     <span class="p">&lt;3</span>  |  <span class="l">.--------.</span>  | <span class="p">)</span>  | [] [] [] [] |
+   '----------------'         <span class="n">|        '          |                 '  |</span>         | <span class="l">( ( (  ) ) )</span> |  <span class="p">)</span> |    .---.    |   <span class="y">+</span>
+       _|______|_             <span class="n">o                   o</span> <span class="b">~ inkersole ~~&gt;</span>    <span class="n">o</span>         |  <span class="l">'--------'</span>  |    |    |   |    |
+      [__________]<span class="b">=.</span>       <span class="y">*</span>                                                     '--------------'    '----'-.-'----'
+                   <span class="b">'</span><span class="wire">----------------------------------------------------------------------------------------</span><span class="b">'</span>
 </pre>
 <pre class="art banner small" aria-hidden="true">
-         <span class="b">.--------.</span>            <span class="y">.</span>
-  <span class="y">.</span>     <span class="b">( hiya!</span> <span class="p">&lt;3</span> <span class="b">)</span>    <span class="y">*</span>
-         <span class="b">'---.----'</span>                <span class="y">+</span>
-            <span class="b">/</span>
- .-----------.
- | .-------. |
- | |       | |   <span class="n">_</span>
- | | ^ w <span class="open">^</span><span class="shut">-</span> | |  <span class="n">( )</span>
- | |       | |  <span class="n">| |/')    __    ___</span>
- | '-------' |  <span class="n">| , &lt;   /'__`\/',__)</span>
- |  ==   o   |  <span class="n">| |\`\ (  ___/\__, \</span>
- '-----------'  <span class="n">(_) (_)`\____)(____/</span>
-    _|___|_
-   [_______]<span class="b">=.</span>
-             <span class="b">'</span><span class="wire">----------------------</span><span class="b">&gt;</span>
+   <span class="b">.-------------------.</span>                     <span class="y">.</span>
+  <span class="b">(  big up, world!</span> <span class="p">&lt;</span><span class="b">3  )</span>     <span class="y">*</span>
+   <span class="b">'---.---------------'</span>                <span class="y">+</span>
+       <span class="b">\</span>                                       <span class="y">*</span>
+<span class="n">.----.   .-----.   .-----------.     .---------.</span>
+<span class="n">|</span> <span class="y">*</span>  <span class="n">|</span><span class="k">::</span><span class="n">/     /</span><span class="k">:::</span> <span class="n">|    .------'</span><span class="k">::</span>  <span class="n">/    .-----'</span><span class="k">::</span>
+<span class="n">|</span><span class="y">'</span>   <span class="n">|</span><span class="k">:</span><span class="n">/     /</span><span class="k">:::</span>  <span class="n">|</span> <span class="y">*</span>  <span class="n">|</span><span class="k">:::::::::</span> <span class="n">|</span> <span class="y">*</span>  <span class="n">|</span><span class="k">:::::::::</span>
+<span class="n">|    |/     /</span><span class="k">:::</span>   <span class="n">|    |</span><span class="k">::</span>        <span class="n">|</span><span class="y">'</span>   <span class="n">'-----.</span>
+<span class="n">|          /</span><span class="k">:::</span>    <span class="n">|    '----.      \          \</span><span class="k">:</span>
+<span class="n">|          \</span><span class="k">::</span>     <span class="n">|    .----'</span><span class="k">::</span>     <span class="n">'-----.    |</span><span class="k">:</span>
+<span class="n">|    |\</span> <span class="y">+</span>   <span class="n">\</span><span class="k">:</span>     <span class="n">|    |</span><span class="k">:::::::      :::::</span><span class="n">|    |</span><span class="k">:</span>
+<span class="n">|    |</span><span class="k">:</span><span class="n">\     \</span><span class="k">:</span>    <span class="n">|    |</span><span class="k">::</span>         <span class="n">.------'</span><span class="y">.</span>   <span class="n">/</span><span class="k">:</span>
+<span class="n">|    |</span><span class="k">::</span><span class="n">\     \</span><span class="k">:</span>   <span class="n">|    '------.   (           /</span><span class="k">::</span>
+<span class="n">'----'</span><span class="k">::</span> <span class="n">'-----'</span><span class="k">:</span>  <span class="n">'-----------'</span><span class="k">::</span>  <span class="n">'---------'</span><span class="k">:::</span>
+ <span class="k">:</span><span class="n">|</span><span class="k">:::::  :</span><span class="n">|</span><span class="k">::::::  ::</span><span class="n">|</span><span class="k">:::::</span><span class="n">|</span><span class="k">:::::   :::</span><span class="n">|</span><span class="k">::</span><span class="n">|</span><span class="k">:::::</span>
+  <span class="n">|        |          |     '           |  |</span>
+  <span class="n">|        '          |                 '  |</span>
+  <span class="n">o                   o</span> <span class="b">~ inkersole ~~&gt;</span>    <span class="n">o</span>
 </pre>
 </header>
 
 <div class="hello">
 <div>
-<h1>hello, i'm kes ♡</h1>
+<h1 class="slap"><b>hello</b> <small>my name is</small> <span>kes <i>♡</i></span></h1>
 
 <p>(kesia inkersole, if we're being formal.) i'm a freelance creative strategist and internet equalities researcher, based in london, and an associate lecturer at UAL (LCF + CCI).</p>
 
@@ -174,29 +340,98 @@ header { container-type: inline-size; margin-bottom: 28px; }
 <p><mark>i'm available for work!</mark> <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a> (cv and portfolio on request x)</p>
 </div>
 
-<div class="lately">
-<h2><span>lately</span> <i aria-hidden="true">⋆｡°✩</i></h2>
+<div class="flyer">
+<p class="pre">kes inkersole presents</p>
+<h2><span class="chrome">lately</span></h2>
 <ul>
 <li>lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
 <li>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</li>
 <li>ut enim ad minim veniam, quis nostrud exercitation</li>
 </ul>
+<p class="fine">strictly lorem ipsum ✧ no dress code ✧ it's a website, not a rave</p>
+<span class="burst" aria-hidden="true">free<br>entry</span>
 </div>
 
+<!-- the bunny's tagged the sign -->
 <pre class="art bunny" aria-hidden="true">
- .--------------------.
- |  i'm available     |
- |  for work !!  <span class="p">&lt;3</span>   |
- '---------. .--------'
-           | |
-    (\_/)  | |
-   ( ^.^ )o| |
-   (")_(") | |
- <span class="g">,,,,,,,,,,</span>|_|<span class="g">,,,,,,,,,,</span>
+ .---------------------.
+ |  i'm available      |
+ |  for work !!  <span class="p">&lt;</span>3    |
+ '--<span class="n">.</span>------<span class="n">.</span>-------<span class="n">.</span>---'
+    <span class="n">|      |       |</span>
+    <span class="n">|      '       |</span>
+    <span class="n">'</span>        <span class="y">*  ~</span>  <span class="n">|</span>
+   (\_/)  <span class="l">~ ~ ~</span>    <span class="n">o</span>
+  ( ^.^ )o<span class="b">[]</span>
+  (")_(")
+ <span class="g">,,,,,,,,,,,,,,,,,,,,,,,</span>
+
 </pre>
 </div>
 
-<h2><span>projects (for funds)</span></h2>
+<!-- KES FM. a tiny jungle machine. nothing plays until you press play -->
+<section class="radio" aria-labelledby="fm-h">
+<div class="box" id="fm">
+<span class="strip" aria-hidden="true">live ⚠ 170 ⚠ side a</span>
+<span class="smiley" aria-hidden="true"></span>
+<p class="brand"><b class="chrome">KES FM</b> <span class="lamp" id="lamp">off air</span></p>
+<p class="ident">broadcasting live from your own browser ✧ 170.0 on the dial (that's the bpm, not a frequency)</p>
+
+<div class="mid">
+<span class="spk" aria-hidden="true"></span>
+<div>
+<div class="lcd" aria-hidden="true">
+<p id="lcd1">KES FM 170.0 ♡ press play</p>
+<div class="cells" id="cells"></div>
+<p id="lcd2">it's quiet until you ask (◕‿◕✿)</p>
+</div>
+<div class="cass" aria-hidden="true"><i class="reel"></i><span>side a ✧ the break, built from scratch</span><i class="reel"></i></div>
+</div>
+<span class="spk" aria-hidden="true"></span>
+</div>
+
+<div class="keys">
+<button class="key play" id="play" type="button">▶ play</button>
+<button class="key stop" id="stop" type="button">■ stop</button>
+<button class="key pull" id="pull" type="button" disabled>⟲ pull up</button>
+<button class="key" id="chop" type="button">✂ chop</button>
+</div>
+
+<div class="ctl">
+<span class="grp" role="group" aria-label="break"><span>break</span> <span class="pill"><button type="button" data-pat="amen" aria-pressed="true">amen-ish</button><button type="button" data-pat="roller" aria-pressed="false">roller</button><button type="button" data-pat="chopped" aria-pressed="false">chopped</button></span></span>
+<span class="grp" role="group" aria-label="bass"><span>bass</span> <span class="pill"><button type="button" data-bass="sub" aria-pressed="false">sub</button><button type="button" data-bass="reese" aria-pressed="true">reese</button><button type="button" data-bass="off" aria-pressed="false">off</button></span></span>
+<button type="button" class="solo" id="sparkle" aria-pressed="false">✧ sparkles</button>
+<button type="button" class="solo" id="siren" disabled>⚠ siren</button>
+<label>tuning <input type="range" id="bpm" min="160" max="175" step="1" value="170"> <output id="bpmv" for="bpm">170</output></label>
+<label>volume <input type="range" id="vol" min="0" max="100" step="1" value="60"></label>
+</div>
+<p class="sorry">(your browser can't do web audio, so the radio's off tonight. sorry x)</p>
+<p class="textin">text-in line: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a> ✧ <kbd>esc</kbd> stops it too</p>
+<p class="vh" id="say" aria-live="polite"></p>
+</div>
+
+<div class="notes">
+<h2 class="tag" id="fm-h">kes fm <i>(the jungle machine)</i></h2>
+<p>it's a tiny jungle machine, and it stays quiet until you press play. <b>■ stop</b> (or esc) cuts it straight off. it starts at a sensible volume, but maybe check yours first.</p>
+<p>everything you hear is synthesised in your browser, live. there are no samples: a little drum break gets built from scratch at 136bpm, then sped up to 170, chopped and rewound, which is roughly how jungle producers flipped the amen.</p>
+<ul class="how">
+<li><b>✂ chop</b> reshuffles the break (changes land on the next bar)</li>
+<li><b>⟲ pull up</b> rewinds it and brings it back from the top</li>
+<li><b>tuning</b> moves it between 160 and 175bpm</li>
+<li><b>✧ sparkles</b> is the cute bit, <b>⚠ siren</b> is a dub siren</li>
+</ul>
+<div class="due">
+<h3>credit where it's due</h3>
+<p>jungle came out of london in the early 90s, out of Black British sound system culture: reggae and dub sound systems, MCs, breakbeats and hardcore rave, carried on pirate radio, dubplates and tape packs. this page borrows the look, so it should say where the look comes from.</p>
+<p>the amen break is a few seconds of Gregory C. Coleman's drumming on The Winstons' "Amen, Brother" (1969). it's one of the most sampled recordings ever, and the band never saw royalties for it. the machine here doesn't touch the recording, but the pattern is still his. who gets credited (and paid) when culture gets copied around the internet is an internet equalities question too.</p>
+</div>
+</div>
+</section>
+
+<div class="wall">
+<h2 class="throw">pr<span class="dr">o</span>jects <span class="sm">(f<span class="dr">o</span>r fun<span class="dr">d</span>s)</span></h2>
+<span class="smiley" aria-hidden="true"></span>
+</div>
 
 <!-- photos are placeholders. when the real ones go in, say what's in them in alt="" -->
 
@@ -230,7 +465,7 @@ sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolor
 <div class="lists">
 <div>
 <section>
-<h2><span>projects (for fun)</span></h2>
+<h2 class="tag rose">projects (for fun)</h2>
 <ul>
 <li><a href="https://latent-space.vercel.app/">latent space</a> — lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
 <li><a href="https://protecht.vercel.app/">pro(tech)t</a> — sed do eiusmod tempor incididunt ut labore</li>
@@ -238,7 +473,7 @@ sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolor
 </section>
 
 <section>
-<h2><span>irl (mostly)</span></h2>
+<h2 class="tag mint">irl (mostly)</h2>
 <ul>
 <li><a href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1">olden residency</a></li>
 <li><a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1">softer london</a>, talk + workshop</li>
@@ -249,7 +484,7 @@ sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolor
 </div>
 
 <section>
-<h2><span>things i've written</span></h2>
+<h2 class="tag lilac">things i've written</h2>
 <ul>
 <li><a href="https://www.protein.xyz/sex-and-the-internet/">mindy seu on sex and the internet</a> (Protein)</li>
 <li><a href="https://midnight.agency/thoughts/dreaming-and-designing-more-accessible-web">dreaming and designing a more accessible web</a> (Midnight Agency)</li>
@@ -261,8 +496,8 @@ sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolor
 </section>
 
 <section class="pods">
-<h2><span>podcasts, for the bus</span></h2>
-<ul>
+<h2 class="pack"><b>podcasts, for the bus</b> <small>tape pack ✧ 8 tapes</small></h2>
+<ol class="tapes">
 <li><a href="https://podcasts.apple.com/gb/podcast/mindy-seu-on-collaboration-community-and/id1449302502?i=1000597869409">mindy seu on collaboration, community and the cyberfeminism index</a></li>
 <li><a href="https://soundcloud.com/proteincommunity/protein-forum-what-can-web2-organisations-learn-from-web3-communities">what can web2 organisations learn from web3 communities?</a></li>
 <li><a href="https://podcasts.apple.com/gb/podcast/cherie-hu-on-water-musics-journey-through-web3/id1449302502?i=1000581859804">cherie hu on water &amp; music's journey through web3</a></li>
@@ -271,39 +506,54 @@ sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolor
 <li><a href="https://podcasts.apple.com/gb/podcast/nadia-piet-on-creative-ai-and-protopian-futures/id1449302502?i=1000559822732">nadia piet on creative ai and protopian futures</a></li>
 <li><a href="https://podcasts.apple.com/gb/podcast/cyn-bahati-on-her-journey-into-web3-with-her-family/id1449302502?i=1000559818509">cyn bahati on her journey into web3 with her family</a></li>
 <li><a href="https://podcasts.apple.com/gb/podcast/latash%C3%A1-on-the-potential-of-web3-for-music-artists/id1449302502?i=1000552812458">latasha on the potential of web3 for music artists</a></li>
-</ul>
+</ol>
 </section>
 </div>
 
-<pre class="art dolls" aria-hidden="true">
-                 <span class="p">&lt;3                                      &lt;3                                                                         &lt;3                                      &lt;3                                                               &lt;3                                                     &lt;3</span>
-  <span class="p">o</span>    <span class="b">o</span>    <span class="l">o</span>    <span class="p">o</span>    <span class="b">o</span>    <span class="l">o</span>    <span class="p">o</span>    <span class="b">o</span>    <span class="l">o</span>    <span class="p">o</span>    <span class="b">o</span>    <span class="l">o</span>    <span class="p">o</span>    <span class="b">o</span>    <span class="l">o</span>    <span class="p">o</span>    <span class="b">o</span>    <span class="l">o</span>    <span class="p">o</span>    <span class="b">o</span>    <span class="l">o</span>    <span class="p">o</span>    <span class="b">o</span>    <span class="l">o</span>    <span class="p">o</span>    <span class="b">o</span>    <span class="l">o</span>    <span class="p">o</span>    <span class="b">o</span>    <span class="l">o</span>    <span class="p">o</span>    <span class="b">o</span>    <span class="l">o</span>    <span class="p">o</span>    <span class="b">o</span>    <span class="l">o</span>    <span class="p">o</span>    <span class="b">o</span>    <span class="l">o</span>    <span class="p">o</span>    <span class="b">o</span>    <span class="l">o</span>    <span class="p">o</span>    <span class="b">o</span>    <span class="l">o</span>    <span class="p">o</span>    <span class="b">o</span>    <span class="l">o</span>    <span class="p">o</span>    <span class="b">o</span>    <span class="l">o</span>    <span class="p">o</span>    <span class="b">o</span>    <span class="l">o</span>    <span class="p">o</span>    <span class="b">o</span>    <span class="l">o</span>    <span class="p">o</span>    <span class="b">o</span>    <span class="l">o</span>
-_<span class="p">/|\</span>__<span class="b">/|\</span>__<span class="l">/|\</span>__<span class="p">/|\</span>__<span class="b">/|\</span>__<span class="l">/|\</span>__<span class="p">/|\</span>__<span class="b">/|\</span>__<span class="l">/|\</span>__<span class="p">/|\</span>__<span class="b">/|\</span>__<span class="l">/|\</span>__<span class="p">/|\</span>__<span class="b">/|\</span>__<span class="l">/|\</span>__<span class="p">/|\</span>__<span class="b">/|\</span>__<span class="l">/|\</span>__<span class="p">/|\</span>__<span class="b">/|\</span>__<span class="l">/|\</span>__<span class="p">/|\</span>__<span class="b">/|\</span>__<span class="l">/|\</span>__<span class="p">/|\</span>__<span class="b">/|\</span>__<span class="l">/|\</span>__<span class="p">/|\</span>__<span class="b">/|\</span>__<span class="l">/|\</span>__<span class="p">/|\</span>__<span class="b">/|\</span>__<span class="l">/|\</span>__<span class="p">/|\</span>__<span class="b">/|\</span>__<span class="l">/|\</span>__<span class="p">/|\</span>__<span class="b">/|\</span>__<span class="l">/|\</span>__<span class="p">/|\</span>__<span class="b">/|\</span>__<span class="l">/|\</span>__<span class="p">/|\</span>__<span class="b">/|\</span>__<span class="l">/|\</span>__<span class="p">/|\</span>__<span class="b">/|\</span>__<span class="l">/|\</span>__<span class="p">/|\</span>__<span class="b">/|\</span>__<span class="l">/|\</span>__<span class="p">/|\</span>__<span class="b">/|\</span>__<span class="l">/|\</span>__<span class="p">/|\</span>__<span class="b">/|\</span>__<span class="l">/|\</span>__<span class="p">/|\</span>__<span class="b">/|\</span>__<span class="l">/|\</span>_
- <span class="p">/ \</span>  <span class="b">/_\</span>  <span class="l">/ \</span>  <span class="p">/_\</span>  <span class="b">/ \</span>  <span class="l">/_\</span>  <span class="p">/ \</span>  <span class="b">/_\</span>  <span class="l">/ \</span>  <span class="p">/_\</span>  <span class="b">/ \</span>  <span class="l">/_\</span>  <span class="p">/ \</span>  <span class="b">/_\</span>  <span class="l">/ \</span>  <span class="p">/_\</span>  <span class="b">/ \</span>  <span class="l">/_\</span>  <span class="p">/ \</span>  <span class="b">/_\</span>  <span class="l">/ \</span>  <span class="p">/_\</span>  <span class="b">/ \</span>  <span class="l">/_\</span>  <span class="p">/ \</span>  <span class="b">/_\</span>  <span class="l">/ \</span>  <span class="p">/_\</span>  <span class="b">/ \</span>  <span class="l">/_\</span>  <span class="p">/ \</span>  <span class="b">/_\</span>  <span class="l">/ \</span>  <span class="p">/_\</span>  <span class="b">/ \</span>  <span class="l">/_\</span>  <span class="p">/ \</span>  <span class="b">/_\</span>  <span class="l">/ \</span>  <span class="p">/_\</span>  <span class="b">/ \</span>  <span class="l">/_\</span>  <span class="p">/ \</span>  <span class="b">/_\</span>  <span class="l">/ \</span>  <span class="p">/_\</span>  <span class="b">/ \</span>  <span class="l">/_\</span>  <span class="p">/ \</span>  <span class="b">/_\</span>  <span class="l">/ \</span>  <span class="p">/_\</span>  <span class="b">/ \</span>  <span class="l">/_\</span>  <span class="p">/ \</span>  <span class="b">/_\</span>  <span class="l">/ \</span>  <span class="p">/_\</span>  <span class="b">/ \</span>  <span class="l">/_\</span>
+<!-- hands in the air, and a couple of speaker stacks -->
+<pre class="art crowd" aria-hidden="true">
+  <span class="p">&lt;3</span>           <span class="y">*</span>              <span class="p">&lt;3</span>          <span class="y">+</span>            <span class="p">&lt;3</span>           <span class="y">*</span>              <span class="p">&lt;3</span>          <span class="y">+</span>            <span class="p">&lt;3</span>           <span class="y">*</span>              <span class="p">&lt;3</span>          <span class="y">+</span>            <span class="p">&lt;3</span>           <span class="y">*</span>              <span class="p">&lt;3</span>          <span class="y">+</span>            <span class="p">&lt;3</span>           <span class="y">*</span>              <span class="p">&lt;3</span>          <span class="y">+</span>            <span class="p">&lt;3</span>           <span class="y">*</span>              <span class="p">&lt;3</span>          <span class="y">+</span>            <span class="p">&lt;3</span>           <span class="y">*</span>              <span class="p">&lt;3</span>          <span class="y">+</span>            <span class="p">&lt;3</span>           <span class="y">*</span>              <span class="p">&lt;3</span>          <span class="y">+</span>
+.----.  <span class="p">\o/</span>   <span class="b">o/</span>  <span class="l">_o/</span>  <span class="p">\o/</span>   <span class="b">\o_</span>  <span class="l">\o/</span>   <span class="p">o/</span>   <span class="b">\o/</span>     .----.  <span class="b">\o/</span>   <span class="l">o/</span>  <span class="p">_o/</span>  <span class="b">\o/</span>   <span class="l">\o_</span>  <span class="p">\o/</span>   <span class="b">o/</span>   <span class="l">\o/</span>     .----.  <span class="l">\o/</span>   <span class="p">o/</span>  <span class="b">_o/</span>  <span class="l">\o/</span>   <span class="p">\o_</span>  <span class="b">\o/</span>   <span class="l">o/</span>   <span class="p">\o/</span>     .----.  <span class="p">\o/</span>   <span class="b">o/</span>  <span class="l">_o/</span>  <span class="p">\o/</span>   <span class="b">\o_</span>  <span class="l">\o/</span>   <span class="p">o/</span>   <span class="b">\o/</span>     .----.  <span class="b">\o/</span>   <span class="l">o/</span>  <span class="p">_o/</span>  <span class="b">\o/</span>   <span class="l">\o_</span>  <span class="p">\o/</span>   <span class="b">o/</span>   <span class="l">\o/</span>     .----.  <span class="l">\o/</span>   <span class="p">o/</span>  <span class="b">_o/</span>  <span class="l">\o/</span>   <span class="p">\o_</span>  <span class="b">\o/</span>   <span class="l">o/</span>   <span class="p">\o/</span>     .----.  <span class="p">\o/</span>   <span class="b">o/</span>  <span class="l">_o/</span>  <span class="p">\o/</span>   <span class="b">\o_</span>  <span class="l">\o/</span>   <span class="p">o/</span>   <span class="b">\o/</span>     .----.  <span class="b">\o/</span>   <span class="l">o/</span>  <span class="p">_o/</span>  <span class="b">\o/</span>   <span class="l">\o_</span>  <span class="p">\o/</span>   <span class="b">o/</span>   <span class="l">\o/</span>
+|<span class="l">(())</span>|   <span class="p">|</span>   <span class="b">/|</span>    <span class="l">|</span>    <span class="p">|</span>     <span class="b">|</span>    <span class="l">|</span>   <span class="p">/|</span>    <span class="b">|</span>       |<span class="l">(())</span>|   <span class="b">|</span>   <span class="l">/|</span>    <span class="p">|</span>    <span class="b">|</span>     <span class="l">|</span>    <span class="p">|</span>   <span class="b">/|</span>    <span class="l">|</span>       |<span class="l">(())</span>|   <span class="l">|</span>   <span class="p">/|</span>    <span class="b">|</span>    <span class="l">|</span>     <span class="p">|</span>    <span class="b">|</span>   <span class="l">/|</span>    <span class="p">|</span>       |<span class="l">(())</span>|   <span class="p">|</span>   <span class="b">/|</span>    <span class="l">|</span>    <span class="p">|</span>     <span class="b">|</span>    <span class="l">|</span>   <span class="p">/|</span>    <span class="b">|</span>       |<span class="l">(())</span>|   <span class="b">|</span>   <span class="l">/|</span>    <span class="p">|</span>    <span class="b">|</span>     <span class="l">|</span>    <span class="p">|</span>   <span class="b">/|</span>    <span class="l">|</span>       |<span class="l">(())</span>|   <span class="l">|</span>   <span class="p">/|</span>    <span class="b">|</span>    <span class="l">|</span>     <span class="p">|</span>    <span class="b">|</span>   <span class="l">/|</span>    <span class="p">|</span>       |<span class="l">(())</span>|   <span class="p">|</span>   <span class="b">/|</span>    <span class="l">|</span>    <span class="p">|</span>     <span class="b">|</span>    <span class="l">|</span>   <span class="p">/|</span>    <span class="b">|</span>       |<span class="l">(())</span>|   <span class="b">|</span>   <span class="l">/|</span>    <span class="p">|</span>    <span class="b">|</span>     <span class="l">|</span>    <span class="p">|</span>   <span class="b">/|</span>    <span class="l">|</span>
+|<span class="l">(())</span>|  <span class="p">/ \</span>  <span class="b">/ \</span>  <span class="l">/ \</span>  <span class="p">/ \</span>   <span class="b">/ \</span>  <span class="l">/ \</span>  <span class="p">/ \</span>  <span class="b">/ \</span>      |<span class="l">(())</span>|  <span class="b">/ \</span>  <span class="l">/ \</span>  <span class="p">/ \</span>  <span class="b">/ \</span>   <span class="l">/ \</span>  <span class="p">/ \</span>  <span class="b">/ \</span>  <span class="l">/ \</span>      |<span class="l">(())</span>|  <span class="l">/ \</span>  <span class="p">/ \</span>  <span class="b">/ \</span>  <span class="l">/ \</span>   <span class="p">/ \</span>  <span class="b">/ \</span>  <span class="l">/ \</span>  <span class="p">/ \</span>      |<span class="l">(())</span>|  <span class="p">/ \</span>  <span class="b">/ \</span>  <span class="l">/ \</span>  <span class="p">/ \</span>   <span class="b">/ \</span>  <span class="l">/ \</span>  <span class="p">/ \</span>  <span class="b">/ \</span>      |<span class="l">(())</span>|  <span class="b">/ \</span>  <span class="l">/ \</span>  <span class="p">/ \</span>  <span class="b">/ \</span>   <span class="l">/ \</span>  <span class="p">/ \</span>  <span class="b">/ \</span>  <span class="l">/ \</span>      |<span class="l">(())</span>|  <span class="l">/ \</span>  <span class="p">/ \</span>  <span class="b">/ \</span>  <span class="l">/ \</span>   <span class="p">/ \</span>  <span class="b">/ \</span>  <span class="l">/ \</span>  <span class="p">/ \</span>      |<span class="l">(())</span>|  <span class="p">/ \</span>  <span class="b">/ \</span>  <span class="l">/ \</span>  <span class="p">/ \</span>   <span class="b">/ \</span>  <span class="l">/ \</span>  <span class="p">/ \</span>  <span class="b">/ \</span>      |<span class="l">(())</span>|  <span class="b">/ \</span>  <span class="l">/ \</span>  <span class="p">/ \</span>  <span class="b">/ \</span>   <span class="l">/ \</span>  <span class="p">/ \</span>  <span class="b">/ \</span>  <span class="l">/ \</span>
+'----'                                               '----'                                               '----'                                               '----'                                               '----'                                               '----'                                               '----'                                               '----'
 </pre>
 
 <div class="serious">
 <div>
-<h2><span>the serious bit</span> <i aria-hidden="true">(｀・ω・´)</i></h2>
+<h2 class="stencil"><span>the serious bit</span> <i aria-hidden="true">(｀・ω・´)</i></h2>
 <p>my practice focuses on understanding and critiquing the impacts of emerging technologies on people, culture, and the planet. i'm particularly interested in working collectively to rethink the narratives and behaviours surrounding technologies — prioritising collaborative research as a process for testing, imagining and prototyping more equitable, alternative futures.</p>
 <p>letters after my name: MA internet equalities, BA creative direction, PhD [ ? ]</p>
 </div>
 
 <div class="hi">
+<span class="scrawl" aria-hidden="true">kes ♡</span>
+<p class="next">next stop: say hi</p>
 <p>say hi! <a href="mailto:inkersolekesia@gmail.com?subject=hello%20from%20your%20website">inkersolekesia@gmail.com</a></p>
-<p>last updated 1 october 2026. it's still mostly just html (it started out in the <a href="http://contemporary-home-computing.org/prof-dr-style/">Prof. Dr. style</a>, then i got carried away with the colours), so it should load even on bad train wifi. i was going to write my name in <span role="img" aria-label="fancy letters">𝓯𝓪𝓷𝓬𝔂 𝓵𝓮𝓽𝓽𝓮𝓻𝓼</span> but screen readers read them out as maths symbols, so i drew it in ascii instead and hid it from them.</p>
+<p>last updated 1 october 2026. it's still mostly just html (it started out in the <a href="http://contemporary-home-computing.org/prof-dr-style/">Prof. Dr. style</a>, then i got carried away with the colours, and then the jungle), so it should load even on bad train wifi. i was going to write my name in <span role="img" aria-label="fancy letters">𝓯𝓪𝓷𝓬𝔂 𝓵𝓮𝓽𝓽𝓮𝓻𝓼</span> but screen readers read them out as maths symbols, so i sprayed it in ascii instead and hid it from them. the buttons aren't hidden, and nothing on here makes a sound until you ask it to.</p>
 <p>thanks for stopping by ♡</p>
 </div>
 </div>
 
-<pre class="art meadow" aria-hidden="true">
-      <span class="p">_</span>         <span class="b">.-.</span>            <span class="l">wWWWw</span>    <span class="y">.    \|/</span>        <span class="p">_                     _</span>         <span class="b">.-.</span>            <span class="l">wWWWw</span>    <span class="y">.    \|/</span>        <span class="p">_                     _</span>         <span class="b">.-.</span>            <span class="l">wWWWw</span>    <span class="y">.    \|/</span>        <span class="p">_                     _</span>         <span class="b">.-.</span>            <span class="l">wWWWw</span>    <span class="y">.    \|/</span>        <span class="p">_                     _</span>         <span class="b">.-.</span>            <span class="l">wWWWw</span>    <span class="y">.    \|/</span>        <span class="p">_                     _</span>         <span class="b">.-.</span>            <span class="l">wWWWw</span>    <span class="y">.    \|/</span>        <span class="p">_</span>
-    <span class="p">_(_)_</span>  <span class="y">*</span>   <span class="b">(</span> <span class="p">@</span> <span class="b">)</span>           <span class="l">(___)</span>        <span class="y">-(</span><span class="p">o</span><span class="y">)-</span>     <span class="p">_(_)_</span>   <span class="y">+</span>             <span class="p">_(_)_</span>  <span class="y">*</span>   <span class="b">(</span> <span class="p">@</span> <span class="b">)</span>           <span class="l">(___)</span>        <span class="y">-(</span><span class="p">o</span><span class="y">)-</span>     <span class="p">_(_)_</span>   <span class="y">+</span>             <span class="p">_(_)_</span>  <span class="y">*</span>   <span class="b">(</span> <span class="p">@</span> <span class="b">)</span>           <span class="l">(___)</span>        <span class="y">-(</span><span class="p">o</span><span class="y">)-</span>     <span class="p">_(_)_</span>   <span class="y">+</span>             <span class="p">_(_)_</span>  <span class="y">*</span>   <span class="b">(</span> <span class="p">@</span> <span class="b">)</span>           <span class="l">(___)</span>        <span class="y">-(</span><span class="p">o</span><span class="y">)-</span>     <span class="p">_(_)_</span>   <span class="y">+</span>             <span class="p">_(_)_</span>  <span class="y">*</span>   <span class="b">(</span> <span class="p">@</span> <span class="b">)</span>           <span class="l">(___)</span>        <span class="y">-(</span><span class="p">o</span><span class="y">)-</span>     <span class="p">_(_)_</span>   <span class="y">+</span>             <span class="p">_(_)_</span>  <span class="y">*</span>   <span class="b">(</span> <span class="p">@</span> <span class="b">)</span>           <span class="l">(___)</span>        <span class="y">-(</span><span class="p">o</span><span class="y">)-</span>     <span class="p">_(_)_</span>   <span class="y">+</span>
-   <span class="p">(_)</span><span class="y">@</span><span class="p">(_)</span>      <span class="b">'-'</span>            <span class="g">\ | /</span>         <span class="y">/|\</span>     <span class="p">(_)</span><span class="y">@</span><span class="p">(_)               (_)</span><span class="y">@</span><span class="p">(_)</span>      <span class="b">'-'</span>            <span class="g">\ | /</span>         <span class="y">/|\</span>     <span class="p">(_)</span><span class="y">@</span><span class="p">(_)               (_)</span><span class="y">@</span><span class="p">(_)</span>      <span class="b">'-'</span>            <span class="g">\ | /</span>         <span class="y">/|\</span>     <span class="p">(_)</span><span class="y">@</span><span class="p">(_)               (_)</span><span class="y">@</span><span class="p">(_)</span>      <span class="b">'-'</span>            <span class="g">\ | /</span>         <span class="y">/|\</span>     <span class="p">(_)</span><span class="y">@</span><span class="p">(_)               (_)</span><span class="y">@</span><span class="p">(_)</span>      <span class="b">'-'</span>            <span class="g">\ | /</span>         <span class="y">/|\</span>     <span class="p">(_)</span><span class="y">@</span><span class="p">(_)               (_)</span><span class="y">@</span><span class="p">(_)</span>      <span class="b">'-'</span>            <span class="g">\ | /</span>         <span class="y">/|\</span>     <span class="p">(_)</span><span class="y">@</span><span class="p">(_)</span>
-     <span class="p">(_)</span><span class="g">\        |/    \ | /    \|/           |</span>        <span class="p">(_)</span><span class="g">\     \ | /</span>        <span class="p">(_)</span><span class="g">\        |/    \ | /    \|/           |</span>        <span class="p">(_)</span><span class="g">\     \ | /</span>        <span class="p">(_)</span><span class="g">\        |/    \ | /    \|/           |</span>        <span class="p">(_)</span><span class="g">\     \ | /</span>        <span class="p">(_)</span><span class="g">\        |/    \ | /    \|/           |</span>        <span class="p">(_)</span><span class="g">\     \ | /</span>        <span class="p">(_)</span><span class="g">\        |/    \ | /    \|/           |</span>        <span class="p">(_)</span><span class="g">\     \ | /</span>        <span class="p">(_)</span><span class="g">\        |/    \ | /    \|/           |</span>        <span class="p">(_)</span><span class="g">\     \ | /</span>
-        <span class="g">|        |      \|/      |            |           |      \|/            |        |      \|/      |            |           |      \|/            |        |      \|/      |            |           |      \|/            |        |      \|/      |            |           |      \|/            |        |      \|/      |            |           |      \|/            |        |      \|/      |            |           |      \|/</span>
-<span class="g">,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,</span>
+<!-- london, with flowers in front -->
+<pre class="art sky" aria-hidden="true">
+      <span class="p">(((</span> | <span class="p">)))</span>                                   <span class="y">*</span>                                       <span class="p">(((</span> | <span class="p">)))           (((</span> | <span class="p">)))</span>                                   <span class="y">*</span>                                       <span class="p">(((</span> | <span class="p">)))           (((</span> | <span class="p">)))</span>                                   <span class="y">*</span>                                       <span class="p">(((</span> | <span class="p">)))           (((</span> | <span class="p">)))</span>                                   <span class="y">*</span>                                       <span class="p">(((</span> | <span class="p">)))</span>
+         <span class="b">-+-</span>              <span class="y">+                                                       .</span>          <span class="b">-+-                 -+-</span>              <span class="y">+                                                       .</span>          <span class="b">-+-                 -+-</span>              <span class="y">+                                                       .</span>          <span class="b">-+-                 -+-</span>              <span class="y">+                                                       .</span>          <span class="b">-+-</span>
+          <span class="b">|</span>      <span class="y">.                                                      *</span>                     <span class="b">|                   |</span>      <span class="y">.                                                      *</span>                     <span class="b">|                   |</span>      <span class="y">.                                                      *</span>                     <span class="b">|                   |</span>      <span class="y">.                                                      *</span>                     <span class="b">|</span>
+   .------'------.                      <span class="y">.</span>                                              .------'------.     .------'------.                      <span class="y">.</span>                                              .------'------.     .------'------.                      <span class="y">.</span>                                              .------'------.     .------'------.                      <span class="y">.</span>                                              .------'------.
+   | [] [] [] [] |                    .--.                                             | [] [] [] [] |     | [] [] [] [] |                    .--.                                             | [] [] [] [] |     | [] [] [] [] |                    .--.                                             | [] [] [] [] |     | [] [] [] [] |                    .--.                                             | [] [] [] [] |
+   | [] [] [] [] |   .-------.   .----|  |----.    <span class="b">.-----------------------------.</span>     | [] [] [] [] |     | [] [] [] [] |   .-------.   .----|  |----.    <span class="b">.-----------------------------.</span>     | [] [] [] [] |     | [] [] [] [] |   .-------.   .----|  |----.    <span class="b">.-----------------------------.</span>     | [] [] [] [] |     | [] [] [] [] |   .-------.   .----|  |----.    <span class="b">.-----------------------------.</span>     | [] [] [] [] |
+   | [] &lt;<span class="p">3</span> [] [] |   | [] [] |   | [] |  | [] |    <span class="b">| [  ][  ][</span><span class="r">kes</span><span class="p">&lt;3</span><span class="b">][  ][  ][  ] |</span>     | [] [] [] [] |     | [] &lt;<span class="p">3</span> [] [] |   | [] [] |   | [] |  | [] |    <span class="b">| [  ][  ][</span><span class="r">kes</span><span class="p">&lt;3</span><span class="b">][  ][  ][  ] |</span>     | [] [] [] [] |     | [] &lt;<span class="p">3</span> [] [] |   | [] [] |   | [] |  | [] |    <span class="b">| [  ][  ][</span><span class="r">kes</span><span class="p">&lt;3</span><span class="b">][  ][  ][  ] |</span>     | [] [] [] [] |     | [] &lt;<span class="p">3</span> [] [] |   | [] [] |   | [] |  | [] |    <span class="b">| [  ][  ][</span><span class="r">kes</span><span class="p">&lt;3</span><span class="b">][  ][  ][  ] |</span>     | [] [] [] [] |
+   | [] [] [] [] |   | [] [] |   | [] '--' [] |    <span class="b">|-----------------------------|</span>     | [] [] [] [] |     | [] [] [] [] |   | [] [] |   | [] '--' [] |    <span class="b">|-----------------------------|</span>     | [] [] [] [] |     | [] [] [] [] |   | [] [] |   | [] '--' [] |    <span class="b">|-----------------------------|</span>     | [] [] [] [] |     | [] [] [] [] |   | [] [] |   | [] '--' [] |    <span class="b">|-----------------------------|</span>     | [] [] [] [] |
+   | [] [] [] [] |   |  .-.  |   |  []    []  |    <span class="b">| [  ][  ][  ][  ] |  [  ]    |</span>     | [] [] ^<span class="l">^</span> [] |     | [] [] [] [] |   |  .-.  |   |  []    []  |    <span class="b">| [  ][  ][  ][  ] |  [  ]    |</span>     | [] [] ^<span class="l">^</span> [] |     | [] [] [] [] |   |  .-.  |   |  []    []  |    <span class="b">| [  ][  ][  ][  ] |  [  ]    |</span>     | [] [] ^<span class="l">^</span> [] |     | [] [] [] [] |   |  .-.  |   |  []    []  |    <span class="b">| [  ][  ][  ][  ] |  [  ]    |</span>     | [] [] ^<span class="l">^</span> [] |
+   |    .---.    |   |  | |  |   |    .--.    |    <span class="b">'---(o)--------------(o)------'</span>     |    .---.    |     |    .---.    |   |  | |  |   |    .--.    |    <span class="b">'---(o)--------------(o)------'</span>     |    .---.    |     |    .---.    |   |  | |  |   |    .--.    |    <span class="b">'---(o)--------------(o)------'</span>     |    .---.    |     |    .---.    |   |  | |  |   |    .--.    |    <span class="b">'---(o)--------------(o)------'</span>     |    .---.    |
+   <span class="p">_</span>        <span class="b">.-.</span>    <span class="l">wWWWw</span>      <span class="y">\|/</span>                <span class="p">_</span>      <span class="b">.-.</span>      <span class="l">wWWWw</span>    <span class="y">\|/</span>                <span class="p">_             _</span>        <span class="b">.-.</span>    <span class="l">wWWWw</span>      <span class="y">\|/</span>                <span class="p">_</span>      <span class="b">.-.</span>      <span class="l">wWWWw</span>    <span class="y">\|/</span>                <span class="p">_             _</span>        <span class="b">.-.</span>    <span class="l">wWWWw</span>      <span class="y">\|/</span>                <span class="p">_</span>      <span class="b">.-.</span>      <span class="l">wWWWw</span>    <span class="y">\|/</span>                <span class="p">_             _</span>        <span class="b">.-.</span>    <span class="l">wWWWw</span>      <span class="y">\|/</span>                <span class="p">_</span>      <span class="b">.-.</span>      <span class="l">wWWWw</span>    <span class="y">\|/</span>                <span class="p">_</span>
+ <span class="p">_(</span><span class="y">_</span><span class="p">)_</span>     <span class="b">(</span> <span class="y">@</span> <span class="b">)</span>   <span class="l">(___)</span>     <span class="y">-(</span><span class="p">o</span><span class="y">)-</span>    <span class="g">\|/</span>      <span class="p">_(</span><span class="y">_</span><span class="p">)_</span>   <span class="b">(</span> <span class="y">@</span> <span class="b">)</span>     <span class="l">(___)</span>   <span class="y">-(</span><span class="p">o</span><span class="y">)-</span>      <span class="g">\|/</span>    <span class="p">_(</span><span class="y">_</span><span class="p">)_         _(</span><span class="y">_</span><span class="p">)_</span>     <span class="b">(</span> <span class="y">@</span> <span class="b">)</span>   <span class="l">(___)</span>     <span class="y">-(</span><span class="p">o</span><span class="y">)-</span>    <span class="g">\|/</span>      <span class="p">_(</span><span class="y">_</span><span class="p">)_</span>   <span class="b">(</span> <span class="y">@</span> <span class="b">)</span>     <span class="l">(___)</span>   <span class="y">-(</span><span class="p">o</span><span class="y">)-</span>      <span class="g">\|/</span>    <span class="p">_(</span><span class="y">_</span><span class="p">)_         _(</span><span class="y">_</span><span class="p">)_</span>     <span class="b">(</span> <span class="y">@</span> <span class="b">)</span>   <span class="l">(___)</span>     <span class="y">-(</span><span class="p">o</span><span class="y">)-</span>    <span class="g">\|/</span>      <span class="p">_(</span><span class="y">_</span><span class="p">)_</span>   <span class="b">(</span> <span class="y">@</span> <span class="b">)</span>     <span class="l">(___)</span>   <span class="y">-(</span><span class="p">o</span><span class="y">)-</span>      <span class="g">\|/</span>    <span class="p">_(</span><span class="y">_</span><span class="p">)_         _(</span><span class="y">_</span><span class="p">)_</span>     <span class="b">(</span> <span class="y">@</span> <span class="b">)</span>   <span class="l">(___)</span>     <span class="y">-(</span><span class="p">o</span><span class="y">)-</span>    <span class="g">\|/</span>      <span class="p">_(</span><span class="y">_</span><span class="p">)_</span>   <span class="b">(</span> <span class="y">@</span> <span class="b">)</span>     <span class="l">(___)</span>   <span class="y">-(</span><span class="p">o</span><span class="y">)-</span>      <span class="g">\|/</span>    <span class="p">_(</span><span class="y">_</span><span class="p">)_</span>
+   <span class="g">|</span>        <span class="b">'-'</span>     <span class="g">\|/       /|\      |         |</span>      <span class="b">'-'</span>       <span class="g">\|/     /|\        |       |             |</span>        <span class="b">'-'</span>     <span class="g">\|/       /|\      |         |</span>      <span class="b">'-'</span>       <span class="g">\|/     /|\        |       |             |</span>        <span class="b">'-'</span>     <span class="g">\|/       /|\      |         |</span>      <span class="b">'-'</span>       <span class="g">\|/     /|\        |       |             |</span>        <span class="b">'-'</span>     <span class="g">\|/       /|\      |         |</span>      <span class="b">'-'</span>       <span class="g">\|/     /|\        |       |</span>
+<span class="g">,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,</span>
 </pre>
+
+<div class="tape" aria-hidden="true"><div><span>  ⚠ end of transmission  ⚠ thanks for stopping by ♡  ⚠ kes fm  ⚠ big up everyone reading the source  ⚠ (｡•̀ᴗ-)✧  </span><span>  ⚠ end of transmission  ⚠ thanks for stopping by ♡  ⚠ kes fm  ⚠ big up everyone reading the source  ⚠ (｡•̀ᴗ-)✧  </span></div></div>
 
 <script>
 // the tab says bye when you leave
@@ -312,19 +562,429 @@ document.addEventListener("visibilitychange", function () {
   document.title = document.hidden ? "ok bye x" : title;
 });
 
-// a little <3 runs along the cable, from the computer to the phone
-if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+var still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+// a little <3 runs along the cable, from the computer to the tower block
+if (!still) {
   var wires = document.querySelectorAll(".wire"), t = 0;
   setInterval(function () {
     t++;
     for (var i = 0; i < wires.length; i++) {
-      var n = wires[i].getAttribute("data-n") || wires[i].textContent.length;
+      var n = +wires[i].getAttribute("data-n") || wires[i].textContent.length;
       wires[i].setAttribute("data-n", n);
       var at = t % (n - 1);
       wires[i].innerHTML = "-".repeat(at) + "<i>&lt;3</i>" + "-".repeat(n - 2 - at);
     }
   }, 90);
 }
+</script>
+
+<script>
+// KES FM: a tiny jungle machine. web audio only, no samples, nothing loads.
+// it builds a drum break from scratch at 136bpm (the amen's tempo), then plays it back
+// sped up to 170, chopped into 16ths like a sampler would. it never starts on its own.
+(function () {
+  var AC = window.AudioContext || window.webkitAudioContext;
+  var box = document.getElementById("fm");
+  if (!box) return;
+  if (!AC || !window.OfflineAudioContext) { box.classList.add("nope"); return; }
+
+  function $(id) { return document.getElementById(id); }
+  var lcd1 = $("lcd1"), lcd2 = $("lcd2"), cellsEl = $("cells"), say = $("say"), lamp = $("lamp");
+  var bPlay = $("play"), bStop = $("stop"), bPull = $("pull"), bChop = $("chop"), bSpark = $("sparkle"), bSiren = $("siren");
+  var rBpm = $("bpm"), oBpm = $("bpmv"), rVol = $("vol");
+
+  // ---- the score. 4 bars of 16ths, the shape of the amen. X = snare, x = ghost snare, C = crash
+  var KICK  = ["x.x.......xx....", "x.x.......xx....", "x.x.......x.....", "..xx......x....."];
+  var SNARE = ["....X..x.x..X..x", "....X..x.x..X..x", "....X..x.x....X.", ".x..X..x.x....X."];
+  var RIDE  = ["x.x.x.x.x.x.x.x.", "x.x.x.x.x.x.x.x.", "x.x.x.x.x.x.x.x.", "x.x.x.x.x.C...x."];
+  var ORIG = 136, SL = 60 / ORIG / 4, STEPS = 64;
+  var LETTER = [];
+  for (var i = 0; i < STEPS; i++) {
+    var b = i >> 4, j = i & 15, k = KICK[b][j], s = SNARE[b][j], c = RIDE[b][j];
+    LETTER.push(k === "x" ? "K" : s === "X" ? "S" : s === "x" ? "s" : c === "C" ? "C" : "·");
+  }
+
+  // ---- the bassline, in G minor: [step, length in 16ths, midi note, slide from]
+  var LINE = [[0, 6, 31], [6, 3, 31], [10, 6, 34], [16, 8, 31], [24, 4, 29, 31], [28, 4, 36],
+              [32, 10, 39], [42, 6, 38, 39], [48, 6, 38], [54, 4, 41], [58, 6, 31, 38]];
+  var CHORDS = [[55, 58, 62, 65, 69], [51, 55, 58, 62, 67]];   // Gm9, then Ebmaj7
+  var SHOUTS = ["big up all the junglists ✧", "big up everyone reading the source code", "shout out to bad train wifi, this still loads on you",
+    "text in: inkersolekesia@gmail.com", "no samples were harmed in the making of this website", "lorem ipsum on the mic, dolor sit amet on the decks",
+    "want a rewind? press pull up", "(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧ 170 on your dial"];
+
+  var ctx = null, master = null, brk = null, rev = null, building = null, sess = null;
+  var bpm = 170, vol = 0.6, bass = "reese", sparkle = false;
+  var pat = "amen", nextPat = "amen", nextBpm = 170, maps = {};
+  var playing = false, playId = 0, step = 0, nextT = 0, timer = 0, raf = 0, queue = [], shoutN = 0, shoutT = 0, hold = 0;
+
+  function mtof(m) { return 440 * Math.pow(2, (m - 69) / 12); }
+  function sd() { return 60 / bpm / 4; }
+  function pick(a) { return a[Math.floor(Math.random() * a.length)]; }
+  function curve(k) { var n = 1024, c = new Float32Array(n); for (var i = 0; i < n; i++) { var x = i / (n - 1) * 2 - 1; c[i] = Math.tanh(k * x) / Math.tanh(k); } return c; }
+  function tell(t) { say.textContent = t; }
+
+  // ---------- 1. build the break, offline ----------
+  function renderBreak(rate) {
+    var cyc = Math.round(STEPS * SL * rate), len = cyc + Math.round(1.6 * rate);
+    var oc = new OfflineAudioContext(2, len, rate);
+    var nb = oc.createBuffer(1, rate, rate), nd = nb.getChannelData(0);
+    for (var i = 0; i < nd.length; i++) nd[i] = Math.random() * 2 - 1;
+    var bus = oc.createGain(); bus.gain.value = 0.7;
+    var crunch = oc.createWaveShaper(); crunch.curve = curve(2.2); crunch.oversample = "2x";
+    var room = oc.createConvolver(), ir = oc.createBuffer(2, Math.round(0.5 * rate), rate);
+    for (var ch = 0; ch < 2; ch++) { var d = ir.getChannelData(ch); for (i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / d.length, 3); }
+    room.buffer = ir;
+    var wet = oc.createGain(); wet.gain.value = 0.16;
+    bus.connect(crunch); crunch.connect(oc.destination); crunch.connect(room); room.connect(wet); wet.connect(oc.destination);
+
+    function env(g, t, v, a, dec) { g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(v, t + a); g.gain.exponentialRampToValueAtTime(0.0001, t + dec); }
+    function noise(t, v, dec, type, f, q) {
+      var s = oc.createBufferSource(), fl = oc.createBiquadFilter(), g = oc.createGain();
+      s.buffer = nb; fl.type = type; fl.frequency.value = f; fl.Q.value = q || 0.7;
+      env(g, t, v, 0.001, dec); s.connect(fl); fl.connect(g); g.connect(bus);
+      s.start(t, Math.random() * 0.5); s.stop(t + dec + 0.05);
+    }
+    function tone(t, type, f1, f2, glide, v, dec) {
+      var o = oc.createOscillator(), g = oc.createGain();
+      o.type = type; o.frequency.setValueAtTime(f1, t); o.frequency.exponentialRampToValueAtTime(f2, t + glide);
+      env(g, t, v, 0.002, dec); o.connect(g); g.connect(bus); o.start(t); o.stop(t + dec + 0.05);
+    }
+    function kick(t, v) {
+      var o = oc.createOscillator(), g = oc.createGain();
+      o.frequency.setValueAtTime(180, t); o.frequency.exponentialRampToValueAtTime(62, t + 0.05); o.frequency.exponentialRampToValueAtTime(46, t + 0.3);
+      env(g, t, v * 1.1, 0.003, 0.34); o.connect(g); g.connect(bus); o.start(t); o.stop(t + 0.4);
+      noise(t, v * 0.35, 0.015, "highpass", 2600);
+    }
+    function snare(t, v) {
+      tone(t, "triangle", 240, 182, 0.05, v * 0.6, 0.12);
+      tone(t, "sine", 360, 310, 0.04, v * 0.25, 0.07);
+      noise(t, v * 0.75, 0.2, "highpass", 1300, 0.5);
+      noise(t, v * 0.5, 0.09, "bandpass", 3800, 0.9);
+    }
+    function metal(t, v, dec, f0, hp) {
+      var g = oc.createGain(), bp = oc.createBiquadFilter(), h = oc.createBiquadFilter();
+      bp.type = "bandpass"; bp.frequency.value = 9500; bp.Q.value = 0.6; h.type = "highpass"; h.frequency.value = hp;
+      env(g, t, v, 0.001, dec);
+      [2, 3, 4.16, 5.43, 6.79, 8.21].forEach(function (r) {
+        var o = oc.createOscillator(); o.type = "square"; o.frequency.value = f0 * r; o.connect(bp); o.start(t); o.stop(t + dec + 0.05);
+      });
+      bp.connect(h); h.connect(g); g.connect(bus);
+    }
+    for (var n = 0; n < STEPS; n++) {
+      var bb = n >> 4, jj = n & 15, t = n * SL + (n & 1 ? 0.004 : 0);
+      if (KICK[bb][jj] === "x") kick(t, jj === 11 || jj === 3 ? 0.8 : 1);
+      var sn = SNARE[bb][jj];
+      if (sn === "X") snare(t, 1);
+      if (sn === "x") snare(t + 0.006, 0.42);
+      var cy = RIDE[bb][jj];
+      if (cy === "x") { metal(t, jj % 4 ? 0.1 : 0.15, 0.42, 52, 5200); noise(t, 0.06, 0.25, "highpass", 8000); }
+      if (cy === "C") { metal(t, 0.16, 1.3, 47, 4000); noise(t, 0.3, 1.4, "highpass", 4500); }
+    }
+    return oc.startRendering().then(function (out) {
+      // fold the tail back onto the start so it loops without a seam, then make a reversed copy
+      var a = ctx.createBuffer(2, cyc, rate), r = ctx.createBuffer(2, cyc, rate), peak = 0, c, x;
+      for (c = 0; c < 2; c++) {
+        var src = out.getChannelData(c), dst = a.getChannelData(c);
+        for (x = 0; x < cyc; x++) dst[x] = src[x];
+        for (x = cyc; x < len; x++) dst[x - cyc] += src[x];
+        for (x = 0; x < cyc; x++) peak = Math.max(peak, Math.abs(dst[x]));
+      }
+      var norm = peak > 0 ? 0.9 / peak : 1;
+      for (c = 0; c < 2; c++) {
+        var A = a.getChannelData(c), R = r.getChannelData(c);
+        for (x = 0; x < cyc; x++) A[x] *= norm;
+        for (x = 0; x < cyc; x++) R[x] = A[cyc - 1 - x];
+      }
+      brk = a; rev = r;
+    });
+  }
+
+  // ---------- 2. the patterns: which slice of the break plays on each 16th ----------
+  function finish(m) {
+    // join runs of slices that follow on, so they play as one piece (no seams)
+    for (var i = 0; i < m.length; i++) {
+      var e = m[i]; if (e.c) continue;
+      e.n = e.n || 1;
+      if (e.r || e.st || (e.p && e.p !== 1)) { for (var q = 1; q < e.n; q++) m[i + q] = { c: true, s: e.s - q, r: true }; continue; }
+      while ((i + e.n) % 16 && i + e.n < m.length) {
+        var f = m[i + e.n];
+        if (f.r || f.st || f.c || (f.p && f.p !== 1) || f.s !== e.s + e.n) break;
+        f.c = true; e.n++;
+      }
+    }
+    return m;
+  }
+  function amenMap() { var m = []; for (var i = 0; i < STEPS; i++) m.push({ s: i }); return finish(m); }
+  function rollerMap() {
+    var bar = [0, 1, 6, 3, 4, 5, 6, 7, 8, 13, 10, 13, 12, 13, 14, 15], m = [];
+    for (var i = 0; i < STEPS; i++) m.push({ s: bar[i & 15] });
+    m[60] = { s: 4, st: 2 }; m[61] = { s: 7 }; m[62] = { s: 12, st: 4, p: 1.08 }; m[63] = { s: 12, st: 4, p: 1.18 };
+    return finish(m);
+  }
+  function chopMap() {
+    var m = [];
+    for (var b = 0; b < 4; b++) for (var i = 0; i < 16; i++) {
+      var r = Math.random(), e, prev = m[m.length - 1];
+      if (i === 0) e = { s: pick([0, 16, 32]) };
+      else if (i === 4 || i === 12) e = { s: pick([4, 12, 20, 28, 36, 52]), p: r < 0.25 ? 1.12 : 1 };
+      else if (b === 3 && i >= 13) e = { s: pick([4, 12, 20]), st: i === 15 ? 4 : 2, p: 1 + (i - 12) * 0.07 };
+      else if ((i === 6 || i === 14) && r < 0.3) { e = { s: 5, r: true, n: 2 }; m.push(e); i++; m.push({ s: 4 }); continue; }
+      else if (r < 0.42) e = { s: pick([0, 1, 2, 3]) * 16 + i };
+      else if (r < 0.55 && prev && !prev.c && !prev.r) e = { s: prev.s, st: r < 0.5 ? 2 : 0 };
+      else if (r < 0.7) e = { s: pick([7, 9, 15, 23, 25, 39]) };
+      else if (r < 0.82) e = { s: pick([0, 2, 10, 11]) };
+      else e = { s: b * 16 + i };
+      m.push(e);
+    }
+    return finish(m.slice(0, STEPS));
+  }
+  maps.amen = amenMap(); maps.roller = rollerMap(); maps.chopped = chopMap();
+
+  // ---------- 3. playing it ----------
+  function session() {
+    var s = {};
+    s.out = ctx.createGain(); s.out.connect(master);
+    s.music = ctx.createGain(); s.music.connect(s.out);
+    s.drums = ctx.createGain(); s.drums.gain.value = 0.85; s.drums.connect(s.music);
+    s.sub = ctx.createGain(); s.sub.gain.value = 0.5;
+    var subSat = ctx.createWaveShaper(); subSat.curve = curve(1.6);
+    s.sub.connect(subSat); subSat.connect(s.music);
+    s.bassF = ctx.createBiquadFilter(); s.bassF.type = "lowpass"; s.bassF.frequency.value = 520; s.bassF.Q.value = 6;
+    s.lfo = ctx.createOscillator(); s.lfo.frequency.value = 0.21;
+    var lg = ctx.createGain(); lg.gain.value = 300; s.lfo.connect(lg); lg.connect(s.bassF.frequency); s.lfo.start();
+    var grit = ctx.createWaveShaper(); grit.curve = curve(2.5);
+    var bo = ctx.createGain(); bo.gain.value = 0.32;
+    s.bassF.connect(grit); grit.connect(bo); bo.connect(s.music);
+    s.fx = ctx.createGain();
+    s.dl = ctx.createDelay(2); s.dl.delayTime.value = 0.75 * 60 / bpm;
+    var fb = ctx.createGain(); fb.gain.value = 0.42;
+    var fl = ctx.createBiquadFilter(); fl.type = "lowpass"; fl.frequency.value = 2400;
+    var wet = ctx.createGain(); wet.gain.value = 0.55;
+    s.fx.connect(s.dl); s.dl.connect(fl); fl.connect(fb); fb.connect(s.dl); fl.connect(wet); wet.connect(s.out);
+    s.bells = ctx.createGain(); s.bells.gain.value = 0.7; s.bells.connect(s.music); s.bells.connect(s.fx);
+    return s;
+  }
+
+  function slice(t, e) {
+    var dur = (e.n || 1) * sd(), rate = bpm / ORIG * (e.p || 1), parts = e.st || 1, len = dur / parts;
+    for (var q = 0; q < parts; q++) {
+      var src = ctx.createBufferSource(), g = ctx.createGain(), at = t + q * len;
+      var off = e.r ? brk.duration - (e.s + 1) * SL : e.s * SL;
+      src.buffer = e.r ? rev : brk; src.playbackRate.value = rate * (1 + q * 0.03 * (parts > 1));
+      g.gain.setValueAtTime(0, at); g.gain.linearRampToValueAtTime(1, at + 0.002);
+      g.gain.setValueAtTime(1, at + len - 0.005); g.gain.linearRampToValueAtTime(0, at + len);
+      src.connect(g); g.connect(sess.drums);
+      src.start(at, Math.max(0, off), len * rate + 0.01);
+    }
+  }
+
+  function bassNote(t, n) {
+    var f = mtof(n[2]), end = t + n[1] * sd();
+    function voice(type, mult, det, dest, v) {
+      var o = ctx.createOscillator(), g = ctx.createGain();
+      o.type = type; o.detune.value = det;
+      if (n[3] != null) { o.frequency.setValueAtTime(mtof(n[3]) * mult, t); o.frequency.exponentialRampToValueAtTime(f * mult, t + 0.1); }
+      else o.frequency.setValueAtTime(f * mult, t);
+      g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(v, t + 0.01);
+      g.gain.setValueAtTime(v, end - 0.03); g.gain.linearRampToValueAtTime(0, end + 0.02);
+      o.connect(g); g.connect(dest); o.start(t); o.stop(end + 0.05);
+    }
+    voice("sine", 1, 0, sess.sub, 0.9);
+    if (bass === "reese") {
+      voice("sawtooth", 1, -16, sess.bassF, 0.5);
+      voice("sawtooth", 1, 16, sess.bassF, 0.5);
+      voice("sawtooth", 2, 7, sess.bassF, 0.22);
+    }
+  }
+
+  function bell(t, m) {
+    var f = mtof(m), c = ctx.createOscillator(), mo = ctx.createOscillator(), mg = ctx.createGain(), g = ctx.createGain();
+    c.frequency.value = f; mo.frequency.value = f * 3.5;
+    mg.gain.setValueAtTime(f * 1.4, t); mg.gain.exponentialRampToValueAtTime(1, t + 0.3);
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.07, t + 0.004); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.9);
+    mo.connect(mg); mg.connect(c.frequency); c.connect(g); g.connect(sess.bells);
+    c.start(t); mo.start(t); c.stop(t + 1); mo.stop(t + 1);
+  }
+  function pad(t, notes, len) {
+    var fl = ctx.createBiquadFilter(); fl.type = "lowpass"; fl.frequency.value = 1500; fl.connect(sess.bells);
+    notes.forEach(function (m, i) {
+      var o = ctx.createOscillator(), g = ctx.createGain();
+      o.type = "triangle"; o.frequency.value = mtof(m); o.detune.value = (i % 2 ? 6 : -6);
+      g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(0.03, t + 0.7);
+      g.gain.setValueAtTime(0.03, t + len - 0.6); g.gain.linearRampToValueAtTime(0, t + len);
+      o.connect(g); g.connect(fl); o.start(t); o.stop(t + len + 0.05);
+    });
+  }
+
+  function schedule(i, t) {
+    if (!(i & 15)) {
+      // changes land on the bar
+      pat = nextPat;
+      if (nextBpm !== bpm) { bpm = nextBpm; sess.dl.delayTime.setTargetAtTime(0.75 * 60 / bpm, t, 0.05); }
+    }
+    var m = maps[pat], e = m[i];
+    if (!e.c) slice(t, e);
+    if (bass !== "off") for (var q = 0; q < LINE.length; q++) if (LINE[q][0] === i) bassNote(t, LINE[q]);
+    if (sparkle) {
+      var ch = CHORDS[i < 32 ? 0 : 1];
+      if (i === 0 || i === 32) pad(t, ch, 32 * sd());
+      if ([0, 3, 6, 10, 13].indexOf(i & 15) > -1 && Math.random() < 0.75) bell(t, ch[Math.floor(Math.random() * ch.length)] + 24);
+    }
+    queue.push({ i: i, t: t, k: LETTER[e.s] === "K" && !e.r, bar: !(i & 15) ? m.slice(i, i + 16) : null });
+  }
+
+  function tick() {
+    if (!sess) return;
+    while (nextT < ctx.currentTime + 0.12) {
+      schedule(step, nextT);
+      nextT += sd();
+      step = (step + 1) % STEPS;
+    }
+  }
+
+  // ---------- 4. the display ----------
+  var cells = [];
+  for (var ci = 0; ci < 16; ci++) { var sp = document.createElement("span"); cellsEl.appendChild(sp); cells.push(sp); }
+  function paintBar(m) {
+    for (var i = 0; i < 16; i++) {
+      var e = m[i], L = LETTER[e.s] || "·";
+      cells[i].textContent = e.r ? L.toLowerCase() : L;
+      cells[i].className = (e.r ? "rv" : "") + (e.st ? " st" : "");
+    }
+  }
+  paintBar(maps.amen.slice(0, 16));
+  var NAMES = { amen: "amen-ish", roller: "roller", chopped: "chopped" };
+  function status(bar) { lcd1.textContent = "▶ " + bpm + "bpm · " + NAMES[pat] + " · bar " + bar + "/4 · " + (bass === "off" ? "no bass" : bass) + (sparkle ? " ✧" : ""); }
+  var lit = -1;
+  function draw() {
+    var now = ctx.currentTime;
+    while (queue.length && queue[0].t <= now) {
+      var q = queue.shift();
+      if (q.bar) { paintBar(q.bar); if (now >= hold - 0.05) status((q.i >> 4) + 1); }
+      if (lit > -1) cells[lit].classList.remove("on");
+      lit = q.i & 15; cells[lit].classList.add("on");
+      if (q.k && !still) { box.classList.add("thump"); setTimeout(function () { box.classList.remove("thump"); }, 80); }
+    }
+    if (playing && now - shoutT > 4) { shoutT = now; lcd2.textContent = SHOUTS[shoutN++ % SHOUTS.length]; }
+    if (playing) raf = requestAnimationFrame(draw);
+  }
+
+  // ---------- 5. the buttons ----------
+  function onAir(on) {
+    box.classList.toggle("on", on);
+    lamp.textContent = on ? "on air" : "off air";
+    bPull.disabled = bSiren.disabled = !on;
+  }
+  function play() {
+    if (playing) return;
+    if (!ctx) {
+      ctx = new AC();
+      var lim = ctx.createDynamicsCompressor();
+      lim.threshold.value = -10; lim.knee.value = 6; lim.ratio.value = 8; lim.attack.value = 0.003; lim.release.value = 0.2;
+      master = ctx.createGain(); master.gain.value = vol * 0.22;
+      master.connect(lim); lim.connect(ctx.destination);
+    }
+    if (ctx.resume) ctx.resume();
+    playing = true; var id = ++playId;
+    lcd1.textContent = "tuning in…"; tell("tuning in");
+    building = building || renderBreak(ctx.sampleRate);
+    building.then(function () {
+      if (!playing || id !== playId) return;
+      sess = session(); step = 0; queue = []; pat = nextPat; bpm = nextBpm;
+      nextT = ctx.currentTime + 0.06; shoutT = ctx.currentTime;
+      tick(); timer = setInterval(tick, 25);
+      onAir(true); tell("playing. stop button or escape to stop");
+      raf = requestAnimationFrame(draw);
+    }, function () { playing = false; box.classList.add("nope"); });
+  }
+  function stop() {
+    if (!playing) return;
+    playing = false; clearInterval(timer); cancelAnimationFrame(raf);
+    onAir(false);
+    if (sess) {
+      var s = sess, now = ctx.currentTime; sess = null;
+      s.out.gain.cancelScheduledValues(now); s.out.gain.setValueAtTime(s.out.gain.value, now); s.out.gain.linearRampToValueAtTime(0, now + 0.05);
+      setTimeout(function () { s.out.disconnect(); try { s.lfo.stop(); } catch (e) {} if (!playing && ctx.suspend) ctx.suspend(); }, 250);
+    }
+    queue = []; if (lit > -1) cells[lit].classList.remove("on"); lit = -1;
+    lcd1.textContent = "KES FM " + nextBpm + ".0 ♡ off air"; lcd2.textContent = "thanks for listening (◕‿◕✿)";
+    tell("stopped");
+  }
+  function pullUp() {
+    if (!sess || ctx.currentTime < hold) return;
+    var now = ctx.currentTime, r = bpm / ORIG, back = now + 1.3, s = sess;
+    s.music.gain.cancelScheduledValues(now); s.music.gain.setValueAtTime(s.music.gain.value, now);
+    s.music.gain.setTargetAtTime(0, now, 0.012);
+    s.music.gain.setValueAtTime(0, back - 0.01); s.music.gain.linearRampToValueAtTime(1, back + 0.01);
+    // spin the break backwards, faster and faster, like a hand on the record
+    var at = ((step - Math.round(0.12 / sd()) + STEPS) % STEPS) * SL;
+    var src = ctx.createBufferSource(), g = ctx.createGain();
+    src.buffer = rev; src.loop = true;
+    src.playbackRate.setValueAtTime(r * 0.5, now);
+    src.playbackRate.exponentialRampToValueAtTime(r * 3, now + 0.35);
+    src.playbackRate.exponentialRampToValueAtTime(r * 4.5, now + 0.95);
+    g.gain.setValueAtTime(0.95, now); g.gain.setValueAtTime(0.95, now + 0.5); g.gain.exponentialRampToValueAtTime(0.0001, now + 1.05);
+    src.connect(g); g.connect(s.out); src.start(now, Math.max(0, brk.duration - at - 0.01)); src.stop(now + 1.1);
+    // and the bass goes up with it
+    var o = ctx.createOscillator(), f = ctx.createBiquadFilter(), og = ctx.createGain();
+    o.type = "sawtooth"; o.frequency.setValueAtTime(55, now); o.frequency.exponentialRampToValueAtTime(700, now + 0.9);
+    f.type = "lowpass"; f.frequency.value = 1100;
+    og.gain.setValueAtTime(0.16, now); og.gain.exponentialRampToValueAtTime(0.0001, now + 0.95);
+    o.connect(f); f.connect(og); og.connect(s.out); o.start(now); o.stop(now + 1);
+    step = 0; nextT = back; queue = []; hold = back;
+    lcd1.textContent = "⟲ pull up! come again…"; lcd2.textContent = "from the top ♡";
+    tell("rewind, back from the top");
+  }
+  function siren() {
+    if (!sess) return;
+    var t = ctx.currentTime + 0.01, d = 1.7;
+    var o = ctx.createOscillator(), l = ctx.createOscillator(), lg = ctx.createGain(), f = ctx.createBiquadFilter(), g = ctx.createGain();
+    o.type = "square"; o.frequency.setValueAtTime(360, t); o.frequency.exponentialRampToValueAtTime(880, t + d);
+    l.frequency.setValueAtTime(3, t); l.frequency.linearRampToValueAtTime(11, t + d);
+    lg.gain.setValueAtTime(80, t); lg.gain.linearRampToValueAtTime(240, t + d);
+    l.connect(lg); lg.connect(o.frequency);
+    f.type = "lowpass"; f.frequency.value = 2000; f.Q.value = 2;
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.09, t + 0.03); g.gain.setValueAtTime(0.09, t + d - 0.12); g.gain.exponentialRampToValueAtTime(0.0001, t + d);
+    o.connect(f); f.connect(g); g.connect(sess.out); g.connect(sess.fx);
+    o.start(t); l.start(t); o.stop(t + d + 0.05); l.stop(t + d + 0.05);
+  }
+  function setPat(p) {
+    if (p === "chopped" && nextPat === "chopped") maps.chopped = chopMap();
+    nextPat = p;
+    var bs = box.querySelectorAll("[data-pat]");
+    for (var i = 0; i < bs.length; i++) bs[i].setAttribute("aria-pressed", String(bs[i].getAttribute("data-pat") === p));
+    if (!playing) paintBar(maps[p].slice(0, 16));
+    tell(NAMES[p] + (playing ? ", from the next bar" : ""));
+  }
+
+  bPlay.addEventListener("click", play);
+  bStop.addEventListener("click", stop);
+  bPull.addEventListener("click", pullUp);
+  bSiren.addEventListener("click", siren);
+  bChop.addEventListener("click", function () { nextPat = "chopped"; setPat("chopped"); });
+  box.querySelectorAll("[data-pat]").forEach(function (b) { b.addEventListener("click", function () { setPat(b.getAttribute("data-pat")); }); });
+  box.querySelectorAll("[data-bass]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      bass = b.getAttribute("data-bass");
+      box.querySelectorAll("[data-bass]").forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); });
+      tell("bass: " + bass);
+    });
+  });
+  bSpark.addEventListener("click", function () {
+    sparkle = !sparkle; bSpark.setAttribute("aria-pressed", String(sparkle));
+    if (sparkle && sess && step !== 0 && step !== 32) pad(ctx.currentTime + 0.02, CHORDS[step < 32 ? 0 : 1], ((step < 32 ? 32 : 64) - step) * sd());
+  });
+  rBpm.addEventListener("input", function () {
+    nextBpm = +rBpm.value; oBpm.textContent = rBpm.value;
+    if (!playing) lcd1.textContent = "KES FM " + nextBpm + ".0 ♡ press play";
+  });
+  rVol.addEventListener("input", function () {
+    vol = rVol.value / 100;
+    if (master) master.gain.setTargetAtTime(vol * 0.22, ctx.currentTime, 0.03);
+  });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && playing) stop(); });
+})();
 </script>
 </body>
 </html>

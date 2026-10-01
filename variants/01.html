@@ -18,7 +18,8 @@
 <meta name="twitter:description" content="kes inkersole — freelance creative strategist & internet equalities researcher, based in london.">
 <meta name="twitter:image" content="https://kesia-coral.vercel.app/square.png">
 <style>
-/* colours are all css names except the highlighter. strawberry milk + biro. */
+/* strawberry milk + biro, now with hazard tape, acid green and a bit of chrome.
+   the soft colours are css names, the loud ones are hex. */
 :root {
   --paper: lavenderblush;
   --ink: midnightblue;
@@ -27,18 +28,26 @@
   --blue: cornflowerblue;
   --butter: #fff3a0;
   --fabric: #f5cfe0;
+  --tape: #ffd400;
+  --acid: #b8ff2e;
+  --night: #0e0c14;
+  --chrome: linear-gradient(180deg, #fff 0%, #e4e9f2 28%, #8a93a6 47%, #2c303b 52%, #a9b8cf 68%, #fff 100%);
+  --hazard: repeating-linear-gradient(-45deg, #000 0 10px, var(--tape) 10px 20px);
   --gut: clamp(16px, 3.5vw, 52px);
   --mono: ui-monospace, Menlo, "DejaVu Sans Mono", Consolas, "Courier New", monospace;
+  --hard: Impact, Haettenschweiler, "Arial Narrow Bold", "Franklin Gothic Bold", "DejaVu Sans Condensed", sans-serif;
+  --fat: "Arial Black", "Arial Bold", Gadget, "DejaVu Sans", sans-serif;
 }
 html { background: var(--paper); color: var(--ink); }
-body { max-width: 1920px; margin: 0 auto; padding: 28px var(--gut) 0; font: 19px/1.45 "Times New Roman", Times, serif; }
+body { max-width: 1920px; margin: 0 auto; padding: 0 var(--gut); font: 19px/1.45 "Times New Roman", Times, serif; background: var(--paper); }
 a { color: var(--ink); text-decoration-color: var(--pink); text-decoration-thickness: 2px; text-underline-offset: 3px; }
 a:visited { color: #5a3d8f; text-decoration-color: var(--blue); }
 a:hover { background: var(--butter); color: var(--berry); text-decoration-style: wavy; }
 ::selection { background: var(--pink); color: white; }
 
 h1 { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
-h2 { font-size: 1em; color: var(--berry); margin: 0 0 .35em; }
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); margin: 0; }
+h2, h3 { font-size: 1em; color: var(--berry); margin: 0 0 .35em; }
 .next { margin-top: 1.4em; }
 p { margin: 0 0 .8em; }
 ul { margin: 0; padding-left: 1.5em; list-style: "☆  "; }
@@ -49,9 +58,20 @@ pre { font-family: var(--mono); font-size-adjust: ch-width .602; margin: 0; }
 b { font-weight: inherit; }
 mark { background: var(--butter); color: inherit; padding: 0 .15em; }
 .h { color: var(--pink); }  .b { color: var(--blue); }  .k { color: var(--berry); }  .i { color: var(--ink); }  .g { color: plum; }
+.t { color: #000; font-weight: 700; }  .a { background: var(--acid); color: #000; }
+
+/* the label you'd stick on a box in the van: black on hazard yellow */
+.lab { display: inline-block; font: 400 .8em/1 var(--hard); letter-spacing: .08em; text-transform: uppercase; color: #000; background: var(--tape); padding: .3em .45em .22em; margin: 0 .45em .25em 0; transform: rotate(-2deg); box-shadow: 2px 2px 0 #000; vertical-align: .08em; }
+
+/* hazard tape, full bleed. the top one scrolls like a pirate station ident */
+.tape { margin: 0 calc(-1 * var(--gut)); overflow: hidden; background: var(--tape); color: #000; border-block: 8px solid; border-image: var(--hazard) 8; font: 400 19px/1 var(--hard); letter-spacing: .06em; text-transform: uppercase; }
+.tape p { display: flex; width: max-content; margin: 0; padding: 7px 0 5px; white-space: pre; }
+@media (prefers-reduced-motion: no-preference) { .tape.ident p { animation: ident 60s linear infinite; } }
+@keyframes ident { to { transform: translateX(-50%); } }
+.tape.end { margin-top: 0; }
 
 /* cross stitch: one x per square of aida, and the holes are drawn by css so the art stays readable in view-source */
-.stitch { --cols: 112; --cap: 28px; font-size: min(var(--cap), calc((100vw - 2 * var(--gut)) / (var(--cols) + 1) / .602)); line-height: .6; padding: .9em .5ch; color: var(--berry); background: var(--thread, none), radial-gradient(circle, var(--fabric) .07em, transparent .1em) 0 0 / 1ch .6em; overflow: hidden; margin-bottom: 28px; }
+.stitch { --cols: 112; --cap: 28px; font-size: min(var(--cap), calc((100vw - 2 * var(--gut)) / (var(--cols) + 1) / .602)); line-height: .6; padding: .9em .5ch; color: var(--berry); background: var(--thread, none), radial-gradient(circle, var(--fabric) .07em, transparent .1em) 0 0 / 1ch .6em; overflow: hidden; margin: 22px 0 10px; }
 .phone { display: none; }
 
 /* rows: things sit side by side, three across, then two, then one on a phone */
@@ -59,8 +79,34 @@ mark { background: var(--butter); color: inherit; padding: 0 .15em; }
 .row > * { flex: 1 1 15em; min-width: 0; }
 .cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
 
-.hello { flex: 2 1 15em; font-size: 1.12em; max-width: 36em; }
-.note { flex: 1 1 14em; max-width: 19em; align-self: start; margin-left: auto; background: var(--butter); padding: 16px 22px 14px; transform: rotate(-1.2deg); box-shadow: 3px 4px 0 var(--fabric); }
+/* the throw-up. pink fill, biro keyline, acid outline, black, cornflower drop. sparkles for shine */
+.intro { align-items: center; }
+.row > .throw { flex: 0 0 auto; }
+.throw { position: relative; margin: 8px auto 34px 8px; padding: .1em .26em .32em .12em; font: 900 clamp(100px, 27vw, 205px)/.9 var(--fat); letter-spacing: -.06em; color: var(--pink); white-space: nowrap; transform: rotate(-4deg); }
+.throw .l { position: relative; display: inline-block; isolation: isolate;
+  text-shadow: 0.018em 0em 0 var(--ink), 0.016em 0.009em 0 var(--ink), 0.009em 0.016em 0 var(--ink), 0em 0.018em 0 var(--ink), -0.009em 0.016em 0 var(--ink), -0.016em 0.009em 0 var(--ink), -0.018em 0em 0 var(--ink), -0.016em -0.009em 0 var(--ink), -0.009em -0.016em 0 var(--ink), 0em -0.018em 0 var(--ink), 0.009em -0.016em 0 var(--ink), 0.016em -0.009em 0 var(--ink),
+    0.05em 0em 0 var(--acid), 0.048em 0.015em 0 var(--acid), 0.04em 0.029em 0 var(--acid), 0.029em 0.04em 0 var(--acid), 0.015em 0.048em 0 var(--acid), 0em 0.05em 0 var(--acid), -0.015em 0.048em 0 var(--acid), -0.029em 0.04em 0 var(--acid), -0.04em 0.029em 0 var(--acid), -0.048em 0.015em 0 var(--acid), -0.05em 0em 0 var(--acid), -0.048em -0.015em 0 var(--acid), -0.04em -0.029em 0 var(--acid), -0.029em -0.04em 0 var(--acid), -0.015em -0.048em 0 var(--acid), 0em -0.05em 0 var(--acid), 0.015em -0.048em 0 var(--acid), 0.029em -0.04em 0 var(--acid), 0.04em -0.029em 0 var(--acid), 0.048em -0.015em 0 var(--acid),
+    0.075em 0em 0 #000, 0.072em 0.019em 0 #000, 0.065em 0.037em 0 #000, 0.053em 0.053em 0 #000, 0.038em 0.065em 0 #000, 0.019em 0.072em 0 #000, 0em 0.075em 0 #000, -0.019em 0.072em 0 #000, -0.037em 0.065em 0 #000, -0.053em 0.053em 0 #000, -0.065em 0.037em 0 #000, -0.072em 0.019em 0 #000, -0.075em 0em 0 #000, -0.072em -0.019em 0 #000, -0.065em -0.037em 0 #000, -0.053em -0.053em 0 #000, -0.038em -0.065em 0 #000, -0.019em -0.072em 0 #000, 0em -0.075em 0 #000, 0.019em -0.072em 0 #000, 0.038em -0.065em 0 #000, 0.053em -0.053em 0 #000, 0.065em -0.038em 0 #000, 0.072em -0.019em 0 #000,
+    0.12em 0.06em 0 #000, 0.114em 0.089em 0 #000, 0.098em 0.113em 0 #000, 0.074em 0.129em 0 #000, 0.045em 0.135em 0 #000, 0.016em 0.129em 0 #000, -0.008em 0.113em 0 #000, -0.024em 0.089em 0 #000, -0.03em 0.06em 0 #000, 0.098em 0.007em 0 #000, 0.114em 0.031em 0 #000,
+    0.15em 0.11em 0 var(--blue), 0.145em 0.133em 0 var(--blue), 0.132em 0.152em 0 var(--blue), 0.113em 0.165em 0 var(--blue), 0.09em 0.17em 0 var(--blue), 0.067em 0.165em 0 var(--blue), 0.048em 0.152em 0 var(--blue), 0.035em 0.133em 0 var(--blue), 0.03em 0.11em 0 var(--blue), 0.132em 0.068em 0 var(--blue), 0.145em 0.087em 0 var(--blue); }
+.throw .l2 { transform: translateY(.07em) rotate(6deg); }
+.throw .l3 { transform: translateY(-.02em) rotate(-4deg); }
+.drip { position: absolute; z-index: -1; left: var(--x); top: .6em; width: .07em; height: var(--h); background: var(--acid); border: .016em solid #000; border-top: 0; border-radius: 0 0 .04em .04em; }
+.drip::after { content: ""; position: absolute; left: 50%; bottom: -.06em; width: .1em; height: .11em; translate: -50% 0; border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%; background: var(--acid); border: .016em solid #000; }
+@media (prefers-reduced-motion: no-preference) { .drip { animation: drip 2.6s cubic-bezier(.25, .8, .35, 1) both; animation-delay: var(--d, .3s); } }
+@keyframes drip { from { height: .02em; } }
+.shine { position: absolute; z-index: 2; font: 400 .17em/1 var(--mono); color: white; text-shadow: none; }
+.gloss { position: absolute; z-index: 2; width: .045em; height: .17em; border-radius: 1em; background: white; transform: rotate(28deg); }
+
+/* the classic sticker, but pink */
+.hi { position: absolute; right: -.05em; top: -.05em; width: 120px; transform: rotate(9deg); font: 400 11px/1.1 Arial, Helvetica, sans-serif; letter-spacing: 0; text-align: center; color: var(--ink); background: white; border-radius: 10px; overflow: hidden; box-shadow: 2px 3px 0 rgba(25, 25, 112, .3); text-shadow: none; white-space: normal; }
+.hi b { display: block; padding: 7px 0 0; background: var(--pink); color: white; font: 900 21px/1 var(--fat); letter-spacing: .02em; }
+.hi small { display: block; padding: 1px 0 6px; background: var(--pink); color: white; font-size: 11px; }
+.hi span { display: block; padding: 7px 4px 9px; font: italic 900 27px/1 var(--fat); letter-spacing: -.04em; transform: rotate(-5deg) skewX(-8deg); }
+
+.hello { flex: 2 1 15em; font-size: 1.12em; max-width: 34em; }
+.note { position: relative; flex: 1 1 14em; max-width: 19em; align-self: start; margin-left: auto; background: var(--butter); padding: 20px 22px 14px; transform: rotate(-1.2deg); box-shadow: 3px 4px 0 var(--fabric); }
+.note::before { content: ""; position: absolute; top: -11px; left: 50%; width: 46%; height: 20px; translate: -50% 0; background: var(--hazard); transform: rotate(3deg); opacity: .93; }
 button { font: 15px var(--mono); color: var(--berry); background: none; border: 0; padding: 0; cursor: pointer; }
 button:hover { background: var(--butter); }
 
@@ -72,17 +118,103 @@ button:hover { background: var(--butter); }
 @keyframes packet { to { left: 100%; } }
 .cable b { margin-left: auto; padding-left: 2ch; }
 
-.wrote { list-style: "✎  "; }
-.pods { list-style: "♪  "; columns: 2 18em; column-gap: 48px; }
-.wrote li::marker, .pods li::marker { color: var(--blue); }
+/* ---------- kes fm: the machine ---------- */
+.radio { position: relative; margin: 26px 0 34px; padding: 34px clamp(14px, 2.4vw, 34px) 26px; background: var(--night); color: var(--paper); border-radius: 26px; box-shadow: 7px 7px 0 var(--pink), 7px 7px 0 2px #000; }
+.radio::before, .radio::after { content: ""; position: absolute; left: 30px; right: 30px; height: 9px; background: var(--hazard); }
+.radio::before { top: 0; }  .radio::after { bottom: 0; }
+.radio-top { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; margin-bottom: 18px; }
+.radio-top h2 { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; margin: 0; color: var(--paper); font-weight: 400; }
+.chrome { font: 400 clamp(38px, 5.4vw, 70px)/.9 var(--hard); text-transform: uppercase; letter-spacing: .02em; background: var(--chrome); -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(3px 3px 0 var(--pink)); padding-right: .05em; }
+.freq { font: 700 clamp(20px, 2.4vw, 30px)/1 var(--mono); color: var(--acid); background: #0a1606; border-radius: 6px; padding: 5px 10px; box-shadow: inset 0 0 0 2px #2b4d12; }
+.radio-top h2 small { font: italic 17px/1.3 "Times New Roman", Times, serif; color: var(--fabric); flex-basis: 100%; }
+.onair { margin-left: auto; font: 400 15px/1 var(--hard); letter-spacing: .14em; text-transform: uppercase; color: #6a6478; border: 2px solid #3a3546; border-radius: 6px; padding: 6px 9px 4px; }
+.live .onair { color: #000; background: var(--pink); border-color: var(--pink); box-shadow: 0 0 16px var(--pink); }
 
-/* photos, stitched on. they stay photo-sized and get scattered across the width */
+.rig { display: flex; flex-wrap: wrap; align-items: center; gap: 22px 32px; }
+.deck { flex: 1 1 380px; min-width: 0; display: flex; justify-content: center; align-items: center; gap: clamp(8px, 1.4vw, 18px); }
+.brain { flex: 1.4 1 420px; min-width: 0; }
+
+.spk { font-size: clamp(6.5px, .95vw, 13.5px); line-height: 1.08; color: var(--blue); }
+.spk .h { color: var(--pink); }
+@media (prefers-reduced-motion: no-preference) { .spk.thump { animation: thump .16s ease-out; } }
+@keyframes thump { from { transform: scale(1.05); color: var(--acid); } }
+
+.plate { position: relative; flex: 0 0 auto; width: clamp(118px, 17vw, 240px); aspect-ratio: 1; border-radius: 50%; box-shadow: 0 0 0 3px #000, 0 0 0 5px #34303d; }
+.plate::after { content: ""; position: absolute; inset: 0; border-radius: 50%; pointer-events: none; background: conic-gradient(from 25deg, transparent 0 7%, rgba(255, 255, 255, .2) 11%, transparent 17% 50%, rgba(255, 255, 255, .14) 61%, transparent 67%); }
+.disc { width: 100%; height: 100%; border-radius: 50%; display: grid; place-items: center; background: radial-gradient(circle, #111 0 2.6%, transparent 3%), radial-gradient(circle, transparent 0 31%, #000 31.5% 33%, transparent 33.5%), repeating-radial-gradient(circle, #121014 0 2px, #2a2630 2px 3px); }
+.disc span { width: 62%; aspect-ratio: 1; border-radius: 50%; display: grid; place-content: center; background: radial-gradient(circle, var(--berry) .09em, transparent .12em) 0 0 / .55em .55em, var(--fabric); color: var(--ink); font: italic 900 clamp(10px, 1.3vw, 17px)/1.05 var(--fat); text-align: center; letter-spacing: -.02em; }
+.disc small { font: 400 .7em/1.4 var(--mono); color: var(--berry); }
+@media (prefers-reduced-motion: no-preference) {
+  .live .disc { animation: spin 1.8s linear infinite; }
+  .rewinding .disc { animation: spin .32s linear infinite reverse; }
+}
+@keyframes spin { to { transform: rotate(1turn); } }
+
+.lcd { container-type: inline-size; margin-bottom: 16px; padding: 12px 16px 10px; border-radius: 12px; color: var(--acid); background: repeating-linear-gradient(transparent 0 2px, rgba(0, 0, 0, .28) 2px 3px), #0a1606; box-shadow: inset 0 0 0 2px #2b4d12, inset 0 0 26px rgba(184, 255, 46, .12); font-family: var(--mono); }
+.lcd p { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2px 16px; margin: 0; font-size: 14px; line-height: 1.35; }
+.lcd pre { font-size: min(22px, 100cqw / 26 / .602); line-height: 1.3; margin: 8px 0; text-shadow: 0 0 6px rgba(184, 255, 46, .45); }
+.lcd .c.on { background: var(--acid); color: #0a1606; text-shadow: none; }
+.lcd .dim { color: #5d8a2b; }
+#dancer { white-space: pre; }
+
+.pads { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 10px; margin-bottom: 12px; }
+.btn { font: 15px/1 var(--mono); color: var(--ink); background: var(--paper); border: 2px solid #000; border-radius: 999px; padding: .6em .95em .55em; box-shadow: 3px 3px 0 var(--pink); }
+.btn:hover { background: var(--butter); color: var(--ink); }
+.btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--pink); }
+.btn:focus-visible { outline: 3px solid var(--acid); outline-offset: 2px; }
+.btn.go { background: var(--pink); color: #000; font-weight: 700; }
+.btn.halt { background: var(--tape); color: #000; font-weight: 700; }
+.btn[aria-pressed="true"] { background: var(--acid); color: #000; }
+.btn:disabled { opacity: .4; cursor: default; transform: none; }
+.vol { font: 14px var(--mono); color: var(--fabric); display: inline-flex; align-items: center; gap: 8px; }
+.vol input { width: 110px; accent-color: var(--pink); }
+
+/* stickers slapped on the case */
+.slap { position: absolute; z-index: 1; font: 400 14px/1 var(--hard); letter-spacing: .06em; text-transform: uppercase; padding: 7px 10px 5px; box-shadow: 2px 2px 0 rgba(0, 0, 0, .45); }
+.slap.s1 { top: -15px; right: 9%; background: var(--pink); color: #000; transform: rotate(5deg); border-radius: 4px; }
+.slap.s2 { top: -12px; right: 31%; background: white; color: var(--ink); transform: rotate(-4deg); font: italic 700 15px/1 "Times New Roman", Times, serif; text-transform: none; letter-spacing: 0; border-radius: 99px; }
+.slap.s3 { bottom: -14px; left: 7%; background: var(--tape); color: #000; transform: rotate(-3deg); }
+
+/* ---------- the flyer ---------- */
+.flyer { position: relative; margin: 6px 0 52px; padding: 34px clamp(16px, 3vw, 46px) 18px; text-align: center; background: radial-gradient(circle, rgba(14, 12, 20, .09) 1px, transparent 1.7px) 0 0 / 7px 7px, var(--acid); border-block: 14px solid; border-image: var(--hazard) 14; transform: rotate(-.5deg); }
+.flyer .pres { font: 400 clamp(15px, 1.6vw, 21px)/1.1 var(--hard); letter-spacing: .32em; text-transform: uppercase; color: #000; margin: 0 0 .3em; }
+.flyer h2 { margin: 0; font: 400 clamp(56px, 11vw, 168px)/.86 var(--hard); text-transform: uppercase; letter-spacing: .01em; color: transparent; background: linear-gradient(#000 0 45%, transparent 45% 52%, #000 52%); -webkit-background-clip: text; background-clip: text; filter: drop-shadow(4px 4px 0 var(--pink)); }
+.flyer .sub { font-style: italic; margin: .5em auto 0; max-width: 40em; }
+.arenas { gap: 30px 44px; margin: 30px 0 26px; }
+.arenas h3 { font-size: 1.05em; margin-bottom: .6em; }
+.lineup { list-style: none; padding: 0; }
+.lineup li { margin: 0; }
+.lineup li + li::before { content: "✶"; display: block; margin: .15em 0; color: var(--berry); font-size: .8em; }
+.big a { font: 400 1.55em/1 var(--hard); text-transform: uppercase; letter-spacing: .02em; }
+.big li { line-height: 1.3; }
+.flyer .fine { font: 13px/1.5 var(--mono); text-transform: lowercase; margin: 0; }
+.smiley { position: absolute; top: -34px; right: 5%; width: 94px; height: 94px; border-radius: 50%; background: var(--tape); border: 3px solid #000; transform: rotate(12deg); box-shadow: 3px 3px 0 #000; }
+.smiley::before { content: ""; position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(ellipse 7% 14% at 35% 37%, #000 96%, transparent), radial-gradient(ellipse 7% 14% at 65% 37%, #000 96%, transparent), radial-gradient(circle at 22% 60%, var(--pink) 0 9%, transparent 10%), radial-gradient(circle at 78% 60%, var(--pink) 0 9%, transparent 10%); }
+.smiley::after { content: ""; position: absolute; left: 23%; right: 23%; top: 33%; height: 38%; border: 4px solid transparent; border-bottom-color: #000; border-radius: 50%; }
+.smiley i { position: absolute; left: 46%; top: 92%; width: 9px; height: 26px; background: var(--tape); border: 3px solid #000; border-top: 0; border-radius: 0 0 9px 9px; }
+
+/* liner notes */
+.liner section { padding-top: 4px; }
+.liner p { font-size: .95em; }
+
+/* photos. one photocopied and taped up, one stitched on, one with a sticker on it */
 .photos { justify-content: space-around; align-items: flex-start; }
-.photos > figure { flex: 0 0 auto; box-sizing: border-box; width: clamp(150px, 23vw, 400px); margin: 0; padding: 12px 12px 14px; background: white; outline: 2px dashed var(--pink); outline-offset: -7px; box-shadow: 0 2px 6px rgba(25, 25, 112, .12); transform: rotate(-1deg); }
+.photos > figure { position: relative; flex: 0 0 auto; box-sizing: border-box; width: clamp(150px, 23vw, 400px); margin: 0; padding: 12px 12px 14px; background: white; outline: 2px dashed var(--pink); outline-offset: -7px; box-shadow: 0 2px 6px rgba(25, 25, 112, .12); transform: rotate(-1deg); }
+.photos > figure:nth-child(1) { outline: 0; transform: rotate(-2deg); }
+.photos > figure:nth-child(1) img { filter: grayscale(1) contrast(1.35); }
+.photos > figure:nth-child(1)::before { content: ""; position: absolute; z-index: 1; top: -11px; left: 28%; width: 44%; height: 22px; background: var(--hazard); transform: rotate(-4deg); opacity: .93; }
 .photos > figure:nth-child(2) { margin-top: 48px; transform: rotate(1.4deg); outline-color: var(--blue); }
-.photos > figure:nth-child(3) { margin-top: 14px; transform: rotate(-.3deg); }
+.photos > figure:nth-child(3) { margin-top: 14px; transform: rotate(-.3deg); outline: 0; box-shadow: 4px 4px 0 #000; }
+.photos > figure:nth-child(3)::after { content: "big up ♡"; position: absolute; right: 8px; top: 24px; padding: 8px 10px 6px; background: var(--acid); color: #000; font: 400 15px/1 var(--hard); letter-spacing: .06em; text-transform: uppercase; transform: rotate(9deg); box-shadow: 2px 2px 0 #000; }
 figure img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; background: var(--fabric); }
 figcaption { font-size: 15px; margin-top: 6px; }
+
+/* the tape pack */
+.pods { list-style: none; padding: 0; columns: 2 18em; column-gap: 48px; }
+.pods li { position: relative; padding-left: 3.6em; }
+.pods li::before { content: "[o=o]"; position: absolute; left: 0; top: .3em; color: var(--blue); font: .8em/1.2 var(--mono); }
+.wrote { list-style: "✎  "; }
+.wrote li::marker { color: var(--berry); }
 
 /* it's leaving without you */
 .row > .stop { flex: 0 0 auto; align-self: end; margin-left: auto; overflow: hidden; }
@@ -95,19 +227,23 @@ figcaption { font-size: 15px; margin-top: 6px; }
 footer { display: flex; flex-wrap: wrap; align-items: end; gap: 20px 40px; margin-bottom: 28px; }
 footer p { max-width: 34em; }
 footer .stitch { --cap: 22px; margin: 0 0 0 auto; color: var(--blue); }
+.tag { display: inline-block; margin: 6px 0 4px; font: italic 900 34px/1 var(--fat); letter-spacing: -.05em; color: var(--ink); transform: rotate(-6deg) skewX(-10deg); text-shadow: 2px 2px 0 var(--acid); }
 small { font-size: 15px; }
 /* the hem: hearts and sparkles, pink and blue in turn */
 @supports (background-clip: text) or (-webkit-background-clip: text) {
   .hem { --thread: repeating-linear-gradient(90deg, var(--pink) 0 4ch, var(--blue) 0 8ch); color: transparent; -webkit-background-clip: text, border-box; background-clip: text, border-box; }
 }
+.hem { margin-bottom: 0; }
 
 @media (min-width: 701px) and (max-width: 1080px) {
   .cols { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .cols > :last-child:nth-child(odd) { grid-column: 1 / -1; columns: 2; column-gap: 48px; }
-  .cols > :last-child:nth-child(odd) h2 { column-span: all; }
+  .cols > :last-child:nth-child(odd) h2, .cols > :last-child:nth-child(odd) h3 { column-span: all; }
 }
 @media (max-width: 700px) {
   .cols { grid-template-columns: minmax(0, 1fr); }
+  .slap.s2 { display: none; }
+  .onair { margin-left: 0; }
 }
 @media (max-width: 900px) {
   .desk { display: none; }
@@ -115,16 +251,25 @@ small { font-size: 15px; }
   .stitch { --cols: 43; --cap: 24px; }
 }
 @media (max-width: 760px) {
-  body { font-size: 18px; padding-top: 20px; }
+  body { font-size: 18px; }
   .row { margin-bottom: 32px; }
   .note { margin-left: 0; }
+  .throw { margin: 30px auto 30px; }
+  .hi { width: 86px; right: auto; left: 78%; top: -.3em; }
+  .hi b { font-size: 17px; }
+  .hi span { font-size: 22px; }
   .bus { font-size: calc((100vw - 2 * var(--gut)) / 50 / .602); }
+  .tape { font-size: 16px; }
+  .btn { font-size: 14px; }
+  .smiley { width: 70px; height: 70px; top: -30px; }
+  .flyer { padding-top: 72px; }
 }
 @media (max-width: 560px) {
   .photos { justify-content: center; gap: 24px 20px; }
   .photos > figure { width: calc(50% - 10px); padding: 8px 8px 10px; outline-offset: -5px; }
   .photos > figure:nth-child(2) { margin-top: 18px; }
   .photos > figure:nth-child(3) { margin-top: -6px; }
+  .photos > figure:nth-child(3)::after { font-size: 12px; }
   figcaption { font-size: 13px; }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -135,6 +280,9 @@ small { font-size: 15px; }
 <body>
 
 <h1>kes inkersole</h1>
+
+<div class="tape ident" aria-hidden="true"><p><span>  kes fm ✶ 170.0 on your browser dial ✶ big up all the junglists ✶ and everyone who just came for the links ✶ no cookies ✶ no trackers ✶ strictly no web fonts ✶ shout outs + requests: inkersolekesia@gmail.com ✶ press play further down, it won't start on its own ✶</span><span>  kes fm ✶ 170.0 on your browser dial ✶ big up all the junglists ✶ and everyone who just came for the links ✶ no cookies ✶ no trackers ✶ strictly no web fonts ✶ shout outs + requests: inkersolekesia@gmail.com ✶ press play further down, it won't start on its own ✶</span></p></div>
+
 <pre class="stitch desk" aria-hidden="true">
                                                                                                 <b class=b>xxxxxxxxxxxxx</b>
                                                                                                 <b class=b>x           x</b>
@@ -168,9 +316,10 @@ small { font-size: 15px; }
   x  x  x x x  x    x       x x  x x  x
   x  x  x x  x  xxx x    xxx   xx   x  xxx</pre>
 
-<div class="row">
+<div class="row intro">
+  <div class="throw" aria-hidden="true"><span class="l l1">k<i class="drip" style="--x:.1em;--h:.42em;--d:.2s"></i><i class="drip" style="--x:.5em;--h:.22em;--d:.9s"></i><i class="gloss" style="left:.14em;top:.12em"></i><i class="shine" style="left:.36em;top:.3em">✦</i></span><span class="l l2">e<i class="drip" style="--x:.3em;--h:.58em;--d:.5s"></i><i class="gloss" style="left:.12em;top:.32em"></i></span><span class="l l3">s<i class="drip" style="--x:.18em;--h:.3em;--d:1.1s"></i><i class="drip" style="--x:.42em;--h:.48em;--d:.4s"></i><i class="shine" style="left:.38em;top:.22em">✧</i><i class="gloss" style="left:.2em;top:.3em"></i></span><span class="hi"><b>HELLO</b><small>my name is</small><span>kes ♡</span></span></div>
   <div class="hello">
-    <p>Kes here (Kesia on forms). I'm a freelance creative strategist and internet equalities researcher based in London, and an associate lecturer at UAL (LCF + CCI). I've worked with Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer and Selfridges. Links below, help yourself ↓</p>
+    <p>Kes here (Kesia on forms). I'm a freelance creative strategist and internet equalities researcher based in London, and an associate lecturer at UAL (LCF + CCI). I've worked with Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer and Selfridges. Links below, help yourself ↓ (there's a little jungle machine on the way, it only plays if you press play)</p>
     <p><mark>available for work</mark>, say hi: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a> <button onclick="navigator.clipboard && navigator.clipboard.writeText('inkersolekesia@gmail.com').then(() => this.textContent = '[ copied ♡ ]', () => this.textContent = '[ hmm, didn\'t work ]')">[ copy email ]</button></p>
   </div>
   <div class="note">
@@ -182,47 +331,150 @@ small { font-size: 15px; }
   </div>
 </div>
 
-<div class="cable" aria-hidden="true">[|||]=<span class="wire">~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<i>&lt;3</i><i>&lt;3</i></span>=[|||]</div>
+<div class="cable" aria-hidden="true">[|||]=<span class="wire">~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<i>&lt;3</i><i>&lt;3</i></span>=[|||]<b class=k>to the sound system ↓</b></div>
 
-<div class="row cols">
-  <div>
-  <section>
-    <h2>projects (for fun)</h2>
-    <ul>
-      <li><a href="https://latent-space.vercel.app/">latent space</a>, lorem ipsum dolor sit amet consectetur</li>
-      <li><a href="https://protecht.vercel.app/">pro(tech)t</a>, sed do eiusmod tempor incididunt</li>
-    </ul>
-  </section>
-  <section class="next">
-    <h2>projects (for funds)</h2>
-    <ul>
-      <li><a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1">MØRNING Ø</a></li>
-      <li><a href="https://co-matter.com/project/networked-worlds">networked worlds</a> with co—matter</li>
-      <li><a href="https://www.protein.xyz/dirty-words-4-community/">dirty words #4: community report</a> for Protein</li>
-    </ul>
-  </section>
+<section class="radio" id="radio" aria-labelledby="fm">
+  <span class="slap s1" aria-hidden="true">170 bpm ♡</span>
+  <span class="slap s2" aria-hidden="true">no samples, just maths ✶</span>
+  <span class="slap s3" aria-hidden="true">big up gregory coleman</span>
+  <div class="radio-top">
+    <h2 id="fm"><span class="chrome">kes fm</span> <span class="freq">170.0</span> <small>a tiny jungle machine. everything's synthesised live in your browser, and it only plays when you press play (ᵔᴥᵔ)</small></h2>
+    <span class="onair" aria-hidden="true">● on air</span>
   </div>
+  <div class="rig">
+    <div class="deck" aria-hidden="true">
+      <pre class="spk">.--------------.
+|   .------.   |
+|  /  .--.  \  |
+| |  ( <b class=h>&lt;3</b> )  | |
+|  \  '--'  /  |
+|   '------'   |
+|    .----.    |
+|   ( (()) )   |
+|    '----'    |
+|==============|
+|   .------.   |
+|  /  .--.  \  |
+| |  ( <b class=h>&lt;3</b> )  | |
+|  \  '--'  /  |
+|   '------'   |
+|    .----.    |
+|   ( (()) )   |
+|    '----'    |
+'--------------'</pre>
+      <div class="plate"><div class="disc"><span>kes fm<br>dub ♡ 170<small>one copy</small></span></div></div>
+      <pre class="spk">.--------------.
+|   .------.   |
+|  /  .--.  \  |
+| |  ( <b class=h>&lt;3</b> )  | |
+|  \  '--'  /  |
+|   '------'   |
+|    .----.    |
+|   ( (()) )   |
+|    '----'    |
+|==============|
+|   .------.   |
+|  /  .--.  \  |
+| |  ( <b class=h>&lt;3</b> )  | |
+|  \  '--'  /  |
+|   '------'   |
+|    .----.    |
+|   ( (()) )   |
+|    '----'    |
+'--------------'</pre>
+    </div>
+    <div class="brain">
+      <div class="lcd" aria-hidden="true">
+        <p><span id="now">▸ 1 · amen, as is</span><span id="bar">bar 1/4 · 170bpm</span></p>
+<pre id="grid">kick  x·x· ···· ··xx ····
+snare ···· x··o ·o·· x··o
+ride  x·x· x·x· x·x· x·x·</pre>
+        <p><span id="ident">press play ▶ it won't start on its own, promise</span><span id="dancer">(-_-) zzz</span></p>
+      </div>
+      <p id="say" class="vh" aria-live="polite"></p>
+      <div class="pads" role="group" aria-label="play and stop">
+        <button class="btn go" id="play" type="button">▶ play</button>
+        <button class="btn halt" id="stop" type="button" disabled>■ stop</button>
+        <button class="btn" id="pull" type="button" disabled>↺ pull up</button>
+        <button class="btn" id="chop" type="button">✂ chop it up</button>
+      </div>
+      <div class="pads" role="group" aria-label="patterns">
+        <button class="btn pat" type="button" data-p="0" aria-pressed="true">1 · amen, as is</button>
+        <button class="btn pat" type="button" data-p="1" aria-pressed="false">2 · choppage</button>
+        <button class="btn pat" type="button" data-p="2" aria-pressed="false">3 · rollers</button>
+      </div>
+      <div class="pads" role="group" aria-label="sounds">
+        <button class="btn" id="bass" type="button">bass: reese</button>
+        <button class="btn" id="pad" type="button" aria-pressed="true">pads ✶</button>
+        <button class="btn" id="siren" type="button">dub siren</button>
+        <label class="vol">vol <input id="vol" type="range" min="0" max="100" value="55"></label>
+      </div>
+      <noscript><p>the machine needs javascript, the rest of the page doesn't (._.)</p></noscript>
+    </div>
+  </div>
+</section>
+
+<div class="row cols liner">
   <section>
-    <h2>elsewhere, mostly irl</h2>
-    <ul>
-      <li><a href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1">olden residency</a></li>
-      <li><a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1">softer london</a>, talk + workshop</li>
-      <li><a href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard">tech yard</a>, workshop</li>
-      <li><a href="https://www.instagram.com/p/BslwSSPH5Rc/?img_index=2">ovar it</a></li>
-    </ul>
+    <h2><span class="lab">liner notes</span> what's this?</h2>
+    <p>A tiny jungle machine: a chopped-up break, a reese bassline and some soft pads, all synthesised live in your browser with the Web Audio API. Nothing sampled, nothing downloaded, and it never plays until you press play. Switch patterns, chop it up, pull it up and go again \(^o^)/</p>
   </section>
   <section>
-    <h2>things i wrote</h2>
-    <ul class="wrote">
-      <li><a href="https://www.protein.xyz/sex-and-the-internet/">mindy seu on sex and the internet</a></li>
-      <li><a href="https://midnight.agency/thoughts/dreaming-and-designing-more-accessible-web">dreaming and designing a more accessible web</a></li>
-      <li><a href="https://midnight.agency/thoughts/coding-a-more-creative-and-playful-web">coding a more creative and playful web</a></li>
-      <li><a href="https://midnight.agency/thoughts/composing-a-flexible-and-modular-web">composing a flexible and modular web</a></li>
-      <li><a href="https://morningfyi.substack.com/p/020-uh-oh-meet">burn after reading: uh oh meet o</a></li>
-      <li><a href="https://morningfyi.substack.com/p/024-entering-limb-with">burn after reading: entering limbo, with o</a></li>
-    </ul>
+    <h2><span class="lab">credit</span> the amen, credited</h2>
+    <p>Every jungle machine owes the amen break: a few seconds of Gregory Coleman's drumming on The Winstons' "Amen, Brother" (1969). It's one of the most sampled recordings ever, and the band were never paid for it. This one plays a synthesised copy of the pattern rather than a sample, which is either very respectful or very funny. Who gets credited and paid when culture gets copied around the internet is an internet equalities question too.</p>
+  </section>
+  <section>
+    <h2><span class="lab">respect</span> where it comes from</h2>
+    <p>Jungle grew up in early-90s London, out of Black British sound system culture: reggae and dancehall sounds, pirate radio, the hardcore rave scene. This page borrows the look (flyers, tape packs, tags, idents) with a lot of love, but it's a homage, not a costume. The real thing belongs to the people who made it, so go and listen to them, ideally loud.</p>
   </section>
 </div>
+
+<section class="flyer" aria-labelledby="links">
+  <span class="smiley" aria-hidden="true"><i></i></span>
+  <p class="pres">kes inkersole presents</p>
+  <h2 id="links">the links</h2>
+  <p class="sub">three arenas ✶ all night long, or until you close the tab ✶ dress code: whatever you've got on</p>
+  <div class="cols arenas">
+    <div>
+    <section>
+      <h3><span class="lab">arena 1</span><br>projects (for fun)</h3>
+      <ul class="lineup big">
+        <li><a href="https://latent-space.vercel.app/">latent space</a><br>lorem ipsum dolor sit amet consectetur</li>
+        <li><a href="https://protecht.vercel.app/">pro(tech)t</a><br>sed do eiusmod tempor incididunt</li>
+      </ul>
+    </section>
+    <section class="next">
+      <h3>projects (for funds)</h3>
+      <ul class="lineup big">
+        <li><a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1">MØRNING Ø</a></li>
+        <li><a href="https://co-matter.com/project/networked-worlds">networked worlds</a><br>with co—matter</li>
+        <li><a href="https://www.protein.xyz/dirty-words-4-community/">dirty words #4: community report</a><br>for Protein</li>
+      </ul>
+    </section>
+    </div>
+    <section>
+      <h3><span class="lab">arena 2</span><br>elsewhere, mostly irl</h3>
+      <ul class="lineup big">
+        <li><a href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1">olden residency</a></li>
+        <li><a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1">softer london</a><br>talk + workshop</li>
+        <li><a href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard">tech yard</a><br>workshop</li>
+        <li><a href="https://www.instagram.com/p/BslwSSPH5Rc/?img_index=2">ovar it</a></li>
+      </ul>
+    </section>
+    <section>
+      <h3><span class="lab">arena 3</span><br>things i wrote</h3>
+      <ul class="lineup">
+        <li><a href="https://www.protein.xyz/sex-and-the-internet/">mindy seu on sex and the internet</a></li>
+        <li><a href="https://midnight.agency/thoughts/dreaming-and-designing-more-accessible-web">dreaming and designing a more accessible web</a></li>
+        <li><a href="https://midnight.agency/thoughts/coding-a-more-creative-and-playful-web">coding a more creative and playful web</a></li>
+        <li><a href="https://midnight.agency/thoughts/composing-a-flexible-and-modular-web">composing a flexible and modular web</a></li>
+        <li><a href="https://morningfyi.substack.com/p/020-uh-oh-meet">burn after reading: uh oh meet o</a></li>
+        <li><a href="https://morningfyi.substack.com/p/024-entering-limb-with">burn after reading: entering limbo, with o</a></li>
+      </ul>
+    </section>
+  </div>
+  <p class="fine">no cookies ✶ no trackers ✶ strictly no web fonts ✶ bring this flyer for £0 off ✶ info line: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
+</section>
 
 <div class="row photos">
   <figure>
@@ -241,7 +493,7 @@ small { font-size: 15px; }
 
 <div class="row">
   <section>
-    <h2>podcasts, for the bus</h2>
+    <h2><span class="lab">tape pack</span> podcasts, for the bus</h2>
     <ul class="pods">
       <li><a href="https://podcasts.apple.com/gb/podcast/mindy-seu-on-collaboration-community-and/id1449302502?i=1000597869409">mindy seu on collaboration, community and the cyberfeminism index</a></li>
       <li><a href="https://soundcloud.com/proteincommunity/protein-forum-what-can-web2-organisations-learn-from-web3-communities">what can web2 organisations learn from web3 communities?</a></li>
@@ -254,16 +506,16 @@ small { font-size: 15px; }
     </ul>
   </section>
   <div class="stop">
-  <pre class="bus" role="img" aria-label="a pink double-decker bus, with one passenger wearing headphones">    .----------------------------------------.
-   /                                          \
+  <pre class="bus" role="img" aria-label="a pink double-decker bus with tags written on its windows and one passenger wearing headphones. the destination blind says 170 to the amen break">    .----------------------------------------.
+   /   <b class=t>kes</b>                       <b class=a>~170~</b>        \
   |  .-----.  .-----.  .-----.  .-----.  .---. |
-  |  |     |  |<b class=k>d^_^b</b>|  |     |  |     |  |   | |
+  |  |     |  |<b class=k>d^_^b</b>|  | <b class=t>kes</b> |  |<b class=a>x 170</b>|  |<b class=k>&lt;3</b> | |
   |  '-----'  '-----'  '-----'  '-----'  '---' |
   |============================================|
-  |  <b class=b>[  ~ ding ding ~  ]</b>                       |
+  |  <b class=b>[  170 to the amen break  ]</b>               |
   |============================================|
   | |  .-----.  .-----.  .-----.  .-----.  .-. |
-  | |  |     |  |     |  |     |  |     |  | | |_
+  | |  |<b class=a>/////</b>|  |  <b class=k>&lt;3</b> |  |     |  | <b class=t>k3s</b> |  | | |_
   | |  '-----'  '-----'  '-----'  '-----'  '-' |o|
   '-'---<b class=b>(@)</b>--------------------------<b class=b>(@)</b>-------'-'</pre>
   </div>
@@ -296,6 +548,8 @@ __||___________________________|
 <footer>
   <div>
     <p>that's everything ✶ thanks for scrolling all the way down (^_^)/</p>
+    <p>kes fm signing off. big up yourself ♡</p>
+    <span class="tag" aria-hidden="true">kes x</span>
     <p><small>last updated 1 october 2026. no cookies or trackers here. made in the spirit of <a href="http://contemporary-home-computing.org/prof-dr-style/">Prof. Dr. style</a>, so it's easy to keep up to date.</small></p>
   </div>
   <pre class="stitch" aria-hidden="true">
@@ -316,15 +570,413 @@ __||___________________________|
 x x  x  x x  x  x x  x  x x  x  x x  x  x x  x  x x  x  x x  x  x x  x  x x  x  x x  x  x x  x  x x  x  x x  x
 xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx
  x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x</pre>
+<div class="tape end" aria-hidden="true"><p><span>  mind the gap ✶ end of page ✶ mind the gap ✶ end of page ✶ mind the gap ✶ end of page ✶ mind the gap ✶ end of page ✶ mind the gap ✶ end of page ✶ mind the gap ✶ end of page ✶ mind the gap ✶ end of page ✶</span></p></div>
 
 <script>
 console.log('oh hi');
 console.log('if you\'re poking around in here you should probably just email me');
 console.log('inkersolekesia@gmail.com');
 console.log('✶ ⋆ ˚｡ 𝓴𝓮𝓼 𝓲𝓷𝓴𝓮𝓻𝓼𝓸𝓵𝓮 ˚｡⋆ ✶');
+console.log('the jungle machine below is all oscillators and noise, no samples. have a read.');
 document.addEventListener('visibilitychange', function () {
   document.title = document.hidden ? 'come back x' : 'kes inkersole';
 });
+
+/* ---------- kes fm: a tiny jungle machine ----------
+   nothing here runs until someone clicks play (or the siren).
+   the break is the amen pattern written out as 64 sixteenths, then re-ordered like slices on a sampler. */
+(function () {
+  var AC = window.AudioContext || window.webkitAudioContext;
+  var radio = document.getElementById('radio');
+  if (!radio) return;
+  function $(id) { return document.getElementById(id); }
+  var ui = { play: $('play'), stop: $('stop'), pull: $('pull'), chop: $('chop'), bass: $('bass'), pad: $('pad'), siren: $('siren'), vol: $('vol'), now: $('now'), bar: $('bar'), grid: $('grid'), ident: $('ident'), dancer: $('dancer'), say: $('say') };
+  var pats = Array.prototype.slice.call(radio.querySelectorAll('.pat'));
+  var spks = Array.prototype.slice.call(radio.querySelectorAll('.spk'));
+  if (!AC) {
+    ui.ident.textContent = "this browser can't do web audio, sorry (._.)";
+    radio.querySelectorAll('button').forEach(function (b) { b.disabled = true; });
+    return;
+  }
+
+  var BPM = 170, STEP = 60 / BPM / 4, SWING = 0.07;
+
+  // the amen, four bars. x = hit, o = ghost note, c = crash
+  var K = ['x.x.......xx....', 'x.x.......xx....', 'x.x.......x.....', '..xx......x.....'].join('');
+  var S = ['....x..o.o..x..o', '....x..o.o..x..o', '....x..o.o....x.', '.o..x..o.o....x.'].join('');
+  var H = ['x.x.x.x.x.x.x.x.', 'x.x.x.x.x.x.x.x.', 'x.x.x.x.x.x.x.x.', 'x.x.x.x.x.c.x.x.'].join('');
+
+  // patterns are lists of beats. a number is a beat of the break (0-15), r is a snare roll, s is a stutter
+  function beats(list) {
+    var out = [];
+    list.forEach(function (b) {
+      if (b === 'r') out.push('R', 'R', 'R', 'R');
+      else if (b === 's') out.push(4, 5, 4, 5);
+      else for (var i = 0; i < 4; i++) out.push(b * 4 + i);
+    });
+    return out;
+  }
+  var ROLL_A = [0, '-', 6, '-', 6, '-', 6, 7, 4, '-', 6, 11, 6, '-', 6, 9];
+  var ROLL_B = [0, '-', 6, 9, 6, '-', 2, '-', 4, '-', 6, 7, 6, 9, 4, 15];
+  var ROLL_D = [0, '-', 6, '-', 6, '-', 6, 7, 4, '-', 6, 11, 'R', 'R', 4, 'R'];
+  var PATTERNS = [
+    { name: '1 · amen, as is', map: beats([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]) },
+    { name: '2 · choppage', map: beats([0, 1, 2, 3, 0, 1, 10, 3, 8, 9, 2, 11, 0, 's', 14, 'r']) },
+    { name: '3 · rollers', map: ROLL_A.concat(ROLL_B, ROLL_A, ROLL_D) }
+  ];
+  var chops = 0;
+  function newChop() {
+    var list = [];
+    for (var b = 0; b < 16; b++) {
+      var r = Math.random();
+      if (b % 4 === 0) list.push([0, 4, 8][Math.floor(Math.random() * 3)]);
+      else if (b === 15 && r < 0.6) list.push('r');
+      else if (r < 0.14) list.push('s');
+      else list.push(Math.floor(Math.random() * 16));
+    }
+    chops++;
+    return { name: '✂ your edit #' + chops, map: beats(list) };
+  }
+
+  // a dubby sub line in e minor: [start step, length in steps, midi note]
+  var BASS = [[0, 6, 28], [6, 4, 28], [10, 6, 31], [16, 6, 26], [22, 4, 26], [26, 6, 33], [32, 10, 36], [42, 6, 35], [48, 6, 28], [54, 4, 31], [58, 6, 33]];
+  var CHORDS = [[52, 55, 59, 62, 66], [48, 55, 59, 62, 64]];
+  var BASS_MODES = ['reese', 'sub', 'off'];
+  var IDENTS = [
+    "you're locked to kes fm ✶ 170.0 on your browser dial",
+    'big up all the junglists',
+    'big up everyone listening with a screen reader',
+    'big up gregory coleman, who played the amen',
+    'shout outs + requests: inkersolekesia@gmail.com',
+    'no samples, no cookies, no trackers',
+    'every sound here is made live in your browser',
+    'big up whoever is still on the bus',
+    'respect to the sound systems this all came from'
+  ];
+  var DANCE = ['┏(^o^)┛', '┗(^o^)┓'];
+
+  var ctx = null, master, NOISE, IR, CURVE;
+  var S_ = null, timer = null, pullTO = null, raf = null;
+  var playing = false, pulling = false, step = 0, nextT = 0, crashNext = false;
+  var cur = PATTERNS[0], queued = null, bassMode = 0, padOn = true, vq = [], identN = 0, shownBar = -1, frame = 0;
+
+  function mtof(m) { return 440 * Math.pow(2, (m - 69) / 12); }
+  function volume() { var v = ui.vol.value / 100; return v * v * 0.7; }
+
+  function ensure() {
+    if (ctx) { if (ctx.state === 'suspended') ctx.resume(); return; }
+    ctx = new AC();
+    master = ctx.createGain(); master.gain.value = volume();
+    var lim = ctx.createDynamicsCompressor();
+    lim.threshold.value = -4; lim.knee.value = 0; lim.ratio.value = 20; lim.attack.value = 0.002; lim.release.value = 0.1;
+    master.connect(lim); lim.connect(ctx.destination);
+    var sr = ctx.sampleRate, i;
+    NOISE = ctx.createBuffer(1, sr * 2, sr);
+    var nd = NOISE.getChannelData(0);
+    for (i = 0; i < nd.length; i++) nd[i] = Math.random() * 2 - 1;
+    var len = Math.floor(sr * 1.6);
+    IR = ctx.createBuffer(2, len, sr);
+    for (var c = 0; c < 2; c++) {
+      var d = IR.getChannelData(c);
+      for (i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 3.4);
+    }
+    CURVE = new Float32Array(1024);
+    for (i = 0; i < 1024; i++) { var x = i / 511.5 - 1; CURVE[i] = Math.tanh(2.4 * x) / Math.tanh(2.4); }
+  }
+
+  // small helpers
+  function gain(v) { var g = ctx.createGain(); g.gain.value = v; return g; }
+  function osc(type, f) { var o = ctx.createOscillator(); o.type = type; o.frequency.value = f; return o; }
+  function filt(type, f, q) { var b = ctx.createBiquadFilter(); b.type = type; b.frequency.value = f; if (q != null) b.Q.value = q; return b; }
+  function hit(g, t, peak, a, d) { g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(peak, t + a); g.gain.exponentialRampToValueAtTime(0.0001, t + a + d); }
+  function noise(t, dur) { var n = ctx.createBufferSource(); n.buffer = NOISE; n.loop = true; n.start(t, Math.random() * 1.5); n.stop(t + dur); return n; }
+  function chain() { for (var i = 0; i < arguments.length - 1; i++) arguments[i].connect(arguments[i + 1]); }
+
+  // one session per play, so stop can just fade the lot out
+  function session() {
+    var s = {};
+    s.out = gain(1); s.out.connect(master);
+    s.drums = gain(0.75);
+    var shape = ctx.createWaveShaper(); shape.curve = CURVE; shape.oversample = '2x';
+    var comp = ctx.createDynamicsCompressor();
+    comp.threshold.value = -20; comp.knee.value = 6; comp.ratio.value = 5; comp.attack.value = 0.002; comp.release.value = 0.09;
+    chain(s.drums, shape, comp, s.out);
+    s.bass = gain(0.5); s.bass.connect(s.out);
+    s.pad = gain(0.1); s.pad.connect(s.out);
+    s.verb = ctx.createConvolver(); s.verb.buffer = IR;
+    s.send = gain(0.22);
+    chain(s.send, s.verb, gain(0.55), s.out);
+    return s;
+  }
+  function kill(s) {
+    if (!s) return;
+    var t = ctx.currentTime;
+    s.out.gain.cancelScheduledValues(t);
+    s.out.gain.setValueAtTime(s.out.gain.value, t);
+    s.out.gain.linearRampToValueAtTime(0, t + 0.06);
+    setTimeout(function () { s.out.disconnect(); }, 500);
+  }
+
+  // drums
+  function kick(t, v) {
+    var o = osc('sine', 170), g = gain(0);
+    o.frequency.setValueAtTime(170, t);
+    o.frequency.exponentialRampToValueAtTime(55, t + 0.06);
+    o.frequency.exponentialRampToValueAtTime(42, t + 0.25);
+    hit(g, t, v, 0.002, 0.26);
+    chain(o, g, S_.drums); o.start(t); o.stop(t + 0.3);
+    var n = noise(t, 0.03), lp = filt('lowpass', 2600), ng = gain(0);
+    hit(ng, t, v * 0.45, 0.001, 0.018);
+    chain(n, lp, ng, S_.drums);
+  }
+  function snare(t, v) {
+    var ghost = v < 0.6;
+    var n = noise(t, 0.3), hp = filt('highpass', 950), pk = filt('peaking', 4200, 1), g = gain(0);
+    pk.gain.value = 5;
+    hit(g, t, v * 0.85, 0.001, ghost ? 0.07 : 0.17);
+    chain(n, hp, pk, g, S_.drums);
+    if (!ghost) g.connect(S_.send);
+    var b = osc('triangle', 220), bg = gain(0);
+    b.frequency.setValueAtTime(220, t); b.frequency.exponentialRampToValueAtTime(165, t + 0.05);
+    hit(bg, t, v * 0.7, 0.001, ghost ? 0.04 : 0.09);
+    chain(b, bg, S_.drums); b.start(t); b.stop(t + 0.15);
+  }
+  var METAL = [2, 3, 4.16, 5.43, 6.79, 8.21];
+  function ride(t, v, len) {
+    var bp = filt('bandpass', 8800, 0.8), hp = filt('highpass', 6200), g = gain(0);
+    hit(g, t, v * 0.2, 0.001, len);
+    METAL.forEach(function (r) { var o = osc('square', 263 * r); o.connect(bp); o.start(t); o.stop(t + len + 0.05); });
+    chain(bp, hp, g, S_.drums);
+  }
+  function crash(t, v) {
+    var n = noise(t, 1.6), hp = filt('highpass', 5200), g = gain(0);
+    hit(g, t, v * 0.32, 0.002, 1.4);
+    chain(n, hp, g, S_.drums); g.connect(S_.send);
+    ride(t, v * 0.8, 1.1);
+  }
+
+  // bass: a sine sub underneath, and for the reese three detuned saws an octave up through a breathing lowpass
+  function bassNote(t, dur, m) {
+    if (bassMode === 2) return;
+    var f = mtof(m), end = t + dur, out = gain(0), stop = [];
+    out.gain.setValueAtTime(0, t);
+    out.gain.linearRampToValueAtTime(1, t + 0.012);
+    out.gain.setValueAtTime(1, end - 0.035);
+    out.gain.linearRampToValueAtTime(0, end);
+    out.connect(S_.bass);
+    var sub = osc('sine', f); chain(sub, gain(0.9), out); stop.push(sub);
+    if (bassMode === 0) {
+      var lp = filt('lowpass', 380, 6), lfo = osc('sine', 0.9), depth = gain(260);
+      chain(lfo, depth, lp.frequency); stop.push(lfo);
+      [-11, 0, 13].forEach(function (c) { var s = osc('sawtooth', f * 2); s.detune.value = c; chain(s, gain(0.17), lp); stop.push(s); });
+      lp.connect(out);
+    } else {
+      var o2 = osc('triangle', f * 2); chain(o2, gain(0.22), out); stop.push(o2);
+    }
+    stop.forEach(function (o) { o.start(t); o.stop(end + 0.02); });
+  }
+  // the soft bit
+  function padChord(t, dur, notes) {
+    var lp = filt('lowpass', 1100, 0.5), g = gain(0);
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(1, t + 0.9);
+    g.gain.setValueAtTime(1, t + dur - 0.6);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur + 0.5);
+    chain(lp, g, S_.pad); g.connect(S_.send);
+    notes.forEach(function (m) {
+      [-7, 7].forEach(function (c) { var o = osc('sawtooth', mtof(m)); o.detune.value = c; chain(o, gain(0.12), lp); o.start(t); o.stop(t + dur + 0.6); });
+    });
+  }
+  // dub siren: square wave, wobbling, into a feedback delay. goes straight to the master so it works when stopped too
+  function siren() {
+    ensure();
+    var t = ctx.currentTime + 0.02, len = 1.6;
+    var o = osc('square', 400), lfo = osc('triangle', 3), depth = gain(150), lp = filt('lowpass', 2400), g = gain(0);
+    o.frequency.setValueAtTime(380, t); o.frequency.exponentialRampToValueAtTime(820, t + 0.5);
+    lfo.frequency.setValueAtTime(3, t); lfo.frequency.linearRampToValueAtTime(10, t + len);
+    chain(lfo, depth, o.frequency);
+    g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(0.15, t + 0.05); g.gain.setValueAtTime(0.15, t + len - 0.15); g.gain.linearRampToValueAtTime(0, t + len);
+    var d = ctx.createDelay(1), fb = gain(0.45), wet = gain(0.6);
+    d.delayTime.value = STEP * 3;
+    chain(o, lp, g, master); g.connect(d); chain(d, fb, d); chain(d, wet, master);
+    o.start(t); lfo.start(t); o.stop(t + len + 0.05); lfo.stop(t + len + 0.05);
+    setTimeout(function () { d.disconnect(); wet.disconnect(); }, (len + 4) * 1000);
+  }
+  // the rewind: the tune dragged backwards and forwards, plus vinyl friction
+  function rewindFx(t) {
+    var out = gain(0);
+    out.gain.setValueAtTime(0, t); out.gain.linearRampToValueAtTime(0.8, t + 0.05); out.gain.setValueAtTime(0.8, t + 0.75); out.gain.exponentialRampToValueAtTime(0.001, t + 1.05);
+    out.connect(master);
+    var lp = filt('lowpass', 2400, 2), wob = gain(0.5), am = osc('square', 13), amd = gain(0.45);
+    chain(am, amd, wob.gain); chain(lp, wob, out);
+    [40, 47, 52].forEach(function (m) {
+      var f0 = mtof(m), o = osc('sawtooth', f0);
+      o.frequency.setValueAtTime(f0, t);
+      o.frequency.exponentialRampToValueAtTime(f0 * 3.2, t + 0.22);
+      o.frequency.exponentialRampToValueAtTime(f0 * 0.6, t + 0.55);
+      o.frequency.exponentialRampToValueAtTime(f0 * 2.4, t + 0.78);
+      o.frequency.exponentialRampToValueAtTime(f0 * 0.25, t + 1.05);
+      chain(o, gain(0.18), lp); o.start(t); o.stop(t + 1.1);
+    });
+    var n = noise(t, 1.1), bp = filt('bandpass', 600, 1.5), ng = gain(0.35);
+    bp.frequency.setValueAtTime(600, t); bp.frequency.exponentialRampToValueAtTime(3200, t + 0.25); bp.frequency.exponentialRampToValueAtTime(300, t + 1.0);
+    chain(n, bp, ng, out);
+    am.start(t); am.stop(t + 1.1);
+  }
+
+  // the sequencer
+  function sched(i, t0) {
+    if (i % 16 === 0 && queued) { cur = queued; queued = null; }
+    var map = cur.map, src = map[i], t = t0 + (i % 2 ? STEP * SWING : 0), thump = false;
+    if (i === 0 && crashNext) { crash(t0, 0.7); crashNext = false; }
+    if (src === 'R') {
+      var k = 0;
+      while (k < 3 && i - k - 1 >= 0 && map[i - k - 1] === 'R') k++;
+      snare(t, 0.3 + k * 0.15); snare(t + STEP / 2, 0.36 + k * 0.15);
+    } else if (src !== '-') {
+      if (K[src] === 'x') { kick(t, 1); thump = true; }
+      if (S[src] === 'x') snare(t, 1); else if (S[src] === 'o') snare(t, 0.42);
+      if (H[src] === 'x') ride(t, src % 4 === 0 ? 0.9 : 0.6, 0.14); else if (H[src] === 'c') crash(t, 0.6);
+    }
+    for (var b = 0; b < BASS.length; b++) if (BASS[b][0] === i) bassNote(t0, BASS[b][1] * STEP, BASS[b][2]);
+    if (padOn && i % 32 === 0) padChord(t0, 32 * STEP, CHORDS[i / 32]);
+    vq.push({ i: i, t: t0, map: map, name: cur.name, thump: thump });
+  }
+  function tick() {
+    while (nextT < ctx.currentTime + 0.12) {
+      sched(step, nextT);
+      nextT += STEP;
+      step = (step + 1) % 64;
+    }
+  }
+
+  // the screen
+  var cells = [[], [], []];
+  (function buildGrid() {
+    var labels = ['kick  ', 'snare ', 'ride  '];
+    ui.grid.textContent = '';
+    labels.forEach(function (lab, r) {
+      ui.grid.appendChild(document.createTextNode(lab));
+      for (var j = 0; j < 16; j++) {
+        var c = document.createElement('span'); c.className = 'c';
+        ui.grid.appendChild(c); cells[r].push(c);
+        if (j % 4 === 3 && j < 15) ui.grid.appendChild(document.createTextNode(' '));
+      }
+      if (r < 2) ui.grid.appendChild(document.createTextNode('\n'));
+    });
+  })();
+  var GLYPH = { x: 'x', o: 'o', c: '*', '.': '·' };
+  function renderBar(map, bar) {
+    for (var j = 0; j < 16; j++) {
+      var src = map[bar * 16 + j], ch;
+      if (src === 'R') ch = ['·', '≈', '·'];
+      else if (src === '-') ch = [' ', ' ', ' '];
+      else ch = [GLYPH[K[src]], GLYPH[S[src]], GLYPH[H[src]]];
+      for (var r = 0; r < 3; r++) cells[r][j].textContent = ch[r];
+    }
+  }
+  function light(col) {
+    for (var r = 0; r < 3; r++) for (var j = 0; j < 16; j++) cells[r][j].classList.toggle('on', j === col);
+  }
+  function show(e) {
+    var bar = e.i >> 4, col = e.i & 15;
+    if (col === 0 || bar !== shownBar) {
+      renderBar(e.map, bar); shownBar = bar;
+      ui.bar.textContent = 'bar ' + (bar + 1) + '/4 · 170bpm';
+      ui.now.textContent = '▸ ' + e.name;
+    }
+    light(col);
+    if (e.thump) spks.forEach(function (s) { s.classList.remove('thump'); void s.offsetWidth; s.classList.add('thump'); });
+    if (col % 4 === 0) ui.dancer.textContent = DANCE[frame++ % 2];
+    if (e.i === 0 && !pulling) ui.ident.textContent = IDENTS[identN++ % IDENTS.length];
+  }
+  function draw() {
+    if (!ctx) return;
+    var now = ctx.currentTime;
+    while (vq.length && vq[0].t <= now) show(vq.shift());
+    raf = playing ? requestAnimationFrame(draw) : null;
+  }
+  function idle() {
+    shownBar = -1;
+    renderBar(cur.map, 0); light(-1);
+    ui.now.textContent = '▸ ' + (queued || cur).name;
+    ui.bar.textContent = 'bar 1/4 · 170bpm';
+  }
+
+  function state() {
+    ui.play.disabled = playing;
+    ui.stop.disabled = !playing;
+    ui.pull.disabled = !playing || pulling;
+    radio.classList.toggle('live', playing && !pulling);
+    radio.classList.toggle('rewinding', pulling);
+  }
+  function say(msg) { ui.say.textContent = msg; }
+
+  function begin() {
+    S_ = session();
+    step = 0; nextT = ctx.currentTime + 0.08; crashNext = true; vq = [];
+    timer = setInterval(tick, 25); tick();
+    if (!raf) raf = requestAnimationFrame(draw);
+  }
+  function play() {
+    ensure();
+    if (playing) return;
+    playing = true; state(); begin();
+    say('playing ' + cur.name);
+  }
+  function stop() {
+    if (!playing) return;
+    playing = false; pulling = false;
+    clearInterval(timer); clearTimeout(pullTO);
+    kill(S_); S_ = null; vq = [];
+    if (raf) cancelAnimationFrame(raf); raf = null;
+    state(); idle();
+    ui.ident.textContent = 'off air. press play to come back';
+    ui.dancer.textContent = '(-_-) zzz';
+    say('stopped');
+  }
+  function pullUp() {
+    if (!playing || pulling) return;
+    pulling = true;
+    clearInterval(timer); kill(S_); S_ = null; vq = [];
+    rewindFx(ctx.currentTime + 0.01);
+    state();
+    ui.ident.textContent = 'pull up! ↺ come again, from the top';
+    ui.dancer.textContent = '(@_@) <<<';
+    say('pull up, rewinding');
+    pullTO = setTimeout(function () { pulling = false; state(); begin(); }, 1150);
+  }
+  function pick(p) {
+    queued = p;
+    pats.forEach(function (b) { b.setAttribute('aria-pressed', String(PATTERNS[+b.dataset.p] === p)); });
+    if (!playing) { cur = p; queued = null; idle(); }
+    say(p.name + (playing ? ', from the next bar' : ''));
+  }
+
+  ui.play.addEventListener('click', play);
+  ui.stop.addEventListener('click', stop);
+  ui.pull.addEventListener('click', pullUp);
+  ui.chop.addEventListener('click', function () {
+    pick(newChop());
+    ui.dancer.textContent = '(>_<) ✂';
+  });
+  pats.forEach(function (b) { b.addEventListener('click', function () { pick(PATTERNS[+b.dataset.p]); }); });
+  ui.bass.addEventListener('click', function () {
+    bassMode = (bassMode + 1) % 3;
+    ui.bass.textContent = 'bass: ' + BASS_MODES[bassMode];
+    say('bass ' + BASS_MODES[bassMode]);
+  });
+  ui.pad.addEventListener('click', function () {
+    padOn = !padOn;
+    ui.pad.setAttribute('aria-pressed', String(padOn));
+    say(padOn ? 'pads on' : 'pads off');
+  });
+  ui.siren.addEventListener('click', siren);
+  ui.vol.addEventListener('input', function () {
+    if (ctx) master.gain.setTargetAtTime(volume(), ctx.currentTime, 0.02);
+  });
+  idle();
+})();
 </script>
 </body>
 </html>

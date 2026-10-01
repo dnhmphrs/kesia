@@ -34,7 +34,18 @@
 	--leaf: #379659;
 	--butter: #fff2ad;
 	--gold: #cf970b;
+
+	/* the jungle got in */
+	--night: #151019;  /* rave black, with a bit of plum left in it */
+	--hazard: #ffd60a; /* warning-tape yellow */
+	--acid: #a8ff1f;   /* only ever on black, it vanishes on the pink paper */
+	--hot: #ff5ea8;    /* the pink, turned up so it glows on black */
+	--chrome: linear-gradient(180deg, #fff 0%, #dcdee6 36%, #6d7180 50%, #f3f4f8 58%, #a3a6b2 100%);
+	--tape: repeating-linear-gradient(-45deg, var(--hazard) 0 9px, var(--night) 9px 18px);
+
 	--mono: ui-monospace, Menlo, Consolas, "Courier New", monospace;
+	--marker: "Marker Felt", "Comic Sans MS", "Chalkboard SE", cursive;
+	--fat: "Arial Black", Impact, "Arial Bold", Arial, sans-serif;
 	--edge: clamp(16px, 4vw, 56px); /* space at the sides of the page */
 }
 
@@ -47,8 +58,10 @@ a:visited { color: var(--lilac); }
 a:hover { color: var(--pink); background: var(--blush); }
 
 h1 { font-size: 2em; margin: .3em 0 .4em; }
-/* headings get a highlighter stripe (a fat underline pulled up behind the letters, so it follows the text when it wraps) */
-h2 { font-size: 1.2em; margin: 0 0 .5em; text-decoration: underline var(--hl, var(--butter)); text-decoration-thickness: .5em; text-underline-offset: -.3em; text-decoration-skip-ink: none; }
+/* headings get a highlighter stripe (a fat underline pulled up behind the letters, so it follows the text when it wraps)
+   ...and now the highlighter drips, like a paint pen pressed too hard */
+h2 { font-size: 1.2em; margin: 0 0 .7em; text-decoration: underline var(--hl, var(--butter)); text-decoration-thickness: .5em; text-underline-offset: -.3em; text-decoration-skip-ink: none; position: relative; isolation: isolate; }
+h2::after { content: ""; position: absolute; z-index: -1; left: .45em; top: 1.1em; width: .2em; height: .85em; border-radius: 0 0 .12em .12em; background: var(--hl, var(--butter)); box-shadow: 1.15em -.32em 0 var(--hl, var(--butter)), 2.3em -.5em 0 -.03em var(--hl, var(--butter)), 3.2em -.2em 0 -.02em var(--hl, var(--butter)); }
 p { margin: 0 0 1em; max-width: 36em; }
 
 ul { padding-left: 1.3em; margin: 0 0 1em; }
@@ -59,10 +72,13 @@ li::marker { color: var(--pink); }
 dt { font-weight: bold; margin-top: 1em; }
 dd { margin: .15em 0 0; }
 
-figure { display: inline-block; margin: .7em .5em .3em 0; vertical-align: top; }
+/* photos are pasted up: a strip of warning tape or pink washi tape holds each one on */
+figure { display: inline-block; margin: .9em .5em .3em 0; vertical-align: top; position: relative; }
 figure img { display: block; max-width: 100%; height: auto; background: var(--mist); border: 5px solid #fff; box-shadow: 0 1px 4px #2e1f3a26; }
 figure:nth-of-type(even) img { rotate: 1.5deg; }
 figure:nth-of-type(odd) img { rotate: -1deg; }
+figure::before { content: ""; position: absolute; z-index: 1; top: -8px; left: 50%; width: 46px; height: 13px; translate: -50% 0; rotate: -5deg; background: var(--tape); opacity: .93; }
+figure:nth-of-type(even)::before { rotate: 4deg; background: #ffb3cfdd; }
 figcaption { font: 12px/1.3 var(--mono); margin-top: .4em; width: 0; min-width: 100%; } /* wraps at the photo's width */
 
 /* rows of side-by-side bits that fall into one column on a phone */
@@ -76,11 +92,17 @@ figcaption { font: 12px/1.3 var(--mono); margin-top: .4em; width: 0; min-width: 
 .g { color: var(--leaf); }
 .y { color: var(--gold); }
 .i { color: var(--ink); }
+.w { color: #a796b3; } /* brick + concrete */
+.c { color: #c3c6d1; } /* chrome, for drawings on black */
 
 .name { font-size: min(17px, 100cqw / 32); } /* shrinks to fit its column */
 .doodles { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 24px 48px; margin-top: 36px; }
 .doodles .art { font-size: 15px; }
-.bus { margin-bottom: 12px; font-size: min(14px, 100cqw / 23); }
+.bus { margin-bottom: 12px; font-size: min(14px, 100cqw / 23); position: relative; }
+
+/* someone's tagged the bus window. pinned to the drawing's own character grid so it moves with it */
+.bus .tag { position: absolute; left: 2.4em; top: 3.05em; /* in the tag's own em (1.85x the drawing), so about col 7, row 5 */ font: italic 900 1.85em/1 var(--marker); color: var(--ink); letter-spacing: -.06em; rotate: -9deg; opacity: .82; pointer-events: none; }
+.bus .tag i { font-style: normal; color: var(--pink); font-size: .6em; }
 
 /* the cables + garden run right to the edge of the screen, and get cut off there */
 .cable, .garden { overflow: hidden; margin: 8px calc(-1 * var(--edge)) 44px; padding: 0 var(--edge); }
@@ -95,10 +117,123 @@ figcaption { font: 12px/1.3 var(--mono); margin-top: .4em; width: 0; min-width: 
 .mac:hover .h { display: inline; visibility: visible; }
 .bus:hover .ding { visibility: visible; }
 
-.new { background: var(--butter); padding: 14px 18px 4px; align-self: flex-start; --hl: #fff; }
+.new { background: var(--butter); padding: 14px 18px 4px; align-self: flex-start; --hl: #fff; position: relative; margin-top: 30px; }
+.new::before { content: ""; position: absolute; top: -9px; left: 22px; width: 92px; height: 18px; background: var(--tape); rotate: -3deg; } /* taped up */
 details { background: var(--blush); padding: 12px 16px; align-self: flex-start; }
 summary { cursor: pointer; color: var(--pink); }
 details p { margin: .8em 0 0; }
+
+/* ---------- sticker slaps ---------- */
+.slaps { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 22px; }
+.hello { width: 208px; background: var(--pink); border-radius: 12px; padding: 8px 8px 10px; text-align: center; color: #fff; rotate: -4deg; box-shadow: 0 2px 5px #2e1f3a40; font-family: Arial, sans-serif; }
+.hello b { display: block; font: 900 31px/1 var(--fat); letter-spacing: .04em; }
+.hello small { display: block; font-size: 12px; font-weight: 700; margin: 3px 0 6px; }
+.hello span { display: block; background: #fff; color: var(--ink); border-radius: 4px; padding: 6px 0 12px; font: italic 900 50px/1 var(--marker); letter-spacing: -.07em; }
+.hello span i { font-style: normal; color: var(--pink); font-size: .45em; vertical-align: super; }
+.smiley { flex: none; width: 66px; height: 66px; border-radius: 50%; border: 3px solid var(--night); position: relative; rotate: 10deg; box-shadow: 0 2px 5px #2e1f3a40;
+	background: radial-gradient(circle at 34% 38%, var(--night) 0 4.5px, transparent 5px), radial-gradient(circle at 66% 38%, var(--night) 0 4.5px, transparent 5px), radial-gradient(ellipse at 22% 58%, #ff8fbf 0 6px, transparent 7px), radial-gradient(ellipse at 78% 58%, #ff8fbf 0 6px, transparent 7px), var(--hazard); }
+.smiley::after { content: ""; position: absolute; left: 22%; right: 22%; top: 46%; height: 28%; border: 3px solid var(--night); border-top: 0; border-radius: 0 0 50% 50% / 0 0 100% 100%; }
+.caution { background: var(--hazard); color: var(--night); font: 900 12px/1.25 var(--fat); text-transform: uppercase; letter-spacing: .04em; padding: 7px 10px; border: 5px solid; border-image: var(--tape) 5; rotate: 3deg; max-width: 13em; box-shadow: 0 2px 5px #2e1f3a40; }
+
+/* ---------- warning tape across the page ---------- */
+.tape-wrap { overflow: hidden; margin: 10px calc(-1 * var(--edge)) 0; padding: 16px 0; }
+.tape { rotate: -1.4deg; margin: 0 -60px; background: var(--hazard); border-block: 3px solid var(--night); white-space: nowrap; overflow: hidden; }
+.tape.down { rotate: 1deg; }
+.track { display: inline-flex; align-items: stretch; animation: slide 60s linear infinite; }
+.tape.down .track { animation-direction: reverse; animation-duration: 80s; }
+.track span { font: 900 15px/1 var(--fat); letter-spacing: .06em; color: var(--night); padding: 7px 16px; text-transform: uppercase; }
+.track span.lc { text-transform: none; }
+.track i { width: 60px; background: var(--tape); flex: none; }
+@keyframes slide { to { transform: translateX(-50%); } }
+
+/* ---------- the black bit: kes fm ---------- */
+.band { background: radial-gradient(#a8ff1f1f 1px, transparent 1.5px) 0 0 / 22px 22px, var(--night); color: #f3ebf6; margin: 0 calc(-1 * var(--edge)); padding: 30px var(--edge) 50px; }
+.band .row { margin: 0; }
+.band .p { color: var(--hot); }
+.band .y { color: var(--hazard); }
+.band .g { color: var(--acid); }
+.band .b { color: #a9b6ff; }
+.band .i { color: #6c6475; }
+.band p { line-height: 1.55; }
+.col-deck { flex-basis: 20em; max-width: 30em; }
+.col-flyer { flex-basis: 16em; max-width: 25em; }
+
+/* a throw-up: bubble letters, white outline, yellow 3d, and a bit of overspray */
+.throw { margin: 0 0 30px; font: 900 clamp(56px, 15vw, 128px)/.95 var(--fat); letter-spacing: -.05em; color: var(--hot); text-decoration: none; isolation: auto;
+	text-shadow: .035em 0 #fff, .03em .0175em #fff, .0175em .03em #fff, 0 .035em #fff, -.0175em .03em #fff, -.03em .0175em #fff, -.035em 0 #fff, -.03em -.0175em #fff, -.0175em -.03em #fff, 0 -.035em #fff, .0175em -.03em #fff, .03em -.0175em #fff,
+		.05em .055em var(--hazard), .065em .075em var(--hazard), .08em .095em var(--hazard), .095em .115em var(--hazard), .11em .135em #8a6f00, 0 0 .35em #ff5ea866; }
+.throw .l { display: inline-block; }
+.throw .l:nth-child(1) { rotate: -7deg; }
+.throw .l:nth-child(2) { rotate: 5deg; translate: 0 -.05em; }
+.throw .l:nth-child(3) { rotate: -3deg; translate: 0 .03em; }
+.throw .l:nth-child(5) { rotate: 6deg; translate: 0 -.04em; }
+.throw .l:nth-child(6) { rotate: -5deg; }
+.throw::after { content: ""; position: absolute; z-index: 1; left: .32em; top: .86em; width: .055em; height: .32em; border-radius: 0 0 .05em .05em; background: var(--hot); box-shadow: .62em -.12em 0 var(--hot), 1.38em -.06em 0 var(--hot), 1.8em -.16em 0 var(--hot), 2.5em -.09em 0 var(--hot); }
+.throw > span:first-child { display: inline-block; padding-bottom: .3em; }
+.throw small { display: block; font: 700 14px/1.5 var(--mono); letter-spacing: .03em; color: var(--acid); text-shadow: none; margin-top: 16px; max-width: 46em; }
+.throw .sticker { display: inline-block; vertical-align: top; margin: .1em 0 0 .35em; padding: .5em .7em; font: 900 13px/1.1 var(--fat); letter-spacing: .04em; text-shadow: none; color: var(--night); background: var(--acid); rotate: 8deg; border-radius: 3px; }
+
+.stencil { font: 900 21px/1.1 var(--fat); text-transform: uppercase; letter-spacing: .14em; margin: 26px 0 12px; color: transparent;
+	background: linear-gradient(180deg, var(--hazard) 0 45%, transparent 45% 56%, var(--hazard) 56%); -webkit-background-clip: text; background-clip: text; filter: drop-shadow(0 0 5px #ffd60a55); }
+
+.stack { font-size: min(14px, 100cqw / 23); color: #c3c6d1; }
+
+/* ---------- the deck ---------- */
+.deck { background: linear-gradient(172deg, #f7f7fb 0%, #cfd1da 28%, #9c9fac 47%, #eceef4 55%, #b6b9c4 82%, #e3e4ea 100%); border-radius: 16px; padding: 14px 14px 12px; color: var(--night);
+	box-shadow: inset 0 1px 0 #fff, inset 0 -2px 0 #0003, 0 8px 0 #000, 0 16px 34px #000a; font: 13px/1.35 Arial, Helvetica, sans-serif; }
+.deck-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 2px 10px; }
+.deck-head b { font: 900 18px/1 var(--fat); letter-spacing: .05em; }
+.deck-head b i { font-style: normal; color: var(--pink); }
+.deck-head span { font: 10px var(--mono); text-transform: uppercase; letter-spacing: .1em; opacity: .7; }
+.lcd { margin: 10px 0; background: #0c1508; color: var(--acid); border-radius: 8px; padding: 10px 12px 12px; box-shadow: inset 0 2px 10px #000, 0 1px 0 #fff9; font: 14px/1.35 var(--mono); text-shadow: 0 0 6px #a8ff1f88; }
+.lcd-top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.lcd .freq b { font-size: 38px; letter-spacing: -.03em; }
+.lcd .pat { font-size: 12px; text-transform: uppercase; color: var(--hot); text-shadow: 0 0 6px #ff5ea888; text-align: right; }
+.lcd .mc { min-height: 2.7em; margin: 4px 0 8px; }
+.leds { display: grid; grid-template-columns: repeat(16, 1fr); gap: 3px; }
+.leds i { height: 8px; border-radius: 2px; background: #1f3017; }
+.leds i:nth-child(4n+1) { background: #33502a; }
+.leds i.on { background: var(--hot); box-shadow: 0 0 8px var(--hot); }
+.cass { display: flex; align-items: center; gap: 12px; background: #1d1722; border-radius: 10px; padding: 10px 14px; box-shadow: inset 0 2px 7px #000; }
+.reel { flex: none; width: 46px; height: 46px; border-radius: 50%; border: 5px solid #3b3342; box-sizing: border-box;
+	background: radial-gradient(circle, #1d1722 0 20%, transparent 21%), repeating-conic-gradient(#f3ebf6 0 16deg, #5a4f63 16deg 60deg); }
+.clabel { flex: 1; min-width: 0; text-align: center; background: var(--blush); color: var(--ink); border-radius: 3px; border-top: 6px solid var(--pink); padding: 4px 6px 6px; font: italic 700 17px/1.15 var(--marker); rotate: -1deg; }
+.clabel small { display: block; font: 11px/1.3 var(--mono); }
+.on .reel { animation: spin 1.8s linear infinite; }
+.rew .reel { animation: spin .3s linear infinite reverse; }
+@keyframes spin { to { transform: rotate(1turn); } }
+.keys { display: flex; flex-wrap: wrap; gap: 8px 7px; margin: 14px 0 12px; }
+.keys button { flex: 1 1 auto; min-width: 4.6em; font: 700 13px/1 Arial, Helvetica, sans-serif; color: #f3ebf6; background: linear-gradient(#3b3342, #151019); border: 0; border-radius: 5px 5px 9px 9px; padding: 11px 9px 12px; box-shadow: 0 4px 0 #000, inset 0 1px 0 #ffffff33; cursor: pointer; }
+.keys button:hover { color: var(--acid); }
+.keys button:active, .keys button.down { translate: 0 3px; box-shadow: 0 1px 0 #000, inset 0 1px 0 #ffffff33; }
+.keys button:focus-visible, .dials input:focus-visible { outline: 3px solid var(--pink); outline-offset: 2px; }
+.keys .k-play { background: linear-gradient(#cbff66, #8bd80f); color: var(--night); }
+.keys .k-stop { background: linear-gradient(#ffe35c, #f2c200); color: var(--night); font-size: 14px; }
+.keys .k-play:hover, .keys .k-stop:hover { color: var(--pink); }
+.keys [aria-pressed="true"] { background: linear-gradient(#ff86bd, #df3a7b); color: #fff; }
+.dials { display: flex; flex-wrap: wrap; gap: 8px 18px; font: 11px var(--mono); text-transform: uppercase; letter-spacing: .06em; }
+.dials label { display: flex; align-items: center; gap: 8px; flex: 1 1 13em; min-width: 0; }
+.dials input { flex: 1; min-width: 0; accent-color: var(--pink); }
+.dials output { min-width: 5.5em; }
+.deck-note { font: 12px/1.45 var(--mono); margin: 10px 0 0; color: #3d3148; }
+
+/* ---------- the flyer (it's for this page. there is no rave) ---------- */
+.flyer { background: #fffdf3; color: var(--night); padding: 16px 16px 14px; border: 10px solid; border-image: var(--tape) 10; rotate: 1.3deg; box-shadow: 0 10px 28px #000c; }
+.flyer p { margin: 0; }
+.flyer .pres { font: 700 12px var(--mono); letter-spacing: .3em; text-transform: uppercase; text-align: center; }
+.flyer .chrome { font: italic 900 min(50px, 15cqw)/.95 Impact, var(--fat); text-transform: uppercase; text-align: center; margin: 6px 0 4px;
+	background: var(--chrome); -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-stroke: 1.5px var(--night); }
+.flyer .sub { text-align: center; font-style: italic; font-size: 15px; }
+.flyer .smile { display: block; width: fit-content; margin: 10px auto 4px; font-size: 14px; color: var(--night); background: radial-gradient(ellipse closest-side, var(--hazard) 82%, transparent 84%); }
+.bill { font: 13px/1.45 var(--mono); margin: 10px 0; }
+.bill div { display: flex; align-items: baseline; }
+.bill div::before { content: ""; order: 1; flex: 1 1 1em; min-width: .6em; border-bottom: 2px dotted #15101966; margin: 0 5px; }
+.bill dt { order: 0; margin: 0; font-weight: 700; text-transform: uppercase; white-space: nowrap; }
+.bill dd { order: 2; margin: 0; text-align: right; overflow-wrap: anywhere; }
+.flyer .amen { font: 900 19px/1.15 var(--fat); text-align: center; color: var(--pink); margin: 12px 0 6px; letter-spacing: -.01em; }
+.flyer .fine { font: 11px/1.4 var(--mono); text-align: center; }
+
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
 footer { padding: 4px 0 40px; }
 
@@ -110,6 +245,11 @@ footer { padding: 4px 0 40px; }
 @media (max-width: 600px) {
 	.doodles { gap: 20px; }
 	.doodles .art { font-size: 12px; }
+	.band { padding-top: 22px; }
+	.flyer { rotate: .6deg; }
+}
+@media (prefers-reduced-motion: reduce) {
+	.track, .on .reel, .rew .reel { animation: none; }
 }
 </style>
 </head>
@@ -119,11 +259,15 @@ footer { padding: 4px 0 40px; }
 	<div>
 		<pre class="art name" aria-hidden="true"><span class=p>&lt;3</span>
 <span class=p>&lt;3</span>
-<span class=p>&lt;3    &lt;3      &lt;3&lt;3&lt;3      &lt;3&lt;3&lt;3&lt;3</span><span class=end>    <span class=y>&lt;3&lt;3  &lt;3&lt;3</span></span>
-<span class=p>&lt;3  &lt;3      &lt;3      &lt;3  &lt;3        </span><span class=end>  <span class=y>&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3</span></span>
-<span class=p>&lt;3&lt;3        &lt;3&lt;3&lt;3&lt;3&lt;3    &lt;3&lt;3&lt;3  </span><span class=end>    <span class=y>&lt;3&lt;3&lt;3&lt;3&lt;3</span></span>
-<span class=p>&lt;3  &lt;3      &lt;3                  &lt;3</span><span class=end>      <span class=y>&lt;3&lt;3&lt;3</span></span>
-<span class=p>&lt;3    &lt;3      &lt;3&lt;3&lt;3    &lt;3&lt;3&lt;3&lt;3  </span><span class=end>        <span class=y>&lt;3</span></span></pre>
+<span class=p>&lt;3    &lt;3      &lt;3&lt;3&lt;3      &lt;3&lt;3&lt;3&lt;3</span><span class=end><span class=y>    &lt;3&lt;3  &lt;3&lt;3</span></span>
+<span class=p>&lt;3  &lt;3      &lt;3      &lt;3  &lt;3        </span><span class=end><span class=y>  &lt;3&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3</span></span>
+<span class=p>&lt;3&lt;3        &lt;3&lt;3&lt;3&lt;3&lt;3    &lt;3&lt;3&lt;3  </span><span class=end><span class=y>    &lt;3&lt;3&lt;3&lt;3&lt;3</span></span>
+<span class=p>&lt;3  &lt;3      &lt;3                  &lt;3</span><span class=end><span class=y>      &lt;3&lt;3&lt;3</span></span>
+<span class=p>&lt;3    &lt;3      &lt;3&lt;3&lt;3    &lt;3&lt;3&lt;3&lt;3  </span><span class=end><span class=y>        &lt;3</span></span>
+<span class="p drip">|      |       |   |     '    |</span>
+<span class="p drip">|      '       |   '          |</span>
+<span class="p drip">'              |              '</span>
+<span class="p drip">               '</span></pre>
 		<h1>hi, i'm kes <span class=p>♡</span></h1>
 
 		<p>kesia inkersole if you're being formal. i'm a freelance creative strategist and internet equalities researcher, based in london, and i'm available for work: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
@@ -134,6 +278,13 @@ footer { padding: 4px 0 40px; }
 	</div>
 
 	<div>
+		<!-- stickers, slapped on. purely decorative, the real hello is on the left -->
+		<div class="slaps" aria-hidden="true">
+			<div class="hello"><b>HELLO</b><small>my name is</small><span>kes<i>♡</i></span></div>
+			<div class="smiley"></div>
+			<div class="caution">caution: contains jungle (and hearts)</div>
+		</div>
+
 		<!-- kes: newest at the top. the lorem ipsum lines are placeholders, swap them for real things -->
 		<div class="new">
 			<h2>new-ish <span class=p>✶</span></h2>
@@ -159,7 +310,7 @@ footer { padding: 4px 0 40px; }
 | |<span class=p><span class=a>     \__/     </span><span class=h>      &lt;3      </span></span>| |
 | |              | |
 | '--------------' |
-|                  |
+| <span class=y>[</span><span class=p>&lt;3</span><span class=y> jungle]</span>      |
 |    <span class=i>________</span>   <span class=p>o</span>  |
 |   <span class=i>|________|</span>     |
 |__________________|
@@ -168,12 +319,111 @@ footer { padding: 4px 0 40px; }
 	</div>
 </div>
 
-<div class="cable" aria-hidden="true"><pre class="art"> <span class=i>.---.    </span><span class=b>.--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.  </span>
-<span class=i>[|||||]</span><span class=b>=-'    `--'    `--'    `</span><span class=p>&lt;3</span><span class=b>'    `--'    `--'    `--'    `--'    `--'    `</span><span class=p>&lt;3</span><span class=b>'    `--'    `--'    `--'    `--'    `--'    `</span><span class=p>&lt;3</span><span class=b>'    `--'    `--'    `--'    `--'    `--'    `</span><span class=p>&lt;3</span><span class=b>'    `--'    `--'    `--'    `--'    `--'    `</span><span class=p>&lt;3</span><span class=b>'    `--'    `--'    `--'    `--'    `--'    `</span><span class=p>&lt;3</span><span class=b>'    `--'    `--'    `--'    `--'    `--'    `</span><span class=p>&lt;3</span><span class=b>'    `--'    `--'    `--'    `--'    `-</span></pre></div>
+<!-- warning tape. the text is written out twice so the loop is seamless -->
+<div class="tape-wrap" aria-hidden="true"><div class="tape"><div class="track">
+	<span>kes fm</span><i></i><span>170.0</span><i></i><span>big up all the junglists ♡</span><i></i><span>broadcasting from one browser tab</span><i></i><span>text-ins:</span><span class="lc">inkersolekesia@gmail.com</span><i></i><span>big up everyone on bad wifi</span><i></i><span>lorem ipsum dolor sit amen</span><i></i>
+	<span>kes fm</span><i></i><span>170.0</span><i></i><span>big up all the junglists ♡</span><i></i><span>broadcasting from one browser tab</span><i></i><span>text-ins:</span><span class="lc">inkersolekesia@gmail.com</span><i></i><span>big up everyone on bad wifi</span><i></i><span>lorem ipsum dolor sit amen</span><i></i>
+</div></div></div>
+
+<section class="band" aria-labelledby="kesfm">
+	<h2 class="throw" id="kesfm"><span aria-hidden="true"><span class=l>k</span><span class=l>e</span><span class=l>s</span> <span class=l>f</span><span class=l>m</span></span><span class="sticker" aria-hidden="true">170.0</span><span class="vh">kes fm: a little jungle machine</span>
+		<small>pirate radio for one website ✧ press play, it never starts on its own ✧ big up all the junglists</small></h2>
+
+	<div class="row">
+		<div class="col-deck">
+			<div class="deck" id="deck" role="group" aria-label="kes fm jungle machine">
+				<div class="deck-head"><b>KES FM <i>♡</i></b><span>tape deck / pirate radio / no samples</span></div>
+				<div class="lcd" aria-hidden="true">
+					<div class="lcd-top"><span class="freq"><b id="freq">170.0</b> FM</span><span class="pat" id="patname">amen-ish</span></div>
+					<div class="mc" id="mc">press play (it won't start on its own) ♡</div>
+					<div class="leds" id="leds"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+				</div>
+				<div class="cass" aria-hidden="true">
+					<span class="reel"></span>
+					<span class="clabel">kes fm ♡ side a<small id="clab">amen-ish · 170 bpm</small></span>
+					<span class="reel"></span>
+				</div>
+				<div class="keys">
+					<button type="button" class="k-play" id="play">▶&#xFE0E; play</button>
+					<button type="button" class="k-stop" id="stop">■ stop</button>
+					<button type="button" id="rew" title="pull up and play it again from the top">◀&#xFE0E;◀&#xFE0E; rewind</button>
+					<button type="button" id="pat" title="switch break">break ↻</button>
+					<button type="button" id="chop" title="cut the break up differently">✂&#xFE0E; chop</button>
+					<button type="button" id="reese" aria-pressed="false" title="the growly detuned bass">reese</button>
+					<button type="button" id="horn">horn</button>
+					<button type="button" id="siren">siren</button>
+				</div>
+				<div class="dials">
+					<label>tune <input type="range" id="tune" min="160" max="175" step="1" value="170"> <output id="bpm" for="tune">170 bpm</output></label>
+					<label>volume <input type="range" id="vol" min="0" max="100" value="50"></label>
+				</div>
+				<p class="deck-note" id="status" role="status">stopped. nothing plays till you press play, and stop always works.</p>
+			</div>
+		</div>
+
+		<div>
+			<pre class="art stack" aria-hidden="true">        <span class=p>\(^o^)/</span>       <span class=p>&lt;3</span>
+<span class=c>.--------------..--------------.</span>
+<span class=c>| .----.  .--. || .----.  .--. |</span>
+<span class=c>| |====|  </span><span class=g>(())</span><span class=c> || |====|  </span><span class=g>(())</span><span class=c> |</span>
+<span class=c>| '----'  '--' || '----'  '--' |</span>
+<span class=c>'--------------''--------------'</span>
+<span class=c>.--------------..--------------.</span>
+<span class=c>|   .------.   ||   .------.   |</span>
+<span class=c>|  /  .--.  \  ||  /  .--.  \  | </span> <span class=g>)</span>
+<span class=c>| |  </span><span class=b>( </span><span class=p>&lt;3</span><span class=b> )</span><span class=c>  | || |  </span><span class=b>( </span><span class=p>&lt;3</span><span class=b> )</span><span class=c>  | | </span> <span class=g>))</span>
+<span class=c>|  \  '--'  /  ||  \  '--'  /  | </span> <span class=g>)))</span>
+<span class=c>|   '------'   ||   '------'   | </span> <span class=g>))</span>
+<span class=c>|--------------||--------------| </span> <span class=g>)</span>
+<span class=c>|    </span><span class=y>KES FM</span><span class=c>    ||   </span><span class=g>170.0 FM</span><span class=c>   |</span>
+<span class=c>'--------------''--------------'</span>
+<span class=i>""""""""""""""""""""""""""""""""</span></pre>
+
+			<h3 class="stencil">liner notes</h3>
+			<p>jungle came out of london in the early 90s, out of Black British sound system culture: reggae and dub basslines, MCs, dubplates and rewinds, colliding with breakbeat hardcore at 160-something bpm. pirate radio played it long before the official stations would. this page borrows its look and its language, so it should say whose they are.</p>
+			<p>the drums are amen-shaped. the amen break is a few seconds of gregory c. coleman drumming on "amen, brother" by the winstons (1969), and it's one of the most sampled recordings ever made. the band never got royalties for any of that. so the machine doesn't sample him: every hit is synthesised from scratch, in your browser.</p>
+			<p>(the internet equalities bit: pirate radio was people bolting aerials to tower block roofs because the official airwaves wouldn't carry their music. a network built by the people the official one left out. that's still what a lot of the best internet looks like.)</p>
+		</div>
+
+		<div class="col-flyer">
+			<div class="flyer">
+				<p class="pres">kes fm presents</p>
+				<p class="chrome">this website</p>
+				<p class="sub">a homepage with a jungle machine in it</p>
+				<pre class="art smile" aria-hidden="true">    .-""""""-.
+  .'          '.
+ /   O      O   \
+:  <span class=p>~~</span>        <span class=p>~~</span>  :
+:   \        /   :
+ \   '.____.'   /
+  '.          .'
+    '-......-'</pre>
+				<dl class="bill">
+					<div><dt>room 1</dt><dd>hearts + ascii</dd></div>
+					<div><dt>room 2</dt><dd>170bpm, no samples</dd></div>
+					<div><dt>room 3</dt><dd>links, links, links</dd></div>
+					<div><dt>resident</dt><dd>kes</dd></div>
+					<div><dt>lasers</dt><dd>css</dd></div>
+					<div><dt>rig</dt><dd>whatever speakers you've got</dd></div>
+					<div><dt>rewinds</dt><dd>encouraged</dd></div>
+					<div><dt>door</dt><dd>free · all ages · step-free</dd></div>
+					<div><dt>info line</dt><dd><a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></dd></div>
+				</dl>
+				<p class="amen">lorem ipsum dolor sit amen</p>
+				<p class="fine">small print: there's no rave, no date and no venue. this flyer is just for this page.</p>
+			</div>
+		</div>
+	</div>
+</section>
+
+<div class="tape-wrap" aria-hidden="true"><div class="tape down"><div class="track">
+	<span>caution</span><i></i><span>wet paint</span><i></i><span>caution</span><i></i><span>sub bass</span><i></i><span>caution</span><i></i><span>hearts</span><i></i><span>caution</span><i></i><span>wet paint</span><i></i><span>caution</span><i></i><span>sub bass</span><i></i><span>caution</span><i></i><span>hearts</span><i></i>
+	<span>caution</span><i></i><span>wet paint</span><i></i><span>caution</span><i></i><span>sub bass</span><i></i><span>caution</span><i></i><span>hearts</span><i></i><span>caution</span><i></i><span>wet paint</span><i></i><span>caution</span><i></i><span>sub bass</span><i></i><span>caution</span><i></i><span>hearts</span><i></i>
+</div></div></div>
 
 <!-- to add a project: copy a <dt> + <dd> pair. photos: keep them about 150px tall so they sit in a row and fit on phones -->
 
-<div class="row">
+<div class="row" style="margin-top: 36px">
 	<div>
 		<h2>projects (for fun)</h2>
 		<dl>
@@ -222,7 +472,7 @@ footer { padding: 4px 0 40px; }
 		</ul>
 	</div>
 
-	<div>
+	<div style="--hl: #e4ffc2">
 		<h2>podcasts (good for a long bus ride)</h2>
 		<pre class="art bus" aria-hidden="true">                           <span class="y ding">ding ding!</span>
    <span class=p>_________________________________</span>
@@ -232,7 +482,7 @@ footer { padding: 4px 0 40px; }
   <span class=p>|  </span><span class=b>___  ___  ___  ___   </span><span class=p>__   </span><span class=b>___  </span><span class=p>|</span>
   <span class=p>| </span><span class=b>|___||___||___||___| </span>|  | |<span class=b>___| </span>|
   <span class=p>|______________________|__|_______|</span>
-    <span class=i>'-(@)-'              '-(@)-'</span></pre>
+    <span class=i>'-(@)-'              '-(@)-'</span><span class="tag">kes<i>♡</i></span></pre>
 		<ul>
 			<li><a href="https://podcasts.apple.com/gb/podcast/mindy-seu-on-collaboration-community-and/id1449302502?i=1000597869409">mindy seu on collaboration, community and the cyberfeminism index</a></li>
 			<li><a href="https://soundcloud.com/proteincommunity/protein-forum-what-can-web2-organisations-learn-from-web3-communities">what can web2 organisations learn from web3 communities?</a></li>
@@ -284,17 +534,25 @@ footer { padding: 4px 0 40px; }
 	</details>
 </div>
 
-<pre class="art garden" aria-hidden="true" title="it loads fine on bad wifi. the snail is the bad wifi">     <span class=b>_      </span><span class=p>_  _          _____       </span><span class=i>@  @             </span><span class=y>\ | /    </span><span class=p>_  _          </span><span class=b>_            </span><span class=p>_  _      </span><span class=y>\ | /          </span><span class=b>_      </span><span class=p>_  _            _  _    </span><span class=y>\ | /          </span><span class=b>_            </span><span class=p>_  _        </span><span class=b>_      </span><span class=y>\ | /    </span><span class=p>_  _                </span><span class=b>_      </span><span class=p>_  _      </span><span class=y>\ | /          </span><span class=p>_  _      </span><span class=b>_          </span><span class=p>_  _    </span><span class=y>\ | /            </span><span class=b>_      </span><span class=p>_  _</span>
-   <span class=b>_(_)_   </span><span class=p>( \/ )       .'     '.      </span><span class=b>\ |      </span><span class=p>@      </span><span class=y>-</span><span class=p>(@)</span><span class=y>-   </span><span class=p>( \/ )       </span><span class=b>_(_)_     </span><span class=p>@   ( \/ )     </span><span class=y>-</span><span class=p>(@)</span><span class=y>-        </span><span class=b>_(_)_   </span><span class=p>( \/ )    @     ( \/ )   </span><span class=y>-</span><span class=p>(@)</span><span class=y>-        </span><span class=b>_(_)_     </span><span class=p>@   ( \/ )     </span><span class=b>_(_)_    </span><span class=y>-</span><span class=p>(@)</span><span class=y>-   </span><span class=p>( \/ )        @    </span><span class=b>_(_)_   </span><span class=p>( \/ )     </span><span class=y>-</span><span class=p>(@)</span><span class=y>-     </span><span class=p>@   ( \/ )   </span><span class=b>_(_)_       </span><span class=p>( \/ )   </span><span class=y>-</span><span class=p>(@)</span><span class=y>-     </span><span class=p>@    </span><span class=b>_(_)_   </span><span class=p>( \/ )</span>
-  <span class=b>(_)</span><span class=y>@</span><span class=b>(_)   </span><span class=p>\  /       /  </span><span class=y>.---.  </span><span class=p>\     </span><span class=b>| |     </span><span class=g>\|      </span><span class=y>/ </span><span class=g>| </span><span class=y>\    </span><span class=p>\  /       </span><span class=b>(_)</span><span class=y>@</span><span class=b>(_)   </span><span class=g>\|    </span><span class=p>\  /      </span><span class=y>/ </span><span class=g>| </span><span class=y>\       </span><span class=b>(_)</span><span class=y>@</span><span class=b>(_)   </span><span class=p>\  /    </span><span class=g>\|      </span><span class=p>\  /    </span><span class=y>/ </span><span class=g>| </span><span class=y>\       </span><span class=b>(_)</span><span class=y>@</span><span class=b>(_)   </span><span class=g>\|    </span><span class=p>\  /     </span><span class=b>(_)</span><span class=y>@</span><span class=b>(_)   </span><span class=y>/ </span><span class=g>| </span><span class=y>\    </span><span class=p>\  /        </span><span class=g>\|   </span><span class=b>(_)</span><span class=y>@</span><span class=b>(_)   </span><span class=p>\  /      </span><span class=y>/ </span><span class=g>| </span><span class=y>\    </span><span class=g>\|    </span><span class=p>\  /   </span><span class=b>(_)</span><span class=y>@</span><span class=b>(_)       </span><span class=p>\  /    </span><span class=y>/ </span><span class=g>| </span><span class=y>\    </span><span class=g>\|   </span><span class=b>(_)</span><span class=y>@</span><span class=b>(_)   </span><span class=p>\  /</span>
-    <span class=b>(_)      </span><span class=p>\/       |  </span><span class=y>( (@) )  </span><span class=p>|</span><span class=b>____/ /      </span><span class=g>|/       |       </span><span class=p>\/          </span><span class=b>(_)      </span><span class=g>|/    </span><span class=p>\/         </span><span class=g>|           </span><span class=b>(_)      </span><span class=p>\/      </span><span class=g>|/      </span><span class=p>\/       </span><span class=g>|           </span><span class=b>(_)      </span><span class=g>|/    </span><span class=p>\/        </span><span class=b>(_)       </span><span class=g>|       </span><span class=p>\/          </span><span class=g>|/    </span><span class=b>(_)      </span><span class=p>\/         </span><span class=g>|       |/    </span><span class=p>\/      </span><span class=b>(_)          </span><span class=p>\/       </span><span class=g>|       |/    </span><span class=b>(_)      </span><span class=p>\/</span>
-    <span class=g>\|       |/        </span><span class=p>\  </span><span class=y>'---'  </span><span class=p>/      </span><span class=b>/      </span><span class=g>\|       \|       |/          \|      \|     |/        \|           \|       |/     \|       |/      \|           \|      \|     |/        \|       \|       |/         \|     \|       |/        \|      \|     |/      \|           |/      \|      \|     \|       |/</span>
-<span class=g>,,,,,|,,,,,,,|,,,,,,,</span><span class=b>___</span><span class=p>'._____.</span><span class=b>'______/</span><span class=g>,,,,,,,,|,,,,,,,,|,,,,,,,|,,,,,,,,,,,,|,,,,,,,|,,,,,|,,,,,,,,,,|,,,,,,,,,,,,|,,,,,,,|,,,,,,,|,,,,,,,|,,,,,,,,|,,,,,,,,,,,,|,,,,,,,|,,,,,|,,,,,,,,,,|,,,,,,,,|,,,,,,,|,,,,,,,,,,,|,,,,,,|,,,,,,,|,,,,,,,,,,|,,,,,,,|,,,,,|,,,,,,,,|,,,,,,,,,,,|,,,,,,,,|,,,,,,,|,,,,,,|,,,,,,,|,,,,,</span></pre>
+<!-- a tower block with a pirate aerial on the roof, a wall someone's put a throw-up on, then the garden -->
+<pre class="art garden" aria-hidden="true" title="it loads fine on bad wifi. the snail is the bad wifi">    <span class=g>((</span>  <span class=g>((</span><span class=i>  \|/  </span><span class=g>))</span>  <span class=g>))</span>                                       
+         <span class=g>((</span><span class=i>  |  </span><span class=g>))</span>                                            
+<span class=i>             |            </span>                                    
+<span class=i>    .--------'-------.    </span><span class=w>  |___|___|___|___|___|___|___|__|  </span>
+<span class=i>    | </span><span class=w>[]</span> <span class=y>[]</span> <span class=w>[]</span> <span class=w>[]</span> <span class=y>[]</span><span class=i> |    </span><span class=w>  |    </span><span class=p>_</span>  <span class=p>__</span> <span class=p>_____</span>  <span class=p>____</span><span class=w>         |  </span>
+<span class=i>    | </span><span class=w>[]</span> <span class=w>[]</span> <span class=p>&lt;3</span> <span class=w>[]</span> <span class=w>[]</span><span class=i> |    </span><span class=w>  |   </span><span class=p>|</span> <span class=p>|/</span> <span class=p>/|</span> <span class=p>____|/</span> <span class=p>___|</span>   <span class=p>&lt;3</span><span class=w>   |  </span>
+<span class=i>    | </span><span class=w>[]</span> <span class=w>[]</span> <span class=y>[]</span> <span class=w>[]</span> <span class=w>[]</span><span class=i> |    </span><span class=w>  |   </span><span class=p>|</span> <span class=p>'</span> <span class=p>/</span> <span class=p>|</span>  <span class=p>_|</span>  <span class=p>\___</span> <span class=p>\</span><span class=w>        |  </span>
+<span class=i>    | </span><span class=y>[]</span> <span class=w>[]</span> <span class=w>[]</span> <span class=y>[]</span> <span class=w>[]</span><span class=i> |    </span><span class=w>  |   </span><span class=p>|</span> <span class=p>.</span> <span class=p>\</span> <span class=p>|</span> <span class=p>|___</span>  <span class=p>___)</span> <span class=p>|</span>  <span class=b>170</span><span class=w>  |  </span>     <span class=b>_      </span><span class=p>_  _          _____       </span><span class=i>@  @             </span><span class=y>\ | /    </span><span class=p>_  _          </span><span class=b>_            </span><span class=p>_  _      </span><span class=y>\ | /          </span><span class=b>_      </span><span class=p>_  _            _  _    </span><span class=y>\ | /          </span><span class=b>_            </span><span class=p>_  _        </span><span class=b>_      </span><span class=y>\ | /    </span><span class=p>_  _                </span><span class=b>_      </span><span class=p>_  _      </span><span class=y>\ | /          </span><span class=p>_  _      </span><span class=b>_          </span><span class=p>_  _    </span><span class=y>\ | /            </span><span class=b>_      </span><span class=p>_  _</span>
+<span class=i>    | </span><span class=w>[]</span> <span class=w>[]</span> <span class=w>[]</span> <span class=w>[]</span> <span class=y>[]</span><span class=i> |    </span><span class=w>  |   </span><span class=p>|_|\_\|_____||____/</span><span class=w>        |  </span>   <span class=b>_(_)_   </span><span class=p>( \/ )       .'     '.      </span><span class=b>\ |      </span><span class=p>@      </span><span class=y>-</span><span class=p>(@)</span><span class=y>-   </span><span class=p>( \/ )       </span><span class=b>_(_)_     </span><span class=p>@   ( \/ )     </span><span class=y>-</span><span class=p>(@)</span><span class=y>-        </span><span class=b>_(_)_   </span><span class=p>( \/ )    @     ( \/ )   </span><span class=y>-</span><span class=p>(@)</span><span class=y>-        </span><span class=b>_(_)_     </span><span class=p>@   ( \/ )     </span><span class=b>_(_)_    </span><span class=y>-</span><span class=p>(@)</span><span class=y>-   </span><span class=p>( \/ )        @    </span><span class=b>_(_)_   </span><span class=p>( \/ )     </span><span class=y>-</span><span class=p>(@)</span><span class=y>-     </span><span class=p>@   ( \/ )   </span><span class=b>_(_)_       </span><span class=p>( \/ )   </span><span class=y>-</span><span class=p>(@)</span><span class=y>-     </span><span class=p>@    </span><span class=b>_(_)_   </span><span class=p>( \/ )</span>
+<span class=i>    | </span><span class=w>[]</span> <span class=y>[]</span> <span class=w>[]</span> <span class=w>[]</span> <span class=w>[]</span><span class=i> |    </span><span class=w>  |    </span><span class=p>|</span>    <span class=p>|</span>     <span class=p>|</span>    <span class=p>|</span><span class=w>         |  </span>  <span class=b>(_)</span><span class=y>@</span><span class=b>(_)   </span><span class=p>\  /       /  </span><span class=y>.---.  </span><span class=p>\     </span><span class=b>| |     </span><span class=g>\|      </span><span class=y>/ </span><span class=g>| </span><span class=y>\    </span><span class=p>\  /       </span><span class=b>(_)</span><span class=y>@</span><span class=b>(_)   </span><span class=g>\|    </span><span class=p>\  /      </span><span class=y>/ </span><span class=g>| </span><span class=y>\       </span><span class=b>(_)</span><span class=y>@</span><span class=b>(_)   </span><span class=p>\  /    </span><span class=g>\|      </span><span class=p>\  /    </span><span class=y>/ </span><span class=g>| </span><span class=y>\       </span><span class=b>(_)</span><span class=y>@</span><span class=b>(_)   </span><span class=g>\|    </span><span class=p>\  /     </span><span class=b>(_)</span><span class=y>@</span><span class=b>(_)   </span><span class=y>/ </span><span class=g>| </span><span class=y>\    </span><span class=p>\  /        </span><span class=g>\|   </span><span class=b>(_)</span><span class=y>@</span><span class=b>(_)   </span><span class=p>\  /      </span><span class=y>/ </span><span class=g>| </span><span class=y>\    </span><span class=g>\|    </span><span class=p>\  /   </span><span class=b>(_)</span><span class=y>@</span><span class=b>(_)       </span><span class=p>\  /    </span><span class=y>/ </span><span class=g>| </span><span class=y>\    </span><span class=g>\|   </span><span class=b>(_)</span><span class=y>@</span><span class=b>(_)   </span><span class=p>\  /</span>
+<span class=i>    | </span><span class=y>[]</span><span class=i> .------. </span><span class=w>[]</span><span class=i> |    </span><span class=w>  |    </span><span class=p>'</span>          <span class=p>|</span>    <span class=p>'</span><span class=w>         |  </span>    <span class=b>(_)      </span><span class=p>\/       |  </span><span class=y>( (@) )  </span><span class=p>|</span><span class=b>____/ /      </span><span class=g>|/       |       </span><span class=p>\/          </span><span class=b>(_)      </span><span class=g>|/    </span><span class=p>\/         </span><span class=g>|           </span><span class=b>(_)      </span><span class=p>\/      </span><span class=g>|/      </span><span class=p>\/       </span><span class=g>|           </span><span class=b>(_)      </span><span class=g>|/    </span><span class=p>\/        </span><span class=b>(_)       </span><span class=g>|       </span><span class=p>\/          </span><span class=g>|/    </span><span class=b>(_)      </span><span class=p>\/         </span><span class=g>|       |/    </span><span class=p>\/      </span><span class=b>(_)          </span><span class=p>\/       </span><span class=g>|       |/    </span><span class=b>(_)      </span><span class=p>\/</span>
+<span class=i>    |____|      |____|    </span><span class=w>  |_______________'______________|  </span>    <span class=g>\|       |/        </span><span class=p>\  </span><span class=y>'---'  </span><span class=p>/      </span><span class=b>/      </span><span class=g>\|       \|       |/          \|      \|     |/        \|           \|       |/     \|       |/      \|           \|      \|     |/        \|       \|       |/         \|     \|       |/        \|      \|     |/      \|           |/      \|      \|     \|       |/</span>
+<span class=g>,,,,,|,,,,,,,|,,,,,,|,,,,,</span><span class=g>,,|,,,,,,,|,,,,,,|,,,,,,,,|,,,,,,,,|</span><span class=g>,,,,,|,,,,,,,|,,,,,,,</span><span class=b>___</span><span class=p>'._____.</span><span class=b>'______/</span><span class=g>,,,,,,,,|,,,,,,,,|,,,,,,,|,,,,,,,,,,,,|,,,,,,,|,,,,,|,,,,,,,,,,|,,,,,,,,,,,,|,,,,,,,|,,,,,,,|,,,,,,,|,,,,,,,,|,,,,,,,,,,,,|,,,,,,,|,,,,,|,,,,,,,,,,|,,,,,,,,|,,,,,,,|,,,,,,,,,,,|,,,,,,|,,,,,,,|,,,,,,,,,,|,,,,,,,|,,,,,|,,,,,,,,|,,,,,,,,,,,|,,,,,,,,|,,,,,,,|,,,,,,|,,,,,,,|,,,,,</span></pre>
 
 <!-- change the date when you change something! -->
 
 <footer>
-	<p>this page was last updated on 1 october 2026. it's still mostly plain html (it started out in <a href="http://contemporary-home-computing.org/prof-dr-style/">olia lialina's prof. dr. style</a>, then i planted some flowers), so it's easy for me to update and it loads fine on bad wifi.</p>
+	<p>this page was last updated on 1 october 2026. it's still mostly plain html (it started out in <a href="http://contemporary-home-computing.org/prof-dr-style/">olia lialina's prof. dr. style</a>, then i planted some flowers, then the jungle got in), so it's easy for me to update and it loads fine on bad wifi. the jungle machine is the one big script at the bottom: view source and take whatever's useful.</p>
 	<p>thanks for stopping by <span class=p>♡</span></p>
 </footer>
 
@@ -303,10 +561,403 @@ footer { padding: 4px 0 40px; }
 	console.log("it's all just html, view source and take whatever is useful");
 	console.log('𝓴𝓮𝓼 𝔀𝓪𝓼 𝓱𝓮𝓻𝓮');
 	console.log("(the fancy letters live down here so screen readers don't have to spell them out)");
+	console.log('big up everyone who opens devtools. try kesfm.horn() or kesfm.siren()');
 
 	document.addEventListener('visibilitychange', function () {
 		document.title = document.hidden ? 'come back ♡' : 'kes (kesia) inkersole';
 	});
+</script>
+
+<script>
+/* ---------- kes fm: a tiny jungle machine ----------
+   web audio only. every drum, the sub, the reese, the horn and the siren are synthesised here: no samples, nothing loads.
+   it never starts by itself. play starts it, stop stops everything. */
+(() => {
+	const $ = id => document.getElementById(id);
+	const deck = $('deck');
+	const AC = window.AudioContext || window.webkitAudioContext;
+	const OAC = window.OfflineAudioContext || window.webkitOfflineAudioContext;
+	if (!deck) return;
+	const leds = [...deck.querySelectorAll('.leds i')];
+	const ui = { mc: $('mc'), status: $('status'), freq: $('freq'), bpm: $('bpm'), patname: $('patname'), clab: $('clab'), play: $('play'), reese: $('reese'), vol: $('vol'), tune: $('tune') };
+
+	/* the breaks: 4 bars of 16 steps. three lanes per bar: kick, snare, cymbals
+	   kick  x = hit, o = soft
+	   snare x = hit, m = medium, g = ghost, r = roll (two 32nds)
+	   cymbals r = ride, h = closed hat, o = open hat, c = crash */
+	const BREAKS = [
+		{ name: 'amen-ish', bars: [
+			['x.x.......xx....', '....x..m.m..x..m', 'r.r.r.r.r.r.r.r.'],
+			['x.x.......xx....', '....x..m.m..x..m', 'r.r.r.r.r.rhr.r.'],
+			['x.x.......x.....', '....x..m.m....x.', 'r.r.r.r.r.r.r.r.'],
+			['..xx......x.....', '.m..x..m.m....x.', 'r.r.r.r.r.c.r.r.'] ] },
+		{ name: 'rollers', bars: [
+			['x.........x.....', '....x..g.g..x..g', 'h.hhh.h.h.hhh.ho'],
+			['x.........x.x...', '....x..g....x.g.', 'h.hhh.h.h.hhh.h.'],
+			['x.........x.....', '....x..g.g..x..g', 'h.hhh.h.h.hhh.ho'],
+			['x.........x..x..', '....x..g..g.x.gg', 'h.hhh.h.h.hhh.h.'] ] },
+		{ name: 'half-time', bars: [
+			['x.....x...x.....', '........x......g', 'r...r...r...r...'],
+			['x.........x.x...', '..g.....x....g..', 'r...r...r...r.h.'],
+			['x.....x...x.....', '........x......g', 'r...r...r...r...'],
+			['x...x.....x.....', '..g.....x..g.xgr', 'r...r...r...r...'] ] },
+	];
+	// the bassline, in g minor, half-time like a dub bassline: [start step, length in steps, midi note]
+	const BASS = [[0, 7, 31], [10, 2, 31], [12, 4, 34], [16, 6, 36], [24, 3, 34], [28, 4, 29], [32, 7, 31], [42, 2, 38], [44, 4, 34], [48, 10, 27], [60, 4, 29]];
+	const bassAt = []; BASS.forEach(b => { bassAt[b[0]] = b; });
+
+	const SHOUTS = [
+		'big up all the junglists ♡',
+		'kes fm, 170.0, broadcasting from one browser tab',
+		'big up everyone on bad wifi',
+		'text-ins: inkersolekesia@gmail.com',
+		'lorem ipsum dolor sit amen',
+		'no samples. every hit made from scratch (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧',
+		'big up everyone reading the alt text',
+		'big up LCF + CCI',
+		'rewind button is right there ↓',
+		'big up anyone who views source',
+		'this is a website, not a radio station ✧',
+	];
+
+	function parse(br) {
+		const out = [];
+		br.bars.forEach(([K, S, C]) => {
+			for (let i = 0; i < 16; i++) {
+				const s = { p: 1 };
+				if (K[i] === 'x') s.k = 1; else if (K[i] === 'o') s.k = .6;
+				if (S[i] === 'x') s.s = 1; else if (S[i] === 'm') s.s = .55; else if (S[i] === 'g') s.s = .28; else if (S[i] === 'r') { s.s = .8; s.roll = 1; }
+				if (C[i] !== '.') s.h = C[i];
+				out.push(s);
+			}
+		});
+		return out;
+	}
+	const roll = () => [{ s: .4, roll: 1, p: 1, h: 'h' }, { s: .55, roll: 1, p: 1 }, { s: .72, roll: 1, p: 1.06, h: 'h' }, { s: .95, roll: 1, p: 1.12 }];
+	const pick = a => a[Math.floor(Math.random() * a.length)];
+	// chop: rebuild the 4 bars beat by beat out of slices of the break, the way jungle producers cut breaks up
+	function chop(src) {
+		let out = [];
+		for (let b = 0; b < 16; b++) {
+			const r = Math.random();
+			let beat;
+			if (b === 0) beat = src.slice(0, 4);
+			else if (b % 4 === 3 && r < .3) beat = roll();
+			else if (r < .4) beat = src.slice(b * 4, b * 4 + 4);
+			else if (r < .85) { const j = Math.floor(Math.random() * 16) * 4; beat = src.slice(j, j + 4); }
+			else { const j = Math.floor(Math.random() * 32) * 2; const two = src.slice(j, j + 2); beat = two.concat(two); } // stutter
+			beat = beat.map(s => Object.assign({}, s));
+			if (Math.random() < .25) { const p = pick([.86, 1.12, 1.26]); beat.forEach(s => { if (s.s) s.p = p; }); } // re-pitched snares
+			out = out.concat(beat);
+		}
+		out.splice(60, 4, ...roll()); // always land on a fill
+		return out;
+	}
+
+	/* ---- sound ---- */
+	const noises = new WeakMap();
+	function noise(c) {
+		let b = noises.get(c);
+		if (!b) {
+			b = c.createBuffer(1, c.sampleRate, c.sampleRate);
+			const d = b.getChannelData(0);
+			for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+			noises.set(c, b);
+		}
+		return b;
+	}
+	const curves = {};
+	function curve(k) {
+		if (!curves[k]) {
+			const a = new Float32Array(1024);
+			for (let i = 0; i < 1024; i++) { const x = i / 1023 * 2 - 1; a[i] = Math.tanh(k * x) / Math.tanh(k); }
+			curves[k] = a;
+		}
+		return curves[k];
+	}
+	function burst(c, out, t, v, dur, type, f, q) {
+		const s = c.createBufferSource(), fl = c.createBiquadFilter(), g = c.createGain();
+		s.buffer = noise(c); fl.type = type; fl.frequency.value = f; if (q) fl.Q.value = q;
+		g.gain.setValueAtTime(v, t); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
+		s.connect(fl).connect(g).connect(out);
+		s.start(t, Math.random() * .8); s.stop(t + dur + .02);
+	}
+	function tone(c, out, t, type, f1, f2, v, dur) {
+		const o = c.createOscillator(), g = c.createGain();
+		o.type = type;
+		o.frequency.setValueAtTime(f1, t); o.frequency.exponentialRampToValueAtTime(f2, t + dur * .5);
+		g.gain.setValueAtTime(v, t); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
+		o.connect(g).connect(out); o.start(t); o.stop(t + dur + .02);
+	}
+	function kick(c, out, t, v) {
+		const o = c.createOscillator(), g = c.createGain();
+		o.frequency.setValueAtTime(170, t); o.frequency.exponentialRampToValueAtTime(48, t + .08);
+		g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(v, t + .004); g.gain.exponentialRampToValueAtTime(.0001, t + .3);
+		o.connect(g).connect(out); o.start(t); o.stop(t + .32);
+		burst(c, out, t, v * .3, .015, 'highpass', 3000);
+	}
+	function snare(c, out, t, v, p) {
+		p = p || 1;
+		tone(c, out, t, 'triangle', 250 * p, 185 * p, v * .75, .12);
+		tone(c, out, t, 'sine', 340 * p, 330 * p, v * .2, .18); // the ring
+		burst(c, out, t, v * .95, .19, 'bandpass', 3000 * p, .6);
+		burst(c, out, t, v * .45, .08, 'highpass', 7000);
+	}
+	function metal(c, out, t, v, dur, hp) {
+		const g = c.createGain(), bp = c.createBiquadFilter(), hf = c.createBiquadFilter();
+		bp.type = 'bandpass'; bp.frequency.value = 9000; bp.Q.value = .8;
+		hf.type = 'highpass'; hf.frequency.value = hp;
+		g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(v, t + .002); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
+		g.connect(bp).connect(hf).connect(out);
+		[205.3, 304.4, 369.6, 522.7, 540, 800].forEach(f => {
+			const o = c.createOscillator(); o.type = 'square'; o.frequency.value = f * 1.6;
+			o.connect(g); o.start(t); o.stop(t + dur + .02);
+		});
+	}
+	const ride = (c, out, t, v) => { metal(c, out, t, v * .5, .3, 6000); burst(c, out, t, v * .35, .22, 'highpass', 8000); };
+	const hat = (c, out, t, v, dur) => burst(c, out, t, v, dur, 'highpass', 8000);
+	const crash = (c, out, t, v) => { metal(c, out, t, v * .6, 1.4, 4000); burst(c, out, t, v * .7, 1.3, 'highpass', 5000); };
+
+	function bassNote(c, n, t, dur, midi) {
+		const f = 440 * Math.pow(2, (midi - 69) / 12), end = t + dur;
+		const env = (g, peak, a) => { g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(peak, t + a); g.gain.setValueAtTime(peak, end - .05); g.gain.exponentialRampToValueAtTime(.0001, end); };
+		// the sub: a sine that drops into the note, and sags a little at the end of long ones
+		const o = c.createOscillator(), g = c.createGain();
+		o.frequency.setValueAtTime(f * 1.25, t); o.frequency.exponentialRampToValueAtTime(f, t + .06);
+		if (dur > .5) { o.frequency.setValueAtTime(f, end - .14); o.frequency.exponentialRampToValueAtTime(f * .94, end); }
+		env(g, .9, .01); o.connect(g).connect(n.bass); o.start(t); o.stop(end + .02);
+		// an octave up, quietly, so laptop speakers can hear the line
+		const h = c.createOscillator(), hg = c.createGain(); h.type = 'triangle';
+		h.frequency.setValueAtTime(f * 2.5, t); h.frequency.exponentialRampToValueAtTime(f * 2, t + .06);
+		env(hg, .16, .01); h.connect(hg).connect(n.bass); h.start(t); h.stop(end + .02);
+		if (reese) {
+			// two detuned saws through a moving filter: the reese
+			const rg = c.createGain(); env(rg, .8, .03); rg.connect(n.reese);
+			[-15, 14].forEach(d => {
+				const s = c.createOscillator(); s.type = 'sawtooth'; s.frequency.value = f * 2; s.detune.value = d;
+				s.connect(rg); s.start(t); s.stop(end + .02);
+			});
+		}
+	}
+
+	// the mixer. built once for the speakers, and again inside an offline context for the rewind
+	function build(c, dest) {
+		const n = {};
+		n.mix = c.createGain();
+		n.comp = c.createDynamicsCompressor();
+		n.comp.threshold.value = -14; n.comp.knee.value = 10; n.comp.ratio.value = 4; n.comp.attack.value = .004; n.comp.release.value = .15;
+		n.mix.connect(n.comp).connect(dest);
+		n.drums = c.createGain(); n.drums.gain.value = .8;
+		const grit = c.createWaveShaper(); grit.curve = curve(1.8); // a bit of crunch, like a break sampled off vinyl
+		const top = c.createBiquadFilter(); top.type = 'lowpass'; top.frequency.value = 12000;
+		n.drums.connect(grit).connect(top).connect(n.mix);
+		n.bass = c.createGain(); n.bass.gain.value = .6; n.bass.connect(n.mix);
+		n.reese = c.createGain(); n.reese.gain.value = .3;
+		const rs = c.createWaveShaper(); rs.curve = curve(2.5);
+		const rf = c.createBiquadFilter(); rf.type = 'lowpass'; rf.frequency.value = 560; rf.Q.value = 7;
+		n.lfo = c.createOscillator(); n.lfo.frequency.value = .21;
+		const lg = c.createGain(); lg.gain.value = 380; n.lfo.connect(lg).connect(rf.frequency); n.lfo.start();
+		const ro = c.createGain(); ro.gain.value = .6;
+		n.reese.connect(rs).connect(rf).connect(ro).connect(n.mix);
+		// dub echo, for the horn and the siren
+		n.fx = c.createGain(); n.fx.connect(n.mix);
+		n.dl = c.createDelay(2); n.dl.delayTime.value = .75 * 60 / bpm;
+		const fb = c.createGain(); fb.gain.value = .42;
+		const df = c.createBiquadFilter(); df.type = 'bandpass'; df.frequency.value = 1400; df.Q.value = .5;
+		const wet = c.createGain(); wet.gain.value = .5;
+		n.fx.connect(n.dl); n.dl.connect(df).connect(fb).connect(n.dl); df.connect(wet).connect(n.mix);
+		return n;
+	}
+
+	function hit(c, n, s, t, sd) {
+		const hu = () => .88 + Math.random() * .12; // a bit of human
+		if (s.k) kick(c, n.drums, t, s.k * hu());
+		if (s.s) {
+			if (s.roll) { snare(c, n.drums, t, s.s * .62, s.p); snare(c, n.drums, t + sd / 2, s.s * .8, s.p); }
+			else snare(c, n.drums, t, s.s * hu(), s.p);
+		}
+		if (s.h === 'r') ride(c, n.drums, t, .22 * hu());
+		else if (s.h === 'h') hat(c, n.drums, t, .16 * hu(), .035);
+		else if (s.h === 'o') hat(c, n.drums, t, .15, .16);
+		else if (s.h === 'c') crash(c, n.drums, t, .3);
+	}
+	function bassStep(c, n, i, t, sd) { const b = bassAt[i]; if (b) bassNote(c, n, t, b[1] * sd - .01, b[2]); }
+
+	/* ---- state ---- */
+	let ac = null, vol = null, live = null, timer = 0, rewTimer = 0;
+	let playing = false, rewinding = false, crashNext = false, rafOn = false;
+	let step = 0, nextT = 0, bpm = 170, which = 0, chopped = false, reese = false, shoutI = 0;
+	let steps = parse(BREAKS[0]);
+	const queue = [];
+	const level = () => { const v = ui.vol.value / 100; return v * v * LEVEL; };
+	const LEVEL = .85; // full volume peaks just under 0dB; the default (50) sits around -12dB
+
+	function ensure() {
+		if (!AC) { say("this browser can't do web audio, sorry ♡"); return false; }
+		try {
+			if (!ac) {
+				ac = new AC();
+				vol = ac.createGain(); vol.gain.value = level(); vol.connect(ac.destination);
+				live = build(ac, vol);
+			}
+			if (ac.state === 'suspended') ac.resume();
+			return true;
+		} catch (e) { say("couldn't start the audio, sorry ♡"); return false; }
+	}
+	const say = t => { ui.mc.textContent = t; };
+	const status = t => { ui.status.textContent = t; };
+	function label() {
+		const nm = BREAKS[which].name + (chopped ? ' ✂' : '');
+		ui.patname.textContent = nm;
+		ui.clab.textContent = nm + ' · ' + bpm + ' bpm' + (reese ? ' · reese' : '');
+	}
+	function playingStatus() { status('playing ' + BREAKS[which].name + (chopped ? ', chopped' : '') + ' at ' + bpm + ' bpm. the yellow stop button stops everything.'); }
+
+	function tick() {
+		const sd = 60 / bpm / 4;
+		while (nextT < ac.currentTime + .12) {
+			hit(ac, live, steps[step], nextT, sd);
+			if (crashNext && step === 0) { crash(ac, live.drums, nextT, .32); crashNext = false; }
+			bassStep(ac, live, step, nextT, sd);
+			queue.push([step, nextT]);
+			nextT += sd;
+			step = (step + 1) % 64;
+		}
+	}
+	function run() { nextT = ac.currentTime + .06; clearInterval(timer); timer = setInterval(tick, 25); tick(); }
+	function draw() {
+		if (!playing) { rafOn = false; leds.forEach(l => l.classList.remove('on')); return; }
+		let cur = null;
+		while (queue.length && queue[0][1] <= ac.currentTime) cur = queue.shift();
+		if (cur) {
+			leds.forEach((l, i) => l.classList.toggle('on', i === cur[0] % 16));
+			if (cur[0] % 32 === 0 && !rewinding) say(SHOUTS[shoutI++ % SHOUTS.length]);
+		}
+		requestAnimationFrame(draw);
+	}
+	function play() {
+		if (!ensure() || playing) return;
+		live.mix.gain.cancelScheduledValues(ac.currentTime); live.mix.gain.setValueAtTime(1, ac.currentTime);
+		playing = true; step = 0; queue.length = 0;
+		run();
+		deck.classList.add('on'); ui.play.classList.add('down');
+		playingStatus();
+		if (!rafOn) { rafOn = true; requestAnimationFrame(draw); }
+	}
+	function stop() {
+		clearInterval(timer); clearTimeout(rewTimer);
+		const was = playing || rewinding;
+		playing = false; rewinding = false; queue.length = 0;
+		deck.classList.remove('on', 'rew'); ui.play.classList.remove('down');
+		leds.forEach(l => l.classList.remove('on'));
+		status('stopped. nothing plays till you press play, and stop always works.');
+		say(was ? 'thanks for listening ♡ kes fm, 170.0' : 'press play (it won\'t start on its own) ♡');
+		if (!ac) return;
+		// fade the old mixer out fast, then unplug it (with anything still ringing in it). a fresh one goes in straight away
+		const t = ac.currentTime, old = live;
+		old.mix.gain.cancelScheduledValues(t); old.mix.gain.setValueAtTime(old.mix.gain.value, t); old.mix.gain.linearRampToValueAtTime(0, t + .05);
+		live = build(ac, vol);
+		setTimeout(() => { try { old.comp.disconnect(); old.mix.disconnect(); old.lfo.stop(); } catch (e) {} }, 120);
+	}
+
+	function render(from, secs) {
+		const sr = 44100, oc = new OAC(2, Math.ceil(sr * secs), sr);
+		const n = build(oc, oc.destination), sd = 60 / bpm / 4;
+		for (let t = .005, i = from; t < secs; t += sd, i = (i + 1) % 64) { hit(oc, n, steps[i], t, sd); bassStep(oc, n, i, t, sd); }
+		return oc.startRendering();
+	}
+	// rewind: the selector pulls the record back by hand, it spins backwards, then drops from the top
+	function rewind() {
+		if (!ensure()) return;
+		if (!playing) { play(); return; }
+		if (rewinding) return;
+		rewinding = true;
+		clearInterval(timer);
+		const t0 = ac.currentTime;
+		live.mix.gain.cancelScheduledValues(t0); live.mix.gain.setTargetAtTime(0, t0, .012);
+		deck.classList.add('rew'); say('◀◀ rewind ◀◀ pull up!');
+		status('rewinding. it drops again from the top in a second.');
+		const drop = () => {
+			if (!playing || !rewinding) return;
+			rewinding = false;
+			live.mix.gain.cancelScheduledValues(ac.currentTime); live.mix.gain.setValueAtTime(1, ac.currentTime);
+			step = 0; crashNext = true; queue.length = 0;
+			run();
+			deck.classList.remove('rew'); say('from the top ✧'); playingStatus();
+		};
+		const spin = buf => {
+			if (!rewinding) return;
+			for (let ch = 0; ch < buf.numberOfChannels; ch++) buf.getChannelData(ch).reverse();
+			const t = ac.currentTime + .01, src = ac.createBufferSource(), g = ac.createGain();
+			src.buffer = buf;
+			src.playbackRate.setValueAtTime(1, t); src.playbackRate.linearRampToValueAtTime(2.8, t + .32); src.playbackRate.exponentialRampToValueAtTime(.08, t + .95);
+			g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(.9, t + .015); g.gain.setValueAtTime(.9, t + .8); g.gain.linearRampToValueAtTime(0, t + .97);
+			src.connect(g).connect(live.comp); src.start(t); src.stop(t + 1);
+			burst(ac, live.comp, t, .08, .9, 'bandpass', 2500, 1.5); // hand on the vinyl
+			rewTimer = setTimeout(drop, 1150);
+		};
+		try { render(Math.floor(step / 16) * 16, 1.8).then(spin, () => { rewTimer = setTimeout(drop, 500); }); }
+		catch (e) { rewTimer = setTimeout(drop, 500); }
+	}
+
+	function horn() {
+		if (!ensure()) return;
+		const c = ac, n = live, t = c.currentTime + .02;
+		const sh = c.createWaveShaper(), bp = c.createBiquadFilter(), g = c.createGain();
+		sh.curve = curve(4); bp.type = 'bandpass'; bp.frequency.value = 1300; bp.Q.value = .6; g.gain.value = 0;
+		sh.connect(bp).connect(g); g.connect(n.mix); g.connect(n.fx);
+		const blasts = [[0, .11], [.15, .11], [.3, .11], [.45, .75]];
+		[466, 469.5, 698, 702].forEach(f => {
+			const o = c.createOscillator(); o.type = 'sawtooth';
+			blasts.forEach(([s, d]) => { o.frequency.setValueAtTime(f * .9, t + s); o.frequency.exponentialRampToValueAtTime(f, t + s + .035); });
+			o.frequency.setValueAtTime(f, t + 1); o.frequency.exponentialRampToValueAtTime(f * .96, t + 1.2);
+			o.connect(sh); o.start(t); o.stop(t + 1.25);
+		});
+		blasts.forEach(([s, d]) => { g.gain.setValueAtTime(0, t + s); g.gain.linearRampToValueAtTime(.2, t + s + .01); g.gain.setValueAtTime(.2, t + s + d - .02); g.gain.linearRampToValueAtTime(0, t + s + d); });
+		if (!playing) say('horn ✧ (press play for the rest)');
+	}
+	function siren() {
+		if (!ensure()) return;
+		const c = ac, n = live, t = c.currentTime + .02, len = 1.8;
+		const o = c.createOscillator(), lfo = c.createOscillator(), lg = c.createGain(), lp = c.createBiquadFilter(), g = c.createGain();
+		o.type = 'square'; o.frequency.setValueAtTime(520, t); o.frequency.linearRampToValueAtTime(760, t + len);
+		lfo.type = 'triangle'; lfo.frequency.setValueAtTime(3, t); lfo.frequency.linearRampToValueAtTime(9, t + len);
+		lg.gain.value = 240; lfo.connect(lg).connect(o.frequency);
+		lp.type = 'lowpass'; lp.frequency.value = 2600;
+		g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(.075, t + .02); g.gain.setValueAtTime(.075, t + len - .1); g.gain.linearRampToValueAtTime(0, t + len);
+		o.connect(lp).connect(g); g.connect(n.mix); g.connect(n.fx);
+		o.start(t); lfo.start(t); o.stop(t + len + .02); lfo.stop(t + len + .02);
+		if (!playing) say('dub siren ✧ (press play for the rest)');
+	}
+
+	/* ---- buttons ---- */
+	$('play').addEventListener('click', play);
+	$('stop').addEventListener('click', stop);
+	$('rew').addEventListener('click', rewind);
+	$('horn').addEventListener('click', horn);
+	$('siren').addEventListener('click', siren);
+	$('pat').addEventListener('click', () => {
+		which = (which + 1) % BREAKS.length; chopped = false; steps = parse(BREAKS[which]);
+		label(); say('break: ' + BREAKS[which].name); if (playing) playingStatus();
+	});
+	$('chop').addEventListener('click', () => {
+		steps = chop(parse(BREAKS[which])); chopped = true;
+		label(); say('chopped ✂ (press again for a different cut)'); if (playing) playingStatus();
+	});
+	ui.reese.addEventListener('click', () => {
+		reese = !reese; ui.reese.setAttribute('aria-pressed', reese);
+		label(); say(reese ? 'reese bass in ✧' : 'just the sub now');
+	});
+	ui.tune.addEventListener('input', () => {
+		bpm = +ui.tune.value;
+		ui.freq.textContent = bpm.toFixed(1); ui.bpm.textContent = bpm + ' bpm';
+		if (live) live.dl.delayTime.setTargetAtTime(.75 * 60 / bpm, ac.currentTime, .05);
+		label(); if (playing) playingStatus();
+	});
+	ui.vol.addEventListener('input', () => { if (ac) vol.gain.setTargetAtTime(level(), ac.currentTime, .02); });
+
+	window.kesfm = { play, stop, rewind, horn, siren, render: (s, n) => render(s || 0, n || 6) };
+})();
 </script>
 
 </body>

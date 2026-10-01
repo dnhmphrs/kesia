@@ -19,19 +19,26 @@
 <meta name="twitter:image" content="https://kesia-coral.vercel.app/square.png">
 <style>
 :root {
-  --paper: #fff0f5;   /* lavenderblush, aka strawberry milk */
+  --paper: #fff0f5;   /* strawberry milk */
   --ink: #2f2650;
   --pink: #cc3380;
-  --blue: #3346c8;    /* links */
+  --blue: #3346c8;    /* links, and the marker pen */
   --lilac: #7a48c0;   /* visited links */
   --peri: #6475e0;    /* the drawings */
   --butter: #fff1a6;
   --sky: #e6ebff;
-  --leaf: #4f9a6a;    /* stems */
+  --leaf: #4f9a6a;
+  --black: #17111d;   /* the 'ard bits */
+  --yellow: #ffd60a;  /* warning tape */
+  --acid: #c8fa1e;    /* acid green */
+  --chrome: linear-gradient(180deg, #fff 0%, #e4e7f0 34%, #8a8fa6 49%, #4c5068 51%, #c9cedd 64%, #fff 84%, #aab0c2 100%);
+  --tape: repeating-linear-gradient(-45deg, var(--black) 0 11px, var(--yellow) 11px 22px);
   --mono: ui-monospace, Menlo, Consolas, "DejaVu Sans Mono", "Courier New", monospace;
+  --hard: Impact, Haettenschweiler, "Arial Black", "Arial Narrow", Arial, sans-serif;
+  --pad: clamp(1rem, 4vw, 3.5rem);
 }
 html { background: var(--paper); color: var(--ink); }
-body { max-width: 110rem; margin: 0 auto; padding: 1.5rem clamp(1rem, 4vw, 3.5rem) 1rem; font: 18px/1.5 Times, "Times New Roman", serif; }
+body { max-width: 110rem; margin: 0 auto; padding: 0 var(--pad) 1rem; font: 18px/1.5 Times, "Times New Roman", serif; container-type: inline-size; }
 p { margin: 0 0 1em; }
 ::selection { background: var(--pink); color: #fff; }
 
@@ -39,101 +46,253 @@ a { color: var(--blue); text-underline-offset: 2px; }
 a:visited { color: var(--lilac); }
 a:hover { color: var(--pink); background: var(--butter); }
 
-h1 { margin: 0; font: 400 min(26px, (100vw - 7rem) / 38)/1.15 var(--mono); }
-h1 > span { display: inline-block; white-space: pre; }
-h1 .kes { color: var(--pink); }
-h1 .inkersole { color: var(--peri); }
-h1 b, h1 i { color: var(--ink); font-style: normal; }
-h1 em { color: var(--pink); font-style: normal; }
-.name { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1.5rem; margin: .5rem 0 2.5rem; }
-.name p { margin: 1.75rem 0 0; }
-
 h2 { font-size: 1.35rem; font-weight: normal; line-height: 1.2; margin: 0 0 .5em; }
 h2 span { color: var(--pink); }
 ul { list-style: "☆  "; padding-left: 1.5em; margin: 0 0 1.75em; }
 li { margin-bottom: .3em; }
 li::marker { color: var(--pink); }
 li:hover { list-style-type: "★  "; }
-mark { color: inherit; background: linear-gradient(transparent 55%, var(--butter) 55%); }
+mark { color: inherit; background: linear-gradient(transparent 52%, var(--acid) 52%, var(--acid) 92%, transparent 92%); }
 .phd { cursor: help; text-decoration: underline dotted var(--pink); text-underline-offset: 4px; }
+button { font: inherit; }
 
-/* the drawings. <b> colours a bit pink, <i> picks out the faces (and the blue flowers in the garden) */
+/* the drawings. <b> pink, <i> faces, <em> stems, <u> marker pen, <s> sound waves (only show up when you're on air) */
 pre { font-family: var(--mono); line-height: 1.2; margin: 0; overflow: hidden; color: var(--peri); }
 pre b { color: var(--pink); font-weight: normal; }
 pre i { color: var(--ink); font-style: normal; }
+pre em { color: var(--leaf); font-style: normal; }
+pre u { color: var(--blue); text-decoration: none; font-weight: bold; }
+pre s { color: var(--pink); text-decoration: none; visibility: hidden; }
+.on-air pre s { visibility: visible; }
 
+/* ---------- warning tape ---------- */
+.tape { margin: 0 calc(-1 * var(--pad)); overflow: hidden; white-space: nowrap; background: var(--yellow); color: var(--black);
+  border-block: 7px solid transparent; border-image: var(--tape) 7; padding: .35rem 0 .3rem;
+  font: 15px/1 var(--hard); letter-spacing: .07em; text-transform: uppercase; }
+.tape > div { display: inline-block; }
+.tape span { display: inline-block; padding-right: .4em; }
+
+/* ---------- top ---------- */
+.top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 2rem 3rem; margin: 2rem 0 2.5rem; }
+.name { flex: 1 1 36rem; display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 2.5rem; }
+h1 { margin: 0; font-weight: normal; }
+.throw { position: relative; display: inline-block; font: 400 clamp(5.5rem, 13vw, 10.5rem)/.9 var(--hard); padding: .04em .3em .32em .06em; }
+.throw > span { display: inline-block; background: var(--chrome); -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(.025em 0 0 var(--black)) drop-shadow(-.025em 0 0 var(--black)) drop-shadow(0 .025em 0 var(--black)) drop-shadow(0 -.025em 0 var(--black))
+          drop-shadow(.05em .05em 0 var(--acid)) drop-shadow(.02em .02em 0 var(--black)); }
+.throw .k { rotate: -8deg; }
+.throw .e { rotate: 5deg; translate: 0 .07em; margin-left: -.05em; }
+.throw .s { rotate: -4deg; margin-left: -.04em; }
+.drip { position: absolute; top: .83em; width: .06em; background: var(--acid); border: .018em solid var(--black); border-top: 0; border-radius: 0 0 1em 1em; z-index: -1; }
+.drip::after { content: ""; position: absolute; bottom: -.05em; left: -.04em; width: .11em; height: .11em; border-radius: 50%; background: var(--acid); border: .018em solid var(--black); box-sizing: border-box; }
+.d1 { left: .22em; height: .3em; } .d2 { left: .82em; height: .5em; top: .9em; } .d3 { left: 1.36em; height: .22em; }
+.shine { position: absolute; color: #fff; font: normal .2em/1 Times, serif; text-shadow: 0 0 .3em #fff, 0 0 .1em var(--pink); }
+.s1 { top: .45em; left: .55em; } .s2 { top: 1.9em; left: 4.6em; font-size: .13em; }
+.inkersole { display: block; white-space: pre; font: 400 min(24px, 100vw / 30) / 1.15 var(--mono); font-size: min(24px, 100cqi / 27.5); color: var(--peri); margin-top: -.4em; }
+.inkersole b { color: var(--pink); font-weight: normal; }
+.inkersole i { color: var(--ink); font-style: normal; }
+.inkersole em { color: var(--pink); font-style: normal; }
+
+/* the "hello my name is" sticker */
+.hello { width: 13rem; background: #fff; border-radius: .8rem; overflow: hidden; rotate: -6deg; text-align: center; box-shadow: 3px 5px 0 rgba(47, 38, 80, .2); }
+.hello b { display: block; background: var(--pink); color: #fff; font: 400 2.2rem/1 var(--hard); letter-spacing: .05em; padding: .45rem 0 0; }
+.hello small { display: block; background: var(--pink); color: #fff; font: 700 .9rem/1 Arial, sans-serif; padding: .15rem 0 .5rem; }
+.tag { display: block; font: italic 400 3.3rem/1.15 var(--hard); color: var(--blue); transform: rotate(-5deg) skewX(-14deg); letter-spacing: -.03em; padding-top: .15rem; }
+.tag::after { content: ""; display: block; width: 3.2rem; height: .2rem; margin: -.15rem auto 0; background: currentColor; border-radius: 1em; rotate: -4deg; }
+.hello p { margin: .3rem 0 0; padding: 0 .8rem .9rem; font-size: 15px; line-height: 1.3; }
+
+/* the flyer */
+.flyer { position: relative; flex: 0 1 23rem; background: var(--black); color: #f6eefa; padding: 1.4rem 1.4rem 1.2rem; rotate: 1.6deg; text-align: center; box-shadow: 7px 7px 0 var(--pink); font: 14px/1.4 Arial, sans-serif; }
+.flyer p { margin: 0 0 .7rem; }
+.fly-pre { color: #ff8fc8; letter-spacing: .25em; text-transform: uppercase; font-size: 11px; }
+.fly-title { font: 400 3.1rem/.95 var(--hard); text-transform: uppercase; letter-spacing: .02em; background: var(--chrome); -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(.04em .04em 0 var(--pink)); }
+.flyer .fly-title { margin-bottom: .9rem; }
+.fly-line { font: 400 1.2rem/1.15 var(--hard); text-transform: uppercase; color: var(--acid); letter-spacing: .04em; }
+.smiley { color: var(--yellow); font-size: 15px; line-height: 1.1; display: inline-block; text-align: left; margin: .2rem 0 .8rem; }
+.smiley i { color: #ff8fc8; }
+.fly-small { color: #d9cfe2; font-size: 12.5px; letter-spacing: .03em; }
+.flyer .info { background: var(--yellow); color: var(--black); font: 400 1rem/1.2 var(--hard); letter-spacing: .05em; text-transform: uppercase; padding: .5rem .5rem .45rem; margin: .9rem 0 0; }
+.info a, .info a:visited { color: var(--black); font: 14px/1.2 Arial, sans-serif; text-transform: none; letter-spacing: 0; overflow-wrap: anywhere; }
+.info a:hover { background: #fff; }
+.burst { position: absolute; top: .55rem; right: .55rem; width: 4.6rem; height: 4.6rem; display: grid; place-items: center; background: var(--acid); color: var(--black); rotate: 12deg;
+  font: 400 .95rem/1 var(--hard); text-transform: uppercase;
+  clip-path: polygon(50% 0, 61% 17%, 79% 9%, 79% 29%, 98% 32%, 86% 49%, 98% 66%, 79% 70%, 79% 90%, 61% 82%, 50% 100%, 39% 82%, 21% 90%, 21% 70%, 2% 66%, 14% 49%, 2% 32%, 21% 29%, 21% 9%, 39% 17%); }
+
+/* ---------- about ---------- */
 .cols { columns: 3 20em; column-gap: 3.5rem; }
 .cols > * { break-inside: avoid; }
 .lately, .panel { padding: 1.25rem 1.5rem; border-radius: 1rem; outline: 2px dashed var(--pink); outline-offset: -7px; background: var(--butter); }
-.panel { background: var(--sky); outline-color: var(--peri); margin-bottom: 1.75em; }
+.lately { border-radius: 0; outline: 0; border: 9px solid transparent; border-image: var(--tape) 9; }
+.panel { margin-bottom: 1.75em; }
 .lately ul, .panel ul { margin-bottom: 0; }
-.lists pre { font-size: 15px; margin-bottom: .5rem; }
-.bus { color: var(--pink); }
 
-.net { margin: 2.5rem 0 .25rem; line-height: normal; font-size: clamp(12px, (100vw - 7rem) / 92, 19px); }
-.net.mid, .net.small { display: none; }
+/* ---------- KES FM ---------- */
+.fm { margin: 3rem 0 0; }
+.fm-in { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 2rem 3rem; margin-top: 2.2rem; }
+.tower { flex: 0 0 auto; color: var(--peri); line-height: 1.15; font-size: min(15px, 100vw / 25); font-size: min(15px, 100cqi / 23.5); }
+.tower.lit b { color: #fff; background: var(--pink); }
+.radio { flex: 1 1 30rem; min-width: 0; }
+.spray { font: 400 clamp(2.6rem, 6vw, 4rem)/1 var(--hard); text-transform: uppercase; letter-spacing: .06em; color: var(--black); margin: 0 0 .6rem;
+  text-shadow: 0 0 .06em rgba(23, 17, 29, .55), 0 0 .3em rgba(23, 17, 29, .18);
+  -webkit-mask: linear-gradient(#000 0 47%, transparent 47% 53%, #000 53%); mask: linear-gradient(#000 0 47%, transparent 47% 53%, #000 53%); }
+.spray span { color: var(--pink); text-shadow: 0 0 .06em rgba(204, 51, 128, .55), 0 0 .3em rgba(204, 51, 128, .2); }
+.ident { max-width: 40em; }
+.deck { background: var(--black); color: #f3eaf7; border-radius: 1.1rem; padding: 1.2rem; outline: 2px dashed var(--pink); outline-offset: -7px; }
+.lcd { background: #18240d; color: var(--acid); font: 13px/1.4 var(--mono); border-radius: .5rem; padding: .7rem .8rem .6rem;
+  box-shadow: inset 0 0 0 2px #0b1205, inset 0 0 1.4rem rgba(200, 250, 30, .12); text-shadow: 0 0 6px rgba(200, 250, 30, .5); }
+.lcd-top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .2rem 1rem; font-size: 15px; }
+.status { color: #ff8fc8; text-shadow: 0 0 6px rgba(255, 143, 200, .6); }
+.ticker { overflow: hidden; white-space: nowrap; border-block: 1px dashed rgba(200, 250, 30, .35); margin: .5rem 0; padding: .2rem 0; }
+.ticker > div { display: inline-block; }
+.ticker span { padding-right: .5em; }
+.tracker { display: grid; grid-template-columns: repeat(16, 1fr); gap: 2px; text-align: center; font-size: 12px; }
+.tracker span { border-radius: 3px; padding: 1px 0; }
+.tracker .rest { opacity: .35; }
+.tracker .rev { color: #ff8fc8; }
+.tracker .up { color: var(--yellow); }
+.tracker .roll { text-decoration: underline; }
+.tracker .on { background: var(--acid); color: var(--black); text-shadow: none; }
+.lcd-info { margin-top: .45rem; font-size: 12px; color: rgba(200, 250, 30, .75); display: flex; flex-wrap: wrap; gap: 0 1rem; }
+.lcd-info .rev { color: #ff8fc8; } .lcd-info .up { color: var(--yellow); }
+.keys { display: flex; flex-wrap: wrap; gap: .7rem 1.1rem; align-items: center; margin-top: 1rem; }
+.keys > div { display: flex; flex-wrap: wrap; gap: .35rem; align-items: center; }
+.keys .lbl { font: 12px var(--mono); color: #b9aec4; margin-right: .1rem; }
+.keys button { font: 400 1rem/1 var(--hard); letter-spacing: .05em; text-transform: uppercase; background: #2b2333; color: #f3eaf7;
+  border: 2px solid #4a3f55; border-bottom-width: 5px; border-radius: .5rem; padding: .5rem .7rem .42rem; cursor: pointer; }
+.keys button:hover { border-color: #8d7aa0; }
+.keys button:active { border-bottom-width: 2px; translate: 0 3px; }
+.keys button[aria-pressed="true"] { background: var(--acid); color: var(--black); border-color: #7a9c00; }
+.keys .go { background: var(--pink); color: #fff; border-color: #861f53; font-size: 1.35rem; }
+.keys .go[aria-pressed="true"] { background: var(--pink); color: #fff; border-color: #861f53; }
+.keys .stop { background: var(--yellow); color: var(--black); border-color: #a68900; font-size: 1.35rem; }
+button:focus-visible { outline: 3px solid var(--acid); outline-offset: 2px; }
+.vol { font: 12px var(--mono); color: #b9aec4; display: flex; align-items: center; gap: .4rem; }
+.vol input { width: 7rem; accent-color: var(--acid); }
+.textin { margin: .9rem 0 0; font-size: 15px; color: #d9cfe2; }
+.deck a { color: var(--acid); } .deck a:visited { color: #d7b6ff; } .deck a:hover { color: var(--black); background: var(--acid); }
+.floatstop { position: fixed; right: 1rem; bottom: 1rem; z-index: 5; font: 400 1.1rem/1 var(--hard); letter-spacing: .05em; text-transform: uppercase;
+  background: var(--yellow); color: var(--black); border: 3px solid var(--black); border-radius: 2rem; padding: .7rem 1rem .6rem; cursor: pointer; box-shadow: 3px 3px 0 var(--pink); }
+.floatstop[hidden] { display: none; }
+
+.respect { flex: 1 1 18rem; position: relative; background: #fff; padding: 1.6rem 1.5rem .6rem; rotate: -.8deg; font-size: 16.5px; box-shadow: 3px 4px 0 rgba(47, 38, 80, .15); }
+.respect::before { content: ""; position: absolute; top: -11px; left: 50%; width: 110px; height: 20px; translate: -50% 0; rotate: 3deg; background: var(--tape); }
+.respect h2 { font: 400 1.7rem/1 var(--hard); text-transform: uppercase; letter-spacing: .08em; color: var(--black); text-shadow: 0 0 .08em rgba(23, 17, 29, .45);
+  -webkit-mask: linear-gradient(#000 0 47%, transparent 47% 54%, #000 54%); mask: linear-gradient(#000 0 47%, transparent 47% 54%, #000 54%); }
+.respect h3 { font: 400 1.05rem/1.2 var(--hard); text-transform: uppercase; letter-spacing: .06em; margin: 1.2rem 0 .4rem; color: var(--pink); }
+
+.sound { margin: 2.8rem 0 .25rem; line-height: 1.15; font-size: min(15px, 100vw / 97); font-size: min(15px, 100cqi / 94); }
+.sound.thump { animation: thump .16s ease-out; }
+@keyframes thump { 0% { translate: 0 3px; } 100% { translate: 0 0; } }
+.sound.small, .wall.small { display: none; }
 .caption { text-align: center; font-size: 15px; margin-bottom: 3rem; }
 
+/* ---------- lists ---------- */
+.lists pre { font-size: 15px; margin-bottom: .5rem; }
+.bus { color: var(--pink); }
+.bus u { color: var(--black); }
+.panel.dark { background: var(--black); color: #f3eaf7; outline-color: var(--acid); }
+.dark pre { color: var(--acid); } .dark pre b { color: #ff8fc8; }
+.dark h2 span { color: #ff8fc8; }
+.dark li::marker { color: var(--yellow); }
+.dark a { color: var(--acid); } .dark a:visited { color: #d7b6ff; } .dark a:hover { color: var(--black); background: var(--acid); }
+
+/* ---------- photos, pasted up ---------- */
 .photos { display: flex; align-items: flex-end; justify-content: space-between; gap: 1.5rem; margin: 3.5rem 0 3rem; }
-figure { margin: 0; min-width: 0; rotate: -1.5deg; }
+figure { position: relative; margin: 0; min-width: 0; rotate: -1.5deg; }
 figure:nth-child(even) { rotate: 1.2deg; }
 figure:nth-child(3n) { rotate: -.5deg; }
+figure::before { content: ""; position: absolute; z-index: 1; top: -9px; left: 50%; width: 74px; height: 18px; translate: -50% 0; rotate: -3deg; background: var(--tape); }
+figure:nth-child(even)::before { background: rgba(204, 51, 128, .55); rotate: 4deg; left: 30%; }
 img { display: block; max-width: 100%; height: auto; border: 6px solid #fff; background: var(--sky); }
 figcaption { font-size: 15px; margin-top: .4em; }
-@media (prefers-reduced-motion: no-preference) {
-  figure:hover { animation: wiggle .5s; }
-  .arm { display: inline-block; transform-origin: 0 90%; animation: wave 2.4s ease-in-out infinite; }
-}
-@keyframes wiggle { 30% { rotate: 3deg; } 65% { rotate: -3deg; } }
-@keyframes wave { 0%, 40%, 100% { rotate: 0deg; } 10%, 30% { rotate: -25deg; } 20% { rotate: 10deg; } }
 
+/* ---------- the end ---------- */
 .end { margin-top: 1rem; }
 .bye { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1.5rem; margin: 1.5rem 0 1rem; }
 .bye pre { line-height: normal; font-size: 18px; }
 .bye p { margin: 0; font-size: clamp(2.2rem, 5vw, 4.2rem); line-height: 1; color: var(--pink); }
 .small { font-size: 15px; }
-.garden { color: var(--leaf); font-size: min(18px, (100vw - 7rem) / 74); margin-top: 1.5rem; }
-.garden i { color: var(--peri); }
-.garden.small { display: none; }
+.wall { color: #c9a7bd; line-height: 1.15; margin-top: 1.5rem; font-size: min(17px, 100vw / 95); font-size: min(17px, 100cqi / 92); }
+.wall i { color: var(--peri); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .tape > div, .ticker > div { animation: run 50s linear infinite; }
+  .ticker > div { animation-duration: 70s; }
+  .drip { animation: drip 2.4s ease-in both .3s; }
+  .shine { animation: twinkle 3s ease-in-out infinite; }
+  .s2 { animation-delay: 1.4s; }
+  figure:hover { animation: wiggle .5s; }
+  .arm { display: inline-block; transform-origin: 0 90%; animation: wave 2.4s ease-in-out infinite; }
+}
+@keyframes run { to { translate: -50% 0; } }
+@keyframes drip { from { height: 0; } }
+@keyframes twinkle { 50% { opacity: .2; scale: .6; } }
+@keyframes wiggle { 30% { rotate: 3deg; } 65% { rotate: -3deg; } }
+@keyframes wave { 0%, 40%, 100% { rotate: 0deg; } 10%, 30% { rotate: -25deg; } 20% { rotate: 10deg; } }
 
 @media (max-width: 1199px) {
-  .net.wide { display: none; }
-  .net.mid { display: block; font-size: min(17px, 92vw / 64); }
   .photos { flex-wrap: wrap; justify-content: flex-start; gap: 2rem 1.5rem; }
   .photos figure { flex: 1 1 26%; }
   .photos img { width: 100%; }
 }
+@media (max-width: 999px) {
+  .sound.wide, .wall.wide { display: none; }
+  .sound.small { display: block; font-size: min(15px, 100vw / 33); font-size: min(15px, 100cqi / 30.5); }
+  .wall.small { display: block; font-size: min(16px, 100vw / 33); font-size: min(16px, 100cqi / 30.5); }
+}
 @media (max-width: 860px) {
   body { font-size: 17px; }
-  h1 { font-size: min(22px, (100vw - 2rem) / 27); }
-  .name p { margin: 0; }
-  .net.mid { display: none; }
-  .net.small { display: block; font-size: min(16px, (100vw - 2rem) / 30); }
-  .garden { display: none; }
-  .garden.small { display: block; font-size: min(16px, (100vw - 2rem) / 22); }
+  .flyer { flex-basis: 100%; max-width: 25rem; margin: 0 auto; rotate: 1deg; }
   .lists pre { font-size: 14px; }
 }
 @media (max-width: 600px) {
   .photos figure { flex-basis: 40%; }
+  .tracker { grid-template-columns: repeat(8, 1fr); }
+  .name { gap: 1.5rem; }
+  .hello { margin-left: .5rem; }
+  .tower { margin: 0 auto; }
+  .respect { rotate: 0deg; }
+  .deck { padding: 1rem .9rem; }
+  .keys { gap: .6rem .8rem; }
 }
 </style>
 </head>
-<body>
+<body id="top">
 
 <!-- to add a link: copy one of the <li> lines, then change the words and the url. lorem ipsum = still to write -->
-<!-- the drawings are plain text in <pre> tags, so you can draw on them. <b> = pink, <i> = faces -->
+<!-- the drawings are plain text in <pre> tags, so you can draw on them. <b> = pink, <i> = faces, <em> = stems, <u> = marker pen, <s> = sound waves -->
 
+<div class="tape" aria-hidden="true"><div><span>caution ✦ cute ✦ caution ✦ 'ard ✦ mind the bassline ✦ KES FM 170.0 ✦ big up all the junglists ✦ ✿ ✦</span><span>caution ✦ cute ✦ caution ✦ 'ard ✦ mind the bassline ✦ KES FM 170.0 ✦ big up all the junglists ✦ ✿ ✦</span><span>caution ✦ cute ✦ caution ✦ 'ard ✦ mind the bassline ✦ KES FM 170.0 ✦ big up all the junglists ✦ ✿ ✦</span><span>caution ✦ cute ✦ caution ✦ 'ard ✦ mind the bassline ✦ KES FM 170.0 ✦ big up all the junglists ✦ ✿ ✦</span></div></div>
+
+<header class="top">
 <div class="name">
-<h1 aria-label="kes inkersole"><span class="kes" aria-hidden="true">     _   _   _
-    / \ / \ / \
-<i>o--</i>( <b>k</b> | <b>e</b> | <b>s</b> )<i>--</i>
-    \_/ \_/ \_/</span><span class="inkersole" aria-hidden="true">    _   _   _   _   _   _   _   _   _
+<h1 aria-label="kes inkersole"><span class="throw" aria-hidden="true"><span class="k">K</span><span class="e">E</span><span class="s">S</span><i class="drip d1"></i><i class="drip d2"></i><i class="drip d3"></i><i class="shine s1">✦</i><i class="shine s2">✦</i></span><span class="inkersole" aria-hidden="true">    _   _   _   _   _   _   _   _   _
    / \ / \ / \ / \ / \ / \ / \ / \ / \
 <i>--</i>( <b>i</b> | <b>n</b> | <b>k</b> | <b>e</b> | <b>r</b> | <b>s</b> | <b>o</b> | <b>l</b> | <b>e</b> )<i>---</i><em>&lt;3</em>
    \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/</span></h1>
 
+<div class="hello">
+<b aria-hidden="true">HELLO</b><small aria-hidden="true">my name is</small>
+<span class="tag" aria-hidden="true">kes</span>
 <p>or kesia, if it's a formal email.</p>
 </div>
+</div>
+
+<aside class="flyer" aria-label="a flyer for this website">
+<span class="burst" aria-hidden="true">free!</span>
+<p class="fly-pre">✦ this website presents ✦</p>
+<p class="fly-title">kes<br>inkersole</p>
+<p class="fly-line">creative strategy<br>internet equalities<br>research ✦ workshops<br>writing ✦ teaching</p>
+<pre class="smiley" aria-hidden="true">   .-"""-.
+  / <i>^</i>   <i>^</i> \
+ |  \___/  |
+  \       /
+   '-...-'</pre>
+<p class="fly-small">live on <a href="#fm">KES FM 170.0</a> ✦ sound by your own browser<br>no trackers ✦ no ads ✦ no autoplay<br>dress code: whatever's comfy</p>
+<p class="info">info line ☎<br><a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
+</aside>
+</header>
 
 <div class="cols">
 <p>i'm a freelance creative strategist and internet equalities researcher in london. my practice focuses on understanding and critiquing the impacts of emerging technologies on people, culture, and the planet. i work collectively to rethink the narratives and behaviours surrounding technologies, prioritising collaborative research as a process for testing, imagining and prototyping more equitable, alternative futures.</p>
@@ -154,44 +313,99 @@ figcaption { font-size: 15px; margin-top: .4em; }
 </div>
 </div>
 
-<!-- all kinds of screens, all on the same cable. they blink sometimes -->
-<pre class="net wide" aria-hidden="true">
-                        *                                                 <b>*</b>                          +
-  .                                                            +     <b>╭───╮  ╭───╮</b>     .                      *                                 <b>*</b>
-                    ╭──────╮          .                 Z          <b>╭─╯   ╰──╯   ╰─╮</b>      ╭────────╮                         +
-               +    │ <i>o  o</i> │      ╭────────╮          z            <b>│      &lt;3      │</b>      │        │         \  /                       .              +
-    ╭────────╮      │  <b>&lt;3</b>  │      │  <i>*  *</i>  │       ╭────────╮      <b>╰─╮          ╭─╯</b>      │  <i>O  O</i>  │      ╭───\/───╮     ╭──────────╮      ╭────────╮
-    │  <i>^  ^</i>  │      │      │      │   <b>\/</b>   │       │  <i>-  -</i>  │        <b>╰─╮      ╭─╯</b>        │   <b>()</b>   │      │  <i>=  =</i>  │     │  <i>&gt;    &lt;</i>  │      │  <i>.  .</i>  │
-    │  <b>\__/</b>  │      │  ──  │      ╰────────╯       │   <b>~~</b>   │          <b>╰─╮  ╭─╯</b>          │        │      │   <b>ww</b>   │     │    <b>--</b>    │      │  <b>\__/</b>  │
-    ╰───┬┬───╯      ╰──┬┬──╯     /__________\      ╰───┬┬───╯            <b>╰</b>┬┬<b>╯</b>            ╰───┬┬───╯      ╰───┬┬───╯     ╰────┬┬────╯      ╰───┬┬───╯
-        ││             ││             ││               ││                 ││                 ││              ││              ││               ││
-o───────┴┴─────────────┴┴─────────────┴┴───────────────┴┴─────────────────┴┴─────────────────┴┴──────────────┴┴──────────────┴┴───────────────┴┴───────o
+<!-- KES FM. not a real station: a little jungle machine made of web audio. nothing plays until you press on air -->
+<section class="fm" id="fm" aria-labelledby="fm-h">
+<div class="tape" aria-hidden="true"><div><span>KES FM ✦ 170.0 ✦ pirate radio (it's just this website) ✦ text in your shout-outs ✦ no samples were harmed ✦ (◕‿◕) ✦</span><span>KES FM ✦ 170.0 ✦ pirate radio (it's just this website) ✦ text in your shout-outs ✦ no samples were harmed ✦ (◕‿◕) ✦</span><span>KES FM ✦ 170.0 ✦ pirate radio (it's just this website) ✦ text in your shout-outs ✦ no samples were harmed ✦ (◕‿◕) ✦</span><span>KES FM ✦ 170.0 ✦ pirate radio (it's just this website) ✦ text in your shout-outs ✦ no samples were harmed ✦ (◕‿◕) ✦</span></div></div>
+
+<div class="fm-in">
+<pre class="tower" aria-hidden="true">          <s>(((</s>           <s>)))</s>      *
+     <s>(((</s>    <s>((</s>   \|/   <s>))</s>     <s>)))</s>
+                  |
+       .          |        +
+                 /|\
+     .__________/_|_\___________.
+     |  [__]  [__]  [__]  [__]  |
+     |  [__]  <b>[##]</b>  [__]  [__]  |
+     |  [__]  [__]  [__]  <b>[##]</b>  |
+     |  <b>[##]</b>  [__]  [<b>&lt;3</b>]  [__]  |
+     |  [__]  [__]  [__]  [__]  |
+     |  [__]  <b>[##]</b>  [__]  [__]  |
+     |  [__]  [__]  [__]  <b>[##]</b>  |
+     |  [__]  [__]  <b>[##]</b>  [__]  |
+     |  <b>[##]</b>  [__]  [__]  [__]  |
+     |  [__]   _______    [__]  |
+     |  [__]  |   |   |   [__]  |
+_____|________|___|___|_________|____</pre>
+
+<div class="radio">
+<h2 class="spray" id="fm-h">KES FM <span>170.0</span></h2>
+<p class="ident">you're locked to KES FM. it's not a real station, it's this website: a little jungle machine running in your browser, every drum and bassline synthesised live, no samples, no files. nothing plays until you press on air, and stop always stops it ✧</p>
+
+<div class="deck">
+<div class="lcd">
+<div class="lcd-top"><span>KES FM ((( 170.0 )))</span><span class="status" id="status" role="status">off air</span></div>
+<div class="ticker" aria-hidden="true"><div><span>big up all the junglists ✦ big up everyone reading the source code ✦ big up the UAL lot, LCF + CCI ✦ big up Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges ✦ text in: inkersolekesia@gmail.com ✦ respect to the sound systems, pirates and producers who built all this ✦ lorem ipsum dolor sit amet ✦</span><span>big up all the junglists ✦ big up everyone reading the source code ✦ big up the UAL lot, LCF + CCI ✦ big up Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges ✦ text in: inkersolekesia@gmail.com ✦ respect to the sound systems, pirates and producers who built all this ✦ lorem ipsum dolor sit amet ✦</span></div></div>
+<div class="tracker" id="tracker" aria-hidden="true"></div>
+<div class="lcd-info" aria-hidden="true"><span id="lcdinfo">break: straight · bass: sub · cute: off</span><span><span class="rev">pink</span> = reversed · <span class="up">yellow</span> = pitched up · underline = roll</span></div>
+</div>
+
+<div class="keys">
+<div><button class="go" id="go" type="button" aria-pressed="false">▶ on air</button><button class="stop" id="stop" type="button">■ stop</button></div>
+<div role="group" aria-label="break"><span class="lbl">break</span><button type="button" data-break="straight" aria-pressed="true">straight</button><button type="button" data-break="chopped" aria-pressed="false">chopped</button><button type="button" data-break="rollin" aria-pressed="false">rollin'</button><button type="button" id="chop" aria-pressed="false">✂ chop it</button></div>
+<div role="group" aria-label="bass"><span class="lbl">bass</span><button type="button" data-bass="sub" aria-pressed="true">sub</button><button type="button" data-bass="reese" aria-pressed="false">reese</button><button type="button" data-bass="off" aria-pressed="false">off</button></div>
+<div><button type="button" id="cute" aria-pressed="false">✿ cute</button><button type="button" id="pullup">⟲ pull up</button><button type="button" id="siren">siren</button></div>
+<label class="vol">vol <input type="range" id="vol" min="0" max="1" step="0.05" value="0.5"></label>
+</div>
+<p class="textin">text in your shout-outs: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
+</div>
+</div>
+
+<div class="respect">
+<h2>respect due</h2>
+<p>jungle came out of black british sound system culture in london in the early 90s: reggae and dub sound systems, MCs, hip hop breaks and rave, cut to dubplate, passed round on tape packs and broadcast off tower block roofs on pirate radio. it was built by people the official channels mostly didn't make room for, so they made their own network. (an internet equalities person can't help noticing that.)</p>
+<p>this page borrows the look. the culture belongs to the people who made it, so go and listen to them, not my laptop ✧</p>
+<h3>no samples were harmed</h3>
+<p>the amen break is a few seconds of drumming by gregory c. coleman on the winstons' "amen, brother" (1969). it's been sampled on thousands of records and the band never got royalties for it. so this machine doesn't sample it: every hit is synthesised in your browser in an amen-ish pattern, then sped up and chopped the way the old samplers did. who gets credited and paid when culture gets copied is an internet equalities question too.</p>
+</div>
+</div>
+</section>
+
+<!-- all kinds of speakers, all on the same cable. they blink sometimes, and dance when you're on air -->
+<pre class="sound wide" aria-hidden="true">
+        .                                       <b>*</b>                     .                                       +
+                          *                                                           <b>*</b>                                                             <b>*</b>
+     ╭────────╮                  <b>+</b>                                                              +     ╭────────╮                          ╭────────╮
+     │ (<i>o)(o</i>) │                                           +                                           │ (<i>O)(O</i>) │               .          │ (<i>.)(.</i>) │
+     │   <b>ww</b>   │                         .                                                             │   <b>()</b>   │                          │   <b>ww</b>   │
+     ╰────────╯                                                                                       ╰────────╯                          ╰────────╯
+   ╭────────────╮     ╭────────────────╮    ╭────────────╮                       <b>╭───╮</b>  <b>╭───╮</b>       ╭────────────╮    ╭────────────╮    ╭────────────╮
+ <s>(</s> │ .--------. │ <s>)</s>   │  .--------.  o │    │ .--------. │                   <s>(</s> <b>╭─╯</b>   <b>╰──╯</b>   <b>╰─╮</b> <s>)</s>   │ .--------. │    │ .--------. │    │ .--------. │
+<s>((</s> │/  <i>^</i>    <i>^</i>  \│ <s>))</s>  │ /  .----.  \ | │    │/  <i>*</i>    <i>*</i>  \│                  <s>((</s> <b>│</b>      <b>&lt;3</b>      <b>│</b> <s>))</s>  │/  <i>=</i>    <i>=</i>  \│    │/  <i>&gt;</i>    <i>&lt;</i>  \│    │/  <i>o</i>    <i>o</i>  \│
+ <s>(</s> │|    <b>\/</b>    |│ <s>)</s>   │|  (  <b>&lt;</b>3  )  | |│    │|    <b>~~</b>    |│    ╭────────╮     <s>(</s> <b>╰─╮</b>          <b>╭─╯</b> <s>)</s>   │|    <b>ww</b>    |│    │|    <b>--</b>    |│    │|    <b>\/</b>    |│
+   │\          /│     │ \  '----'  / / │    │\          /│    │ (<i>-)(-</i>) │         <b>╰─╮</b>      <b>╭─╯</b>       │\          /│    │\          /│    │\          /│
+   │ '--------' │     │  '--------' o  │    │ '--------' │    │   <b>--</b>   │           <b>╰─╮</b>  <b>╭─╯</b>         │ '--------' │    │ '--------' │    │ '--------' │
+   ╰─────┬┬─────╯     ╰───────┬┬───────╯    ╰─────┬┬─────╯    ╰───┬┬───╯             <b>╰┬┬╯</b>           ╰─────┬┬─────╯    ╰─────┬┬─────╯    ╰─────┬┬─────╯
+         ││                   ││                  ││              ││                  ││                  ││                ││                ││
+o────────┴┴───────────────────┴┴──────────────────┴┴──────────────┴┴──────────────────┴┴──────────────────┴┴────────────────┴┴────────────────┴┴────────o
 </pre>
-<pre class="net mid" aria-hidden="true">
-                     *                             <b>*</b>                        +
-  .                                           <b>╭───╮  ╭───╮</b>    .                                    <b>*</b>
-                  ╭──────╮        Z         <b>╭─╯   ╰──╯   ╰─╮</b>    ╭────────╮                .
-               +  │ <i>o  o</i> │      z           <b>│      &lt;3      │</b>    │        │       \  /                   +
-    ╭────────╮    │  <b>&lt;3</b>  │    ╭────────╮    <b>╰─╮          ╭─╯</b>    │  <i>O  O</i>  │    ╭───\/───╮    ╭────────╮
-    │  <i>^  ^</i>  │    │      │    │  <i>-  -</i>  │      <b>╰─╮      ╭─╯</b>      │   <b>()</b>   │    │  <i>=  =</i>  │    │  <i>.  .</i>  │
-    │  <b>\__/</b>  │    │  ──  │    │   <b>~~</b>   │        <b>╰─╮  ╭─╯</b>        │        │    │   <b>ww</b>   │    │  <b>\__/</b>  │
-    ╰───┬┬───╯    ╰──┬┬──╯    ╰───┬┬───╯          <b>╰</b>┬┬<b>╯</b>          ╰───┬┬───╯    ╰───┬┬───╯    ╰───┬┬───╯
-        ││           ││           ││               ││               ││            ││            ││
-o───────┴┴───────────┴┴───────────┴┴───────────────┴┴───────────────┴┴────────────┴┴────────────┴┴───────o
+<pre class="sound small" aria-hidden="true">
+      .                        .
+                      <b>*</b>
+   ╭────────╮                           +
+   │ (<i>o)(o</i>) │
+   │   <b>ww</b>   │                                 <b>*</b>
+   ╰────────╯
+ ╭────────────╮   <b>╭───╮</b>  <b>╭───╮</b>    ╭────────────╮
+ │ .--------. │ <b>╭─╯</b>   <b>╰──╯</b>   <b>╰─╮</b> <s>(</s>│ .--------. │
+ │/  <i>^</i>    <i>^</i>  \│ <b>│</b>      <b>&lt;3</b>      <b>│</b><s>((</s>│/  <i>*</i>    <i>*</i>  \│
+ │|    <b>\/</b>    |│ <b>╰─╮</b>          <b>╭─╯</b> <s>(</s>│|    <b>~~</b>    |│
+ │\          /│   <b>╰─╮</b>      <b>╭─╯</b>    │\          /│
+ │ '--------' │     <b>╰─╮</b>  <b>╭─╯</b>      │ '--------' │
+ ╰─────┬┬─────╯       <b>╰┬┬╯</b>        ╰─────┬┬─────╯
+       ││              ││               ││
+o──────┴┴──────────────┴┴───────────────┴┴──────o
 </pre>
-<pre class="net small" aria-hidden="true">
-                        <b>*</b>
- .                 <b>╭───╮  ╭───╮</b>         *
-                 <b>╭─╯   ╰──╯   ╰─╮</b>    ╭──────╮
-             +   <b>│      &lt;3      │</b>    │ <i>o  o</i> │  .
-   ╭────────╮    <b>╰─╮          ╭─╯</b>    │  <b>&lt;3</b>  │
-   │  <i>^  ^</i>  │      <b>╰─╮      ╭─╯</b>      │      │
-   │  <b>\__/</b>  │        <b>╰─╮  ╭─╯</b>        │  ──  │
-   ╰───┬┬───╯          <b>╰</b>┬┬<b>╯</b>          ╰──┬┬──╯
-       ││               ││              ││
-o──────┴┴───────────────┴┴──────────────┴┴──────o
-</pre>
-<p class="caption">all kinds of screens, all on the same cable ♡ (say hi, they cheer up)</p>
+<p class="caption">all kinds of speakers, all on the same cable ♡ (say hi, they cheer up. press on air, they dance)</p>
 
 <div class="cols lists">
 <div>
@@ -231,7 +445,7 @@ o──────┴┴───────────────┴┴─�
 </ul>
 </div>
 
-<div class="panel">
+<div class="panel dark">
 <pre aria-hidden="true">
 ╭─────────╮
 │ ~~~ ~~~ │
@@ -254,7 +468,7 @@ o──────┴┴───────────────┴┴─�
 ╭────────────────────────╮
 │[    ][<i>d^^b</i>][    ][<i>home</i>]│
 │════════════════════════│
-│[    ][    ][<i>d--b</i>][ || ]│
+│[<u>kes!</u>][    ][<i>d--b</i>][ || ]│
 ╰──(@)─────────────(@)───╯
 </pre>
 <h2>podcasts (good for the bus) <span>♫</span></h2>
@@ -309,54 +523,439 @@ o──────┴┴───────────────┴┴─�
 </pre>
 <p>thanks for stopping by xx</p>
 </div>
-<p class="small">last updated 1 october 2026. it's a <a href="http://contemporary-home-computing.org/prof-dr-style/">prof. dr. style</a> homepage (♡ olia lialina).</p>
+<p class="small">last updated 1 october 2026. it's a <a href="http://contemporary-home-computing.org/prof-dr-style/">prof. dr. style</a> homepage (♡ olia lialina). KES FM is plain web audio, so view source and take it. <a href="#top">⟲ rewind to the top</a></p>
 </div>
 
-<pre class="garden" aria-hidden="true">
-    <b>_</b>         .          <i>.-.</i>         <b>vVVVv        @@@@     (\/)</b>     .     <b>_</b>            <i>wWWWw</i>         <b>*</b>
-  <b>_(_)_         (\/)</b>    <i>( o )</i>        <b>(___)  *    @@()@@     \/          _(_)_</b>    +     <i>(___)        \|/</i>     <b>(\/)</b>
- <b>(_)@(_)         \/</b>      <i>'-'</i>     <b>@</b>     Y          <b>@@@@</b>       |/   <i>o</i>    <b>(_)@(_)</b>           Y     <b>@</b>   <i>-(_)-</i>     <b>\/</b>     .
-   <b>(_)</b>\           |       \|     \|   \|           \||/      |     |/    <b>(_)</b>\            |/    \|   <i>/|\</i>       |
-      |    \|/   \|        |/     |    |     ,,     ||      \|     |        |    \\//    |      |     |      \|   \|/
-______|_____|_____|________|______|____|____________||_______|_____|________|____________|______|_____|_______|____|____<b>&lt;3</b>
+<pre class="wall wide" aria-hidden="true">
+___________________________<u>_/\/\/\_</u>___________________________________________________________________________________________________________________
+|_____|_____|_____|  <b>_</b>  <b>__</b>  <b>___</b>   <b>___</b>  ___|_____|_____|_____|_____|_____|_____|_____|_____|_____|__ <u>170</u> ____|_____|_____|_____|_____|_____|_____|_____
+___|_____|_____|___ <b>|</b> <b>|/</b> <b>/</b> <b>|</b> <b>__|</b> <b>/</b> <b>__|</b> |_____|_____|_____|_____|_____ <u>lorem</u> <u>ipsum</u> <u>woz</u> <u>ere</u> ___|_____|_____|_____|_____|_____|_____|_____|_____|_____|__
+|_____|_____|_____| <b>|</b> <b>'</b> <b>&lt;</b>  <b>|</b> <b>_|</b>  <b>\__</b> <b>\</b> ___|_____|_____|_____|_____|_____|_____|_____|_____|_____|_____|_____|_____|__ <b>x</b> <b>&lt;3</b> <b>x</b> _|_____|_____|_____|_____
+___|_____|_____|___ <b>|_|\_\</b> <b>|___|</b> <b>|___/</b> |_____|_____|_____|_____|_____|_____|_____|_____|_____|_____|_____|_____|_____|_____|_____|_____|_____|_____|__
+|_____|_____|_____|___<b>|</b>_|_____<b>|</b>_____|<b>|</b>____|_____|_____|_____|_____|_____|_____|_____|_____|_____|_____|_____|_____|_____|_____|_____|_____|_____|_____
+     <b>_</b>       <b>vVVVv</b>    <b>'</b>       <b>|</b>      <b>'</b>   <b>@@@@</b>                    <b>_</b>                          <b>vVVVv</b>        <b>@@@@</b>                    <b>_</b>
+   <b>_(_)_</b>     <b>(___)</b>    <b>(\/)</b>    <b>'</b> <i>.-.</i>     <b>@@()@@</b>       <i>\|/</i>       <b>_(_)_</b>      <i>wWWWw</i>     <b>(\/)</b>    <b>(___)</b>       <b>@@()@@</b>       <i>.-.</i>       <b>_(_)_</b>      <b>(\/)</b>   <i>\|/</i>
+  <b>(_)@(_)</b>      <em>Y</em>       <b>\/</b>      <i>(</i> <i>o</i> <i>)</i>     <b>@@@@</b>       <i>-(_)-</i>     <b>(_)@(_)</b>     <i>(___)</i>      <b>\/</b>       <em>Y</em>          <b>@@@@</b>       <i>(</i> <i>o</i> <i>)</i>     <b>(_)@(_)</b>      <b>\/</b>   <i>-(_)-</i>
+    <b>(_)</b><em>\</em>       <em>|</em>        <em>|</em>       <i>'-'</i>       <em>\||/</em>       <i>/|\</i>        <b>(_)</b><em>\</em>       <em>\|/</em>        <em>|</em>       <em>|</em>           <em>\||/</em>       <i>'-'</i>        <b>(_)</b><em>\</em>        <em>|</em>    <i>/|\</i>
+       <em>|</em>      <em>\|</em>       <em>\|</em>        <em>\|</em>        <em>||</em>         <em>|</em>            <em>|</em>        <em>|</em>        <em>\|</em>      <em>\|</em>            <em>||</em>         <em>\|</em>           <em>|</em>       <em>\|</em>     <em>|</em>
+____________________________________________________________________________________________________________________________________________________<b>&lt;3</b>
 </pre>
-<pre class="garden small" aria-hidden="true">
-  .    <b>vVVVv          _</b>
- <b>(\/)  (___)  *     _(_)_</b>      +
-  <b>\/</b>     Y     <i>o</i>   <b>(_)@(_)</b>
-   |    \|      |/   <b>(_)</b>\
-  \|     |      |       |    \|/
-___|_____|______|_______|_____|___<b>&lt;3</b>
+<pre class="wall small" aria-hidden="true">
+___________<u>_/\/\/\_</u>______________________________
+|__  <b>_</b>  <b>__</b>  <b>___</b>   <b>___</b>  _|_____|_____|_____|_____|
+___ <b>|</b> <b>|/</b> <b>/</b> <b>|</b> <b>__|</b> <b>/</b> <b>__|</b> ____ <u>lorem!</u> ____|_____|___
+|__ <b>|</b> <b>'</b> <b>&lt;</b>  <b>|</b> <b>_|</b>  <b>\__</b> <b>\</b> _|_____|_____| <b>&lt;3</b> _|_____|
+___ <b>|_|\_\</b> <b>|___|</b> <b>|___/</b> ____|_____|_____|_____|___
+|_____<b>|</b>_____|_<b>|</b>___|__<b>|</b>__|_____|_____|_____|_____|
+    <b>_</b> <b>'</b>       <b>|</b>  <b>vVVVv</b>            <b>@@@@</b>
+  <b>_(_)_</b>   <b>(\/)'</b>  <b>(___)</b>    <i>.-.</i>    <b>@@()@@</b>    <b>(\/)</b>
+ <b>(_)@(_)</b>   <b>\/</b>      <em>Y</em>     <i>(</i> <i>o</i> <i>)</i>    <b>@@@@</b>      <b>\/</b>
+   <b>(_)</b><em>\</em>     <em>|</em>      <em>|</em>      <i>'-'</i>      <em>\||/</em>      <em>|</em>
+      <em>|</em>    <em>\|</em>     <em>\|</em>       <em>\|</em>       <em>||</em>      <em>\|</em>
+_______________________________________________<b>&lt;3</b>
 </pre>
+
+<button class="floatstop" id="floatstop" type="button" hidden>■ stop KES FM</button>
 
 <script>
 console.log("hi ☆ it's kes");
 console.log("if you've opened the console you're either a developer or one of my students. hello x");
-console.log("view source is free, take whatever's useful");
+console.log("view source is free, take whatever's useful. KES FM is at the bottom of this script");
 console.log("𝓴𝓮𝓼 𝔀𝓪𝓼 𝓱𝓮𝓻𝓮");
 console.log("(the fancy letters live down here because screen readers read them out as maths symbols)");
+
+var onAir = false;
+var still = matchMedia("(prefers-reduced-motion: reduce)").matches;
 document.addEventListener("visibilitychange", function () {
-  document.title = document.hidden ? "come back x" : "kes inkersole";
+  document.title = document.hidden ? (onAir ? "▶ KES FM 170.0" : "come back x") : "kes inkersole";
 });
 
-// the little screens blink now and then, and all cheer up when your mouse comes over
-var eyes = document.querySelectorAll(".net i"), happy = false;
-eyes.forEach(function (e) { e.dataset.eyes = e.textContent; });
-function look(face) {
-  eyes.forEach(function (e) { e.textContent = face || e.dataset.eyes; });
-}
-document.querySelectorAll(".net").forEach(function (net) {
-  net.onmouseenter = function () { happy = true; look("^  ^"); };
-  net.onmouseleave = function () { happy = false; look(); };
+// the speakers blink now and then, cheer up when your mouse comes over, and dance when you're on air.
+// a face keeps its brackets and spaces, so the drawing never shifts sideways
+var faces = [].slice.call(document.querySelectorAll(".sound i")), happy = false;
+faces.forEach(function (e) { e.dataset.eyes = e.textContent; });
+function face(e, ch) { e.textContent = ch ? e.dataset.eyes.replace(/[^ ()\[\]]/g, ch) : e.dataset.eyes; }
+function look(ch) { faces.forEach(function (e) { face(e, ch); }); }
+document.querySelectorAll(".sound").forEach(function (s) {
+  s.onmouseenter = function () { happy = true; look("^"); };
+  s.onmouseleave = function () { happy = false; look(); };
 });
-if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+if (!still) {
   setInterval(function () {
-    var e = eyes[Math.floor(Math.random() * eyes.length)];
-    if (happy) return;
-    e.textContent = "-  -";
-    setTimeout(function () { if (!happy) e.textContent = e.dataset.eyes; }, 180);
+    if (happy || onAir) return;
+    var e = faces[Math.floor(Math.random() * faces.length)];
+    face(e, "-");
+    setTimeout(function () { if (!happy && !onAir) face(e); }, 180);
   }, 1500);
 }
+
+/* ---------------------------------------------------------------
+   KES FM 170.0
+   a jungle machine. there are no samples in here: the break is
+   drummed out of oscillators and noise, recorded into a buffer at
+   136bpm, then played back sped up to 170 and chopped into slices,
+   which is what the old samplers did to records.
+   --------------------------------------------------------------- */
+(function () {
+  var Ctx = window.AudioContext || window.webkitAudioContext;
+  var $ = function (s) { return document.querySelector(s); };
+  var statusEl = $("#status"), tracker = $("#tracker"), infoEl = $("#lcdinfo"), floatStop = $("#floatstop");
+  var tower = $(".tower"), sounds = [].slice.call(document.querySelectorAll(".sound"));
+  if (!Ctx) { statusEl.textContent = "no web audio here, sorry x"; return; }
+
+  var BPM = 170, OLD = 136, RATE = BPM / OLD;
+  var STEP = 60 / BPM / 4, OSTEP = 60 / OLD / 4;   // a 16th note, now and in the original
+
+  // the breaks, written like a tracker. each number is a 16th-note slice of the break.
+  // r = reversed, ^ = pitched up, :3 = roll it three times in one step, -- = nothing
+  var BREAKS = {
+    straight: "00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F 10 11 12 13 14 15 16 17 18 19 1A 1B 1C 1D 1E 1F",
+    chopped:  "00 01 02 03 04 05 06 07 00 01 0A 0B 0C 0D 04 07 10 11 12 13 14 15 0C 0D 18 19 1A 1B 0C 09 r0C 14",
+    rollin:   "00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F 00 01 12 13 ^04 05 ^0C 07 0C 0D 0A 0B 0C:2 0C:2 14:3 04:4"
+  };
+  // basslines in F minor: [step, semitones from F, length in steps]
+  var BASS = {
+    sub:   [[0, 0, 6], [7, 0, 2], [10, 3, 4], [14, 2, 2], [16, -4, 6], [23, -4, 2], [26, -2, 3], [29, -5, 3]],
+    reese: [[0, 0, 10], [10, 3, 6], [16, -4, 10], [26, -5, 6]]
+  };
+  // the cute bit: a music box and a soft pad
+  var BELLS = { 0: 84, 3: 87, 6: 89, 10: 84, 12: 80, 14: 82, 16: 77, 19: 80, 22: 84, 26: 87, 28: 89, 30: 92 };
+  var PADS = { 0: [53, 56, 60, 63, 67], 16: [49, 53, 56, 60, 63] };
+
+  var ac = null, master, comp, drums, bassBus, cuteBus, echoIn, B = null;
+  var breakBuf = null, revBuf = null;
+  var pattern = "straight", bassMode = "sub", cute = false, wantOn = false;
+  var step = 0, nextT = 0, timer = null, raf = 0, queue = [], live = [], shown = 0;
+
+  function parse(str) {
+    return str.trim().split(/\s+/).map(function (t) {
+      var m = /^([r^]?)([0-9A-F]{2})(?::(\d))?$/i.exec(t);
+      if (!m) return null;
+      return { s: parseInt(m[2], 16), rev: m[1] === "r", up: m[1] === "^", n: +(m[3] || 1), label: m[2].toUpperCase() };
+    });
+  }
+  var pats = {};
+  Object.keys(BREAKS).forEach(function (k) { pats[k] = parse(BREAKS[k]); });
+
+  // ✂ chop it: a fresh edit of the straight break every time
+  function chop() {
+    var t = BREAKS.straight.split(" "), out = t.slice(), hx = function (n) { return (n < 16 ? "0" : "") + n.toString(16).toUpperCase(); };
+    for (var b = 1; b < 8; b++) {
+      var at = b * 4, r = Math.random();
+      if (r < .35) { var from = Math.floor(Math.random() * 8) * 4; for (var k = 0; k < 4; k++) out[at + k] = t[from + k]; }
+      else if (r < .5) { out[at + 2] = "0C:2"; out[at + 3] = "14:3"; }
+      else if (r < .62) { out[at] = "r" + hx([4, 12, 20][Math.floor(Math.random() * 3)]); }
+      else if (r < .74) { out[at + 2] = "^" + t[at + 2]; }
+    }
+    out[30] = "0C:2"; out[31] = Math.random() < .5 ? "04:4" : "14:3";
+    BREAKS.chop = out.join(" ");
+    pats.chop = parse(BREAKS.chop);
+  }
+
+  // ---------- record the break ----------
+  function shaper(k) {
+    var n = 1024, c = new Float32Array(n);
+    for (var i = 0; i < n; i++) { var x = i * 2 / n - 1; c[i] = Math.tanh(k * x) / Math.tanh(k); }
+    return c;
+  }
+  function recordBreak() {
+    var sr = 32000, len = Math.ceil((32 * OSTEP + .8) * sr);
+    var Off = window.OfflineAudioContext || window.webkitOfflineAudioContext;
+    var oc = new Off(1, len, sr);
+    var noise = oc.createBuffer(1, sr, sr), nd = noise.getChannelData(0);
+    for (var i = 0; i < nd.length; i++) nd[i] = Math.random() * 2 - 1;
+    var bus = oc.createGain(), sat = oc.createWaveShaper();
+    bus.gain.value = .8; sat.curve = shaper(1.6);
+    bus.connect(sat); sat.connect(oc.destination);
+
+    function hiss(t, type, f, q, v, dec) {
+      var s = oc.createBufferSource(), fl = oc.createBiquadFilter(), g = oc.createGain();
+      s.buffer = noise; fl.type = type; fl.frequency.value = f; fl.Q.value = q;
+      g.gain.setValueAtTime(v, t); g.gain.exponentialRampToValueAtTime(.001, t + dec);
+      s.connect(fl); fl.connect(g); g.connect(bus);
+      s.start(t, Math.random() * .5); s.stop(t + dec + .02);
+    }
+    function tone(t, type, f0, f1, bend, v, dec) {
+      var o = oc.createOscillator(), g = oc.createGain();
+      o.type = type; o.frequency.setValueAtTime(f0, t); o.frequency.exponentialRampToValueAtTime(f1, t + bend);
+      g.gain.setValueAtTime(v, t); g.gain.exponentialRampToValueAtTime(.001, t + dec);
+      o.connect(g); g.connect(bus); o.start(t); o.stop(t + dec + .02);
+    }
+    function kick(t, v) {
+      tone(t, "sine", 165, 48, .08, v, .3);
+      hiss(t, "highpass", 1800, .7, v * .35, .012);
+    }
+    function snare(t, v) {
+      tone(t, "triangle", 215, 185, .03, v * .55, .11);
+      tone(t, "triangle", 380, 330, .03, v * .3, .08);
+      hiss(t, "highpass", 1300, .6, v * .75, .19);
+      hiss(t, "bandpass", 3800, 1.1, v * .5, .07);
+    }
+    // the ride: six detuned squares, filtered, like an old drum machine cymbal
+    var metal = oc.createGain(), metalHP = oc.createBiquadFilter();
+    metal.gain.value = .12; metalHP.type = "highpass"; metalHP.frequency.value = 6000;
+    [205.3, 304.4, 369.6, 522.7, 540, 800].forEach(function (f) {
+      var o = oc.createOscillator(); o.type = "square"; o.frequency.value = f * 1.6; o.connect(metal); o.start(0);
+    });
+    metal.connect(metalHP);
+    function ride(t, v, dec) {
+      var g = oc.createGain();
+      g.gain.value = 0; g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(v, t + .002); g.gain.exponentialRampToValueAtTime(.001, t + dec);
+      g.gain.setValueAtTime(0, t + dec + .01);
+      metalHP.connect(g); g.connect(bus);
+      hiss(t, "highpass", 8500, .7, v * .3, dec * .8);
+    }
+    var at = function (s) { return .01 + s * OSTEP + (Math.random() - .5) * .003; };
+    [0, 2, 10, 11, 18, 19, 26].forEach(function (s) { kick(at(s), s === 11 || s === 19 ? .7 : .95); });
+    [[4, 1], [7, .45], [9, .55], [12, 1], [15, .5], [14, .15], [17, .3], [20, 1], [22, .14], [23, .45], [25, .55], [30, .9], [31, .2]]
+      .forEach(function (p) { snare(at(p[0]), p[1]); });
+    for (var s = 0; s < 32; s += 2) if (s !== 26 && s !== 28) ride(at(s), s % 4 ? .45 : .7, .32);
+    ride(at(26), 1, 1.2); hiss(at(26), "highpass", 4500, .5, .45, 1);   // the crash
+
+    return new Promise(function (ok) {
+      oc.oncomplete = function (e) { ok(e.renderedBuffer); };
+      var p = oc.startRendering();
+      if (p && p.then) p.then(ok);
+    }).then(function (buf) {
+      var d = buf.getChannelData(0), peak = 0;
+      for (var i = 0; i < d.length; i++) peak = Math.max(peak, Math.abs(d[i]));
+      for (i = 0; i < d.length; i++) d[i] *= .9 / (peak || 1);
+      var rb = oc.createBuffer(1, d.length, sr), r = rb.getChannelData(0);
+      for (i = 0; i < d.length; i++) r[i] = d[d.length - 1 - i];
+      breakBuf = buf; revBuf = rb;
+    });
+  }
+
+  // ---------- the live rig ----------
+  function vol() { return +$("#vol").value * .9; }
+  function build() {
+    ac = new Ctx();
+    master = ac.createGain(); master.gain.value = vol();
+    comp = ac.createDynamicsCompressor();
+    comp.threshold.value = -16; comp.knee.value = 8; comp.ratio.value = 4; comp.attack.value = .004; comp.release.value = .18;
+    comp.connect(master); master.connect(ac.destination);
+    drums = ac.createGain(); drums.gain.value = .85; drums.connect(comp);
+    bassBus = ac.createGain(); bassBus.gain.value = .6; bassBus.connect(comp);
+    // a dub echo, for the siren and the cute bits
+    echoIn = ac.createGain();
+    var dl = ac.createDelay(1), fb = ac.createGain(), lp = ac.createBiquadFilter();
+    dl.delayTime.value = STEP * 3; fb.gain.value = .4; lp.type = "lowpass"; lp.frequency.value = 2400;
+    echoIn.connect(dl); dl.connect(lp); lp.connect(fb); fb.connect(dl); lp.connect(comp);
+    cuteBus = ac.createGain(); cuteBus.gain.value = .5; cuteBus.connect(comp);
+    var send = ac.createGain(); send.gain.value = .5; cuteBus.connect(send); send.connect(echoIn);
+    // one bass voice that stays on: a sine sub, plus two detuned saws for the reese
+    var o1 = ac.createOscillator(), o2 = ac.createOscillator(), sub = ac.createOscillator(), lfo = ac.createOscillator();
+    var saw = ac.createGain(), subG = ac.createGain(), grit = ac.createWaveShaper(), lpf = ac.createBiquadFilter(), lfoG = ac.createGain(), env = ac.createGain();
+    o1.type = o2.type = "sawtooth"; o1.detune.value = -13; o2.detune.value = 13; sub.type = "sine";
+    lpf.type = "lowpass"; lpf.frequency.value = 480; lpf.Q.value = 4; lfo.frequency.value = .23; lfoG.gain.value = 300;
+    lfo.connect(lfoG); lfoG.connect(lpf.frequency);
+    grit.curve = shaper(2.5);
+    o1.connect(saw); o2.connect(saw); saw.connect(lpf); lpf.connect(env);
+    sub.connect(grit); grit.connect(subG); subG.connect(env);
+    env.gain.value = 0; env.connect(bassBus);
+    [o1, o2, sub, lfo].forEach(function (o) { o.start(); });
+    B = { o1: o1, o2: o2, sub: sub, saw: saw, subG: subG, env: env };
+    bassMix();
+  }
+  function bassMix() {
+    if (!B) return;
+    var t = ac.currentTime, r = bassMode === "reese";
+    B.saw.gain.setTargetAtTime(r ? .28 : 0, t, .05);
+    B.subG.gain.setTargetAtTime(r ? .5 : .85, t, .05);
+    if (bassMode === "off") B.env.gain.setTargetAtTime(0, t, .03);
+  }
+
+  function slice(tok, t, d, v) {
+    var s = ac.createBufferSource(), g = ac.createGain();
+    s.buffer = tok.rev ? revBuf : breakBuf;
+    s.playbackRate.value = RATE * (tok.up ? 1.26 : 1);
+    var off = tok.rev ? revBuf.duration - (tok.s + 1) * OSTEP : tok.s * OSTEP;
+    g.gain.value = 0;
+    g.gain.setValueAtTime(0, t);
+    g.gain.linearRampToValueAtTime(v, t + (tok.rev ? .01 : .0015));
+    g.gain.setValueAtTime(v, t + d - .004);
+    g.gain.linearRampToValueAtTime(0, t + d + .002);
+    s.connect(g); g.connect(drums);
+    s.start(t, Math.max(0, off)); s.stop(t + d + .01);
+    live.push({ s: s, end: t + d + .01 });
+  }
+  function hz(semi) { return 43.65 * Math.pow(2, semi / 12); }
+  function midi(m) { return 440 * Math.pow(2, (m - 69) / 12); }
+  function bass(i, t) {
+    if (bassMode === "off") return;
+    var line = BASS[bassMode];
+    line.forEach(function (n) {
+      if (n[0] !== i) return;
+      var f = hz(n[1]), end = t + n[2] * STEP, glide = bassMode === "reese" ? .045 : .01;
+      var legato = line.some(function (m) { return m[0] === (n[0] + n[2]) % 32; });
+      B.sub.frequency.setTargetAtTime(f, t, glide);
+      B.o1.frequency.setTargetAtTime(f * 2, t, glide);
+      B.o2.frequency.setTargetAtTime(f * 2, t, glide);
+      B.env.gain.setTargetAtTime(1, t, .006);
+      if (!legato || bassMode === "sub") B.env.gain.setTargetAtTime(0, end - .03, .02);
+    });
+  }
+  function bell(t, m) {
+    [[1, .3, .9], [2, .07, .3], [3.01, .04, .18]].forEach(function (p) {
+      var o = ac.createOscillator(), g = ac.createGain();
+      o.frequency.value = midi(m) * p[0];
+      g.gain.setValueAtTime(p[1], t); g.gain.exponentialRampToValueAtTime(.0005, t + p[2]);
+      o.connect(g); g.connect(cuteBus); o.start(t); o.stop(t + p[2] + .02);
+    });
+  }
+  function pad(t, notes) {
+    var len = 32 * STEP / 2;
+    notes.forEach(function (m, k) {
+      var o = ac.createOscillator(), g = ac.createGain(), f = ac.createBiquadFilter();
+      o.type = "triangle"; o.frequency.value = midi(m); o.detune.value = (k % 2 ? 6 : -6);
+      f.type = "lowpass"; f.frequency.value = 1400;
+      g.gain.value = 0; g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(.035, t + .6);
+      g.gain.setValueAtTime(.035, t + len - .5); g.gain.linearRampToValueAtTime(0, t + len);
+      o.connect(f); f.connect(g); g.connect(cuteBus); o.start(t); o.stop(t + len + .05);
+      live.push({ s: o, end: t + len + .05 });
+    });
+  }
+
+  function play(i, t) {
+    var tok = (pats[pattern] || pats.straight)[i];
+    if (tok) for (var k = 0; k < tok.n; k++) slice(tok, t + k * STEP / tok.n, STEP / tok.n, tok.n > 1 ? .55 + .45 * (k + 1) / tok.n : 1);
+    bass(i, t);
+    if (cute) { if (BELLS[i]) bell(t, BELLS[i]); if (PADS[i]) pad(t, PADS[i]); }
+  }
+  function tick() {
+    if (!ac) return;
+    var ahead = document.hidden ? 1.5 : .12, now = ac.currentTime;
+    while (nextT < now + ahead) {
+      var i = step % 32;
+      play(i, nextT);
+      queue.push([i, nextT]);
+      nextT += STEP; step++;
+    }
+    live = live.filter(function (x) { return x.end > now; });
+  }
+  function draw() {
+    if (!ac) return;
+    var now = ac.currentTime;
+    while (queue.length && queue[0][1] <= now) light(queue.shift()[0]);
+    raf = requestAnimationFrame(draw);
+  }
+  function light(i) {
+    var cells = tracker.children;
+    if (cells[shown]) cells[shown].classList.remove("on");
+    cells[i].classList.add("on"); shown = i;
+    if (i % 4) return;                          // the rest happens on the beat
+    if (!happy) look(i % 8 ? null : "^");
+    if (still) return;
+    tower.classList.toggle("lit", i % 8 === 0);
+    sounds.forEach(function (s) { s.classList.remove("thump"); void s.offsetWidth; s.classList.add("thump"); });
+  }
+  function hush(t) {
+    live.forEach(function (x) { try { x.s.stop(t); } catch (e) {} });
+    live = []; queue = [];
+    if (B) {
+      B.env.gain.cancelScheduledValues(t); B.env.gain.setTargetAtTime(0, t, .015);
+      [B.sub, B.o1, B.o2].forEach(function (o) { o.frequency.cancelScheduledValues(t); });
+    }
+  }
+
+  // ---------- the buttons ----------
+  function say(s) { statusEl.textContent = s; }
+  function ui() {
+    document.body.classList.toggle("on-air", onAir);
+    $("#go").setAttribute("aria-pressed", onAir);
+    floatStop.hidden = !onAir;
+    document.querySelectorAll("[data-break]").forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.break === pattern); });
+    $("#chop").setAttribute("aria-pressed", pattern === "chop");
+    document.querySelectorAll("[data-bass]").forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.bass === bassMode); });
+    $("#cute").setAttribute("aria-pressed", cute);
+    infoEl.textContent = "break: " + (pattern === "chop" ? "your chop" : pattern) + " · bass: " + bassMode + " · cute: " + (cute ? "on ✿" : "off") + " · " + BPM + "bpm";
+    var html = "";
+    pats[pattern].forEach(function (t) {
+      html += t ? '<span class="' + (t.rev ? "rev " : "") + (t.up ? "up " : "") + (t.n > 1 ? "roll" : "") + '">' + t.label + "</span>" : '<span class="rest">--</span>';
+    });
+    tracker.innerHTML = html;
+    if (tracker.children[shown] && onAir) tracker.children[shown].classList.add("on");
+  }
+  function go() {
+    if (onAir) return;
+    wantOn = true;
+    if (!ac) build();
+    if (ac.resume) ac.resume();
+    say("tuning in…");
+    (breakBuf ? Promise.resolve() : recordBreak()).then(function () {
+      if (!wantOn || !ac) return;
+      onAir = true; step = 0; queue = []; nextT = ac.currentTime + .08;
+      clearInterval(timer); timer = setInterval(tick, 25); tick();
+      cancelAnimationFrame(raf); raf = requestAnimationFrame(draw);
+      say("● on air ♪");
+      ui();
+    }).catch(function (e) { say("no signal, your browser said no"); console.warn(e); });
+  }
+  function stop() {
+    wantOn = false; onAir = false;
+    clearInterval(timer); timer = null; cancelAnimationFrame(raf);
+    if (ac) {
+      var a = ac, m = master;
+      hush(a.currentTime);
+      m.gain.setTargetAtTime(0, a.currentTime, .01);
+      ac = null; B = null;
+      setTimeout(function () { if (a.close) a.close(); }, 150);
+    }
+    tower.classList.remove("lit");
+    if (!happy) look();
+    say("off air");
+    ui();
+  }
+  // ⟲ the DJ pulls the record back by hand and drops it again from the top
+  function pullUp() {
+    if (!onAir || !ac) return;
+    clearInterval(timer);
+    var t = ac.currentTime + .01;
+    hush(t);
+    var s = ac.createBufferSource(), g = ac.createGain(), pos = ((shown + 1) % 32) * OSTEP;
+    s.buffer = revBuf; s.loop = true;
+    s.playbackRate.setValueAtTime(RATE, t);
+    s.playbackRate.linearRampToValueAtTime(RATE * 3, t + .4);
+    s.playbackRate.exponentialRampToValueAtTime(.2, t + 1.05);
+    g.gain.value = 0; g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(.8, t + .02);
+    g.gain.setValueAtTime(.8, t + .75); g.gain.linearRampToValueAtTime(0, t + 1.05);
+    s.connect(g); g.connect(drums);
+    s.start(t, Math.max(0, revBuf.duration - pos)); s.stop(t + 1.1);
+    live.push({ s: s, end: t + 1.1 });
+    say("⟲ pull up! from the top…");
+    if (!happy) look("@");
+    step = 0; nextT = t + 1.15;
+    timer = setInterval(tick, 25);
+    setTimeout(function () { if (onAir) { say("● on air ♪"); if (!happy) look(); } }, 1150);
+  }
+  // a dub siren, sound system style
+  function siren() {
+    if (!ac) build();
+    if (ac.resume) ac.resume();
+    var t = ac.currentTime + .02, o = ac.createOscillator(), l = ac.createOscillator(), lg = ac.createGain(), g = ac.createGain(), f = ac.createBiquadFilter();
+    o.type = "square"; o.frequency.setValueAtTime(380, t); o.frequency.exponentialRampToValueAtTime(820, t + 1.2);
+    l.type = "square"; l.frequency.setValueAtTime(4, t); l.frequency.linearRampToValueAtTime(10, t + 1.4);
+    lg.gain.value = 90; l.connect(lg); lg.connect(o.frequency);
+    f.type = "lowpass"; f.frequency.value = 1800;
+    g.gain.value = 0; g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(.09, t + .03);
+    g.gain.setValueAtTime(.09, t + 1.25); g.gain.linearRampToValueAtTime(0, t + 1.5);
+    o.connect(f); f.connect(g); g.connect(comp); g.connect(echoIn);
+    o.start(t); l.start(t); o.stop(t + 1.55); l.stop(t + 1.55);
+    live.push({ s: o, end: t + 1.55 }, { s: l, end: t + 1.55 });
+  }
+
+  $("#go").onclick = go;
+  $("#stop").onclick = stop;
+  floatStop.onclick = stop;
+  $("#pullup").onclick = pullUp;
+  $("#siren").onclick = siren;
+  $("#chop").onclick = function () { chop(); pattern = "chop"; ui(); };
+  $("#cute").onclick = function () { cute = !cute; ui(); };
+  $("#vol").oninput = function () { if (ac) master.gain.setTargetAtTime(vol(), ac.currentTime, .03); };
+  document.querySelectorAll("[data-break]").forEach(function (b) { b.onclick = function () { pattern = b.dataset.break; ui(); }; });
+  document.querySelectorAll("[data-bass]").forEach(function (b) { b.onclick = function () { bassMode = b.dataset.bass; bassMix(); ui(); }; });
+  ui();
+})();
 </script>
 
 </body>

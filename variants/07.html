@@ -20,24 +20,33 @@
 <meta name="twitter:description" content="kes inkersole — freelance creative strategist &amp; internet equalities researcher, based in london.">
 <meta name="twitter:image" content="https://kesia-coral.vercel.app/square.png">
 <style>
-/* thread colours */
+/* two palettes on one page: the sewing box and the rave flyer */
 :root {
-  --paper: #fdf8ef;  /* the page, like unbleached cotton */
+  /* cute */
+  --paper: #fdf8ef;  /* unbleached cotton */
   --ink:   #3b2440;  /* plum, not black */
   --pink:  #e8508e;
   --blue:  #4a5be0;
   --lilac: #8e57c9;  /* visited links */
   --butter:#ffe58a;  /* highlighter */
   --blush: #fde8ef;
-  --aida:  #f6ecda;  /* the cross-stitch cloth */
+  --aida:  #f6ecda;  /* cross-stitch cloth */
   --holes: #e7d7bc;
+  /* 'ard */
+  --black: #141114;
+  --hazard:#ffd400;  /* warning tape */
+  --acid:  #b8ff2e;
+  --chrome: linear-gradient(180deg, #fff 0%, #e4e9ef 24%, #98a3b0 46%, #353b45 50%, #c3cbd5 58%, #fff 80%, #b4bcc6 100%);
+  --gut: clamp(16px, 3vw, 48px);
 }
 html { background: var(--paper); }
 body {
   margin: 0;
-  padding: 20px clamp(16px, 3vw, 48px) 0;
+  padding: 0 var(--gut);
   color: var(--ink);
+  background: var(--paper);
   font: 18px/1.45 "Times New Roman", Times, serif;
+  overflow-x: hidden;
 }
 ::selection { background: var(--pink); color: #fff; }
 
@@ -46,6 +55,7 @@ a:visited { color: var(--lilac); }
 a:hover { color: var(--pink); text-decoration-style: wavy; }
 
 mark { background: var(--butter); color: inherit; padding: 0 .15em; border-radius: .2em; }
+mark.acid { background: var(--acid); }
 
 h2 { font-size: 1.15em; font-weight: normal; margin: 1.4em 0 .4em; }
 h2 span { color: var(--pink); }
@@ -54,59 +64,333 @@ ul { padding-left: 1.4em; list-style: "☆  "; }
 li { margin: .25em 0; }
 li::marker { color: var(--pink); }
 li:hover { list-style: "★  "; }
+p { max-width: 38em; }
 
-/* everything stitched: X on cloth, one character = one stitch */
-.aida {
-  margin: 0;
+.kao { color: var(--pink); white-space: nowrap; }
+button { font: 15px "Times New Roman", Times, serif; color: var(--ink); background: var(--blush); border: 1px solid var(--pink); border-radius: 1em; padding: .15em .8em; cursor: pointer; }
+button:hover { background: #fff; }
+button:focus-visible, input:focus-visible, a:focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; }
+
+/* ---------- warning tape, strung edge to edge ---------- */
+.tape {
+  margin: 0 calc(-1 * var(--gut));
+  padding: 7px 0;
   overflow: hidden;
-  background: var(--aida);
-  color: var(--holes);
+  background: repeating-linear-gradient(-45deg, var(--black) 0 14px, var(--hazard) 14px 28px);
+}
+.tape p {
+  display: flex; width: max-content; max-width: none; margin: 0;
+  background: var(--black); color: var(--hazard);
+  font: 700 13px/1.7 Arial, Helvetica, sans-serif; letter-spacing: .14em; text-transform: uppercase; white-space: nowrap;
+  animation: ticker 60s linear infinite;
+}
+.tape span { padding-right: 1.2em; }
+@keyframes ticker { to { transform: translateX(-50%); } }
+
+/* ---------- the name: a throw-up next to a chrome flyer word ---------- */
+.mast { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.2em 2em; padding: 1.6em 0 1.8em; }
+h1 { margin: 0; font-weight: normal; line-height: .9; }
+.throw {
+  position: relative; display: inline-block; margin: 0 .12em .12em 0;
+  font: 900 clamp(88px, 17vw, 236px)/.9 "Arial Black", "Arial Bold", Gadget, "Helvetica Neue", Arial, sans-serif;
+  font-synthesis: none; letter-spacing: -.03em;
+  color: var(--pink);
+  text-shadow: 0.045em 0.000em 0 var(--ink),
+    0.042em 0.017em 0 var(--ink),
+    0.032em 0.032em 0 var(--ink),
+    0.017em 0.042em 0 var(--ink),
+    0.000em 0.045em 0 var(--ink),
+    -0.017em 0.042em 0 var(--ink),
+    -0.032em 0.032em 0 var(--ink),
+    -0.042em 0.017em 0 var(--ink),
+    -0.045em 0.000em 0 var(--ink),
+    -0.042em -0.017em 0 var(--ink),
+    -0.032em -0.032em 0 var(--ink),
+    -0.017em -0.042em 0 var(--ink),
+    -0.000em -0.045em 0 var(--ink),
+    0.017em -0.042em 0 var(--ink),
+    0.032em -0.032em 0 var(--ink),
+    0.042em -0.017em 0 var(--ink),
+    0.075em 0.040em 0 var(--black),
+    0.072em 0.057em 0 var(--black),
+    0.062em 0.072em 0 var(--black),
+    0.047em 0.082em 0 var(--black),
+    0.030em 0.085em 0 var(--black),
+    0.013em 0.082em 0 var(--black),
+    -0.002em 0.072em 0 var(--black),
+    -0.012em 0.057em 0 var(--black),
+    -0.015em 0.040em 0 var(--black),
+    -0.012em 0.023em 0 var(--black),
+    -0.002em 0.008em 0 var(--black),
+    0.013em -0.002em 0 var(--black),
+    0.030em -0.005em 0 var(--black),
+    0.047em -0.002em 0 var(--black),
+    0.062em 0.008em 0 var(--black),
+    0.072em 0.023em 0 var(--black),
+    0.105em 0.080em 0 var(--black),
+    0.102em 0.097em 0 var(--black),
+    0.092em 0.112em 0 var(--black),
+    0.077em 0.122em 0 var(--black),
+    0.060em 0.125em 0 var(--black),
+    0.043em 0.122em 0 var(--black),
+    0.028em 0.112em 0 var(--black),
+    0.018em 0.097em 0 var(--black),
+    0.015em 0.080em 0 var(--black),
+    0.018em 0.063em 0 var(--black),
+    0.028em 0.048em 0 var(--black),
+    0.043em 0.038em 0 var(--black),
+    0.060em 0.035em 0 var(--black),
+    0.077em 0.038em 0 var(--black),
+    0.092em 0.048em 0 var(--black),
+    0.102em 0.063em 0 var(--black),
+    0.165em 0.070em 0 var(--acid),
+    0.161em 0.097em 0 var(--acid),
+    0.151em 0.122em 0 var(--acid),
+    0.134em 0.144em 0 var(--acid),
+    0.113em 0.161em 0 var(--acid),
+    0.087em 0.171em 0 var(--acid),
+    0.060em 0.175em 0 var(--acid),
+    0.033em 0.171em 0 var(--acid),
+    0.008em 0.161em 0 var(--acid),
+    -0.014em 0.144em 0 var(--acid),
+    -0.031em 0.122em 0 var(--acid),
+    -0.041em 0.097em 0 var(--acid),
+    -0.045em 0.070em 0 var(--acid),
+    -0.041em 0.043em 0 var(--acid),
+    -0.031em 0.018em 0 var(--acid),
+    -0.014em -0.004em 0 var(--acid),
+    0.007em -0.021em 0 var(--acid),
+    0.033em -0.031em 0 var(--acid),
+    0.060em -0.035em 0 var(--acid),
+    0.087em -0.031em 0 var(--acid),
+    0.113em -0.021em 0 var(--acid),
+    0.134em -0.004em 0 var(--acid),
+    0.151em 0.017em 0 var(--acid),
+    0.161em 0.043em 0 var(--acid);
+}
+/* paint running off the bottom of the letters */
+.drip {
+  position: absolute; top: .72em; left: var(--x); width: .075em; height: var(--h);
+  background: var(--pink); border: .018em solid var(--ink); border-top: 0; border-radius: 0 0 .06em .06em;
+  transform-origin: top; animation: drip 2.4s cubic-bezier(.5, 0, .3, 1) both;
+}
+.drip::after { content: ""; position: absolute; left: -.03em; bottom: -.06em; width: .1em; height: .11em; border-radius: 50%; background: var(--pink); border: .018em solid var(--ink); border-top-color: transparent; box-sizing: border-box; }
+@keyframes drip { from { transform: scaleY(.15); } }
+.shine { position: absolute; color: #fff; font-size: .16em; line-height: 1; text-shadow: none; pointer-events: none; }
+.chrome {
+  display: inline-block;
+  font: 900 clamp(50px, 9.4vw, 134px)/1 Impact, Haettenschweiler, "Arial Narrow Bold", "Liberation Sans Narrow", "Arial Black", sans-serif;
+  font-synthesis: none; letter-spacing: .01em;
+  background: var(--chrome); -webkit-background-clip: text; background-clip: text; color: transparent;
+  -webkit-text-stroke: .016em var(--black);
+  filter: drop-shadow(.035em .045em 0 var(--black)) drop-shadow(.03em .04em 0 var(--pink));
+}
+.chrome::selection, .throw::selection { color: #fff; }
+
+/* sticker slaps */
+.stickers { display: flex; align-items: center; gap: 1.4em; font-size: 15px; margin-left: auto; }
+.hello {
+  width: 12em; padding: .45em 0 .9em; text-align: center;
+  background: var(--pink); color: #fff; border: 2px solid var(--black); border-radius: .9em;
+  box-shadow: 4px 4px 0 var(--black); transform: rotate(-5deg);
+  font: 700 14px/1.2 Arial, Helvetica, sans-serif;
+}
+.hello b { display: block; font: 900 2.3em/1 "Arial Black", Arial, sans-serif; letter-spacing: .03em; }
+.hello small { display: block; font-size: 1em; margin: .15em 0 .5em; }
+.hello span { display: block; background: #fff; color: var(--black); padding: .2em 0 .1em; }
+.hello em { display: inline-block; font: italic 900 2.7em/1.15 "Arial Black", Arial, sans-serif; letter-spacing: -.05em; transform: skewX(-10deg) rotate(-3deg); text-shadow: 0 0 1px var(--black); }
+.smiley { position: relative; width: 5.2em; height: 5.2em; border-radius: 50%; background: var(--hazard); border: .22em solid var(--black); box-shadow: 4px 4px 0 var(--black); transform: rotate(9deg); flex: none; }
+.smiley::before { content: ""; position: absolute; left: 29%; top: 22%; width: .62em; height: 1.25em; border-radius: 50%; background: var(--black); box-shadow: 1.5em 0 0 var(--black); }
+.smiley::after { content: ""; position: absolute; left: 17%; right: 17%; top: 30%; height: 45%; border-bottom: .38em solid var(--black); border-radius: 50%; }
+
+/* ---------- cross-stitch, now on a black bomber as well as cotton ---------- */
+.band { container-type: inline-size; margin: 0 calc(-1 * var(--gut)); }
+.aida {
+  --cloth: var(--aida);
+  margin: 0; overflow: hidden;
+  background: var(--cloth); color: var(--holes);
   font: 16px/.72 ui-monospace, Menlo, Consolas, "DejaVu Sans Mono", "Courier New", monospace;
 }
 .aida b { font-weight: normal; color: var(--pink); }
 .aida .b { color: var(--blue); }
 .aida .y { color: #eea92a; }
-.aida .g { color: #4aa877; }
-.aida:hover .h { animation: blink 1s steps(1) infinite; }  /* the little screen's heart blinks like a cursor */
-@keyframes blink { 50% { color: var(--aida); } }
-.wide { display: none; }
-.narrow { font-size: min(16px, calc((100vw - 32px) / 41 / .6)); }  /* 41 stitches always fit a phone */
-.small { display: inline-block; max-width: 100%; margin-top: .4em; font-size: min(16px, 100cqi / 41 / .6); }  /* ...and always fit their column */
-.chain { font-size: 13px; margin-top: 1.2em; }
+.aida .g { color: #3aa86b; }
+.aida .i { color: var(--ink); }
+.aida .w { color: #fff; }
+.night { --cloth: #151215; color: #2c272c; }
+.night .y { color: var(--hazard); }
+.night .g { color: var(--acid); }
+.night .b { color: #8f9bff; }
+.night .w { color: #dfe3e8; }
+.aida:hover .h { animation: blink 1s steps(1) infinite; }
+.onair .aida .h { animation: blink var(--beat, .353s) steps(1) infinite; }  /* the little screen's heart keeps time with the radio */
+@keyframes blink { 50% { color: var(--cloth); } }
+.wide { display: none; font-size: min(16px, 100cqi / 140 / .61); }  /* 140 stitches always fit; past that it's just more rig */
+.narrow { font-size: min(16px, 100cqi / 41 / .61); }
+.small { display: inline-block; max-width: 100%; margin-top: .4em; font-size: min(16px, 100cqi / 41 / .61); }
+.chain { font-size: 13px; }
 
-h1 { position: absolute; left: -9999px; }  /* the stitched name is the heading you see */
-
-/* one column on a phone, two on a tablet, three (or four) on a big screen */
-.top { display: grid; gap: 0 2.5em; }
+/* ---------- intro ---------- */
+.top { display: grid; gap: 0 2.5em; padding: .6em 0 .4em; }
 .top p:last-child { margin-bottom: 0; }
-.lists { column-gap: 2.5em; column-rule: 2px dashed #f2b3cb; }
-.lists section { break-inside: avoid; container-type: inline-size; }
-.lists h2:first-child, .top h2:first-child { margin-top: .6em; }
-p { max-width: 38em; }
-
-/* a sewn-on patch */
-.patch { align-self: start; background: var(--blush); padding: .3em 1.2em .6em; margin: 1em 0; border-radius: 6px; outline: 2px dashed #f2a3c2; outline-offset: -7px; }
-
-/* running stitch */
-hr { border: 0; height: 1em; margin: 1.6em 0; overflow: hidden; }
-hr::before {
-  content: "--  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --";
-  display: block; white-space: pre;
-  font: 16px/1 ui-monospace, Menlo, Consolas, "DejaVu Sans Mono", monospace; color: var(--pink);
+.top h2:first-child { margin-top: .6em; }
+/* a sewn-on patch with warning tape over the corner */
+.patch { position: relative; align-self: start; background: var(--blush); padding: .3em 1.2em .6em; margin: 1.6em 0 1em; border-radius: 6px; outline: 2px dashed #f2a3c2; outline-offset: -7px; }
+.patch-tape {
+  position: absolute; top: -.85em; left: .8em; max-width: calc(100% - 1.6em); margin: 0;
+  padding: .15em .7em; transform: rotate(-2deg);
+  background: repeating-linear-gradient(-45deg, var(--black) 0 8px, var(--hazard) 8px 16px);
+  font: 700 12px/1.6 Arial, Helvetica, sans-serif; letter-spacing: .14em; text-transform: uppercase;
 }
+.patch-tape span { background: var(--black); color: var(--hazard); padding: 0 .5em; }
 
-/* photos: two to a row on small screens, one row right across on big ones */
-.photos { display: flex; flex-wrap: wrap; gap: 1.5em 2em; align-items: flex-start; }
-.photos figure { margin: 0; flex: 1 1 40%; }
+/* ---------- warning tape with a running stitch through it ---------- */
+hr { position: relative; border: 0; height: 18px; margin: 2.6em calc(-1 * var(--gut)); background: repeating-linear-gradient(-45deg, var(--black) 0 12px, var(--hazard) 12px 24px); }
+hr::before { content: ""; position: absolute; left: 0; right: 0; top: 7px; border-top: 4px dashed var(--pink); }
+
+/* ---------- the rig: kes fm ---------- */
+.rig {
+  display: grid; gap: 2.2em; align-items: start;
+  margin: 2em calc(-1 * var(--gut)) 0; padding: 2.6em var(--gut) 3em;
+  background: var(--black); color: #f1ecf4;
+}
+.rig > * { min-width: 0; }
+.deck {
+  color: var(--black);
+  background: linear-gradient(180deg, #f6f8fa 0%, #cfd5dc 38%, #a9b0b9 50%, #d9dee4 63%, #f0f2f5 100%);
+  border: 3px solid #000; border-radius: 22px; padding: 1em clamp(.8em, 2vw, 1.4em) 1.1em;
+  box-shadow: inset 0 2px 0 #fff, 7px 7px 0 var(--pink);
+}
+.deck h2 { display: flex; flex-wrap: wrap; align-items: baseline; gap: .1em .6em; margin: 0 0 .5em; }
+.deck h2 small { font: italic 17px/1.2 "Times New Roman", Times, serif; color: var(--ink); }
+.stencil {
+  font: 900 2.3em/1 Impact, Haettenschweiler, "Arial Black", sans-serif; font-synthesis: none; letter-spacing: .05em; text-transform: uppercase;
+  background: linear-gradient(180deg, #111 0 45%, transparent 45% 55%, #111 55%); -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.lamp { display: inline-block; width: .7em; height: .7em; margin-left: .2em; border-radius: 50%; background: #6b5d63; border: 2px solid #000; vertical-align: .1em; }
+.on .lamp { background: var(--pink); box-shadow: 0 0 10px var(--pink); }
+
+.lcd {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: .2em 1em;
+  background: #0d1609; color: var(--acid); border: 3px solid #000; border-radius: 10px; padding: .55em .8em .6em;
+  font: 15px/1.35 ui-monospace, Menlo, Consolas, "DejaVu Sans Mono", monospace;
+  text-shadow: 0 0 6px rgba(184, 255, 46, .55);
+  box-shadow: inset 0 0 18px rgba(184, 255, 46, .12);
+}
+.freq { font-size: 2.1em; line-height: 1; letter-spacing: .02em; }
+.freq small { font-size: .42em; }
+.onair-txt { font-size: 12px; letter-spacing: .18em; text-transform: uppercase; color: #59723a; text-shadow: none; }
+.on .onair-txt { color: var(--pink); text-shadow: 0 0 6px var(--pink); }
+.mc { flex: 1 1 100%; min-height: 2.7em; overflow-wrap: anywhere; }
+
+/* a pink cassette with a hazard-tape label */
+.cassette { position: relative; max-width: 380px; margin: 1em auto .9em; aspect-ratio: 1.6; background: var(--blush); border: 3px solid #000; border-radius: 14px; box-shadow: 4px 4px 0 #000; }
+.cassette::before, .cassette::after { content: "✿"; position: absolute; bottom: 4%; color: var(--pink); font-size: 16px; line-height: 1; }
+.cassette::before { left: 4%; } .cassette::after { right: 4%; }
+.label { position: absolute; inset: 9% 7% 22%; background: #fff; border: 2px solid #000; border-radius: 6px; overflow: hidden; text-align: center; }
+.label p { margin: 0; max-width: none; padding: 0 .5em; white-space: nowrap; overflow: hidden; background: repeating-linear-gradient(-45deg, var(--black) 0 7px, var(--hazard) 7px 14px); font: 700 11px/1.7 Arial, Helvetica, sans-serif; letter-spacing: .12em; text-transform: uppercase; }
+.label p span { background: var(--black); color: var(--hazard); padding: 0 .4em; }
+.label i { display: block; margin-top: .2em; font: italic 14px/1.2 "Times New Roman", Times, serif; color: var(--ink); }
+.window { position: absolute; left: 21%; right: 21%; top: 47%; height: 24%; display: flex; justify-content: space-between; align-items: center; padding: 0 5%; background: #2b2230; border: 2px solid #000; border-radius: 999px; }
+.reel { width: 26%; aspect-ratio: 1; border-radius: 50%; border: 3px solid #fff; background: repeating-conic-gradient(#fff 0 22deg, var(--pink) 22deg 60deg); }
+.on .reel { animation: spin 1.4s linear infinite; }
+.rewind .reel { animation: spin .22s linear infinite reverse; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.lights { display: grid; grid-template-columns: repeat(16, 1fr); gap: 4px; margin: 0 0 1em; }
+.lights i { height: 13px; border-radius: 4px; background: #4b4048; border: 2px solid #000; }
+.lights i:nth-child(4n+1) { background: #6a5d66; }
+.lights i.on { background: var(--acid); }
+.lights i.k { background: var(--hazard); }
+.lights i.s { background: var(--pink); }
+
+.controls { display: grid; gap: .65em; }
+.row { display: flex; flex-wrap: wrap; align-items: center; gap: .5em; margin: 0; padding: 0; border: 0; min-width: 0; }
+.lab { width: 4.2em; font: 700 11px/1 Arial, Helvetica, sans-serif; letter-spacing: .14em; text-transform: uppercase; color: #3d3640; }
+.deck button {
+  font: 700 14px/1 Arial, Helvetica, sans-serif; color: var(--black);
+  background: #fff; border: 2px solid #000; border-radius: 999px; padding: .55em .9em;
+  box-shadow: 0 3px 0 #000;
+}
+.deck button:hover { background: var(--butter); }
+.deck button:active { transform: translateY(2px); box-shadow: 0 1px 0 #000; }
+.deck button[aria-pressed="true"] { background: var(--pink); color: #fff; }
+.deck .big { font-size: 17px; padding: .6em 1.1em; }
+.deck .go { background: var(--acid); }
+.deck .go[aria-pressed="true"] { background: var(--acid); color: var(--black); box-shadow: 0 1px 0 #000, 0 0 0 3px var(--pink); }
+.deck .halt { background: var(--hazard); }
+.deck .rew { background: var(--blush); }
+.deck label { display: flex; align-items: center; gap: .5em; font: 700 11px/1 Arial, Helvetica, sans-serif; letter-spacing: .14em; text-transform: uppercase; color: #3d3640; }
+.deck input[type="range"] { width: 8.5em; accent-color: var(--pink); }
+.fine { margin: 1em 0 0; font-size: 15px; line-height: 1.35; color: #2d2730; }
+
+/* the flyer: for this website, not a real night */
+.flyer {
+  position: relative; container-type: inline-size; color: var(--black); background: var(--hazard);
+  border: 3px solid #000; padding: 1.1em 1.2em 1.2em; box-shadow: 7px 7px 0 var(--acid);
+  font: 15px/1.35 Arial, Helvetica, sans-serif;
+}
+.flyer p { margin: 0; }
+.flyer .pres { font: italic 19px/1.2 "Times New Roman", Times, serif; }
+.flyer .head { margin: .1em 0 .15em; font: 900 min(84px, 17cqi)/.86 Impact, Haettenschweiler, "Arial Black", sans-serif; font-synthesis: none; text-transform: uppercase; letter-spacing: .01em; text-shadow: .045em .045em 0 var(--pink); }
+.flyer .sub { font-weight: 700; margin-bottom: .8em; }
+.flyer dl { display: grid; grid-template-columns: auto 1fr; gap: .25em .8em; margin: 0 0 .9em; border-top: 2px solid #000; border-bottom: 2px solid #000; padding: .6em 0; }
+.flyer dt { font: 900 11px/1.6 Arial, Helvetica, sans-serif; letter-spacing: .12em; text-transform: uppercase; }
+.flyer dd { margin: 0; font-family: "Times New Roman", Times, serif; font-size: 17px; line-height: 1.25; }
+.flyer .terms { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; line-height: 1.6; }
+.flyer .info { margin-top: .7em; font-size: 14px; }
+.flyer a { color: var(--black); font-weight: 700; }
+.free { position: absolute; top: -.9em; right: -.4em; padding: .55em .7em; background: var(--pink); color: #fff; border: 2px solid #000; border-radius: 50%; transform: rotate(12deg); font: 900 13px/1 "Arial Black", Arial, sans-serif; text-transform: uppercase; }
+
+/* liner notes */
+.notes { font-size: 17px; }
+.notes h2 { margin-top: 0; color: var(--acid); }
+.notes p { margin: 0 0 .9em; }
+.notes b { font-weight: normal; background: var(--pink); color: #fff; padding: 0 .2em; }
+
+/* ---------- photos, fly-posted ---------- */
+.photos { display: flex; flex-wrap: wrap; gap: 2em 2em; align-items: flex-start; padding: 2.6em .4em 0; }
+.photos figure { position: relative; margin: 0; flex: 1 1 40%; background: #fff; padding: 8px 8px 10px; border: 2px solid var(--black); box-shadow: 4px 4px 0 var(--black); transform: rotate(var(--t, 0deg)); }
+.photos figure::before { content: ""; position: absolute; top: -12px; left: 50%; width: 84px; height: 22px; margin-left: -42px; transform: rotate(-3deg); background: rgba(255, 229, 138, .85); }
+.photos figure:nth-child(even)::before { background: repeating-linear-gradient(-45deg, var(--black) 0 7px, var(--hazard) 7px 14px); opacity: .9; }
 .photos img { display: block; width: 100%; height: auto; background: var(--blush); }
-.photos figcaption { font-size: 15px; margin-top: .4em; }
+.photos figcaption { font: 14px/1.35 "Courier New", Courier, monospace; margin-top: .5em; }
 
+/* ---------- the tape pack ---------- */
+.pack { margin: 0 0 1.2em; }
+.pack .chrome { font-size: clamp(40px, 6vw, 76px); }
+.pack small { display: block; margin-top: .2em; font: italic 18px/1.3 "Times New Roman", Times, serif; color: var(--ink); }
+.lists { column-gap: 2.2em; }
+.lists section {
+  break-inside: avoid; container-type: inline-size;
+  margin: 0 0 2em; padding: 0 1em .9em;
+  background: var(--card, var(--blush)); border: 2px solid var(--black); border-radius: 4px; box-shadow: 5px 5px 0 var(--black);
+}
+.lists section:nth-child(7n+2) { --card: #fff4c7; }
+.lists section:nth-child(7n+3) { --card: #e9e3fb; }
+.lists section:nth-child(7n+5) { --card: #ddf6e4; }
+.lists section:nth-child(7n+6) { --card: #fff; }
+.lists section:nth-child(7n+7) { --card: #e2ecff; }
+.spine { display: flex; justify-content: space-between; gap: 1em; margin: 0 -1em; padding: .35em 1em; background: var(--black); color: var(--hazard); font: 700 12px/1.3 Arial, Helvetica, sans-serif; letter-spacing: .16em; text-transform: uppercase; }
+.spine span:last-child { color: var(--acid); }
+.lists h2 { margin-top: .7em; }
+/* the night bus: marker on the window */
+.lists .bus { --card: linear-gradient(165deg, #2a3557 0%, #161c33 55%, #0e1222 100%); color: #ebe9fb; border-radius: 16px; position: relative; overflow: hidden; }
+.bus .spine { background: #000; }
+.bus h2 span { color: #ff9cc5; }
+.bus a { color: #ffb4d3; }
+.bus a:visited { color: #d8bdff; }
+.bus a:hover { color: var(--acid); }
+.bus li::marker { color: var(--acid); }
+.tag { display: block; width: fit-content; margin: .4em .3em 0 auto; transform: rotate(-7deg) skewX(-14deg); font: italic 900 30px/1 "Arial Black", Arial, sans-serif; letter-spacing: -.05em; color: var(--pink); text-shadow: 0 0 1px var(--pink), 0 0 6px rgba(232, 80, 142, .45); }
+.tag::after { content: ""; display: inline-block; width: 3px; height: 18px; margin-left: -.9em; background: var(--pink); vertical-align: -18px; border-radius: 0 0 2px 2px; }
 /* cut along the dotted line */
-.cut { position: relative; border: 2px dashed var(--pink); padding: .6em 1em; margin-top: 1.2em; }
-.cut::before { content: "✂\FE0E"; position: absolute; top: -.8em; left: .8em; padding: 0 .25em; background: var(--paper); color: var(--pink); font-size: 1.1em; }
-.kao { color: var(--pink); white-space: nowrap; }
-button { font: 15px "Times New Roman", Times, serif; color: var(--ink); background: var(--blush); border: 1px solid var(--pink); border-radius: 1em; padding: .15em .8em; cursor: pointer; }
-button:hover { background: #fff; }
+.cut { position: relative; border: 2px dashed var(--pink); padding: .6em 1em; margin: 1.2em 0 .2em; background: rgba(255, 255, 255, .6); }
+.cut::before { content: "✂\FE0E"; position: absolute; top: -.8em; left: .8em; padding: 0 .25em; background: var(--card, var(--blush)); color: var(--pink); font-size: 1.1em; line-height: 1.4; }
+
+footer { padding-top: .4em; }
+.signoff { font: 700 13px/1.6 Arial, Helvetica, sans-serif; letter-spacing: .14em; text-transform: uppercase; }
+footer .band { margin-top: 1.6em; }
 
 @media (min-width: 641px) {
   .wide { display: block; }
@@ -116,6 +400,8 @@ button:hover { background: #fff; }
   .top { grid-template-columns: 1fr 1fr; }
   .patch { grid-column: 1 / -1; }
   .lists { columns: 2; }
+  .rig { grid-template-columns: 1fr 1fr; }
+  .deck { grid-column: 1 / -1; }
 }
 @media (min-width: 960px) {
   .photos { flex-wrap: nowrap; }
@@ -125,55 +411,90 @@ button:hover { background: #fff; }
   .top { grid-template-columns: 1fr 1fr 1fr; }
   .patch { grid-column: auto; }
   .lists { columns: 3; }
+  .rig { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) minmax(0, 1fr); }
+  .deck { grid-column: auto; }
 }
 @media (min-width: 1760px) { .lists { columns: 4; } }
-@media (max-width: 640px) { body { font-size: 17px; padding-top: 16px; } }
-@media (prefers-reduced-motion: reduce) { .aida:hover .h { animation: none; } }
+@media (max-width: 640px) {
+  body { font-size: 17px; }
+  .stickers { font-size: 12px; margin-left: 0; }
+  .deck .big { font-size: 15px; padding: .55em .85em; }
+  .lab { width: 100%; }
+  .label p { font-size: 10px; letter-spacing: .05em; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tape p, .drip, .on .reel, .rewind .reel { animation: none; }
+  .aida:hover .h, .onair .aida .h { animation: none; }
+}
 </style>
 </head>
 <body>
 
-<h1>kes inkersole</h1>
-<pre class="aida wide" aria-hidden="true" title="hand stitched, one character at a time">
-.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>
-..............................................................................................................................................................................................................................................................................
-...............................................................................<b class=b>XXXXXXXXXXX</b>.......................<b>XXX</b>...............................<b class=b>XXX</b>........................................<b class=b>XXXXXXXXXXX</b>.........<b>XXX</b>.........................................................
-...<b>X</b>......................<b>X</b>........................<b>X</b>...........................<b class=b>X</b>.........<b class=b>X</b>..........<b class=y>X</b>...........<b>XXXXX</b>........<b class=b>XXXXXXXXXXX</b>.........<b class=b>XXXXXXX</b>...........................<b class=y>X</b>..........<b class=b>X</b>.........<b class=b>X</b>........<b>XXXXX</b>......................<b class=b>XXXXXXXXXXX</b>..........<b class=y>X</b>............
-...<b>X</b>...............<b>X</b>......<b>X</b>........................<b>X</b>..............<b>XX</b>.<b>XX</b>........<b class=b>X</b>..<b class=h>XX</b>.<b class=h>XX</b>..<b class=b>X</b>.........<b class=y>XXX</b>.........<b>XX</b><b class=y>XXX</b><b>XX</b>.......<b class=b>XX</b>.......<b class=b>XX</b>........<b class=b>XXXXXXXXXX</b>.........<b>XX</b>.<b>XX</b>..........<b class=y>XXX</b>.........<b class=b>X</b>..<b>XX</b>.<b>XX</b>..<b class=b>X</b>.......<b>XX</b><b class=y>XXX</b><b>XX</b>........<b>XX</b>.<b>XX</b>........<b class=b>XX</b>.......<b class=b>XX</b>.........<b class=y>XXX</b>...........
-...<b>X</b>..<b>X</b>..<b>XX</b>...<b>XXX</b>....<b>XXX</b>..<b>X</b>..<b>X</b>..<b>XX</b>..<b>X</b>.<b>XX</b>..<b>XXX</b>..<b>XX</b>..<b>X</b>...<b>XX</b>........<b>XXXXXXX</b>.......<b class=b>X</b>..<b class=h>XXXXX</b>..<b class=b>X</b>.......<b class=y>XXXXXXX</b>.......<b>XX</b><b class=y>XXX</b><b>XX</b>.......<b class=b>X</b>.<b class=b>X</b>.....<b class=b>X</b>.<b class=b>X</b>.......<b class=b>XXXXXXXXXXXX</b>.......<b>XXXXXXX</b>.......<b class=y>XXXXXXX</b>.......<b class=b>X</b>..<b>XXXXX</b>..<b class=b>X</b>.......<b>XX</b><b class=y>XXX</b><b>XX</b>.......<b>XXXXXXX</b>.......<b class=b>X</b>.<b class=b>X</b>.....<b class=b>X</b>.<b class=b>X</b>.......<b class=y>XXXXXXX</b>.........
-...<b>X</b>.<b>X</b>..<b>X</b>..<b>X</b>.<b>X</b>.....<b>X</b>.<b>X</b>..<b>X</b>.<b>X</b>.<b>X</b>..<b>X</b>..<b>X</b>.<b>XX</b>...<b>X</b>....<b>X</b>..<b>X</b>.<b>X</b>..<b>X</b>..<b>X</b>.......<b>XXXXXXX</b>.......<b class=b>X</b>...<b class=h>XXX</b>...<b class=b>X</b>........<b class=y>XXXXX</b>.........<b>XXXXX</b>........<b class=b>X</b>..<b class=b>X</b>...<b class=b>X</b>..<b class=b>X</b>........<b class=b>XXXXXXXXXX</b>........<b>XXXXXXX</b>........<b class=y>XXXXX</b>........<b class=b>X</b>...<b>XXX</b>...<b class=b>X</b>........<b>XXXXX</b>........<b>XXXXXXX</b>.......<b class=b>X</b>..<b class=b>X</b>...<b class=b>X</b>..<b class=b>X</b>........<b class=y>XXXXX</b>..........
-...<b>XX</b>...<b>XXXX</b>..<b>XX</b>...<b>X</b>.<b>X</b>..<b>X</b>.<b>XX</b>...<b>XXXX</b>.<b>X</b>.....<b>XX</b>..<b>X</b>..<b>X</b>.<b>X</b>..<b>XXXX</b>........<b>XXXXX</b>........<b class=b>X</b>....<b class=h>X</b>....<b class=b>X</b>.........<b class=y>XXX</b>...........<b>XXX</b>.........<b class=b>X</b>...<b class=b>X</b><b>X</b><b class=b>X</b>...<b class=b>X</b>...........................<b>XXXXX</b>..........<b class=y>XXX</b>.........<b class=b>X</b>....<b>X</b>....<b class=b>X</b>.........<b>XXX</b>..........<b>XXXXX</b>........<b class=b>X</b>...<b class=b>X</b><b>X</b><b class=b>X</b>...<b class=b>X</b>.........<b class=y>XXX</b>...........
-...<b>X</b>.<b>X</b>..<b>X</b>.......<b>X</b>..<b>X</b>.<b>X</b>..<b>X</b>.<b>X</b>.<b>X</b>..<b>X</b>....<b>X</b>.......<b>X</b>.<b>X</b>..<b>X</b>.<b>X</b>..<b>X</b>............<b>XXX</b>.........<b class=b>XXXXXXXXXXX</b>........<b class=y>XX</b>.<b class=y>XX</b>...........<b class=g>X</b>..........<b class=b>X</b>....<b class=b>X</b>....<b class=b>X</b>.........<b class=b>X</b>...<b class=b>X</b>...<b class=b>X</b>..........<b>XXX</b>..........<b class=y>XX</b>.<b class=y>XX</b>........<b class=b>XXXXXXXXXXX</b>..........<b class=g>X</b>............<b>XXX</b>.........<b class=b>X</b>....<b class=b>X</b>....<b class=b>X</b>........<b class=y>XX</b>.<b class=y>XX</b>..........
-...<b>X</b>..<b>X</b>..<b>XXX</b>.<b>XXX</b>...<b>X</b>.<b>X</b>..<b>X</b>.<b>X</b>..<b>X</b>..<b>XXX</b>.<b>X</b>....<b>XXX</b>...<b>XX</b>...<b>X</b>..<b>XXX</b>..........<b>X</b>..............<b class=b>XXX</b>............<b class=y>X</b>...<b class=y>X</b>........<b class=g>X</b>..<b class=g>X</b>..........<b class=b>XXXXXXXXXXX</b>........<b class=b>X</b>...<b class=b>X</b>...<b class=b>X</b>............<b>X</b>...........<b class=y>X</b>...<b class=y>X</b>............<b class=b>XXX</b>...........<b class=g>X</b>..<b class=g>X</b>.............<b>X</b>..........<b class=b>XXXXXXXXXXX</b>........<b class=y>X</b>...<b class=y>X</b>..........
-.................................................................................<b class=b>XXXXXXX</b>........................<b class=g>XXX</b>.............................................................................<b class=b>XXXXXXX</b>..........<b class=g>XXX</b>..........................................................
-..............................................................................................................................................................................................................................................................................
-.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b></pre>
-<pre class="aida narrow" aria-hidden="true">
-.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.
+<div class="tape" aria-hidden="true"><p><span>◉ on air ✧ kes fm ✧ live from a browser tab near you ✧ big up all the junglists ✧ big up everyone on one bar of signal ✧ shout-outs + requests: inkersolekesia@gmail.com ✧ the rig's further down, press play ✧</span><span>◉ on air ✧ kes fm ✧ live from a browser tab near you ✧ big up all the junglists ✧ big up everyone on one bar of signal ✧ shout-outs + requests: inkersolekesia@gmail.com ✧ the rig's further down, press play ✧</span></p></div>
+
+<header class="mast">
+<h1><span class="throw">kes<i class="drip" style="--x:.13em; --h:.42em" aria-hidden="true"></i><i class="drip" style="--x:.93em; --h:.26em; animation-delay:.3s" aria-hidden="true"></i><i class="drip" style="--x:1.5em; --h:.5em; animation-delay:.6s" aria-hidden="true"></i><span class="shine" style="left:.16em; top:.12em" aria-hidden="true">✦</span><span class="shine" style="left:1.38em; top:.3em" aria-hidden="true">✦</span></span> <span class="chrome">inkersole</span></h1>
+<div class="stickers" aria-hidden="true">
+<div class="hello"><b>HELLO</b><small>my name is</small><span><em>kes ♡</em></span></div>
+<div class="smiley"></div>
+</div>
+</header>
+
+<div class="band">
+<pre class="aida night wide" aria-hidden="true" title="a sound system, stitched one cross at a time">
+<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XX</b>
+<b class=y>XX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>
+................................................................................................................................................................................................................................................................................
+..<b class=w>XXXXXXXXXXXXXXXXXXXXXXXXXX</b>...................................<b class=w>X</b>....................<b class=w>XXXXXXXXXXXXXXXXXXXXXXXXXX</b>...........<b class=y>XXXXX</b>................................<b class=w>XXXXXXXXXXXXXXXXXXXXXXXXXX</b>..............................<b class=y>XXXXX</b>....................<b class=w>XXXXXXXXXXXXXXXXXXXXXXXXXX</b>.......
+..<b class=w>X</b>...<b class=g>XXXXX</b>...<b class=w>XX</b>...<b class=g>XXXXX</b>...<b class=w>X</b>...<b>X</b>...<b>X</b>.<b>XXXXX</b>..<b>XXXX</b>.......<b>XXXXX</b>.<b>X</b><b class=w>XXX</b><b>X</b>..................<b class=w>X</b>...<b class=g>XXXXX</b>...<b class=w>XX</b>...<b class=g>XXXXX</b>...<b class=w>X</b>........<b class=y>XXXXXXXXXXX</b>......<b class=w>X</b>......................<b class=w>X</b>...<b class=g>XXXXX</b>...<b class=w>XX</b>...<b class=g>XXXXX</b>...<b class=w>X</b>...........................<b class=y>XXXXXXXXXXX</b>.................<b class=w>X</b>...<b class=g>XXXXX</b>...<b class=w>XX</b>...<b class=g>XXXXX</b>...<b class=w>X</b>.......
+..<b class=w>X</b>..<b class=g>XX</b>...<b class=g>XX</b>..<b class=w>XX</b>..<b class=g>XX</b>...<b class=g>XX</b>..<b class=w>X</b>...<b>X</b>..<b>X</b>..<b>X</b>.....<b>X</b>...........<b>X</b>.....<b>XX</b><b class=w>X</b><b>XX</b>.........<b class=w>X</b>........<b class=w>X</b>..<b class=g>XX</b>...<b class=g>XX</b>..<b class=w>XX</b>..<b class=g>XX</b>...<b class=g>XX</b>..<b class=w>X</b>.......<b class=y>XXXXXXXXXXXXX</b>....<b class=w>XXX</b>.....................<b class=w>X</b>..<b class=g>XX</b>...<b class=g>XX</b>..<b class=w>XX</b>..<b class=g>XX</b>...<b class=g>XX</b>..<b class=w>X</b>..........................<b class=y>XXXXXXXXXXXXX</b>................<b class=w>X</b>..<b class=g>XX</b>...<b class=g>XX</b>..<b class=w>XX</b>..<b class=g>XX</b>...<b class=g>XX</b>..<b class=w>X</b>.......
+..<b class=w>X</b>..<b class=g>X</b>.....<b class=g>X</b>..<b class=w>XX</b>..<b class=g>X</b>.....<b class=g>X</b>..<b class=w>X</b>...<b>X</b>.<b>X</b>...<b>X</b>.....<b>X</b>...........<b>X</b>.....<b>X</b>.<b>X</b>.<b>X</b>........<b class=w>XXX</b>.......<b class=w>X</b>..<b class=g>X</b>.....<b class=g>X</b>..<b class=w>XX</b>..<b class=g>X</b>.....<b class=g>X</b>..<b class=w>X</b>......<b class=y>XXXXXXXXXXXXXXX</b>....<b class=w>X</b>......................<b class=w>X</b>..<b class=g>X</b>.....<b class=g>X</b>..<b class=w>XX</b>..<b class=g>X</b>.....<b class=g>X</b>..<b class=w>X</b>.........................<b class=y>XXXXXXXXXXXXXXX</b>...............<b class=w>X</b>..<b class=g>X</b>.....<b class=g>X</b>..<b class=w>XX</b>..<b class=g>X</b>.....<b class=g>X</b>..<b class=w>X</b>.......
+..<b class=w>X</b>.<b class=g>XX</b>.<b>XXX</b>.<b class=g>XX</b>.<b class=w>XX</b>.<b class=g>XX</b>.<b>XXX</b>.<b class=g>XX</b>.<b class=w>X</b>...<b>XX</b>....<b>XXXX</b>...<b>XXX</b>........<b>XXXX</b>..<b>X</b>.<b>X</b>.<b>X</b>.......<b class=w>XXXXX</b>......<b class=w>X</b>.<b class=g>XX</b>.<b>XXX</b>.<b class=g>XX</b>.<b class=w>XX</b>.<b class=g>XX</b>.<b>XXX</b>.<b class=g>XX</b>.<b class=w>X</b>.....<b class=y>XXXX</b>.<b class=y>XXXXXXX</b>.<b class=y>XXXX</b>..........................<b class=w>X</b>.<b class=g>XX</b>.<b>XXX</b>.<b class=g>XX</b>.<b class=w>XX</b>.<b class=g>XX</b>.<b>XXX</b>.<b class=g>XX</b>.<b class=w>X</b>........................<b class=y>XXXX</b>.<b class=y>XXXXXXX</b>.<b class=y>XXXX</b>..............<b class=w>X</b>.<b class=g>XX</b>.<b>XXX</b>.<b class=g>XX</b>.<b class=w>XX</b>.<b class=g>XX</b>.<b>XXX</b>.<b class=g>XX</b>.<b class=w>X</b>.......
+..<b class=w>X</b>..<b class=g>X</b>.....<b class=g>X</b>..<b class=w>XX</b>..<b class=g>X</b>.....<b class=g>X</b>..<b class=w>X</b>...<b>X</b>.<b>X</b>...<b>X</b>.........<b>X</b>.......<b>X</b>.....<b>X</b>...<b>X</b>........<b class=w>XXX</b>.......<b class=w>X</b>..<b class=g>X</b>.....<b class=g>X</b>..<b class=w>XX</b>..<b class=g>X</b>.....<b class=g>X</b>..<b class=w>X</b>....<b class=y>XXXXX</b>.<b class=y>XXXXXXX</b>.<b class=y>XXXXX</b>...........<b class=y>XXX</b>...........<b class=w>X</b>..<b class=g>X</b>.....<b class=g>X</b>..<b class=w>XX</b>..<b class=g>X</b>.....<b class=g>X</b>..<b class=w>X</b>.......................<b class=y>XXXXX</b>.<b class=y>XXXXXXX</b>.<b class=y>XXXXX</b>.......<b class=y>XXX</b>...<b class=w>X</b>..<b class=g>X</b>.....<b class=g>X</b>..<b class=w>XX</b>..<b class=g>X</b>.....<b class=g>X</b>..<b class=w>X</b>.......
+..<b class=w>X</b>..<b class=g>XX</b>...<b class=g>XX</b>..<b class=w>XX</b>..<b class=g>XX</b>...<b class=g>XX</b>..<b class=w>X</b>...<b>X</b>..<b>X</b>..<b>X</b>.........<b>X</b>.......<b>X</b>.....<b>X</b>...<b>X</b>.........<b class=w>X</b>........<b class=w>X</b>..<b class=g>XX</b>...<b class=g>XX</b>..<b class=w>XX</b>..<b class=g>XX</b>...<b class=g>XX</b>..<b class=w>X</b>....<b class=y>XXXXX</b>.<b class=y>XXXXXXX</b>.<b class=y>XXXXX</b>..........<b class=y>XXX</b>.....<b>X</b>.<b>X</b>....<b class=w>X</b>..<b class=g>XX</b>...<b class=g>XX</b>..<b class=w>XX</b>..<b class=g>XX</b>...<b class=g>XX</b>..<b class=w>X</b>....<b>XX</b>.<b>XX</b>......<b class=w>X</b>.......<b class=y>XXXXX</b>.<b class=y>XXXXXXX</b>.<b class=y>XXXXX</b>......<b class=y>XXX</b>....<b class=w>X</b>..<b class=g>XX</b>...<b class=g>XX</b>..<b class=w>XX</b>..<b class=g>XX</b>...<b class=g>XX</b>..<b class=w>X</b>....<b>X</b>.<b>X</b>
+..<b class=w>X</b>...<b class=g>XXXXX</b>...<b class=w>XX</b>...<b class=g>XXXXX</b>...<b class=w>X</b>...<b>X</b>...<b>X</b>.<b>XXXXX</b>.<b>XXXX</b>........<b>X</b>.....<b>X</b>...<b>X</b>..................<b class=w>X</b>...<b class=g>XXXXX</b>...<b class=w>XX</b>...<b class=g>XXXXX</b>...<b class=w>X</b>....<b class=y>XXXXX</b>.<b class=y>XXXXXXX</b>.<b class=y>XXXXX</b>.........<b class=y>XXX</b>.....<b>XXXXX</b>...<b class=w>X</b>...<b class=g>XXXXX</b>...<b class=w>XX</b>...<b class=g>XXXXX</b>...<b class=w>X</b>...<b>XXXXXXX</b>....<b class=w>XXX</b>......<b class=y>XXXXX</b>.<b class=y>XXXXXXX</b>.<b class=y>XXXXX</b>.....<b class=y>XXX</b>.....<b class=w>X</b>...<b class=g>XXXXX</b>...<b class=w>XX</b>...<b class=g>XXXXX</b>...<b class=w>X</b>...<b>XXXX</b>
+..<b class=w>XXXXXXXXXXXXXXXXXXXXXXXXXX</b>..........................................<b class=b>XXXXXXXXXXX</b>...<b class=w>XXXXXXXXXXXXXXXXXXXXXXXXXX</b>....<b class=y>XXXXXXXXXXXXXXXXXXX</b>........<b class=y>XXXXXX</b>....<b>X</b><b class=y>X</b><b>X</b>....<b class=w>XXXXXXXXXXXXXXXXXXXXXXXXXX</b>...<b>XXXXXXX</b>...<b class=w>XXXXX</b>.....<b class=y>XXXXXXXXXXXXXXXXXXX</b>....<b class=y>XXXXXX</b>...<b class=w>XXXXXXXXXXXXXXXXXXXXXXXXXX</b>....<b>X</b><b class=y>X</b><b>X</b>
+..<b class=w>XXXXXXXXXXXXXXXXXXXXXXXXXX</b>..........................................<b class=b>X</b>.........<b class=b>X</b>...<b class=w>XXXXXXXXXXXXXXXXXXXXXXXXXX</b>....<b class=y>XXXX</b>.<b class=y>XXXXXXXXX</b>.<b class=y>XXXX</b>..........<b class=y>XXX</b>....<b>XXXXX</b>...<b class=w>XXXXXXXXXXXXXXXXXXXXXXXXXX</b>....<b>XXXXX</b>.....<b class=w>XXX</b>......<b class=y>XXXX</b>.<b class=y>XXXXXXXXX</b>.<b class=y>XXXX</b>......<b class=y>XXX</b>....<b class=w>XXXXXXXXXXXXXXXXXXXXXXXXXX</b>...<b>XXXX</b>
+..<b class=w>X</b>...<b class=g>XXXXX</b>...<b class=w>XX</b>...<b class=g>XXXXX</b>...<b class=w>X</b>..................................<b>XX</b>.<b>XX</b>...<b class=b>X</b>..<b class=h>XX</b>.<b class=h>XX</b>..<b class=b>X</b>...<b class=w>X</b>...<b class=g>XXXXX</b>...<b class=w>XX</b>...<b class=g>XXXXX</b>...<b class=w>X</b>....<b class=y>XXXX</b>.<b class=y>XXXXXXXXX</b>.<b class=y>XXXX</b>.........<b class=y>XXX</b>......<b>X</b>.<b>X</b>....<b class=w>X</b>...<b class=g>XXXXX</b>...<b class=w>XX</b>...<b class=g>XXXXX</b>...<b class=w>X</b>.....<b>XXX</b>.......<b class=w>X</b>.......<b class=y>XXXX</b>.<b class=y>XXXXXXXXX</b>.<b class=y>XXXX</b>.....<b class=y>XXX</b>.....<b class=w>X</b>...<b class=g>XXXXX</b>...<b class=w>XX</b>...<b class=g>XXXXX</b>...<b class=w>X</b>....<b>X</b>.<b>X</b>
+..<b class=w>X</b>..<b class=g>XX</b>...<b class=g>XX</b>..<b class=w>XX</b>..<b class=g>XX</b>...<b class=g>XX</b>..<b class=w>X</b>.....<b class=y>X</b>..<b class=y>XXX</b>.<b class=y>XXX</b>....<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>X</b>.<b class=y>X</b>...<b>XXXXXXX</b>..<b class=b>X</b>..<b class=h>XXXXX</b>..<b class=b>X</b>...<b class=w>X</b>..<b class=g>XX</b>...<b class=g>XX</b>..<b class=w>XX</b>..<b class=g>XX</b>...<b class=g>XX</b>..<b class=w>X</b>....<b class=y>XXXXX</b>.<b class=y>XXXXXXX</b>.<b class=y>XXXXX</b>........<b class=y>XXX</b>........<b class=g>X</b>.....<b class=w>X</b>..<b class=g>XX</b>...<b class=g>XX</b>..<b class=w>XX</b>..<b class=g>XX</b>...<b class=g>XX</b>..<b class=w>X</b>......<b>X</b>................<b class=y>XXXXX</b>.<b class=y>XXXXXXX</b>.<b class=y>XXXXX</b>....<b class=y>XXX</b>......<b class=w>X</b>..<b class=g>XX</b>...<b class=g>XX</b>..<b class=w>XX</b>..<b class=g>XX</b>...<b class=g>XX</b>..<b class=w>X</b>.....<b class=g>X</b>.
+..<b class=w>X</b>..<b class=g>X</b>.....<b class=g>X</b>..<b class=w>XX</b>..<b class=g>X</b>.....<b class=g>X</b>..<b class=w>X</b>....<b class=y>XX</b>....<b class=y>X</b>.<b class=y>X</b>.<b class=y>X</b>....<b class=y>X</b>.<b class=y>X</b>.<b class=y>X</b>.<b class=y>X</b>.<b class=y>XXX</b>...<b>XXXXXXX</b>..<b class=b>X</b>...<b class=h>XXX</b>...<b class=b>X</b>...<b class=w>X</b>..<b class=g>X</b>.....<b class=g>X</b>..<b class=w>XX</b>..<b class=g>X</b>.....<b class=g>X</b>..<b class=w>X</b>.....<b class=y>XXXXX</b>.......<b class=y>XXXXX</b>.........<b class=y>XX</b>........<b class=g>XX</b>.....<b class=w>X</b>..<b class=g>X</b>.....<b class=g>X</b>..<b class=w>XX</b>..<b class=g>X</b>.....<b class=g>X</b>..<b class=w>X</b>........................<b class=y>XXXXX</b>.......<b class=y>XXXXX</b>.....<b class=y>XX</b>.......<b class=w>X</b>..<b class=g>X</b>.....<b class=g>X</b>..<b class=w>XX</b>..<b class=g>X</b>.....<b class=g>X</b>..<b class=w>X</b>....<b class=g>XX</b>.
+..<b class=w>X</b>.<b class=g>XX</b>.<b>XXX</b>.<b class=g>XX</b>.<b class=w>XX</b>.<b class=g>XX</b>.<b>XXX</b>.<b class=g>XX</b>.<b class=w>X</b>.....<b class=y>X</b>...<b class=y>X</b>..<b class=y>X</b>.<b class=y>X</b>....<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>X</b>.<b class=y>X</b>....<b>XXXXX</b>...<b class=b>X</b>....<b class=h>X</b>....<b class=b>X</b>...<b class=w>X</b>.<b class=g>XX</b>.<b>XXX</b>.<b class=g>XX</b>.<b class=w>XX</b>.<b class=g>XX</b>.<b>XXX</b>.<b class=g>XX</b>.<b class=w>X</b>......<b class=y>XXXXXXXXXXXXXXX</b>.........<b class=y>X</b>.................<b class=w>X</b>.<b class=g>XX</b>.<b>XXX</b>.<b class=g>XX</b>.<b class=w>XX</b>.<b class=g>XX</b>.<b>XXX</b>.<b class=g>XX</b>.<b class=w>X</b>.........................<b class=y>XXXXXXXXXXXXXXX</b>.....<b class=y>X</b>.........<b class=w>X</b>.<b class=g>XX</b>.<b>XXX</b>.<b class=g>XX</b>.<b class=w>XX</b>.<b class=g>XX</b>.<b>XXX</b>.<b class=g>XX</b>.<b class=w>X</b>.......
+..<b class=w>X</b>..<b class=g>X</b>.....<b class=g>X</b>..<b class=w>XX</b>..<b class=g>X</b>.....<b class=g>X</b>..<b class=w>X</b>.....<b class=y>X</b>...<b class=y>X</b>..<b class=y>X</b>.<b class=y>X</b>....<b class=y>X</b>.<b class=y>X</b>.<b class=y>X</b>...<b class=y>X</b>.<b class=y>X</b>.....<b>XXX</b>....<b class=b>XXXXXXXXXXX</b>...<b class=w>X</b>..<b class=g>X</b>.....<b class=g>X</b>..<b class=w>XX</b>..<b class=g>X</b>.....<b class=g>X</b>..<b class=w>X</b>.......<b class=y>XXXXXXXXXXXXX</b>............................<b class=w>X</b>..<b class=g>X</b>.....<b class=g>X</b>..<b class=w>XX</b>..<b class=g>X</b>.....<b class=g>X</b>..<b class=w>X</b>..........................<b class=y>XXXXXXXXXXXXX</b>................<b class=w>X</b>..<b class=g>X</b>.....<b class=g>X</b>..<b class=w>XX</b>..<b class=g>X</b>.....<b class=g>X</b>..<b class=w>X</b>.......
+..<b class=w>X</b>..<b class=g>XX</b>...<b class=g>XX</b>..<b class=w>XX</b>..<b class=g>XX</b>...<b class=g>XX</b>..<b class=w>X</b>....<b class=y>XXX</b>..<b class=y>X</b>..<b class=y>XXX</b>....<b class=y>XX</b>..<b class=y>X</b>...<b class=y>X</b>.<b class=y>X</b>......<b>X</b>.........<b class=b>XXX</b>.......<b class=w>X</b>..<b class=g>XX</b>...<b class=g>XX</b>..<b class=w>XX</b>..<b class=g>XX</b>...<b class=g>XX</b>..<b class=w>X</b>........<b class=y>XXXXXXXXXXX</b>.............................<b class=w>X</b>..<b class=g>XX</b>...<b class=g>XX</b>..<b class=w>XX</b>..<b class=g>XX</b>...<b class=g>XX</b>..<b class=w>X</b>...........................<b class=y>XXXXXXXXXXX</b>.................<b class=w>X</b>..<b class=g>XX</b>...<b class=g>XX</b>..<b class=w>XX</b>..<b class=g>XX</b>...<b class=g>XX</b>..<b class=w>X</b>.......
+..<b class=w>X</b>...<b class=g>XXXXX</b>...<b class=w>XX</b>...<b class=g>XXXXX</b>...<b class=w>X</b>............................................<b class=b>XXXXXXX</b>.....<b class=w>X</b>...<b class=g>XXXXX</b>...<b class=w>XX</b>...<b class=g>XXXXX</b>...<b class=w>X</b>...........<b class=y>XXXXX</b>................................<b class=w>X</b>...<b class=g>XXXXX</b>...<b class=w>XX</b>...<b class=g>XXXXX</b>...<b class=w>X</b>..............................<b class=y>XXXXX</b>....................<b class=w>X</b>...<b class=g>XXXXX</b>...<b class=w>XX</b>...<b class=g>XXXXX</b>...<b class=w>X</b>.......
+..<b class=w>XXXXXXXXXXXXXXXXXXXXXXXXXX</b>........................................................<b class=w>XXXXXXXXXXXXXXXXXXXXXXXXXX</b>................................................<b class=w>XXXXXXXXXXXXXXXXXXXXXXXXXX</b>.......................................................<b class=w>XXXXXXXXXXXXXXXXXXXXXXXXXX</b>.......
+................................................................................................................................................................................................................................................................................
+..<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...
+.<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>X</b></pre>
+<pre class="aida night narrow" aria-hidden="true" title="a sound system, stitched one cross at a time">
+<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>..
+<b class=y>XX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...
 .........................................
-.............................<b class=b>XXXXXXXXXXX</b>.
-..<b>X</b>..........................<b class=b>X</b>.........<b class=b>X</b>.
-..<b>X</b>.................<b>XX</b>.<b>XX</b>....<b class=b>X</b>..<b class=h>XX</b>.<b class=h>XX</b>..<b class=b>X</b>.
-..<b>X</b>..<b>X</b>..<b>XX</b>...<b>XXX</b>...<b>XXXXXXX</b>...<b class=b>X</b>..<b class=h>XXXXX</b>..<b class=b>X</b>.
-..<b>X</b>.<b>X</b>..<b>X</b>..<b>X</b>.<b>X</b>......<b>XXXXXXX</b>...<b class=b>X</b>...<b class=h>XXX</b>...<b class=b>X</b>.
-..<b>XX</b>...<b>XXXX</b>..<b>XX</b>.....<b>XXXXX</b>....<b class=b>X</b>....<b class=h>X</b>....<b class=b>X</b>.
-..<b>X</b>.<b>X</b>..<b>X</b>.......<b>X</b>.....<b>XXX</b>.....<b class=b>XXXXXXXXXXX</b>.
-..<b>X</b>..<b>X</b>..<b>XXX</b>.<b>XXX</b>.......<b>X</b>..........<b class=b>XXX</b>.....
-...............................<b class=b>XXXXXXX</b>...
+...<b>X</b>...<b>X</b>.<b>XXXXX</b>..<b>XXXX</b>.......<b>XXXXX</b>.<b>X</b>...<b>X</b>...
+...<b>X</b>..<b>X</b>..<b>X</b>.....<b>X</b>...........<b>X</b>.....<b>XX</b>.<b>XX</b>...
+...<b>X</b>.<b>X</b>...<b>X</b>.....<b>X</b>...........<b>X</b>.....<b>X</b>.<b>X</b>.<b>X</b>...
+...<b>XX</b>....<b>XXXX</b>...<b>XXX</b>........<b>XXXX</b>..<b>X</b>.<b>X</b>.<b>X</b>...
+...<b>X</b>.<b>X</b>...<b>X</b>.........<b>X</b>.......<b>X</b>.....<b>X</b>...<b>X</b>...
+...<b>X</b>..<b>X</b>..<b>X</b>.........<b>X</b>.......<b>X</b>.....<b>X</b>...<b>X</b>...
+...<b>X</b>...<b>X</b>.<b>XXXXX</b>.<b>XXXX</b>........<b>X</b>.....<b>X</b>...<b>X</b>...
 .........................................
-........<b>X</b>........................<b>X</b>.......
-.<b>X</b>......<b>X</b>........................<b>X</b>.......
-...<b>XXX</b>..<b>X</b>..<b>X</b>..<b>XX</b>..<b>X</b>.<b>XX</b>..<b>XXX</b>..<b>XX</b>..<b>X</b>...<b>XX</b>..
-.<b>X</b>.<b>X</b>..<b>X</b>.<b>X</b>.<b>X</b>..<b>X</b>..<b>X</b>.<b>XX</b>...<b>X</b>....<b>X</b>..<b>X</b>.<b>X</b>..<b>X</b>..<b>X</b>.
-.<b>X</b>.<b>X</b>..<b>X</b>.<b>XX</b>...<b>XXXX</b>.<b>X</b>.....<b>XX</b>..<b>X</b>..<b>X</b>.<b>X</b>..<b>XXXX</b>.
-.<b>X</b>.<b>X</b>..<b>X</b>.<b>X</b>.<b>X</b>..<b>X</b>....<b>X</b>.......<b>X</b>.<b>X</b>..<b>X</b>.<b>X</b>..<b>X</b>....
-.<b>X</b>.<b>X</b>..<b>X</b>.<b>X</b>..<b>X</b>..<b>XXX</b>.<b>X</b>....<b>XXX</b>...<b>XX</b>...<b>X</b>..<b>XXX</b>.
+.<b class=w>XXXXXXXXXXXXX</b>.<b class=b>XXXXXXXXXXX</b>......<b class=y>XXX</b>......
+.<b class=w>X</b>...<b class=g>XXXXX</b>...<b class=w>X</b>.<b class=b>X</b>.........<b class=b>X</b>....<b class=y>XXXXXXX</b>....
+.<b class=w>X</b>..<b class=g>XX</b>...<b class=g>XX</b>..<b class=w>X</b>.<b class=b>X</b>..<b class=h>XX</b>.<b class=h>XX</b>..<b class=b>X</b>...<b class=y>XX</b>.<b class=y>XXX</b>.<b class=y>XX</b>...
+.<b class=w>X</b>..<b class=g>X</b>.....<b class=g>X</b>..<b class=w>X</b>.<b class=b>X</b>..<b class=h>XXXXX</b>..<b class=b>X</b>..<b class=y>XXX</b>.<b class=y>XXX</b>.<b class=y>XXX</b>..
+.<b class=w>X</b>.<b class=g>XX</b>.<b>XXX</b>.<b class=g>XX</b>.<b class=w>X</b>.<b class=b>X</b>...<b class=h>XXX</b>...<b class=b>X</b>..<b class=y>XXXXXXXXXXX</b>..
+.<b class=w>X</b>..<b class=g>X</b>.....<b class=g>X</b>..<b class=w>X</b>.<b class=b>X</b>....<b class=h>X</b>....<b class=b>X</b>..<b class=y>XX</b>.<b class=y>XXXXX</b>.<b class=y>XX</b>..
+.<b class=w>X</b>..<b class=g>XX</b>...<b class=g>XX</b>..<b class=w>X</b>.<b class=b>XXXXXXXXXXX</b>...<b class=y>XX</b>.....<b class=y>XX</b>...
+.<b class=w>X</b>...<b class=g>XXXXX</b>...<b class=w>X</b>.....<b class=b>XXX</b>........<b class=y>XXXXXXX</b>....
+.<b class=w>XXXXXXXXXXXXX</b>...<b class=b>XXXXXXX</b>........<b class=y>XXX</b>......
 .........................................
-.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.</pre>
+...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XX</b>
+..<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b></pre>
+</div>
 
 <div class="top">
 <div>
-<p>hi! i'm kes (kesia), a freelance creative strategist and <mark>internet equalities researcher</mark> based in london.</p>
+<p>hi! i'm kes (kesia), a freelance creative strategist and <mark class="acid">internet equalities researcher</mark> based in london.</p>
 
 <p>my practice focuses on understanding and critiquing the impacts of emerging technologies on people, culture, and the planet. i'm particularly interested in working collectively to rethink the narratives and behaviours surrounding technologies — prioritising collaborative research as a process for testing, imagining and prototyping <mark>more equitable, alternative futures</mark>.</p>
 </div>
@@ -185,6 +506,7 @@ button:hover { background: #fff; }
 </div>
 
 <div class="patch">
+<p class="patch-tape" aria-hidden="true"><span>shout-outs</span></p>
 <h2>what i've been up to lately <span>☆</span></h2>
 <!-- new things go at the top -->
 <ul>
@@ -194,24 +516,102 @@ button:hover { background: #fff; }
 </div>
 </div>
 
-<hr>
+<!-- kes fm: a small jungle machine. everything is synthesised with the Web Audio API, nothing is sampled or downloaded, and it only starts when someone presses play -->
+<section class="rig" id="rig" aria-labelledby="rig-h">
+<div class="deck">
+<h2 id="rig-h"><span class="stencil">kes fm</span><span class="lamp" aria-hidden="true"></span> <small>a jungle machine you can play ✧ it never starts by itself</small></h2>
+
+<div class="lcd">
+<span class="freq"><span id="bpm-out">170.0</span><small> bpm</small></span>
+<span class="onair-txt" id="onair">off air</span>
+<span class="mc" id="mc">press ▶ play to go on air</span>
+</div>
+
+<div class="cassette" aria-hidden="true">
+<div class="label"><p><span>kes fm ✧ tape pack vol. 1 ✧ side a</span></p><i>recorded live in your browser</i></div>
+<div class="window"><span class="reel"></span><span class="reel"></span></div>
+</div>
+
+<div class="lights" id="lights" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+
+<div class="controls">
+<div class="row">
+<button type="button" class="big go" id="play" aria-pressed="false">▶ play</button>
+<button type="button" class="big halt" id="stop">■ stop</button>
+<button type="button" class="big rew" id="rew">⟲ pull up!</button>
+</div>
+<div class="row" role="group" aria-label="plates (drum patterns)">
+<span class="lab">plates</span>
+<button type="button" data-plate="0" aria-pressed="true">amen</button>
+<button type="button" data-plate="1" aria-pressed="false">chopped</button>
+<button type="button" data-plate="2" aria-pressed="false">roller</button>
+<button type="button" data-plate="3" aria-pressed="false">half-time</button>
+</div>
+<div class="row" role="group" aria-label="bass">
+<span class="lab">bass</span>
+<button type="button" data-bass="sub" aria-pressed="false">sub</button>
+<button type="button" data-bass="reese" aria-pressed="true">reese</button>
+<button type="button" data-bass="off" aria-pressed="false">off</button>
+</div>
+<div class="row" role="group" aria-label="effects">
+<span class="lab">fx</span>
+<button type="button" id="chop" aria-pressed="false">✂ chop</button>
+<button type="button" id="sparkle" aria-pressed="false">✧ sparkles</button>
+<button type="button" id="siren">dub siren</button>
+</div>
+<div class="row">
+<label>vol <input type="range" id="vol" min="0" max="1" step="0.01" value="0.7"></label>
+<label>bpm <input type="range" id="bpm" min="160" max="176" step="1" value="170"></label>
+</div>
+</div>
+
+<p class="fine">everything here is synthesised live in your browser: no samples, nothing downloaded. it only plays when you press play, and stops when you press stop (or esc). the sub wants headphones.</p>
+</div>
+
+<div class="flyer">
+<span class="free" aria-hidden="true">free</span>
+<p class="pres">kes inkersole presents</p>
+<p class="head">this website</p>
+<p class="sub">an all-day, all-night session in a browser tab</p>
+<dl>
+<dt>on the decks</dt><dd>the amen break, rebuilt (credits →)</dd>
+<dt>on the mic</dt><dd>the little green display</dd>
+<dt>sound by</dt><dd>whatever speakers you've got</dd>
+<dt>visuals</dt><dd>picsum placeholders</dd>
+<dt>lasers</dt><dd>none, sorry</dd>
+</dl>
+<p class="terms">admission free ✧ no dress code ✧ all welcome<br>no cookies ✧ no trackers ✧ no analytics<br>loads on one bar of signal</p>
+<p class="info">info line: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
+</div>
+
+<div class="notes">
+<h2>liner notes <span>☆</span></h2>
+<p>this page borrows from jungle (the breaks, the pirate radio idents, the flyers, the tape packs), so it should say where they come from.</p>
+<p>jungle came out of london in the early 90s: Black British sound system culture (reggae, dub, dancehall, the soundclash) meeting rave and breakbeat hardcore, carried across the city by pirate radio.</p>
+<p>the amen break is four bars of drumming by <b>G.C. Coleman</b> of The Winstons, from their 1969 b-side "Amen, Brother". it's one of the most sampled recordings ever made, and the band never got royalties for it. the machine here doesn't use a sample, it rebuilds the pattern from synthesised hits, but the groove is still his. big up G.C. Coleman.</p>
+<p>which is the internet equalities question too: who made the thing, who gets the credit, who gets paid.</p>
+</div>
+</section>
 
 <!-- photos are placeholders: swap the picsum links for real ones, keep width + height (and --r = width ÷ height) -->
 <div class="photos">
-<figure style="--r: .8"><img src="https://picsum.photos/seed/morning/480/600" width="480" height="600" alt="MØRNING Ø (placeholder photo)">
+<figure style="--r: .8; --t: -1.2deg"><img src="https://picsum.photos/seed/morning/480/600" width="480" height="600" alt="MØRNING Ø (placeholder photo)">
 <figcaption><a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1">MØRNING Ø</a> — lorem ipsum, photo by lorem ipsum</figcaption></figure>
-<figure style="--r: 1.5"><img src="https://picsum.photos/seed/softer1/600/400" width="600" height="400" alt="softer london (placeholder photo)">
+<figure style="--r: 1.5; --t: .8deg"><img src="https://picsum.photos/seed/softer1/600/400" width="600" height="400" alt="softer london (placeholder photo)">
 <figcaption><a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1">softer london</a> — lorem ipsum, photo by lorem ipsum</figcaption></figure>
-<figure style="--r: .77"><img src="https://picsum.photos/seed/softer2/400/520" width="400" height="520" alt="softer london (placeholder photo)">
+<figure style="--r: .77; --t: -.6deg"><img src="https://picsum.photos/seed/softer2/400/520" width="400" height="520" alt="softer london (placeholder photo)">
 <figcaption>softer london, again — photo by lorem ipsum</figcaption></figure>
-<figure style="--r: 1.5"><img src="https://picsum.photos/seed/techyard/600/400" width="600" height="400" alt="tech yard (placeholder photo)">
+<figure style="--r: 1.5; --t: 1deg"><img src="https://picsum.photos/seed/techyard/600/400" width="600" height="400" alt="tech yard (placeholder photo)">
 <figcaption><a href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard">tech yard</a> — lorem ipsum, photo by lorem ipsum</figcaption></figure>
 </div>
 
 <hr>
 
+<h2 class="pack"><span class="chrome">the tape pack</span> <small>seven tapes, all recorded live from this website ✧</small></h2>
+
 <div class="lists">
 <section>
+<p class="spine" aria-hidden="true"><span>tape 1</span><span>side a</span></p>
 <h2>projects (for fun) <span>✿</span></h2>
 <ul>
 <li><a href="https://latent-space.vercel.app/">latent space</a> — lorem ipsum dolor sit amet</li>
@@ -220,6 +620,7 @@ button:hover { background: #fff; }
 </section>
 
 <section>
+<p class="spine" aria-hidden="true"><span>tape 2</span><span>side a</span></p>
 <h2>projects (for funds) <span>✧</span></h2>
 <ul>
 <li><a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1">MØRNING Ø</a> — lorem ipsum dolor sit amet</li>
@@ -229,6 +630,7 @@ button:hover { background: #fff; }
 </section>
 
 <section>
+<p class="spine" aria-hidden="true"><span>tape 3</span><span>side a</span></p>
 <h2>things i've written <span>✎</span></h2>
 <ul>
 <li><a href="https://www.protein.xyz/sex-and-the-internet/">mindy seu on sex and the internet</a> (Protein)</li>
@@ -240,7 +642,8 @@ button:hover { background: #fff; }
 </ul>
 </section>
 
-<section>
+<section class="bus">
+<p class="spine" aria-hidden="true"><span>tape 4</span><span>night bus</span></p>
 <h2>podcasts for your commute <span>♫</span></h2>
 <ul>
 <li><a href="https://podcasts.apple.com/gb/podcast/mindy-seu-on-collaboration-community-and/id1449302502?i=1000597869409">mindy seu on collaboration, community and the cyberfeminism index</a></li>
@@ -252,9 +655,11 @@ button:hover { background: #fff; }
 <li><a href="https://podcasts.apple.com/gb/podcast/cyn-bahati-on-her-journey-into-web3-with-her-family/id1449302502?i=1000559818509">cyn bahati on her journey into web3 with her family</a></li>
 <li><a href="https://podcasts.apple.com/gb/podcast/latash%C3%A1-on-the-potential-of-web3-for-music-artists/id1449302502?i=1000552812458">latasha on the potential of web3 for music artists</a></li>
 </ul>
+<span class="tag" aria-hidden="true">kes woz ere</span>
 </section>
 
 <section>
+<p class="spine" aria-hidden="true"><span>tape 5</span><span>side b</span></p>
 <h2>irl (mostly) <span>☂&#xFE0E;</span></h2>
 <ul>
 <li><a href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1">olden residency</a></li>
@@ -265,34 +670,36 @@ button:hover { background: #fff; }
 </section>
 
 <section>
+<p class="spine" aria-hidden="true"><span>tape 6</span><span>for the flyer</span></p>
 <h2>bio, in the third person</h2>
 <div class="cut">
 <p id="bio">Kes Inkersole is lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-<p>for event listings, copy + paste away <button type="button" id="copy">copy</button></p>
+<p>for flyers and event listings, copy + paste away <button type="button" id="copy">copy</button></p>
 </div>
 </section>
 
 <section>
+<p class="spine" aria-hidden="true"><span>tape 7</span><span>b-sides</span></p>
 <p>school stuff: MA internet equalities, BA creative direction, PhD [ ? ]</p>
 <p>cv + portfolio on request, just <a href="mailto:inkersolekesia@gmail.com">email me</a></p>
 <pre class="aida small" aria-hidden="true" title="hi! / hi!">
 .........................................
-..<b class=b>XXXXXXXXXXX</b>...............<b class=b>XXXXXXXXXXX</b>..
-..<b class=b>X</b>.........<b class=b>X</b>...............<b class=b>X</b>.........<b class=b>X</b>..
-..<b class=b>X</b>..<b>X</b>...<b>X</b>..<b class=b>X</b>...............<b class=b>X</b>..<b>X</b>...<b>X</b>..<b class=b>X</b>..
-..<b class=b>X</b>.........<b class=b>X</b>...............<b class=b>X</b>.<b>X</b>.<b>X</b>.<b>X</b>.<b>X</b>.<b class=b>X</b>..
-..<b class=b>X</b>.<b>X</b>.....<b>X</b>.<b class=b>X</b>...............<b class=b>X</b>.<b>X</b>.....<b>X</b>.<b class=b>X</b>..
-..<b class=b>X</b>..<b>XXXXX</b>..<b class=b>X</b>...............<b class=b>X</b>..<b>XXXXX</b>..<b class=b>X</b>..
-..<b class=b>X</b>.........<b class=b>X</b>...............<b class=b>X</b>.........<b class=b>X</b>..
-..<b class=b>XXXXXXXXXXX</b>...............<b class=b>XXXXXXXXXXX</b>..
-......<b class=b>XXX</b>.......................<b class=b>XXX</b>......
-....<b class=b>XXXXXXX</b>...................<b class=b>XXXXXXX</b>....
-.......<b class=y>X</b>.........................<b class=y>X</b>.......
-.......<b class=y>X</b>..........<b>XX</b>.<b>XX</b>..........<b class=y>X</b>.......
-.......<b class=y>X</b>..........<b>XXXXX</b>..........<b class=y>X</b>.......
-.......<b class=y>X</b>...........<b>XXX</b>...........<b class=y>X</b>.......
-.......<b class=y>XXXXXXXXXXXXX</b><b>X</b><b class=y>XXXXXXXXXXXXX</b>.......
-.........................................</pre>
+...<b>X</b>.<b>X</b>.<b>XXX</b>..<b>X</b>................<b>X</b>.<b>X</b>.<b>XXX</b>..<b>X</b>..
+...<b>X</b>.<b>X</b>..<b>X</b>...<b>X</b>................<b>X</b>.<b>X</b>..<b>X</b>...<b>X</b>..
+...<b>XXX</b>..<b>X</b>...<b>X</b>................<b>XXX</b>..<b>X</b>...<b>X</b>..
+...<b>X</b>.<b>X</b>..<b>X</b>....................<b>X</b>.<b>X</b>..<b>X</b>......
+..<b class=b>XXXXXXXXXXX</b>...............<b class=i>XXXXXXXXXXX</b>..
+..<b class=b>X</b>.........<b class=b>X</b>...............<b class=i>X</b>.........<b class=i>X</b>..
+..<b class=b>X</b>..<b>X</b>...<b>X</b>..<b class=b>X</b>...............<b class=i>X</b>..<b>X</b>...<b>X</b>..<b class=i>X</b>..
+..<b class=b>X</b>.........<b class=b>X</b>...............<b class=i>X</b>.........<b class=i>X</b>..
+..<b class=b>X</b>.<b>X</b>.....<b>X</b>.<b class=b>X</b>.....<b>XX</b>.<b>XX</b>.....<b class=i>X</b>..<b class=g>XXXXX</b>..<b class=i>X</b>..
+..<b class=b>X</b>..<b>XXXXX</b>..<b class=b>X</b>....<b>XXXXXXX</b>....<b class=i>X</b>.<b class=g>X</b>.....<b class=g>X</b>.<b class=i>X</b>..
+..<b class=b>X</b>.........<b class=b>X</b>....<b>XXXXXXX</b>....<b class=i>X</b>.<b class=g>X</b>.<b>XXX</b>.<b class=g>X</b>.<b class=i>X</b>..
+..<b class=b>XXXXXXXXXXX</b>.....<b>XXXXX</b>.....<b class=i>X</b>..<b class=g>XXXXX</b>..<b class=i>X</b>..
+......<b class=b>XXX</b>....<b class=y>XXXXXX</b><b>XXX</b><b class=y>XXXXXX</b><b class=i>X</b>.........<b class=i>X</b>..
+....<b class=b>XXXXXXX</b>.........<b>X</b>.......<b class=i>XXXXXXXXXXX</b>..
+...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XX</b>
+..<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b>...<b class=y>XXX</b></pre>
 </section>
 </div>
 
@@ -301,21 +708,24 @@ button:hover { background: #fff; }
 <footer>
 <p>last updated 1 october 2026. it's plain html (<a href="http://contemporary-home-computing.org/prof-dr-style/">prof. dr. style</a>) so it loads on one bar of signal.</p>
 <p>thank you for reading all the way down x <span class="kao">(っ ᵔ◡ᵔ)っ ♡</span></p>
-<pre class="aida chain" aria-hidden="true" title="everyone's invited">
-..............................................................................................................................................................................................................................................................................
-...<b>XXX</b>......<b>XXX</b>....<b>XX</b>...<b>XX</b>....<b>XXX</b>......<b>XXX</b>....<b>XX</b>...<b>XX</b>....<b>XXX</b>......<b>XXX</b>....<b>XX</b>...<b>XX</b>....<b>XXX</b>......<b>XXX</b>....<b>XX</b>...<b>XX</b>....<b>XXX</b>......<b>XXX</b>....<b>XX</b>...<b>XX</b>....<b>XXX</b>......<b>XXX</b>....<b>XX</b>...<b>XX</b>....<b>XXX</b>......<b>XXX</b>....<b>XX</b>...<b>XX</b>....<b>XXX</b>......<b>XXX</b>....<b>XX</b>...<b>XX</b>....<b>XXX</b>......<b>XXX</b>....<b>XX</b>...<b>XX</b>....<b>XXX</b>......<b>XXX</b>....<b>XX</b>...<b>XX</b>.
-..<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>..
-..<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>..
-...<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>...
-....<b>X</b>........<b>X</b>........<b>X</b>........<b>X</b>........<b>X</b>........<b>X</b>........<b>X</b>........<b>X</b>........<b>X</b>........<b>X</b>........<b>X</b>........<b>X</b>........<b>X</b>........<b>X</b>........<b>X</b>........<b>X</b>........<b>X</b>........<b>X</b>........<b>X</b>........<b>X</b>........<b>X</b>........<b>X</b>........<b>X</b>........<b>X</b>........<b>X</b>........<b>X</b>........<b>X</b>........<b>X</b>........<b>X</b>........<b>X</b>....
-<b>XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</b>
-...<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>...
-...<b>XXX</b>......<b>XXX</b>.....<b>XXXXX</b>.....<b>XXX</b>......<b>XXX</b>.....<b>XXXXX</b>.....<b>XXX</b>......<b>XXX</b>.....<b>XXXXX</b>.....<b>XXX</b>......<b>XXX</b>.....<b>XXXXX</b>.....<b>XXX</b>......<b>XXX</b>.....<b>XXXXX</b>.....<b>XXX</b>......<b>XXX</b>.....<b>XXXXX</b>.....<b>XXX</b>......<b>XXX</b>.....<b>XXXXX</b>.....<b>XXX</b>......<b>XXX</b>.....<b>XXXXX</b>.....<b>XXX</b>......<b>XXX</b>.....<b>XXXXX</b>.....<b>XXX</b>......<b>XXX</b>.....<b>XXXXX</b>..
-..<b>XXXXX</b>.....<b>XXX</b>....<b>XXXXXXX</b>...<b>XXXXX</b>.....<b>XXX</b>....<b>XXXXXXX</b>...<b>XXXXX</b>.....<b>XXX</b>....<b>XXXXXXX</b>...<b>XXXXX</b>.....<b>XXX</b>....<b>XXXXXXX</b>...<b>XXXXX</b>.....<b>XXX</b>....<b>XXXXXXX</b>...<b>XXXXX</b>.....<b>XXX</b>....<b>XXXXXXX</b>...<b>XXXXX</b>.....<b>XXX</b>....<b>XXXXXXX</b>...<b>XXXXX</b>.....<b>XXX</b>....<b>XXXXXXX</b>...<b>XXXXX</b>.....<b>XXX</b>....<b>XXXXXXX</b>...<b>XXXXX</b>.....<b>XXX</b>....<b>XXXXXXX</b>.
-.<b>XXXXXXX</b>....<b>X</b>.<b>X</b>.....<b>XXXXX</b>...<b>XXXXXXX</b>....<b>X</b>.<b>X</b>.....<b>XXXXX</b>...<b>XXXXXXX</b>....<b>X</b>.<b>X</b>.....<b>XXXXX</b>...<b>XXXXXXX</b>....<b>X</b>.<b>X</b>.....<b>XXXXX</b>...<b>XXXXXXX</b>....<b>X</b>.<b>X</b>.....<b>XXXXX</b>...<b>XXXXXXX</b>....<b>X</b>.<b>X</b>.....<b>XXXXX</b>...<b>XXXXXXX</b>....<b>X</b>.<b>X</b>.....<b>XXXXX</b>...<b>XXXXXXX</b>....<b>X</b>.<b>X</b>.....<b>XXXXX</b>...<b>XXXXXXX</b>....<b>X</b>.<b>X</b>.....<b>XXXXX</b>...<b>XXXXXXX</b>....<b>X</b>.<b>X</b>.....<b>XXXXX</b>..
-...<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>...
-...<b>X</b>.<b>X</b>.....<b>XX</b>.<b>XX</b>.....<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>.....<b>XX</b>.<b>XX</b>.....<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>.....<b>XX</b>.<b>XX</b>.....<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>.....<b>XX</b>.<b>XX</b>.....<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>.....<b>XX</b>.<b>XX</b>.....<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>.....<b>XX</b>.<b>XX</b>.....<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>.....<b>XX</b>.<b>XX</b>.....<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>.....<b>XX</b>.<b>XX</b>.....<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>.....<b>XX</b>.<b>XX</b>.....<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>.....<b>XX</b>.<b>XX</b>.....<b>X</b>.<b>X</b>...
-..............................................................................................................................................................................................................................................................................</pre>
+<p class="signoff">big up everyone who scrolled this far ✧ kes fm, signing off</p>
+<div class="band">
+<pre class="aida night chain" aria-hidden="true" title="everyone's invited">
+<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..
+................................................................................................................................................................................................................................................................................
+............<b class=w>XXXXXXXXXXX</b>.......<b class=y>XXX</b>........<b class=y>XXX</b>..................................<b class=w>XXXXXXXXXXX</b>.......<b class=y>XXX</b>........<b class=y>XXX</b>..................................<b class=w>XXXXXXXXXXX</b>.......<b class=y>XXX</b>........<b class=y>XXX</b>..................................<b class=w>XXXXXXXXXXX</b>.......<b class=y>XXX</b>........<b class=y>XXX</b>..............................
+............<b class=w>X</b>....<b class=g>X</b>....<b class=w>X</b>......<b class=y>XXX</b>.......<b class=y>XXXXXXX</b>...............<b>X</b>.<b>X</b>..............<b class=w>X</b>....<b class=g>X</b>....<b class=w>X</b>......<b class=y>XXX</b>.......<b class=y>XXXXXXX</b>...............<b>X</b>.<b>X</b>..............<b class=w>X</b>....<b class=g>X</b>....<b class=w>X</b>......<b class=y>XXX</b>.......<b class=y>XXXXXXX</b>...............<b>X</b>.<b>X</b>..............<b class=w>X</b>....<b class=g>X</b>....<b class=w>X</b>......<b class=y>XXX</b>.......<b class=y>XXXXXXX</b>...............<b>X</b>.<b>X</b>..........
+...<b>XX</b>.<b>XX</b>....<b class=w>X</b>..<b class=g>XX</b>.<b class=g>XX</b>..<b class=w>X</b>.....<b class=y>XXX</b>.......<b class=y>XX</b>.<b class=y>XXX</b>.<b class=y>XX</b>.......<b class=w>X</b>.....<b>XXXXX</b>....<b>XX</b>.<b>XX</b>....<b class=w>X</b>..<b class=g>XX</b>.<b class=g>XX</b>..<b class=w>X</b>.....<b class=y>XXX</b>.......<b class=y>XX</b>.<b class=y>XXX</b>.<b class=y>XX</b>.......<b class=w>X</b>.....<b>XXXXX</b>....<b>XX</b>.<b>XX</b>....<b class=w>X</b>..<b class=g>XX</b>.<b class=g>XX</b>..<b class=w>X</b>.....<b class=y>XXX</b>.......<b class=y>XX</b>.<b class=y>XXX</b>.<b class=y>XX</b>.......<b class=w>X</b>.....<b>XXXXX</b>....<b>XX</b>.<b>XX</b>....<b class=w>X</b>..<b class=g>XX</b>.<b class=g>XX</b>..<b class=w>X</b>.....<b class=y>XXX</b>.......<b class=y>XX</b>.<b class=y>XXX</b>.<b class=y>XX</b>.......<b class=w>X</b>.....<b>XXXXX</b>....<b>XX</b>.<b>XX</b>
+..<b>XXXXXXX</b>...<b class=w>X</b>.<b class=g>X</b>.....<b class=g>X</b>.<b class=w>X</b>....<b class=y>XXXXXX</b>....<b class=y>XXX</b>.<b class=y>XXX</b>.<b class=y>XXX</b>.....<b class=w>XXX</b>.....<b>X</b><b class=y>X</b><b>X</b>....<b>XXXXXXX</b>...<b class=w>X</b>.<b class=g>X</b>.....<b class=g>X</b>.<b class=w>X</b>....<b class=y>XXXXXX</b>....<b class=y>XXX</b>.<b class=y>XXX</b>.<b class=y>XXX</b>.....<b class=w>XXX</b>.....<b>X</b><b class=y>X</b><b>X</b>....<b>XXXXXXX</b>...<b class=w>X</b>.<b class=g>X</b>.....<b class=g>X</b>.<b class=w>X</b>....<b class=y>XXXXXX</b>....<b class=y>XXX</b>.<b class=y>XXX</b>.<b class=y>XXX</b>.....<b class=w>XXX</b>.....<b>X</b><b class=y>X</b><b>X</b>....<b>XXXXXXX</b>...<b class=w>X</b>.<b class=g>X</b>.....<b class=g>X</b>.<b class=w>X</b>....<b class=y>XXXXXX</b>....<b class=y>XXX</b>.<b class=y>XXX</b>.<b class=y>XXX</b>.....<b class=w>XXX</b>.....<b>X</b><b class=y>X</b><b>X</b>....<b>XXXXXX</b>
+..<b>XXXXXXX</b>...<b class=w>X</b>.<b class=g>X</b>.<b>XXX</b>.<b class=g>X</b>.<b class=w>X</b>......<b class=y>XXX</b>.....<b class=y>XXXXXXXXXXX</b>....<b class=w>XXXXX</b>...<b>XXXXX</b>...<b>XXXXXXX</b>...<b class=w>X</b>.<b class=g>X</b>.<b>XXX</b>.<b class=g>X</b>.<b class=w>X</b>......<b class=y>XXX</b>.....<b class=y>XXXXXXXXXXX</b>....<b class=w>XXXXX</b>...<b>XXXXX</b>...<b>XXXXXXX</b>...<b class=w>X</b>.<b class=g>X</b>.<b>XXX</b>.<b class=g>X</b>.<b class=w>X</b>......<b class=y>XXX</b>.....<b class=y>XXXXXXXXXXX</b>....<b class=w>XXXXX</b>...<b>XXXXX</b>...<b>XXXXXXX</b>...<b class=w>X</b>.<b class=g>X</b>.<b>XXX</b>.<b class=g>X</b>.<b class=w>X</b>......<b class=y>XXX</b>.....<b class=y>XXXXXXXXXXX</b>....<b class=w>XXXXX</b>...<b>XXXXX</b>...<b>XXXXXX</b>
+...<b>XXXXX</b>....<b class=w>X</b>.<b class=g>X</b>.....<b class=g>X</b>.<b class=w>X</b>.....<b class=y>XXX</b>......<b class=y>XX</b>.<b class=y>XXXXX</b>.<b class=y>XX</b>.....<b class=w>XXX</b>.....<b>X</b>.<b>X</b>.....<b>XXXXX</b>....<b class=w>X</b>.<b class=g>X</b>.....<b class=g>X</b>.<b class=w>X</b>.....<b class=y>XXX</b>......<b class=y>XX</b>.<b class=y>XXXXX</b>.<b class=y>XX</b>.....<b class=w>XXX</b>.....<b>X</b>.<b>X</b>.....<b>XXXXX</b>....<b class=w>X</b>.<b class=g>X</b>.....<b class=g>X</b>.<b class=w>X</b>.....<b class=y>XXX</b>......<b class=y>XX</b>.<b class=y>XXXXX</b>.<b class=y>XX</b>.....<b class=w>XXX</b>.....<b>X</b>.<b>X</b>.....<b>XXXXX</b>....<b class=w>X</b>.<b class=g>X</b>.....<b class=g>X</b>.<b class=w>X</b>.....<b class=y>XXX</b>......<b class=y>XX</b>.<b class=y>XXXXX</b>.<b class=y>XX</b>.....<b class=w>XXX</b>.....<b>X</b>.<b>X</b>.....<b>XXXXX</b>
+....<b>XXX</b>.....<b class=w>X</b>..<b class=g>XX</b>.<b class=g>XX</b>..<b class=w>X</b>....<b class=y>XXX</b>........<b class=y>XX</b>.....<b class=y>XX</b>.......<b class=w>X</b>.......<b class=g>X</b>.......<b>XXX</b>.....<b class=w>X</b>..<b class=g>XX</b>.<b class=g>XX</b>..<b class=w>X</b>....<b class=y>XXX</b>........<b class=y>XX</b>.....<b class=y>XX</b>.......<b class=w>X</b>.......<b class=g>X</b>.......<b>XXX</b>.....<b class=w>X</b>..<b class=g>XX</b>.<b class=g>XX</b>..<b class=w>X</b>....<b class=y>XXX</b>........<b class=y>XX</b>.....<b class=y>XX</b>.......<b class=w>X</b>.......<b class=g>X</b>.......<b>XXX</b>.....<b class=w>X</b>..<b class=g>XX</b>.<b class=g>XX</b>..<b class=w>X</b>....<b class=y>XXX</b>........<b class=y>XX</b>.....<b class=y>XX</b>.......<b class=w>X</b>.......<b class=g>X</b>.......<b>XXX</b>.
+.....<b>X</b>......<b class=w>X</b>....<b class=g>X</b>....<b class=w>X</b>....<b class=y>XX</b>..........<b class=y>XXXXXXX</b>...............<b class=g>XX</b>........<b>X</b>......<b class=w>X</b>....<b class=g>X</b>....<b class=w>X</b>....<b class=y>XX</b>..........<b class=y>XXXXXXX</b>...............<b class=g>XX</b>........<b>X</b>......<b class=w>X</b>....<b class=g>X</b>....<b class=w>X</b>....<b class=y>XX</b>..........<b class=y>XXXXXXX</b>...............<b class=g>XX</b>........<b>X</b>......<b class=w>X</b>....<b class=g>X</b>....<b class=w>X</b>....<b class=y>XX</b>..........<b class=y>XXXXXXX</b>...............<b class=g>XX</b>........<b>X</b>..
+............<b class=w>XXXXXXXXXXX</b>...<b class=y>X</b>..............<b class=y>XXX</b>..................................<b class=w>XXXXXXXXXXX</b>...<b class=y>X</b>..............<b class=y>XXX</b>..................................<b class=w>XXXXXXXXXXX</b>...<b class=y>X</b>..............<b class=y>XXX</b>..................................<b class=w>XXXXXXXXXXX</b>...<b class=y>X</b>..............<b class=y>XXX</b>..............................
+................................................................................................................................................................................................................................................................................
+<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..<b class=y>XX</b>..</pre>
+</div>
+<div class="tape" aria-hidden="true"><p><span>◉ off air ✧ thanks for tuning in ✧ no cookies, no trackers, no analytics ✧ big up G.C. Coleman ✧ see you next time x ✧</span><span>◉ off air ✧ thanks for tuning in ✧ no cookies, no trackers, no analytics ✧ big up G.C. Coleman ✧ see you next time x ✧</span></p></div>
 </footer>
 
 <!-- the fancy letters only live in the console: screen readers skip them or read out things like "mathematical double-struck small k" -->
@@ -323,6 +733,7 @@ button:hover { background: #fff; }
 console.log("hi :) thanks for looking under the hood");
 console.log("no cookies, no trackers, no analytics here. just html ✿");
 console.log("☆ 𝕜𝕖𝕤 𝕚𝕟𝕜𝕖𝕣𝕤𝕠𝕝𝕖 ☆");
+console.log("the jungle machine is all web audio: no samples. the amen is G.C. Coleman's drumming, big up.");
 console.log("say hi: inkersolekesia@gmail.com");
 
 // switch tabs and see
@@ -338,6 +749,358 @@ document.getElementById("copy").addEventListener("click", function () {
     setTimeout(function () { b.textContent = "copy"; }, 2000);
   });
 });
+</script>
+
+<script>
+// ---------- kes fm: a small jungle machine ----------
+// drums, bass, bells and siren are all built from oscillators and noise. nothing plays until someone presses play.
+(function () {
+  "use strict";
+  var AC = window.AudioContext || window.webkitAudioContext;
+  var $ = function (id) { return document.getElementById(id); };
+  var rig = $("rig"), mcEl = $("mc"), onairEl = $("onair"), bpmOut = $("bpm-out"), playBtn = $("play");
+  var lights = Array.prototype.slice.call(document.querySelectorAll("#lights i"));
+  if (!AC) { mcEl.textContent = "this browser can't do web audio, sorry x"; playBtn.disabled = true; return; }
+
+  // 4 bars × 16 steps. kick: x · snare: X loud, x mid, g ghost · top: r ride, h hat, o open hat, c crash
+  var PLATES = [
+    { name: "amen", bars: [
+      ["x.x.......xx....", "....X..x.x..X..x", "r.r.r.r.r.r.r.r."],
+      ["x.x.......xx....", "....X..x.x..X..x", "r.r.r.r.r.r.r.r."],
+      ["x.x.......x.....", "....X..x.x....X.", "r.r.r.r.r.r.r.r."],
+      ["..xx......x.....", ".x..X..x.x....X.", "r.r.r.r.r.c.r.r."]],
+      bass: [[0,12,31],[12,4,34],[16,10,31],[26,6,29],[32,12,31],[44,4,34],[48,8,36],[56,8,38]] },
+    { name: "chopped", bars: [
+      ["x.x.......xx....", "....X..x.x..X..x", "r.r.r.r.r.r.r.r."],
+      ["x.x...x...x.....", "....X..x.x..XgXg", "r.r.r.r.r.r.h.h."],
+      ["x.......x.xx....", "..g.X..x.x..X..x", "r.r.r.r.r.r.r.r."],
+      ["x.....x.x.......", "....X..xX.xgxXXX", "r.r.r.r.c......."]],
+      bass: [[0,16,31],[16,8,34],[24,8,29],[32,16,31],[48,8,27],[56,8,29]] },
+    { name: "roller", bars: [
+      ["x.........x.....", "....X..g.g..X..g", ".h.h.h.h.h.h.h.o"],
+      ["x.........x.....", "....X..g.g..X..g", ".h.h.h.h.h.h.h.o"],
+      ["x.........x.....", "....X..g.g..X..g", ".h.h.h.h.h.h.h.o"],
+      ["x.........x..x..", "....X..g.g..X.XX", ".h.h.h.h.h.h.h.h"]],
+      bass: [[0,3,31],[3,3,31],[6,4,34],[10,6,31],[16,3,29],[19,3,29],[22,4,31],[26,6,34],[32,3,31],[35,3,31],[38,4,36],[42,6,34],[48,6,38],[54,4,36],[58,6,34]] },
+    { name: "half-time", bars: [
+      ["x.........x.....", "........X.......", "r...r...r...r..."],
+      ["x.....x...x.....", "........X.......", "r...r...r...r..."],
+      ["x.........x.....", "........X.......", "r...r...r...r..."],
+      ["x.....x...x.....", "........X.....gX", "r...r...r...c..."]],
+      bass: [[0,6,31],[8,2,31],[10,6,38],[16,6,34],[24,4,36],[28,4,34],[32,6,31],[40,2,31],[42,6,41],[48,8,39],[56,8,38]] }
+  ];
+  // the cute bit: a music box over the break (g minor pentatonic, way up high)
+  var BELLS = [86,0,0,82,0,0,79,0, 84,0,86,0,0,0,89,0, 91,0,0,86,0,0,84,0, 82,0,79,0,82,0,0,0];
+
+  var ctx = null, limiter = null, out = null, noise = null, crunch = null, soft = null, sess = null, timer = 0, raf = 0, line = 0;
+  var st = { playing: false, step: 0, next: 0, bar: null, plate: 0, bass: "reese", chop: false, bells: false, bpm: 170, vol: .7, rewinding: false };
+  var queue = [];
+
+  function lines() {
+    return [
+      "kes fm ✧ " + st.bpm + " on the dial ✧ live from a browser tab near you",
+      "big up all the junglists ✧",
+      "big up everyone tuned in on one bar of signal",
+      "this one's for G.C. Coleman. the amen is his drumming",
+      "shout-outs + requests: inkersolekesia@gmail.com",
+      "no cookies, no trackers, just breaks ♡",
+      "lock in, don't close that tab"
+    ];
+  }
+  function say(t) { mcEl.textContent = t; }
+  function hz(m) { return 440 * Math.pow(2, (m - 69) / 12); }
+  function stepDur() { return 60 / st.bpm / 4; }
+
+  function curve(fn) {
+    var n = 2048, c = new Float32Array(n);
+    for (var i = 0; i < n; i++) c[i] = fn(i / (n - 1) * 2 - 1);
+    return c;
+  }
+
+  function setup() {
+    ctx = new AC();
+    limiter = ctx.createDynamicsCompressor();
+    limiter.threshold.value = -12; limiter.knee.value = 6; limiter.ratio.value = 12;
+    limiter.attack.value = .002; limiter.release.value = .12;
+    out = ctx.createGain();
+    limiter.connect(out); out.connect(ctx.destination);
+    setVol();
+    var len = ctx.sampleRate * 2;
+    noise = ctx.createBuffer(1, len, ctx.sampleRate);
+    var d = noise.getChannelData(0);
+    for (var i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+    // a bit of old-sampler grit for the drums, a soft drive for the bass
+    crunch = curve(function (x) { var y = Math.tanh(1.6 * x) / Math.tanh(1.6); return Math.round(y * 48) / 48; });
+    soft = curve(function (x) { return Math.tanh(2.2 * x) / Math.tanh(2.2); });
+  }
+
+  function newSession() {
+    var s = { osc: [] };
+    s.bus = ctx.createGain(); s.bus.connect(limiter);
+    s.drums = ctx.createGain(); s.drums.gain.value = .8;
+    var cr = ctx.createWaveShaper(); cr.curve = crunch;
+    var hp = ctx.createBiquadFilter(); hp.type = "highpass"; hp.frequency.value = 35;
+    s.drums.connect(cr); cr.connect(hp); hp.connect(s.bus);
+    // dub delay send for the bells and the siren
+    s.fx = ctx.createGain();
+    s.delay = ctx.createDelay(2); s.delay.delayTime.value = stepDur() * 3;
+    var fb = ctx.createGain(); fb.gain.value = .42;
+    var dlp = ctx.createBiquadFilter(); dlp.type = "lowpass"; dlp.frequency.value = 2400;
+    var dhp = ctx.createBiquadFilter(); dhp.type = "highpass"; dhp.frequency.value = 300;
+    s.fx.connect(s.delay); s.delay.connect(dlp); dlp.connect(dhp); dhp.connect(fb); fb.connect(s.delay); dhp.connect(s.bus);
+    // bass: a sine sub, plus a reese (two detuned saws through a slowly moving low-pass)
+    s.sub = ctx.createOscillator(); s.sub.type = "sine";
+    s.sa = ctx.createOscillator(); s.sa.type = "sawtooth"; s.sa.detune.value = -17;
+    s.sb = ctx.createOscillator(); s.sb.type = "sawtooth"; s.sb.detune.value = 17;
+    var lp = ctx.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = 560; lp.Q.value = 3;
+    var lfo = ctx.createOscillator(); lfo.frequency.value = .21;
+    var lfoAmt = ctx.createGain(); lfoAmt.gain.value = 340;
+    lfo.connect(lfoAmt); lfoAmt.connect(lp.frequency);
+    var rDrive = ctx.createWaveShaper(); rDrive.curve = soft;
+    var sDrive = ctx.createWaveShaper(); sDrive.curve = soft;  // a touch of harmonics so the sub shows up on small speakers
+    s.reeseG = ctx.createGain(); s.subG = ctx.createGain();
+    s.amp = ctx.createGain(); s.amp.gain.value = 0;
+    s.sa.connect(lp); s.sb.connect(lp); lp.connect(rDrive); rDrive.connect(s.reeseG);
+    s.sub.connect(sDrive); sDrive.connect(s.subG);
+    s.reeseG.connect(s.amp); s.subG.connect(s.amp); s.amp.connect(s.bus);
+    [s.sub, s.sa, s.sb].forEach(function (o) { o.frequency.value = hz(31); });
+    [s.sub, s.sa, s.sb, lfo].forEach(function (o) { o.start(); s.osc.push(o); });
+    sess = s;
+    setBass();
+    return s;
+  }
+
+  // ---- instruments ----
+  function env(g, t, peak, decay) {
+    g.gain.setValueAtTime(.0001, t);
+    g.gain.exponentialRampToValueAtTime(Math.max(peak, .001), t + .002);
+    g.gain.exponentialRampToValueAtTime(.0001, t + decay);
+  }
+  function hiss(t, v, freq, decay, type, q) {
+    var n = ctx.createBufferSource(); n.buffer = noise;
+    var f = ctx.createBiquadFilter(); f.type = type; f.frequency.value = freq; if (q) f.Q.value = q;
+    var g = ctx.createGain(); env(g, t, v, decay);
+    n.connect(f); f.connect(g); g.connect(sess.drums);
+    n.start(t, Math.random() * 1.5); n.stop(t + decay + .02);
+  }
+  function kick(t, v) {
+    var o = ctx.createOscillator(), g = ctx.createGain();
+    o.frequency.setValueAtTime(170, t); o.frequency.exponentialRampToValueAtTime(50, t + .075);
+    env(g, t, v, .26);
+    o.connect(g); g.connect(sess.drums); o.start(t); o.stop(t + .3);
+    hiss(t, v * .25, 3500, .015, "highpass");
+  }
+  function snare(t, v, len) {
+    var o = ctx.createOscillator(), g = ctx.createGain();
+    o.type = "triangle"; o.frequency.setValueAtTime(245, t); o.frequency.exponentialRampToValueAtTime(178, t + .05);
+    env(g, t, v * .75, .08 * len + .03);
+    o.connect(g); g.connect(sess.drums); o.start(t); o.stop(t + .2);
+    hiss(t, v * .9, 1900, .19 * len, "bandpass", .6);
+    hiss(t, v * .45, 6000, .12 * len, "highpass");
+  }
+  function metal(t, v, decay, freq) {
+    // six square waves at awkward ratios, like an old drum machine's cymbal
+    var bp = ctx.createBiquadFilter(), hp = ctx.createBiquadFilter(), g = ctx.createGain();
+    bp.type = "bandpass"; bp.frequency.value = freq; bp.Q.value = .8;
+    hp.type = "highpass"; hp.frequency.value = 6500;
+    [205.3, 304.4, 369.6, 522.7, 540, 800].forEach(function (f) {
+      var o = ctx.createOscillator(); o.type = "square"; o.frequency.value = f * 1.7;
+      o.connect(bp); o.start(t); o.stop(t + decay + .05);
+    });
+    bp.connect(hp); hp.connect(g); env(g, t, v, decay); g.connect(sess.drums);
+  }
+  function ride(t, v) { metal(t, v * .5, .3, 9000); hiss(t, v * .45, 7000, .16, "highpass"); }
+  function hat(t, v, decay) { metal(t, v * .5, decay, 10000); hiss(t, v * .4, 8000, decay * .8, "highpass"); }
+  function crash(t, v) { metal(t, v * .4, 1.2, 8000); hiss(t, v * .7, 5000, 1.3, "highpass"); }
+  function bell(t, m) {
+    var f = hz(m), c = ctx.createOscillator(), mod = ctx.createOscillator(), mg = ctx.createGain(), g = ctx.createGain();
+    c.frequency.value = f; mod.frequency.value = f * 3.5;
+    mg.gain.setValueAtTime(f * 1.1, t); mg.gain.exponentialRampToValueAtTime(1, t + .5);
+    mod.connect(mg); mg.connect(c.frequency);
+    env(g, t, .09, .7);
+    c.connect(g); g.connect(sess.bus); g.connect(sess.fx);
+    c.start(t); mod.start(t); c.stop(t + .75); mod.stop(t + .75);
+  }
+  function bassNote(t, m, dur) {
+    var f = hz(m);
+    sess.sub.frequency.setTargetAtTime(f, t, .012);
+    sess.sa.frequency.setTargetAtTime(f * 2, t, .012);
+    sess.sb.frequency.setTargetAtTime(f * 2, t, .012);
+    sess.amp.gain.setTargetAtTime(.8, t, .006);
+    sess.amp.gain.setTargetAtTime(0, t + dur - .03, .025);
+  }
+  function setBass() {
+    if (!sess) return;
+    var t = ctx.currentTime, m = st.bass;
+    sess.subG.gain.setTargetAtTime(m === "off" ? 0 : m === "sub" ? .9 : .6, t, .05);
+    sess.reeseG.gain.setTargetAtTime(m === "reese" ? .3 : 0, t, .05);
+  }
+
+  // ---- sequencing ----
+  function barEvents(b) {
+    var src = PLATES[st.plate].bars[b % 4], ev = [];
+    for (var i = 0; i < 16; i++) ev.push({ k: src[0][i], s: src[1][i], h: src[2][i] });
+    if (st.chop && b % 2 === 1) ev = chop(ev);
+    return ev;
+  }
+  function chop(ev) {
+    var r = Math.random(), roll = [];
+    if (r < .3) return ev.slice(0, 4).concat(ev.slice(0, 4), ev.slice(8, 12), ev.slice(0, 2), ev.slice(0, 2));  // stutter
+    if (r < .55) {  // snare roll into the next bar
+      for (var i = 0; i < 8; i++) roll.push({ k: i === 0 ? "x" : ".", s: i < 2 ? "g" : i < 5 ? "x" : "X", h: "." });
+      return ev.slice(0, 8).concat(roll);
+    }
+    if (r < .8) return ev.slice(8, 12).concat(ev.slice(4, 8), ev.slice(0, 4), ev.slice(12));  // beats swapped round
+    return ev.slice(0, 12).concat([{ k: ".", s: "X", h: "." }, { k: ".", s: "x", h: "." }, { k: ".", s: "X", h: "." }, { k: ".", s: "x", h: "." }]);
+  }
+  function schedule(n, t) {
+    var i = n % 16;
+    if (i === 0 || !st.bar) st.bar = barEvents(Math.floor(n / 16));
+    var e = st.bar[i], tt = t + (i % 2 ? stepDur() * .06 : 0);  // a little swing on the off-sixteenths
+    if (e.k === "x") kick(tt, .95);
+    if (e.s === "X") snare(tt, .9, 1);
+    else if (e.s === "x") snare(tt, .5, .7);
+    else if (e.s === "g") snare(tt, .2, .45);
+    if (e.h === "r") ride(tt, i % 4 === 0 ? .24 : .18);
+    else if (e.h === "h") hat(tt, .2, .04);
+    else if (e.h === "o") hat(tt, .2, .22);
+    else if (e.h === "c") crash(tt, .35);
+    var bi = n % 64;
+    PLATES[st.plate].bass.forEach(function (nt) { if (nt[0] === bi) bassNote(t, nt[2], nt[1] * stepDur()); });
+    if (st.bells && BELLS[n % 32]) bell(t, BELLS[n % 32]);
+    if (n % 64 === 0 && n > 0) queue.push({ t: t, mc: true });
+    queue.push({ t: tt, i: i, k: e.k === "x", s: e.s !== "." });
+  }
+  function tick() {
+    var ahead = ctx.currentTime + (document.hidden ? 1.2 : .12);
+    while (st.next < ahead) {
+      schedule(st.step, st.next);
+      st.next += stepDur();
+      st.step++;
+    }
+  }
+  function draw() {
+    if (!st.playing) return;
+    var now = ctx.currentTime;
+    while (queue.length && queue[0].t <= now) {
+      var q = queue.shift();
+      if (q.mc) { var L = lines(); line = (line + 1) % L.length; say(L[line]); continue; }
+      for (var j = 0; j < 16; j++) lights[j].className = j === q.i ? (q.s ? "on s" : q.k ? "on k" : "on") : "";
+    }
+    raf = requestAnimationFrame(draw);
+  }
+
+  // ---- buttons ----
+  function setVol() { if (out) out.gain.setTargetAtTime(.6 * st.vol * st.vol, ctx.currentTime, .02); }
+  function play() {
+    if (st.playing) return;
+    if (!ctx) setup();
+    if (ctx.state === "suspended") ctx.resume();
+    newSession();
+    st.playing = true; st.rewinding = false; st.step = 0; st.bar = null; st.next = ctx.currentTime + .08;
+    queue.length = 0; line = 0;
+    timer = setInterval(tick, 25); tick();
+    rig.classList.add("on"); document.body.classList.add("onair");
+    document.body.style.setProperty("--beat", (60 / st.bpm).toFixed(3) + "s");
+    playBtn.setAttribute("aria-pressed", "true"); playBtn.textContent = "▶ on air";
+    onairEl.textContent = "on air";
+    say(lines()[0]);
+    raf = requestAnimationFrame(draw);
+  }
+  function stop() {
+    if (!st.playing) return;
+    st.playing = false; clearInterval(timer); cancelAnimationFrame(raf);
+    var s = sess, t = ctx.currentTime; sess = null;
+    s.bus.gain.cancelScheduledValues(t); s.bus.gain.setTargetAtTime(0, t, .03);
+    setTimeout(function () { s.osc.forEach(function (o) { try { o.stop(); } catch (e) {} }); s.bus.disconnect(); }, 400);
+    queue.length = 0;
+    lights.forEach(function (l) { l.className = ""; });
+    rig.classList.remove("on", "rewind"); document.body.classList.remove("onair");
+    playBtn.setAttribute("aria-pressed", "false"); playBtn.textContent = "▶ play";
+    onairEl.textContent = "off air";
+    say("off air. thanks for tuning in x");
+  }
+  // the rewind: spin it back, then drop it again from the top
+  function pullUp() {
+    if (!st.playing) { say("press play first, then pull it up ⟲"); return; }
+    if (st.rewinding) return;
+    st.rewinding = true;
+    var s = sess, t = ctx.currentTime + .03, len = 1.1, N = 96;
+    var fr = new Float32Array(N), fr2 = new Float32Array(N), cut = new Float32Array(N), gn = new Float32Array(N);
+    for (var i = 0; i < N; i++) {
+      var x = i / (N - 1), sp = Math.abs(Math.sin(Math.PI * x * 4.5)) * (1 + 2 * x);
+      fr[i] = 70 + 520 * sp; fr2[i] = fr[i] * 1.5; cut[i] = 300 + 2600 * sp;
+      gn[i] = (.03 + .2 * Math.min(1, sp)) * (1 - x * x);
+    }
+    s.bus.gain.cancelScheduledValues(t); s.bus.gain.setTargetAtTime(0, t, .02);
+    var a = ctx.createOscillator(), b = ctx.createOscillator(), f = ctx.createBiquadFilter(), g = ctx.createGain();
+    a.type = "sawtooth"; b.type = "square"; f.type = "lowpass";
+    a.frequency.setValueCurveAtTime(fr, t, len); b.frequency.setValueCurveAtTime(fr2, t, len);
+    f.frequency.setValueCurveAtTime(cut, t, len); g.gain.setValueCurveAtTime(gn, t, len);
+    a.connect(f); b.connect(f); f.connect(g); g.connect(limiter);
+    var n = ctx.createBufferSource(), nf = ctx.createBiquadFilter(), ng = ctx.createGain();
+    n.buffer = noise; nf.type = "bandpass"; nf.Q.value = 1.5; nf.frequency.setValueCurveAtTime(cut, t, len);
+    ng.gain.setValueCurveAtTime(gn, t, len);
+    n.connect(nf); nf.connect(ng); ng.connect(limiter);
+    a.start(t); b.start(t); n.start(t); a.stop(t + len + .05); b.stop(t + len + .05); n.stop(t + len + .05);
+    say("pull up! ⟲ come again");
+    rig.classList.add("rewind");
+    var drop = t + len + .3;
+    st.step = 0; st.bar = null; st.next = drop; queue.length = 0;
+    s.bus.gain.setTargetAtTime(1, drop - .015, .004);
+    setTimeout(function () {
+      rig.classList.remove("rewind");
+      if (sess !== s) return;
+      st.rewinding = false;
+      crash(drop, .4);
+    }, (drop - ctx.currentTime - .15) * 1000);
+  }
+  function siren() {
+    if (!st.playing) { say("press play first, then sound the siren"); return; }
+    var t = ctx.currentTime + .01, o = ctx.createOscillator(), lfo = ctx.createOscillator(), depth = ctx.createGain(), lp = ctx.createBiquadFilter(), g = ctx.createGain();
+    o.type = "square"; lfo.type = "triangle";
+    o.frequency.setValueAtTime(520, t); o.frequency.exponentialRampToValueAtTime(880, t + 1.6);
+    lfo.frequency.setValueAtTime(5, t); lfo.frequency.linearRampToValueAtTime(9, t + 1.6);
+    depth.gain.value = 240; lfo.connect(depth); depth.connect(o.frequency);
+    lp.type = "lowpass"; lp.frequency.value = 2200;
+    g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(.07, t + .05);
+    g.gain.setValueAtTime(.07, t + 1.5); g.gain.exponentialRampToValueAtTime(.0001, t + 1.8);
+    o.connect(lp); lp.connect(g); g.connect(sess.bus); g.connect(sess.fx);
+    o.start(t); lfo.start(t); o.stop(t + 1.85); lfo.stop(t + 1.85);
+  }
+  function press(group, btn) {
+    document.querySelectorAll(group).forEach(function (b) { b.setAttribute("aria-pressed", b === btn ? "true" : "false"); });
+  }
+
+  playBtn.addEventListener("click", play);
+  $("stop").addEventListener("click", stop);
+  $("rew").addEventListener("click", pullUp);
+  $("siren").addEventListener("click", siren);
+  document.querySelectorAll("[data-plate]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      st.plate = +b.dataset.plate; press("[data-plate]", b);
+      say("plate " + (st.plate + 1) + ": " + PLATES[st.plate].name + (st.playing ? " (drops in on the next bar)" : ""));
+    });
+  });
+  document.querySelectorAll("[data-bass]").forEach(function (b) {
+    b.addEventListener("click", function () { st.bass = b.dataset.bass; press("[data-bass]", b); setBass(); say("bass: " + st.bass); });
+  });
+  $("chop").addEventListener("click", function () {
+    st.chop = !st.chop; this.setAttribute("aria-pressed", st.chop);
+    say(st.chop ? "chop it up ✂ every other bar gets re-edited" : "chops off, straight break");
+  });
+  $("sparkle").addEventListener("click", function () {
+    st.bells = !st.bells; this.setAttribute("aria-pressed", st.bells);
+    say(st.bells ? "sparkles on ✧ a music box over the amen" : "sparkles off");
+  });
+  $("vol").addEventListener("input", function () { st.vol = +this.value; setVol(); });
+  $("bpm").addEventListener("input", function () {
+    st.bpm = +this.value; bpmOut.textContent = st.bpm.toFixed(1);
+    document.body.style.setProperty("--beat", (60 / st.bpm).toFixed(3) + "s");
+    if (sess) sess.delay.delayTime.setTargetAtTime(stepDur() * 3, ctx.currentTime, .05);
+  });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") stop(); });
+})();
 </script>
 </body>
 </html>

@@ -19,93 +19,273 @@
 <link rel="icon" href="/favicon.ico">
 <style>
 :root {
+  /* the soft ones from before */
   --paper: #fdf7ee;
   --ink: #33203a;
   --pink: #cf2d6b;
   --blue: #3550e0;
   --butter: #ffe56b;
   --blush: #ffe3ee;
+  /* and the 'ard ones */
+  --night: #141015;
+  --tape: #ffd400;
+  --acid: #b8ff3c;
+  --chrome: linear-gradient(180deg, #fff 0%, #e4e7ee 24%, #9aa0ae 46%, #3a3f4c 50%, #c3c8d3 55%, #fff 80%, #b3b8c4 100%);
+  --chrome-soft: linear-gradient(180deg, #fff 0%, #e2e5eb 46%, #bcc1cc 52%, #f1f2f5 100%);
+  --holo: linear-gradient(172deg, #fff 0%, #ffe3ee 22%, #cdbdff 44%, #6c6488 50%, #c4f4ff 57%, #fff3a8 80%, #fff 100%);
   --mono: ui-monospace, Menlo, Consolas, "Liberation Mono", "Courier New", monospace;
+  --fat: "Arial Black", "Arial Bold", Impact, sans-serif;
+  --pad: clamp(16px, 3vw, 48px);
 }
 html { background: var(--paper); }
-body { margin: 0; padding: 24px clamp(16px, 3vw, 48px) 0; color: var(--ink); font: 18px/1.45 Times, "Times New Roman", serif; }
-::selection { background: var(--butter); color: var(--ink); }
-a { color: var(--blue); text-underline-offset: 3px; }
+body { margin: 0; padding: 0 var(--pad); overflow-x: clip; color: var(--ink); font: 18px/1.45 Times, "Times New Roman", serif; }
+::selection { background: var(--acid); color: var(--night); }
+a { color: var(--blue); text-underline-offset: 3px; overflow-wrap: anywhere; }
 a:visited { color: var(--pink); }
 a:hover { background: var(--butter); text-decoration-style: wavy; }
-mark { background: var(--butter); color: inherit; }
+:focus-visible { outline: 3px solid var(--pink); outline-offset: 2px; }
 
 /* the drawings. only plain ascii inside a <pre>, so they line up in any monospace font */
 pre { font: 14px/1.15 var(--mono); margin: 0; overflow: hidden; }
-pre b { font-weight: normal; color: var(--pink); }
+pre b, pre .b { font-weight: normal; color: var(--pink); }
 pre i { font-style: normal; color: var(--blue); }
-/* hover the computer or the bus */
+pre .w { color: #d3c4cc; }
+pre .k { color: var(--ink); font-weight: bold; }
+pre .y { background: var(--butter); color: var(--ink); }
+pre .g { background: var(--night); color: var(--acid); }
+pre .tag { color: var(--blue); font-weight: bold; font-style: italic; }
+/* hover the computer, the speakers or the bus */
 pre .hi, pre:hover .idle { display: none; }
 pre:hover .hi { display: inline; }
-.banner { font-size: min(17px, 1.2vw); }
-.banner.phone { display: none; font-size: min(14px, 3.4vw); }
+.banner { font-size: min(17px, .98vw); margin-top: 22px; }
+.banner.phone { display: none; font-size: min(15px, 3.1vw); }
+
+/* warning tape */
+.tape { position: relative; margin: 0 calc(var(--pad) * -1); padding: 16px 0 15px; overflow: hidden; white-space: nowrap; background: var(--tape); color: #111; font: 900 13px/1 var(--fat); letter-spacing: .14em; text-transform: uppercase; }
+.tape::before, .tape::after { content: ""; position: absolute; left: 0; right: 0; height: 7px; background: repeating-linear-gradient(-45deg, #111 0 9px, var(--tape) 9px 18px); }
+.tape::before { top: 0; }
+.tape::after { bottom: 0; }
+.tape-wrap { margin: 44px calc(var(--pad) * -1); padding: 18px 0; overflow: hidden; }
+.tape-wrap .tape { margin: 0 -30px; transform: rotate(-1.4deg); }
 
 /* things sit side by side when there's room and stack when there isn't */
-.row { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(18em, 100%), 1fr)); align-items: start; gap: 32px 48px; margin: 36px 0; }
-.row > * { margin: 0; }
+.row { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(18em, 100%), 1fr)); align-items: start; gap: 36px 48px; margin: 36px 0; }
+.row > * { margin: 0; min-width: 0; }
 p, li { max-width: 34em; }
-h1 { font-size: 2.2em; margin: 0 0 .4em; }
-h1 span, li::marker { color: var(--pink); }
-[role=heading], figcaption, .small { font-family: var(--mono); font-size: 14px; }
-[role=heading] { display: inline-block; margin: 0 0 .7em; background: linear-gradient(transparent 50%, var(--butter) 50%); }
 ul { padding-left: 1.5em; list-style-type: "☆ "; }
 ul.hearts { list-style-type: "♡ "; }
 ul.notes { list-style-type: "♪ "; }
+li::marker { color: var(--pink); }
 li { margin-bottom: .35em; }
 .tint { background: var(--blush); padding: 20px 24px; }
 .tint > :first-child { margin-top: 0; }
 .tint > :last-child { margin-bottom: 0; }
 img { display: block; max-width: 100%; height: auto; aspect-ratio: 4 / 3; background: var(--blush); }
-.photos { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; }
 figure { margin: 0; }
-figure img { width: 100%; }
-figcaption { margin-top: 6px; }
-img + p { margin-top: 12px; }
-.small { line-height: 1.6; }
+.small { font: 14px/1.6 var(--mono); }
 .bye { font-size: 1.5em; }
 
-@media (max-width: 760px) {
+/* side a / side b, like the back of a record */
+ol.side { list-style: none; padding-left: 2.4em; counter-reset: t; }
+ol.side li { counter-increment: t; position: relative; }
+ol.side li::before { content: var(--s) counter(t); position: absolute; left: -2.4em; top: .2em; font: 13px/1.4 var(--mono); color: var(--pink); }
+ol.side-a { --s: "a"; }
+ol.side-b { --s: "b"; }
+
+/* headings are stickers slapped on, all slightly different */
+[role=heading] { display: inline-block; margin: 0 0 .8em; font: 14px/1.3 var(--mono); background: linear-gradient(transparent 50%, var(--butter) 50%); }
+.side-tag { display: inline-block; margin-right: 7px; padding: 3px 6px 2px; background: var(--night); color: var(--tape); font: 900 10px/1 var(--fat); letter-spacing: .1em; text-transform: uppercase; vertical-align: 1px; }
+.slap { padding: 5px 10px; background: #fff; border: 2px solid var(--ink); box-shadow: 3px 3px 0 var(--ink); transform: rotate(-2deg); }
+.hazard { padding: 5px 10px 5px 30px; border: 2px solid #111; color: #111; background: repeating-linear-gradient(-45deg, #111 0 6px, var(--tape) 6px 12px) left / 20px 100% no-repeat, var(--tape); transform: rotate(1deg); }
+.stencil { background: none; font: 900 16px/1 var(--fat); letter-spacing: .16em; text-transform: uppercase; -webkit-mask-image: linear-gradient(#000 46%, transparent 46% 56%, #000 56%); mask-image: linear-gradient(#000 46%, transparent 46% 56%, #000 56%); text-shadow: 0 0 5px rgba(51, 32, 58, .4); }
+.nightbus { padding: 5px 10px; background: var(--night); color: var(--acid); transform: rotate(1.5deg); }
+
+/* hello, i'm kes: a throw-up */
+h1 { margin: 0 0 .2em; font-weight: normal; line-height: 1; }
+h1 .hello { display: block; font: italic 30px/1.1 Times, "Times New Roman", serif; }
+h1 .heart { font-size: 40px; color: var(--pink); vertical-align: top; }
+.throw { position: relative; display: inline-block; isolation: isolate; margin: .1em .06em .45em .04em; padding-right: .12em; font: 900 clamp(92px, 10vw, 156px)/.9 var(--fat); letter-spacing: -.06em; transform: rotate(-4deg); }
+.throw .front { display: inline-block; background: var(--holo); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.throw .back { position: absolute; left: 0; top: 0; z-index: -1; color: var(--ink); -webkit-text-stroke: .15em var(--ink); text-shadow: 1px 1px 0 var(--pink), 2px 2px 0 var(--pink), 3px 3px 0 var(--pink), 4px 4px 0 var(--pink), 5px 5px 0 var(--pink), 6px 6px 0 var(--pink), 7px 7px 0 var(--pink), 8px 8px 0 var(--ink), 9px 9px 0 var(--ink); }
+.throw .sp { position: absolute; font-size: .2em; line-height: 1; }
+.throw .s1 { left: 16%; top: 14%; color: #fff; }
+.throw .s2 { right: -.4em; top: -.3em; color: var(--pink); font-size: .26em; }
+.drip { position: absolute; top: .72em; z-index: -2; width: .07em; height: var(--h); background: var(--ink); border-radius: 0 0 .04em .04em; animation: drip 2.8s cubic-bezier(.5, 0, .8, .6) .3s both; }
+.drip::after { content: ""; position: absolute; left: 50%; bottom: -.06em; width: .12em; height: .13em; margin-left: -.06em; border-radius: 50%; background: inherit; }
+.drip.p { background: var(--pink); }
+@keyframes drip { from { height: .02em; } }
+
+/* the photo, taped up, with a smiley slapped on it */
+.snap { position: relative; padding: 10px; background: #fff; box-shadow: 6px 6px 0 var(--ink); transform: rotate(-1.5deg); }
+.snap img { width: 100%; }
+.snap::before { content: ""; position: absolute; z-index: 1; left: -12px; top: 14px; width: 96px; height: 22px; background: repeating-linear-gradient(-45deg, #111 0 8px, var(--tape) 8px 16px); opacity: .92; transform: rotate(-34deg); }
+.smiley { position: absolute; z-index: 1; right: 6px; top: -18px; width: 66px; height: 66px; border: 3px solid var(--night); border-radius: 50%; background: radial-gradient(7% 12% at 35% 38%, var(--night) 96%, transparent), radial-gradient(7% 12% at 65% 38%, var(--night) 96%, transparent), var(--tape); transform: rotate(14deg); }
+.smiley::before { content: ""; position: absolute; left: 22%; right: 22%; top: 46%; height: 26%; border: 4px solid var(--night); border-top: 0; border-radius: 0 0 50% 50% / 0 0 100% 100%; }
+.smiley::after { content: ""; position: absolute; left: 58%; top: 96%; width: 6px; height: 20px; background: var(--tape); border: 3px solid var(--night); border-top: 0; border-radius: 0 0 6px 6px; }
+
+/* the "available for work" rave flyer */
+.flyer { position: relative; margin: -24px 6px 0 18px; padding: 22px 20px 18px; background: var(--night); color: var(--paper); box-shadow: 6px 6px 0 var(--pink); transform: rotate(1.2deg); }
+.flyer p { margin: 0; }
+.flyer a { color: var(--butter); }
+.flyer a:visited { color: var(--blush); }
+.flyer a:hover { background: var(--pink); color: #fff; }
+.presents { font: 12px/1.3 var(--mono); letter-spacing: .12em; color: var(--acid); }
+.flyer-h { margin: 6px 0 4px !important; font: 900 clamp(26px, 2.5vw, 38px)/.95 var(--fat); text-transform: uppercase; background: var(--chrome); -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(2px 2px 0 var(--pink)); }
+.kao { font-size: 18px; }
+.lineup { margin: 10px 0 !important; font: 12px/1.5 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--acid); }
+.lineup i { font-style: normal; color: var(--pink); }
+.info { font-size: 17px; }
+.fine { margin-top: 12px !important; font: 11px/1.5 var(--mono); color: rgba(253, 247, 238, .65); }
+
+/* a cassette for "lately" */
+.cassette { margin-top: 14px; font-size: 13px; }
+
+/* ---------------------------------------------------------------- radio kes */
+.radio { position: relative; margin: 44px calc(var(--pad) * -1); padding: 46px var(--pad) 52px; background: var(--night); color: var(--paper); }
+.radio::before, .radio::after { content: ""; position: absolute; left: 0; right: 0; height: 10px; background: repeating-linear-gradient(-45deg, var(--tape) 0 12px, var(--night) 12px 24px); }
+.radio::before { top: 0; }
+.radio::after { bottom: 0; }
+.radio a { color: var(--butter); }
+.radio a:visited { color: var(--blush); }
+.radio a:hover { background: var(--pink); color: #fff; }
+.locked { margin: 0; font: 14px var(--mono); color: var(--acid); }
+.station { display: inline-block; margin: .08em 0 .2em; font: italic 900 clamp(44px, 7vw, 104px)/.92 var(--fat); text-transform: uppercase; letter-spacing: -.03em; background: var(--chrome); -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(4px 4px 0 var(--pink)); }
+.freq { color: var(--acid); -webkit-text-fill-color: var(--acid); }
+.ident-sub { margin: 0; max-width: 40em; color: rgba(253, 247, 238, .85); }
+.deck { display: grid; grid-template-columns: minmax(0, 260px) minmax(0, 1.5fr) minmax(0, 1fr); gap: 36px 44px; align-items: start; margin-top: 30px; }
+.deck > * { min-width: 0; }
+
+.plinth { position: relative; padding: 16px; aspect-ratio: 1; border: 2px solid #000; border-radius: 10px; background: linear-gradient(150deg, #36363d, #18181c); box-shadow: 0 6px 0 #000; }
+.plate { position: relative; width: 100%; aspect-ratio: 1; border-radius: 50%; background: repeating-radial-gradient(circle, #0b0b0d 0 1.5px, #212127 1.5px 3px); box-shadow: 0 0 0 3px #050505, 0 0 0 5px #44444c; }
+.label { position: absolute; inset: 31%; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 11% 0 13%; border-radius: 50%; background: var(--blush); color: var(--ink); font: 9px/1.25 var(--mono); text-align: center; }
+.label b { font: italic 900 19px/1 var(--fat); color: var(--pink); transform: rotate(-8deg); }
+.label::after { content: ""; position: absolute; left: 50%; top: 50%; width: 7px; height: 7px; margin: -3.5px; border-radius: 50%; background: #111; }
+.sheen { position: absolute; inset: 16px; border-radius: 50%; pointer-events: none; background: conic-gradient(from 20deg, transparent 0 30deg, rgba(255, 255, 255, .15) 45deg, transparent 62deg 200deg, rgba(255, 255, 255, .1) 220deg, transparent 240deg); }
+.arm { position: absolute; top: 6%; right: 8%; width: 9px; height: 60%; border-radius: 5px; background: linear-gradient(90deg, #8c919c, #fff 45%, #7a7f8a); transform-origin: 50% 4%; transform: rotate(22deg); transition: transform .6s; }
+.arm::before { content: ""; position: absolute; top: -9px; left: 50%; width: 26px; height: 26px; margin-left: -13px; border-radius: 50%; background: radial-gradient(#fff, #8a8f99 60%, #333); }
+.arm::after { content: ""; position: absolute; bottom: -14px; left: -5px; width: 18px; height: 22px; border-radius: 3px; background: linear-gradient(#ddd, #888); transform: rotate(-12deg); }
+.radio.on .arm { transform: rotate(33deg); }
+.radio.on .plate { animation: spin 1.8s linear infinite; }
+.radio .plate.rewind { animation: spin .3s linear infinite reverse; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.note { margin: 16px 0 0; font: 13px/1.5 var(--mono); color: rgba(253, 247, 238, .75); }
+
+.lcd { padding: 12px 14px 10px; border: 3px solid #2c3036; border-radius: 8px; background: #0d1708; color: var(--acid); font: 13px/1.4 var(--mono); text-shadow: 0 0 6px rgba(184, 255, 60, .5); box-shadow: inset 0 0 30px rgba(184, 255, 60, .08); }
+.lcd p { margin: 0; max-width: none; }
+.lcd-top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 12px; letter-spacing: .12em; }
+.onair { opacity: .3; }
+.radio.on .onair { opacity: 1; color: #ff5c96; text-shadow: 0 0 8px #ff5c96; animation: blink 1.2s ease-in-out infinite; }
+@keyframes blink { 50% { opacity: .35; } }
+.ticker { margin: 8px 0; padding: 3px 0; overflow: hidden; white-space: nowrap; border-block: 1px dashed rgba(184, 255, 60, .35); }
+.ticker span { display: inline-block; padding-left: 100%; animation: tick 46s linear infinite; }
+.radio:not(.on) .ticker span { animation: none; padding-left: 0; }
+@keyframes tick { to { transform: translateX(-100%); } }
+.eq { height: 5em; margin: 6px 0; font: 12px/1 var(--mono); color: var(--acid); }
+.steps { display: grid; grid-template-columns: repeat(16, 1fr); gap: 3px; margin: 8px 0; }
+.steps i { height: 10px; border: 1px solid rgba(184, 255, 60, .4); border-radius: 1px; }
+.steps i:nth-child(4n+1) { border-color: var(--acid); }
+.steps i.on { background: var(--acid); box-shadow: 0 0 8px var(--acid); }
+.steps i.on.hit { background: #ff5c96; border-color: #ff5c96; box-shadow: 0 0 8px #ff5c96; }
+.readout { font-size: 12px; opacity: .7; }
+
+.keys { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0 16px; }
+.key { padding: 12px 13px 11px; border: 2px solid #000; border-radius: 5px; background: var(--chrome-soft); color: #111; font: 900 13px/1 var(--fat); letter-spacing: .03em; text-transform: uppercase; box-shadow: 0 5px 0 #000; cursor: pointer; }
+.key:hover { filter: brightness(1.08); }
+.key:active, .radio.on .key.play { transform: translateY(4px); box-shadow: 0 1px 0 #000; }
+.key.play { background: var(--acid); }
+.key.stop { background: var(--pink); color: #fff; }
+.key.pull { background: var(--tape); }
+.sw { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 0 0 8px; font: 13px var(--mono); }
+.sw > span { width: 4.6em; color: rgba(253, 247, 238, .7); }
+.sw button { padding: 6px 9px; border: 1px solid rgba(253, 247, 238, .45); border-radius: 3px; background: transparent; color: var(--paper); font: 13px/1 var(--mono); cursor: pointer; }
+.sw button[aria-pressed=true] { border-color: var(--acid); background: var(--acid); color: #111; }
+.faders { display: grid; gap: 10px; margin-top: 14px; font: 13px var(--mono); }
+.faders label { display: grid; grid-template-columns: 4.6em minmax(0, 1fr) 2.4em; align-items: center; gap: 10px; color: rgba(253, 247, 238, .8); }
+.faders input { width: 100%; margin: 0; accent-color: var(--pink); }
+.faders .xf input { accent-color: var(--acid); }
+
+.shouts h3, .liner h3 { margin: 0 0 .7em; color: var(--tape); font: 900 15px/1 var(--fat); letter-spacing: .1em; text-transform: uppercase; }
+.shouts ul { margin: 0; padding-left: 1.3em; list-style-type: "✧ "; }
+.shouts li { font-style: italic; }
+.shouts li::marker { color: var(--acid); }
+.textin { margin: 20px 0 4px; color: var(--acid); font: 900 clamp(20px, 2vw, 26px)/1.1 var(--fat); }
+.radio .fine { margin: 0; }
+.liner { margin-top: 38px; padding-top: 22px; border-top: 1px dashed rgba(253, 247, 238, .35); columns: 3 17em; column-gap: 44px; }
+.liner h3 { column-span: all; }
+.liner p { margin: 0 0 .9em; max-width: none; break-inside: avoid; }
+
+/* ---------------------------------------------------------------- the rest */
+.pack { margin: 8px 0 18px; }
+.photos { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 24px 16px; }
+.photos figure { position: relative; padding: 8px 8px 9px; border-radius: 7px; background: var(--night); }
+.photos figure:nth-child(odd) { transform: rotate(-1deg); }
+.photos figure:nth-child(even) { transform: rotate(1.2deg); }
+.photos img { width: 100%; }
+.photos figcaption { margin: 8px 0 0; padding: 5px 8px; border-radius: 2px; background: var(--blush); color: var(--ink); font: 13px/1.3 var(--mono); }
+.tno { position: absolute; z-index: 1; top: -10px; left: 10px; padding: 4px 6px 3px; border: 2px solid #111; background: var(--tape); color: #111; font: 900 10px/1 var(--fat); letter-spacing: .08em; text-transform: uppercase; transform: rotate(-3deg); }
+
+/* need a bio in the third person? it's on a name tag */
+.nametag { max-width: 36em; margin-top: 10px; padding: 10px 10px 16px; border-radius: 16px; background: var(--pink); color: #fff; box-shadow: 5px 5px 0 var(--ink); transform: rotate(-1.2deg); }
+.nt-top { margin: 2px 0 9px; text-align: center; font: 15px/1.1 Arial, sans-serif; letter-spacing: .06em; }
+.nt-top b { font: 900 34px/1 var(--fat); letter-spacing: .04em; }
+.nt-body { padding: 12px 18px 14px; border-radius: 6px; background: #fff; color: var(--ink); }
+.nt-body p:last-child { margin-bottom: 0; }
+.nt-name { margin: 4px 0 12px; color: var(--blue); font: italic 900 clamp(28px, 3.2vw, 40px)/1 var(--fat); letter-spacing: -.03em; transform: rotate(-2deg) skewX(-8deg); }
+
+.wall { margin-top: 30px; }
+
+@media (max-width: 1100px) {
+  .deck { grid-template-columns: minmax(0, 230px) minmax(0, 1fr); }
+  .shouts { grid-column: 1 / -1; }
+}
+@media (max-width: 1000px) {
   .banner { display: none; }
   .banner.phone { display: block; }
+}
+@media (max-width: 700px) {
+  .deck { grid-template-columns: minmax(0, 1fr); }
+  .turntable { max-width: 250px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after { animation: none !important; transition: none !important; }
+  .ticker span { padding-left: 0; }
 }
 </style>
 </head>
 <body>
 
 <!-- hello source-code reader ✿ take anything you like -->
-<!-- the drawings are networks: the o's are people, the lines are how they're connected -->
+<!-- the drawings are networks: the o's are people, the lines are how they're connected. a sound system is a network with bass in it -->
+<!-- the little oscilloscope off the end of the banner is the actual amen-ish pattern radio kes plays. credit: gregory c. coleman -->
 
-<pre class="banner" role="img" aria-label="kes inkersole, wired to a heart, wired to a computer">
-                                                                                     <b>*</b>            <b>+</b>       .-----------.
-<b>o</b>                        <b>o</b>         <b>o</b>                                 <b>o</b>                 <b>o-o</b>   <b>o-o</b>          | .-------. |
-|                                  |                                 |                <b>/</b>   <b>\ /</b>   <b>\</b>         | |<span class="idle">  ^ ^  </span><span class="hi"> &lt;3 &lt;3 </span>| |
-|   <b>o</b>  <b>o</b>---<b>o</b>  <b>o</b>---<b>o</b>      <b>o</b>  <b>o</b>---<b>o</b>  |   <b>o</b>  <b>o</b>---<b>o</b>  <b>o</b>--<b>o</b>  <b>o</b>---<b>o</b>    <b>o</b>    |  <b>o</b>---<b>o</b><i>~~~~~~~~~</i><b>o</b>    <b>o</b>    <b>o</b><i>~~~~~~~~~</i>| |   w   | |
-|  /   |   |  |          |  |   |  |  /   |   |  |     |       / \   <b>o</b>  |   |          <b>\</b>       <b>/</b>          | '-------' |
-<b>o</b>-<b>o</b>    <b>o</b>---<b>o</b>  <b>o</b>---<b>o</b>      |  |   |  <b>o</b>-<b>o</b>    <b>o</b>---<b>o</b>  |     <b>o</b>---<b>o</b>  <b>o</b>   <b>o</b>  |  <b>o</b>---<b>o</b>           <b>\</b>     <b>/</b>           |        [] |<i>~~~~~~~o~~~~~~~o~~~~~~~o~~~~~~~o~~~~~~~o~~~~~~~o~~~~~~~o~~~~~~~o~~~~~~~o~~~~~~~o~~~~~~~o~~~~~~~o~~~~~~~o~~~~~~~o~~~~~~~o~~~~~~~o~~~~~~~o~~~~~~~o~~~~~~~o~~~~~~~o~~~~~~~o~~~~~~~o~~~~~~~o~~~~~~~o~~~~~~~o~~~~~~~o~~~~~~~o~~~~~~~o~~~~~~~o~~~~~~~o~~~~~~~o~~~~~~~o</i>
-|  \   |          |      |  |   |  |  \   |      |         |   \ /   |  |                <b>\</b>   <b>/</b>            '-----------'
-<b>o</b>   <b>o</b>  <b>o</b>---<b>o</b>  <b>o</b>---<b>o</b>      <b>o</b>  <b>o</b>   <b>o</b>  <b>o</b>   <b>o</b>  <b>o</b>---<b>o</b>  <b>o</b>     <b>o</b>---<b>o</b>    <b>o</b>    <b>o</b>  <b>o</b>---<b>o</b>             <b>\ /</b>    <i>*</i>         /_________\
-                                                                                       <i>.</i>   <b>o</b>
+<div class="tape" aria-hidden="true">do not cross ✿ jk come in ✿ do not cross ✿ jk come in ✿ do not cross ✿ jk come in ✿ do not cross ✿ jk come in ✿ do not cross ✿ jk come in ✿ do not cross ✿ jk come in ✿ do not cross ✿ jk come in ✿ do not cross ✿ jk come in ✿ do not cross ✿ jk come in ✿ do not cross ✿ jk come in ✿</div>
+
+<pre class="banner" role="img" aria-label="kes inkersole, wired to a heart, wired to a computer, wired to a sound system">
+                                                                                     <b>*</b>            <b>+</b>       .-----------.   .---------..---------.
+<b>o</b>                        <b>o</b>         <b>o</b>                                 <b>o</b>                 <b>o-o</b>   <b>o-o</b>          | .-------. |   | <i>&lt;=====&gt;</i> || <i>&lt;=====&gt;</i> |
+|                                  |                                 |                <b>/</b>   <b>\ /</b>   <b>\</b>         | |<span class="idle">  ^ ^  </span><span class="hi"> &lt;3 &lt;3 </span>| |   |---------||---------|     <span class="g">|       |           |   |       |       |           |   |       |       |           |       |           |           |       |   |       |           |   |       |       |           |   |       |       |           |       |           |           |       |   |       |      </span>
+|   <b>o</b>  <b>o</b>---<b>o</b>  <b>o</b>---<b>o</b>      <b>o</b>  <b>o</b>---<b>o</b>  |   <b>o</b>  <b>o</b>---<b>o</b>  <b>o</b>--<b>o</b>  <b>o</b>---<b>o</b>    <b>o</b>    |  <b>o</b>---<b>o</b><i>~~~~~~~~~</i><b>o</b>    <b>o</b>    <b>o</b><i>~~~~~~~~~</i>| |   w   | |   |  .---.  ||  .---.  | <i>))</i>  <span class="g">|\  |\  |\          |\|\|\      |\  |\  |\          |\|\|\      |\  |\  |\          |\|\    |\      |\|\|\          |\      |\  |\  |\  |\          |\|\|\      |\  |\  |\          |\|\|\      |\  |\  |\          |\|\    |\      |\|\|\          |\      |\  |\  |\  |\     </span>
+|  /   |   |  |          |  |   |  |  /   |   |  |     |       / \   <b>o</b>  |   |          <b>\</b>       <b>/</b>          | '-------' |   | ( <span class="idle b">(o)</span><span class="hi b">(O)</span> ) || ( <span class="idle b">(o)</span><span class="hi b">(O)</span> ) | <i>)))</i> <span class="g">|---|---|-----+---+-|-|-|-----+-|---|---|-----+---+-|-|-|-----+-|---|---|-----+---+-|-|-----|-----+-|-|-|-----+---+-|-------|---|---|---|-----+---+-|-|-|-----+-|---|---|-----+---+-|-|-|-----+-|---|---|-----+---+-|-|-----|-----+-|-|-|-----+---+-|-------|---|---|---|-----+</span>
+<b>o</b>-<b>o</b>    <b>o</b>---<b>o</b>  <b>o</b>---<b>o</b>      |  |   |  <b>o</b>-<b>o</b>    <b>o</b>---<b>o</b>  |     <b>o</b>---<b>o</b>  <b>o</b>   <b>o</b>  |  <b>o</b>---<b>o</b>           <b>\</b>     <b>/</b>           |        [] |<i>~~~</i>|  '---'  ||  '---'  | <i>))</i>  <span class="g">|/  |/  |/          |/|/|/      |/  |/  |/          |/|/|/      |/  |/  |/          |/|/    |/      |/|/|/          |/      |/  |/  |/  |/          |/|/|/      |/  |/  |/          |/|/|/      |/  |/  |/          |/|/    |/      |/|/|/          |/      |/  |/  |/  |/     </span>
+|  \   |          |      |  |   |  |  \   |      |         |   \ /   |  |                <b>\</b>   <b>/</b>            '-----------'   |---------||---------|     <span class="g">|       |           |   |       |       |           |   |       |       |           |       |           |           |       |   |       |           |   |       |       |           |   |       |       |           |       |           |           |       |   |       |      </span>
+<b>o</b>   <b>o</b>  <b>o</b>---<b>o</b>  <b>o</b>---<b>o</b>      <b>o</b>  <b>o</b>   <b>o</b>  <b>o</b>   <b>o</b>  <b>o</b>---<b>o</b>  <b>o</b>     <b>o</b>---<b>o</b>    <b>o</b>    <b>o</b>  <b>o</b>---<b>o</b>             <b>\ /</b>    <i>*</i>         /_________\    | (<b>( </b><span class="idle b">O</span><span class="hi b">@</span> )<b>) </b>|| (<b>( </b><span class="idle b">O</span><span class="hi b">@</span> )<b>) </b>|
+                                                                                       <i>.</i>   <b>o</b>                              '---------''---------'
 </pre>
-<pre class="banner phone" role="img" aria-label="kes, wired to a heart">
-                        <b>*</b>            <b>+</b>
-<b>o</b>                         <b>o-o</b>   <b>o-o</b>
-|                        <b>/</b>   <b>\ /</b>   <b>\</b>
-|   <b>o</b>  <b>o</b>---<b>o</b>  <b>o</b>---<b>o</b><i>~~~~~~</i><b>o</b>    <b>o</b>    <b>o</b><i>~~~~~~~o~~~~~~~o~~~~~~~o~~~~~~~o~~~~~~~o~~~~~~~o~~~~~~~o~~~~~~~o~~~~~~~o~~~~~~~o~~~~~~~o~~~~~~~o~~~~~~~o~~~~~~~o~~~~~~~o</i>
-|  /   |   |  |           <b>\</b>       <b>/</b>
-<b>o</b>-<b>o</b>    <b>o</b>---<b>o</b>  <b>o</b>---<b>o</b>        <b>\</b>     <b>/</b>
-|  \   |          |         <b>\</b>   <b>/</b>
-<b>o</b>   <b>o</b>  <b>o</b>---<b>o</b>  <b>o</b>---<b>o</b>          <b>\ /</b>
+<pre class="banner phone" role="img" aria-label="kes, wired to a heart, wired to a speaker">
+                        <b>*</b>
+<b>o</b>                         <b>o-o</b>   <b>o-o</b>    .-------.
+|                        <b>/</b>   <b>\ /</b>   <b>\</b>   | <i>&lt;===&gt;</i> |     <span class="g">|       |           |   |       |       |           |   |       |       |           |       |           |           |       |   |       |           |   |       |      </span>
+|   <b>o</b>  <b>o</b>---<b>o</b>  <b>o</b>---<b>o</b><i>~~~~~~</i><b>o</b>    <b>o</b>    <b>o</b><i>~~~</i>|-------|     <span class="g">|\  |\  |\          |\|\|\      |\  |\  |\          |\|\|\      |\  |\  |\          |\|\    |\      |\|\|\          |\      |\  |\  |\  |\          |\|\|\      |\  |\ </span>
+|  /   |   |  |           <b>\</b>       <b>/</b>    |  <span class="idle b">(o)</span><span class="hi b">(O)</span>  | <i>)))</i> <span class="g">|---|---|-----+---+-|-|-|-----+-|---|---|-----+---+-|-|-|-----+-|---|---|-----+---+-|-|-----|-----+-|-|-|-----+---+-|-------|---|---|---|-----+---+-|-|-|-----+-|---|--</span>
+<b>o</b>-<b>o</b>    <b>o</b>---<b>o</b>  <b>o</b>---<b>o</b>        <b>\</b>     <b>/</b>     |-------|     <span class="g">|/  |/  |/          |/|/|/      |/  |/  |/          |/|/|/      |/  |/  |/          |/|/    |/      |/|/|/          |/      |/  |/  |/  |/          |/|/|/      |/  |/ </span>
+|  \   |          |         <b>\</b>   <b>/</b>      | <span class="idle b">( O )</span><span class="hi b">( @ )</span> |     <span class="g">|       |           |   |       |       |           |   |       |       |           |       |           |           |       |   |       |           |   |       |      </span>
+<b>o</b>   <b>o</b>  <b>o</b>---<b>o</b>  <b>o</b>---<b>o</b>          <b>\ /</b>       '-------'
                               <b>o</b>
 </pre>
 
 <div class="row">
   <div>
-    <h1>hello, i'm kes <span>♡</span></h1>
+    <h1><span class="hello">hello, i'm</span> <span class="throw"><span class="back" aria-hidden="true">kes</span><span class="front">kes</span><span class="drip" style="left:9%;--h:.34em" aria-hidden="true"></span><span class="drip p" style="left:41%;--h:.5em" aria-hidden="true"></span><span class="drip" style="left:58%;--h:.2em" aria-hidden="true"></span><span class="drip" style="left:80%;--h:.42em" aria-hidden="true"></span><span class="sp s1" aria-hidden="true">✦</span><span class="sp s2" aria-hidden="true">✧</span></span><span class="heart">♡</span></h1>
 
     <p>that's kesia inkersole on paper. i'm a freelance creative strategist and internet equalities researcher in london.</p>
 
@@ -115,70 +295,177 @@ img + p { margin-top: 12px; }
   </div>
 
   <div>
-    <img src="https://picsum.photos/seed/kesroom/640/480" width="640" height="480" alt="">
-    <p><mark>i'm available for work!</mark> (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧<br>say hi →&nbsp;<a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
+    <figure class="snap">
+      <img src="https://picsum.photos/seed/kesroom/640/480" width="640" height="480" alt="">
+      <span class="smiley" aria-hidden="true"></span>
+    </figure>
+    <div class="flyer">
+      <p class="presents">kes inkersole presents ✧</p>
+      <p class="flyer-h">i'm available for work!</p>
+      <p class="kao">(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧</p>
+      <p class="lineup">strategy <i>✿</i> research <i>✿</i> workshops <i>✿</i> talks</p>
+      <p class="info">info line, say hi →&nbsp;<a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
+      <p class="fine">the management reserves the right to reply with too many exclamation marks. lorem ipsum till late.</p>
+    </div>
   </div>
 
   <div class="tint">
     <p role="heading" aria-level="2">lately ⋆˚｡</p>
-    <ul>
+    <ol class="side side-a">
       <li>lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
       <li>sed do eiusmod tempor incididunt ut labore et dolore</li>
       <li>ut enim ad minim veniam, quis nostrud exercitation</li>
-    </ul>
+    </ol>
+<pre class="cassette" aria-hidden="true">
+.--------------------.
+| .----------------. |
+| |  <b>(@)</b><i>------</i><b>(@)</b>  | |
+| '----------------' |
+|  side a  ~ lately  |
+'---/____________\---'
+</pre>
   </div>
 </div>
 
 <pre aria-hidden="true"><b>o</b>---<b>o</b>---<b>o</b>----<b>o</b>---------<b>o</b>--<b>o</b>--<b>o</b>------<b>o</b>--<b>o</b>---<b>o</b>------<b>o</b>--<b>o</b>------<b>o</b>---<b>o</b>--<b>o</b>--<b>o</b>----<b>o</b>----<b>o</b>--<b>o</b>---<b>o</b>--<b>o</b>------<b>o</b>----<b>o</b>--<b>o</b>------<b>o</b>--<b>o</b>---<b>o</b>---------<b>o</b>---------<b>o</b>------<b>o</b>--<b>o</b>------<b>o</b>------<b>o</b>----<b>o</b>--<b>o</b>---<b>o</b>--<b>o</b>------<b>o</b>---<b>o</b>---<b>o</b>----<b>o</b>---<b>o</b>------<b>o</b>--<b>o</b>------<b>o</b>---<b>o</b>------<b>o</b>---------<b>o</b>---<b>o</b>--<b>o</b>------<b>o</b>------<b>o</b>---------<b>o</b>---<b>o</b>---<b>o</b>--<b>o</b>------<b>o</b>---------<b>o</b>--<b>o</b>------<b>o</b>--<b>o</b>------<b>o</b></pre>
 
+<section class="radio" id="radio" aria-labelledby="station">
+  <p class="locked">you're locked to</p>
+  <h2 class="station" id="station">radio kes <span class="freq"><span id="freq">170</span>.0</span></h2>
+  <p class="ident-sub">a pirate station for one web page. the frequency is the bpm, every sound is made live in your browser, and nothing plays until you press play ✧</p>
+
+  <div class="deck">
+    <div class="turntable">
+      <div class="plinth" aria-hidden="true">
+        <div class="plate" id="plate">
+          <div class="label"><b>kes</b><span>this website<br>dub ✧ 170</span></div>
+        </div>
+        <div class="sheen"></div>
+        <div class="arm"></div>
+      </div>
+      <p class="note">a dubplate is a one-off acetate, cut so a sound system can play a tune nobody else has. this one gets cut fresh every time you press play.</p>
+    </div>
+
+    <div class="desk">
+      <div class="lcd">
+        <div class="lcd-top" aria-hidden="true"><span>RADIO KES <span id="freq2">170.0</span></span><span class="onair">● ON AIR</span></div>
+        <div class="ticker" aria-hidden="true"><span>big up all the junglists ✧ big up the night bus readers ✧ big up the screen reader users ✧ big up whoever's reading the source ✧ big up gregory c. coleman ✧ big up the lorem ipsum crew ✧ text in on 07700 900 170 (jk) ✧ radio kes, 170.0, live from this one web page ✧</span></div>
+<pre class="eq" id="eq" aria-hidden="true">
+
+
+
+________________________________________________________________________________</pre>
+        <div class="steps" id="steps" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <p class="status" id="status" role="status">off air ✧ press drop it to start</p>
+        <p class="readout" id="readout" aria-hidden="true">amen-ish · reese · 170bpm · bar -.--</p>
+      </div>
+
+      <div class="keys">
+        <button type="button" class="key play" id="play">▶ drop it</button>
+        <button type="button" class="key stop" id="stop">■ stop</button>
+        <button type="button" class="key pull" id="pull">&lt;&lt; pull up</button>
+        <button type="button" class="key chop" id="chop">✂ chop</button>
+        <button type="button" class="key horn" id="horn">air horn</button>
+      </div>
+      <div class="sw" role="group" aria-label="drums">
+        <span>drums</span>
+        <button type="button" data-pat="amen" aria-pressed="true">amen-ish</button>
+        <button type="button" data-pat="two" aria-pressed="false">two-step</button>
+        <button type="button" data-pat="half" aria-pressed="false">half-time</button>
+      </div>
+      <div class="sw" role="group" aria-label="bass">
+        <span>bass</span>
+        <button type="button" data-bass="reese" aria-pressed="true">reese</button>
+        <button type="button" data-bass="sub" aria-pressed="false">sub</button>
+      </div>
+      <div class="faders">
+        <label class="xf"><span>cute</span><input type="range" id="xf" min="0" max="100" value="50" aria-label="crossfader, from cute to 'ard"><span>'ard</span></label>
+        <label><span>volume</span><input type="range" id="vol" min="0" max="100" value="60"></label>
+        <label><span>tempo</span><input type="range" id="bpm" min="160" max="174" value="170"></label>
+      </div>
+    </div>
+
+    <div class="shouts">
+      <h3>shout-outs ✧</h3>
+      <ul>
+        <li>big up all the junglists</li>
+        <li>big up everyone reading this on the night bus</li>
+        <li>big up the screen reader users, i labelled the drawings for you</li>
+        <li>big up whoever's reading the source code (hi)</li>
+        <li>big up gregory c. coleman and the winstons (liner notes ↓)</li>
+        <li>big up the sound system crews who built all this</li>
+        <li>big up the lorem ipsum crew, holding it down till the real words turn up</li>
+      </ul>
+      <p class="textin">text in: 07700 900 170*</p>
+      <p class="fine">* not a real number. ofcom keeps 07700 900 for made-up ones in tv and radio drama, and this is drama. real messages go to <a href="mailto:inkersolekesia@gmail.com">my email</a> x</p>
+    </div>
+  </div>
+
+  <div class="liner">
+    <h3>liner notes ✎</h3>
+    <p>jungle is a london sound. it came out of black british sound system culture (reggae and dancehall sounds, MCs, dubplates, pirate radio) crashing into breakbeat hardcore in the early 90s. i'm borrowing its clothes for my homepage, so the least i can do is the credits.</p>
+    <p>the amen break is four bars of gregory c. coleman drumming on the winstons' "amen, brother" (1969). it's one of the most sampled recordings ever made, and the band never saw royalties for it. who makes the culture, who gets credited, who gets paid: an internet equalities question from before the internet.</p>
+    <p>radio kes doesn't sample anything. every kick, snare and reese is synthesised in your browser, on your device, right now. nothing downloads and nothing tracks you. the rhythm is still his though, so: big up gregory c. coleman.</p>
+  </div>
+</section>
+
 <div class="row">
   <div>
-    <p role="heading" aria-level="2">projects (for fun) ✿</p>
-    <ul>
+    <p role="heading" aria-level="2" class="slap"><span class="side-tag">side a</span>projects (for fun) ✿</p>
+    <ol class="side side-a">
       <li><a href="https://latent-space.vercel.app/">latent space</a> — lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
       <li><a href="https://protecht.vercel.app/">pro(tech)t</a> — sed do eiusmod tempor incididunt ut labore et dolore</li>
-    </ul>
+    </ol>
   </div>
   <div>
-    <p role="heading" aria-level="2">projects (for funds)</p>
-    <ul>
+    <p role="heading" aria-level="2" class="hazard"><span class="side-tag">side b</span>projects (for funds)</p>
+    <ol class="side side-b">
       <li><a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1">MØRNING Ø</a> — ut enim ad minim veniam, quis nostrud exercitation</li>
       <li><a href="https://co-matter.com/project/networked-worlds">networked worlds</a> — duis aute irure dolor in reprehenderit in voluptate</li>
       <li><a href="https://www.protein.xyz/dirty-words-4-community/">protein dirty words #4: community report</a> — excepteur sint occaecat cupidatat non proident</li>
-    </ul>
+    </ol>
   </div>
 </div>
 
+<p class="small pack">the tape pack ✧ six tapes, all lorem ipsum for now</p>
 <div class="photos">
   <figure>
+    <span class="tno" aria-hidden="true">tape 1</span>
     <img src="https://picsum.photos/seed/latent1/340/255" width="340" height="255" alt="latent space">
     <figcaption>latent space, lorem ipsum</figcaption>
   </figure>
   <figure>
+    <span class="tno" aria-hidden="true">tape 2</span>
     <img src="https://picsum.photos/seed/latent2/340/255" width="340" height="255" alt="latent space">
     <figcaption>latent space, dolor sit amet</figcaption>
   </figure>
   <figure>
+    <span class="tno" aria-hidden="true">tape 3</span>
     <img src="https://picsum.photos/seed/protecht1/340/255" width="340" height="255" alt="pro(tech)t">
     <figcaption>pro(tech)t, consectetur adipiscing</figcaption>
   </figure>
   <figure>
+    <span class="tno" aria-hidden="true">tape 4</span>
     <img src="https://picsum.photos/seed/morning1/340/255" width="340" height="255" alt="MØRNING Ø">
     <figcaption>MØRNING Ø, lorem ipsum</figcaption>
   </figure>
   <figure>
+    <span class="tno" aria-hidden="true">tape 5</span>
     <img src="https://picsum.photos/seed/networked1/340/255" width="340" height="255" alt="networked worlds">
     <figcaption>networked worlds, dolor sit amet</figcaption>
   </figure>
   <figure>
+    <span class="tno" aria-hidden="true">tape 6</span>
     <img src="https://picsum.photos/seed/dirtywords1/340/255" width="340" height="255" alt="dirty words #4">
     <figcaption>dirty words #4, sed do eiusmod</figcaption>
   </figure>
 </div>
 
+<div class="tape-wrap" aria-hidden="true"><div class="tape">caution ✿ wet paint ✿ caution ✿ wet paint ✿ caution ✿ wet paint ✿ caution ✿ wet paint ✿ caution ✿ wet paint ✿ caution ✿ wet paint ✿ caution ✿ wet paint ✿ caution ✿ wet paint ✿ caution ✿ wet paint ✿ caution ✿ wet paint ✿ caution ✿ wet paint ✿ caution ✿ wet paint ✿</div></div>
+
 <div class="row">
   <div>
-    <p role="heading" aria-level="2">some writing</p>
+    <p role="heading" aria-level="2" class="stencil">some writing</p>
     <ul class="hearts">
       <li><a href="https://www.protein.xyz/sex-and-the-internet/">mindy seu on sex and the internet</a> (Protein)</li>
       <li><a href="https://midnight.agency/thoughts/dreaming-and-designing-more-accessible-web">dreaming and designing a more accessible web</a> (Midnight Agency)</li>
@@ -190,7 +477,7 @@ img + p { margin-top: 12px; }
   </div>
 
   <div>
-    <p role="heading" aria-level="2">podcasts, for the bus</p>
+    <p role="heading" aria-level="2" class="nightbus">podcasts, for the night bus</p>
     <ul class="notes">
       <li><a href="https://podcasts.apple.com/gb/podcast/mindy-seu-on-collaboration-community-and/id1449302502?i=1000597869409">mindy seu on collaboration, community and the cyberfeminism index</a></li>
       <li><a href="https://soundcloud.com/proteincommunity/protein-forum-what-can-web2-organisations-learn-from-web3-communities">what can web2 organisations learn from web3 communities?</a></li>
@@ -205,9 +492,9 @@ img + p { margin-top: 12px; }
   <b>.----------------.</b>
  <b>/</b>  <b>[_____][_____]</b>  <b>\</b>
  <b>|------------------|</b>
- <b>| [</b><span class="idle">NOT IN SERVICE</span><span class="hi"> all aboard!! </span><b>] |</b>
+ <b>| [</b><span class="idle">NOT IN SERVICE</span><span class="hi">  pull up!!   </span><b>] |</b>
  <b>| .--------------. |</b>
- <b>| |</b>              <b>| |</b>
+ <b>| |</b> <span class="tag">kes &lt;3 '26</span>   <b>| |</b>
  <b>| '--------------' |</b>
  <b>|(o)</b>    <b>====</b>    <b>(o)|</b>
  <b>'-[__]--------[__]-'</b>
@@ -230,9 +517,15 @@ img + p { margin-top: 12px; }
 <pre aria-hidden="true"><b>o</b>----<b>o</b>------<b>o</b>----<b>o</b>----<b>o</b>------<b>o</b>------<b>o</b>---<b>o</b>---<b>o</b>------<b>o</b>----<b>o</b>---------<b>o</b>------<b>o</b>---<b>o</b>--<b>o</b>----<b>o</b>---<b>o</b>---<b>o</b>--<b>o</b>------<b>o</b>---------<b>o</b>---------<b>o</b>--<b>o</b>------<b>o</b>----<b>o</b>----<b>o</b>---------<b>o</b>---------<b>o</b>------<b>o</b>---------<b>o</b>---<b>o</b>------<b>o</b>--<b>o</b>------<b>o</b>--<b>o</b>--<b>o</b>--<b>o</b>---<b>o</b>---<b>o</b>------<b>o</b>--<b>o</b>----<b>o</b>---<b>o</b>----<b>o</b>------<b>o</b>---<b>o</b>------<b>o</b>---<b>o</b>---------<b>o</b>---<b>o</b>----<b>o</b>--<b>o</b>---------<b>o</b>--<b>o</b>----<b>o</b>---------<b>o</b>---<b>o</b>-</pre>
 
 <div class="row">
-  <div class="tint">
+  <div>
     <p>need a bio in the third person? here you go:</p>
-    <p>kesia inkersole lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    <div class="nametag">
+      <p class="nt-top" aria-hidden="true"><b>HELLO</b><br>my name is</p>
+      <div class="nt-body">
+        <p class="nt-name" aria-hidden="true">kesia inkersole</p>
+        <p>kesia inkersole lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+      </div>
+    </div>
   </div>
   <div>
     <p>my cv and portfolio are on request, just <a href="mailto:inkersolekesia@gmail.com">email me</a>&nbsp;♡</p>
@@ -246,26 +539,463 @@ img + p { margin-top: 12px; }
   </div>
 </div>
 
-<pre class="garden" aria-hidden="true">
-   <b>o o o</b>                              <b>o o o</b>                                                                    <b>o o o</b>              <b>o o o</b>                    <b>o o o</b>                              <b>o o o</b>                                                                    <b>o o o</b>              <b>o o o</b>                    <b>o o o</b>                              <b>o o o</b>                                                                    <b>o o o</b>              <b>o o o</b>
-    <b>\|/</b>                                <b>\|/</b>                                                                      <b>\|/</b>                <b>\|/</b>                      <b>\|/</b>                                <b>\|/</b>                                                                      <b>\|/</b>                <b>\|/</b>                      <b>\|/</b>                                <b>\|/</b>                                                                      <b>\|/</b>                <b>\|/</b>
-   <b>o-</b><i>@</i><b>-o</b>         <b>o</b>                    <b>o-</b><i>@</i><b>-o</b>      <b>o</b>                <b>o</b>                 <b>o</b>                          <b>o-</b><i>@</i><b>-o</b>              <b>o-</b><i>@</i><b>-o</b>     <b>o</b>              <b>o-</b><i>@</i><b>-o</b>         <b>o</b>                    <b>o-</b><i>@</i><b>-o</b>      <b>o</b>                <b>o</b>                 <b>o</b>                          <b>o-</b><i>@</i><b>-o</b>              <b>o-</b><i>@</i><b>-o</b>     <b>o</b>              <b>o-</b><i>@</i><b>-o</b>         <b>o</b>                    <b>o-</b><i>@</i><b>-o</b>      <b>o</b>                <b>o</b>                 <b>o</b>                          <b>o-</b><i>@</i><b>-o</b>              <b>o-</b><i>@</i><b>-o</b>     <b>o</b>
-    <b>/|\</b>         <b>o</b><i>@</i><b>o</b>                    <b>/|\</b>      <b>o</b><i>@</i><b>o</b>              <b>o</b><i>@</i><b>o</b>               <b>o</b><i>@</i><b>o</b>                          <b>/|\</b>                <b>/|\</b>     <b>o</b><i>@</i><b>o</b>              <b>/|\</b>         <b>o</b><i>@</i><b>o</b>                    <b>/|\</b>      <b>o</b><i>@</i><b>o</b>              <b>o</b><i>@</i><b>o</b>               <b>o</b><i>@</i><b>o</b>                          <b>/|\</b>                <b>/|\</b>     <b>o</b><i>@</i><b>o</b>              <b>/|\</b>         <b>o</b><i>@</i><b>o</b>                    <b>/|\</b>      <b>o</b><i>@</i><b>o</b>              <b>o</b><i>@</i><b>o</b>               <b>o</b><i>@</i><b>o</b>                          <b>/|\</b>                <b>/|\</b>     <b>o</b><i>@</i><b>o</b>
-   <b>o | o</b>         <b>o</b>                    <b>o | o</b>      <b>o</b>                <b>o</b>                 <b>o</b>                          <b>o | o</b>              <b>o | o</b>     <b>o</b>              <b>o | o</b>         <b>o</b>                    <b>o | o</b>      <b>o</b>                <b>o</b>                 <b>o</b>                          <b>o | o</b>              <b>o | o</b>     <b>o</b>              <b>o | o</b>         <b>o</b>                    <b>o | o</b>      <b>o</b>                <b>o</b>                 <b>o</b>                          <b>o | o</b>              <b>o | o</b>     <b>o</b>
-     <i>|</i>           <i>|</i>     <b>o</b>   <b>o</b>    <b>o</b>       <i>|</i>        <i>|</i>          <b>o</b>     <i>|</i>           <b>o</b>     <i>|</i>           <i>.--.</i>  <i>o</i>  <i>o</i>       <i>|</i>      <b>o</b>           <i>|</i>       <i>|</i>    <b>o</b>   <b>o</b>       <i>|</i>           <i>|</i>     <b>o</b>   <b>o</b>    <b>o</b>       <i>|</i>        <i>|</i>          <b>o</b>     <i>|</i>           <b>o</b>     <i>|</i>           <i>.--.</i>  <i>o</i>  <i>o</i>       <i>|</i>      <b>o</b>           <i>|</i>       <i>|</i>    <b>o</b>   <b>o</b>       <i>|</i>           <i>|</i>     <b>o</b>   <b>o</b>    <b>o</b>       <i>|</i>        <i>|</i>          <b>o</b>     <i>|</i>           <b>o</b>     <i>|</i>           <i>.--.</i>  <i>o</i>  <i>o</i>       <i>|</i>      <b>o</b>           <i>|</i>       <i>|</i>    <b>o</b>   <b>o</b>
-    <i>\|</i>          <i>\|</i>      <b>\o/</b>     <i>|</i>      <i>\|</i>       <i>\|</i>          <i>|</i>    <i>\|</i>           <i>|</i>    <i>\|</i>          <i>(</i> <b>@</b>  <i>)__\/</i>       <i>\|</i>      <i>|</i>          <i>\|</i>      <i>\|</i>     <b>\o/</b>       <i>\|</i>          <i>\|</i>      <b>\o/</b>     <i>|</i>      <i>\|</i>       <i>\|</i>          <i>|</i>    <i>\|</i>           <i>|</i>    <i>\|</i>          <i>(</i> <b>@</b>  <i>)__\/</i>       <i>\|</i>      <i>|</i>          <i>\|</i>      <i>\|</i>     <b>\o/</b>       <i>\|</i>          <i>\|</i>      <b>\o/</b>     <i>|</i>      <i>\|</i>       <i>\|</i>          <i>|</i>    <i>\|</i>           <i>|</i>    <i>\|</i>          <i>(</i> <b>@</b>  <i>)__\/</i>       <i>\|</i>      <i>|</i>          <i>\|</i>      <i>\|</i>     <b>\o/</b>
-     <i>|/</i>    <i>\|/</i>   <i>|</i>       <i>|</i>      <i>|/</i>      <i>|/</i>       <i>|</i>    <i>\|/</i>   <i>|/</i>    <i>|</i>           <i>|/</i>    <i>|</i>    <i>\|/</i>    <i>'--'_____)</i>       <i>|/</i>     <i>|/</i>  <i>\|/</i>     <i>|/</i>      <i>|</i>      <i>|</i>         <i>|/</i>    <i>\|/</i>   <i>|</i>       <i>|</i>      <i>|/</i>      <i>|/</i>       <i>|</i>    <i>\|/</i>   <i>|/</i>    <i>|</i>           <i>|/</i>    <i>|</i>    <i>\|/</i>    <i>'--'_____)</i>       <i>|/</i>     <i>|/</i>  <i>\|/</i>     <i>|/</i>      <i>|</i>      <i>|</i>         <i>|/</i>    <i>\|/</i>   <i>|</i>       <i>|</i>      <i>|/</i>      <i>|/</i>       <i>|</i>    <i>\|/</i>   <i>|/</i>    <i>|</i>           <i>|/</i>    <i>|</i>    <i>\|/</i>    <i>'--'_____)</i>       <i>|/</i>     <i>|/</i>  <i>\|/</i>     <i>|/</i>      <i>|</i>      <i>|</i>
-<i>-----</i><b>o</b><i>------</i><b>o</b><i>----</i><b>o</b><i>-------</i><b>o</b><i>------</i><b>o</b><i>-------</i><b>o</b><i>--------</i><b>o</b><i>-----</i><b>o</b><i>----</i><b>o</b><i>-----</i><b>o</b><i>-----------</i><b>o</b><i>-----</i><b>o</b><i>-----</i><b>o</b><i>----------------------</i><b>o</b><i>------</i><b>o</b><i>----</i><b>o</b><i>------</i><b>o</b><i>-------</i><b>o</b><i>------</i><b>o</b><i>---------</i><b>o</b><i>------</i><b>o</b><i>----</i><b>o</b><i>-------</i><b>o</b><i>------</i><b>o</b><i>-------</i><b>o</b><i>--------</i><b>o</b><i>-----</i><b>o</b><i>----</i><b>o</b><i>-----</i><b>o</b><i>-----------</i><b>o</b><i>-----</i><b>o</b><i>-----</i><b>o</b><i>----------------------</i><b>o</b><i>------</i><b>o</b><i>----</i><b>o</b><i>------</i><b>o</b><i>-------</i><b>o</b><i>------</i><b>o</b><i>---------</i><b>o</b><i>------</i><b>o</b><i>----</i><b>o</b><i>-------</i><b>o</b><i>------</i><b>o</b><i>-------</i><b>o</b><i>--------</i><b>o</b><i>-----</i><b>o</b><i>----</i><b>o</b><i>-----</i><b>o</b><i>-----------</i><b>o</b><i>-----</i><b>o</b><i>-----</i><b>o</b><i>----------------------</i><b>o</b><i>------</i><b>o</b><i>----</i><b>o</b><i>------</i><b>o</b><i>-------</i><b>o</b><i>------</i><b>o</b><i>----</i>
+<!-- a wall with some tags on it, and the network garden growing in front -->
+<pre class="wall" aria-hidden="true">
+<span class="w">_______|</span><b>.-.  .-.  .-----.  .-----.</b><span class="w">_____|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|____</span>
+<span class="w">___|____</span><b>| | / /   | .---'  | .---'</b><span class="w">_|_____</span><span class="k">credit the drummer</span><span class="w">|_______|_______|_______|_______|_______|_______|_____</span><i>kes&lt;3</i><span class="w">_____|_</span><b>.-'''-.</b><span class="w">_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|___</span><span class="k">credit the drummer</span><span class="w">__|_______|_______|_______|_______|_______|_______|___</span><i>kes&lt;3</i><span class="w">_______</span><b>.-'''-.</b><span class="w">_|_______|_______|_______|_______|_______|_______|_______|</span>
+<span class="w">_______|</span><b>| |/ /    | '--.   | '---.</b><span class="w">_____|_______|_______|_______|_______</span><span class="y">[ HELLO my name is: lorem ]</span><span class="w">_____|_______|_______|____</span><b>/  | |  \</b><span class="w">__|_______|_______|_______|_______</span><i>x</i><span class="w">_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_____</span><span class="y">[ HELLO my name is: lorem ]</span><span class="w">_______|_______|_______|__</span><b>/  | |  \</b><span class="w">____|_______|_______|_______|_____</span><i>x</i><span class="w">_|_______|_______|____</span>
+<span class="w">___|____</span><b>|   &lt;     | .--'   '---. |</b><span class="w">_|_______|_</span><b>lorem</b><span class="w">_|_______|_______|_______|_______|_______|_______|_______|_______|_______|</span><b>| \___/ |</b><span class="w">______|_</span><b>dolor '26</b><span class="w">_____|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______</span><b>lorem</b><span class="w">___|_______|_______|_______|_______|_______|_______|_______|_______|______</span><b>| \___/ |</b><span class="w">|_______</span><b>dolor '26</b><span class="w">_______|_______|_______|_______|_______|</span>
+<span class="w">_______|</span><b>| |\ \    | '---.  .---' |</b><span class="w">_____|_______|_____</span><i>ipsum crew</i><span class="w">|_______|_______|_______|_______|_______|_______|_______|____</span><b>\       /</b><span class="w">__|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|___</span><i>ipsum crew</i><span class="w">__|_______|_______|_______|_______|_______|_______|_______|__</span><b>\       /</b><span class="w">____|_______|_______|_______|_______|_______|_______|____</span>
+<span class="w">___|____</span><b>'-' '-'   '-----'  '-----'</b><span class="w">_|_______|_______|_______|_______|_______|_______|_______|_______|_____</span><span class="k">170</span><span class="w">_______|_______|_</span><b>'-._.-'</b><span class="w">_______|_______|_______</span><span class="k">pull up</span><span class="w">_|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|___</span><span class="k">170</span><span class="w">_|_______|_______</span><b>'-._.-'</b><span class="w">_|_______|_______|_____</span><span class="k">pull up</span><span class="w">___|_______|_______|_______|</span>
+<span class="w">_______|_</span><b>|</b><span class="w">___</span><b>|</b><span class="w">_|_____</span><b>|</b><span class="w">_|_____</span><b>|</b><span class="w">_|</span><b>|</b><span class="w">______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|____</span><span class="k">|</span><span class="w">__|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|__</span><span class="k">|</span><span class="w">____|_______|_______|_______|____</span>
+<span class="w">___</span><b>o</b><span class="w">_</span><b>o</b><span class="w">_</span><b>o</b><span class="w">_</span><b>|</b><span class="w">_|_</span><b>'</b><span class="w">_____|_</span><b>|</b><span class="w">_____|_</span><b>|</b><span class="w">__</span><b>'</b><span class="w">__|__</span><b>o</b><span class="w">_</span><b>o</b><span class="w">_</span><b>o</b><span class="w">|_______|_______|_______|_______|_______|_______|_______|_______|___</span><b>o</b><span class="w">_</span><b>o</b><span class="w">_</span><b>o</b><span class="w">_______|______</span><b>o</b><span class="w">|</span><b>o</b><span class="w">_</span><b>o</b><span class="w">____|_______|_______</span><b>o</b><span class="k">|</span><b>o</b><span class="w">_</span><b>o</b><span class="w">___|_______|_______|_______|__</span><b>o</b><span class="w">_</span><b>o</b><span class="w">_</span><b>o</b><span class="w">|_______|_______|_______|_______|_______|_______|_______|_______|___</span><b>o</b><span class="w">_</span><b>o</b><span class="w">_</span><b>o</b><span class="w">_______|______</span><b>o</b><span class="w">|</span><b>o</b><span class="w">_</span><b>o</b><span class="w">____|_______|_______</span><b>o</b><span class="w">_</span><b>o</b><span class="w">_</span><b>o</b><span class="w">___|_______|_______|_______|__</span><b>o</b><span class="w">_</span><b>o</b><span class="w">_</span><b>o</b><span class="w">|_______|_______|_______|_______|</span>
+    <b>\|/</b>  <b>|</b>           <b>'</b>       <b>|</b>         <b>\|/</b>                                                                      <b>\|/</b>                <b>\|/</b>                      <b>\|/</b>                                <b>\|/</b>                                                                      <b>\|/</b>                <b>\|/</b>                      <b>\|/</b>                                <b>\|/</b><span class="k">'</span>
+   <b>o-</b><i>@</i><b>-o</b> <b>'</b>       <b>o</b>           <b>|</b>        <b>o-</b><i>@</i><b>-o</b>      <b>o</b>                <b>o</b>                 <b>o</b>                          <b>o-</b><i>@</i><b>-o</b>              <b>o-</b><i>@</i><b>-o</b>     <b>o</b>              <b>o-</b><i>@</i><b>-o</b>         <b>o</b>                    <b>o-</b><i>@</i><b>-o</b>      <b>o</b>                <b>o</b>                 <b>o</b>                          <b>o-</b><i>@</i><b>-o</b>              <b>o-</b><i>@</i><b>-o</b>     <b>o</b>              <b>o-</b><i>@</i><b>-o</b>         <b>o</b>                    <b>o-</b><i>@</i><b>-o</b>      <b>o</b>                <b>o</b>
+    <b>/|\</b>         <b>o</b><i>@</i><b>o</b>          <b>'</b>         <b>/|\</b>      <b>o</b><i>@</i><b>o</b>              <b>o</b><i>@</i><b>o</b>               <b>o</b><i>@</i><b>o</b>                          <b>/|\</b>                <b>/|\</b>     <b>o</b><i>@</i><b>o</b>              <b>/|\</b>         <b>o</b><i>@</i><b>o</b>                    <b>/|\</b>      <b>o</b><i>@</i><b>o</b>              <b>o</b><i>@</i><b>o</b>               <b>o</b><i>@</i><b>o</b>                          <b>/|\</b>                <b>/|\</b>     <b>o</b><i>@</i><b>o</b>              <b>/|\</b>         <b>o</b><i>@</i><b>o</b>                    <b>/|\</b>      <b>o</b><i>@</i><b>o</b>              <b>o</b><i>@</i><b>o</b>
+   <b>o</b> <b>|</b> <b>o</b>         <b>o</b>                    <b>o</b> <b>|</b> <b>o</b>      <b>o</b>                <b>o</b>                 <b>o</b>                          <b>o</b> <b>|</b> <b>o</b>              <b>o</b> <b>|</b> <b>o</b>     <b>o</b>              <b>o</b> <b>|</b> <b>o</b>         <b>o</b>                    <b>o</b> <b>|</b> <b>o</b>      <b>o</b>                <b>o</b>                 <b>o</b>                          <b>o</b> <b>|</b> <b>o</b>              <b>o</b> <b>|</b> <b>o</b>     <b>o</b>              <b>o</b> <b>|</b> <b>o</b>         <b>o</b>                    <b>o</b> <b>|</b> <b>o</b>      <b>o</b>                <b>o</b>
+     <i>|</i>           <i>|</i>     <b>o</b>   <b>o</b>    <b>o</b>       <i>|</i>        <i>|</i>          <b>o</b>     <i>|</i>           <b>o</b>     <i>|</i>           <i>.--.</i>  <i>o</i>  <i>o</i>       <i>|</i>      <b>o</b>           <i>|</i>       <i>|</i>    <b>o</b>   <b>o</b>       <i>|</i>           <i>|</i>     <b>o</b>   <b>o</b>    <b>o</b>       <i>|</i>        <i>|</i>          <b>o</b>     <i>|</i>           <b>o</b>     <i>|</i>           <i>.--.</i>  <i>o</i>  <i>o</i>       <i>|</i>      <b>o</b>           <i>|</i>       <i>|</i>    <b>o</b>   <b>o</b>       <i>|</i>           <i>|</i>     <b>o</b>   <b>o</b>    <b>o</b>       <i>|</i>        <i>|</i>          <b>o</b>     <i>|</i>
+    <i>\|</i>          <i>\|</i>      <b>\o/</b>     <i>|</i>      <i>\|</i>       <i>\|</i>          <i>|</i>    <i>\|</i>           <i>|</i>    <i>\|</i>          <i>(</i> <b>@</b>  <i>)__\/</i>       <i>\|</i>      <i>|</i>          <i>\|</i>      <i>\|</i>     <b>\o/</b>       <i>\|</i>          <i>\|</i>      <b>\o/</b>     <i>|</i>      <i>\|</i>       <i>\|</i>          <i>|</i>    <i>\|</i>           <i>|</i>    <i>\|</i>          <i>(</i> <b>@</b>  <i>)__\/</i>       <i>\|</i>      <i>|</i>          <i>\|</i>      <i>\|</i>     <b>\o/</b>       <i>\|</i>          <i>\|</i>      <b>\o/</b>     <i>|</i>      <i>\|</i>       <i>\|</i>          <i>|</i>    <i>\|</i>
+     <i>|/</i>    <i>\|/</i>   <i>|</i>       <i>|</i>      <i>|/</i>      <i>|/</i>       <i>|</i>    <i>\|/</i>   <i>|/</i>    <i>|</i>           <i>|/</i>    <i>|</i>    <i>\|/</i>    <i>'--'_____)</i>       <i>|/</i>     <i>|/</i>  <i>\|/</i>     <i>|/</i>      <i>|</i>      <i>|</i>         <i>|/</i>    <i>\|/</i>   <i>|</i>       <i>|</i>      <i>|/</i>      <i>|/</i>       <i>|</i>    <i>\|/</i>   <i>|/</i>    <i>|</i>           <i>|/</i>    <i>|</i>    <i>\|/</i>    <i>'--'_____)</i>       <i>|/</i>     <i>|/</i>  <i>\|/</i>     <i>|/</i>      <i>|</i>      <i>|</i>         <i>|/</i>    <i>\|/</i>   <i>|</i>       <i>|</i>      <i>|/</i>      <i>|/</i>       <i>|</i>    <i>\|/</i>   <i>|/</i>    <i>|</i>
+<i>-----</i><b>o</b><i>------</i><b>o</b><i>----</i><b>o</b><i>-------</i><b>o</b><i>------</i><b>o</b><i>-------</i><b>o</b><i>--------</i><b>o</b><i>-----</i><b>o</b><i>----</i><b>o</b><i>-----</i><b>o</b><i>-----------</i><b>o</b><i>-----</i><b>o</b><i>-----</i><b>o</b><i>----------------------</i><b>o</b><i>------</i><b>o</b><i>----</i><b>o</b><i>------</i><b>o</b><i>-------</i><b>o</b><i>------</i><b>o</b><i>---------</i><b>o</b><i>------</i><b>o</b><i>----</i><b>o</b><i>-------</i><b>o</b><i>------</i><b>o</b><i>-------</i><b>o</b><i>--------</i><b>o</b><i>-----</i><b>o</b><i>----</i><b>o</b><i>-----</i><b>o</b><i>-----------</i><b>o</b><i>-----</i><b>o</b><i>-----</i><b>o</b><i>----------------------</i><b>o</b><i>------</i><b>o</b><i>----</i><b>o</b><i>------</i><b>o</b><i>-------</i><b>o</b><i>------</i><b>o</b><i>---------</i><b>o</b><i>------</i><b>o</b><i>----</i><b>o</b><i>-------</i><b>o</b><i>------</i><b>o</b><i>-------</i><b>o</b><i>--------</i><b>o</b><i>-----</i><b>o</b><i>----</i><b>o</b><i>-----</i><b>o</b><i>---------</i>
 </pre>
 
 <script>
   var title = document.title;
+  var onAir = false;
   document.addEventListener('visibilitychange', function () {
-    document.title = document.hidden ? 'come back ♡' : title;
+    document.title = document.hidden ? (onAir ? '♪ radio kes is still on' : 'come back ♡') : title;
   });
   console.log('hi ✿ thanks for looking under the hood');
   console.log('no cookies, no trackers, no analytics. you are just a person reading a website x');
   console.log('ps. the "come back ♡" tab title is a dark pattern. i am using it ironically (mostly)');
+  console.log('pps. radio kes is all web audio oscillators and noise. no samples. the amen pattern is gregory c. coleman\'s');
+</script>
+
+<script>
+/* radio kes: a tiny jungle machine. everything is synthesised, nothing loads, nothing plays until you press a button */
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var radio = $('radio'), statusEl = $('status'), readout = $('readout'), eqEl = $('eq'), plate = $('plate');
+  var cells = [].slice.call($('steps').children);
+  var AC = null, out = {}, noiseBuf = null, analyser = null, fData = null;
+  var playing = false, timer = null, pullT = null, nextTime = 0, step = 0, barNo = 0, cur = null, chopLeft = 0;
+  var live = [], uiQ = [], lit = null, eqCols = 40;
+  var pattern = 'amen', bassMode = 'reese', xf = 0.5, vol = 0.6, bpm = 170;
+
+  function say(t) { statusEl.textContent = t; }
+
+  /* ---------- the patterns. x = hit, o = ghost, - = soft */
+  function v(ch) { return ch === 'x' ? 1 : ch === 'o' ? 0.38 : ch === '-' ? 0.55 : 0; }
+  function bar(k, s, h, c) {
+    var a = [];
+    for (var i = 0; i < 16; i++) a.push({ k: v(k[i]), s: v(s[i]), h: v(h[i]), c: c ? v(c[i]) : 0 });
+    return a;
+  }
+  var AMEN_A = bar('x.x.......xx....', '....x..o.o..x..o', 'x.x.x.x.x.x.x.x.');
+  var AMEN_B = bar('x.x.......xx....', '....x..o.o....x.', 'x.x.x.x.x.x.x.x.');
+  var AMEN_C = bar('..xx......x.....', '.o..x..o.o....x.', 'x.x.x.x.x...x.x.', '..........x.....');
+  var PAT = {
+    amen: { name: 'amen-ish', bars: [AMEN_A, AMEN_A, AMEN_B, AMEN_C] },
+    two: { name: 'two-step', bars: [
+      bar('x.........x.....', '....x..o....x...', '-.x.-.x.-.x.-.x.'),
+      bar('x.........x.....', '....x..o....x...', '-.x.-.x.-.x.-.x.'),
+      bar('x.........x.....', '....x..o....x...', '-.x.-.x.-.x.-.x.'),
+      bar('x.x.......x.....', '....x..o.o..x.oo', '-.x.-.x.-.x.-.x.')] },
+    half: { name: 'half-time', bars: [
+      bar('x.........x.....', '........x.......', 'x.x.x.x.x.x.x.x.'),
+      bar('x.........x.....', '........x.......', 'x.x.x.x.x.x.x.x.'),
+      bar('x.........x.....', '........x.......', 'x.x.x.x.x.x.x.x.'),
+      bar('x.....x...x.....', '........x.....o.', 'x.x.x.x.x.x.x.x.', '..........x.....')] }
+  };
+  /* basslines over 4 bars: [start step, length in steps, midi note]. f minor, obviously */
+  var REESE = [[0, 24, 29], [24, 8, 32], [32, 16, 27], [48, 8, 25], [56, 8, 27]];
+  var SUB = [[0, 3, 29], [6, 2, 29], [10, 5, 32], [16, 3, 29], [22, 2, 29], [26, 5, 27],
+             [32, 3, 29], [38, 2, 29], [42, 5, 32], [48, 3, 25], [54, 2, 25], [58, 5, 27]];
+  var CHORDS = [[56, 60, 63, 67], [55, 58, 61, 65]];
+  var BELLS = [77, 80, 82, 84, 87, 89];
+
+  /* chop: re-edit the break out of random slices, the way you would with a sampler */
+  function chop(roll) {
+    var src = AMEN_A.concat(AMEN_B, AMEN_C), b = [];
+    while (b.length < 16) {
+      var len = [1, 2, 2, 4, 4][Math.random() * 5 | 0];
+      var start = (Math.random() * (48 / len) | 0) * len;
+      var times = Math.random() < 0.3 ? 2 : 1;
+      for (var r = 0; r < times; r++)
+        for (var i = 0; i < len && b.length < 16; i++) b.push(Object.assign({}, src[start + i]));
+    }
+    b[0].k = 1;
+    if (roll) for (var j = 12; j < 16; j++) b[j] = { k: j === 12 ? 1 : 0, s: 0.35 + (j - 12) * 0.2, h: 0, c: 0, roll: 1 };
+    return b;
+  }
+
+  /* ---------- the sound system */
+  function mtof(m) { return 440 * Math.pow(2, (m - 69) / 12); }
+  function gain(x) { var g = AC.createGain(); g.gain.value = x; return g; }
+  function curve(k) {
+    var n = 1024, c = new Float32Array(n);
+    for (var i = 0; i < n; i++) { var x = i / (n - 1) * 2 - 1; c[i] = Math.tanh(k * x) / Math.tanh(k); }
+    return c;
+  }
+  function chain() { for (var i = 0; i < arguments.length - 1; i++) arguments[i].connect(arguments[i + 1]); }
+  function track(n) {
+    live.push(n);
+    n.onended = function () { var i = live.indexOf(n); if (i > -1) live.splice(i, 1); };
+  }
+  function volCurve(x) { return 0.75 * x * x; }
+  function sd() { return 60 / bpm / 4; }
+
+  function boot() {
+    if (AC) return true;
+    var C = window.AudioContext || window.webkitAudioContext;
+    if (!C) { say("this browser can't do web audio, sorry x"); return false; }
+    AC = new C();
+    var lim = AC.createDynamicsCompressor();
+    lim.threshold.value = -10; lim.knee.value = 6; lim.ratio.value = 14; lim.attack.value = 0.002; lim.release.value = 0.12;
+    out.master = gain(volCurve(vol));
+    chain(out.master, lim, AC.destination);
+    analyser = AC.createAnalyser(); analyser.fftSize = 1024; analyser.smoothingTimeConstant = 0.72;
+    out.master.connect(analyser);
+    fData = new Uint8Array(analyser.frequencyBinCount);
+    out.music = gain(1); out.music.connect(out.master);
+    out.fx = gain(0.9); out.fx.connect(out.master);
+
+    // drums: drive -> saturation -> glue compressor
+    out.drive = gain(1);
+    var sh = AC.createWaveShaper(); sh.curve = curve(1.6); sh.oversample = '2x';
+    out.post = gain(0.8);
+    var dc = AC.createDynamicsCompressor();
+    dc.threshold.value = -16; dc.ratio.value = 4; dc.attack.value = 0.004; dc.release.value = 0.09;
+    chain(out.drive, sh, out.post, dc, out.music);
+
+    // reese: detuned saws into a wobbling lowpass, a bit dirty
+    out.rf = AC.createBiquadFilter(); out.rf.type = 'lowpass'; out.rf.frequency.value = 430; out.rf.Q.value = 6;
+    var lfo = AC.createOscillator(); lfo.frequency.value = 0.17;
+    var lfoAmt = gain(280); chain(lfo, lfoAmt, out.rf.frequency); lfo.start();
+    var rsh = AC.createWaveShaper(); rsh.curve = curve(2.5);
+    out.reese = gain(0.5);
+    chain(out.rf, rsh, out.reese, out.music);
+    out.sub = gain(0.9); out.sub.connect(out.music);
+
+    // cute: pads + bells, with a dub echo
+    out.cute = gain(0.6); out.cute.connect(out.music);
+    out.padf = AC.createBiquadFilter(); out.padf.type = 'lowpass'; out.padf.frequency.value = 1100; out.padf.Q.value = 0.6;
+    out.padf.connect(out.cute);
+    out.dly = AC.createDelay(1.5); out.dly.delayTime.value = 3 * sd();
+    var fb = gain(0.38), dlf = AC.createBiquadFilter(); dlf.type = 'lowpass'; dlf.frequency.value = 2600;
+    chain(out.dly, dlf, fb, out.dly);
+    var wet = gain(0.5); chain(dlf, wet, out.music);
+    out.cute.connect(out.dly);
+
+    noiseBuf = AC.createBuffer(1, AC.sampleRate * 2, AC.sampleRate);
+    var d = noiseBuf.getChannelData(0);
+    for (var i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+
+    applyXf();
+    sizeEq();
+    requestAnimationFrame(draw);
+    return true;
+  }
+
+  function applyXf() {
+    if (!AC) return;
+    var c = Math.cos(xf * Math.PI / 2), a = Math.sin(xf * Math.PI / 2), t = AC.currentTime;
+    out.cute.gain.setTargetAtTime(c * 0.85, t, 0.05);
+    out.reese.gain.setTargetAtTime(a * 0.7, t, 0.05);
+    out.drive.gain.setTargetAtTime(0.75 + xf * 2.4, t, 0.05);
+    out.post.gain.setTargetAtTime(0.85 / (1 + xf * 0.9), t, 0.05);
+  }
+
+  /* ---------- voices */
+  function env(g, t, peak, a, dur) {
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(peak, t + a);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+  }
+  function osc(type, f, t, end, dest) {
+    var o = AC.createOscillator(); o.type = type; o.frequency.value = f;
+    o.connect(dest); o.start(t); o.stop(end); track(o);
+    return o;
+  }
+  function noise(t, dur, v, type, f, dest, q) {
+    var s = AC.createBufferSource(); s.buffer = noiseBuf;
+    var fl = AC.createBiquadFilter(); fl.type = type; fl.frequency.value = f; if (q) fl.Q.value = q;
+    var g = AC.createGain(); env(g, t, v, 0.002, dur);
+    chain(s, fl, g, dest);
+    s.start(t, Math.random() * 1.5); s.stop(t + dur + 0.02); track(s);
+  }
+  function kick(t, v) {
+    var g = AC.createGain(); env(g, t, v, 0.003, 0.32); g.connect(out.drive);
+    var o = osc('sine', 160, t, t + 0.34, g);
+    o.frequency.setValueAtTime(165, t);
+    o.frequency.exponentialRampToValueAtTime(55, t + 0.06);
+    o.frequency.exponentialRampToValueAtTime(42, t + 0.3);
+    noise(t, 0.015, v * 0.3, 'highpass', 2500, out.drive);
+  }
+  function snare(t, v) {
+    var g = AC.createGain(); env(g, t, 0.5 * v, 0.002, 0.13); g.connect(out.drive);
+    var o = osc('triangle', 240, t, t + 0.15, g);
+    o.frequency.setValueAtTime(250, t); o.frequency.exponentialRampToValueAtTime(178, t + 0.05);
+    noise(t, 0.16 + v * 0.06, 0.7 * v, 'bandpass', 2400, out.drive, 0.7);
+    noise(t, 0.07, 0.4 * v, 'highpass', 6500, out.drive);
+  }
+  var METAL = [205.3, 304.4, 369.6, 522.7, 540, 800];
+  function ride(t, v) {
+    var g = AC.createGain(); env(g, t, 0.13 * v, 0.002, 0.22);
+    var bp = AC.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = 9000; bp.Q.value = 0.9;
+    var hp = AC.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = 6500;
+    chain(bp, hp, g, out.drive);
+    for (var i = 0; i < METAL.length; i++) osc('square', METAL[i], t, t + 0.24, bp);
+  }
+  function crash(t, v) {
+    noise(t, 1.2, 0.22 * v, 'highpass', 4500, out.drive);
+    var g = AC.createGain(); env(g, t, 0.07 * v, 0.003, 1.0);
+    var hp = AC.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = 5000;
+    chain(hp, g, out.drive);
+    for (var i = 0; i < METAL.length; i++) osc('square', METAL[i] * 1.5, t, t + 1.05, hp);
+  }
+  function reese(t, dur, m) {
+    var f = mtof(m + 12), g = AC.createGain();
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(0.3, t + 0.03);
+    g.gain.setValueAtTime(0.3, t + dur - 0.07);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    g.connect(out.rf);
+    [-17, 0, 17].forEach(function (d) {
+      var o = osc('sawtooth', f, t, t + dur + 0.02, g);
+      o.detune.value = d + Math.random() * 4 - 2;
+    });
+    var sg = AC.createGain();
+    sg.gain.setValueAtTime(0.0001, t);
+    sg.gain.exponentialRampToValueAtTime(0.5, t + 0.02);
+    sg.gain.setValueAtTime(0.5, t + dur - 0.06);
+    sg.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    sg.connect(out.sub);
+    osc('sine', mtof(m), t, t + dur + 0.02, sg);
+  }
+  function sub(t, dur, m) {
+    var f = mtof(m + 12), g = AC.createGain();
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(0.62, t + 0.006);
+    g.gain.setTargetAtTime(0.45, t + 0.05, 0.1);
+    g.gain.setTargetAtTime(0.0001, t + dur - 0.05, 0.03);
+    g.connect(out.sub);
+    var o = osc('sine', f, t, t + dur + 0.2, g);
+    o.frequency.setValueAtTime(f * 1.5, t); o.frequency.exponentialRampToValueAtTime(f, t + 0.04);
+    var h = gain(0.12); h.connect(g);
+    osc('triangle', f * 2, t, t + dur + 0.2, h);
+  }
+  function pad(t, dur, notes) {
+    notes.forEach(function (n) {
+      var g = AC.createGain();
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(0.035, t + 0.6);
+      g.gain.setValueAtTime(0.035, t + dur - 0.5);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + dur + 0.4);
+      g.connect(out.padf);
+      [-9, 9].forEach(function (d) { osc('sawtooth', mtof(n), t, t + dur + 0.45, g).detune.value = d; });
+    });
+  }
+  function bell(t, m, v) {
+    var f = mtof(m), g = AC.createGain(); env(g, t, v, 0.003, 1.4); g.connect(out.cute);
+    var c = osc('sine', f, t, t + 1.45, g);
+    var mg = AC.createGain();
+    mg.gain.setValueAtTime(f * 2.2, t); mg.gain.exponentialRampToValueAtTime(1, t + 0.9);
+    mg.connect(c.frequency);
+    osc('sine', f * 3.5, t, t + 1.45, mg);
+  }
+  function horn(t) {
+    var sh = AC.createWaveShaper(); sh.curve = curve(3);
+    var lp = AC.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 3800;
+    var pk = AC.createBiquadFilter(); pk.type = 'peaking'; pk.frequency.value = 1400; pk.gain.value = 8; pk.Q.value = 1;
+    chain(sh, lp, pk, out.fx);
+    [[0, 0.13], [0.2, 0.13], [0.4, 0.62]].forEach(function (b) {
+      var s = t + b[0], e = s + b[1], g = AC.createGain();
+      g.gain.setValueAtTime(0.0001, s);
+      g.gain.exponentialRampToValueAtTime(0.16, s + 0.012);
+      g.gain.setValueAtTime(0.16, e);
+      g.gain.exponentialRampToValueAtTime(0.0001, e + 0.05);
+      g.connect(sh);
+      [440, 443.5, 659].forEach(function (f) {
+        var o = osc('sawtooth', f, s, e + 0.06, g);
+        o.frequency.setValueAtTime(f * 0.86, s); o.frequency.exponentialRampToValueAtTime(f, s + 0.045);
+      });
+    });
+  }
+  function spinback(t) {
+    // the record getting pulled back: a grainy, swooping whoosh
+    var s = AC.createBufferSource(); s.buffer = noiseBuf; s.loop = true;
+    var bp = AC.createBiquadFilter(); bp.type = 'bandpass'; bp.Q.value = 2.5;
+    var f = bp.frequency;
+    f.setValueAtTime(500, t); f.exponentialRampToValueAtTime(4500, t + 0.18); f.exponentialRampToValueAtTime(350, t + 0.5);
+    f.exponentialRampToValueAtTime(2600, t + 0.66); f.exponentialRampToValueAtTime(160, t + 0.95);
+    var am = gain(0.5), lfo = AC.createOscillator(); lfo.type = 'square'; lfo.frequency.value = 23;
+    var la = gain(0.5); chain(lfo, la, am.gain); lfo.start(t); lfo.stop(t + 1.05);
+    var g = AC.createGain();
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.6, t + 0.03);
+    g.gain.setValueAtTime(0.45, t + 0.6); g.gain.exponentialRampToValueAtTime(0.0001, t + 1.0);
+    chain(s, bp, am, g, out.fx); s.start(t); s.stop(t + 1.05);
+    var lp = AC.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 1800;
+    var g2 = AC.createGain(); env(g2, t, 0.14, 0.02, 1.0); chain(lp, g2, out.fx);
+    var o = AC.createOscillator(); o.type = 'sawtooth'; o.connect(lp);
+    var of = o.frequency;
+    of.setValueAtTime(180, t); of.exponentialRampToValueAtTime(1100, t + 0.18); of.exponentialRampToValueAtTime(120, t + 0.5);
+    of.exponentialRampToValueAtTime(700, t + 0.66); of.exponentialRampToValueAtTime(35, t + 0.95);
+    o.start(t); o.stop(t + 1.05);
+  }
+
+  /* ---------- the sequencer */
+  function barFor(n) {
+    if (chopLeft > 0) { chopLeft--; return chop(chopLeft === 0); }
+    if (pattern === 'amen' && n % 8 === 7) return chop(true);
+    var bars = PAT[pattern].bars;
+    return bars[n % bars.length];
+  }
+  function hum(x) { return x * (0.88 + Math.random() * 0.24); }
+  function tick() {
+    while (nextTime < AC.currentTime + 0.12) {
+      if (step === 0) cur = barFor(barNo);
+      var s = cur[step], t = nextTime, g = (barNo % 4) * 16 + step;
+      if (s.k) kick(t, hum(0.95));
+      if (s.s) { snare(t, hum(s.s)); if (s.roll) snare(t + sd() / 2, hum(s.s * 0.8)); }
+      if (s.h) ride(t, hum(s.h));
+      if (s.c) crash(t, 0.8);
+      var line = bassMode === 'reese' ? REESE : SUB;
+      for (var i = 0; i < line.length; i++) if (line[i][0] === g) {
+        if (bassMode === 'reese') reese(t, line[i][1] * sd(), line[i][2]);
+        else sub(t, line[i][1] * sd() * 0.9, line[i][2]);
+      }
+      if (xf < 0.97) {
+        if (g % 32 === 0) pad(t, 32 * sd(), CHORDS[g === 0 ? 0 : 1]);
+        var every = pattern === 'half' ? 6 : 3;
+        if ((barNo * 16 + step) % every === 0 && Math.random() < 0.55)
+          bell(t, BELLS[Math.random() * BELLS.length | 0], 0.09 + Math.random() * 0.06);
+      }
+      uiQ.push([t, step, barNo, !!(s.k || s.s > 0.5)]);
+      nextTime += sd();
+      if (++step === 16) { step = 0; barNo++; }
+    }
+  }
+
+  function describe() { return PAT[pattern].name + ', ' + bassMode + ', ' + bpm + 'bpm'; }
+  function setOn(on) {
+    onAir = on;
+    radio.classList.toggle('on', on);
+  }
+  function play(quiet) {
+    if (!boot()) return;
+    if (AC.state === 'suspended') AC.resume();
+    if (playing) return;
+    clearTimeout(pullT);
+    playing = true; step = 0; barNo = 0; chopLeft = 0;
+    out.music.gain.cancelScheduledValues(AC.currentTime);
+    out.music.gain.setValueAtTime(1, AC.currentTime);
+    nextTime = AC.currentTime + 0.08;
+    tick();
+    timer = setInterval(tick, 25);
+    setOn(true);
+    if (!quiet) say('▶ on air ヽ(⌐■_■)ノ♪ ' + describe());
+  }
+  function stop(quiet) {
+    clearTimeout(pullT);
+    plate.classList.remove('rewind');
+    setOn(false);
+    if (!AC) return;
+    playing = false; clearInterval(timer); timer = null;
+    var t = AC.currentTime;
+    out.music.gain.cancelScheduledValues(t);
+    out.music.gain.setTargetAtTime(0, t, 0.012);
+    live.slice().forEach(function (n) { try { n.stop(t + 0.07); } catch (e) {} });
+    live = []; uiQ = [];
+    if (lit) { lit.className = ''; lit = null; }
+    readout.textContent = PAT[pattern].name + ' · ' + bassMode + ' · ' + bpm + 'bpm · bar -.--';
+    if (!quiet) say('■ off air. the rest of the page is quiet, promise');
+  }
+  function pullUp() {
+    if (!boot()) return;
+    if (AC.state === 'suspended') AC.resume();
+    stop(true);
+    spinback(AC.currentTime + 0.02);
+    setOn(true);
+    plate.classList.add('rewind');
+    say('<< pull up!! come again, from the top');
+    pullT = setTimeout(function () {
+      plate.classList.remove('rewind');
+      play(true);
+      horn(AC.currentTime + 0.05);
+      say('▶ from the top ヽ(⌐■_■)ノ♪ ' + describe());
+    }, 1150);
+  }
+
+  /* ---------- the screen */
+  function sizeEq() {
+    eqCols = Math.max(12, Math.min(90, Math.floor(eqEl.clientWidth / 7.25)));
+  }
+  function draw() {
+    requestAnimationFrame(draw);
+    var t = AC.currentTime, last = null;
+    while (uiQ.length && uiQ[0][0] <= t) last = uiQ.shift();
+    if (last && playing) {
+      if (lit) lit.className = '';
+      lit = cells[last[1]];
+      lit.className = last[3] ? 'on hit' : 'on';
+      readout.textContent = PAT[pattern].name + ' · ' + bassMode + ' · ' + bpm + 'bpm · bar ' + (last[2] % 4 + 1) + '.' + (last[1] < 9 ? '0' : '') + (last[1] + 1);
+    }
+    analyser.getByteFrequencyData(fData);
+    var rows = 5, hs = [], lines = [];
+    for (var c = 0; c < eqCols; c++) {
+      var lo = Math.floor(Math.pow(2, c / eqCols * 8.6)), hi = Math.max(lo + 1, Math.floor(Math.pow(2, (c + 1) / eqCols * 8.6)));
+      var m = 0;
+      for (var i = lo; i < hi && i < fData.length; i++) if (fData[i] > m) m = fData[i];
+      hs.push(m / 255 * rows * 1.15);
+    }
+    for (var r = rows; r > 0; r--) {
+      var s = '';
+      for (c = 0; c < eqCols; c++) s += hs[c] >= r ? '|' : hs[c] >= r - 0.5 ? '.' : (r === 1 ? '_' : ' ');
+      lines.push(s);
+    }
+    eqEl.textContent = lines.join('\n');
+  }
+
+  /* ---------- the buttons */
+  $('play').addEventListener('click', function () { play(); });
+  $('stop').addEventListener('click', function () { stop(); });
+  $('pull').addEventListener('click', pullUp);
+  $('chop').addEventListener('click', function () {
+    if (!playing) play(true);
+    chopLeft = 2;
+    say('✂ chopping up the next two bars');
+  });
+  $('horn').addEventListener('click', function () {
+    if (!boot()) return;
+    if (AC.state === 'suspended') AC.resume();
+    horn(AC.currentTime + 0.02);
+    say('air horn ✧ synthesised, no horns were harmed');
+  });
+  function pick(attr, cb) {
+    var btns = [].slice.call(document.querySelectorAll('[data-' + attr + ']'));
+    btns.forEach(function (b) {
+      b.addEventListener('click', function () {
+        btns.forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+        cb(b.getAttribute('data-' + attr));
+        say((playing ? '▶ next bar: ' : 'set: ') + describe());
+      });
+    });
+  }
+  pick('pat', function (p) { pattern = p; });
+  pick('bass', function (b) { bassMode = b; });
+  $('xf').addEventListener('input', function () { xf = this.value / 100; applyXf(); });
+  $('vol').addEventListener('input', function () {
+    vol = this.value / 100;
+    if (AC) out.master.gain.setTargetAtTime(volCurve(vol), AC.currentTime, 0.03);
+  });
+  $('bpm').addEventListener('input', function () {
+    bpm = +this.value;
+    $('freq').textContent = bpm; $('freq2').textContent = bpm + '.0';
+    if (AC) out.dly.delayTime.setTargetAtTime(3 * sd(), AC.currentTime, 0.1);
+  });
+  window.addEventListener('resize', function () { if (AC) sizeEq(); });
+})();
 </script>
 
 </body>

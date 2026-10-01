@@ -1,963 +1,747 @@
 <!DOCTYPE html>
-<html lang="en-GB">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>kes (kesia) inkersole</title>
-<meta name="description" content="Kesia Inkersole — freelance creative strategist & internet equalities researcher, based in london.">
-<meta name="author" content="Kes Inkersole">
-<meta name="keywords" content="Kesia Inkersole, Kes Inkersole, creative strategist, internet equalities, researcher, London, UAL">
-<link rel="icon" href="/favicon.ico" sizes="any">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="color-scheme" content="light">
+	<meta name="description" content="Kes Inkersole is a freelance creative strategist and internet equalities researcher based in London.">
+	<meta name="author" content="Kes Inkersole">
+	<meta property="og:title" content="kes inkersole">
+	<meta property="og:description" content="kes inkersole — freelance creative strategist &amp; internet equalities researcher, based in london.">
+	<title>Kes Inkersole</title>
 
-<!-- the little preview card you get when someone pastes the link into imessage / slack / linkedin -->
-<meta property="og:type" content="website">
-<meta property="og:title" content="kes inkersole">
-<meta property="og:description" content="kes inkersole — freelance creative strategist & internet equalities researcher, based in london.">
-<meta property="og:image" content="https://kesia-coral.vercel.app/square.png">
-<meta property="og:url" content="https://kesia-coral.vercel.app">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="kes inkersole">
-<meta name="twitter:description" content="kes inkersole — freelance creative strategist & internet equalities researcher, based in london.">
-<meta name="twitter:image" content="https://kesia-coral.vercel.app/square.png">
+	<style type="text/css">
+	/* prof. dr. style: browser defaults, kept by hand. one colour, and it's this one */
+	:root {
+		--hi: #ccff00;
+		--mono: ui-monospace, Menlo, Consolas, "DejaVu Sans Mono", "Courier New", monospace;
+	}
+	html { background: #fff; }
+	body {
+		font-family: "Arial Narrow", "Liberation Sans Narrow", "Helvetica Neue Condensed", "HelveticaNeue-Condensed", Arial, sans-serif;
+		font-stretch: condensed;
+		font-size: 19px;
+		line-height: 1.3;
+		color: #000;
+		background: #fff;
+		overflow-wrap: break-word;
+	}
+	a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 2px; }
+	a:hover, a:focus-visible { background: var(--hi); }
+	a.highlight { background: var(--hi); text-decoration: none; }
+	a.extra { text-decoration: none; }
+	.extra { text-transform: uppercase; }
+	::selection { background: var(--hi); color: #000; }
+	button { font: inherit; font-size: .8em; cursor: pointer; }
+	ul { margin-top: .2em; }
 
-<style>
-/* kes's colours. change one here and it changes everywhere */
-:root {
-	--paper: #fff5f2;  /* page */
-	--ink: #2e1f3a;    /* text, a very dark plum */
-	--pink: #df3a7b;
-	--blush: #ffd7e6;
-	--blue: #3a4bdc;   /* links */
-	--sky: #6c7ef0;    /* blue bits in the drawings */
-	--mist: #dde3ff;
-	--lilac: #8b40bd;  /* links you've already clicked */
-	--leaf: #379659;
-	--butter: #fff2ad;
-	--gold: #cf970b;
+	.image-row { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 10px; margin: -.2em 0 2.4em; }
+	.image-row figure { margin: 0; width: min-content; }
+	.image-row img { display: block; height: 260px; width: auto; max-width: none; background: #e6e6e6; filter: grayscale(1) contrast(1.05); }
+	.image-row figcaption { font-size: 13px; line-height: 1.25; margin-top: 4px; }
 
-	/* the jungle got in */
-	--night: #151019;  /* rave black, with a bit of plum left in it */
-	--hazard: #ffd60a; /* warning-tape yellow */
-	--acid: #a8ff1f;   /* only ever on black, it vanishes on the pink paper */
-	--hot: #ff5ea8;    /* the pink, turned up so it glows on black */
-	--chrome: linear-gradient(180deg, #fff 0%, #dcdee6 36%, #6d7180 50%, #f3f4f8 58%, #a3a6b2 100%);
-	--tape: repeating-linear-gradient(-45deg, var(--hazard) 0 9px, var(--night) 9px 18px);
+	.foot { margin-top: 3em; font-size: .85em; }
 
-	--mono: ui-monospace, Menlo, Consolas, "Courier New", monospace;
-	--marker: "Marker Felt", "Comic Sans MS", "Chalkboard SE", cursive;
-	--fat: "Arial Black", Impact, "Arial Bold", Arial, sans-serif;
-	--edge: clamp(16px, 4vw, 56px); /* space at the sides of the page */
-}
+	/* KES FM, re-skinned to sit quietly on the page */
+	#fm-h { font: inherit; margin: 1em 0 0; }
+	.ident { margin-top: 0; }
+	.deck { margin: 0 0 2.4em; }
+	.lcd { font: 13px/1.45 var(--mono); border: 1px solid #000; padding: 6px 8px; }
+	.lcd-top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .1rem 1rem; }
+	.status { text-transform: uppercase; }
+	body.on-air .status { background: var(--hi); }
+	.ticker { overflow: hidden; white-space: nowrap; border-block: 1px dotted #000; margin: .4rem 0; padding: .15rem 0; }
+	.ticker > div { display: inline-block; }
+	.ticker span { padding-right: .5em; }
+	.tracker { display: grid; grid-template-columns: repeat(32, 1fr); gap: 1px; text-align: center; }
+	.tracker span { padding: 1px 0; }
+	.tracker .rest { opacity: .3; }
+	.tracker .rev { background: #000; color: #fff; }
+	.tracker .up { font-weight: bold; }
+	.tracker .roll { text-decoration: underline; }
+	.tracker .on { background: var(--hi); color: #000; }
+	.lcd-info { margin-top: .35rem; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0 1rem; }
+	.lcd-info .rev { background: #000; color: #fff; padding: 0 2px; }
+	.lcd-info .up { font-weight: bold; }
+	.sound.thump { animation: thump .16s steps(1); }
+	@keyframes thump { 0% { background: var(--hi); } 100% { background: transparent; } }
+	.keys { display: flex; flex-wrap: wrap; gap: .5rem 1.2rem; align-items: center; margin-top: .6rem; }
+	.keys > div { display: flex; flex-wrap: wrap; gap: .25rem; align-items: center; }
+	.keys .lbl { font: 12px var(--mono); margin-right: .2rem; }
+	.keys button[aria-pressed="true"] { background: var(--hi); border: 1px solid #000; padding: 1px 6px; }
+	.vol { font: 12px var(--mono); display: flex; align-items: center; gap: .4rem; }
+	.vol input { width: 7rem; accent-color: #000; }
+	.textin { margin: .6rem 0 0; font-size: .85em; }
+	.floatstop { position: fixed; right: 10px; bottom: 10px; z-index: 5; font-size: 15px; background: var(--hi); border: 1px solid #000; padding: 6px 10px; }
+	.floatstop[hidden] { display: none; }
+	@keyframes run { to { translate: -50% 0; } }
+	@media (prefers-reduced-motion: no-preference) { .ticker > div { animation: run 70s linear infinite; } }
 
-html { background: radial-gradient(#f7d9e2 1px, transparent 1.5px) 0 0 / 22px 22px, var(--paper); color: var(--ink); -webkit-text-size-adjust: 100%; } /* faint dots, like cross-stitch fabric */
-body { margin: 0; padding: 28px var(--edge) 0; font: 17px/1.5 Times, "Times New Roman", serif; }
-::selection { background: #ffc4dc; }
-
-a { color: var(--blue); text-underline-offset: 2px; }
-a:visited { color: var(--lilac); }
-a:hover { color: var(--pink); background: var(--blush); }
-
-h1 { font-size: 2em; margin: .3em 0 .4em; }
-/* headings get a highlighter stripe (a fat underline pulled up behind the letters, so it follows the text when it wraps)
-   ...and now the highlighter drips, like a paint pen pressed too hard */
-h2 { font-size: 1.2em; margin: 0 0 .7em; text-decoration: underline var(--hl, var(--butter)); text-decoration-thickness: .5em; text-underline-offset: -.3em; text-decoration-skip-ink: none; position: relative; isolation: isolate; }
-h2::after { content: ""; position: absolute; z-index: -1; left: .45em; top: 1.1em; width: .2em; height: .85em; border-radius: 0 0 .12em .12em; background: var(--hl, var(--butter)); box-shadow: 1.15em -.32em 0 var(--hl, var(--butter)), 2.3em -.5em 0 -.03em var(--hl, var(--butter)), 3.2em -.2em 0 -.02em var(--hl, var(--butter)); }
-p { margin: 0 0 1em; max-width: 36em; }
-
-ul { padding-left: 1.3em; margin: 0 0 1em; }
-li { list-style-type: "☆  "; margin-bottom: .15em; }
-li:hover { list-style-type: "★  "; }
-li::marker { color: var(--pink); }
-
-dt { font-weight: bold; margin-top: 1em; }
-dd { margin: .15em 0 0; }
-
-/* photos are pasted up: a strip of warning tape or pink washi tape holds each one on */
-figure { display: inline-block; margin: .9em .5em .3em 0; vertical-align: top; position: relative; }
-figure img { display: block; max-width: 100%; height: auto; background: var(--mist); border: 5px solid #fff; box-shadow: 0 1px 4px #2e1f3a26; }
-figure:nth-of-type(even) img { rotate: 1.5deg; }
-figure:nth-of-type(odd) img { rotate: -1deg; }
-figure::before { content: ""; position: absolute; z-index: 1; top: -8px; left: 50%; width: 46px; height: 13px; translate: -50% 0; rotate: -5deg; background: var(--tape); opacity: .93; }
-figure:nth-of-type(even)::before { rotate: 4deg; background: #ffb3cfdd; }
-figcaption { font: 12px/1.3 var(--mono); margin-top: .4em; width: 0; min-width: 100%; } /* wraps at the photo's width */
-
-/* rows of side-by-side bits that fall into one column on a phone */
-.row { display: flex; flex-wrap: wrap; gap: 36px clamp(28px, 4vw, 64px); margin: 0 0 40px; }
-.row > * { flex: 1 1 18em; max-width: 36em; min-width: 0; container-type: inline-size; } /* so drawings can size themselves to their column (cqw) */
-
-/* the ascii drawings. pure ascii in a monospace font so everything lines up */
-.art { font: 14px/1.15 var(--mono); margin: 0; color: var(--sky); }
-.p { color: var(--pink); }
-.b { color: var(--sky); }
-.g { color: var(--leaf); }
-.y { color: var(--gold); }
-.i { color: var(--ink); }
-.w { color: #a796b3; } /* brick + concrete */
-.c { color: #c3c6d1; } /* chrome, for drawings on black */
-
-.name { font-size: min(17px, 100cqw / 32); } /* shrinks to fit its column */
-.doodles { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 24px 48px; margin-top: 36px; }
-.doodles .art { font-size: 15px; }
-.bus { margin-bottom: 12px; font-size: min(14px, 100cqw / 23); position: relative; }
-
-/* someone's tagged the bus window. pinned to the drawing's own character grid so it moves with it */
-.bus .tag { position: absolute; left: 2.4em; top: 3.05em; /* in the tag's own em (1.85x the drawing), so about col 7, row 5 */ font: italic 900 1.85em/1 var(--marker); color: var(--ink); letter-spacing: -.06em; rotate: -9deg; opacity: .82; pointer-events: none; }
-.bus .tag i { font-style: normal; color: var(--pink); font-size: .6em; }
-
-/* the cables + garden run right to the edge of the screen, and get cut off there */
-.cable, .garden { overflow: hidden; margin: 8px calc(-1 * var(--edge)) 44px; padding: 0 var(--edge); }
-.cable.flip { display: flex; justify-content: flex-end; } /* this one comes in from the left */
-.cable.flip pre { flex: none; }
-.garden { margin-bottom: 0; padding: 0; }
-
-/* little jokes */
-.mac .h, .ding { visibility: hidden; }
-.mac .h { display: none; }
-.mac:hover .a { display: none; }
-.mac:hover .h { display: inline; visibility: visible; }
-.bus:hover .ding { visibility: visible; }
-
-.new { background: var(--butter); padding: 14px 18px 4px; align-self: flex-start; --hl: #fff; position: relative; margin-top: 30px; }
-.new::before { content: ""; position: absolute; top: -9px; left: 22px; width: 92px; height: 18px; background: var(--tape); rotate: -3deg; } /* taped up */
-details { background: var(--blush); padding: 12px 16px; align-self: flex-start; }
-summary { cursor: pointer; color: var(--pink); }
-details p { margin: .8em 0 0; }
-
-/* ---------- sticker slaps ---------- */
-.slaps { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 22px; }
-.hello { width: 208px; background: var(--pink); border-radius: 12px; padding: 8px 8px 10px; text-align: center; color: #fff; rotate: -4deg; box-shadow: 0 2px 5px #2e1f3a40; font-family: Arial, sans-serif; }
-.hello b { display: block; font: 900 31px/1 var(--fat); letter-spacing: .04em; }
-.hello small { display: block; font-size: 12px; font-weight: 700; margin: 3px 0 6px; }
-.hello span { display: block; background: #fff; color: var(--ink); border-radius: 4px; padding: 6px 0 12px; font: italic 900 50px/1 var(--marker); letter-spacing: -.07em; }
-.hello span i { font-style: normal; color: var(--pink); font-size: .45em; vertical-align: super; }
-.smiley { flex: none; width: 66px; height: 66px; border-radius: 50%; border: 3px solid var(--night); position: relative; rotate: 10deg; box-shadow: 0 2px 5px #2e1f3a40;
-	background: radial-gradient(circle at 34% 38%, var(--night) 0 4.5px, transparent 5px), radial-gradient(circle at 66% 38%, var(--night) 0 4.5px, transparent 5px), radial-gradient(ellipse at 22% 58%, #ff8fbf 0 6px, transparent 7px), radial-gradient(ellipse at 78% 58%, #ff8fbf 0 6px, transparent 7px), var(--hazard); }
-.smiley::after { content: ""; position: absolute; left: 22%; right: 22%; top: 46%; height: 28%; border: 3px solid var(--night); border-top: 0; border-radius: 0 0 50% 50% / 0 0 100% 100%; }
-.caution { background: var(--hazard); color: var(--night); font: 900 12px/1.25 var(--fat); text-transform: uppercase; letter-spacing: .04em; padding: 7px 10px; border: 5px solid; border-image: var(--tape) 5; rotate: 3deg; max-width: 13em; box-shadow: 0 2px 5px #2e1f3a40; }
-
-/* ---------- warning tape across the page ---------- */
-.tape-wrap { overflow: hidden; margin: 10px calc(-1 * var(--edge)) 0; padding: 16px 0; }
-.tape { rotate: -1.4deg; margin: 0 -60px; background: var(--hazard); border-block: 3px solid var(--night); white-space: nowrap; overflow: hidden; }
-.tape.down { rotate: 1deg; }
-.track { display: inline-flex; align-items: stretch; animation: slide 60s linear infinite; }
-.tape.down .track { animation-direction: reverse; animation-duration: 80s; }
-.track span { font: 900 15px/1 var(--fat); letter-spacing: .06em; color: var(--night); padding: 7px 16px; text-transform: uppercase; }
-.track span.lc { text-transform: none; }
-.track i { width: 60px; background: var(--tape); flex: none; }
-@keyframes slide { to { transform: translateX(-50%); } }
-
-/* ---------- the black bit: kes fm ---------- */
-.band { background: radial-gradient(#a8ff1f1f 1px, transparent 1.5px) 0 0 / 22px 22px, var(--night); color: #f3ebf6; margin: 0 calc(-1 * var(--edge)); padding: 30px var(--edge) 50px; }
-.band .row { margin: 0; }
-.band .p { color: var(--hot); }
-.band .y { color: var(--hazard); }
-.band .g { color: var(--acid); }
-.band .b { color: #a9b6ff; }
-.band .i { color: #6c6475; }
-.band p { line-height: 1.55; }
-.col-deck { flex-basis: 20em; max-width: 30em; }
-.col-flyer { flex-basis: 16em; max-width: 25em; }
-
-/* a throw-up: bubble letters, white outline, yellow 3d, and a bit of overspray */
-.throw { margin: 0 0 30px; font: 900 clamp(56px, 15vw, 128px)/.95 var(--fat); letter-spacing: -.05em; color: var(--hot); text-decoration: none; isolation: auto;
-	text-shadow: .035em 0 #fff, .03em .0175em #fff, .0175em .03em #fff, 0 .035em #fff, -.0175em .03em #fff, -.03em .0175em #fff, -.035em 0 #fff, -.03em -.0175em #fff, -.0175em -.03em #fff, 0 -.035em #fff, .0175em -.03em #fff, .03em -.0175em #fff,
-		.05em .055em var(--hazard), .065em .075em var(--hazard), .08em .095em var(--hazard), .095em .115em var(--hazard), .11em .135em #8a6f00, 0 0 .35em #ff5ea866; }
-.throw .l { display: inline-block; }
-.throw .l:nth-child(1) { rotate: -7deg; }
-.throw .l:nth-child(2) { rotate: 5deg; translate: 0 -.05em; }
-.throw .l:nth-child(3) { rotate: -3deg; translate: 0 .03em; }
-.throw .l:nth-child(5) { rotate: 6deg; translate: 0 -.04em; }
-.throw .l:nth-child(6) { rotate: -5deg; }
-.throw::after { content: ""; position: absolute; z-index: 1; left: .32em; top: .86em; width: .055em; height: .32em; border-radius: 0 0 .05em .05em; background: var(--hot); box-shadow: .62em -.12em 0 var(--hot), 1.38em -.06em 0 var(--hot), 1.8em -.16em 0 var(--hot), 2.5em -.09em 0 var(--hot); }
-.throw > span:first-child { display: inline-block; padding-bottom: .3em; }
-.throw small { display: block; font: 700 14px/1.5 var(--mono); letter-spacing: .03em; color: var(--acid); text-shadow: none; margin-top: 16px; max-width: 46em; }
-.throw .sticker { display: inline-block; vertical-align: top; margin: .1em 0 0 .35em; padding: .5em .7em; font: 900 13px/1.1 var(--fat); letter-spacing: .04em; text-shadow: none; color: var(--night); background: var(--acid); rotate: 8deg; border-radius: 3px; }
-
-.stencil { font: 900 21px/1.1 var(--fat); text-transform: uppercase; letter-spacing: .14em; margin: 26px 0 12px; color: transparent;
-	background: linear-gradient(180deg, var(--hazard) 0 45%, transparent 45% 56%, var(--hazard) 56%); -webkit-background-clip: text; background-clip: text; filter: drop-shadow(0 0 5px #ffd60a55); }
-
-.stack { font-size: min(14px, 100cqw / 23); color: #c3c6d1; }
-
-/* ---------- the deck ---------- */
-.deck { background: linear-gradient(172deg, #f7f7fb 0%, #cfd1da 28%, #9c9fac 47%, #eceef4 55%, #b6b9c4 82%, #e3e4ea 100%); border-radius: 16px; padding: 14px 14px 12px; color: var(--night);
-	box-shadow: inset 0 1px 0 #fff, inset 0 -2px 0 #0003, 0 8px 0 #000, 0 16px 34px #000a; font: 13px/1.35 Arial, Helvetica, sans-serif; }
-.deck-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 2px 10px; }
-.deck-head b { font: 900 18px/1 var(--fat); letter-spacing: .05em; }
-.deck-head b i { font-style: normal; color: var(--pink); }
-.deck-head span { font: 10px var(--mono); text-transform: uppercase; letter-spacing: .1em; opacity: .7; }
-.lcd { margin: 10px 0; background: #0c1508; color: var(--acid); border-radius: 8px; padding: 10px 12px 12px; box-shadow: inset 0 2px 10px #000, 0 1px 0 #fff9; font: 14px/1.35 var(--mono); text-shadow: 0 0 6px #a8ff1f88; }
-.lcd-top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
-.lcd .freq b { font-size: 38px; letter-spacing: -.03em; }
-.lcd .pat { font-size: 12px; text-transform: uppercase; color: var(--hot); text-shadow: 0 0 6px #ff5ea888; text-align: right; }
-.lcd .mc { min-height: 2.7em; margin: 4px 0 8px; }
-.leds { display: grid; grid-template-columns: repeat(16, 1fr); gap: 3px; }
-.leds i { height: 8px; border-radius: 2px; background: #1f3017; }
-.leds i:nth-child(4n+1) { background: #33502a; }
-.leds i.on { background: var(--hot); box-shadow: 0 0 8px var(--hot); }
-.cass { display: flex; align-items: center; gap: 12px; background: #1d1722; border-radius: 10px; padding: 10px 14px; box-shadow: inset 0 2px 7px #000; }
-.reel { flex: none; width: 46px; height: 46px; border-radius: 50%; border: 5px solid #3b3342; box-sizing: border-box;
-	background: radial-gradient(circle, #1d1722 0 20%, transparent 21%), repeating-conic-gradient(#f3ebf6 0 16deg, #5a4f63 16deg 60deg); }
-.clabel { flex: 1; min-width: 0; text-align: center; background: var(--blush); color: var(--ink); border-radius: 3px; border-top: 6px solid var(--pink); padding: 4px 6px 6px; font: italic 700 17px/1.15 var(--marker); rotate: -1deg; }
-.clabel small { display: block; font: 11px/1.3 var(--mono); }
-.on .reel { animation: spin 1.8s linear infinite; }
-.rew .reel { animation: spin .3s linear infinite reverse; }
-@keyframes spin { to { transform: rotate(1turn); } }
-.keys { display: flex; flex-wrap: wrap; gap: 8px 7px; margin: 14px 0 12px; }
-.keys button { flex: 1 1 auto; min-width: 4.6em; font: 700 13px/1 Arial, Helvetica, sans-serif; color: #f3ebf6; background: linear-gradient(#3b3342, #151019); border: 0; border-radius: 5px 5px 9px 9px; padding: 11px 9px 12px; box-shadow: 0 4px 0 #000, inset 0 1px 0 #ffffff33; cursor: pointer; }
-.keys button:hover { color: var(--acid); }
-.keys button:active, .keys button.down { translate: 0 3px; box-shadow: 0 1px 0 #000, inset 0 1px 0 #ffffff33; }
-.keys button:focus-visible, .dials input:focus-visible { outline: 3px solid var(--pink); outline-offset: 2px; }
-.keys .k-play { background: linear-gradient(#cbff66, #8bd80f); color: var(--night); }
-.keys .k-stop { background: linear-gradient(#ffe35c, #f2c200); color: var(--night); font-size: 14px; }
-.keys .k-play:hover, .keys .k-stop:hover { color: var(--pink); }
-.keys [aria-pressed="true"] { background: linear-gradient(#ff86bd, #df3a7b); color: #fff; }
-.dials { display: flex; flex-wrap: wrap; gap: 8px 18px; font: 11px var(--mono); text-transform: uppercase; letter-spacing: .06em; }
-.dials label { display: flex; align-items: center; gap: 8px; flex: 1 1 13em; min-width: 0; }
-.dials input { flex: 1; min-width: 0; accent-color: var(--pink); }
-.dials output { min-width: 5.5em; }
-.deck-note { font: 12px/1.45 var(--mono); margin: 10px 0 0; color: #3d3148; }
-
-/* ---------- the flyer (it's for this page. there is no rave) ---------- */
-.flyer { background: #fffdf3; color: var(--night); padding: 16px 16px 14px; border: 10px solid; border-image: var(--tape) 10; rotate: 1.3deg; box-shadow: 0 10px 28px #000c; }
-.flyer p { margin: 0; }
-.flyer .pres { font: 700 12px var(--mono); letter-spacing: .3em; text-transform: uppercase; text-align: center; }
-.flyer .chrome { font: italic 900 min(50px, 15cqw)/.95 Impact, var(--fat); text-transform: uppercase; text-align: center; margin: 6px 0 4px;
-	background: var(--chrome); -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-stroke: 1.5px var(--night); }
-.flyer .sub { text-align: center; font-style: italic; font-size: 15px; }
-.flyer .smile { display: block; width: fit-content; margin: 10px auto 4px; font-size: 14px; color: var(--night); background: radial-gradient(ellipse closest-side, var(--hazard) 82%, transparent 84%); }
-.bill { font: 13px/1.45 var(--mono); margin: 10px 0; }
-.bill div { display: flex; align-items: baseline; }
-.bill div::before { content: ""; order: 1; flex: 1 1 1em; min-width: .6em; border-bottom: 2px dotted #15101966; margin: 0 5px; }
-.bill dt { order: 0; margin: 0; font-weight: 700; text-transform: uppercase; white-space: nowrap; }
-.bill dd { order: 2; margin: 0; text-align: right; overflow-wrap: anywhere; }
-.flyer .amen { font: 900 19px/1.15 var(--fat); text-align: center; color: var(--pink); margin: 12px 0 6px; letter-spacing: -.01em; }
-.flyer .fine { font: 11px/1.4 var(--mono); text-align: center; }
-
-.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-
-footer { padding: 4px 0 40px; }
-
-/* in a narrow column (phones, small tablets) the name drops its heart so the letters can be bigger */
-@container (max-width: 480px) {
-	.name { font-size: min(17px, 100cqw / 21); }
-	.name .end { display: none; }
-}
-@media (max-width: 600px) {
-	.doodles { gap: 20px; }
-	.doodles .art { font-size: 12px; }
-	.band { padding-top: 22px; }
-	.flyer { rotate: .6deg; }
-}
-@media (prefers-reduced-motion: reduce) {
-	.track, .on .reel, .rew .reel { animation: none; }
-}
-</style>
+	@media (max-width: 1000px) {
+		.tracker { grid-template-columns: repeat(16, 1fr); }
+	}
+	@media (max-width: 600px) {
+		body { font-size: 17px; }
+		.image-row { gap: 10px 8px; }
+		.image-row figure { width: calc(50% - 4px); }
+		.image-row img { width: 100%; height: auto; }
+		.tracker { grid-template-columns: repeat(8, 1fr); }
+		.lcd-info { display: block; }
+		.lcd-info > span { display: block; }
+	}
+	</style>
 </head>
+
 <body>
 
-<div class="row">
-	<div>
-		<pre class="art name" aria-hidden="true"><span class=p>&lt;3</span>
-<span class=p>&lt;3</span>
-<span class=p>&lt;3    &lt;3      &lt;3&lt;3&lt;3      &lt;3&lt;3&lt;3&lt;3</span><span class=end><span class=y>    &lt;3&lt;3  &lt;3&lt;3</span></span>
-<span class=p>&lt;3  &lt;3      &lt;3      &lt;3  &lt;3        </span><span class=end><span class=y>  &lt;3&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3</span></span>
-<span class=p>&lt;3&lt;3        &lt;3&lt;3&lt;3&lt;3&lt;3    &lt;3&lt;3&lt;3  </span><span class=end><span class=y>    &lt;3&lt;3&lt;3&lt;3&lt;3</span></span>
-<span class=p>&lt;3  &lt;3      &lt;3                  &lt;3</span><span class=end><span class=y>      &lt;3&lt;3&lt;3</span></span>
-<span class=p>&lt;3    &lt;3      &lt;3&lt;3&lt;3    &lt;3&lt;3&lt;3&lt;3  </span><span class=end><span class=y>        &lt;3</span></span>
-<span class="p drip">|      |       |   |     '    |</span>
-<span class="p drip">|      '       |   '          |</span>
-<span class="p drip">'              |              '</span>
-<span class="p drip">               '</span></pre>
-		<h1>hi, i'm kes <span class=p>♡</span></h1>
+	<!-- INTRO  --------------------------------------------------------------->
+	<p>
+		<button onclick="window.open('mailto:inkersolekesia@gmail.com', '_blank')">inkersolekesia@gmail.com ↗</button>
+		<button onclick="window.open('https://latent-space.vercel.app/', '_blank')">latent space ↗</button>
+		<button onclick="window.open('https://protecht.vercel.app/', '_blank')">pro(tech)t ↗</button>
+	</p>
+	<p>
+		I’m Kes Inkersole, a freelance creative strategist and internet equalities researcher based in London. My practice focuses on understanding and critiquing the impacts of emerging technologies on people, culture, and the planet. I’m particularly interested in working collectively to rethink the narratives and behaviours surrounding technologies, prioritising collaborative research as a process for testing, imagining and prototyping more equitable, alternative futures. I’m an associate lecturer at UAL (LCF and CCI), and I have collaborated with Neu Futur, <em>DAZED</em>, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer and Selfridges, among others. Below you’ll find some experiments (for fun), commissions (for funds), writing, conversations and one <a href="#fm">jungle machine</a>. My CV and portfolio are on request, if you are curious about that: <a class="highlight" href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a>. Otherwise, keep scrolling...
+		<br>
+		<br>
+	</p>
 
-		<p>kesia inkersole if you're being formal. i'm a freelance creative strategist and internet equalities researcher, based in london, and i'm available for work: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
 
-		<p>my practice focuses on understanding and critiquing the impacts of emerging technologies on people, culture, and the planet. i'm particularly interested in working collectively to rethink the narratives and behaviours surrounding technologies, prioritising collaborative research as a process for testing, imagining and prototyping more equitable, alternative futures.</p>
+	<!-- LATENT SPACE  --------------------------------------------------------------->
+	<p>
+		<a class="extra" href="https://latent-space.vercel.app/" target="_blank">LATENT SPACE (experiment)</a>
+		<button onclick="window.open('https://latent-space.vercel.app/', '_blank')">latent-space.vercel.app ↗</button>
 
-		<p>i'm an associate lecturer at UAL (LCF + CCI), and i've worked with Neu Futur, DAZED, co&#8288;—&#8288;matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer and Selfridges, among others.</p>
+		<br>
+		An experiment, made for fun rather than for funds. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. It lives at <a href="https://latent-space.vercel.app/" target="_blank">latent-space.vercel.app</a>; excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+	</p>
+	<div class="image-row">
+		<figure class="image-module">
+			<img src="https://picsum.photos/seed/latent/600/400" width="600" height="400" alt="placeholder photo">
+			<figcaption>20XX Lorem, Ipsum Gallery (London), Photo by Lorem Ipsum</figcaption>
+		</figure>
+		<figure class="image-module">
+			<img src="https://picsum.photos/seed/vector/400/500" width="400" height="500" alt="placeholder photo">
+			<figcaption>20XX Dolor, screenshot</figcaption>
+		</figure>
+		<figure class="image-module">
+			<img src="https://picsum.photos/seed/embedding/600/400" width="600" height="400" alt="placeholder photo">
+			<figcaption>20XX Lorem, Sit Amet (London), Photo by Lorem Ipsum</figcaption>
+		</figure>
 	</div>
 
-	<div>
-		<!-- stickers, slapped on. purely decorative, the real hello is on the left -->
-		<div class="slaps" aria-hidden="true">
-			<div class="hello"><b>HELLO</b><small>my name is</small><span>kes<i>♡</i></span></div>
-			<div class="smiley"></div>
-			<div class="caution">caution: contains jungle (and hearts)</div>
-		</div>
+	<!-- PRO(TECH)T  --------------------------------------------------------------->
+	<p>
+		<a class="extra" href="https://protecht.vercel.app/" target="_blank">PRO(TECH)T (experiment)</a>
+		<button onclick="window.open('https://protecht.vercel.app/', '_blank')">protecht.vercel.app ↗</button>
 
-		<!-- kes: newest at the top. the lorem ipsum lines are placeholders, swap them for real things -->
-		<div class="new">
-			<h2>new-ish <span class=p>✶</span></h2>
-			<ul>
-				<li>lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
-				<li>sed do eiusmod tempor incididunt ut labore et dolore</li>
-				<li>ut enim ad minim veniam, quis nostrud exercitation</li>
-			</ul>
-		</div>
-
-		<div class="doodles">
-			<pre class="art net" aria-hidden="true">   <span class=p>o</span><span class=b>-----------</span><span class=p>o</span>
-  <span class=b>/ \         / \</span>
- <span class=b>/   \       /   \</span>
-<span class=p>o</span><span class=b>-----</span><span class=p>o</span><span class=b>-----</span><span class=p>o</span><span class=b>-----</span><span class=p>o</span>
- <span class=b>\   / \   / \   /</span>
-  <span class=b>\ /   \ /   \ /</span>
-   <span class=p>o</span><span class=b>-----</span><span class=p>o</span><span class=b>-----</span><span class=p>o</span></pre>
-			<pre class="art mac" aria-hidden="true">.------------------.
-| .--------------. |
-| |              | |
-| |<span class=p><span class=a>   o      o   </span><span class=h>   ^      ^   </span></span>| |
-| |<span class=p><span class=a>     \__/     </span><span class=h>      &lt;3      </span></span>| |
-| |              | |
-| '--------------' |
-| <span class=y>[</span><span class=p>&lt;3</span><span class=y> jungle]</span>      |
-|    <span class=i>________</span>   <span class=p>o</span>  |
-|   <span class=i>|________|</span>     |
-|__________________|
-'------------------'</pre>
-		</div>
-	</div>
-</div>
-
-<!-- warning tape. the text is written out twice so the loop is seamless -->
-<div class="tape-wrap" aria-hidden="true"><div class="tape"><div class="track">
-	<span>kes fm</span><i></i><span>170.0</span><i></i><span>big up all the junglists ♡</span><i></i><span>broadcasting from one browser tab</span><i></i><span>text-ins:</span><span class="lc">inkersolekesia@gmail.com</span><i></i><span>big up everyone on bad wifi</span><i></i><span>lorem ipsum dolor sit amen</span><i></i>
-	<span>kes fm</span><i></i><span>170.0</span><i></i><span>big up all the junglists ♡</span><i></i><span>broadcasting from one browser tab</span><i></i><span>text-ins:</span><span class="lc">inkersolekesia@gmail.com</span><i></i><span>big up everyone on bad wifi</span><i></i><span>lorem ipsum dolor sit amen</span><i></i>
-</div></div></div>
-
-<section class="band" aria-labelledby="kesfm">
-	<h2 class="throw" id="kesfm"><span aria-hidden="true"><span class=l>k</span><span class=l>e</span><span class=l>s</span> <span class=l>f</span><span class=l>m</span></span><span class="sticker" aria-hidden="true">170.0</span><span class="vh">kes fm: a little jungle machine</span>
-		<small>pirate radio for one website ✧ press play, it never starts on its own ✧ big up all the junglists</small></h2>
-
-	<div class="row">
-		<div class="col-deck">
-			<div class="deck" id="deck" role="group" aria-label="kes fm jungle machine">
-				<div class="deck-head"><b>KES FM <i>♡</i></b><span>tape deck / pirate radio / no samples</span></div>
-				<div class="lcd" aria-hidden="true">
-					<div class="lcd-top"><span class="freq"><b id="freq">170.0</b> FM</span><span class="pat" id="patname">amen-ish</span></div>
-					<div class="mc" id="mc">press play (it won't start on its own) ♡</div>
-					<div class="leds" id="leds"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-				</div>
-				<div class="cass" aria-hidden="true">
-					<span class="reel"></span>
-					<span class="clabel">kes fm ♡ side a<small id="clab">amen-ish · 170 bpm</small></span>
-					<span class="reel"></span>
-				</div>
-				<div class="keys">
-					<button type="button" class="k-play" id="play">▶&#xFE0E; play</button>
-					<button type="button" class="k-stop" id="stop">■ stop</button>
-					<button type="button" id="rew" title="pull up and play it again from the top">◀&#xFE0E;◀&#xFE0E; rewind</button>
-					<button type="button" id="pat" title="switch break">break ↻</button>
-					<button type="button" id="chop" title="cut the break up differently">✂&#xFE0E; chop</button>
-					<button type="button" id="reese" aria-pressed="false" title="the growly detuned bass">reese</button>
-					<button type="button" id="horn">horn</button>
-					<button type="button" id="siren">siren</button>
-				</div>
-				<div class="dials">
-					<label>tune <input type="range" id="tune" min="160" max="175" step="1" value="170"> <output id="bpm" for="tune">170 bpm</output></label>
-					<label>volume <input type="range" id="vol" min="0" max="100" value="50"></label>
-				</div>
-				<p class="deck-note" id="status" role="status">stopped. nothing plays till you press play, and stop always works.</p>
-			</div>
-		</div>
-
-		<div>
-			<pre class="art stack" aria-hidden="true">        <span class=p>\(^o^)/</span>       <span class=p>&lt;3</span>
-<span class=c>.--------------..--------------.</span>
-<span class=c>| .----.  .--. || .----.  .--. |</span>
-<span class=c>| |====|  </span><span class=g>(())</span><span class=c> || |====|  </span><span class=g>(())</span><span class=c> |</span>
-<span class=c>| '----'  '--' || '----'  '--' |</span>
-<span class=c>'--------------''--------------'</span>
-<span class=c>.--------------..--------------.</span>
-<span class=c>|   .------.   ||   .------.   |</span>
-<span class=c>|  /  .--.  \  ||  /  .--.  \  | </span> <span class=g>)</span>
-<span class=c>| |  </span><span class=b>( </span><span class=p>&lt;3</span><span class=b> )</span><span class=c>  | || |  </span><span class=b>( </span><span class=p>&lt;3</span><span class=b> )</span><span class=c>  | | </span> <span class=g>))</span>
-<span class=c>|  \  '--'  /  ||  \  '--'  /  | </span> <span class=g>)))</span>
-<span class=c>|   '------'   ||   '------'   | </span> <span class=g>))</span>
-<span class=c>|--------------||--------------| </span> <span class=g>)</span>
-<span class=c>|    </span><span class=y>KES FM</span><span class=c>    ||   </span><span class=g>170.0 FM</span><span class=c>   |</span>
-<span class=c>'--------------''--------------'</span>
-<span class=i>""""""""""""""""""""""""""""""""</span></pre>
-
-			<h3 class="stencil">liner notes</h3>
-			<p>jungle came out of london in the early 90s, out of Black British sound system culture: reggae and dub basslines, MCs, dubplates and rewinds, colliding with breakbeat hardcore at 160-something bpm. pirate radio played it long before the official stations would. this page borrows its look and its language, so it should say whose they are.</p>
-			<p>the drums are amen-shaped. the amen break is a few seconds of gregory c. coleman drumming on "amen, brother" by the winstons (1969), and it's one of the most sampled recordings ever made. the band never got royalties for any of that. so the machine doesn't sample him: every hit is synthesised from scratch, in your browser.</p>
-			<p>(the internet equalities bit: pirate radio was people bolting aerials to tower block roofs because the official airwaves wouldn't carry their music. a network built by the people the official one left out. that's still what a lot of the best internet looks like.)</p>
-		</div>
-
-		<div class="col-flyer">
-			<div class="flyer">
-				<p class="pres">kes fm presents</p>
-				<p class="chrome">this website</p>
-				<p class="sub">a homepage with a jungle machine in it</p>
-				<pre class="art smile" aria-hidden="true">    .-""""""-.
-  .'          '.
- /   O      O   \
-:  <span class=p>~~</span>        <span class=p>~~</span>  :
-:   \        /   :
- \   '.____.'   /
-  '.          .'
-    '-......-'</pre>
-				<dl class="bill">
-					<div><dt>room 1</dt><dd>hearts + ascii</dd></div>
-					<div><dt>room 2</dt><dd>170bpm, no samples</dd></div>
-					<div><dt>room 3</dt><dd>links, links, links</dd></div>
-					<div><dt>resident</dt><dd>kes</dd></div>
-					<div><dt>lasers</dt><dd>css</dd></div>
-					<div><dt>rig</dt><dd>whatever speakers you've got</dd></div>
-					<div><dt>rewinds</dt><dd>encouraged</dd></div>
-					<div><dt>door</dt><dd>free · all ages · step-free</dd></div>
-					<div><dt>info line</dt><dd><a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></dd></div>
-				</dl>
-				<p class="amen">lorem ipsum dolor sit amen</p>
-				<p class="fine">small print: there's no rave, no date and no venue. this flyer is just for this page.</p>
-			</div>
-		</div>
-	</div>
-</section>
-
-<div class="tape-wrap" aria-hidden="true"><div class="tape down"><div class="track">
-	<span>caution</span><i></i><span>wet paint</span><i></i><span>caution</span><i></i><span>sub bass</span><i></i><span>caution</span><i></i><span>hearts</span><i></i><span>caution</span><i></i><span>wet paint</span><i></i><span>caution</span><i></i><span>sub bass</span><i></i><span>caution</span><i></i><span>hearts</span><i></i>
-	<span>caution</span><i></i><span>wet paint</span><i></i><span>caution</span><i></i><span>sub bass</span><i></i><span>caution</span><i></i><span>hearts</span><i></i><span>caution</span><i></i><span>wet paint</span><i></i><span>caution</span><i></i><span>sub bass</span><i></i><span>caution</span><i></i><span>hearts</span><i></i>
-</div></div></div>
-
-<!-- to add a project: copy a <dt> + <dd> pair. photos: keep them about 150px tall so they sit in a row and fit on phones -->
-
-<div class="row" style="margin-top: 36px">
-	<div>
-		<h2>projects (for fun)</h2>
-		<dl>
-			<dt><a href="https://latent-space.vercel.app/">latent space</a></dt>
-			<dd>
-				lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.<br>
-				<figure><img src="https://picsum.photos/seed/latentspace/200/150" width="200" height="150" alt="lorem ipsum"><figcaption>lorem ipsum dolor</figcaption></figure>
-				<figure><img src="https://picsum.photos/seed/latentspace2/200/150" width="200" height="150" alt="lorem ipsum"><figcaption>lorem ipsum dolor</figcaption></figure>
-			</dd>
-
-			<dt><a href="https://protecht.vercel.app/">pro(tech)t</a></dt>
-			<dd>duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</dd>
-		</dl>
+		<br>
+		Another one for fun. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante venenatis dapibus, posuere velit aliquet. Cras mattis consectetur purus sit amet fermentum. Maecenas sed diam eget risus varius blandit sit amet non magna. Nullam quis risus eget urna mollis ornare vel eu leo. You can try it at <a href="https://protecht.vercel.app/" target="_blank">protecht.vercel.app</a>; donec ullamcorper nulla non metus auctor fringilla, vestibulum id ligula porta felis euismod semper.
+	</p>
+	<div class="image-row">
+		<figure class="image-module">
+			<img src="https://picsum.photos/seed/protect/400/500" width="400" height="500" alt="placeholder photo">
+			<figcaption>20XX Lorem, screenshot</figcaption>
+		</figure>
+		<figure class="image-module">
+			<img src="https://picsum.photos/seed/shield/600/400" width="600" height="400" alt="placeholder photo">
+			<figcaption>20XX Ipsum, Lorem Studio (London), Photo by Dolor Sit</figcaption>
+		</figure>
 	</div>
 
-	<div style="--hl: var(--blush)">
-		<h2>projects (for funds)</h2>
-		<dl>
-			<dt><a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1">MØRNING Ø</a></dt>
-			<dd>lorem ipsum dolor sit amet, consectetur adipiscing elit.</dd>
+	<!-- MØRNING Ø  --------------------------------------------------------------->
+	<p>
+		<a class="extra" href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1" target="_blank">MØRNING Ø (commission)</a>
+		<button onclick="window.open('https://www.instagram.com/p/CwOEAMetgc1/?img_index=1', '_blank')">see it on instagram ↗</button>
 
-			<dt><a href="https://co-matter.com/project/networked-worlds">networked worlds</a>, for co&#8288;—&#8288;matter</dt>
-			<dd>
-				ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. duis aute irure dolor in reprehenderit.<br>
-				<figure><img src="https://picsum.photos/seed/networked/200/150" width="200" height="150" alt="lorem ipsum"><figcaption>lorem ipsum, photo by dolor sit</figcaption></figure>
-				<figure><img src="https://picsum.photos/seed/networked2/113/150" width="113" height="150" alt="lorem ipsum"><figcaption>lorem ipsum</figcaption></figure>
-				<figure><img src="https://picsum.photos/seed/networked3/200/150" width="200" height="150" alt="lorem ipsum"><figcaption>lorem ipsum dolor</figcaption></figure>
-			</dd>
-
-			<dt><a href="https://www.protein.xyz/dirty-words-4-community/">dirty words #4: community report</a>, for Protein</dt>
-			<dd>excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia.</dd>
-		</dl>
-	</div>
-</div>
-
-<div class="row">
-	<div style="--hl: var(--mist)">
-		<h2>things i've written</h2>
-		<ul>
-			<li><a href="https://www.protein.xyz/sex-and-the-internet/">mindy seu on sex and the internet</a> (Protein)</li>
-			<li><a href="https://midnight.agency/thoughts/dreaming-and-designing-more-accessible-web">dreaming and designing a more accessible web</a> (Midnight Agency)</li>
-			<li><a href="https://midnight.agency/thoughts/coding-a-more-creative-and-playful-web">coding a more creative and playful web</a> (Midnight Agency)</li>
-			<li><a href="https://midnight.agency/thoughts/composing-a-flexible-and-modular-web">composing a flexible and modular web</a> (Midnight Agency)</li>
-			<li><a href="https://morningfyi.substack.com/p/020-uh-oh-meet">burn after reading: uh oh, meet o</a> (MØRNING)</li>
-			<li><a href="https://morningfyi.substack.com/p/024-entering-limb-with">burn after reading: entering limbo, with o</a> (MØRNING)</li>
-		</ul>
+		<br>
+		Commissioned by MØRNING. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida, risus commodo viverra maecenas accumsan lacus vel facilisis. Documentation is on <a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1" target="_blank">Instagram</a>; lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+	</p>
+	<div class="image-row">
+		<figure class="image-module">
+			<img src="https://picsum.photos/seed/morning/600/400" width="600" height="400" alt="placeholder photo">
+			<figcaption>20XX Lorem, Ipsum (London), Photo by Lorem Ipsum</figcaption>
+		</figure>
+		<figure class="image-module">
+			<img src="https://picsum.photos/seed/zero/400/500" width="400" height="500" alt="placeholder photo">
+			<figcaption></figcaption>
+		</figure>
+		<figure class="image-module">
+			<img src="https://picsum.photos/seed/slash/400/500" width="400" height="500" alt="placeholder photo">
+			<figcaption></figcaption>
+		</figure>
 	</div>
 
-	<div style="--hl: #e4ffc2">
-		<h2>podcasts (good for a long bus ride)</h2>
-		<pre class="art bus" aria-hidden="true">                           <span class="y ding">ding ding!</span>
-   <span class=p>_________________________________</span>
-  <span class=p>|  </span><span class=b>___  ___  ___  ___  ___  </span><span class=p>[</span><span class=y>&lt;3</span><span class=p>] \</span>
-  <span class=p>| </span><span class=b>|___||___||___||___||___|       </span><span class=p>|</span>
-  <span class=p>|---------------------------------|</span>
-  <span class=p>|  </span><span class=b>___  ___  ___  ___   </span><span class=p>__   </span><span class=b>___  </span><span class=p>|</span>
-  <span class=p>| </span><span class=b>|___||___||___||___| </span>|  | |<span class=b>___| </span>|
-  <span class=p>|______________________|__|_______|</span>
-    <span class=i>'-(@)-'              '-(@)-'</span><span class="tag">kes<i>♡</i></span></pre>
-		<ul>
-			<li><a href="https://podcasts.apple.com/gb/podcast/mindy-seu-on-collaboration-community-and/id1449302502?i=1000597869409">mindy seu on collaboration, community and the cyberfeminism index</a></li>
-			<li><a href="https://soundcloud.com/proteincommunity/protein-forum-what-can-web2-organisations-learn-from-web3-communities">what can web2 organisations learn from web3 communities?</a></li>
-			<li><a href="https://podcasts.apple.com/gb/podcast/cherie-hu-on-water-musics-journey-through-web3/id1449302502?i=1000581859804">cherie hu on water &amp; music's journey through web3</a></li>
-			<li><a href="https://podcasts.apple.com/gb/podcast/molly-dickson-on-dao-activism-and-fighting-for/id1449302502?i=1000578164761">molly dickson on dao activism</a></li>
-			<li><a href="https://podcasts.apple.com/gb/podcast/dame-on-the-need-for-education-accessibility/id1449302502?i=1000559829008">dame on education, accessibility and inclusivity in web3</a></li>
-			<li><a href="https://podcasts.apple.com/gb/podcast/nadia-piet-on-creative-ai-and-protopian-futures/id1449302502?i=1000559822732">nadia piet on creative ai and protopian futures</a></li>
-			<li><a href="https://podcasts.apple.com/gb/podcast/cyn-bahati-on-her-journey-into-web3-with-her-family/id1449302502?i=1000559818509">cyn bahati on her journey into web3 with her family</a></li>
-			<li><a href="https://podcasts.apple.com/gb/podcast/latash%C3%A1-on-the-potential-of-web3-for-music-artists/id1449302502?i=1000552812458">latasha on the potential of web3 for music artists</a></li>
-		</ul>
+	<!-- NETWORKED WORLDS  --------------------------------------------------------------->
+	<p>
+		<a class="extra" href="https://co-matter.com/project/networked-worlds" target="_blank">NETWORKED WORLDS (commission)</a>
+		<button onclick="window.open('https://co-matter.com/project/networked-worlds', '_blank')">co-matter.com ↗</button>
+
+		<br>
+		Commissioned by co—matter. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Aenean eu leo quam, pellentesque ornare sem lacinia quam venenatis vestibulum. Etiam porta sem malesuada magna mollis euismod. The full project is on <a href="https://co-matter.com/project/networked-worlds" target="_blank">co—matter’s site</a>; curabitur blandit tempus porttitor, nulla vitae elit libero, a pharetra augue.
+	</p>
+	<div class="image-row">
+		<figure class="image-module">
+			<img src="https://picsum.photos/seed/networked/600/400" width="600" height="400" alt="placeholder photo">
+			<figcaption>20XX Lorem, Ipsum Space (London), Photo by Lorem Ipsum</figcaption>
+		</figure>
+		<figure class="image-module">
+			<img src="https://picsum.photos/seed/worlds/600/400" width="600" height="400" alt="placeholder photo">
+			<figcaption>20XX Lorem, Ipsum Space (London), Photo by Lorem Ipsum</figcaption>
+		</figure>
+		<figure class="image-module">
+			<img src="https://picsum.photos/seed/nodes/400/500" width="400" height="500" alt="placeholder photo">
+			<figcaption></figcaption>
+		</figure>
 	</div>
 
-	<div style="--hl: var(--blush)">
-		<h2>talks, workshops, a residency + other bits</h2>
-		<ul>
-			<li><a href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1">olden residency</a></li>
-			<li><a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1">softer london</a>, talk + workshop</li>
-			<li><a href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard">tech yard</a>, workshop</li>
-			<li><a href="https://www.instagram.com/p/BslwSSPH5Rc/?img_index=2">ovar it</a></li>
-		</ul>
-		<figure><img src="https://picsum.photos/seed/workshop/200/150" width="200" height="150" alt="lorem ipsum"><figcaption>lorem ipsum, photo by dolor sit</figcaption></figure>
-		<figure><img src="https://picsum.photos/seed/workshop2/113/150" width="113" height="150" alt="lorem ipsum"><figcaption>lorem ipsum</figcaption></figure>
-		<figure><img src="https://picsum.photos/seed/talk/200/150" width="200" height="150" alt="lorem ipsum"><figcaption>lorem ipsum, photo by dolor sit</figcaption></figure>
-	</div>
-</div>
+	<!-- DIRTY WORDS  --------------------------------------------------------------->
+	<p>
+		<a class="extra" href="https://www.protein.xyz/dirty-words-4-community/" target="_blank">DIRTY WORDS #4: COMMUNITY (commission)</a>
+		<button onclick="window.open('https://www.protein.xyz/dirty-words-4-community/', '_blank')">read the report ↗</button>
 
-<div class="cable flip" aria-hidden="true"><pre class="art">  <span class=b>.--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    </span><span class=i>.---. </span>
-<span class=b>-'    `--'    `--'    `</span><span class=p>&lt;3</span><span class=b>'    `--'    `--'    `--'    `--'    `--'    `</span><span class=p>&lt;3</span><span class=b>'    `--'    `--'    `--'    `--'    `--'    `</span><span class=p>&lt;3</span><span class=b>'    `--'    `--'    `--'    `--'    `--'    `</span><span class=p>&lt;3</span><span class=b>'    `--'    `--'    `--'    `--'    `--'    `</span><span class=p>&lt;3</span><span class=b>'    `--'    `--'    `--'    `--'    `--'    `</span><span class=p>&lt;3</span><span class=b>'    `--'    `--'    `--'    `--'    `--'    `</span><span class=p>&lt;3</span><span class=b>'    `--'    `--'    `--'    `--'    `-=</span><span class=i>[|||||]</span></pre></div>
-
-<div class="row">
-	<div style="--hl: var(--mist)">
-		<h2>studied</h2>
-		<ul>
-			<li>MA internet equalities</li>
-			<li>BA creative direction</li>
-			<li>PhD [ ? ]</li>
-		</ul>
+		<br>
+		A community report, commissioned by Protein. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sed posuere consectetur est at lobortis. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Read <a href="https://www.protein.xyz/dirty-words-4-community/" target="_blank"><em>Dirty Words #4: Community</em></a> on Protein; cras justo odio, dapibus ac facilisis in, egestas eget quam.
+	</p>
+	<div class="image-row">
+		<figure class="image-module">
+			<img src="https://picsum.photos/seed/dirtywords/400/500" width="400" height="500" alt="placeholder photo">
+			<figcaption>Lorem ipsum, cover</figcaption>
+		</figure>
+		<figure class="image-module">
+			<img src="https://picsum.photos/seed/community/600/400" width="600" height="400" alt="placeholder photo">
+			<figcaption>20XX Lorem, Ipsum (London), Photo by Lorem Ipsum</figcaption>
+		</figure>
+		<figure class="image-module">
+			<img src="https://picsum.photos/seed/report/400/500" width="400" height="500" alt="placeholder photo">
+			<figcaption></figcaption>
+		</figure>
 	</div>
 
-	<div>
-		<h2>say hi (^_^)/</h2>
-		<p><a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a><br>
-		cv + portfolio on request, just ask</p>
+	<!-- KES FM  --------------------------------------------------------------->
+	<section class="fm" id="fm" aria-labelledby="fm-h">
+	<h2 id="fm-h" class="extra">KES FM 170.0 (jungle machine)</h2>
+	<p class="ident">A pirate station that only broadcasts to you. Every drum and bassline is synthesised live in your browser: no samples, no files, nothing downloaded and nothing tracked. The break is drummed out of oscillators and noise at 136bpm, then sped up to 170 and chopped into slices, which is what the old samplers did to records. Nothing plays until you press on air, and stop always stops it.</p>
+	<div class="deck">
+	<div class="lcd">
+	<div class="lcd-top"><span>KES FM <span class="sound">(((</span> 170.0 <span class="sound">)))</span></span><span class="status" id="status" role="status">off air</span></div>
+	<div class="ticker" aria-hidden="true"><div><span>big up all the junglists ✦ big up everyone reading the source code ✦ big up the UAL lot, LCF + CCI ✦ big up Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges ✦ text in: inkersolekesia@gmail.com ✦ respect to the sound systems, pirates and producers who built all this ✦ lorem ipsum dolor sit amet ✦</span><span>big up all the junglists ✦ big up everyone reading the source code ✦ big up the UAL lot, LCF + CCI ✦ big up Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges ✦ text in: inkersolekesia@gmail.com ✦ respect to the sound systems, pirates and producers who built all this ✦ lorem ipsum dolor sit amet ✦</span></div></div>
+	<div class="tracker" id="tracker" aria-hidden="true"></div>
+	<div class="lcd-info" aria-hidden="true"><span id="lcdinfo">break: straight · bass: sub · cute: off</span><span><span class="rev">inverted</span> = reversed · <span class="up">bold</span> = pitched up · underline = roll</span></div>
 	</div>
 
-	<details>
-		<summary>need a bio in the third person? (for event programmes etc)</summary>
-		<p>Kesia Inkersole is a freelance creative strategist and internet equalities researcher based in London. Inkersole's practice focuses on understanding and critiquing the impacts of emerging technologies on people, culture and the planet, prioritising collaborative research as a process for testing, imagining and prototyping more equitable, alternative futures. Inkersole is an associate lecturer at UAL (London College of Fashion and the Creative Computing Institute) and has worked with Neu Futur, DAZED, co&#8288;—&#8288;matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer and Selfridges.</p>
-	</details>
-</div>
+	<div class="keys">
+	<div><button class="go" id="go" type="button" aria-pressed="false">▶ on air</button><button class="stop" id="stop" type="button">■ stop</button></div>
+	<div role="group" aria-label="break"><span class="lbl">break</span><button type="button" data-break="straight" aria-pressed="true">straight</button><button type="button" data-break="chopped" aria-pressed="false">chopped</button><button type="button" data-break="rollin" aria-pressed="false">rollin'</button><button type="button" id="chop" aria-pressed="false">✂ chop it</button></div>
+	<div role="group" aria-label="bass"><span class="lbl">bass</span><button type="button" data-bass="sub" aria-pressed="true">sub</button><button type="button" data-bass="reese" aria-pressed="false">reese</button><button type="button" data-bass="off" aria-pressed="false">off</button></div>
+	<div><button type="button" id="cute" aria-pressed="false">✿ cute</button><button type="button" id="pullup">⟲ pull up</button><button type="button" id="siren">siren</button></div>
+	<label class="vol">vol <input type="range" id="vol" min="0" max="1" step="0.05" value="0.5"></label>
+	</div>
+	<p class="textin">text in your shout-outs: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
+	</div>
+	</section>
+	<button class="floatstop" id="floatstop" type="button" hidden>■ stop KES FM</button>
 
-<!-- a tower block with a pirate aerial on the roof, a wall someone's put a throw-up on, then the garden -->
-<pre class="art garden" aria-hidden="true" title="it loads fine on bad wifi. the snail is the bad wifi">    <span class=g>((</span>  <span class=g>((</span><span class=i>  \|/  </span><span class=g>))</span>  <span class=g>))</span>                                       
-         <span class=g>((</span><span class=i>  |  </span><span class=g>))</span>                                            
-<span class=i>             |            </span>                                    
-<span class=i>    .--------'-------.    </span><span class=w>  |___|___|___|___|___|___|___|__|  </span>
-<span class=i>    | </span><span class=w>[]</span> <span class=y>[]</span> <span class=w>[]</span> <span class=w>[]</span> <span class=y>[]</span><span class=i> |    </span><span class=w>  |    </span><span class=p>_</span>  <span class=p>__</span> <span class=p>_____</span>  <span class=p>____</span><span class=w>         |  </span>
-<span class=i>    | </span><span class=w>[]</span> <span class=w>[]</span> <span class=p>&lt;3</span> <span class=w>[]</span> <span class=w>[]</span><span class=i> |    </span><span class=w>  |   </span><span class=p>|</span> <span class=p>|/</span> <span class=p>/|</span> <span class=p>____|/</span> <span class=p>___|</span>   <span class=p>&lt;3</span><span class=w>   |  </span>
-<span class=i>    | </span><span class=w>[]</span> <span class=w>[]</span> <span class=y>[]</span> <span class=w>[]</span> <span class=w>[]</span><span class=i> |    </span><span class=w>  |   </span><span class=p>|</span> <span class=p>'</span> <span class=p>/</span> <span class=p>|</span>  <span class=p>_|</span>  <span class=p>\___</span> <span class=p>\</span><span class=w>        |  </span>
-<span class=i>    | </span><span class=y>[]</span> <span class=w>[]</span> <span class=w>[]</span> <span class=y>[]</span> <span class=w>[]</span><span class=i> |    </span><span class=w>  |   </span><span class=p>|</span> <span class=p>.</span> <span class=p>\</span> <span class=p>|</span> <span class=p>|___</span>  <span class=p>___)</span> <span class=p>|</span>  <span class=b>170</span><span class=w>  |  </span>     <span class=b>_      </span><span class=p>_  _          _____       </span><span class=i>@  @             </span><span class=y>\ | /    </span><span class=p>_  _          </span><span class=b>_            </span><span class=p>_  _      </span><span class=y>\ | /          </span><span class=b>_      </span><span class=p>_  _            _  _    </span><span class=y>\ | /          </span><span class=b>_            </span><span class=p>_  _        </span><span class=b>_      </span><span class=y>\ | /    </span><span class=p>_  _                </span><span class=b>_      </span><span class=p>_  _      </span><span class=y>\ | /          </span><span class=p>_  _      </span><span class=b>_          </span><span class=p>_  _    </span><span class=y>\ | /            </span><span class=b>_      </span><span class=p>_  _</span>
-<span class=i>    | </span><span class=w>[]</span> <span class=w>[]</span> <span class=w>[]</span> <span class=w>[]</span> <span class=y>[]</span><span class=i> |    </span><span class=w>  |   </span><span class=p>|_|\_\|_____||____/</span><span class=w>        |  </span>   <span class=b>_(_)_   </span><span class=p>( \/ )       .'     '.      </span><span class=b>\ |      </span><span class=p>@      </span><span class=y>-</span><span class=p>(@)</span><span class=y>-   </span><span class=p>( \/ )       </span><span class=b>_(_)_     </span><span class=p>@   ( \/ )     </span><span class=y>-</span><span class=p>(@)</span><span class=y>-        </span><span class=b>_(_)_   </span><span class=p>( \/ )    @     ( \/ )   </span><span class=y>-</span><span class=p>(@)</span><span class=y>-        </span><span class=b>_(_)_     </span><span class=p>@   ( \/ )     </span><span class=b>_(_)_    </span><span class=y>-</span><span class=p>(@)</span><span class=y>-   </span><span class=p>( \/ )        @    </span><span class=b>_(_)_   </span><span class=p>( \/ )     </span><span class=y>-</span><span class=p>(@)</span><span class=y>-     </span><span class=p>@   ( \/ )   </span><span class=b>_(_)_       </span><span class=p>( \/ )   </span><span class=y>-</span><span class=p>(@)</span><span class=y>-     </span><span class=p>@    </span><span class=b>_(_)_   </span><span class=p>( \/ )</span>
-<span class=i>    | </span><span class=w>[]</span> <span class=y>[]</span> <span class=w>[]</span> <span class=w>[]</span> <span class=w>[]</span><span class=i> |    </span><span class=w>  |    </span><span class=p>|</span>    <span class=p>|</span>     <span class=p>|</span>    <span class=p>|</span><span class=w>         |  </span>  <span class=b>(_)</span><span class=y>@</span><span class=b>(_)   </span><span class=p>\  /       /  </span><span class=y>.---.  </span><span class=p>\     </span><span class=b>| |     </span><span class=g>\|      </span><span class=y>/ </span><span class=g>| </span><span class=y>\    </span><span class=p>\  /       </span><span class=b>(_)</span><span class=y>@</span><span class=b>(_)   </span><span class=g>\|    </span><span class=p>\  /      </span><span class=y>/ </span><span class=g>| </span><span class=y>\       </span><span class=b>(_)</span><span class=y>@</span><span class=b>(_)   </span><span class=p>\  /    </span><span class=g>\|      </span><span class=p>\  /    </span><span class=y>/ </span><span class=g>| </span><span class=y>\       </span><span class=b>(_)</span><span class=y>@</span><span class=b>(_)   </span><span class=g>\|    </span><span class=p>\  /     </span><span class=b>(_)</span><span class=y>@</span><span class=b>(_)   </span><span class=y>/ </span><span class=g>| </span><span class=y>\    </span><span class=p>\  /        </span><span class=g>\|   </span><span class=b>(_)</span><span class=y>@</span><span class=b>(_)   </span><span class=p>\  /      </span><span class=y>/ </span><span class=g>| </span><span class=y>\    </span><span class=g>\|    </span><span class=p>\  /   </span><span class=b>(_)</span><span class=y>@</span><span class=b>(_)       </span><span class=p>\  /    </span><span class=y>/ </span><span class=g>| </span><span class=y>\    </span><span class=g>\|   </span><span class=b>(_)</span><span class=y>@</span><span class=b>(_)   </span><span class=p>\  /</span>
-<span class=i>    | </span><span class=y>[]</span><span class=i> .------. </span><span class=w>[]</span><span class=i> |    </span><span class=w>  |    </span><span class=p>'</span>          <span class=p>|</span>    <span class=p>'</span><span class=w>         |  </span>    <span class=b>(_)      </span><span class=p>\/       |  </span><span class=y>( (@) )  </span><span class=p>|</span><span class=b>____/ /      </span><span class=g>|/       |       </span><span class=p>\/          </span><span class=b>(_)      </span><span class=g>|/    </span><span class=p>\/         </span><span class=g>|           </span><span class=b>(_)      </span><span class=p>\/      </span><span class=g>|/      </span><span class=p>\/       </span><span class=g>|           </span><span class=b>(_)      </span><span class=g>|/    </span><span class=p>\/        </span><span class=b>(_)       </span><span class=g>|       </span><span class=p>\/          </span><span class=g>|/    </span><span class=b>(_)      </span><span class=p>\/         </span><span class=g>|       |/    </span><span class=p>\/      </span><span class=b>(_)          </span><span class=p>\/       </span><span class=g>|       |/    </span><span class=b>(_)      </span><span class=p>\/</span>
-<span class=i>    |____|      |____|    </span><span class=w>  |_______________'______________|  </span>    <span class=g>\|       |/        </span><span class=p>\  </span><span class=y>'---'  </span><span class=p>/      </span><span class=b>/      </span><span class=g>\|       \|       |/          \|      \|     |/        \|           \|       |/     \|       |/      \|           \|      \|     |/        \|       \|       |/         \|     \|       |/        \|      \|     |/      \|           |/      \|      \|     \|       |/</span>
-<span class=g>,,,,,|,,,,,,,|,,,,,,|,,,,,</span><span class=g>,,|,,,,,,,|,,,,,,|,,,,,,,,|,,,,,,,,|</span><span class=g>,,,,,|,,,,,,,|,,,,,,,</span><span class=b>___</span><span class=p>'._____.</span><span class=b>'______/</span><span class=g>,,,,,,,,|,,,,,,,,|,,,,,,,|,,,,,,,,,,,,|,,,,,,,|,,,,,|,,,,,,,,,,|,,,,,,,,,,,,|,,,,,,,|,,,,,,,|,,,,,,,|,,,,,,,,|,,,,,,,,,,,,|,,,,,,,|,,,,,|,,,,,,,,,,|,,,,,,,,|,,,,,,,|,,,,,,,,,,,|,,,,,,|,,,,,,,|,,,,,,,,,,|,,,,,,,|,,,,,|,,,,,,,,|,,,,,,,,,,,|,,,,,,,,|,,,,,,,|,,,,,,|,,,,,,,|,,,,,</span></pre>
+	<!-- WRITING  --------------------------------------------------------------->
+	<p>
+		<a class="extra">SELECTED WRITING</a>
+		<br><i>Mostly for Protein, Midnight Agency and MØRNING. Lorem ipsum dolor sit amet.</i>
+	</p>
+	<ul>
+		<li>Protein, “<a class="highlight" href="https://www.protein.xyz/sex-and-the-internet/" target="_blank">Mindy Seu on sex and the internet</a>”</li>
+		<li>Midnight Agency, “<a href="https://midnight.agency/thoughts/dreaming-and-designing-more-accessible-web" target="_blank">Dreaming and designing a more accessible web</a>”</li>
+		<li>Midnight Agency, “<a href="https://midnight.agency/thoughts/coding-a-more-creative-and-playful-web" target="_blank">Coding a more creative and playful web</a>”</li>
+		<li>Midnight Agency, “<a href="https://midnight.agency/thoughts/composing-a-flexible-and-modular-web" target="_blank">Composing a flexible and modular web</a>”</li>
+		<li>MØRNING, <i>Burn After Reading</i>, “<a href="https://morningfyi.substack.com/p/020-uh-oh-meet" target="_blank">uh oh, meet o</a>”</li>
+		<li>MØRNING, <i>Burn After Reading</i>, “<a href="https://morningfyi.substack.com/p/024-entering-limb-with" target="_blank">entering limbo, with o</a>”</li>
+	</ul>
+	<div class="image-row">
+		<figure class="image-module">
+			<a href="https://www.protein.xyz/sex-and-the-internet/" target="_blank">
+				<img src="https://picsum.photos/seed/protein/400/500" width="400" height="500" alt="placeholder photo">
+				<figcaption>Protein</figcaption>
+			</a>
+		</figure>
+		<figure class="image-module">
+			<a href="https://midnight.agency/thoughts/dreaming-and-designing-more-accessible-web" target="_blank">
+				<img src="https://picsum.photos/seed/midnight/400/500" width="400" height="500" alt="placeholder photo">
+				<figcaption>Midnight Agency</figcaption>
+			</a>
+		</figure>
+		<figure class="image-module">
+			<a href="https://morningfyi.substack.com/p/020-uh-oh-meet" target="_blank">
+				<img src="https://picsum.photos/seed/burnafter/400/500" width="400" height="500" alt="placeholder photo">
+				<figcaption>MØRNING, <i>Burn After Reading</i></figcaption>
+			</a>
+		</figure>
+		<figure class="image-module">
+			<a href="https://morningfyi.substack.com/p/024-entering-limb-with" target="_blank">
+				<img src="https://picsum.photos/seed/limbo/400/500" width="400" height="500" alt="placeholder photo">
+				<figcaption>MØRNING, <i>Burn After Reading</i></figcaption>
+			</a>
+		</figure>
+	</div>
 
-<!-- change the date when you change something! -->
+	<!-- PODCASTS  --------------------------------------------------------------->
+	<p>
+		<a class="extra">SELECTED PODCASTS</a>
+		<br><i>Conversations about web3, community, access and creative AI.</i>
+	</p>
+	<ul>
+		<li><a class="highlight" href="https://podcasts.apple.com/gb/podcast/mindy-seu-on-collaboration-community-and/id1449302502?i=1000597869409" target="_blank">Mindy Seu</a> on collaboration, community and the <i>Cyberfeminism Index</i></li>
+		<li>Protein Forum, “<a href="https://soundcloud.com/proteincommunity/protein-forum-what-can-web2-organisations-learn-from-web3-communities" target="_blank">What can web2 organisations learn from web3 communities?</a>”</li>
+		<li><a href="https://podcasts.apple.com/gb/podcast/cherie-hu-on-water-musics-journey-through-web3/id1449302502?i=1000581859804" target="_blank">Cherie Hu</a> on <i>Water &amp; Music</i>’s journey through web3</li>
+		<li><a href="https://podcasts.apple.com/gb/podcast/molly-dickson-on-dao-activism-and-fighting-for/id1449302502?i=1000578164761" target="_blank">Molly Dickson</a> on DAO activism</li>
+		<li><a href="https://podcasts.apple.com/gb/podcast/dame-on-the-need-for-education-accessibility/id1449302502?i=1000559829008" target="_blank">Dame</a> on education, accessibility and inclusivity in web3</li>
+		<li><a href="https://podcasts.apple.com/gb/podcast/nadia-piet-on-creative-ai-and-protopian-futures/id1449302502?i=1000559822732" target="_blank">Nadia Piet</a> on creative AI and protopian futures</li>
+		<li><a href="https://podcasts.apple.com/gb/podcast/cyn-bahati-on-her-journey-into-web3-with-her-family/id1449302502?i=1000559818509" target="_blank">Cyn Bahati</a> on her journey into web3 with her family</li>
+		<li><a href="https://podcasts.apple.com/gb/podcast/latash%C3%A1-on-the-potential-of-web3-for-music-artists/id1449302502?i=1000552812458" target="_blank">Latashá</a> on the potential of web3 for music artists</li>
+	</ul>
 
-<footer>
-	<p>this page was last updated on 1 october 2026. it's still mostly plain html (it started out in <a href="http://contemporary-home-computing.org/prof-dr-style/">olia lialina's prof. dr. style</a>, then i planted some flowers, then the jungle got in), so it's easy for me to update and it loads fine on bad wifi. the jungle machine is the one big script at the bottom: view source and take whatever's useful.</p>
-	<p>thanks for stopping by <span class=p>♡</span></p>
-</footer>
+	<!-- TALKS, WORKSHOPS, RESIDENCIES  --------------------------------------------------------------->
+	<p>
+		<a class="extra">TALKS, WORKSHOPS AND RESIDENCIES</a>
+		<br><i>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</i>
+	</p>
+	<ul>
+		<li><a href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1" target="_blank">Olden</a>, residency</li>
+		<li><a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1" target="_blank">Softer</a> (London), talk + workshop</li>
+		<li><a class="highlight" href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard" target="_blank">Tech Yard</a>, UAL Creative Computing Institute public programme, workshop</li>
+		<li><a href="https://www.instagram.com/p/BslwSSPH5Rc/?img_index=2" target="_blank">Ovar It</a>, lorem ipsum</li>
+	</ul>
+	<div class="image-row">
+		<figure class="image-module">
+			<img src="https://picsum.photos/seed/olden/600/400" width="600" height="400" alt="placeholder photo">
+			<figcaption>20XX Lorem, Ipsum (London), Photo by Lorem Ipsum</figcaption>
+		</figure>
+		<figure class="image-module">
+			<img src="https://picsum.photos/seed/softer/400/500" width="400" height="500" alt="placeholder photo">
+			<figcaption>20XX Dolor, Sit Amet (London), Photo by Lorem Ipsum</figcaption>
+		</figure>
+		<figure class="image-module">
+			<img src="https://picsum.photos/seed/techyard/600/400" width="600" height="400" alt="placeholder photo">
+			<figcaption>20XX Lorem, Ipsum (London), Photo by Dolor Sit</figcaption>
+		</figure>
+	</div>
+
+	<!-- PRAISE  --------------------------------------------------------------->
+	<p>
+		<a class="extra">SELECTED PRAISE</a>
+	</p>
+	<ul>
+		<li>“Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.” — <i>Lorem Ipsum</i></li>
+		<li>“Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.” — <i>Dolor Sit</i></li>
+		<li>“Duis aute irure dolor in reprehenderit.” — <i>Amet Consectetur</i></li>
+	</ul>
+
+	<!-- TEACHING  --------------------------------------------------------------->
+	<p>
+		<a class="extra">TEACHING</a><br>
+		I’m an associate lecturer at UAL, teaching across London College of Fashion (LCF) and the Creative Computing Institute (CCI), where I’ve also run a workshop for <a href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard" target="_blank">Tech Yard</a>. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.
+	</p>
+
+	<!-- CREDENTIALS  --------------------------------------------------------------->
+	<p>
+		<a class="extra">CREDENTIALS</a><br>
+		MA Internet Equalities. BA Creative Direction. PhD [ ? ]
+	</p>
+
+	<!-- FOOTER  --------------------------------------------------------------->
+	<p class="foot">
+		This website was last updated on 1 October 2026. In the meta-title you’ll see that it’s in progress... I tweak it every so often, and it uses <a href="http://contemporary-home-computing.org/prof-dr-style/" target="_blank">Prof. Dr.</a> style for easy maintenance. It loads no web fonts, no cookies and no trackers, so I have no idea you’re here. CV and portfolio on request: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a>. Thank you for visiting x
+	</p>
+
+	<script>
+		(function titleScroller(text) {
+			document.title = text;
+			setTimeout(function () {
+				titleScroller(text.substr(1) + text.substr(0, 1));
+			}, 500);
+		}("Kes Inkersole — internet equalities, in progress — "));
+
+		console.log("hello, source reader");
+		console.log("no web fonts, no cookies, no trackers. just html, the way Olia Lialina intended");
+		console.log("KES FM is synthesised live in here somewhere. it won't play until you ask");
+		console.log("cv + portfolio: inkersolekesia@gmail.com");
+		console.log("<3");
+	</script>
 
 <script>
-	console.log('hi ♡ thanks for looking under the hood');
-	console.log("it's all just html, view source and take whatever is useful");
-	console.log('𝓴𝓮𝓼 𝔀𝓪𝓼 𝓱𝓮𝓻𝓮');
-	console.log("(the fancy letters live down here so screen readers don't have to spell them out)");
-	console.log('big up everyone who opens devtools. try kesfm.horn() or kesfm.siren()');
+/* ===== KES FM engine: paste VERBATIM, do not edit =====
+   it expects: var onAir, var happy, var still, function look() (no-ops are fine),
+   and optionally .tower / .sound elements on the page (it animates them if present) */
+var onAir = false;
+var happy = false;
+var still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+function look() {}
+/* ---------------------------------------------------------------
+   KES FM 170.0
+   a jungle machine. there are no samples in here: the break is
+   drummed out of oscillators and noise, recorded into a buffer at
+   136bpm, then played back sped up to 170 and chopped into slices,
+   which is what the old samplers did to records.
+   --------------------------------------------------------------- */
+(function () {
+  var Ctx = window.AudioContext || window.webkitAudioContext;
+  var $ = function (s) { return document.querySelector(s); };
+  var statusEl = $("#status"), tracker = $("#tracker"), infoEl = $("#lcdinfo"), floatStop = $("#floatstop");
+  var tower = $(".tower"), sounds = [].slice.call(document.querySelectorAll(".sound"));
+  if (!Ctx) { statusEl.textContent = "no web audio here, sorry x"; return; }
 
-	document.addEventListener('visibilitychange', function () {
-		document.title = document.hidden ? 'come back ♡' : 'kes (kesia) inkersole';
-	});
-</script>
+  var BPM = 170, OLD = 136, RATE = BPM / OLD;
+  var STEP = 60 / BPM / 4, OSTEP = 60 / OLD / 4;   // a 16th note, now and in the original
 
-<script>
-/* ---------- kes fm: a tiny jungle machine ----------
-   web audio only. every drum, the sub, the reese, the horn and the siren are synthesised here: no samples, nothing loads.
-   it never starts by itself. play starts it, stop stops everything. */
-(() => {
-	const $ = id => document.getElementById(id);
-	const deck = $('deck');
-	const AC = window.AudioContext || window.webkitAudioContext;
-	const OAC = window.OfflineAudioContext || window.webkitOfflineAudioContext;
-	if (!deck) return;
-	const leds = [...deck.querySelectorAll('.leds i')];
-	const ui = { mc: $('mc'), status: $('status'), freq: $('freq'), bpm: $('bpm'), patname: $('patname'), clab: $('clab'), play: $('play'), reese: $('reese'), vol: $('vol'), tune: $('tune') };
+  // the breaks, written like a tracker. each number is a 16th-note slice of the break.
+  // r = reversed, ^ = pitched up, :3 = roll it three times in one step, -- = nothing
+  var BREAKS = {
+    straight: "00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F 10 11 12 13 14 15 16 17 18 19 1A 1B 1C 1D 1E 1F",
+    chopped:  "00 01 02 03 04 05 06 07 00 01 0A 0B 0C 0D 04 07 10 11 12 13 14 15 0C 0D 18 19 1A 1B 0C 09 r0C 14",
+    rollin:   "00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F 00 01 12 13 ^04 05 ^0C 07 0C 0D 0A 0B 0C:2 0C:2 14:3 04:4"
+  };
+  // basslines in F minor: [step, semitones from F, length in steps]
+  var BASS = {
+    sub:   [[0, 0, 6], [7, 0, 2], [10, 3, 4], [14, 2, 2], [16, -4, 6], [23, -4, 2], [26, -2, 3], [29, -5, 3]],
+    reese: [[0, 0, 10], [10, 3, 6], [16, -4, 10], [26, -5, 6]]
+  };
+  // the cute bit: a music box and a soft pad
+  var BELLS = { 0: 84, 3: 87, 6: 89, 10: 84, 12: 80, 14: 82, 16: 77, 19: 80, 22: 84, 26: 87, 28: 89, 30: 92 };
+  var PADS = { 0: [53, 56, 60, 63, 67], 16: [49, 53, 56, 60, 63] };
 
-	/* the breaks: 4 bars of 16 steps. three lanes per bar: kick, snare, cymbals
-	   kick  x = hit, o = soft
-	   snare x = hit, m = medium, g = ghost, r = roll (two 32nds)
-	   cymbals r = ride, h = closed hat, o = open hat, c = crash */
-	const BREAKS = [
-		{ name: 'amen-ish', bars: [
-			['x.x.......xx....', '....x..m.m..x..m', 'r.r.r.r.r.r.r.r.'],
-			['x.x.......xx....', '....x..m.m..x..m', 'r.r.r.r.r.rhr.r.'],
-			['x.x.......x.....', '....x..m.m....x.', 'r.r.r.r.r.r.r.r.'],
-			['..xx......x.....', '.m..x..m.m....x.', 'r.r.r.r.r.c.r.r.'] ] },
-		{ name: 'rollers', bars: [
-			['x.........x.....', '....x..g.g..x..g', 'h.hhh.h.h.hhh.ho'],
-			['x.........x.x...', '....x..g....x.g.', 'h.hhh.h.h.hhh.h.'],
-			['x.........x.....', '....x..g.g..x..g', 'h.hhh.h.h.hhh.ho'],
-			['x.........x..x..', '....x..g..g.x.gg', 'h.hhh.h.h.hhh.h.'] ] },
-		{ name: 'half-time', bars: [
-			['x.....x...x.....', '........x......g', 'r...r...r...r...'],
-			['x.........x.x...', '..g.....x....g..', 'r...r...r...r.h.'],
-			['x.....x...x.....', '........x......g', 'r...r...r...r...'],
-			['x...x.....x.....', '..g.....x..g.xgr', 'r...r...r...r...'] ] },
-	];
-	// the bassline, in g minor, half-time like a dub bassline: [start step, length in steps, midi note]
-	const BASS = [[0, 7, 31], [10, 2, 31], [12, 4, 34], [16, 6, 36], [24, 3, 34], [28, 4, 29], [32, 7, 31], [42, 2, 38], [44, 4, 34], [48, 10, 27], [60, 4, 29]];
-	const bassAt = []; BASS.forEach(b => { bassAt[b[0]] = b; });
+  var ac = null, master, comp, drums, bassBus, cuteBus, echoIn, B = null;
+  var breakBuf = null, revBuf = null;
+  var pattern = "straight", bassMode = "sub", cute = false, wantOn = false;
+  var step = 0, nextT = 0, timer = null, raf = 0, queue = [], live = [], shown = 0;
 
-	const SHOUTS = [
-		'big up all the junglists ♡',
-		'kes fm, 170.0, broadcasting from one browser tab',
-		'big up everyone on bad wifi',
-		'text-ins: inkersolekesia@gmail.com',
-		'lorem ipsum dolor sit amen',
-		'no samples. every hit made from scratch (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧',
-		'big up everyone reading the alt text',
-		'big up LCF + CCI',
-		'rewind button is right there ↓',
-		'big up anyone who views source',
-		'this is a website, not a radio station ✧',
-	];
+  function parse(str) {
+    return str.trim().split(/\s+/).map(function (t) {
+      var m = /^([r^]?)([0-9A-F]{2})(?::(\d))?$/i.exec(t);
+      if (!m) return null;
+      return { s: parseInt(m[2], 16), rev: m[1] === "r", up: m[1] === "^", n: +(m[3] || 1), label: m[2].toUpperCase() };
+    });
+  }
+  var pats = {};
+  Object.keys(BREAKS).forEach(function (k) { pats[k] = parse(BREAKS[k]); });
 
-	function parse(br) {
-		const out = [];
-		br.bars.forEach(([K, S, C]) => {
-			for (let i = 0; i < 16; i++) {
-				const s = { p: 1 };
-				if (K[i] === 'x') s.k = 1; else if (K[i] === 'o') s.k = .6;
-				if (S[i] === 'x') s.s = 1; else if (S[i] === 'm') s.s = .55; else if (S[i] === 'g') s.s = .28; else if (S[i] === 'r') { s.s = .8; s.roll = 1; }
-				if (C[i] !== '.') s.h = C[i];
-				out.push(s);
-			}
-		});
-		return out;
-	}
-	const roll = () => [{ s: .4, roll: 1, p: 1, h: 'h' }, { s: .55, roll: 1, p: 1 }, { s: .72, roll: 1, p: 1.06, h: 'h' }, { s: .95, roll: 1, p: 1.12 }];
-	const pick = a => a[Math.floor(Math.random() * a.length)];
-	// chop: rebuild the 4 bars beat by beat out of slices of the break, the way jungle producers cut breaks up
-	function chop(src) {
-		let out = [];
-		for (let b = 0; b < 16; b++) {
-			const r = Math.random();
-			let beat;
-			if (b === 0) beat = src.slice(0, 4);
-			else if (b % 4 === 3 && r < .3) beat = roll();
-			else if (r < .4) beat = src.slice(b * 4, b * 4 + 4);
-			else if (r < .85) { const j = Math.floor(Math.random() * 16) * 4; beat = src.slice(j, j + 4); }
-			else { const j = Math.floor(Math.random() * 32) * 2; const two = src.slice(j, j + 2); beat = two.concat(two); } // stutter
-			beat = beat.map(s => Object.assign({}, s));
-			if (Math.random() < .25) { const p = pick([.86, 1.12, 1.26]); beat.forEach(s => { if (s.s) s.p = p; }); } // re-pitched snares
-			out = out.concat(beat);
-		}
-		out.splice(60, 4, ...roll()); // always land on a fill
-		return out;
-	}
+  // ✂ chop it: a fresh edit of the straight break every time
+  function chop() {
+    var t = BREAKS.straight.split(" "), out = t.slice(), hx = function (n) { return (n < 16 ? "0" : "") + n.toString(16).toUpperCase(); };
+    for (var b = 1; b < 8; b++) {
+      var at = b * 4, r = Math.random();
+      if (r < .35) { var from = Math.floor(Math.random() * 8) * 4; for (var k = 0; k < 4; k++) out[at + k] = t[from + k]; }
+      else if (r < .5) { out[at + 2] = "0C:2"; out[at + 3] = "14:3"; }
+      else if (r < .62) { out[at] = "r" + hx([4, 12, 20][Math.floor(Math.random() * 3)]); }
+      else if (r < .74) { out[at + 2] = "^" + t[at + 2]; }
+    }
+    out[30] = "0C:2"; out[31] = Math.random() < .5 ? "04:4" : "14:3";
+    BREAKS.chop = out.join(" ");
+    pats.chop = parse(BREAKS.chop);
+  }
 
-	/* ---- sound ---- */
-	const noises = new WeakMap();
-	function noise(c) {
-		let b = noises.get(c);
-		if (!b) {
-			b = c.createBuffer(1, c.sampleRate, c.sampleRate);
-			const d = b.getChannelData(0);
-			for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
-			noises.set(c, b);
-		}
-		return b;
-	}
-	const curves = {};
-	function curve(k) {
-		if (!curves[k]) {
-			const a = new Float32Array(1024);
-			for (let i = 0; i < 1024; i++) { const x = i / 1023 * 2 - 1; a[i] = Math.tanh(k * x) / Math.tanh(k); }
-			curves[k] = a;
-		}
-		return curves[k];
-	}
-	function burst(c, out, t, v, dur, type, f, q) {
-		const s = c.createBufferSource(), fl = c.createBiquadFilter(), g = c.createGain();
-		s.buffer = noise(c); fl.type = type; fl.frequency.value = f; if (q) fl.Q.value = q;
-		g.gain.setValueAtTime(v, t); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
-		s.connect(fl).connect(g).connect(out);
-		s.start(t, Math.random() * .8); s.stop(t + dur + .02);
-	}
-	function tone(c, out, t, type, f1, f2, v, dur) {
-		const o = c.createOscillator(), g = c.createGain();
-		o.type = type;
-		o.frequency.setValueAtTime(f1, t); o.frequency.exponentialRampToValueAtTime(f2, t + dur * .5);
-		g.gain.setValueAtTime(v, t); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
-		o.connect(g).connect(out); o.start(t); o.stop(t + dur + .02);
-	}
-	function kick(c, out, t, v) {
-		const o = c.createOscillator(), g = c.createGain();
-		o.frequency.setValueAtTime(170, t); o.frequency.exponentialRampToValueAtTime(48, t + .08);
-		g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(v, t + .004); g.gain.exponentialRampToValueAtTime(.0001, t + .3);
-		o.connect(g).connect(out); o.start(t); o.stop(t + .32);
-		burst(c, out, t, v * .3, .015, 'highpass', 3000);
-	}
-	function snare(c, out, t, v, p) {
-		p = p || 1;
-		tone(c, out, t, 'triangle', 250 * p, 185 * p, v * .75, .12);
-		tone(c, out, t, 'sine', 340 * p, 330 * p, v * .2, .18); // the ring
-		burst(c, out, t, v * .95, .19, 'bandpass', 3000 * p, .6);
-		burst(c, out, t, v * .45, .08, 'highpass', 7000);
-	}
-	function metal(c, out, t, v, dur, hp) {
-		const g = c.createGain(), bp = c.createBiquadFilter(), hf = c.createBiquadFilter();
-		bp.type = 'bandpass'; bp.frequency.value = 9000; bp.Q.value = .8;
-		hf.type = 'highpass'; hf.frequency.value = hp;
-		g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(v, t + .002); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
-		g.connect(bp).connect(hf).connect(out);
-		[205.3, 304.4, 369.6, 522.7, 540, 800].forEach(f => {
-			const o = c.createOscillator(); o.type = 'square'; o.frequency.value = f * 1.6;
-			o.connect(g); o.start(t); o.stop(t + dur + .02);
-		});
-	}
-	const ride = (c, out, t, v) => { metal(c, out, t, v * .5, .3, 6000); burst(c, out, t, v * .35, .22, 'highpass', 8000); };
-	const hat = (c, out, t, v, dur) => burst(c, out, t, v, dur, 'highpass', 8000);
-	const crash = (c, out, t, v) => { metal(c, out, t, v * .6, 1.4, 4000); burst(c, out, t, v * .7, 1.3, 'highpass', 5000); };
+  // ---------- record the break ----------
+  function shaper(k) {
+    var n = 1024, c = new Float32Array(n);
+    for (var i = 0; i < n; i++) { var x = i * 2 / n - 1; c[i] = Math.tanh(k * x) / Math.tanh(k); }
+    return c;
+  }
+  function recordBreak() {
+    var sr = 32000, len = Math.ceil((32 * OSTEP + .8) * sr);
+    var Off = window.OfflineAudioContext || window.webkitOfflineAudioContext;
+    var oc = new Off(1, len, sr);
+    var noise = oc.createBuffer(1, sr, sr), nd = noise.getChannelData(0);
+    for (var i = 0; i < nd.length; i++) nd[i] = Math.random() * 2 - 1;
+    var bus = oc.createGain(), sat = oc.createWaveShaper();
+    bus.gain.value = .8; sat.curve = shaper(1.6);
+    bus.connect(sat); sat.connect(oc.destination);
 
-	function bassNote(c, n, t, dur, midi) {
-		const f = 440 * Math.pow(2, (midi - 69) / 12), end = t + dur;
-		const env = (g, peak, a) => { g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(peak, t + a); g.gain.setValueAtTime(peak, end - .05); g.gain.exponentialRampToValueAtTime(.0001, end); };
-		// the sub: a sine that drops into the note, and sags a little at the end of long ones
-		const o = c.createOscillator(), g = c.createGain();
-		o.frequency.setValueAtTime(f * 1.25, t); o.frequency.exponentialRampToValueAtTime(f, t + .06);
-		if (dur > .5) { o.frequency.setValueAtTime(f, end - .14); o.frequency.exponentialRampToValueAtTime(f * .94, end); }
-		env(g, .9, .01); o.connect(g).connect(n.bass); o.start(t); o.stop(end + .02);
-		// an octave up, quietly, so laptop speakers can hear the line
-		const h = c.createOscillator(), hg = c.createGain(); h.type = 'triangle';
-		h.frequency.setValueAtTime(f * 2.5, t); h.frequency.exponentialRampToValueAtTime(f * 2, t + .06);
-		env(hg, .16, .01); h.connect(hg).connect(n.bass); h.start(t); h.stop(end + .02);
-		if (reese) {
-			// two detuned saws through a moving filter: the reese
-			const rg = c.createGain(); env(rg, .8, .03); rg.connect(n.reese);
-			[-15, 14].forEach(d => {
-				const s = c.createOscillator(); s.type = 'sawtooth'; s.frequency.value = f * 2; s.detune.value = d;
-				s.connect(rg); s.start(t); s.stop(end + .02);
-			});
-		}
-	}
+    function hiss(t, type, f, q, v, dec) {
+      var s = oc.createBufferSource(), fl = oc.createBiquadFilter(), g = oc.createGain();
+      s.buffer = noise; fl.type = type; fl.frequency.value = f; fl.Q.value = q;
+      g.gain.setValueAtTime(v, t); g.gain.exponentialRampToValueAtTime(.001, t + dec);
+      s.connect(fl); fl.connect(g); g.connect(bus);
+      s.start(t, Math.random() * .5); s.stop(t + dec + .02);
+    }
+    function tone(t, type, f0, f1, bend, v, dec) {
+      var o = oc.createOscillator(), g = oc.createGain();
+      o.type = type; o.frequency.setValueAtTime(f0, t); o.frequency.exponentialRampToValueAtTime(f1, t + bend);
+      g.gain.setValueAtTime(v, t); g.gain.exponentialRampToValueAtTime(.001, t + dec);
+      o.connect(g); g.connect(bus); o.start(t); o.stop(t + dec + .02);
+    }
+    function kick(t, v) {
+      tone(t, "sine", 165, 48, .08, v, .3);
+      hiss(t, "highpass", 1800, .7, v * .35, .012);
+    }
+    function snare(t, v) {
+      tone(t, "triangle", 215, 185, .03, v * .55, .11);
+      tone(t, "triangle", 380, 330, .03, v * .3, .08);
+      hiss(t, "highpass", 1300, .6, v * .75, .19);
+      hiss(t, "bandpass", 3800, 1.1, v * .5, .07);
+    }
+    // the ride: six detuned squares, filtered, like an old drum machine cymbal
+    var metal = oc.createGain(), metalHP = oc.createBiquadFilter();
+    metal.gain.value = .12; metalHP.type = "highpass"; metalHP.frequency.value = 6000;
+    [205.3, 304.4, 369.6, 522.7, 540, 800].forEach(function (f) {
+      var o = oc.createOscillator(); o.type = "square"; o.frequency.value = f * 1.6; o.connect(metal); o.start(0);
+    });
+    metal.connect(metalHP);
+    function ride(t, v, dec) {
+      var g = oc.createGain();
+      g.gain.value = 0; g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(v, t + .002); g.gain.exponentialRampToValueAtTime(.001, t + dec);
+      g.gain.setValueAtTime(0, t + dec + .01);
+      metalHP.connect(g); g.connect(bus);
+      hiss(t, "highpass", 8500, .7, v * .3, dec * .8);
+    }
+    var at = function (s) { return .01 + s * OSTEP + (Math.random() - .5) * .003; };
+    [0, 2, 10, 11, 18, 19, 26].forEach(function (s) { kick(at(s), s === 11 || s === 19 ? .7 : .95); });
+    [[4, 1], [7, .45], [9, .55], [12, 1], [15, .5], [14, .15], [17, .3], [20, 1], [22, .14], [23, .45], [25, .55], [30, .9], [31, .2]]
+      .forEach(function (p) { snare(at(p[0]), p[1]); });
+    for (var s = 0; s < 32; s += 2) if (s !== 26 && s !== 28) ride(at(s), s % 4 ? .45 : .7, .32);
+    ride(at(26), 1, 1.2); hiss(at(26), "highpass", 4500, .5, .45, 1);   // the crash
 
-	// the mixer. built once for the speakers, and again inside an offline context for the rewind
-	function build(c, dest) {
-		const n = {};
-		n.mix = c.createGain();
-		n.comp = c.createDynamicsCompressor();
-		n.comp.threshold.value = -14; n.comp.knee.value = 10; n.comp.ratio.value = 4; n.comp.attack.value = .004; n.comp.release.value = .15;
-		n.mix.connect(n.comp).connect(dest);
-		n.drums = c.createGain(); n.drums.gain.value = .8;
-		const grit = c.createWaveShaper(); grit.curve = curve(1.8); // a bit of crunch, like a break sampled off vinyl
-		const top = c.createBiquadFilter(); top.type = 'lowpass'; top.frequency.value = 12000;
-		n.drums.connect(grit).connect(top).connect(n.mix);
-		n.bass = c.createGain(); n.bass.gain.value = .6; n.bass.connect(n.mix);
-		n.reese = c.createGain(); n.reese.gain.value = .3;
-		const rs = c.createWaveShaper(); rs.curve = curve(2.5);
-		const rf = c.createBiquadFilter(); rf.type = 'lowpass'; rf.frequency.value = 560; rf.Q.value = 7;
-		n.lfo = c.createOscillator(); n.lfo.frequency.value = .21;
-		const lg = c.createGain(); lg.gain.value = 380; n.lfo.connect(lg).connect(rf.frequency); n.lfo.start();
-		const ro = c.createGain(); ro.gain.value = .6;
-		n.reese.connect(rs).connect(rf).connect(ro).connect(n.mix);
-		// dub echo, for the horn and the siren
-		n.fx = c.createGain(); n.fx.connect(n.mix);
-		n.dl = c.createDelay(2); n.dl.delayTime.value = .75 * 60 / bpm;
-		const fb = c.createGain(); fb.gain.value = .42;
-		const df = c.createBiquadFilter(); df.type = 'bandpass'; df.frequency.value = 1400; df.Q.value = .5;
-		const wet = c.createGain(); wet.gain.value = .5;
-		n.fx.connect(n.dl); n.dl.connect(df).connect(fb).connect(n.dl); df.connect(wet).connect(n.mix);
-		return n;
-	}
+    return new Promise(function (ok) {
+      oc.oncomplete = function (e) { ok(e.renderedBuffer); };
+      var p = oc.startRendering();
+      if (p && p.then) p.then(ok);
+    }).then(function (buf) {
+      var d = buf.getChannelData(0), peak = 0;
+      for (var i = 0; i < d.length; i++) peak = Math.max(peak, Math.abs(d[i]));
+      for (i = 0; i < d.length; i++) d[i] *= .9 / (peak || 1);
+      var rb = oc.createBuffer(1, d.length, sr), r = rb.getChannelData(0);
+      for (i = 0; i < d.length; i++) r[i] = d[d.length - 1 - i];
+      breakBuf = buf; revBuf = rb;
+    });
+  }
 
-	function hit(c, n, s, t, sd) {
-		const hu = () => .88 + Math.random() * .12; // a bit of human
-		if (s.k) kick(c, n.drums, t, s.k * hu());
-		if (s.s) {
-			if (s.roll) { snare(c, n.drums, t, s.s * .62, s.p); snare(c, n.drums, t + sd / 2, s.s * .8, s.p); }
-			else snare(c, n.drums, t, s.s * hu(), s.p);
-		}
-		if (s.h === 'r') ride(c, n.drums, t, .22 * hu());
-		else if (s.h === 'h') hat(c, n.drums, t, .16 * hu(), .035);
-		else if (s.h === 'o') hat(c, n.drums, t, .15, .16);
-		else if (s.h === 'c') crash(c, n.drums, t, .3);
-	}
-	function bassStep(c, n, i, t, sd) { const b = bassAt[i]; if (b) bassNote(c, n, t, b[1] * sd - .01, b[2]); }
+  // ---------- the live rig ----------
+  function vol() { return +$("#vol").value * .9; }
+  function build() {
+    ac = new Ctx();
+    master = ac.createGain(); master.gain.value = vol();
+    comp = ac.createDynamicsCompressor();
+    comp.threshold.value = -16; comp.knee.value = 8; comp.ratio.value = 4; comp.attack.value = .004; comp.release.value = .18;
+    comp.connect(master); master.connect(ac.destination);
+    drums = ac.createGain(); drums.gain.value = .85; drums.connect(comp);
+    bassBus = ac.createGain(); bassBus.gain.value = .6; bassBus.connect(comp);
+    // a dub echo, for the siren and the cute bits
+    echoIn = ac.createGain();
+    var dl = ac.createDelay(1), fb = ac.createGain(), lp = ac.createBiquadFilter();
+    dl.delayTime.value = STEP * 3; fb.gain.value = .4; lp.type = "lowpass"; lp.frequency.value = 2400;
+    echoIn.connect(dl); dl.connect(lp); lp.connect(fb); fb.connect(dl); lp.connect(comp);
+    cuteBus = ac.createGain(); cuteBus.gain.value = .5; cuteBus.connect(comp);
+    var send = ac.createGain(); send.gain.value = .5; cuteBus.connect(send); send.connect(echoIn);
+    // one bass voice that stays on: a sine sub, plus two detuned saws for the reese
+    var o1 = ac.createOscillator(), o2 = ac.createOscillator(), sub = ac.createOscillator(), lfo = ac.createOscillator();
+    var saw = ac.createGain(), subG = ac.createGain(), grit = ac.createWaveShaper(), lpf = ac.createBiquadFilter(), lfoG = ac.createGain(), env = ac.createGain();
+    o1.type = o2.type = "sawtooth"; o1.detune.value = -13; o2.detune.value = 13; sub.type = "sine";
+    lpf.type = "lowpass"; lpf.frequency.value = 480; lpf.Q.value = 4; lfo.frequency.value = .23; lfoG.gain.value = 300;
+    lfo.connect(lfoG); lfoG.connect(lpf.frequency);
+    grit.curve = shaper(2.5);
+    o1.connect(saw); o2.connect(saw); saw.connect(lpf); lpf.connect(env);
+    sub.connect(grit); grit.connect(subG); subG.connect(env);
+    env.gain.value = 0; env.connect(bassBus);
+    [o1, o2, sub, lfo].forEach(function (o) { o.start(); });
+    B = { o1: o1, o2: o2, sub: sub, saw: saw, subG: subG, env: env };
+    bassMix();
+  }
+  function bassMix() {
+    if (!B) return;
+    var t = ac.currentTime, r = bassMode === "reese";
+    B.saw.gain.setTargetAtTime(r ? .28 : 0, t, .05);
+    B.subG.gain.setTargetAtTime(r ? .5 : .85, t, .05);
+    if (bassMode === "off") B.env.gain.setTargetAtTime(0, t, .03);
+  }
 
-	/* ---- state ---- */
-	let ac = null, vol = null, live = null, timer = 0, rewTimer = 0;
-	let playing = false, rewinding = false, crashNext = false, rafOn = false;
-	let step = 0, nextT = 0, bpm = 170, which = 0, chopped = false, reese = false, shoutI = 0;
-	let steps = parse(BREAKS[0]);
-	const queue = [];
-	const level = () => { const v = ui.vol.value / 100; return v * v * LEVEL; };
-	const LEVEL = .85; // full volume peaks just under 0dB; the default (50) sits around -12dB
+  function slice(tok, t, d, v) {
+    var s = ac.createBufferSource(), g = ac.createGain();
+    s.buffer = tok.rev ? revBuf : breakBuf;
+    s.playbackRate.value = RATE * (tok.up ? 1.26 : 1);
+    var off = tok.rev ? revBuf.duration - (tok.s + 1) * OSTEP : tok.s * OSTEP;
+    g.gain.value = 0;
+    g.gain.setValueAtTime(0, t);
+    g.gain.linearRampToValueAtTime(v, t + (tok.rev ? .01 : .0015));
+    g.gain.setValueAtTime(v, t + d - .004);
+    g.gain.linearRampToValueAtTime(0, t + d + .002);
+    s.connect(g); g.connect(drums);
+    s.start(t, Math.max(0, off)); s.stop(t + d + .01);
+    live.push({ s: s, end: t + d + .01 });
+  }
+  function hz(semi) { return 43.65 * Math.pow(2, semi / 12); }
+  function midi(m) { return 440 * Math.pow(2, (m - 69) / 12); }
+  function bass(i, t) {
+    if (bassMode === "off") return;
+    var line = BASS[bassMode];
+    line.forEach(function (n) {
+      if (n[0] !== i) return;
+      var f = hz(n[1]), end = t + n[2] * STEP, glide = bassMode === "reese" ? .045 : .01;
+      var legato = line.some(function (m) { return m[0] === (n[0] + n[2]) % 32; });
+      B.sub.frequency.setTargetAtTime(f, t, glide);
+      B.o1.frequency.setTargetAtTime(f * 2, t, glide);
+      B.o2.frequency.setTargetAtTime(f * 2, t, glide);
+      B.env.gain.setTargetAtTime(1, t, .006);
+      if (!legato || bassMode === "sub") B.env.gain.setTargetAtTime(0, end - .03, .02);
+    });
+  }
+  function bell(t, m) {
+    [[1, .3, .9], [2, .07, .3], [3.01, .04, .18]].forEach(function (p) {
+      var o = ac.createOscillator(), g = ac.createGain();
+      o.frequency.value = midi(m) * p[0];
+      g.gain.setValueAtTime(p[1], t); g.gain.exponentialRampToValueAtTime(.0005, t + p[2]);
+      o.connect(g); g.connect(cuteBus); o.start(t); o.stop(t + p[2] + .02);
+    });
+  }
+  function pad(t, notes) {
+    var len = 32 * STEP / 2;
+    notes.forEach(function (m, k) {
+      var o = ac.createOscillator(), g = ac.createGain(), f = ac.createBiquadFilter();
+      o.type = "triangle"; o.frequency.value = midi(m); o.detune.value = (k % 2 ? 6 : -6);
+      f.type = "lowpass"; f.frequency.value = 1400;
+      g.gain.value = 0; g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(.035, t + .6);
+      g.gain.setValueAtTime(.035, t + len - .5); g.gain.linearRampToValueAtTime(0, t + len);
+      o.connect(f); f.connect(g); g.connect(cuteBus); o.start(t); o.stop(t + len + .05);
+      live.push({ s: o, end: t + len + .05 });
+    });
+  }
 
-	function ensure() {
-		if (!AC) { say("this browser can't do web audio, sorry ♡"); return false; }
-		try {
-			if (!ac) {
-				ac = new AC();
-				vol = ac.createGain(); vol.gain.value = level(); vol.connect(ac.destination);
-				live = build(ac, vol);
-			}
-			if (ac.state === 'suspended') ac.resume();
-			return true;
-		} catch (e) { say("couldn't start the audio, sorry ♡"); return false; }
-	}
-	const say = t => { ui.mc.textContent = t; };
-	const status = t => { ui.status.textContent = t; };
-	function label() {
-		const nm = BREAKS[which].name + (chopped ? ' ✂' : '');
-		ui.patname.textContent = nm;
-		ui.clab.textContent = nm + ' · ' + bpm + ' bpm' + (reese ? ' · reese' : '');
-	}
-	function playingStatus() { status('playing ' + BREAKS[which].name + (chopped ? ', chopped' : '') + ' at ' + bpm + ' bpm. the yellow stop button stops everything.'); }
+  function play(i, t) {
+    var tok = (pats[pattern] || pats.straight)[i];
+    if (tok) for (var k = 0; k < tok.n; k++) slice(tok, t + k * STEP / tok.n, STEP / tok.n, tok.n > 1 ? .55 + .45 * (k + 1) / tok.n : 1);
+    bass(i, t);
+    if (cute) { if (BELLS[i]) bell(t, BELLS[i]); if (PADS[i]) pad(t, PADS[i]); }
+  }
+  function tick() {
+    if (!ac) return;
+    var ahead = document.hidden ? 1.5 : .12, now = ac.currentTime;
+    while (nextT < now + ahead) {
+      var i = step % 32;
+      play(i, nextT);
+      queue.push([i, nextT]);
+      nextT += STEP; step++;
+    }
+    live = live.filter(function (x) { return x.end > now; });
+  }
+  function draw() {
+    if (!ac) return;
+    var now = ac.currentTime;
+    while (queue.length && queue[0][1] <= now) light(queue.shift()[0]);
+    raf = requestAnimationFrame(draw);
+  }
+  function light(i) {
+    var cells = tracker.children;
+    if (cells[shown]) cells[shown].classList.remove("on");
+    cells[i].classList.add("on"); shown = i;
+    if (i % 4) return;                          // the rest happens on the beat
+    if (!happy) look(i % 8 ? null : "^");
+    if (still) return;
+    if (tower) tower.classList.toggle("lit", i % 8 === 0);
+    sounds.forEach(function (s) { s.classList.remove("thump"); void s.offsetWidth; s.classList.add("thump"); });
+  }
+  function hush(t) {
+    live.forEach(function (x) { try { x.s.stop(t); } catch (e) {} });
+    live = []; queue = [];
+    if (B) {
+      B.env.gain.cancelScheduledValues(t); B.env.gain.setTargetAtTime(0, t, .015);
+      [B.sub, B.o1, B.o2].forEach(function (o) { o.frequency.cancelScheduledValues(t); });
+    }
+  }
 
-	function tick() {
-		const sd = 60 / bpm / 4;
-		while (nextT < ac.currentTime + .12) {
-			hit(ac, live, steps[step], nextT, sd);
-			if (crashNext && step === 0) { crash(ac, live.drums, nextT, .32); crashNext = false; }
-			bassStep(ac, live, step, nextT, sd);
-			queue.push([step, nextT]);
-			nextT += sd;
-			step = (step + 1) % 64;
-		}
-	}
-	function run() { nextT = ac.currentTime + .06; clearInterval(timer); timer = setInterval(tick, 25); tick(); }
-	function draw() {
-		if (!playing) { rafOn = false; leds.forEach(l => l.classList.remove('on')); return; }
-		let cur = null;
-		while (queue.length && queue[0][1] <= ac.currentTime) cur = queue.shift();
-		if (cur) {
-			leds.forEach((l, i) => l.classList.toggle('on', i === cur[0] % 16));
-			if (cur[0] % 32 === 0 && !rewinding) say(SHOUTS[shoutI++ % SHOUTS.length]);
-		}
-		requestAnimationFrame(draw);
-	}
-	function play() {
-		if (!ensure() || playing) return;
-		live.mix.gain.cancelScheduledValues(ac.currentTime); live.mix.gain.setValueAtTime(1, ac.currentTime);
-		playing = true; step = 0; queue.length = 0;
-		run();
-		deck.classList.add('on'); ui.play.classList.add('down');
-		playingStatus();
-		if (!rafOn) { rafOn = true; requestAnimationFrame(draw); }
-	}
-	function stop() {
-		clearInterval(timer); clearTimeout(rewTimer);
-		const was = playing || rewinding;
-		playing = false; rewinding = false; queue.length = 0;
-		deck.classList.remove('on', 'rew'); ui.play.classList.remove('down');
-		leds.forEach(l => l.classList.remove('on'));
-		status('stopped. nothing plays till you press play, and stop always works.');
-		say(was ? 'thanks for listening ♡ kes fm, 170.0' : 'press play (it won\'t start on its own) ♡');
-		if (!ac) return;
-		// fade the old mixer out fast, then unplug it (with anything still ringing in it). a fresh one goes in straight away
-		const t = ac.currentTime, old = live;
-		old.mix.gain.cancelScheduledValues(t); old.mix.gain.setValueAtTime(old.mix.gain.value, t); old.mix.gain.linearRampToValueAtTime(0, t + .05);
-		live = build(ac, vol);
-		setTimeout(() => { try { old.comp.disconnect(); old.mix.disconnect(); old.lfo.stop(); } catch (e) {} }, 120);
-	}
+  // ---------- the buttons ----------
+  function say(s) { statusEl.textContent = s; }
+  function ui() {
+    document.body.classList.toggle("on-air", onAir);
+    $("#go").setAttribute("aria-pressed", onAir);
+    floatStop.hidden = !onAir;
+    document.querySelectorAll("[data-break]").forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.break === pattern); });
+    $("#chop").setAttribute("aria-pressed", pattern === "chop");
+    document.querySelectorAll("[data-bass]").forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.bass === bassMode); });
+    $("#cute").setAttribute("aria-pressed", cute);
+    infoEl.textContent = "break: " + (pattern === "chop" ? "your chop" : pattern) + " · bass: " + bassMode + " · cute: " + (cute ? "on ✿" : "off") + " · " + BPM + "bpm";
+    var html = "";
+    pats[pattern].forEach(function (t) {
+      html += t ? '<span class="' + (t.rev ? "rev " : "") + (t.up ? "up " : "") + (t.n > 1 ? "roll" : "") + '">' + t.label + "</span>" : '<span class="rest">--</span>';
+    });
+    tracker.innerHTML = html;
+    if (tracker.children[shown] && onAir) tracker.children[shown].classList.add("on");
+  }
+  function go() {
+    if (onAir) return;
+    wantOn = true;
+    if (!ac) build();
+    if (ac.resume) ac.resume();
+    say("tuning in…");
+    (breakBuf ? Promise.resolve() : recordBreak()).then(function () {
+      if (!wantOn || !ac) return;
+      onAir = true; step = 0; queue = []; nextT = ac.currentTime + .08;
+      clearInterval(timer); timer = setInterval(tick, 25); tick();
+      cancelAnimationFrame(raf); raf = requestAnimationFrame(draw);
+      say("● on air ♪");
+      ui();
+    }).catch(function (e) { say("no signal, your browser said no"); console.warn(e); });
+  }
+  function stop() {
+    wantOn = false; onAir = false;
+    clearInterval(timer); timer = null; cancelAnimationFrame(raf);
+    if (ac) {
+      var a = ac, m = master;
+      hush(a.currentTime);
+      m.gain.setTargetAtTime(0, a.currentTime, .01);
+      ac = null; B = null;
+      setTimeout(function () { if (a.close) a.close(); }, 150);
+    }
+    if (tower) tower.classList.remove("lit");
+    if (!happy) look();
+    say("off air");
+    ui();
+  }
+  // ⟲ the DJ pulls the record back by hand and drops it again from the top
+  function pullUp() {
+    if (!onAir || !ac) return;
+    clearInterval(timer);
+    var t = ac.currentTime + .01;
+    hush(t);
+    var s = ac.createBufferSource(), g = ac.createGain(), pos = ((shown + 1) % 32) * OSTEP;
+    s.buffer = revBuf; s.loop = true;
+    s.playbackRate.setValueAtTime(RATE, t);
+    s.playbackRate.linearRampToValueAtTime(RATE * 3, t + .4);
+    s.playbackRate.exponentialRampToValueAtTime(.2, t + 1.05);
+    g.gain.value = 0; g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(.8, t + .02);
+    g.gain.setValueAtTime(.8, t + .75); g.gain.linearRampToValueAtTime(0, t + 1.05);
+    s.connect(g); g.connect(drums);
+    s.start(t, Math.max(0, revBuf.duration - pos)); s.stop(t + 1.1);
+    live.push({ s: s, end: t + 1.1 });
+    say("⟲ pull up! from the top…");
+    if (!happy) look("@");
+    step = 0; nextT = t + 1.15;
+    timer = setInterval(tick, 25);
+    setTimeout(function () { if (onAir) { say("● on air ♪"); if (!happy) look(); } }, 1150);
+  }
+  // a dub siren, sound system style
+  function siren() {
+    if (!ac) build();
+    if (ac.resume) ac.resume();
+    var t = ac.currentTime + .02, o = ac.createOscillator(), l = ac.createOscillator(), lg = ac.createGain(), g = ac.createGain(), f = ac.createBiquadFilter();
+    o.type = "square"; o.frequency.setValueAtTime(380, t); o.frequency.exponentialRampToValueAtTime(820, t + 1.2);
+    l.type = "square"; l.frequency.setValueAtTime(4, t); l.frequency.linearRampToValueAtTime(10, t + 1.4);
+    lg.gain.value = 90; l.connect(lg); lg.connect(o.frequency);
+    f.type = "lowpass"; f.frequency.value = 1800;
+    g.gain.value = 0; g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(.09, t + .03);
+    g.gain.setValueAtTime(.09, t + 1.25); g.gain.linearRampToValueAtTime(0, t + 1.5);
+    o.connect(f); f.connect(g); g.connect(comp); g.connect(echoIn);
+    o.start(t); l.start(t); o.stop(t + 1.55); l.stop(t + 1.55);
+    live.push({ s: o, end: t + 1.55 }, { s: l, end: t + 1.55 });
+  }
 
-	function render(from, secs) {
-		const sr = 44100, oc = new OAC(2, Math.ceil(sr * secs), sr);
-		const n = build(oc, oc.destination), sd = 60 / bpm / 4;
-		for (let t = .005, i = from; t < secs; t += sd, i = (i + 1) % 64) { hit(oc, n, steps[i], t, sd); bassStep(oc, n, i, t, sd); }
-		return oc.startRendering();
-	}
-	// rewind: the selector pulls the record back by hand, it spins backwards, then drops from the top
-	function rewind() {
-		if (!ensure()) return;
-		if (!playing) { play(); return; }
-		if (rewinding) return;
-		rewinding = true;
-		clearInterval(timer);
-		const t0 = ac.currentTime;
-		live.mix.gain.cancelScheduledValues(t0); live.mix.gain.setTargetAtTime(0, t0, .012);
-		deck.classList.add('rew'); say('◀◀ rewind ◀◀ pull up!');
-		status('rewinding. it drops again from the top in a second.');
-		const drop = () => {
-			if (!playing || !rewinding) return;
-			rewinding = false;
-			live.mix.gain.cancelScheduledValues(ac.currentTime); live.mix.gain.setValueAtTime(1, ac.currentTime);
-			step = 0; crashNext = true; queue.length = 0;
-			run();
-			deck.classList.remove('rew'); say('from the top ✧'); playingStatus();
-		};
-		const spin = buf => {
-			if (!rewinding) return;
-			for (let ch = 0; ch < buf.numberOfChannels; ch++) buf.getChannelData(ch).reverse();
-			const t = ac.currentTime + .01, src = ac.createBufferSource(), g = ac.createGain();
-			src.buffer = buf;
-			src.playbackRate.setValueAtTime(1, t); src.playbackRate.linearRampToValueAtTime(2.8, t + .32); src.playbackRate.exponentialRampToValueAtTime(.08, t + .95);
-			g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(.9, t + .015); g.gain.setValueAtTime(.9, t + .8); g.gain.linearRampToValueAtTime(0, t + .97);
-			src.connect(g).connect(live.comp); src.start(t); src.stop(t + 1);
-			burst(ac, live.comp, t, .08, .9, 'bandpass', 2500, 1.5); // hand on the vinyl
-			rewTimer = setTimeout(drop, 1150);
-		};
-		try { render(Math.floor(step / 16) * 16, 1.8).then(spin, () => { rewTimer = setTimeout(drop, 500); }); }
-		catch (e) { rewTimer = setTimeout(drop, 500); }
-	}
-
-	function horn() {
-		if (!ensure()) return;
-		const c = ac, n = live, t = c.currentTime + .02;
-		const sh = c.createWaveShaper(), bp = c.createBiquadFilter(), g = c.createGain();
-		sh.curve = curve(4); bp.type = 'bandpass'; bp.frequency.value = 1300; bp.Q.value = .6; g.gain.value = 0;
-		sh.connect(bp).connect(g); g.connect(n.mix); g.connect(n.fx);
-		const blasts = [[0, .11], [.15, .11], [.3, .11], [.45, .75]];
-		[466, 469.5, 698, 702].forEach(f => {
-			const o = c.createOscillator(); o.type = 'sawtooth';
-			blasts.forEach(([s, d]) => { o.frequency.setValueAtTime(f * .9, t + s); o.frequency.exponentialRampToValueAtTime(f, t + s + .035); });
-			o.frequency.setValueAtTime(f, t + 1); o.frequency.exponentialRampToValueAtTime(f * .96, t + 1.2);
-			o.connect(sh); o.start(t); o.stop(t + 1.25);
-		});
-		blasts.forEach(([s, d]) => { g.gain.setValueAtTime(0, t + s); g.gain.linearRampToValueAtTime(.2, t + s + .01); g.gain.setValueAtTime(.2, t + s + d - .02); g.gain.linearRampToValueAtTime(0, t + s + d); });
-		if (!playing) say('horn ✧ (press play for the rest)');
-	}
-	function siren() {
-		if (!ensure()) return;
-		const c = ac, n = live, t = c.currentTime + .02, len = 1.8;
-		const o = c.createOscillator(), lfo = c.createOscillator(), lg = c.createGain(), lp = c.createBiquadFilter(), g = c.createGain();
-		o.type = 'square'; o.frequency.setValueAtTime(520, t); o.frequency.linearRampToValueAtTime(760, t + len);
-		lfo.type = 'triangle'; lfo.frequency.setValueAtTime(3, t); lfo.frequency.linearRampToValueAtTime(9, t + len);
-		lg.gain.value = 240; lfo.connect(lg).connect(o.frequency);
-		lp.type = 'lowpass'; lp.frequency.value = 2600;
-		g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(.075, t + .02); g.gain.setValueAtTime(.075, t + len - .1); g.gain.linearRampToValueAtTime(0, t + len);
-		o.connect(lp).connect(g); g.connect(n.mix); g.connect(n.fx);
-		o.start(t); lfo.start(t); o.stop(t + len + .02); lfo.stop(t + len + .02);
-		if (!playing) say('dub siren ✧ (press play for the rest)');
-	}
-
-	/* ---- buttons ---- */
-	$('play').addEventListener('click', play);
-	$('stop').addEventListener('click', stop);
-	$('rew').addEventListener('click', rewind);
-	$('horn').addEventListener('click', horn);
-	$('siren').addEventListener('click', siren);
-	$('pat').addEventListener('click', () => {
-		which = (which + 1) % BREAKS.length; chopped = false; steps = parse(BREAKS[which]);
-		label(); say('break: ' + BREAKS[which].name); if (playing) playingStatus();
-	});
-	$('chop').addEventListener('click', () => {
-		steps = chop(parse(BREAKS[which])); chopped = true;
-		label(); say('chopped ✂ (press again for a different cut)'); if (playing) playingStatus();
-	});
-	ui.reese.addEventListener('click', () => {
-		reese = !reese; ui.reese.setAttribute('aria-pressed', reese);
-		label(); say(reese ? 'reese bass in ✧' : 'just the sub now');
-	});
-	ui.tune.addEventListener('input', () => {
-		bpm = +ui.tune.value;
-		ui.freq.textContent = bpm.toFixed(1); ui.bpm.textContent = bpm + ' bpm';
-		if (live) live.dl.delayTime.setTargetAtTime(.75 * 60 / bpm, ac.currentTime, .05);
-		label(); if (playing) playingStatus();
-	});
-	ui.vol.addEventListener('input', () => { if (ac) vol.gain.setTargetAtTime(level(), ac.currentTime, .02); });
-
-	window.kesfm = { play, stop, rewind, horn, siren, render: (s, n) => render(s || 0, n || 6) };
+  $("#go").onclick = go;
+  $("#stop").onclick = stop;
+  floatStop.onclick = stop;
+  $("#pullup").onclick = pullUp;
+  $("#siren").onclick = siren;
+  $("#chop").onclick = function () { chop(); pattern = "chop"; ui(); };
+  $("#cute").onclick = function () { cute = !cute; ui(); };
+  $("#vol").oninput = function () { if (ac) master.gain.setTargetAtTime(vol(), ac.currentTime, .03); };
+  document.querySelectorAll("[data-break]").forEach(function (b) { b.onclick = function () { pattern = b.dataset.break; ui(); }; });
+  document.querySelectorAll("[data-bass]").forEach(function (b) { b.onclick = function () { bassMode = b.dataset.bass; bassMix(); ui(); }; });
+  ui();
 })();
+
 </script>
 
 </body>

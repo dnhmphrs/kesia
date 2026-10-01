@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kesia Inkersole</title>
+  <meta name="description" content="Kesia Inkersole — freelance creative strategist & internet equalities researcher, based in london." />
+  <meta name="author" content="Kes Inkersole" />
+  <meta name="keywords" content="Kesia Inkersole, Kes Inkersole, creative strategist, internet equalities, researcher, London, UAL" />
+  <meta name="color-scheme" content="light" />
+  <meta name="theme-color" content="#ffffff" />
+
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='9' fill='%231d3df2'/%3E%3C/svg%3E" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="kes inkersole" />
+  <meta property="og:description" content="kes inkersole — freelance creative strategist & internet equalities researcher, based in london." />
+  <meta property="og:image" content="https://kesia-coral.vercel.app/square.png" />
+  <meta property="og:url" content="https://kesia-coral.vercel.app" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="kes inkersole" />
+  <meta name="twitter:description" content="kes inkersole — freelance creative strategist & internet equalities researcher, based in london." />
+  <meta name="twitter:image" content="https://kesia-coral.vercel.app/square.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:wght@400&amp;family=Atkinson+Hyperlegible+Next:wght@400..600&amp;display=swap" />
+
+  <style>
+    /* ------------------------------------------------------------
+       Kes Inkersole — personal site
+       White page, one family (Atkinson Hyperlegible Next + Mono),
+       one ink, one link blue. Blue always means "this leaves the page".
+       ------------------------------------------------------------ */
+
+    :root {
+      --bg: #ffffff;
+      --ink: #111111;
+      --ink-2: #636363;      /* secondary text, 6:1 on white */
+      --hair: #e4e4e0;       /* list rules */
+      --ph: #eeeeea;         /* image placeholder */
+      --link: #1d3df2;       /* hyperlink blue */
+      --ok: #14a149;         /* available */
+
+      --sans: "Atkinson Hyperlegible Next", ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+      --mono: "Atkinson Hyperlegible Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+
+      --margin: 40px;
+      --gutter: 24px;
+
+      --fs-body: 1.0625rem;                                   /* 17px */
+      --fs-small: 0.875rem;                                   /* 14px */
+      --fs-mono: 0.8125rem;                                   /* 13px */
+      --fs-title: clamp(1.3125rem, 1.08rem + 0.62vw, 1.625rem);
+      --fs-big: clamp(1.5rem, 1.02rem + 1.72vw, 2.5rem);
+
+      --space-section: clamp(96px, 9vw, 152px);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html {
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+      background: var(--bg);
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      html { scroll-behavior: smooth; }
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: var(--fs-body);
+      font-weight: 400;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      font-kerning: normal;
+    }
+
+    h1, h2, h3, p, ul, ol, dl, dd, figure { margin: 0; padding: 0; }
+    h1, h2, h3 { font-size: inherit; font-weight: inherit; }
+    ul, ol { list-style: none; }
+    img { display: block; max-width: 100%; }
+
+    ::selection { background: var(--link); color: #fff; }
+
+    a { color: var(--link); text-decoration: none; }
+    a:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+    .prose a, figcaption a {
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 0.2em;
+      text-decoration-color: color-mix(in srgb, var(--link) 40%, transparent);
+    }
+    .prose a:hover, figcaption a:hover { text-decoration-color: currentColor; }
+    :focus-visible { outline: 2px solid var(--link); outline-offset: 3px; border-radius: 2px; }
+
+    /* external-link arrow (the typeface has no ↗, so it is drawn) */
+    .ext::after, .arrow {
+      content: "";
+      display: inline-block;
+      width: 0.66em;
+      height: 0.66em;
+      margin-left: 0.3em;
+      background-color: currentColor;
+      -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.2 9.8 9.6 2.4M3.4 2.2h6.4v6.4' fill='none' stroke='%23000' stroke-width='1.45'/%3E%3C/svg%3E") center / contain no-repeat;
+              mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.2 9.8 9.6 2.4M3.4 2.2h6.4v6.4' fill='none' stroke='%23000' stroke-width='1.45'/%3E%3C/svg%3E") center / contain no-repeat;
+    }
+    .arrow { margin-left: 0; }
+
+    .muted { color: var(--ink-2); }
+    .vh { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+    .mono { font-family: var(--mono); font-size: var(--fs-mono); letter-spacing: 0; }
+
+    .skip {
+      position: absolute; left: var(--margin); top: -100px;
+      background: var(--ink); color: #fff; padding: 8px 12px; z-index: 10;
+    }
+    .skip:focus { top: 12px; }
+
+    /* ---------- layout ---------- */
+
+    .wrap { max-width: 1680px; margin: 0 auto; padding: 0 var(--margin); }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: var(--gutter);
+    }
+    .sub {  /* the 9 columns to the right of a section label */
+      display: grid;
+      grid-template-columns: repeat(9, minmax(0, 1fr));
+      column-gap: var(--gutter);
+    }
+
+    /* ---------- header ---------- */
+
+    .site-head { padding-top: 22px; align-items: baseline; }
+    .site-head h1 { grid-column: 1 / 4; font-weight: 500; }
+    .site-nav { grid-column: 4 / 10; }
+    .site-nav ul { display: flex; flex-wrap: wrap; gap: 2px 24px; }
+    .site-nav a { color: var(--ink-2); }
+    .site-nav a:hover { color: var(--ink); text-decoration: none; }
+    .avail { grid-column: 10 / 13; justify-self: end; display: inline-flex; align-items: center; gap: 9px; white-space: nowrap; }
+    .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--ok); position: relative; flex: none;
+      transform: translateY(-1px);
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .dot::after {
+        content: ""; position: absolute; inset: 0; border-radius: 50%;
+        background: var(--ok);
+        animation: ping 2.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+      }
+      @keyframes ping { 0% { transform: scale(1); opacity: .45; } 70%, 100% { transform: scale(2.6); opacity: 0; } }
+    }
+
+    /* ---------- intro ---------- */
+
+    .intro { margin-top: clamp(64px, 8.5vw, 136px); align-items: first baseline; }
+    .intro-id { grid-column: 1 / 4; }
+    .intro-id p + p { margin-top: 2px; }
+    .intro-id p:first-child { text-wrap: balance; max-width: 15em; }
+    .intro-body { grid-column: 4 / 13; }
+    .statement {
+      font-size: var(--fs-big);
+      line-height: 1.17;
+      letter-spacing: -0.014em;
+      max-width: 25.5em;
+      text-wrap: pretty;
+    }
+    .intro-sub { margin-top: 26px; max-width: 38em; color: var(--ink-2); text-wrap: pretty; }
+    .intro .figs { margin-top: clamp(48px, 5vw, 72px); }
+
+    /* ---------- sections ---------- */
+
+    .section {
+      margin-top: var(--space-section);
+      border-top: 1px solid var(--ink);
+      padding-top: 14px;
+    }
+    .section-head {
+      grid-column: 1 / 4;
+      align-self: start;
+      position: sticky;
+      top: 18px;
+    }
+    .section-head h2 { font-weight: 500; }
+    .section-head h2 .count { margin-left: 6px; color: var(--ink-2); font-weight: 400; position: relative; top: -0.45em; font-size: 0.72em; font-family: var(--mono); }
+    .section-head p { color: var(--ink-2); font-size: var(--fs-small); margin-top: 2px; max-width: 16em; }
+    .section-body { grid-column: 4 / 13; min-width: 0; }
+
+    /* ---------- index rows ---------- */
+
+    .index > li { border-bottom: 1px solid var(--hair); }
+    .row { padding: 11px 0 12px; align-items: baseline; color: inherit; }
+    .index > li:first-child .row { padding-top: 0; }
+    .row .t { grid-column: 1 / 6; grid-row: 1; }
+    .row .s { grid-column: 6 / 10; grid-row: 1; color: var(--ink-2); padding-right: 32px; }
+    .row .e { grid-column: 9 / 10; grid-row: 1; justify-self: end; }
+    a.row { color: var(--ink); }
+    a.row .t { color: var(--link); }
+    a.row .e { color: var(--link); }
+    a.row:hover { text-decoration: none; }
+    a.row:hover .t { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+    .row .status { font-family: var(--mono); font-size: var(--fs-mono); color: var(--ink-2); }
+    .now .row .t { grid-column: 1 / 6; color: var(--ink); }
+    .now .row .s { grid-column: 6 / 8; padding-right: 0; }
+    .now .row .e { grid-column: 8 / 10; }
+
+    /* ---------- projects ---------- */
+
+    .project + .project { margin-top: clamp(64px, 6.5vw, 104px); }
+    .p-head { align-items: baseline; }
+    .p-title { grid-column: 1 / 6; font-size: var(--fs-title); line-height: 1.2; letter-spacing: -0.006em; font-weight: 400; }
+    .p-meta { grid-column: 6 / 8; color: var(--ink-2); font-size: var(--fs-small); }
+    .p-link { grid-column: 8 / 10; justify-self: end; font-size: var(--fs-small); }
+    .p-desc { margin-top: 12px; max-width: 33em; text-wrap: pretty; }
+
+    /* ---------- figures ---------- */
+
+    .figs { display: flex; gap: 16px; align-items: flex-start; margin-top: 28px; }
+    .figs figure { flex: var(--r) 1 0%; min-width: 0; }
+    .ph {
+      position: relative;
+      aspect-ratio: var(--r);
+      background: var(--ph);
+      overflow: hidden;
+    }
+    .ph img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      color: transparent;          /* hide alt text if the image fails */
+    }
+    .ph img::after {               /* cover the broken-image icon */
+      content: ""; position: absolute; inset: 0; background: var(--ph);
+    }
+    figcaption {
+      margin-top: 9px;
+      font-size: var(--fs-small);
+      line-height: 1.42;
+      color: var(--ink-2);
+      max-width: 34em;
+      text-wrap: pretty;
+    }
+    figcaption .what { color: var(--ink); }
+
+    /* ---------- about ---------- */
+
+    .bio { grid-column: 1 / 6; }
+    .bio p { text-wrap: pretty; }
+    .bio p + p { margin-top: 1em; }
+    .bio .lead { font-size: var(--fs-title); line-height: 1.3; letter-spacing: -0.006em; margin-bottom: 1.1em; }
+    .facts { grid-column: 6 / 10; }
+    .facts > div + div { margin-top: 26px; }
+    .facts dt { font-family: var(--mono); font-size: var(--fs-mono); color: var(--ink-2); margin-bottom: 4px; }
+    .facts dd + dd { margin-top: 2px; }
+    .deg { display: inline-block; min-width: 3.1em; font-family: var(--mono); font-size: var(--fs-mono); color: var(--ink-2); }
+
+    /* ---------- contact ---------- */
+
+    .contact-mail { font-size: var(--fs-big); line-height: 1.15; letter-spacing: -0.014em; display: inline-block; }
+    .contact-notes { margin-top: 22px; }
+    .contact-notes p + p { margin-top: 2px; }
+    .contact-notes .avail-line { display: inline-flex; align-items: center; gap: 9px; }
+
+    /* ---------- footer ---------- */
+
+    .site-foot {
+      margin-top: var(--space-section);
+      border-top: 1px solid var(--hair);
+      padding: 16px 0 32px;
+      font-size: var(--fs-small);
+      color: var(--ink-2);
+      align-items: baseline;
+    }
+    .site-foot .f1 { grid-column: 1 / 4; }
+    .site-foot .f2 { grid-column: 4 / 10; max-width: 40em; text-wrap: pretty; }
+    .site-foot .f3 { grid-column: 10 / 13; justify-self: end; }
+    .site-foot a.top { color: var(--ink-2); }
+    .site-foot a.top:hover { color: var(--ink); }
+
+    /* ---------- tablet ---------- */
+
+    @media (max-width: 1100px) {
+      :root { --margin: 28px; --gutter: 20px; }
+      .site-nav { grid-column: 4 / 11; }
+      .avail { grid-column: 11 / 13; }
+      .site-nav ul { gap: 2px 18px; }
+      .bio { grid-column: 1 / 10; }
+      .facts { grid-column: 1 / 10; margin-top: 40px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--gutter); }
+      .facts > div + div { margin-top: 0; }
+      .p-head { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 16px; }
+      .p-title { flex: 1 0 100%; margin-bottom: 4px; }
+    }
+    @media (max-width: 900px) {
+      .site-head h1 { grid-column: 1 / 7; }
+      .avail { grid-column: 7 / 13; }
+      .site-nav { grid-column: 1 / 13; grid-row: 2; margin-top: 10px; }
+      .intro-id { grid-column: 1 / 13; display: flex; flex-wrap: wrap; gap: 0 18px; margin-bottom: 24px; }
+      .intro-id p + p { margin-top: 0; }
+      .intro-id p:first-child { max-width: none; }
+      .intro-body { grid-column: 1 / 13; }
+    }
+
+    /* ---------- phone ---------- */
+
+    @media (max-width: 700px) {
+      :root {
+        --margin: 20px; --gutter: 16px;
+        --fs-body: 1rem;
+        --fs-small: 0.8125rem;
+        --fs-mono: 0.75rem;
+        --space-section: 80px;
+      }
+      .grid { grid-template-columns: minmax(0, 1fr); }
+      .grid > * { grid-column: 1 / -1 !important; }
+
+      .site-head { padding-top: 16px; grid-template-columns: 1fr auto; }
+      .site-head h1 { grid-column: 1 / 2 !important; }
+      .avail { grid-column: 2 / 3 !important; font-size: var(--fs-small); }
+      .site-nav { grid-row: 2; margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--hair); }
+      .site-nav ul { gap: 4px 16px; font-size: 0.9375rem; }
+
+      .intro { margin-top: 48px; }
+      .intro-id { display: block; margin-bottom: 22px; }
+      .intro-id p + p { margin-top: 2px; }
+      .statement { font-size: 1.5rem; line-height: 1.2; }
+      .intro-sub { margin-top: 18px; font-size: 0.9375rem; }
+
+      .section-head { position: static; margin-bottom: 20px; }
+      .section-head p { max-width: none; }
+
+      .sub { display: block; }
+      .row { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 14px; padding: 10px 0 11px; }
+      .row .t { grid-column: 1; grid-row: 1; }
+      .row .s { grid-column: 1; grid-row: 2; font-size: var(--fs-small); margin-top: 1px; }
+      .row .e { grid-column: 2; grid-row: 1; }
+      .now .row .t, .now .row .s, .now .row .e { grid-column: auto; }
+      .now .row .t { grid-column: 1; grid-row: 1; }
+      .now .row .s { grid-column: 1; grid-row: 2; }
+      .now .row .e { grid-column: 2; grid-row: 1; }
+
+      .p-head { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 14px; }
+      .p-title { flex: 1 0 100%; font-size: 1.3125rem; margin-bottom: 4px; }
+      .p-link { justify-self: auto; }
+      .p-desc { margin-top: 10px; }
+
+      .figs { display: grid; grid-template-columns: 1fr 1fr; gap: 20px 12px; margin-top: 20px; }
+      .figs figure:first-child { grid-column: 1 / -1; }
+      .figs-3 figure:not(:first-child) .ph { aspect-ratio: 4 / 5; }
+      .figs-2 figure { grid-column: 1 / -1; }
+      .figs-4 figure:first-child { grid-column: auto; }
+      figcaption { margin-top: 7px; }
+
+      .bio .lead { font-size: 1.1875rem; }
+      .facts { display: block; margin-top: 36px; }
+      .facts > div + div { margin-top: 22px; }
+
+      .contact-mail { font-size: clamp(1.25rem, 6.2vw, 1.5rem); }
+
+      .site-foot { padding-bottom: 28px; }
+      .site-foot .f2 { margin: 10px 0; }
+      .site-foot .f3 { justify-self: start; }
+    }
+  </style>
+</head>
+<body id="top">
+  <a class="skip" href="#main">Skip to content</a>
+
+  <div class="wrap">
+
+    <!-- header -->
+    <header class="site-head grid">
+      <h1>Kes Inkersole</h1>
+      <nav class="site-nav" aria-label="Sections">
+        <ul>
+          <li><a href="#now">Now</a></li>
+          <li><a href="#work">Work</a></li>
+          <li><a href="#writing">Writing</a></li>
+          <li><a href="#podcasts">Podcasts</a></li>
+          <li><a href="#elsewhere">Elsewhere</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <p class="avail"><span class="dot" aria-hidden="true"></span>Available for work</p>
+    </header>
+
+    <main id="main">
+
+      <!-- intro -->
+      <section class="intro grid" aria-label="Introduction">
+        <div class="intro-id">
+          <p>Creative strategist &amp; internet equalities researcher.</p>
+          <p class="muted">London</p>
+          <p><a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
+        </div>
+        <div class="intro-body">
+          <p class="statement">My practice focuses on understanding and critiquing the impacts of emerging technologies on people, culture, and the planet. I work collectively to rethink the narratives and behaviours surrounding technologies — prioritising collaborative research as a process for testing, imagining and prototyping more equitable, alternative futures.</p>
+          <p class="intro-sub">Associate lecturer at UAL (LCF + CCI). Selected clients: Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges.</p>
+
+          <div class="figs figs-3">
+            <figure style="--r:1.5">
+              <div class="ph"><img src="https://picsum.photos/seed/softer-london/1500/1000?grayscale" width="1500" height="1000" alt="Documentation photograph from Softer London (placeholder)" /></div>
+              <figcaption><a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1" target="_blank" rel="noopener noreferrer">Softer London<span class="vh"> (opens in a new tab)</span></a>, talk + workshop. Lorem ipsum dolor sit amet. Photo: Lorem Ipsum</figcaption>
+            </figure>
+            <figure style="--r:0.8">
+              <div class="ph"><img src="https://picsum.photos/seed/tech-yard/1200/1500?grayscale" width="1200" height="1500" alt="Documentation photograph from Tech Yard (placeholder)" /></div>
+              <figcaption><a href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard" target="_blank" rel="noopener noreferrer">Tech Yard<span class="vh"> (opens in a new tab)</span></a>, workshop. Consectetur adipiscing. Photo: Lorem Ipsum</figcaption>
+            </figure>
+            <figure style="--r:1.5">
+              <div class="ph"><img src="https://picsum.photos/seed/olden-residency/1500/1000?grayscale" width="1500" height="1000" alt="Documentation photograph from the Olden residency (placeholder)" /></div>
+              <figcaption><a href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1" target="_blank" rel="noopener noreferrer">Olden residency<span class="vh"> (opens in a new tab)</span></a>. Sed do eiusmod tempor incididunt. Photo: Lorem Ipsum</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <!-- now -->
+      <section id="now" class="section grid now" aria-labelledby="h-now">
+        <header class="section-head">
+          <h2 id="h-now">Now</h2>
+          <p>Current &amp; upcoming</p>
+        </header>
+        <div class="section-body">
+          <ul class="index">
+            <li><div class="row sub"><span class="t">Lorem ipsum dolor sit amet, consectetur adipiscing elit</span><span class="s">Lorem ipsum</span><span class="e status">Ongoing</span></div></li>
+            <li><div class="row sub"><span class="t">Sed do eiusmod tempor incididunt ut labore et dolore</span><span class="s">Dolor sit amet</span><span class="e status">Upcoming</span></div></li>
+            <li><div class="row sub"><span class="t">Ut enim ad minim veniam, quis nostrud exercitation</span><span class="s">Consectetur</span><span class="e status">Upcoming</span></div></li>
+            <li><div class="row sub"><span class="t">Duis aute irure dolor in reprehenderit in voluptate</span><span class="s">Adipiscing elit</span><span class="e status">Forthcoming</span></div></li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- work -->
+      <section id="work" class="section grid" aria-labelledby="h-work">
+        <header class="section-head">
+          <h2 id="h-work">Work<span class="count">5</span></h2>
+          <p>Experiments &amp; commissions</p>
+        </header>
+        <div class="section-body">
+
+          <article class="project">
+            <div class="p-head sub">
+              <h3 class="p-title">latent space</h3>
+              <p class="p-meta">Experiment</p>
+              <a class="p-link ext" href="https://latent-space.vercel.app/" target="_blank" rel="noopener noreferrer">latent-space.vercel.app<span class="vh"> (opens in a new tab)</span></a>
+            </div>
+            <p class="p-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante venenatis dapibus, posuere velit aliquet. Cras mattis consectetur purus sit amet fermentum.</p>
+            <div class="figs figs-2">
+              <figure style="--r:1.6">
+                <div class="ph"><img src="https://picsum.photos/seed/latent-space-a/1600/1000?grayscale" width="1600" height="1000" loading="lazy" alt="latent space, screen (placeholder)" /></div>
+                <figcaption>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</figcaption>
+              </figure>
+              <figure style="--r:1">
+                <div class="ph"><img src="https://picsum.photos/seed/latent-space-b/1200/1200?grayscale" width="1200" height="1200" loading="lazy" alt="latent space, detail (placeholder)" /></div>
+                <figcaption>Vestibulum id ligula porta felis euismod semper.</figcaption>
+              </figure>
+            </div>
+          </article>
+
+          <article class="project">
+            <div class="p-head sub">
+              <h3 class="p-title">pro(tech)t</h3>
+              <p class="p-meta">Experiment</p>
+              <a class="p-link ext" href="https://protecht.vercel.app/" target="_blank" rel="noopener noreferrer">protecht.vercel.app<span class="vh"> (opens in a new tab)</span></a>
+            </div>
+            <p class="p-desc">Aenean lacinia bibendum nulla sed consectetur. Donec ullamcorper nulla non metus auctor fringilla. Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
+            <div class="figs figs-3">
+              <figure style="--r:0.8">
+                <div class="ph"><img src="https://picsum.photos/seed/protecht-a/1200/1500?grayscale" width="1200" height="1500" loading="lazy" alt="pro(tech)t (placeholder)" /></div>
+                <figcaption>Nullam quis risus eget urna mollis ornare.</figcaption>
+              </figure>
+              <figure style="--r:1.6">
+                <div class="ph"><img src="https://picsum.photos/seed/protecht-b/1600/1000?grayscale" width="1600" height="1000" loading="lazy" alt="pro(tech)t (placeholder)" /></div>
+                <figcaption>Etiam porta sem malesuada magna mollis euismod. Photo: Lorem Ipsum</figcaption>
+              </figure>
+              <figure style="--r:0.8">
+                <div class="ph"><img src="https://picsum.photos/seed/protecht-c/1200/1500?grayscale" width="1200" height="1500" loading="lazy" alt="pro(tech)t (placeholder)" /></div>
+                <figcaption>Donec sed odio dui.</figcaption>
+              </figure>
+            </div>
+          </article>
+
+          <article class="project">
+            <div class="p-head sub">
+              <h3 class="p-title">MØRNING Ø</h3>
+              <p class="p-meta">Commission · MØRNING</p>
+              <a class="p-link ext" href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1" target="_blank" rel="noopener noreferrer">instagram.com<span class="vh"> (opens in a new tab)</span></a>
+            </div>
+            <p class="p-desc">Curabitur blandit tempus porttitor. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna, vel scelerisque nisl consectetur et.</p>
+            <div class="figs figs-4">
+              <figure style="--r:0.8">
+                <div class="ph"><img src="https://picsum.photos/seed/morning-a/1200/1500?grayscale" width="1200" height="1500" loading="lazy" alt="MØRNING Ø (placeholder)" /></div>
+                <figcaption>Lorem ipsum dolor sit amet. Photo: Lorem Ipsum</figcaption>
+              </figure>
+              <figure style="--r:0.8">
+                <div class="ph"><img src="https://picsum.photos/seed/morning-b/1200/1500?grayscale" width="1200" height="1500" loading="lazy" alt="MØRNING Ø (placeholder)" /></div>
+                <figcaption>Fusce dapibus, tellus ac cursus commodo.</figcaption>
+              </figure>
+              <figure style="--r:0.8">
+                <div class="ph"><img src="https://picsum.photos/seed/morning-c/1200/1500?grayscale" width="1200" height="1500" loading="lazy" alt="MØRNING Ø (placeholder)" /></div>
+                <figcaption>Tortor mauris condimentum nibh.</figcaption>
+              </figure>
+              <figure style="--r:0.8">
+                <div class="ph"><img src="https://picsum.photos/seed/morning-d/1200/1500?grayscale" width="1200" height="1500" loading="lazy" alt="MØRNING Ø (placeholder)" /></div>
+                <figcaption>Vestibulum id ligula porta.</figcaption>
+              </figure>
+            </div>
+          </article>
+
+          <article class="project">
+            <div class="p-head sub">
+              <h3 class="p-title">Networked Worlds</h3>
+              <p class="p-meta">Commission · co—matter</p>
+              <a class="p-link ext" href="https://co-matter.com/project/networked-worlds" target="_blank" rel="noopener noreferrer">co-matter.com<span class="vh"> (opens in a new tab)</span></a>
+            </div>
+            <p class="p-desc">Maecenas faucibus mollis interdum. Sed posuere consectetur est at lobortis. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
+            <div class="figs figs-2">
+              <figure style="--r:1.778">
+                <div class="ph"><img src="https://picsum.photos/seed/networked-worlds-a/1600/900?grayscale" width="1600" height="900" loading="lazy" alt="Networked Worlds (placeholder)" /></div>
+                <figcaption>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Photo: Lorem Ipsum</figcaption>
+              </figure>
+              <figure style="--r:0.8">
+                <div class="ph"><img src="https://picsum.photos/seed/networked-worlds-b/1200/1500?grayscale" width="1200" height="1500" loading="lazy" alt="Networked Worlds (placeholder)" /></div>
+                <figcaption>Cras justo odio, dapibus ac facilisis in.</figcaption>
+              </figure>
+            </div>
+          </article>
+
+          <article class="project">
+            <div class="p-head sub">
+              <h3 class="p-title">Dirty Words #4</h3>
+              <p class="p-meta">Commission · Protein</p>
+              <a class="p-link ext" href="https://www.protein.xyz/dirty-words-4-community/" target="_blank" rel="noopener noreferrer">protein.xyz<span class="vh"> (opens in a new tab)</span></a>
+            </div>
+            <p class="p-desc">Nulla vitae elit libero, a pharetra augue. Donec id elit non mi porta gravida at eget metus. Etiam porta sem malesuada magna mollis euismod.</p>
+            <div class="figs figs-3">
+              <figure style="--r:1.5">
+                <div class="ph"><img src="https://picsum.photos/seed/dirty-words-a/1500/1000?grayscale" width="1500" height="1000" loading="lazy" alt="Dirty Words #4 (placeholder)" /></div>
+                <figcaption>Lorem ipsum dolor sit amet. Photo: Lorem Ipsum</figcaption>
+              </figure>
+              <figure style="--r:0.8">
+                <div class="ph"><img src="https://picsum.photos/seed/dirty-words-b/1200/1500?grayscale" width="1200" height="1500" loading="lazy" alt="Dirty Words #4 (placeholder)" /></div>
+                <figcaption>Sed posuere consectetur.</figcaption>
+              </figure>
+              <figure style="--r:1.5">
+                <div class="ph"><img src="https://picsum.photos/seed/dirty-words-c/1500/1000?grayscale" width="1500" height="1000" loading="lazy" alt="Dirty Words #4 (placeholder)" /></div>
+                <figcaption>Aenean eu leo quam, pellentesque ornare sem.</figcaption>
+              </figure>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- writing -->
+      <section id="writing" class="section grid" aria-labelledby="h-writing">
+        <header class="section-head">
+          <h2 id="h-writing">Writing<span class="count">6</span></h2>
+          <p>Selected texts</p>
+        </header>
+        <div class="section-body">
+          <ul class="index">
+            <li><a class="row sub" href="https://www.protein.xyz/sex-and-the-internet/" target="_blank" rel="noopener noreferrer"><span class="t">Mindy Seu on sex and the internet</span><span class="s">Protein</span><span class="e arrow" aria-hidden="true"></span><span class="vh"> (opens in a new tab)</span></a></li>
+            <li><a class="row sub" href="https://midnight.agency/thoughts/dreaming-and-designing-more-accessible-web" target="_blank" rel="noopener noreferrer"><span class="t">A more accessible web</span><span class="s">Midnight Agency</span><span class="e arrow" aria-hidden="true"></span><span class="vh"> (opens in a new tab)</span></a></li>
+            <li><a class="row sub" href="https://midnight.agency/thoughts/coding-a-more-creative-and-playful-web" target="_blank" rel="noopener noreferrer"><span class="t">A more creative + playful web</span><span class="s">Midnight Agency</span><span class="e arrow" aria-hidden="true"></span><span class="vh"> (opens in a new tab)</span></a></li>
+            <li><a class="row sub" href="https://midnight.agency/thoughts/composing-a-flexible-and-modular-web" target="_blank" rel="noopener noreferrer"><span class="t">A flexible + modular web</span><span class="s">Midnight Agency</span><span class="e arrow" aria-hidden="true"></span><span class="vh"> (opens in a new tab)</span></a></li>
+            <li><a class="row sub" href="https://morningfyi.substack.com/p/020-uh-oh-meet" target="_blank" rel="noopener noreferrer"><span class="t">Uh oh, meet o</span><span class="s">Burn After Reading, MØRNING</span><span class="e arrow" aria-hidden="true"></span><span class="vh"> (opens in a new tab)</span></a></li>
+            <li><a class="row sub" href="https://morningfyi.substack.com/p/024-entering-limb-with" target="_blank" rel="noopener noreferrer"><span class="t">Entering limbo</span><span class="s">Burn After Reading, MØRNING</span><span class="e arrow" aria-hidden="true"></span><span class="vh"> (opens in a new tab)</span></a></li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- podcasts -->
+      <section id="podcasts" class="section grid" aria-labelledby="h-podcasts">
+        <header class="section-head">
+          <h2 id="h-podcasts">Podcasts<span class="count">8</span></h2>
+          <p>Conversations</p>
+        </header>
+        <div class="section-body">
+          <ul class="index">
+            <li><a class="row sub" href="https://podcasts.apple.com/gb/podcast/mindy-seu-on-collaboration-community-and/id1449302502?i=1000597869409" target="_blank" rel="noopener noreferrer"><span class="t">Mindy Seu — Cyberfeminism Index</span><span class="s">Apple Podcasts</span><span class="e arrow" aria-hidden="true"></span><span class="vh"> (opens in a new tab)</span></a></li>
+            <li><a class="row sub" href="https://soundcloud.com/proteincommunity/protein-forum-what-can-web2-organisations-learn-from-web3-communities" target="_blank" rel="noopener noreferrer"><span class="t">Web2 ⟷ Web3 communities</span><span class="s">SoundCloud</span><span class="e arrow" aria-hidden="true"></span><span class="vh"> (opens in a new tab)</span></a></li>
+            <li><a class="row sub" href="https://podcasts.apple.com/gb/podcast/cherie-hu-on-water-musics-journey-through-web3/id1449302502?i=1000581859804" target="_blank" rel="noopener noreferrer"><span class="t">Cherie Hu — Water &amp; Music</span><span class="s">Apple Podcasts</span><span class="e arrow" aria-hidden="true"></span><span class="vh"> (opens in a new tab)</span></a></li>
+            <li><a class="row sub" href="https://podcasts.apple.com/gb/podcast/molly-dickson-on-dao-activism-and-fighting-for/id1449302502?i=1000578164761" target="_blank" rel="noopener noreferrer"><span class="t">Molly Dickson — DAO activism</span><span class="s">Apple Podcasts</span><span class="e arrow" aria-hidden="true"></span><span class="vh"> (opens in a new tab)</span></a></li>
+            <li><a class="row sub" href="https://podcasts.apple.com/gb/podcast/dame-on-the-need-for-education-accessibility/id1449302502?i=1000559829008" target="_blank" rel="noopener noreferrer"><span class="t">Dame — Accessibility in web3</span><span class="s">Apple Podcasts</span><span class="e arrow" aria-hidden="true"></span><span class="vh"> (opens in a new tab)</span></a></li>
+            <li><a class="row sub" href="https://podcasts.apple.com/gb/podcast/nadia-piet-on-creative-ai-and-protopian-futures/id1449302502?i=1000559822732" target="_blank" rel="noopener noreferrer"><span class="t">Nadia Piet — Creative AI</span><span class="s">Apple Podcasts</span><span class="e arrow" aria-hidden="true"></span><span class="vh"> (opens in a new tab)</span></a></li>
+            <li><a class="row sub" href="https://podcasts.apple.com/gb/podcast/cyn-bahati-on-her-journey-into-web3-with-her-family/id1449302502?i=1000559818509" target="_blank" rel="noopener noreferrer"><span class="t">Cyn Bahati — Into web3</span><span class="s">Apple Podcasts</span><span class="e arrow" aria-hidden="true"></span><span class="vh"> (opens in a new tab)</span></a></li>
+            <li><a class="row sub" href="https://podcasts.apple.com/gb/podcast/latash%C3%A1-on-the-potential-of-web3-for-music-artists/id1449302502?i=1000552812458" target="_blank" rel="noopener noreferrer"><span class="t">Latasha — Web3 for music</span><span class="s">Apple Podcasts</span><span class="e arrow" aria-hidden="true"></span><span class="vh"> (opens in a new tab)</span></a></li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- elsewhere -->
+      <section id="elsewhere" class="section grid" aria-labelledby="h-elsewhere">
+        <header class="section-head">
+          <h2 id="h-elsewhere">Elsewhere<span class="count">4</span></h2>
+          <p>Talks, workshops &amp; residencies</p>
+        </header>
+        <div class="section-body">
+          <ul class="index">
+            <li><a class="row sub" href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1" target="_blank" rel="noopener noreferrer"><span class="t">Olden residency</span><span class="s">Residency</span><span class="e arrow" aria-hidden="true"></span><span class="vh"> (opens in a new tab)</span></a></li>
+            <li><a class="row sub" href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1" target="_blank" rel="noopener noreferrer"><span class="t">Softer London</span><span class="s">Talk + workshop</span><span class="e arrow" aria-hidden="true"></span><span class="vh"> (opens in a new tab)</span></a></li>
+            <li><a class="row sub" href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard" target="_blank" rel="noopener noreferrer"><span class="t">Tech Yard</span><span class="s">Workshop, UAL Creative Computing Institute</span><span class="e arrow" aria-hidden="true"></span><span class="vh"> (opens in a new tab)</span></a></li>
+            <li><a class="row sub" href="https://www.instagram.com/p/BslwSSPH5Rc/?img_index=2" target="_blank" rel="noopener noreferrer"><span class="t">Ovar it</span><span class="s">Lorem ipsum</span><span class="e arrow" aria-hidden="true"></span><span class="vh"> (opens in a new tab)</span></a></li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- about -->
+      <section id="about" class="section grid" aria-labelledby="h-about">
+        <header class="section-head">
+          <h2 id="h-about">About</h2>
+          <p>Biography, teaching &amp; credentials</p>
+        </header>
+        <div class="section-body sub">
+          <div class="bio prose">
+            <p class="lead">Kes Inkersole lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.</p>
+          </div>
+          <dl class="facts">
+            <div>
+              <dt>Teaching</dt>
+              <dd>Associate lecturer, University of the Arts London</dd>
+              <dd class="muted">London College of Fashion + Creative Computing Institute</dd>
+            </div>
+            <div>
+              <dt>Credentials</dt>
+              <dd><span class="deg">MA</span>Internet Equalities</dd>
+              <dd><span class="deg">BA</span>Creative Direction</dd>
+              <dd><span class="deg">PhD</span>[ ? ]</dd>
+            </div>
+            <div>
+              <dt>Based</dt>
+              <dd>London</dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+
+      <!-- contact -->
+      <section id="contact" class="section grid" aria-labelledby="h-contact">
+        <header class="section-head">
+          <h2 id="h-contact">Contact</h2>
+          <p>Commissions, collaborations, talks</p>
+        </header>
+        <div class="section-body">
+          <a class="contact-mail" href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a>
+          <div class="contact-notes">
+            <p class="avail-line"><span class="dot" aria-hidden="true"></span>Available for work</p>
+            <p class="muted">CV &amp; portfolio on request.</p>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="site-foot grid">
+      <p class="f1">© 2026 Kes Inkersole</p>
+      <p class="f2">Set in Atkinson Hyperlegible Next and Mono, typefaces from the Braille Institute drawn so that every letter stays distinct for readers with low vision. No cookies, no trackers.</p>
+      <p class="f3"><a class="top" href="#top">Back to top ↑</a></p>
+    </footer>
+
+  </div>
+</body>
+</html>

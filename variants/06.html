@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kes Inkersole</title>
+  <meta name="description" content="Kesia Inkersole — freelance creative strategist &amp; internet equalities researcher, based in london.">
+  <meta name="author" content="Kes Inkersole">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="keywords" content="Kesia Inkersole, Kes Inkersole, creative strategist, internet equalities, researcher, London, UAL">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="kes inkersole">
+  <meta property="og:description" content="kes inkersole — freelance creative strategist &amp; internet equalities researcher, based in london.">
+  <meta property="og:image" content="https://kesia-coral.vercel.app/square.png">
+  <meta property="og:url" content="https://kesia-coral.vercel.app">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="kes inkersole">
+  <meta name="twitter:description" content="kes inkersole — freelance creative strategist &amp; internet equalities researcher, based in london.">
+  <meta name="twitter:image" content="https://kesia-coral.vercel.app/square.png">
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='9' fill='%231f33ff'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:wght@400;500&family=Atkinson+Hyperlegible+Next:ital,wght@0,300..700;1,300..700&display=swap">
+  <!-- the arrows sit outside Google's default latin subset, so request them separately
+       (same weight range, so the browser treats both as one family) -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@300..700&text=%E2%86%97%E2%86%91&display=swap">
+
+  <style>
+    /* ------------------------------------------------------------
+       Kes Inkersole — plain, legible, honest.
+       One typeface family (drawn for legibility), one accent
+       (the hyperlink's own blue), a 12-column grid, and every
+       outbound link says where it goes.
+       ------------------------------------------------------------ */
+
+    :root {
+      --bg: #ffffff;
+      --ink: #141414;
+      --mute: #6b6b6b;          /* 5.3:1 on white */
+      --rule: #e6e5e1;
+      --rule-ink: #c9c8c3;
+      --ph: #efeeea;            /* image placeholder */
+      --ph-ink: #9b9a95;
+      --accent: #1f33ff;        /* hyperlink blue, 7:1 on white */
+
+      --sans: "Atkinson Hyperlegible Next", "Helvetica Neue", Arial, system-ui, sans-serif;
+      --mono: "Atkinson Hyperlegible Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+      --m: 32px;                /* page margin */
+      --gap: 24px;              /* column gap */
+      --fs: 16px;
+      --fs-s: 13px;
+      --fs-m: 22px;
+      --fs-l: clamp(27px, 2.75vw, 40px);
+      --sec: 128px;             /* space between sections */
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: var(--fs);
+      line-height: 1.45;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    ::selection { background: var(--accent); color: #fff; }
+
+    h1, h2, h3, h4, p, ul, ol, dl, dd, figure { margin: 0; padding: 0; }
+    h1, h2, h3, h4 { font-size: inherit; font-weight: inherit; }
+    abbr[title] { text-decoration: none; cursor: help; }
+    ul, ol { list-style: none; }
+
+    a {
+      color: inherit;
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 0.22em;
+      text-decoration-color: var(--rule-ink);
+      transition: color .15s ease, text-decoration-color .15s ease;
+    }
+    a:hover { color: var(--accent); text-decoration-color: currentColor; }
+    a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 1px; }
+
+    .vh {
+      position: absolute !important; width: 1px; height: 1px; overflow: hidden;
+      clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
+    }
+    .skip {
+      position: absolute; left: var(--m); top: -100px; z-index: 10;
+      background: var(--accent); color: #fff; padding: 8px 12px; text-decoration: none;
+    }
+    .skip:focus { top: 12px; color: #fff; }
+
+    .arr { display: inline-block; margin-left: .2em; font-family: var(--sans); font-weight: 400; transition: transform .15s ease; text-decoration: none; }
+    a:hover .arr { transform: translate(2px, -2px); }
+
+    .mute { color: var(--mute); }
+    .nw { white-space: nowrap; }
+    .mono { font-family: var(--mono); font-size: var(--fs-s); letter-spacing: 0.01em; }
+
+    /* ---------- grid ---------- */
+    .wrap { padding: 0 var(--m); }
+    .grid, .sec {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: var(--gap);
+    }
+    /* a 9-column grid inside cols 4–12 lines up exactly with the page grid */
+    .g9 {
+      display: grid;
+      grid-template-columns: repeat(9, minmax(0, 1fr));
+      column-gap: var(--gap);
+    }
+
+    /* ---------- masthead ---------- */
+    .masthead { padding-top: 22px; align-items: start; }
+    .masthead > * { line-height: 1.35; }
+    .masthead .name { grid-column: 1 / 4; font-weight: 600; }
+    .masthead .name a { text-decoration: none; }
+    .masthead .role { grid-column: 4 / 7; }
+    .masthead .where { grid-column: 7 / 10; }
+    .masthead .mail { grid-column: 10 / 13; text-align: right; }
+    .masthead time { color: var(--mute); font-variant-numeric: tabular-nums; }
+    .avail { text-decoration: none; }
+    .avail::before {
+      content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+      background: var(--accent); margin-right: 8px; vertical-align: 0.08em;
+    }
+
+    /* ---------- opening ---------- */
+    .opening { margin-top: 104px; align-items: start; }
+    .index { grid-column: 1 / 4; line-height: 1.6; }
+    .index a { text-decoration: none; }
+    .index .mono { color: var(--mute); margin-left: 6px; transition: color .15s ease; }
+    .index a:hover .mono { color: var(--accent); }
+
+    .lede {
+      grid-column: 4 / 13;
+      font-size: var(--fs-l);
+      font-weight: 360;
+      line-height: 1.16;
+      letter-spacing: -0.015em;
+      max-width: 25em;
+      text-wrap: pretty;
+    }
+    .facts { grid-column: 4 / 13; margin-top: 56px; row-gap: 24px; }
+    .facts > div { grid-column: span 3; }
+    .facts > div.wide { grid-column: span 6; }
+    .facts dt { color: var(--mute); margin-bottom: 4px; }
+    .facts dd { max-width: 34em; }
+
+    .hero { grid-column: 1 / 13; margin-top: 88px; }
+
+    /* ---------- figures & strips ---------- */
+    figure { min-width: 0; }
+    .ph {
+      position: relative;
+      aspect-ratio: var(--r, 1.5);
+      background: var(--ph);
+      overflow: hidden;
+    }
+    .ph img {
+      position: relative;
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      color: transparent;
+    }
+    /* if a photo fails to load, show a quiet labelled placeholder instead of a broken icon */
+    .ph img::after {
+      content: attr(alt);
+      position: absolute; inset: 0;
+      display: flex; align-items: flex-end;
+      padding: 10px 12px;
+      background: var(--ph);
+      color: var(--ph-ink);
+      font: 400 11px/1.3 var(--mono);
+      letter-spacing: 0.02em;
+    }
+    figcaption {
+      margin-top: 8px;
+      font-size: var(--fs-s);
+      line-height: 1.4;
+      color: var(--mute);
+      max-width: 38em;
+      text-wrap: pretty;
+    }
+    figcaption b { font-weight: 400; color: var(--ink); }
+
+    /* justified strip: flex-grow equals each photo's aspect ratio, so heights match */
+    .strip { display: flex; gap: 16px; align-items: flex-start; }
+    .strip > figure { flex: var(--r) 1 0; }
+
+    /* ---------- sections ---------- */
+    .sec {
+      margin-top: var(--sec);
+      padding-top: 14px;
+      border-top: 1px solid var(--ink);
+      align-items: start;
+    }
+    .sec-label {
+      grid-column: 1 / 4;
+      position: sticky;
+      top: 20px;
+      font-weight: 600;
+    }
+    .sec-label .mono { font-weight: 400; color: var(--mute); margin-left: 8px; }
+    .sec-label .desc { display: block; font-weight: 400; color: var(--mute); margin-top: 2px; }
+    .sec-body { grid-column: 4 / 13; min-width: 0; }
+
+    .sub {
+      display: flex; gap: 10px; align-items: baseline;
+      margin-bottom: 40px;
+      color: var(--mute);
+    }
+
+    /* ---------- now ---------- */
+    .rows > li { border-bottom: 1px solid var(--rule); }
+    .rows > li:first-child, .rows > li:first-child > a { padding-top: 0; }
+    .now li { padding: 12px 0; align-items: baseline; }
+    .now .when { grid-column: 1 / 2; color: var(--mute); }
+    .now .what { grid-column: 2 / 7; }
+    .now .where { grid-column: 7 / 10; color: var(--mute); text-align: right; }
+
+    /* ---------- work ---------- */
+    .proj + .proj { margin-top: 88px; }
+    .proj-head { align-items: baseline; row-gap: 6px; }
+    .proj-title {
+      grid-column: 1 / 6;
+      font-weight: 500;
+      font-size: var(--fs-m);
+      line-height: 1.2;
+      letter-spacing: -0.005em;
+    }
+    .proj-title a { text-decoration: none; }
+    .proj-meta { grid-column: 6 / 8; color: var(--mute); }
+    .proj-url { grid-column: 8 / 10; text-align: right; color: var(--mute); }
+    .proj-desc { grid-column: 1 / 6; margin-top: 14px; max-width: 36em; text-wrap: pretty; }
+    .proj .strip { margin-top: 28px; }
+
+    .group + .group { margin-top: 112px; }
+
+    .pair { row-gap: 56px; }
+    .pair .proj { margin: 0; }
+    .pair .proj:nth-child(1) { grid-column: 1 / 5; }
+    .pair .proj:nth-child(2) { grid-column: 6 / 10; }
+    .pair .proj .ph { margin-bottom: 16px; }
+    .pair .proj-title { font-size: var(--fs-m); }
+    .pair .line { display: flex; justify-content: space-between; gap: 16px; align-items: baseline; margin-top: 6px; color: var(--mute); }
+    .pair .proj-desc { margin-top: 12px; }
+
+    /* ---------- link indexes (writing, podcasts) ---------- */
+    .links > li > a {
+      display: grid;
+      grid-template-columns: repeat(9, minmax(0, 1fr));
+      column-gap: var(--gap);
+      align-items: baseline;
+      padding: 11px 0 12px;
+      text-decoration: none;
+    }
+    .links .meta { display: contents; }
+    .links .t { grid-column: 1 / 6; text-wrap: pretty; }
+    .links .o { grid-column: 6 / 8; color: var(--mute); }
+    .links .d { grid-column: 8 / 10; text-align: right; color: var(--mute); transition: color .15s ease; }
+    .links a:hover .d, .links a:hover .o { color: var(--accent); }
+
+    .pods .g { grid-column: 1 / 3; }
+    .pods .t { grid-column: 3 / 8; }
+    .links .d { white-space: nowrap; }
+
+    @media (max-width: 1279px) {
+      .links .t { grid-column: 1 / 5; }
+      .links .o { grid-column: 5 / 7; }
+      .links .d { grid-column: 7 / 10; }
+      .pods .t { grid-column: 3 / 7; }
+      .proj-title { grid-column: 1 / 5; }
+      .proj-meta { grid-column: 5 / 7; }
+      .proj-url { grid-column: 7 / 10; }
+    }
+
+    /* ---------- elsewhere ---------- */
+    .tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: 16px; row-gap: 40px; }
+    .tiles a { display: block; text-decoration: none; }
+    .tiles .ph { --r: 0.8; }
+    .tiles .t { display: block; margin-top: 10px; }
+    .tiles .s { display: block; margin-top: 3px; color: var(--mute); }
+    .tiles .k { display: block; margin-top: 1px; color: var(--mute); }
+    .tiles a:hover .t { color: var(--accent); }
+    .tiles .ph img { transition: opacity .2s ease; }
+    .tiles a:hover .ph img { opacity: .88; }
+
+    /* ---------- bio ---------- */
+    .bio-text { grid-column: 1 / 6; }
+    .bio-text p { max-width: 36em; text-wrap: pretty; }
+    .bio-text p + p { margin-top: 1em; }
+    .bio-aside { grid-column: 7 / 10; }
+    .bio-aside dt { color: var(--mute); margin-bottom: 4px; }
+    .bio-aside dd + dt { margin-top: 24px; }
+    .creds li { display: flex; gap: 14px; }
+    .creds .mono { color: var(--mute); min-width: 3.2em; padding-top: 2px; }
+
+    /* ---------- contact ---------- */
+    .contact-mail {
+      display: inline-block;
+      color: var(--accent);
+      font-weight: 360;
+      text-decoration-color: currentColor;
+      font-size: var(--fs-l);
+      line-height: 1.15;
+      letter-spacing: -0.012em;
+      text-decoration-thickness: 2px;
+      text-underline-offset: 0.16em;
+      overflow-wrap: anywhere;
+    }
+    .contact-note { margin-top: 20px; color: var(--mute); }
+
+    /* ---------- footer ---------- */
+    .foot { margin-top: 160px; padding: 14px 0 28px; border-top: 1px solid var(--rule); color: var(--mute); font-size: var(--fs-s); align-items: baseline; }
+    .foot .c1 { grid-column: 1 / 4; }
+    .foot .c2 { grid-column: 4 / 10; max-width: 46em; }
+    .foot .c3 { grid-column: 10 / 13; text-align: right; }
+    .foot a { text-decoration-color: var(--rule-ink); }
+
+    /* ============================================================
+       tablet: labels sit above their sections
+       ============================================================ */
+    @media (max-width: 1023px) {
+      :root { --m: 24px; --gap: 20px; --sec: 104px; }
+      .masthead .name { grid-column: 1 / 7; }
+      .masthead .role { grid-column: 7 / 13; }
+      .masthead .where { grid-column: 1 / 7; margin-top: 12px; }
+      .masthead .mail { grid-column: 7 / 13; text-align: left; margin-top: 12px; }
+      .opening { margin-top: 40px; }
+      .index { grid-column: 1 / 13; margin-bottom: 56px; }
+      .index ul { display: flex; flex-wrap: wrap; column-gap: 20px; row-gap: 2px; }
+      .lede, .facts { grid-column: 1 / 13; }
+      .sec-label { grid-column: 1 / 13; position: static; margin-bottom: 28px; }
+      .sec-body { grid-column: 1 / 13; }
+      .hero { margin-top: 64px; }
+    }
+
+    /* ============================================================
+       phone
+       ============================================================ */
+    @media (max-width: 699px) {
+      :root { --m: 16px; --gap: 16px; --fs-m: 20px; --sec: 88px; }
+      .grid, .sec, .g9 { display: block; }
+
+      .masthead { padding-top: 16px; }
+      .masthead > * { margin: 0; }
+      .masthead .role { margin-top: 2px; }
+      .masthead .where, .masthead .mail { margin-top: 14px; text-align: left; }
+      .opening { margin-top: 28px; }
+      .index { margin-bottom: 44px; padding-top: 12px; border-top: 1px solid var(--rule); }
+      .index ul { column-gap: 16px; }
+      .lede { font-size: 24px; line-height: 1.2; letter-spacing: -0.01em; }
+      .facts { margin-top: 36px; }
+      .facts > div + div { margin-top: 20px; }
+
+      .hero { margin-top: 48px; }
+
+      /* strips become a swipeable row that bleeds to the screen edge */
+      .strip {
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scroll-padding-inline: var(--m);
+        margin-inline: calc(var(--m) * -1);
+        padding-inline: var(--m);
+        padding-bottom: 6px;
+        gap: 12px;
+        scrollbar-width: none;
+      }
+      .strip::-webkit-scrollbar { display: none; }
+      .strip > figure { flex: 0 0 auto; width: min(calc(var(--r) * 64vw), 84vw); scroll-snap-align: start; }
+
+      .sec { padding-top: 12px; }
+      .sec-label { margin-bottom: 22px; }
+
+      .now li { display: grid; grid-template-columns: 5.5em 1fr; column-gap: 12px; row-gap: 2px; }
+      .now .when { grid-column: 1; grid-row: 1 / 3; }
+      .now .what { grid-column: 2; }
+      .now .where { grid-column: 2; text-align: left; }
+
+      .proj + .proj { margin-top: 64px; }
+      .proj-meta { margin-top: 6px; }
+      .proj-url { text-align: left; margin-top: 0; }
+      .proj-desc { margin-top: 12px; }
+      .proj .strip { margin-top: 20px; }
+      .group + .group { margin-top: 80px; }
+      .sub { margin-bottom: 28px; }
+      .pair .proj + .proj { margin-top: 48px; }
+
+      .links > li > a { display: block; padding: 12px 0 13px; }
+      .links .t, .links .g { display: block; }
+      .pods .g + .t { margin-top: 0; }
+      .links .o, .links .d { display: inline; text-align: left; }
+      .links .o::after { content: "\00B7"; margin: 0 .45em; color: var(--mute); }
+      .pods .g { font-weight: 600; }
+      .links .meta { display: block; margin-top: 3px; }
+
+      .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 12px; row-gap: 28px; }
+
+      .bio-aside { margin-top: 40px; }
+
+      .contact-mail { font-size: 25px; }
+
+      .foot { margin-top: 112px; }
+      .foot .c2, .foot .c3 { margin-top: 8px; text-align: left; }
+    }
+
+    @media print {
+      :root { --sec: 40px; }
+      .skip, .hero, .strip, .tiles .ph, .pair .ph, .index { display: none !important; }
+      .sec-label { position: static; }
+      .sec, .proj, .links li { break-inside: avoid; }
+      a { text-decoration: none; }
+      .contact-mail { color: var(--ink); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<div class="wrap">
+
+  <!-- ===================== masthead ===================== -->
+  <header class="masthead grid" id="top">
+    <h1 class="name"><a href="#top">Kes Inkersole</a></h1>
+    <p class="role">Creative strategist &amp;<br> internet equalities researcher</p>
+    <p class="where">London <time id="clock"></time><br><a class="avail" href="#contact">Available for work</a></p>
+    <p class="mail"><a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
+  </header>
+
+  <main id="main">
+
+    <!-- ===================== opening ===================== -->
+    <div class="opening grid">
+      <nav class="index" aria-label="On this page">
+        <ul>
+          <li><a href="#now">Now</a></li>
+          <li><a href="#work">Work<span class="mono" aria-hidden="true">05</span></a></li>
+          <li><a href="#writing">Writing<span class="mono" aria-hidden="true">06</span></a></li>
+          <li><a href="#podcasts">Podcasts<span class="mono" aria-hidden="true">08</span></a></li>
+          <li><a href="#elsewhere">Elsewhere<span class="mono" aria-hidden="true">04</span></a></li>
+          <li><a href="#bio">Bio</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <p class="lede">My practice focuses on understanding and critiquing the impacts of emerging technologies on people, culture, and the planet. I work collectively to rethink the narratives and behaviours surrounding technologies — prioritising collaborative research as a process for testing, imagining and prototyping more equitable, alternative futures.</p>
+
+      <dl class="facts g9">
+        <div>
+          <dt>Teaching</dt>
+          <dd>Associate lecturer at UAL, <span class="nw"><abbr title="London College of Fashion">LCF</abbr> + <abbr title="Creative Computing Institute">CCI</abbr></span></dd>
+        </div>
+        <div class="wide">
+          <dt>Selected clients</dt>
+          <dd>Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges</dd>
+        </div>
+      </dl>
+
+      <div class="hero">
+        <div class="strip" role="group" aria-label="Documentation photographs">
+          <figure style="--r:1.5">
+            <div class="ph"><img src="https://picsum.photos/seed/kes-room/1500/1000?grayscale" alt="Photo placeholder, 3:2" width="1500" height="1000"></div>
+            <figcaption><b>Lorem ipsum dolor sit amet</b>, consectetur adipiscing elit. Photo: Lorem Ipsum</figcaption>
+          </figure>
+          <figure style="--r:0.8">
+            <div class="ph"><img src="https://picsum.photos/seed/kes-table/960/1200?grayscale" alt="Photo placeholder, 4:5" width="960" height="1200"></div>
+            <figcaption><b>Sed do eiusmod</b>, tempor incididunt</figcaption>
+          </figure>
+          <figure style="--r:1.5">
+            <div class="ph"><img src="https://picsum.photos/seed/kes-crowd/1500/1000?grayscale" alt="Photo placeholder, 3:2" width="1500" height="1000"></div>
+            <figcaption><b>Ut labore et dolore</b>, magna aliqua. Photo: Lorem Ipsum</figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== now ===================== -->
+    <section class="sec" id="now" aria-labelledby="now-h">
+      <h2 class="sec-label" id="now-h">Now <span class="desc">Current &amp; upcoming</span></h2>
+      <div class="sec-body">
+        <ul class="rows now">
+          <li class="g9"><span class="when">Current</span><span class="what">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</span><span class="where">Lorem ipsum</span></li>
+          <li class="g9"><span class="when">Upcoming</span><span class="what">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</span><span class="where">Dolor sit amet</span></li>
+          <li class="g9"><span class="when">Upcoming</span><span class="what">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum.</span><span class="where">Consectetur</span></li>
+          <li class="g9"><span class="when">Ongoing</span><span class="what">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia.</span><span class="where">Adipiscing elit</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===================== work ===================== -->
+    <section class="sec" id="work" aria-labelledby="work-h">
+      <h2 class="sec-label" id="work-h">Work<span class="mono">05</span> <span class="desc">Commissions and experiments</span></h2>
+      <div class="sec-body">
+
+        <div class="group">
+          <h3 class="sub">Commissioned <span class="mono">for funds</span></h3>
+
+          <article class="proj">
+            <header class="proj-head g9">
+              <h4 class="proj-title"><a href="https://co-matter.com/project/networked-worlds" target="_blank" rel="noopener">Networked Worlds<span class="arr" aria-hidden="true">↗</span><span class="vh"> (opens in a new tab)</span></a></h4>
+              <p class="proj-meta">co—matter</p>
+              <p class="proj-url mono">co-matter.com</p>
+            </header>
+            <div class="g9"><p class="proj-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante venenatis dapibus, posuere velit aliquet. Cras mattis consectetur purus sit amet fermentum, donec ullamcorper nulla non metus auctor fringilla.</p></div>
+            <div class="strip" role="group" aria-label="Networked Worlds documentation">
+              <figure style="--r:1.5">
+                <div class="ph"><img src="https://picsum.photos/seed/networked-a/1500/1000?grayscale" alt="Networked Worlds — photo placeholder" loading="lazy" width="1500" height="1000"></div>
+                <figcaption><b>Lorem ipsum dolor</b>, sit amet consectetur. Photo: Lorem Ipsum</figcaption>
+              </figure>
+              <figure style="--r:0.8">
+                <div class="ph"><img src="https://picsum.photos/seed/networked-b/960/1200?grayscale" alt="Networked Worlds — photo placeholder" loading="lazy" width="960" height="1200"></div>
+                <figcaption>Vestibulum id ligula porta</figcaption>
+              </figure>
+              <figure style="--r:1.5">
+                <div class="ph"><img src="https://picsum.photos/seed/networked-c/1500/1000?grayscale" alt="Networked Worlds — photo placeholder" loading="lazy" width="1500" height="1000"></div>
+                <figcaption>Felis euismod semper. Photo: Lorem Ipsum</figcaption>
+              </figure>
+            </div>
+          </article>
+
+          <article class="proj">
+            <header class="proj-head g9">
+              <h4 class="proj-title"><a href="https://www.protein.xyz/dirty-words-4-community/" target="_blank" rel="noopener">Dirty Words #4: Community Report<span class="arr" aria-hidden="true">↗</span><span class="vh"> (opens in a new tab)</span></a></h4>
+              <p class="proj-meta">Protein</p>
+              <p class="proj-url mono">protein.xyz</p>
+            </header>
+            <div class="g9"><p class="proj-desc">Aenean lacinia bibendum nulla sed consectetur. Maecenas sed diam eget risus varius blandit sit amet non magna. Nullam quis risus eget urna mollis ornare vel eu leo, cum sociis natoque penatibus.</p></div>
+            <div class="strip" role="group" aria-label="Dirty Words #4 documentation">
+              <figure style="--r:1.3333">
+                <div class="ph"><img src="https://picsum.photos/seed/dirtywords-a/1600/1200?grayscale" alt="Dirty Words #4 — photo placeholder" loading="lazy" width="1600" height="1200"></div>
+                <figcaption><b>Lorem ipsum</b>, dolor sit amet</figcaption>
+              </figure>
+              <figure style="--r:1.3333">
+                <div class="ph"><img src="https://picsum.photos/seed/dirtywords-b/1600/1200?grayscale" alt="Dirty Words #4 — photo placeholder" loading="lazy" width="1600" height="1200"></div>
+                <figcaption>Etiam porta sem malesuada magna mollis euismod. Photo: Lorem Ipsum</figcaption>
+              </figure>
+            </div>
+          </article>
+
+          <article class="proj">
+            <header class="proj-head g9">
+              <h4 class="proj-title"><a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1" target="_blank" rel="noopener">MØRNING Ø<span class="arr" aria-hidden="true">↗</span><span class="vh"> (opens in a new tab)</span></a></h4>
+              <p class="proj-meta">MØRNING</p>
+              <p class="proj-url mono">instagram.com</p>
+            </header>
+            <div class="g9"><p class="proj-desc">Donec sed odio dui. Curabitur blandit tempus porttitor, nulla vitae elit libero, a pharetra augue. Sed posuere consectetur est at lobortis.</p></div>
+            <div class="strip" role="group" aria-label="MØRNING Ø documentation">
+              <figure style="--r:0.8">
+                <div class="ph"><img src="https://picsum.photos/seed/morning-a/960/1200?grayscale" alt="MØRNING Ø — photo placeholder" loading="lazy" width="960" height="1200"></div>
+                <figcaption><b>Lorem ipsum</b>, dolor sit</figcaption>
+              </figure>
+              <figure style="--r:0.8">
+                <div class="ph"><img src="https://picsum.photos/seed/morning-b/960/1200?grayscale" alt="MØRNING Ø — photo placeholder" loading="lazy" width="960" height="1200"></div>
+                <figcaption>Amet consectetur</figcaption>
+              </figure>
+              <figure style="--r:0.8">
+                <div class="ph"><img src="https://picsum.photos/seed/morning-c/960/1200?grayscale" alt="MØRNING Ø — photo placeholder" loading="lazy" width="960" height="1200"></div>
+                <figcaption>Adipiscing elit. Photo: Lorem Ipsum</figcaption>
+              </figure>
+            </div>
+          </article>
+        </div>
+
+        <div class="group">
+          <h3 class="sub">Experiments <span class="mono">for fun</span></h3>
+          <div class="pair g9">
+            <article class="proj">
+              <div class="ph" style="--r:1.6"><img src="https://picsum.photos/seed/latent-space/1600/1000?grayscale" alt="latent space — screenshot placeholder" loading="lazy" width="1600" height="1000"></div>
+              <h4 class="proj-title"><a href="https://latent-space.vercel.app/" target="_blank" rel="noopener">latent space<span class="arr" aria-hidden="true">↗</span><span class="vh"> (opens in a new tab)</span></a></h4>
+              <p class="line"><span>Experiment</span><span class="mono">latent-space.vercel.app</span></p>
+              <p class="proj-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
+            </article>
+            <article class="proj">
+              <div class="ph" style="--r:1.6"><img src="https://picsum.photos/seed/protecht/1600/1000?grayscale" alt="pro(tech)t — screenshot placeholder" loading="lazy" width="1600" height="1000"></div>
+              <h4 class="proj-title"><a href="https://protecht.vercel.app/" target="_blank" rel="noopener">pro(tech)t<span class="arr" aria-hidden="true">↗</span><span class="vh"> (opens in a new tab)</span></a></h4>
+              <p class="line"><span>Experiment</span><span class="mono">protecht.vercel.app</span></p>
+              <p class="proj-desc">Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Maecenas faucibus mollis interdum.</p>
+            </article>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===================== writing ===================== -->
+    <section class="sec" id="writing" aria-labelledby="writing-h">
+      <h2 class="sec-label" id="writing-h">Writing<span class="mono">06</span></h2>
+      <div class="sec-body">
+        <ul class="rows links">
+          <li><a href="https://www.protein.xyz/sex-and-the-internet/" target="_blank" rel="noopener"><span class="t">Mindy Seu on sex and the internet</span><span class="meta"><span class="o">Protein</span><span class="d mono">protein.xyz<span class="arr" aria-hidden="true">↗</span></span></span><span class="vh"> (opens in a new tab)</span></a></li>
+          <li><a href="https://midnight.agency/thoughts/dreaming-and-designing-more-accessible-web" target="_blank" rel="noopener"><span class="t">Dreaming and designing a more accessible web</span><span class="meta"><span class="o">Midnight Agency</span><span class="d mono">midnight.agency<span class="arr" aria-hidden="true">↗</span></span></span><span class="vh"> (opens in a new tab)</span></a></li>
+          <li><a href="https://midnight.agency/thoughts/coding-a-more-creative-and-playful-web" target="_blank" rel="noopener"><span class="t">Coding a more creative and playful web</span><span class="meta"><span class="o">Midnight Agency</span><span class="d mono">midnight.agency<span class="arr" aria-hidden="true">↗</span></span></span><span class="vh"> (opens in a new tab)</span></a></li>
+          <li><a href="https://midnight.agency/thoughts/composing-a-flexible-and-modular-web" target="_blank" rel="noopener"><span class="t">Composing a flexible and modular web</span><span class="meta"><span class="o">Midnight Agency</span><span class="d mono">midnight.agency<span class="arr" aria-hidden="true">↗</span></span></span><span class="vh"> (opens in a new tab)</span></a></li>
+          <li><a href="https://morningfyi.substack.com/p/020-uh-oh-meet" target="_blank" rel="noopener"><span class="t">Uh oh, meet O</span><span class="meta"><span class="o">Burn After Reading</span><span class="d mono">morningfyi.substack.com<span class="arr" aria-hidden="true">↗</span></span></span><span class="vh"> (opens in a new tab)</span></a></li>
+          <li><a href="https://morningfyi.substack.com/p/024-entering-limb-with" target="_blank" rel="noopener"><span class="t">Entering limbo, with O</span><span class="meta"><span class="o">Burn After Reading</span><span class="d mono">morningfyi.substack.com<span class="arr" aria-hidden="true">↗</span></span></span><span class="vh"> (opens in a new tab)</span></a></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===================== podcasts ===================== -->
+    <section class="sec" id="podcasts" aria-labelledby="podcasts-h">
+      <h2 class="sec-label" id="podcasts-h">Podcasts<span class="mono">08</span></h2>
+      <div class="sec-body">
+        <ul class="rows links pods">
+          <li><a href="https://podcasts.apple.com/gb/podcast/mindy-seu-on-collaboration-community-and/id1449302502?i=1000597869409" target="_blank" rel="noopener"><span class="g">Mindy Seu</span><span class="t">on collaboration, community and the Cyberfeminism Index</span><span class="meta"><span class="d mono">podcasts.apple.com<span class="arr" aria-hidden="true">↗</span></span></span><span class="vh"> (opens in a new tab)</span></a></li>
+          <li><a href="https://soundcloud.com/proteincommunity/protein-forum-what-can-web2-organisations-learn-from-web3-communities" target="_blank" rel="noopener"><span class="g">Protein Forum</span><span class="t">What can web2 organisations learn from web3 communities?</span><span class="meta"><span class="d mono">soundcloud.com<span class="arr" aria-hidden="true">↗</span></span></span><span class="vh"> (opens in a new tab)</span></a></li>
+          <li><a href="https://podcasts.apple.com/gb/podcast/cherie-hu-on-water-musics-journey-through-web3/id1449302502?i=1000581859804" target="_blank" rel="noopener"><span class="g">Cherie Hu</span><span class="t">on Water &amp; Music’s journey through web3</span><span class="meta"><span class="d mono">podcasts.apple.com<span class="arr" aria-hidden="true">↗</span></span></span><span class="vh"> (opens in a new tab)</span></a></li>
+          <li><a href="https://podcasts.apple.com/gb/podcast/molly-dickson-on-dao-activism-and-fighting-for/id1449302502?i=1000578164761" target="_blank" rel="noopener"><span class="g">Molly Dickson</span><span class="t">on DAO activism</span><span class="meta"><span class="d mono">podcasts.apple.com<span class="arr" aria-hidden="true">↗</span></span></span><span class="vh"> (opens in a new tab)</span></a></li>
+          <li><a href="https://podcasts.apple.com/gb/podcast/dame-on-the-need-for-education-accessibility/id1449302502?i=1000559829008" target="_blank" rel="noopener"><span class="g">Dame</span><span class="t">on education, accessibility and inclusivity in web3</span><span class="meta"><span class="d mono">podcasts.apple.com<span class="arr" aria-hidden="true">↗</span></span></span><span class="vh"> (opens in a new tab)</span></a></li>
+          <li><a href="https://podcasts.apple.com/gb/podcast/nadia-piet-on-creative-ai-and-protopian-futures/id1449302502?i=1000559822732" target="_blank" rel="noopener"><span class="g">Nadia Piet</span><span class="t">on creative AI and protopian futures</span><span class="meta"><span class="d mono">podcasts.apple.com<span class="arr" aria-hidden="true">↗</span></span></span><span class="vh"> (opens in a new tab)</span></a></li>
+          <li><a href="https://podcasts.apple.com/gb/podcast/cyn-bahati-on-her-journey-into-web3-with-her-family/id1449302502?i=1000559818509" target="_blank" rel="noopener"><span class="g">Cyn Bahati</span><span class="t">on her journey into web3 with her family</span><span class="meta"><span class="d mono">podcasts.apple.com<span class="arr" aria-hidden="true">↗</span></span></span><span class="vh"> (opens in a new tab)</span></a></li>
+          <li><a href="https://podcasts.apple.com/gb/podcast/latash%C3%A1-on-the-potential-of-web3-for-music-artists/id1449302502?i=1000552812458" target="_blank" rel="noopener"><span class="g">Latashá</span><span class="t">on the potential of web3 for music artists</span><span class="meta"><span class="d mono">podcasts.apple.com<span class="arr" aria-hidden="true">↗</span></span></span><span class="vh"> (opens in a new tab)</span></a></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===================== elsewhere ===================== -->
+    <section class="sec" id="elsewhere" aria-labelledby="elsewhere-h">
+      <h2 class="sec-label" id="elsewhere-h">Elsewhere<span class="mono">04</span> <span class="desc">Talks, workshops, residencies</span></h2>
+      <div class="sec-body">
+        <ul class="tiles">
+          <li><a href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1" target="_blank" rel="noopener">
+            <div class="ph"><img src="https://picsum.photos/seed/olden/960/1200?grayscale" alt="Olden Residency — photo placeholder" loading="lazy" width="960" height="1200"></div>
+            <span class="t">Olden Residency<span class="arr" aria-hidden="true">↗</span></span>
+            <span class="s mono">instagram.com</span><span class="vh"> (opens in a new tab)</span></a></li>
+          <li><a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1" target="_blank" rel="noopener">
+            <div class="ph"><img src="https://picsum.photos/seed/softer/960/1200?grayscale" alt="Softer London — photo placeholder" loading="lazy" width="960" height="1200"></div>
+            <span class="t">Softer London<span class="arr" aria-hidden="true">↗</span></span>
+            <span class="s mono">instagram.com</span><span class="k">Talk + workshop</span><span class="vh"> (opens in a new tab)</span></a></li>
+          <li><a href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard" target="_blank" rel="noopener">
+            <div class="ph"><img src="https://picsum.photos/seed/techyard/960/1200?grayscale" alt="Tech Yard — photo placeholder" loading="lazy" width="960" height="1200"></div>
+            <span class="t">Tech Yard<span class="arr" aria-hidden="true">↗</span></span>
+            <span class="s mono">arts.ac.uk</span><span class="k">Workshop</span><span class="vh"> (opens in a new tab)</span></a></li>
+          <li><a href="https://www.instagram.com/p/BslwSSPH5Rc/?img_index=2" target="_blank" rel="noopener">
+            <div class="ph"><img src="https://picsum.photos/seed/ovarit/960/1200?grayscale" alt="Ovar It — photo placeholder" loading="lazy" width="960" height="1200"></div>
+            <span class="t">Ovar It<span class="arr" aria-hidden="true">↗</span></span>
+            <span class="s mono">instagram.com</span><span class="vh"> (opens in a new tab)</span></a></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===================== bio ===================== -->
+    <section class="sec" id="bio" aria-labelledby="bio-h">
+      <h2 class="sec-label" id="bio-h">Bio</h2>
+      <div class="sec-body g9">
+        <div class="bio-text">
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+          <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Curabitur blandit tempus porttitor. Nullam id dolor id nibh ultricies vehicula ut id elit, cras justo odio, dapibus ac facilisis in, egestas eget quam.</p>
+          <p>Maecenas faucibus mollis interdum. Vestibulum id ligula porta felis euismod semper. Donec ullamcorper nulla non metus auctor fringilla.</p>
+        </div>
+        <dl class="bio-aside">
+          <dt>Credentials</dt>
+          <dd>
+            <ul class="creds">
+              <li><span class="mono">MA</span><span>Internet Equalities</span></li>
+              <li><span class="mono">BA</span><span>Creative Direction</span></li>
+              <li><span class="mono">PhD</span><span class="mute">[ ? ]</span></li>
+            </ul>
+          </dd>
+          <dt>Teaching</dt>
+          <dd>Associate lecturer, University of the Arts London: London College of Fashion and Creative Computing Institute</dd>
+          <dt>Based in</dt>
+          <dd>London</dd>
+        </dl>
+      </div>
+    </section>
+
+    <!-- ===================== contact ===================== -->
+    <section class="sec" id="contact" aria-labelledby="contact-h">
+      <h2 class="sec-label" id="contact-h">Contact</h2>
+      <div class="sec-body">
+        <a class="contact-mail" href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a>
+        <p class="contact-note">Available for work. CV &amp; portfolio on request.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="foot grid">
+    <p class="c1">© 2026 Kes Inkersole, London</p>
+    <p class="c2">Thanks for stopping by. Set in Atkinson Hyperlegible Next and Mono, typefaces from the Braille Institute drawn for maximum legibility.</p>
+    <p class="c3"><a href="#top">Back to top<span class="arr" aria-hidden="true">↑</span></a></p>
+  </footer>
+
+</div>
+
+<script>
+  // London local time in the masthead. Without JS it simply reads "London".
+  (function () {
+    var el = document.getElementById('clock');
+    if (!el || !window.Intl) return;
+    try {
+      var f = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/London', timeZoneName: 'short' });
+      var tick = function () { el.textContent = f.format(new Date()); };
+      tick(); setInterval(tick, 30000);
+    } catch (e) {}
+  })();
+</script>
+</body>
+</html>

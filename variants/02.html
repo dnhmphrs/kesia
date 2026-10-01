@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kes Inkersole</title>
+  <meta name="description" content="Kesia Inkersole — freelance creative strategist & internet equalities researcher, based in london." />
+  <meta name="author" content="Kes Inkersole" />
+  <meta name="keywords" content="Kesia Inkersole, Kes Inkersole, creative strategist, internet equalities, researcher, London, UAL" />
+  <meta name="theme-color" content="#ffffff" />
+
+  <!-- favicon -->
+  <link rel="icon" href="/favicon.ico" sizes="32x32" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='9' fill='%231f35ff'/%3E%3C/svg%3E" />
+
+  <!-- share / link-preview card (Open Graph — used by iMessage, Slack, LinkedIn, Facebook) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="kes inkersole" />
+  <meta property="og:description" content="kes inkersole — freelance creative strategist & internet equalities researcher, based in london." />
+  <meta property="og:image" content="https://kesia-coral.vercel.app/square.png" />
+  <meta property="og:url" content="https://kesia-coral.vercel.app" />
+
+  <!-- share / link-preview card (Twitter / X) -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="kes inkersole" />
+  <meta name="twitter:description" content="kes inkersole — freelance creative strategist & internet equalities researcher, based in london." />
+  <meta name="twitter:image" content="https://kesia-coral.vercel.app/square.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:wght@300..600&family=Atkinson+Hyperlegible+Next:ital,wght@0,300..700;1,300..700&display=swap" />
+
+  <style>
+    /* ------------------------------------------------------------
+       Kes Inkersole — plain web, set carefully.
+       One superfamily (Atkinson Hyperlegible, Braille Institute),
+       white paper, black ink, hyperlink blue. Nothing else.
+       ------------------------------------------------------------ */
+
+    :root {
+      --paper: #ffffff;
+      --ink: #111110;
+      --ink-2: #3a3a37;
+      --mute: #6c6c67;
+      --rule: #e3e3de;
+      --ph: #efefea;
+      --blue: #1f35ff;
+      --live: #12a150;
+
+      --sans: "Atkinson Hyperlegible Next", ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+      --mono: "Atkinson Hyperlegible Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+
+      --margin: clamp(16px, 2.4vw, 36px);
+      --gap: clamp(14px, 1.7vw, 24px);
+      --head: 60px;
+
+      --fs-body: 17px;
+      --fs-small: 14.5px;
+      --fs-meta: 12.5px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html {
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+      background: var(--paper);
+      scroll-padding-top: calc(var(--head) + 20px);
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      html { scroll-behavior: smooth; }
+    }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: var(--fs-body);
+      font-weight: 400;
+      line-height: 1.5;
+      font-feature-settings: "kern" 1;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    ::selection { background: var(--blue); color: #fff; }
+
+    h1, h2, h3, p, ul, ol, dl, dd, figure { margin: 0; padding: 0; }
+    ul, ol { list-style: none; }
+    h1, h2, h3 { font-weight: inherit; font-size: inherit; }
+
+    a { color: var(--blue); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+    a:hover { text-decoration-thickness: 2px; }
+    a:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; border-radius: 2px; }
+
+    abbr[title] { text-decoration: none; cursor: help; }
+
+    .mono { font-family: var(--mono); font-size: var(--fs-meta); letter-spacing: 0.01em; font-weight: 400; }
+    .mute { color: var(--mute); }
+    .ext::after { content: "\2009\2197"; text-decoration: none; display: inline-block; }
+
+    .skip {
+      position: absolute; left: var(--margin); top: -100px; z-index: 50;
+      background: var(--ink); color: #fff; padding: 8px 12px; font-size: var(--fs-small);
+    }
+    .skip:focus { top: 8px; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: var(--gap);
+    }
+    .wrap { padding-inline: var(--margin); max-width: 1680px; margin-inline: auto; }
+
+    /* ---------- header ---------- */
+    .site-head {
+      position: sticky; top: 0; z-index: 20;
+      background: rgba(255, 255, 255, 0.94);
+      -webkit-backdrop-filter: saturate(1.4) blur(10px);
+      backdrop-filter: saturate(1.4) blur(10px);
+      border-bottom: 1px solid var(--rule);
+    }
+    .site-head .grid { height: var(--head); align-items: center; }
+    .site-head .name { grid-column: 1 / 4; font-weight: 600; letter-spacing: -0.005em; color: var(--ink); text-decoration: none; }
+    .site-head nav { grid-column: 4 / 10; }
+    .site-head nav ul { display: flex; gap: clamp(14px, 1.8vw, 28px); }
+    .site-head nav a { color: var(--ink); text-decoration: none; font-size: 15.5px; }
+    .site-head nav a:hover { color: var(--blue); }
+    .status { grid-column: 10 / 13; justify-self: end; font-size: 15.5px; display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--live); box-shadow: 0 0 0 3px rgba(18, 161, 80, 0.16); flex: none; }
+
+    /* ---------- intro ---------- */
+    .intro { padding-top: clamp(56px, 11vh, 132px); padding-bottom: clamp(56px, 8vw, 112px); }
+    .intro .kicker { grid-column: 1 / 13; margin-bottom: 22px; color: var(--mute); }
+    .statement {
+      grid-column: 1 / 11;
+      font-size: clamp(30px, 3.75vw, 56px);
+      line-height: 1.1;
+      font-weight: 300;
+      letter-spacing: -0.022em;
+      text-wrap: pretty;
+    }
+    .statement .role { font-weight: 400; }
+
+    .facts { margin-top: clamp(48px, 6vw, 88px); row-gap: 28px; }
+    .facts > div { font-size: var(--fs-small); line-height: 1.5; }
+    .facts .label { display: block; margin-bottom: 8px; color: var(--mute); }
+    .facts .f-contact { grid-column: 1 / 4; }
+    .facts .f-approach { grid-column: 4 / 8; font-size: var(--fs-body); line-height: 1.5; color: var(--ink); }
+    .facts .f-teach { grid-column: 8 / 10; }
+    .facts .f-clients { grid-column: 10 / 13; }
+    .facts .f-contact p + p { margin-top: 2px; }
+    .clients { columns: 2; column-gap: var(--gap); }
+    .clients li { break-inside: avoid; }
+
+    /* ---------- sections ---------- */
+    .section { border-top: 1px solid var(--ink); padding-top: 18px; padding-bottom: clamp(72px, 8vw, 128px); }
+    .section-head { grid-column: 1 / 4; align-self: start; position: sticky; top: calc(var(--head) + 18px); }
+    .section-head h2 { font-size: var(--fs-body); font-weight: 600; letter-spacing: -0.005em; display: flex; gap: 14px; align-items: baseline; }
+    .section-head h2 .mono { color: var(--mute); font-weight: 400; }
+    .section-head .note { margin-top: 10px; max-width: 30ch; color: var(--mute); font-size: var(--fs-small); }
+    .section-body { grid-column: 4 / 13; min-width: 0; }
+    .sub { display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); column-gap: var(--gap); }
+
+    /* index of projects in the sticky column */
+    .toc { margin-top: 22px; font-size: var(--fs-small); line-height: 1.75; }
+    .toc a { color: var(--ink-2); text-decoration: none; display: inline-flex; gap: 12px; }
+    .toc a .mono { color: var(--mute); line-height: inherit; }
+    .toc a:hover { color: var(--blue); }
+
+    /* ---------- now ---------- */
+    .now li { border-bottom: 1px solid var(--rule); padding: 14px 0 15px; align-items: baseline; }
+    .now li:first-child { padding-top: 2px; }
+    .now .when { grid-column: 1 / 3; color: var(--mute); }
+    .now .what { grid-column: 3 / 8; }
+    .now .where { grid-column: 8 / 10; text-align: right; color: var(--mute); font-size: var(--fs-small); }
+
+    /* ---------- projects ---------- */
+    .project + .project { margin-top: clamp(72px, 7vw, 112px); }
+    .project-head { row-gap: 18px; align-items: start; }
+    .project-title { grid-column: 1 / 6; }
+    .project-title h3 { font-size: clamp(26px, 2.25vw, 34px); line-height: 1.1; letter-spacing: -0.018em; font-weight: 400; display: flex; gap: 14px; align-items: baseline; text-wrap: balance; }
+    .project-title h3 .mono { font-size: var(--fs-meta); letter-spacing: 0.01em; color: var(--mute); flex: none; }
+    .project-title p { margin-top: 16px; max-width: 54ch; color: var(--ink-2); text-wrap: pretty; }
+    .project-meta { grid-column: 7 / 10; font-size: var(--fs-small); }
+    .project-meta div { display: grid; grid-template-columns: 9.5ch 1fr; gap: 12px; padding: 8px 0 9px; border-bottom: 1px solid var(--rule); }
+    .project-meta div:first-child { border-top: 1px solid var(--rule); }
+    .project-meta dt { color: var(--mute); font-family: var(--mono); font-size: var(--fs-meta); padding-top: 2px; }
+    .project-meta dd { min-width: 0; overflow-wrap: anywhere; }
+
+    /* figures: equal-height rows, widths follow each image's ratio (--r) */
+    .figs { display: flex; gap: 12px; margin-top: 36px; align-items: flex-start; }
+    .fig { flex: var(--r) 1 0%; min-width: 0; }
+    .ph { position: relative; aspect-ratio: var(--r); background: var(--ph); overflow: hidden; }
+    .ph img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; color: transparent; font-size: 0; }
+    .ph img::after { content: ""; position: absolute; inset: 0; background: var(--ph); }
+    figcaption { margin-top: 9px; color: var(--mute); font-family: var(--mono); font-size: 12px; line-height: 1.45; letter-spacing: 0.005em; max-width: 60ch; }
+    figcaption .fn { color: var(--ink); margin-right: 0.6ch; }
+
+    /* ---------- link lists (writing / podcasts) ---------- */
+    .lede { max-width: 54ch; color: var(--ink-2); margin-bottom: 26px; text-wrap: pretty; }
+    .list { border-top: 1px solid var(--rule); }
+    .list li { border-bottom: 1px solid var(--rule); }
+    .list a { display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); column-gap: var(--gap); padding: 13px 0 14px; color: var(--ink); text-decoration: none; align-items: baseline; transition: color .15s ease; }
+    .list a:hover, .list a:focus-visible { color: var(--blue); }
+    .list a:hover .t { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+    .list .arr { display: inline-block; transition: transform .15s ease; }
+    .list a:hover .arr { transform: translate(2px, -2px); }
+    .list .src { color: var(--mute); text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .list a:hover .src { color: var(--blue); }
+
+    .writing .t { grid-column: 1 / 7; }
+    .writing .src { grid-column: 7 / 10; }
+
+    .pods .who { grid-column: 1 / 4; }
+    .pods .t { grid-column: 4 / 8; color: var(--ink-2); }
+    .pods a:hover .t { color: var(--blue); }
+    .pods .src { grid-column: 8 / 10; }
+
+    /* ---------- elsewhere ---------- */
+    .cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: var(--gap); row-gap: 40px; }
+    .card a.cover { display: block; text-decoration: none; }
+    .card .ph { --r: 0.8; }
+    .card a.cover:hover .ph img { opacity: 0.9; }
+    .card h3 { margin-top: 14px; font-size: var(--fs-body); font-weight: 400; line-height: 1.3; }
+    .card h3 a { color: var(--ink); text-decoration: none; }
+    .card h3 a:hover, .card:has(a.cover:hover) h3 a { color: var(--blue); text-decoration: underline; text-decoration-thickness: 1px; }
+    .card .kind { margin-top: 4px; color: var(--mute); }
+    .card p.desc { margin-top: 10px; font-size: var(--fs-small); color: var(--ink-2); }
+
+    /* ---------- bio ---------- */
+    .bio-text { grid-column: 1 / 6; }
+    .bio-text p { text-wrap: pretty; color: var(--ink-2); }
+    .bio-text p + p { margin-top: 1em; }
+    .bio-text p.first { font-size: clamp(20px, 1.6vw, 24px); line-height: 1.35; letter-spacing: -0.01em; color: var(--ink); margin-bottom: 1.2em; }
+    .bio-side { grid-column: 7 / 10; }
+    .bio-side .fig { margin-bottom: 36px; }
+    .kv + .kv { margin-top: 28px; }
+    .kv h3 { color: var(--mute); margin-bottom: 8px; }
+    .kv li { display: grid; grid-template-columns: 5ch 1fr; gap: 10px; padding: 8px 0 9px; border-bottom: 1px solid var(--rule); font-size: var(--fs-small); align-items: baseline; }
+    .kv li:first-child { border-top: 1px solid var(--rule); }
+    .kv li .mono { color: var(--mute); }
+    .kv p { font-size: var(--fs-small); }
+
+    /* ---------- contact ---------- */
+    .contact .section-body { padding-top: 2px; }
+    .big-mail { font-size: clamp(28px, 4.6vw, 68px); font-weight: 300; letter-spacing: -0.03em; line-height: 1.05; text-decoration-thickness: 1px; text-underline-offset: 0.14em; overflow-wrap: anywhere; }
+    .big-mail:hover { text-decoration-thickness: 2px; }
+    .contact .sub { margin-top: 36px; row-gap: 16px; font-size: var(--fs-small); }
+    .contact .sub > p:nth-child(1) { grid-column: 1 / 4; }
+    .contact .sub > p:nth-child(2) { grid-column: 4 / 7; }
+    .contact .sub > p:nth-child(3) { grid-column: 7 / 10; }
+    .contact .sub .label { display: block; color: var(--mute); margin-bottom: 4px; }
+
+    /* ---------- footer ---------- */
+    .site-foot { border-top: 1px solid var(--rule); padding-top: 18px; padding-bottom: 28px; color: var(--mute); font-size: 13.5px; row-gap: 10px; }
+    .site-foot .c1 { grid-column: 1 / 4; color: var(--ink); }
+    .site-foot .c2 { grid-column: 4 / 10; max-width: 62ch; }
+    .site-foot .c3 { grid-column: 10 / 13; justify-self: end; }
+    .site-foot a { color: var(--mute); }
+    .site-foot a:hover { color: var(--blue); }
+
+    /* ---------- tablet ---------- */
+    @media (max-width: 1100px) {
+      .site-head nav { grid-column: 4 / 11; }
+      .status { grid-column: 11 / 13; }
+      .status .label-long { display: none; }
+      .facts .f-contact { grid-column: 1 / 4; }
+      .facts .f-approach { grid-column: 4 / 13; }
+      .facts .f-teach { grid-column: 4 / 7; }
+      .facts .f-clients { grid-column: 7 / 13; }
+      .section-head { grid-column: 1 / 13; position: static; margin-bottom: 28px; }
+      .section-head .note { max-width: 46ch; }
+      .toc { display: none; }
+      .section-body { grid-column: 1 / 13; }
+      .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    /* ---------- phone ---------- */
+    @media (max-width: 720px) {
+      :root { --head: 92px; --fs-body: 16.5px; --fs-small: 14.5px; }
+      .grid { grid-template-columns: minmax(0, 1fr); }
+      .grid > * { grid-column: 1 / -1 !important; }
+      .sub { grid-template-columns: minmax(0, 1fr); }
+      .sub > * { grid-column: 1 / -1 !important; }
+
+      .site-head .grid { height: auto; padding-top: 14px; row-gap: 12px; grid-template-columns: 1fr auto; }
+      .site-head .name { grid-column: 1 / 2 !important; grid-row: 1; }
+      .status { grid-column: 2 / 3 !important; grid-row: 1; font-size: 14px; }
+      .site-head nav { grid-column: 1 / -1 !important; grid-row: 2; overflow-x: auto; scrollbar-width: none; margin-inline: calc(-1 * var(--margin)); padding-inline: var(--margin); padding-bottom: 12px; }
+      .site-head nav::-webkit-scrollbar { display: none; }
+      .site-head nav ul { gap: 18px; }
+      .site-head nav a { font-size: 14.5px; white-space: nowrap; }
+
+      .intro { padding-top: 44px; padding-bottom: 64px; }
+      .statement { font-size: clamp(28px, 7.6vw, 34px); line-height: 1.12; }
+      .facts { margin-top: 40px; row-gap: 26px; }
+      .facts .f-approach { order: -1; }
+
+      .section { padding-bottom: 72px; }
+      .section-head { margin-bottom: 22px; }
+
+      .now .where { text-align: left; margin-top: 2px; }
+      .now .when { margin-bottom: 4px; }
+
+      .project-meta { margin-top: 4px; }
+      .figs {
+        margin-top: 24px;
+        overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
+        margin-inline: calc(-1 * var(--margin)); padding-inline: var(--margin);
+        scroll-padding-inline: var(--margin);
+      }
+      .figs::-webkit-scrollbar { display: none; }
+      .figs .fig { flex: 0 0 auto; width: calc(var(--r) * 220px); max-width: calc(100vw - 2 * var(--margin)); scroll-snap-align: start; }
+
+      .list a { grid-template-columns: minmax(0, 1fr) auto; row-gap: 3px; column-gap: 16px; }
+      .list a > * { grid-column: 1 / 2 !important; }
+      .writing .t { grid-row: 1; }
+      .writing .src { grid-row: 2; text-align: left; font-size: 12px; }
+      .pods .who { grid-row: 1; }
+      .pods .t { grid-row: 2; font-size: var(--fs-small); }
+      .pods .src { grid-column: 2 / 3 !important; grid-row: 1; }
+      .pods .src .plat { display: none; }
+
+      .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 32px; }
+      .card h3 { font-size: 15.5px; margin-top: 10px; }
+      .card p.desc { display: none; }
+
+      .bio-side { margin-top: 40px; }
+      .bio-side .fig { width: 72%; }
+
+      .contact .sub { margin-top: 28px; }
+      .site-foot .c3 { justify-self: start; }
+    }
+
+    @media print {
+      .site-head, .figs, .cards .ph, .bio-side .fig { display: none !important; }
+      .section { break-inside: avoid-page; }
+      a { color: var(--ink); }
+    }
+  </style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-head">
+  <div class="wrap grid">
+    <a class="name" href="#top">Kes Inkersole</a>
+    <nav aria-label="Sections">
+      <ul>
+        <li><a href="#work">Work</a></li>
+        <li><a href="#writing">Writing</a></li>
+        <li><a href="#podcasts">Podcasts</a></li>
+        <li><a href="#elsewhere">Elsewhere</a></li>
+        <li><a href="#bio">Bio</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+    <p class="status"><span class="dot" aria-hidden="true"></span><span>Available<span class="label-long"> for work</span></span></p>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ============ INTRO ============ -->
+  <section class="intro wrap" id="top" aria-label="Introduction">
+    <div class="grid">
+      <h1 class="kicker mono">Kes (Kesia) Inkersole — London</h1>
+      <p class="statement"><span class="role">Creative strategist &amp; internet equalities researcher.</span> My practice focuses on understanding and critiquing the impacts of emerging technologies on people, culture, and the planet.</p>
+    </div>
+
+    <div class="grid facts">
+      <div class="f-contact">
+        <span class="label mono">Contact</span>
+        <p><a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
+        <p>Available for work</p>
+        <p>London</p>
+      </div>
+      <div class="f-approach">
+        <span class="label mono">Practice</span>
+        <p>I work collectively to rethink the narratives and behaviours surrounding technologies — prioritising collaborative research as a process for testing, imagining and prototyping more equitable, alternative futures.</p>
+      </div>
+      <div class="f-teach">
+        <span class="label mono">Teaching</span>
+        <p>Associate lecturer at&nbsp;<abbr title="University of the Arts London">UAL</abbr> (<abbr title="London College of Fashion">LCF</abbr>&nbsp;+&nbsp;<abbr title="Creative Computing Institute">CCI</abbr>).</p>
+      </div>
+      <div class="f-clients">
+        <span class="label mono">Selected clients</span>
+        <ul class="clients">
+          <li>Neu Futur</li>
+          <li>DAZED</li>
+          <li>co—matter</li>
+          <li>MØRNING</li>
+          <li>WeTransfer</li>
+          <li>Protein</li>
+          <li>Midnight Agency</li>
+          <li>Softer</li>
+          <li>Selfridges</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ NOW ============ -->
+  <section class="section wrap grid" id="now" aria-labelledby="now-h">
+    <header class="section-head">
+      <h2 id="now-h"><span class="mono">01</span>Now</h2>
+      <p class="note">Current and upcoming.</p>
+    </header>
+    <div class="section-body">
+      <ul class="now">
+        <li class="sub"><span class="when mono">Upcoming</span><span class="what">Lorem ipsum dolor sit amet, consectetur adipiscing elit</span><span class="where">Lorem Ipsum</span></li>
+        <li class="sub"><span class="when mono">Ongoing</span><span class="what">Sed do eiusmod tempor incididunt ut labore et dolore</span><span class="where">Dolor Sit</span></li>
+        <li class="sub"><span class="when mono">Ongoing</span><span class="what">Ut enim ad minim veniam, quis nostrud exercitation</span><span class="where">Amet Studio</span></li>
+        <li class="sub"><span class="when mono">Recent</span><span class="what">Duis aute irure dolor in reprehenderit in voluptate</span><span class="where">Velit Esse</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ WORK ============ -->
+  <section class="section wrap grid" id="work" aria-labelledby="work-h">
+    <header class="section-head">
+      <h2 id="work-h"><span class="mono">02</span>Selected work</h2>
+      <p class="note">Self-initiated experiments and commissioned projects.</p>
+      <ol class="toc" aria-label="Projects">
+        <li><a href="#latent-space"><span class="mono">2.1</span>Latent Space</a></li>
+        <li><a href="#protecht"><span class="mono">2.2</span>Pro(tech)t</a></li>
+        <li><a href="#morning"><span class="mono">2.3</span>MØRNING Ø</a></li>
+        <li><a href="#networked-worlds"><span class="mono">2.4</span>Networked Worlds</a></li>
+        <li><a href="#dirty-words"><span class="mono">2.5</span>Dirty Words #4</a></li>
+      </ol>
+    </header>
+
+    <div class="section-body">
+
+      <!-- 2.1 -->
+      <article class="project" id="latent-space">
+        <div class="sub project-head">
+          <div class="project-title">
+            <h3><span class="mono">2.1</span>Latent Space</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+          </div>
+          <dl class="project-meta">
+            <div><dt>Type</dt><dd>Experiment</dd></div>
+            <div><dt>Role</dt><dd>Lorem ipsum, dolor sit</dd></div>
+            <div><dt>Link</dt><dd><a class="ext" href="https://latent-space.vercel.app/" target="_blank" rel="noopener">latent-space.vercel.app</a></dd></div>
+          </dl>
+        </div>
+        <div class="figs">
+          <figure class="fig" style="--r:1.5">
+            <div class="ph"><img src="https://picsum.photos/seed/latentspace-a/1500/1000?grayscale" alt="Latent Space, documentation (placeholder image)" decoding="async" width="1500" height="1000" /></div>
+            <figcaption><span class="fn">2.1a</span>Lorem ipsum dolor sit amet, consectetur adipiscing. Photo: Lorem Ipsum</figcaption>
+          </figure>
+          <figure class="fig" style="--r:0.8">
+            <div class="ph"><img src="https://picsum.photos/seed/latentspace-b/800/1000?grayscale" alt="Latent Space, detail (placeholder image)" decoding="async" width="800" height="1000" /></div>
+            <figcaption><span class="fn">2.1b</span>Sed do eiusmod tempor.</figcaption>
+          </figure>
+        </div>
+      </article>
+
+      <!-- 2.2 -->
+      <article class="project" id="protecht">
+        <div class="sub project-head">
+          <div class="project-title">
+            <h3><span class="mono">2.2</span>Pro(tech)t</h3>
+            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          </div>
+          <dl class="project-meta">
+            <div><dt>Type</dt><dd>Experiment</dd></div>
+            <div><dt>Role</dt><dd>Lorem ipsum, dolor sit</dd></div>
+            <div><dt>Link</dt><dd><a class="ext" href="https://protecht.vercel.app/" target="_blank" rel="noopener">protecht.vercel.app</a></dd></div>
+          </dl>
+        </div>
+        <div class="figs">
+          <figure class="fig" style="--r:1">
+            <div class="ph"><img src="https://picsum.photos/seed/protecht-a/1000/1000?grayscale" alt="Pro(tech)t, documentation (placeholder image)" decoding="async" width="1000" height="1000" /></div>
+            <figcaption><span class="fn">2.2a</span>Lorem ipsum dolor sit amet. Photo: Lorem Ipsum</figcaption>
+          </figure>
+          <figure class="fig" style="--r:1.5">
+            <div class="ph"><img src="https://picsum.photos/seed/protecht-b/1500/1000?grayscale" alt="Pro(tech)t, screen capture (placeholder image)" decoding="async" width="1500" height="1000" /></div>
+            <figcaption><span class="fn">2.2b</span>Consectetur adipiscing elit, sed do eiusmod.</figcaption>
+          </figure>
+          <figure class="fig" style="--r:0.8">
+            <div class="ph"><img src="https://picsum.photos/seed/protecht-c/800/1000?grayscale" alt="Pro(tech)t, detail (placeholder image)" decoding="async" width="800" height="1000" /></div>
+            <figcaption><span class="fn">2.2c</span>Tempor incididunt ut labore.</figcaption>
+          </figure>
+        </div>
+      </article>
+
+      <!-- 2.3 -->
+      <article class="project" id="morning">
+        <div class="sub project-head">
+          <div class="project-title">
+            <h3><span class="mono">2.3</span>MØRNING Ø</h3>
+            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+          </div>
+          <dl class="project-meta">
+            <div><dt>Type</dt><dd>Commission</dd></div>
+            <div><dt>For</dt><dd>MØRNING</dd></div>
+            <div><dt>Link</dt><dd><a class="ext" href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1" target="_blank" rel="noopener">Instagram</a></dd></div>
+          </dl>
+        </div>
+        <div class="figs">
+          <figure class="fig" style="--r:0.8">
+            <div class="ph"><img src="https://picsum.photos/seed/morning-a/800/1000?grayscale" alt="MØRNING Ø, documentation (placeholder image)" decoding="async" width="800" height="1000" /></div>
+            <figcaption><span class="fn">2.3a</span>Lorem ipsum dolor sit amet. Photo: Lorem Ipsum</figcaption>
+          </figure>
+          <figure class="fig" style="--r:0.8">
+            <div class="ph"><img src="https://picsum.photos/seed/morning-b/800/1000?grayscale" alt="MØRNING Ø, documentation (placeholder image)" decoding="async" width="800" height="1000" /></div>
+            <figcaption><span class="fn">2.3b</span>Consectetur adipiscing elit.</figcaption>
+          </figure>
+          <figure class="fig" style="--r:0.8">
+            <div class="ph"><img src="https://picsum.photos/seed/morning-c/800/1000?grayscale" alt="MØRNING Ø, documentation (placeholder image)" decoding="async" width="800" height="1000" /></div>
+            <figcaption><span class="fn">2.3c</span>Sed do eiusmod tempor.</figcaption>
+          </figure>
+        </div>
+      </article>
+
+      <!-- 2.4 -->
+      <article class="project" id="networked-worlds">
+        <div class="sub project-head">
+          <div class="project-title">
+            <h3><span class="mono">2.4</span>Networked Worlds</h3>
+            <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.</p>
+          </div>
+          <dl class="project-meta">
+            <div><dt>Type</dt><dd>Commission</dd></div>
+            <div><dt>For</dt><dd>co—matter</dd></div>
+            <div><dt>Link</dt><dd><a class="ext" href="https://co-matter.com/project/networked-worlds" target="_blank" rel="noopener">co-matter.com</a></dd></div>
+          </dl>
+        </div>
+        <div class="figs">
+          <figure class="fig" style="--r:1.6">
+            <div class="ph"><img src="https://picsum.photos/seed/networked-a/1600/1000?grayscale" alt="Networked Worlds, documentation (placeholder image)" decoding="async" width="1600" height="1000" /></div>
+            <figcaption><span class="fn">2.4a</span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Photo: Lorem Ipsum</figcaption>
+          </figure>
+          <figure class="fig" style="--r:1">
+            <div class="ph"><img src="https://picsum.photos/seed/networked-b/1000/1000?grayscale" alt="Networked Worlds, detail (placeholder image)" decoding="async" width="1000" height="1000" /></div>
+            <figcaption><span class="fn">2.4b</span>Sed do eiusmod tempor incididunt.</figcaption>
+          </figure>
+        </div>
+      </article>
+
+      <!-- 2.5 -->
+      <article class="project" id="dirty-words">
+        <div class="sub project-head">
+          <div class="project-title">
+            <h3><span class="mono">2.5</span>Dirty Words #4</h3>
+            <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum.</p>
+          </div>
+          <dl class="project-meta">
+            <div><dt>Type</dt><dd>Commission</dd></div>
+            <div><dt>For</dt><dd>Protein</dd></div>
+            <div><dt>Link</dt><dd><a class="ext" href="https://www.protein.xyz/dirty-words-4-community/" target="_blank" rel="noopener">protein.xyz</a></dd></div>
+          </dl>
+        </div>
+        <div class="figs">
+          <figure class="fig" style="--r:1.5">
+            <div class="ph"><img src="https://picsum.photos/seed/dirtywords-a/1500/1000?grayscale" alt="Dirty Words #4, documentation (placeholder image)" decoding="async" width="1500" height="1000" /></div>
+            <figcaption><span class="fn">2.5a</span>Lorem ipsum dolor sit amet. Photo: Lorem Ipsum</figcaption>
+          </figure>
+          <figure class="fig" style="--r:1.5">
+            <div class="ph"><img src="https://picsum.photos/seed/dirtywords-b/1500/1000?grayscale" alt="Dirty Words #4, documentation (placeholder image)" decoding="async" width="1500" height="1000" /></div>
+            <figcaption><span class="fn">2.5b</span>Consectetur adipiscing elit, sed do eiusmod.</figcaption>
+          </figure>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ============ WRITING ============ -->
+  <section class="section wrap grid" id="writing" aria-labelledby="writing-h">
+    <header class="section-head">
+      <h2 id="writing-h"><span class="mono">03</span>Writing</h2>
+      <p class="note">Essays, interviews and newsletters.</p>
+    </header>
+    <div class="section-body">
+      <p class="lede">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      <ul class="list writing">
+        <li><a href="https://www.protein.xyz/sex-and-the-internet/" target="_blank" rel="noopener"><span class="t">Mindy Seu on sex and the internet</span><span class="src mono">protein.xyz <span class="arr">↗</span></span></a></li>
+        <li><a href="https://midnight.agency/thoughts/dreaming-and-designing-more-accessible-web" target="_blank" rel="noopener"><span class="t">A more accessible web</span><span class="src mono">midnight.agency <span class="arr">↗</span></span></a></li>
+        <li><a href="https://midnight.agency/thoughts/coding-a-more-creative-and-playful-web" target="_blank" rel="noopener"><span class="t">A more creative + playful web</span><span class="src mono">midnight.agency <span class="arr">↗</span></span></a></li>
+        <li><a href="https://midnight.agency/thoughts/composing-a-flexible-and-modular-web" target="_blank" rel="noopener"><span class="t">A flexible + modular web</span><span class="src mono">midnight.agency <span class="arr">↗</span></span></a></li>
+        <li><a href="https://morningfyi.substack.com/p/020-uh-oh-meet" target="_blank" rel="noopener"><span class="t">Burn after reading — uh oh, meet o</span><span class="src mono">morningfyi.substack.com <span class="arr">↗</span></span></a></li>
+        <li><a href="https://morningfyi.substack.com/p/024-entering-limb-with" target="_blank" rel="noopener"><span class="t">Burn after reading — entering limbo</span><span class="src mono">morningfyi.substack.com <span class="arr">↗</span></span></a></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ PODCASTS ============ -->
+  <section class="section wrap grid" id="podcasts" aria-labelledby="podcasts-h">
+    <header class="section-head">
+      <h2 id="podcasts-h"><span class="mono">04</span>Podcasts</h2>
+      <p class="note">Conversations with artists, technologists and organisers.</p>
+    </header>
+    <div class="section-body">
+      <p class="lede">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+      <ul class="list pods">
+        <li><a href="https://podcasts.apple.com/gb/podcast/mindy-seu-on-collaboration-community-and/id1449302502?i=1000597869409" target="_blank" rel="noopener"><span class="who">Mindy Seu</span><span class="t">Cyberfeminism Index</span><span class="src mono"><span class="plat">Apple Podcasts </span><span class="arr">↗</span></span></a></li>
+        <li><a href="https://soundcloud.com/proteincommunity/protein-forum-what-can-web2-organisations-learn-from-web3-communities" target="_blank" rel="noopener"><span class="who">Protein Forum</span><span class="t">Web2 ⟷ web3 communities</span><span class="src mono"><span class="plat">SoundCloud </span><span class="arr">↗</span></span></a></li>
+        <li><a href="https://podcasts.apple.com/gb/podcast/cherie-hu-on-water-musics-journey-through-web3/id1449302502?i=1000581859804" target="_blank" rel="noopener"><span class="who">Cherie Hu</span><span class="t">Water &amp; Music</span><span class="src mono"><span class="plat">Apple Podcasts </span><span class="arr">↗</span></span></a></li>
+        <li><a href="https://podcasts.apple.com/gb/podcast/molly-dickson-on-dao-activism-and-fighting-for/id1449302502?i=1000578164761" target="_blank" rel="noopener"><span class="who">Molly Dickson</span><span class="t">DAO activism</span><span class="src mono"><span class="plat">Apple Podcasts </span><span class="arr">↗</span></span></a></li>
+        <li><a href="https://podcasts.apple.com/gb/podcast/dame-on-the-need-for-education-accessibility/id1449302502?i=1000559829008" target="_blank" rel="noopener"><span class="who">Dame</span><span class="t">Accessibility in web3</span><span class="src mono"><span class="plat">Apple Podcasts </span><span class="arr">↗</span></span></a></li>
+        <li><a href="https://podcasts.apple.com/gb/podcast/nadia-piet-on-creative-ai-and-protopian-futures/id1449302502?i=1000559822732" target="_blank" rel="noopener"><span class="who">Nadia Piet</span><span class="t">Creative AI</span><span class="src mono"><span class="plat">Apple Podcasts </span><span class="arr">↗</span></span></a></li>
+        <li><a href="https://podcasts.apple.com/gb/podcast/cyn-bahati-on-her-journey-into-web3-with-her-family/id1449302502?i=1000559818509" target="_blank" rel="noopener"><span class="who">Cyn Bahati</span><span class="t">Into web3</span><span class="src mono"><span class="plat">Apple Podcasts </span><span class="arr">↗</span></span></a></li>
+        <li><a href="https://podcasts.apple.com/gb/podcast/latash%C3%A1-on-the-potential-of-web3-for-music-artists/id1449302502?i=1000552812458" target="_blank" rel="noopener"><span class="who">Latashá</span><span class="t">Web3 for music</span><span class="src mono"><span class="plat">Apple Podcasts </span><span class="arr">↗</span></span></a></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ ELSEWHERE ============ -->
+  <section class="section wrap grid" id="elsewhere" aria-labelledby="elsewhere-h">
+    <header class="section-head">
+      <h2 id="elsewhere-h"><span class="mono">05</span>Elsewhere</h2>
+      <p class="note">Talks, workshops and residencies.</p>
+    </header>
+    <div class="section-body">
+      <ul class="cards">
+        <li class="card">
+          <a class="cover" href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1" target="_blank" rel="noopener">
+            <div class="ph"><img src="https://picsum.photos/seed/olden-residency/800/1000?grayscale" alt="Olden residency (placeholder image)" decoding="async" width="800" height="1000" /></div>
+          </a>
+          <h3><a class="ext" href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1" target="_blank" rel="noopener">Olden</a></h3>
+          <p class="kind mono">Residency</p>
+          <p class="desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do.</p>
+        </li>
+        <li class="card">
+          <a class="cover" href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1" target="_blank" rel="noopener">
+            <div class="ph"><img src="https://picsum.photos/seed/softer-london/800/1000?grayscale" alt="Softer London talk and workshop (placeholder image)" decoding="async" width="800" height="1000" /></div>
+          </a>
+          <h3><a class="ext" href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1" target="_blank" rel="noopener">Softer London</a></h3>
+          <p class="kind mono">Talk + workshop</p>
+          <p class="desc">Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
+        </li>
+        <li class="card">
+          <a class="cover" href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard" target="_blank" rel="noopener">
+            <div class="ph"><img src="https://picsum.photos/seed/tech-yard/800/1000?grayscale" alt="Tech Yard workshop (placeholder image)" decoding="async" width="800" height="1000" /></div>
+          </a>
+          <h3><a class="ext" href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard" target="_blank" rel="noopener">Tech Yard</a></h3>
+          <p class="kind mono">Workshop</p>
+          <p class="desc">Duis aute irure dolor in reprehenderit in voluptate velit.</p>
+        </li>
+        <li class="card">
+          <a class="cover" href="https://www.instagram.com/p/BslwSSPH5Rc/?img_index=2" target="_blank" rel="noopener">
+            <div class="ph"><img src="https://picsum.photos/seed/ovar-it/800/1000?grayscale" alt="Ovar It (placeholder image)" decoding="async" width="800" height="1000" /></div>
+          </a>
+          <h3><a class="ext" href="https://www.instagram.com/p/BslwSSPH5Rc/?img_index=2" target="_blank" rel="noopener">Ovar It</a></h3>
+          <p class="kind mono">Lorem ipsum</p>
+          <p class="desc">Excepteur sint occaecat cupidatat non proident, sunt in culpa.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ BIO ============ -->
+  <section class="section wrap grid" id="bio" aria-labelledby="bio-h">
+    <header class="section-head">
+      <h2 id="bio-h"><span class="mono">06</span>Bio</h2>
+      <p class="note">For press and programmes.</p>
+    </header>
+    <div class="section-body sub">
+      <div class="bio-text">
+        <p class="first">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.</p>
+        <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
+      </div>
+      <aside class="bio-side">
+        <figure class="fig" style="--r:0.8">
+          <div class="ph"><img src="https://picsum.photos/seed/kes-portrait/800/1000?grayscale" alt="Portrait of Kes Inkersole (placeholder image)" decoding="async" width="800" height="1000" /></div>
+          <figcaption>Portrait. Photo: Lorem Ipsum</figcaption>
+        </figure>
+        <div class="kv">
+          <h3 class="mono">Credentials</h3>
+          <ul>
+            <li><span class="mono">MA</span><span>Internet Equalities</span></li>
+            <li><span class="mono">BA</span><span>Creative Direction</span></li>
+            <li><span class="mono">PhD</span><span>[ ? ]</span></li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section class="section wrap grid contact" id="contact" aria-labelledby="contact-h">
+    <header class="section-head">
+      <h2 id="contact-h"><span class="mono">07</span>Contact</h2>
+    </header>
+    <div class="section-body">
+      <a class="big-mail" href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a>
+      <div class="sub">
+        <p><span class="label mono">Status</span>Available for work</p>
+        <p><span class="label mono">Based</span>London</p>
+        <p><span class="label mono">On request</span>CV &amp; portfolio on request.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-foot wrap grid">
+  <p class="c1">Kes Inkersole</p>
+  <p class="c2">Set in Atkinson Hyperlegible Next &amp; Mono — typefaces from the Braille Institute, drawn for legibility for readers with low vision.</p>
+  <p class="c3"><a href="#top">Back to top ↑</a></p>
+</footer>
+
+</body>
+</html>

@@ -18,46 +18,227 @@
 <meta name="twitter:description" content="kes inkersole — freelance creative strategist & internet equalities researcher, based in london.">
 <meta name="twitter:image" content="https://kesia-coral.vercel.app/square.png">
 <style>
-p { max-width: 40em; }
-img { max-width: 100%; height: auto; }
-figure { display: inline-block; margin: 0 1em 1em 0; }
+:root {
+  --paper: #fff0f5;   /* lavenderblush, aka strawberry milk */
+  --ink: #2f2650;
+  --pink: #cc3380;
+  --blue: #3346c8;    /* links */
+  --lilac: #7a48c0;   /* visited links */
+  --peri: #6475e0;    /* the drawings */
+  --butter: #fff1a6;
+  --sky: #e6ebff;
+  --leaf: #4f9a6a;    /* stems */
+  --mono: ui-monospace, Menlo, Consolas, "DejaVu Sans Mono", "Courier New", monospace;
+}
+html { background: var(--paper); color: var(--ink); }
+body { max-width: 110rem; margin: 0 auto; padding: 1.5rem clamp(1rem, 4vw, 3.5rem) 1rem; font: 18px/1.5 Times, "Times New Roman", serif; }
+p { margin: 0 0 1em; }
+::selection { background: var(--pink); color: #fff; }
+
+a { color: var(--blue); text-underline-offset: 2px; }
+a:visited { color: var(--lilac); }
+a:hover { color: var(--pink); background: var(--butter); }
+
+h1 { margin: 0; font: 400 min(26px, (100vw - 7rem) / 38)/1.15 var(--mono); }
+h1 > span { display: inline-block; white-space: pre; }
+h1 .kes { color: var(--pink); }
+h1 .inkersole { color: var(--peri); }
+h1 b, h1 i { color: var(--ink); font-style: normal; }
+h1 em { color: var(--pink); font-style: normal; }
+.name { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1.5rem; margin: .5rem 0 2.5rem; }
+.name p { margin: 1.75rem 0 0; }
+
+h2 { font-size: 1.35rem; font-weight: normal; line-height: 1.2; margin: 0 0 .5em; }
+h2 span { color: var(--pink); }
+ul { list-style: "☆  "; padding-left: 1.5em; margin: 0 0 1.75em; }
+li { margin-bottom: .3em; }
+li::marker { color: var(--pink); }
+li:hover { list-style-type: "★  "; }
+mark { color: inherit; background: linear-gradient(transparent 55%, var(--butter) 55%); }
+.phd { cursor: help; text-decoration: underline dotted var(--pink); text-underline-offset: 4px; }
+
+/* the drawings. <b> colours a bit pink, <i> picks out the faces (and the blue flowers in the garden) */
+pre { font-family: var(--mono); line-height: 1.2; margin: 0; overflow: hidden; color: var(--peri); }
+pre b { color: var(--pink); font-weight: normal; }
+pre i { color: var(--ink); font-style: normal; }
+
+.cols { columns: 3 20em; column-gap: 3.5rem; }
+.cols > * { break-inside: avoid; }
+.lately, .panel { padding: 1.25rem 1.5rem; border-radius: 1rem; outline: 2px dashed var(--pink); outline-offset: -7px; background: var(--butter); }
+.panel { background: var(--sky); outline-color: var(--peri); margin-bottom: 1.75em; }
+.lately ul, .panel ul { margin-bottom: 0; }
+.lists pre { font-size: 15px; margin-bottom: .5rem; }
+.bus { color: var(--pink); }
+
+.net { margin: 2.5rem 0 .25rem; line-height: normal; font-size: clamp(12px, (100vw - 7rem) / 92, 19px); }
+.net.mid, .net.small { display: none; }
+.caption { text-align: center; font-size: 15px; margin-bottom: 3rem; }
+
+.photos { display: flex; align-items: flex-end; justify-content: space-between; gap: 1.5rem; margin: 3.5rem 0 3rem; }
+figure { margin: 0; min-width: 0; rotate: -1.5deg; }
+figure:nth-child(even) { rotate: 1.2deg; }
+figure:nth-child(3n) { rotate: -.5deg; }
+img { display: block; max-width: 100%; height: auto; border: 6px solid #fff; background: var(--sky); }
+figcaption { font-size: 15px; margin-top: .4em; }
+@media (prefers-reduced-motion: no-preference) {
+  figure:hover { animation: wiggle .5s; }
+  .arm { display: inline-block; transform-origin: 0 90%; animation: wave 2.4s ease-in-out infinite; }
+}
+@keyframes wiggle { 30% { rotate: 3deg; } 65% { rotate: -3deg; } }
+@keyframes wave { 0%, 40%, 100% { rotate: 0deg; } 10%, 30% { rotate: -25deg; } 20% { rotate: 10deg; } }
+
+.end { margin-top: 1rem; }
+.bye { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1.5rem; margin: 1.5rem 0 1rem; }
+.bye pre { line-height: normal; font-size: 18px; }
+.bye p { margin: 0; font-size: clamp(2.2rem, 5vw, 4.2rem); line-height: 1; color: var(--pink); }
+.small { font-size: 15px; }
+.garden { color: var(--leaf); font-size: min(18px, (100vw - 7rem) / 74); margin-top: 1.5rem; }
+.garden i { color: var(--peri); }
+.garden.small { display: none; }
+
+@media (max-width: 1199px) {
+  .net.wide { display: none; }
+  .net.mid { display: block; font-size: min(17px, 92vw / 64); }
+  .photos { flex-wrap: wrap; justify-content: flex-start; gap: 2rem 1.5rem; }
+  .photos figure { flex: 1 1 26%; }
+  .photos img { width: 100%; }
+}
+@media (max-width: 860px) {
+  body { font-size: 17px; }
+  h1 { font-size: min(22px, (100vw - 2rem) / 27); }
+  .name p { margin: 0; }
+  .net.mid { display: none; }
+  .net.small { display: block; font-size: min(16px, (100vw - 2rem) / 30); }
+  .garden { display: none; }
+  .garden.small { display: block; font-size: min(16px, (100vw - 2rem) / 22); }
+  .lists pre { font-size: 14px; }
+}
+@media (max-width: 600px) {
+  .photos figure { flex-basis: 40%; }
+}
 </style>
 </head>
 <body>
 
 <!-- to add a link: copy one of the <li> lines, then change the words and the url. lorem ipsum = still to write -->
+<!-- the drawings are plain text in <pre> tags, so you can draw on them. <b> = pink, <i> = faces -->
 
-<h1>kes inkersole ☆</h1>
+<div class="name">
+<h1 aria-label="kes inkersole"><span class="kes" aria-hidden="true">     _   _   _
+    / \ / \ / \
+<i>o--</i>( <b>k</b> | <b>e</b> | <b>s</b> )<i>--</i>
+    \_/ \_/ \_/</span><span class="inkersole" aria-hidden="true">    _   _   _   _   _   _   _   _   _
+   / \ / \ / \ / \ / \ / \ / \ / \ / \
+<i>--</i>( <b>i</b> | <b>n</b> | <b>k</b> | <b>e</b> | <b>r</b> | <b>s</b> | <b>o</b> | <b>l</b> | <b>e</b> )<i>---</i><em>&lt;3</em>
+   \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/</span></h1>
 
 <p>or kesia, if it's a formal email.</p>
+</div>
 
+<div class="cols">
 <p>i'm a freelance creative strategist and internet equalities researcher in london. my practice focuses on understanding and critiquing the impacts of emerging technologies on people, culture, and the planet. i work collectively to rethink the narratives and behaviours surrounding technologies, prioritising collaborative research as a process for testing, imagining and prototyping more equitable, alternative futures.</p>
 
+<div>
 <p>i'm also an associate lecturer at UAL (LCF + CCI), and i've worked with Neu Futur, DAZED, co&#8288;—&#8288;matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer and Selfridges.</p>
 
-<p>i'm available for work at the moment, so if you've got something in mind, email me: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
+<p><mark>i'm available for work at the moment</mark>, so if you've got something in mind, email me: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
+</div>
 
-<p>lately ✧˖°</p>
+<div class="lately">
+<h2>lately <span>✧˖°</span></h2>
 <ul>
   <li>lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
   <li>sed do eiusmod tempor incididunt ut labore</li>
   <li>ut enim ad minim veniam, quis nostrud exercitation</li>
 </ul>
+</div>
+</div>
 
-<p>projects (for funds)</p>
+<!-- all kinds of screens, all on the same cable. they blink sometimes -->
+<pre class="net wide" aria-hidden="true">
+                        *                                                 <b>*</b>                          +
+  .                                                            +     <b>╭───╮  ╭───╮</b>     .                      *                                 <b>*</b>
+                    ╭──────╮          .                 Z          <b>╭─╯   ╰──╯   ╰─╮</b>      ╭────────╮                         +
+               +    │ <i>o  o</i> │      ╭────────╮          z            <b>│      &lt;3      │</b>      │        │         \  /                       .              +
+    ╭────────╮      │  <b>&lt;3</b>  │      │  <i>*  *</i>  │       ╭────────╮      <b>╰─╮          ╭─╯</b>      │  <i>O  O</i>  │      ╭───\/───╮     ╭──────────╮      ╭────────╮
+    │  <i>^  ^</i>  │      │      │      │   <b>\/</b>   │       │  <i>-  -</i>  │        <b>╰─╮      ╭─╯</b>        │   <b>()</b>   │      │  <i>=  =</i>  │     │  <i>&gt;    &lt;</i>  │      │  <i>.  .</i>  │
+    │  <b>\__/</b>  │      │  ──  │      ╰────────╯       │   <b>~~</b>   │          <b>╰─╮  ╭─╯</b>          │        │      │   <b>ww</b>   │     │    <b>--</b>    │      │  <b>\__/</b>  │
+    ╰───┬┬───╯      ╰──┬┬──╯     /__________\      ╰───┬┬───╯            <b>╰</b>┬┬<b>╯</b>            ╰───┬┬───╯      ╰───┬┬───╯     ╰────┬┬────╯      ╰───┬┬───╯
+        ││             ││             ││               ││                 ││                 ││              ││              ││               ││
+o───────┴┴─────────────┴┴─────────────┴┴───────────────┴┴─────────────────┴┴─────────────────┴┴──────────────┴┴──────────────┴┴───────────────┴┴───────o
+</pre>
+<pre class="net mid" aria-hidden="true">
+                     *                             <b>*</b>                        +
+  .                                           <b>╭───╮  ╭───╮</b>    .                                    <b>*</b>
+                  ╭──────╮        Z         <b>╭─╯   ╰──╯   ╰─╮</b>    ╭────────╮                .
+               +  │ <i>o  o</i> │      z           <b>│      &lt;3      │</b>    │        │       \  /                   +
+    ╭────────╮    │  <b>&lt;3</b>  │    ╭────────╮    <b>╰─╮          ╭─╯</b>    │  <i>O  O</i>  │    ╭───\/───╮    ╭────────╮
+    │  <i>^  ^</i>  │    │      │    │  <i>-  -</i>  │      <b>╰─╮      ╭─╯</b>      │   <b>()</b>   │    │  <i>=  =</i>  │    │  <i>.  .</i>  │
+    │  <b>\__/</b>  │    │  ──  │    │   <b>~~</b>   │        <b>╰─╮  ╭─╯</b>        │        │    │   <b>ww</b>   │    │  <b>\__/</b>  │
+    ╰───┬┬───╯    ╰──┬┬──╯    ╰───┬┬───╯          <b>╰</b>┬┬<b>╯</b>          ╰───┬┬───╯    ╰───┬┬───╯    ╰───┬┬───╯
+        ││           ││           ││               ││               ││            ││            ││
+o───────┴┴───────────┴┴───────────┴┴───────────────┴┴───────────────┴┴────────────┴┴────────────┴┴───────o
+</pre>
+<pre class="net small" aria-hidden="true">
+                        <b>*</b>
+ .                 <b>╭───╮  ╭───╮</b>         *
+                 <b>╭─╯   ╰──╯   ╰─╮</b>    ╭──────╮
+             +   <b>│      &lt;3      │</b>    │ <i>o  o</i> │  .
+   ╭────────╮    <b>╰─╮          ╭─╯</b>    │  <b>&lt;3</b>  │
+   │  <i>^  ^</i>  │      <b>╰─╮      ╭─╯</b>      │      │
+   │  <b>\__/</b>  │        <b>╰─╮  ╭─╯</b>        │  ──  │
+   ╰───┬┬───╯          <b>╰</b>┬┬<b>╯</b>          ╰──┬┬──╯
+       ││               ││              ││
+o──────┴┴───────────────┴┴──────────────┴┴──────o
+</pre>
+<p class="caption">all kinds of screens, all on the same cable ♡ (say hi, they cheer up)</p>
+
+<div class="cols lists">
+<div>
+<pre aria-hidden="true">
+    <b>o  o</b>
+   [=====]
+  (  <b>£ o</b>  )
+  (_<b>oo£oo</b>_)
+</pre>
+<h2>projects (for funds) <span>✦</span></h2>
 <ul>
   <li><a href="https://co-matter.com/project/networked-worlds">networked worlds</a> for co&#8288;—&#8288;matter, lorem ipsum dolor sit amet</li>
   <li><a href="https://www.protein.xyz/dirty-words-4-community/">dirty words #4: community report</a> for Protein, lorem ipsum dolor sit amet</li>
   <li><a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1">MØRNING Ø</a>, lorem ipsum dolor sit amet</li>
 </ul>
 
-<p>projects (for fun)</p>
+<h2>projects (for fun) <span>\(^o^)/</span></h2>
 <ul>
   <li><a href="https://latent-space.vercel.app/">latent space</a></li>
   <li><a href="https://protecht.vercel.app/">pro(tech)t</a></li>
 </ul>
+</div>
 
-<p>things i've written ✎</p>
+<div>
+<pre title="it's never biscuits" aria-hidden="true">
+  <b>o</b>  ~ <b>@  o</b> ~
+ ╭───────────╮
+ │ biscuits? │
+ ╰───────────╯
+</pre>
+<h2>bits &amp; bobs <span>✿</span></h2>
+<ul>
+  <li><a href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1">olden residency</a></li>
+  <li><a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1">softer london</a>, talk + workshop</li>
+  <li><a href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard">tech yard</a>, workshop</li>
+  <li><a href="https://www.instagram.com/p/BslwSSPH5Rc/?img_index=2">ovar it</a></li>
+</ul>
+</div>
+
+<div class="panel">
+<pre aria-hidden="true">
+╭─────────╮
+│ ~~~ ~~~ │
+│ ~~ ~<b>&lt;===[]</b>
+╰─────────╯
+</pre>
+<h2>things i've written <span>✎</span></h2>
 <ul>
   <li><a href="https://www.protein.xyz/sex-and-the-internet/">mindy seu on sex and the internet</a> (Protein)</li>
   <li><a href="https://midnight.agency/thoughts/dreaming-and-designing-more-accessible-web">dreaming and designing a more accessible web</a> (Midnight Agency)</li>
@@ -66,8 +247,17 @@ figure { display: inline-block; margin: 0 1em 1em 0; }
   <li><a href="https://morningfyi.substack.com/p/020-uh-oh-meet">burn after reading: uh oh meet o</a> (MØRNING)</li>
   <li><a href="https://morningfyi.substack.com/p/024-entering-limb-with">burn after reading: entering limbo, with o</a> (MØRNING)</li>
 </ul>
+</div>
 
-<p>podcasts (good for the bus)</p>
+<div>
+<pre class="bus" title="ding ding" aria-hidden="true">
+╭────────────────────────╮
+│[    ][<i>d^^b</i>][    ][<i>home</i>]│
+│════════════════════════│
+│[    ][    ][<i>d--b</i>][ || ]│
+╰──(@)─────────────(@)───╯
+</pre>
+<h2>podcasts (good for the bus) <span>♫</span></h2>
 <ul>
   <li><a href="https://podcasts.apple.com/gb/podcast/mindy-seu-on-collaboration-community-and/id1449302502?i=1000597869409">mindy seu on collaboration, community and the cyberfeminism index</a></li>
   <li><a href="https://soundcloud.com/proteincommunity/protein-forum-what-can-web2-organisations-learn-from-web3-communities">what can web2 organisations learn from web3 communities?</a></li>
@@ -78,35 +268,66 @@ figure { display: inline-block; margin: 0 1em 1em 0; }
   <li><a href="https://podcasts.apple.com/gb/podcast/cyn-bahati-on-her-journey-into-web3-with-her-family/id1449302502?i=1000559818509">cyn bahati on her journey into web3 with her family</a></li>
   <li><a href="https://podcasts.apple.com/gb/podcast/latash%C3%A1-on-the-potential-of-web3-for-music-artists/id1449302502?i=1000552812458">latasha on the potential of web3 for music artists</a></li>
 </ul>
+</div>
+</div>
 
-<p>bits &amp; bobs</p>
-<ul>
-  <li><a href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1">olden residency</a></li>
-  <li><a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1">softer london</a>, talk + workshop</li>
-  <li><a href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard">tech yard</a>, workshop</li>
-  <li><a href="https://www.instagram.com/p/BslwSSPH5Rc/?img_index=2">ovar it</a></li>
-</ul>
-
+<div class="photos">
 <figure>
-  <img src="https://picsum.photos/seed/olden/240/180" width="240" height="180" alt="lorem ipsum">
+  <img src="https://picsum.photos/seed/olden/600/450" width="300" height="225" alt="lorem ipsum">
   <figcaption>olden residency, lorem ipsum</figcaption>
 </figure>
 <figure>
-  <img src="https://picsum.photos/seed/softer/240/180" width="240" height="180" alt="lorem ipsum">
+  <img src="https://picsum.photos/seed/softer/420/560" width="210" height="280" alt="lorem ipsum">
   <figcaption>softer london, photo by lorem ipsum</figcaption>
 </figure>
 <figure>
-  <img src="https://picsum.photos/seed/techyard/240/180" width="240" height="180" alt="lorem ipsum">
+  <img src="https://picsum.photos/seed/techyard/480/480" width="240" height="240" alt="lorem ipsum">
   <figcaption>tech yard workshop, lorem ipsum</figcaption>
 </figure>
+<figure>
+  <img src="https://picsum.photos/seed/networked/640/426" width="320" height="213" alt="lorem ipsum">
+  <figcaption>networked worlds, lorem ipsum</figcaption>
+</figure>
+<figure>
+  <img src="https://picsum.photos/seed/dirtywords/416/520" width="208" height="260" alt="lorem ipsum">
+  <figcaption>dirty words #4, lorem ipsum</figcaption>
+</figure>
+<figure>
+  <img src="https://picsum.photos/seed/morning/560/420" width="280" height="210" alt="lorem ipsum">
+  <figcaption>MØRNING Ø, lorem ipsum</figcaption>
+</figure>
+</div>
 
-<p>i did an MA in internet equalities and a BA in creative direction. PhD …one day?</p>
-
-<p>cv + portfolio on request, just <a href="mailto:inkersolekesia@gmail.com">email me</a>.</p>
-
+<div class="end">
+<p>i did an MA in internet equalities and a BA in creative direction. <span class="phd" title="manifesting ✧">PhD …one day?</span> cv + portfolio on request, just <a href="mailto:inkersolekesia@gmail.com">email me</a>.</p>
+<div class="bye">
+<pre aria-hidden="true">
+╭────────╮
+│  <i>^  ^</i>  │<span class="arm">_/</span>
+│  <b>\__/</b>  │
+╰────────╯
+</pre>
 <p>thanks for stopping by xx</p>
+</div>
+<p class="small">last updated 1 october 2026. it's a <a href="http://contemporary-home-computing.org/prof-dr-style/">prof. dr. style</a> homepage (♡ olia lialina).</p>
+</div>
 
-<p>last updated 1 october 2026. it's a <a href="http://contemporary-home-computing.org/prof-dr-style/">prof. dr. style</a> homepage (♡ olia lialina).</p>
+<pre class="garden" aria-hidden="true">
+    <b>_</b>         .          <i>.-.</i>         <b>vVVVv        @@@@     (\/)</b>     .     <b>_</b>            <i>wWWWw</i>         <b>*</b>
+  <b>_(_)_         (\/)</b>    <i>( o )</i>        <b>(___)  *    @@()@@     \/          _(_)_</b>    +     <i>(___)        \|/</i>     <b>(\/)</b>
+ <b>(_)@(_)         \/</b>      <i>'-'</i>     <b>@</b>     Y          <b>@@@@</b>       |/   <i>o</i>    <b>(_)@(_)</b>           Y     <b>@</b>   <i>-(_)-</i>     <b>\/</b>     .
+   <b>(_)</b>\           |       \|     \|   \|           \||/      |     |/    <b>(_)</b>\            |/    \|   <i>/|\</i>       |
+      |    \|/   \|        |/     |    |     ,,     ||      \|     |        |    \\//    |      |     |      \|   \|/
+______|_____|_____|________|______|____|____________||_______|_____|________|____________|______|_____|_______|____|____<b>&lt;3</b>
+</pre>
+<pre class="garden small" aria-hidden="true">
+  .    <b>vVVVv          _</b>
+ <b>(\/)  (___)  *     _(_)_</b>      +
+  <b>\/</b>     Y     <i>o</i>   <b>(_)@(_)</b>
+   |    \|      |/   <b>(_)</b>\
+  \|     |      |       |    \|/
+___|_____|______|_______|_____|___<b>&lt;3</b>
+</pre>
 
 <script>
 console.log("hi ☆ it's kes");
@@ -117,6 +338,25 @@ console.log("(the fancy letters live down here because screen readers read them 
 document.addEventListener("visibilitychange", function () {
   document.title = document.hidden ? "come back x" : "kes inkersole";
 });
+
+// the little screens blink now and then, and all cheer up when your mouse comes over
+var eyes = document.querySelectorAll(".net i"), happy = false;
+eyes.forEach(function (e) { e.dataset.eyes = e.textContent; });
+function look(face) {
+  eyes.forEach(function (e) { e.textContent = face || e.dataset.eyes; });
+}
+document.querySelectorAll(".net").forEach(function (net) {
+  net.onmouseenter = function () { happy = true; look("^  ^"); };
+  net.onmouseleave = function () { happy = false; look(); };
+});
+if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  setInterval(function () {
+    var e = eyes[Math.floor(Math.random() * eyes.length)];
+    if (happy) return;
+    e.textContent = "-  -";
+    setTimeout(function () { if (!happy) e.textContent = e.dataset.eyes; }, 180);
+  }, 1500);
+}
 </script>
 
 </body>

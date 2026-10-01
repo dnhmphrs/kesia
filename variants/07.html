@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
 <title>kes inkersole</title>
 <meta name="description" content="Kesia Inkersole — freelance creative strategist &amp; internet equalities researcher, based in london.">
 <meta name="author" content="Kes Inkersole">
@@ -19,45 +20,216 @@
 <meta name="twitter:description" content="kes inkersole — freelance creative strategist &amp; internet equalities researcher, based in london.">
 <meta name="twitter:image" content="https://kesia-coral.vercel.app/square.png">
 <style>
-img { max-width: 100%; height: auto; }
+/* thread colours */
+:root {
+  --paper: #fdf8ef;  /* the page, like unbleached cotton */
+  --ink:   #3b2440;  /* plum, not black */
+  --pink:  #e8508e;
+  --blue:  #4a5be0;
+  --lilac: #8e57c9;  /* visited links */
+  --butter:#ffe58a;  /* highlighter */
+  --blush: #fde8ef;
+  --aida:  #f6ecda;  /* the cross-stitch cloth */
+  --holes: #e7d7bc;
+}
+html { background: var(--paper); }
+body {
+  margin: 0;
+  padding: 20px clamp(16px, 3vw, 48px) 0;
+  color: var(--ink);
+  font: 18px/1.45 "Times New Roman", Times, serif;
+}
+::selection { background: var(--pink); color: #fff; }
+
+a { color: var(--blue); text-underline-offset: .15em; }
+a:visited { color: var(--lilac); }
+a:hover { color: var(--pink); text-decoration-style: wavy; }
+
+mark { background: var(--butter); color: inherit; padding: 0 .15em; border-radius: .2em; }
+
+h2 { font-size: 1.15em; font-weight: normal; margin: 1.4em 0 .4em; }
+h2 span { color: var(--pink); }
+
+ul { padding-left: 1.4em; list-style: "☆  "; }
+li { margin: .25em 0; }
+li::marker { color: var(--pink); }
+li:hover { list-style: "★  "; }
+
+/* everything stitched: X on cloth, one character = one stitch */
+.aida {
+  margin: 0;
+  overflow: hidden;
+  background: var(--aida);
+  color: var(--holes);
+  font: 16px/.72 ui-monospace, Menlo, Consolas, "DejaVu Sans Mono", "Courier New", monospace;
+}
+.aida b { font-weight: normal; color: var(--pink); }
+.aida .b { color: var(--blue); }
+.aida .y { color: #eea92a; }
+.aida .g { color: #4aa877; }
+.aida:hover .h { animation: blink 1s steps(1) infinite; }  /* the little screen's heart blinks like a cursor */
+@keyframes blink { 50% { color: var(--aida); } }
+.wide { display: none; }
+.narrow { font-size: min(16px, calc((100vw - 32px) / 41 / .6)); }  /* 41 stitches always fit a phone */
+.small { display: inline-block; max-width: 100%; margin-top: .4em; font-size: min(16px, 100cqi / 41 / .6); }  /* ...and always fit their column */
+.chain { font-size: 13px; margin-top: 1.2em; }
+
+h1 { position: absolute; left: -9999px; }  /* the stitched name is the heading you see */
+
+/* one column on a phone, two on a tablet, three (or four) on a big screen */
+.top { display: grid; gap: 0 2.5em; }
+.top p:last-child { margin-bottom: 0; }
+.lists { column-gap: 2.5em; column-rule: 2px dashed #f2b3cb; }
+.lists section { break-inside: avoid; container-type: inline-size; }
+.lists h2:first-child, .top h2:first-child { margin-top: .6em; }
+p { max-width: 38em; }
+
+/* a sewn-on patch */
+.patch { align-self: start; background: var(--blush); padding: .3em 1.2em .6em; margin: 1em 0; border-radius: 6px; outline: 2px dashed #f2a3c2; outline-offset: -7px; }
+
+/* running stitch */
+hr { border: 0; height: 1em; margin: 1.6em 0; overflow: hidden; }
+hr::before {
+  content: "--  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --";
+  display: block; white-space: pre;
+  font: 16px/1 ui-monospace, Menlo, Consolas, "DejaVu Sans Mono", monospace; color: var(--pink);
+}
+
+/* photos: two to a row on small screens, one row right across on big ones */
+.photos { display: flex; flex-wrap: wrap; gap: 1.5em 2em; align-items: flex-start; }
+.photos figure { margin: 0; flex: 1 1 40%; }
+.photos img { display: block; width: 100%; height: auto; background: var(--blush); }
+.photos figcaption { font-size: 15px; margin-top: .4em; }
+
+/* cut along the dotted line */
+.cut { position: relative; border: 2px dashed var(--pink); padding: .6em 1em; margin-top: 1.2em; }
+.cut::before { content: "✂\FE0E"; position: absolute; top: -.8em; left: .8em; padding: 0 .25em; background: var(--paper); color: var(--pink); font-size: 1.1em; }
+.kao { color: var(--pink); white-space: nowrap; }
+button { font: 15px "Times New Roman", Times, serif; color: var(--ink); background: var(--blush); border: 1px solid var(--pink); border-radius: 1em; padding: .15em .8em; cursor: pointer; }
+button:hover { background: #fff; }
+
+@media (min-width: 641px) {
+  .wide { display: block; }
+  .narrow { display: none; }
+}
+@media (min-width: 720px) {
+  .top { grid-template-columns: 1fr 1fr; }
+  .patch { grid-column: 1 / -1; }
+  .lists { columns: 2; }
+}
+@media (min-width: 960px) {
+  .photos { flex-wrap: nowrap; }
+  .photos figure { flex: var(--r); }  /* --r = width ÷ height, so every photo ends up the same height */
+}
+@media (min-width: 1040px) {
+  .top { grid-template-columns: 1fr 1fr 1fr; }
+  .patch { grid-column: auto; }
+  .lists { columns: 3; }
+}
+@media (min-width: 1760px) { .lists { columns: 4; } }
+@media (max-width: 640px) { body { font-size: 17px; padding-top: 16px; } }
+@media (prefers-reduced-motion: reduce) { .aida:hover .h { animation: none; } }
 </style>
 </head>
 <body>
 
 <h1>kes inkersole</h1>
+<pre class="aida wide" aria-hidden="true" title="hand stitched, one character at a time">
+.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>
+..............................................................................................................................................................................................................................................................................
+...............................................................................<b class=b>XXXXXXXXXXX</b>.......................<b>XXX</b>...............................<b class=b>XXX</b>........................................<b class=b>XXXXXXXXXXX</b>.........<b>XXX</b>.........................................................
+...<b>X</b>......................<b>X</b>........................<b>X</b>...........................<b class=b>X</b>.........<b class=b>X</b>..........<b class=y>X</b>...........<b>XXXXX</b>........<b class=b>XXXXXXXXXXX</b>.........<b class=b>XXXXXXX</b>...........................<b class=y>X</b>..........<b class=b>X</b>.........<b class=b>X</b>........<b>XXXXX</b>......................<b class=b>XXXXXXXXXXX</b>..........<b class=y>X</b>............
+...<b>X</b>...............<b>X</b>......<b>X</b>........................<b>X</b>..............<b>XX</b>.<b>XX</b>........<b class=b>X</b>..<b class=h>XX</b>.<b class=h>XX</b>..<b class=b>X</b>.........<b class=y>XXX</b>.........<b>XX</b><b class=y>XXX</b><b>XX</b>.......<b class=b>XX</b>.......<b class=b>XX</b>........<b class=b>XXXXXXXXXX</b>.........<b>XX</b>.<b>XX</b>..........<b class=y>XXX</b>.........<b class=b>X</b>..<b>XX</b>.<b>XX</b>..<b class=b>X</b>.......<b>XX</b><b class=y>XXX</b><b>XX</b>........<b>XX</b>.<b>XX</b>........<b class=b>XX</b>.......<b class=b>XX</b>.........<b class=y>XXX</b>...........
+...<b>X</b>..<b>X</b>..<b>XX</b>...<b>XXX</b>....<b>XXX</b>..<b>X</b>..<b>X</b>..<b>XX</b>..<b>X</b>.<b>XX</b>..<b>XXX</b>..<b>XX</b>..<b>X</b>...<b>XX</b>........<b>XXXXXXX</b>.......<b class=b>X</b>..<b class=h>XXXXX</b>..<b class=b>X</b>.......<b class=y>XXXXXXX</b>.......<b>XX</b><b class=y>XXX</b><b>XX</b>.......<b class=b>X</b>.<b class=b>X</b>.....<b class=b>X</b>.<b class=b>X</b>.......<b class=b>XXXXXXXXXXXX</b>.......<b>XXXXXXX</b>.......<b class=y>XXXXXXX</b>.......<b class=b>X</b>..<b>XXXXX</b>..<b class=b>X</b>.......<b>XX</b><b class=y>XXX</b><b>XX</b>.......<b>XXXXXXX</b>.......<b class=b>X</b>.<b class=b>X</b>.....<b class=b>X</b>.<b class=b>X</b>.......<b class=y>XXXXXXX</b>.........
+...<b>X</b>.<b>X</b>..<b>X</b>..<b>X</b>.<b>X</b>.....<b>X</b>.<b>X</b>..<b>X</b>.<b>X</b>.<b>X</b>..<b>X</b>..<b>X</b>.<b>XX</b>...<b>X</b>....<b>X</b>..<b>X</b>.<b>X</b>..<b>X</b>..<b>X</b>.......<b>XXXXXXX</b>.......<b class=b>X</b>...<b class=h>XXX</b>...<b class=b>X</b>........<b class=y>XXXXX</b>.........<b>XXXXX</b>........<b class=b>X</b>..<b class=b>X</b>...<b class=b>X</b>..<b class=b>X</b>........<b class=b>XXXXXXXXXX</b>........<b>XXXXXXX</b>........<b class=y>XXXXX</b>........<b class=b>X</b>...<b>XXX</b>...<b class=b>X</b>........<b>XXXXX</b>........<b>XXXXXXX</b>.......<b class=b>X</b>..<b class=b>X</b>...<b class=b>X</b>..<b class=b>X</b>........<b class=y>XXXXX</b>..........
+...<b>XX</b>...<b>XXXX</b>..<b>XX</b>...<b>X</b>.<b>X</b>..<b>X</b>.<b>XX</b>...<b>XXXX</b>.<b>X</b>.....<b>XX</b>..<b>X</b>..<b>X</b>.<b>X</b>..<b>XXXX</b>........<b>XXXXX</b>........<b class=b>X</b>....<b class=h>X</b>....<b class=b>X</b>.........<b class=y>XXX</b>...........<b>XXX</b>.........<b class=b>X</b>...<b class=b>X</b><b>X</b><b class=b>X</b>...<b class=b>X</b>...........................<b>XXXXX</b>..........<b class=y>XXX</b>.........<b class=b>X</b>....<b>X</b>....<b class=b>X</b>.........<b>XXX</b>..........<b>XXXXX</b>........<b class=b>X</b>...<b class=b>X</b><b>X</b><b class=b>X</b>...<b class=b>X</b>.........<b class=y>XXX</b>...........
+...<b>X</b>.<b>X</b>..<b>X</b>.......<b>X</b>..<b>X</b>.<b>X</b>..<b>X</b>.<b>X</b>.<b>X</b>..<b>X</b>....<b>X</b>.......<b>X</b>.<b>X</b>..<b>X</b>.<b>X</b>..<b>X</b>............<b>XXX</b>.........<b class=b>XXXXXXXXXXX</b>........<b class=y>XX</b>.<b class=y>XX</b>...........<b class=g>X</b>..........<b class=b>X</b>....<b class=b>X</b>....<b class=b>X</b>.........<b class=b>X</b>...<b class=b>X</b>...<b class=b>X</b>..........<b>XXX</b>..........<b class=y>XX</b>.<b class=y>XX</b>........<b class=b>XXXXXXXXXXX</b>..........<b class=g>X</b>............<b>XXX</b>.........<b class=b>X</b>....<b class=b>X</b>....<b class=b>X</b>........<b class=y>XX</b>.<b class=y>XX</b>..........
+...<b>X</b>..<b>X</b>..<b>XXX</b>.<b>XXX</b>...<b>X</b>.<b>X</b>..<b>X</b>.<b>X</b>..<b>X</b>..<b>XXX</b>.<b>X</b>....<b>XXX</b>...<b>XX</b>...<b>X</b>..<b>XXX</b>..........<b>X</b>..............<b class=b>XXX</b>............<b class=y>X</b>...<b class=y>X</b>........<b class=g>X</b>..<b class=g>X</b>..........<b class=b>XXXXXXXXXXX</b>........<b class=b>X</b>...<b class=b>X</b>...<b class=b>X</b>............<b>X</b>...........<b class=y>X</b>...<b class=y>X</b>............<b class=b>XXX</b>...........<b class=g>X</b>..<b class=g>X</b>.............<b>X</b>..........<b class=b>XXXXXXXXXXX</b>........<b class=y>X</b>...<b class=y>X</b>..........
+.................................................................................<b class=b>XXXXXXX</b>........................<b class=g>XXX</b>.............................................................................<b class=b>XXXXXXX</b>..........<b class=g>XXX</b>..........................................................
+..............................................................................................................................................................................................................................................................................
+.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b></pre>
+<pre class="aida narrow" aria-hidden="true">
+.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.
+.........................................
+.............................<b class=b>XXXXXXXXXXX</b>.
+..<b>X</b>..........................<b class=b>X</b>.........<b class=b>X</b>.
+..<b>X</b>.................<b>XX</b>.<b>XX</b>....<b class=b>X</b>..<b class=h>XX</b>.<b class=h>XX</b>..<b class=b>X</b>.
+..<b>X</b>..<b>X</b>..<b>XX</b>...<b>XXX</b>...<b>XXXXXXX</b>...<b class=b>X</b>..<b class=h>XXXXX</b>..<b class=b>X</b>.
+..<b>X</b>.<b>X</b>..<b>X</b>..<b>X</b>.<b>X</b>......<b>XXXXXXX</b>...<b class=b>X</b>...<b class=h>XXX</b>...<b class=b>X</b>.
+..<b>XX</b>...<b>XXXX</b>..<b>XX</b>.....<b>XXXXX</b>....<b class=b>X</b>....<b class=h>X</b>....<b class=b>X</b>.
+..<b>X</b>.<b>X</b>..<b>X</b>.......<b>X</b>.....<b>XXX</b>.....<b class=b>XXXXXXXXXXX</b>.
+..<b>X</b>..<b>X</b>..<b>XXX</b>.<b>XXX</b>.......<b>X</b>..........<b class=b>XXX</b>.....
+...............................<b class=b>XXXXXXX</b>...
+.........................................
+........<b>X</b>........................<b>X</b>.......
+.<b>X</b>......<b>X</b>........................<b>X</b>.......
+...<b>XXX</b>..<b>X</b>..<b>X</b>..<b>XX</b>..<b>X</b>.<b>XX</b>..<b>XXX</b>..<b>XX</b>..<b>X</b>...<b>XX</b>..
+.<b>X</b>.<b>X</b>..<b>X</b>.<b>X</b>.<b>X</b>..<b>X</b>..<b>X</b>.<b>XX</b>...<b>X</b>....<b>X</b>..<b>X</b>.<b>X</b>..<b>X</b>..<b>X</b>.
+.<b>X</b>.<b>X</b>..<b>X</b>.<b>XX</b>...<b>XXXX</b>.<b>X</b>.....<b>XX</b>..<b>X</b>..<b>X</b>.<b>X</b>..<b>XXXX</b>.
+.<b>X</b>.<b>X</b>..<b>X</b>.<b>X</b>.<b>X</b>..<b>X</b>....<b>X</b>.......<b>X</b>.<b>X</b>..<b>X</b>.<b>X</b>..<b>X</b>....
+.<b>X</b>.<b>X</b>..<b>X</b>.<b>X</b>..<b>X</b>..<b>XXX</b>.<b>X</b>....<b>XXX</b>...<b>XX</b>...<b>X</b>..<b>XXX</b>.
+.........................................
+.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.<b class=b>X</b>.</pre>
 
-<p>hi! i'm kes (kesia), a freelance creative strategist and internet equalities researcher based in london.</p>
+<div class="top">
+<div>
+<p>hi! i'm kes (kesia), a freelance creative strategist and <mark>internet equalities researcher</mark> based in london.</p>
 
-<p>my practice focuses on understanding and critiquing the impacts of emerging technologies on people, culture, and the planet. i'm particularly interested in working collectively to rethink the narratives and behaviours surrounding technologies — prioritising collaborative research as a process for testing, imagining and prototyping more equitable, alternative futures.</p>
+<p>my practice focuses on understanding and critiquing the impacts of emerging technologies on people, culture, and the planet. i'm particularly interested in working collectively to rethink the narratives and behaviours surrounding technologies — prioritising collaborative research as a process for testing, imagining and prototyping <mark>more equitable, alternative futures</mark>.</p>
+</div>
 
+<div>
 <p>i'm an associate lecturer at UAL (LCF + CCI) and i've worked with Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer and Selfridges.</p>
 
-<p>currently available for work :) say hi at <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
+<p>currently available for work :) say hi at <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a> <span class="kao">ヾ(^∇^)</span></p>
+</div>
 
-<p>what i've been up to lately ☆</p>
+<div class="patch">
+<h2>what i've been up to lately <span>☆</span></h2>
 <!-- new things go at the top -->
 <ul>
 <li>lorem ipsum dolor sit amet (lorem ipsum)</li>
 <li>consectetur adipiscing elit</li>
 </ul>
+</div>
+</div>
 
-<p>projects (for fun)</p>
+<hr>
+
+<!-- photos are placeholders: swap the picsum links for real ones, keep width + height (and --r = width ÷ height) -->
+<div class="photos">
+<figure style="--r: .8"><img src="https://picsum.photos/seed/morning/480/600" width="480" height="600" alt="MØRNING Ø (placeholder photo)">
+<figcaption><a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1">MØRNING Ø</a> — lorem ipsum, photo by lorem ipsum</figcaption></figure>
+<figure style="--r: 1.5"><img src="https://picsum.photos/seed/softer1/600/400" width="600" height="400" alt="softer london (placeholder photo)">
+<figcaption><a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1">softer london</a> — lorem ipsum, photo by lorem ipsum</figcaption></figure>
+<figure style="--r: .77"><img src="https://picsum.photos/seed/softer2/400/520" width="400" height="520" alt="softer london (placeholder photo)">
+<figcaption>softer london, again — photo by lorem ipsum</figcaption></figure>
+<figure style="--r: 1.5"><img src="https://picsum.photos/seed/techyard/600/400" width="600" height="400" alt="tech yard (placeholder photo)">
+<figcaption><a href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard">tech yard</a> — lorem ipsum, photo by lorem ipsum</figcaption></figure>
+</div>
+
+<hr>
+
+<div class="lists">
+<section>
+<h2>projects (for fun) <span>✿</span></h2>
 <ul>
 <li><a href="https://latent-space.vercel.app/">latent space</a> — lorem ipsum dolor sit amet</li>
 <li><a href="https://protecht.vercel.app/">pro(tech)t</a> — consectetur adipiscing elit</li>
 </ul>
+</section>
 
-<p>projects (for funds)</p>
-<!-- photos are placeholders: swap the picsum links for real ones, keep width + height -->
+<section>
+<h2>projects (for funds) <span>✧</span></h2>
 <ul>
-<li><a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1">MØRNING Ø</a> — lorem ipsum dolor sit amet
-<p><img src="https://picsum.photos/seed/morning/240/300" width="240" height="300" alt="MØRNING Ø (placeholder photo)"><br>
-lorem ipsum, photo by lorem ipsum</p></li>
+<li><a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1">MØRNING Ø</a> — lorem ipsum dolor sit amet</li>
 <li><a href="https://co-matter.com/project/networked-worlds">networked worlds</a> — with co—matter, sed do eiusmod tempor</li>
 <li><a href="https://www.protein.xyz/dirty-words-4-community/">protein dirty words #4: community report</a> — duis aute irure dolor</li>
 </ul>
+</section>
 
-<p>things i've written</p>
+<section>
+<h2>things i've written <span>✎</span></h2>
 <ul>
 <li><a href="https://www.protein.xyz/sex-and-the-internet/">mindy seu on sex and the internet</a> (Protein)</li>
 <li><a href="https://midnight.agency/thoughts/dreaming-and-designing-more-accessible-web">dreaming and designing a more accessible web</a> (Midnight Agency)</li>
@@ -66,8 +238,10 @@ lorem ipsum, photo by lorem ipsum</p></li>
 <li><a href="https://morningfyi.substack.com/p/020-uh-oh-meet">burn after reading: uh oh meet o</a> (MØRNING)</li>
 <li><a href="https://morningfyi.substack.com/p/024-entering-limb-with">burn after reading: entering limbo, with o</a> (MØRNING)</li>
 </ul>
+</section>
 
-<p>podcasts for your commute</p>
+<section>
+<h2>podcasts for your commute <span>♫</span></h2>
 <ul>
 <li><a href="https://podcasts.apple.com/gb/podcast/mindy-seu-on-collaboration-community-and/id1449302502?i=1000597869409">mindy seu on collaboration, community and the cyberfeminism index</a></li>
 <li><a href="https://soundcloud.com/proteincommunity/protein-forum-what-can-web2-organisations-learn-from-web3-communities">what can web2 organisations learn from web3 communities?</a> (Protein)</li>
@@ -78,32 +252,71 @@ lorem ipsum, photo by lorem ipsum</p></li>
 <li><a href="https://podcasts.apple.com/gb/podcast/cyn-bahati-on-her-journey-into-web3-with-her-family/id1449302502?i=1000559818509">cyn bahati on her journey into web3 with her family</a></li>
 <li><a href="https://podcasts.apple.com/gb/podcast/latash%C3%A1-on-the-potential-of-web3-for-music-artists/id1449302502?i=1000552812458">latasha on the potential of web3 for music artists</a></li>
 </ul>
+</section>
 
-<p>irl (mostly)</p>
+<section>
+<h2>irl (mostly) <span>☂&#xFE0E;</span></h2>
 <ul>
 <li><a href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1">olden residency</a></li>
-<li><a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1">softer london</a> — talk + workshop
-<p><img src="https://picsum.photos/seed/softer1/300/200" width="300" height="200" alt="softer london (placeholder photo)">
-<img src="https://picsum.photos/seed/softer2/200/260" width="200" height="260" alt="softer london (placeholder photo)"><br>
-lorem ipsum, photos by lorem ipsum</p></li>
-<li><a href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard">tech yard</a> — workshop
-<p><img src="https://picsum.photos/seed/techyard/300/200" width="300" height="200" alt="tech yard (placeholder photo)"><br>
-lorem ipsum, photo by lorem ipsum</p></li>
+<li><a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1">softer london</a> — talk + workshop</li>
+<li><a href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard">tech yard</a> — workshop</li>
 <li><a href="https://www.instagram.com/p/BslwSSPH5Rc/?img_index=2">ovar it</a></li>
 </ul>
+</section>
 
-<p>bio, in the third person (for event listings, copy + paste away)</p>
-<p>Kes Inkersole is lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+<section>
+<h2>bio, in the third person</h2>
+<div class="cut">
+<p id="bio">Kes Inkersole is lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+<p>for event listings, copy + paste away <button type="button" id="copy">copy</button></p>
+</div>
+</section>
 
+<section>
 <p>school stuff: MA internet equalities, BA creative direction, PhD [ ? ]</p>
-
 <p>cv + portfolio on request, just <a href="mailto:inkersolekesia@gmail.com">email me</a></p>
+<pre class="aida small" aria-hidden="true" title="hi! / hi!">
+.........................................
+..<b class=b>XXXXXXXXXXX</b>...............<b class=b>XXXXXXXXXXX</b>..
+..<b class=b>X</b>.........<b class=b>X</b>...............<b class=b>X</b>.........<b class=b>X</b>..
+..<b class=b>X</b>..<b>X</b>...<b>X</b>..<b class=b>X</b>...............<b class=b>X</b>..<b>X</b>...<b>X</b>..<b class=b>X</b>..
+..<b class=b>X</b>.........<b class=b>X</b>...............<b class=b>X</b>.<b>X</b>.<b>X</b>.<b>X</b>.<b>X</b>.<b class=b>X</b>..
+..<b class=b>X</b>.<b>X</b>.....<b>X</b>.<b class=b>X</b>...............<b class=b>X</b>.<b>X</b>.....<b>X</b>.<b class=b>X</b>..
+..<b class=b>X</b>..<b>XXXXX</b>..<b class=b>X</b>...............<b class=b>X</b>..<b>XXXXX</b>..<b class=b>X</b>..
+..<b class=b>X</b>.........<b class=b>X</b>...............<b class=b>X</b>.........<b class=b>X</b>..
+..<b class=b>XXXXXXXXXXX</b>...............<b class=b>XXXXXXXXXXX</b>..
+......<b class=b>XXX</b>.......................<b class=b>XXX</b>......
+....<b class=b>XXXXXXX</b>...................<b class=b>XXXXXXX</b>....
+.......<b class=y>X</b>.........................<b class=y>X</b>.......
+.......<b class=y>X</b>..........<b>XX</b>.<b>XX</b>..........<b class=y>X</b>.......
+.......<b class=y>X</b>..........<b>XXXXX</b>..........<b class=y>X</b>.......
+.......<b class=y>X</b>...........<b>XXX</b>...........<b class=y>X</b>.......
+.......<b class=y>XXXXXXXXXXXXX</b><b>X</b><b class=y>XXXXXXXXXXXXX</b>.......
+.........................................</pre>
+</section>
+</div>
 
 <hr>
 
+<footer>
 <p>last updated 1 october 2026. it's plain html (<a href="http://contemporary-home-computing.org/prof-dr-style/">prof. dr. style</a>) so it loads on one bar of signal.</p>
-
-<p>thank you for reading all the way down x</p>
+<p>thank you for reading all the way down x <span class="kao">(っ ᵔ◡ᵔ)っ ♡</span></p>
+<pre class="aida chain" aria-hidden="true" title="everyone's invited">
+..............................................................................................................................................................................................................................................................................
+...<b>XXX</b>......<b>XXX</b>....<b>XX</b>...<b>XX</b>....<b>XXX</b>......<b>XXX</b>....<b>XX</b>...<b>XX</b>....<b>XXX</b>......<b>XXX</b>....<b>XX</b>...<b>XX</b>....<b>XXX</b>......<b>XXX</b>....<b>XX</b>...<b>XX</b>....<b>XXX</b>......<b>XXX</b>....<b>XX</b>...<b>XX</b>....<b>XXX</b>......<b>XXX</b>....<b>XX</b>...<b>XX</b>....<b>XXX</b>......<b>XXX</b>....<b>XX</b>...<b>XX</b>....<b>XXX</b>......<b>XXX</b>....<b>XX</b>...<b>XX</b>....<b>XXX</b>......<b>XXX</b>....<b>XX</b>...<b>XX</b>....<b>XXX</b>......<b>XXX</b>....<b>XX</b>...<b>XX</b>.
+..<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>..
+..<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>....<b>XXXXX</b>..
+...<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>...
+....<b>X</b>........<b>X</b>........<b>X</b>........<b>X</b>........<b>X</b>........<b>X</b>........<b>X</b>........<b>X</b>........<b>X</b>........<b>X</b>........<b>X</b>........<b>X</b>........<b>X</b>........<b>X</b>........<b>X</b>........<b>X</b>........<b>X</b>........<b>X</b>........<b>X</b>........<b>X</b>........<b>X</b>........<b>X</b>........<b>X</b>........<b>X</b>........<b>X</b>........<b>X</b>........<b>X</b>........<b>X</b>........<b>X</b>........<b>X</b>....
+<b>XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</b>
+...<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>......<b>XXX</b>...
+...<b>XXX</b>......<b>XXX</b>.....<b>XXXXX</b>.....<b>XXX</b>......<b>XXX</b>.....<b>XXXXX</b>.....<b>XXX</b>......<b>XXX</b>.....<b>XXXXX</b>.....<b>XXX</b>......<b>XXX</b>.....<b>XXXXX</b>.....<b>XXX</b>......<b>XXX</b>.....<b>XXXXX</b>.....<b>XXX</b>......<b>XXX</b>.....<b>XXXXX</b>.....<b>XXX</b>......<b>XXX</b>.....<b>XXXXX</b>.....<b>XXX</b>......<b>XXX</b>.....<b>XXXXX</b>.....<b>XXX</b>......<b>XXX</b>.....<b>XXXXX</b>.....<b>XXX</b>......<b>XXX</b>.....<b>XXXXX</b>..
+..<b>XXXXX</b>.....<b>XXX</b>....<b>XXXXXXX</b>...<b>XXXXX</b>.....<b>XXX</b>....<b>XXXXXXX</b>...<b>XXXXX</b>.....<b>XXX</b>....<b>XXXXXXX</b>...<b>XXXXX</b>.....<b>XXX</b>....<b>XXXXXXX</b>...<b>XXXXX</b>.....<b>XXX</b>....<b>XXXXXXX</b>...<b>XXXXX</b>.....<b>XXX</b>....<b>XXXXXXX</b>...<b>XXXXX</b>.....<b>XXX</b>....<b>XXXXXXX</b>...<b>XXXXX</b>.....<b>XXX</b>....<b>XXXXXXX</b>...<b>XXXXX</b>.....<b>XXX</b>....<b>XXXXXXX</b>...<b>XXXXX</b>.....<b>XXX</b>....<b>XXXXXXX</b>.
+.<b>XXXXXXX</b>....<b>X</b>.<b>X</b>.....<b>XXXXX</b>...<b>XXXXXXX</b>....<b>X</b>.<b>X</b>.....<b>XXXXX</b>...<b>XXXXXXX</b>....<b>X</b>.<b>X</b>.....<b>XXXXX</b>...<b>XXXXXXX</b>....<b>X</b>.<b>X</b>.....<b>XXXXX</b>...<b>XXXXXXX</b>....<b>X</b>.<b>X</b>.....<b>XXXXX</b>...<b>XXXXXXX</b>....<b>X</b>.<b>X</b>.....<b>XXXXX</b>...<b>XXXXXXX</b>....<b>X</b>.<b>X</b>.....<b>XXXXX</b>...<b>XXXXXXX</b>....<b>X</b>.<b>X</b>.....<b>XXXXX</b>...<b>XXXXXXX</b>....<b>X</b>.<b>X</b>.....<b>XXXXX</b>...<b>XXXXXXX</b>....<b>X</b>.<b>X</b>.....<b>XXXXX</b>..
+...<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>...
+...<b>X</b>.<b>X</b>.....<b>XX</b>.<b>XX</b>.....<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>.....<b>XX</b>.<b>XX</b>.....<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>.....<b>XX</b>.<b>XX</b>.....<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>.....<b>XX</b>.<b>XX</b>.....<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>.....<b>XX</b>.<b>XX</b>.....<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>.....<b>XX</b>.<b>XX</b>.....<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>.....<b>XX</b>.<b>XX</b>.....<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>.....<b>XX</b>.<b>XX</b>.....<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>.....<b>XX</b>.<b>XX</b>.....<b>X</b>.<b>X</b>......<b>X</b>.<b>X</b>.....<b>XX</b>.<b>XX</b>.....<b>X</b>.<b>X</b>...
+..............................................................................................................................................................................................................................................................................</pre>
+</footer>
 
 <!-- the fancy letters only live in the console: screen readers skip them or read out things like "mathematical double-struck small k" -->
 <script>
@@ -115,6 +328,15 @@ console.log("say hi: inkersolekesia@gmail.com");
 // switch tabs and see
 document.addEventListener("visibilitychange", function () {
   document.title = document.hidden ? "come back x" : "kes inkersole";
+});
+
+// copy the bio
+document.getElementById("copy").addEventListener("click", function () {
+  var b = this;
+  navigator.clipboard.writeText(document.getElementById("bio").textContent).then(function () {
+    b.textContent = "copied ♡";
+    setTimeout(function () { b.textContent = "copy"; }, 2000);
+  });
 });
 </script>
 </body>

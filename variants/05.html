@@ -21,115 +21,282 @@
 <meta name="twitter:image" content="https://kesia-coral.vercel.app/square.png">
 
 <style>
-body { max-width: 40em; } /* so lines don't run the whole width of a big screen */
-figure { display: inline-block; margin: 0 1em 1em 0; vertical-align: top; } /* photos in a row */
+/* kes's colours. change one here and it changes everywhere */
+:root {
+	--paper: #fff5f2;  /* page */
+	--ink: #2e1f3a;    /* text, a very dark plum */
+	--pink: #df3a7b;
+	--blush: #ffd7e6;
+	--blue: #3a4bdc;   /* links */
+	--sky: #6c7ef0;    /* blue bits in the drawings */
+	--mist: #dde3ff;
+	--lilac: #8b40bd;  /* links you've already clicked */
+	--leaf: #379659;
+	--butter: #fff2ad;
+	--gold: #cf970b;
+	--mono: ui-monospace, Menlo, Consolas, "Courier New", monospace;
+	--edge: clamp(16px, 4vw, 56px); /* space at the sides of the page */
+}
+
+html { background: radial-gradient(#f7d9e2 1px, transparent 1.5px) 0 0 / 22px 22px, var(--paper); color: var(--ink); -webkit-text-size-adjust: 100%; } /* faint dots, like cross-stitch fabric */
+body { margin: 0; padding: 28px var(--edge) 0; font: 17px/1.5 Times, "Times New Roman", serif; }
+::selection { background: #ffc4dc; }
+
+a { color: var(--blue); text-underline-offset: 2px; }
+a:visited { color: var(--lilac); }
+a:hover { color: var(--pink); background: var(--blush); }
+
+h1 { font-size: 2em; margin: .3em 0 .4em; }
+/* headings get a highlighter stripe (a fat underline pulled up behind the letters, so it follows the text when it wraps) */
+h2 { font-size: 1.2em; margin: 0 0 .5em; text-decoration: underline var(--hl, var(--butter)); text-decoration-thickness: .5em; text-underline-offset: -.3em; text-decoration-skip-ink: none; }
+p { margin: 0 0 1em; max-width: 36em; }
+
+ul { padding-left: 1.3em; margin: 0 0 1em; }
+li { list-style-type: "☆  "; margin-bottom: .15em; }
+li:hover { list-style-type: "★  "; }
+li::marker { color: var(--pink); }
+
+dt { font-weight: bold; margin-top: 1em; }
+dd { margin: .15em 0 0; }
+
+figure { display: inline-block; margin: .7em .5em .3em 0; vertical-align: top; }
+figure img { display: block; max-width: 100%; height: auto; background: var(--mist); border: 5px solid #fff; box-shadow: 0 1px 4px #2e1f3a26; }
+figure:nth-of-type(even) img { rotate: 1.5deg; }
+figure:nth-of-type(odd) img { rotate: -1deg; }
+figcaption { font: 12px/1.3 var(--mono); margin-top: .4em; width: 0; min-width: 100%; } /* wraps at the photo's width */
+
+/* rows of side-by-side bits that fall into one column on a phone */
+.row { display: flex; flex-wrap: wrap; gap: 36px clamp(28px, 4vw, 64px); margin: 0 0 40px; }
+.row > * { flex: 1 1 18em; max-width: 36em; min-width: 0; container-type: inline-size; } /* so drawings can size themselves to their column (cqw) */
+
+/* the ascii drawings. pure ascii in a monospace font so everything lines up */
+.art { font: 14px/1.15 var(--mono); margin: 0; color: var(--sky); }
+.p { color: var(--pink); }
+.b { color: var(--sky); }
+.g { color: var(--leaf); }
+.y { color: var(--gold); }
+.i { color: var(--ink); }
+
+.name { font-size: min(17px, 100cqw / 32); } /* shrinks to fit its column */
+.doodles { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 24px 48px; margin-top: 36px; }
+.doodles .art { font-size: 15px; }
+.bus { margin-bottom: 12px; font-size: min(14px, 100cqw / 23); }
+
+/* the cables + garden run right to the edge of the screen, and get cut off there */
+.cable, .garden { overflow: hidden; margin: 8px calc(-1 * var(--edge)) 44px; padding: 0 var(--edge); }
+.cable.flip { display: flex; justify-content: flex-end; } /* this one comes in from the left */
+.cable.flip pre { flex: none; }
+.garden { margin-bottom: 0; padding: 0; }
+
+/* little jokes */
+.mac .h, .ding { visibility: hidden; }
+.mac .h { display: none; }
+.mac:hover .a { display: none; }
+.mac:hover .h { display: inline; visibility: visible; }
+.bus:hover .ding { visibility: visible; }
+
+.new { background: var(--butter); padding: 14px 18px 4px; align-self: flex-start; --hl: #fff; }
+details { background: var(--blush); padding: 12px 16px; align-self: flex-start; }
+summary { cursor: pointer; color: var(--pink); }
+details p { margin: .8em 0 0; }
+
+footer { padding: 4px 0 40px; }
+
+/* in a narrow column (phones, small tablets) the name drops its heart so the letters can be bigger */
+@container (max-width: 480px) {
+	.name { font-size: min(17px, 100cqw / 21); }
+	.name .end { display: none; }
+}
+@media (max-width: 600px) {
+	.doodles { gap: 20px; }
+	.doodles .art { font-size: 12px; }
+}
 </style>
 </head>
 <body>
 
-<h1>hi, i'm kes ♡</h1>
+<div class="row">
+	<div>
+		<pre class="art name" aria-hidden="true"><span class=p>&lt;3</span>
+<span class=p>&lt;3</span>
+<span class=p>&lt;3    &lt;3      &lt;3&lt;3&lt;3      &lt;3&lt;3&lt;3&lt;3</span><span class=end>    <span class=y>&lt;3&lt;3  &lt;3&lt;3</span></span>
+<span class=p>&lt;3  &lt;3      &lt;3      &lt;3  &lt;3        </span><span class=end>  <span class=y>&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3</span></span>
+<span class=p>&lt;3&lt;3        &lt;3&lt;3&lt;3&lt;3&lt;3    &lt;3&lt;3&lt;3  </span><span class=end>    <span class=y>&lt;3&lt;3&lt;3&lt;3&lt;3</span></span>
+<span class=p>&lt;3  &lt;3      &lt;3                  &lt;3</span><span class=end>      <span class=y>&lt;3&lt;3&lt;3</span></span>
+<span class=p>&lt;3    &lt;3      &lt;3&lt;3&lt;3    &lt;3&lt;3&lt;3&lt;3  </span><span class=end>        <span class=y>&lt;3</span></span></pre>
+		<h1>hi, i'm kes <span class=p>♡</span></h1>
 
-<p>kesia inkersole if you're being formal. i'm a freelance creative strategist and internet equalities researcher, based in london, and i'm available for work: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
+		<p>kesia inkersole if you're being formal. i'm a freelance creative strategist and internet equalities researcher, based in london, and i'm available for work: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
 
-<p>my practice focuses on understanding and critiquing the impacts of emerging technologies on people, culture, and the planet. i'm particularly interested in working collectively to rethink the narratives and behaviours surrounding technologies, prioritising collaborative research as a process for testing, imagining and prototyping more equitable, alternative futures.</p>
+		<p>my practice focuses on understanding and critiquing the impacts of emerging technologies on people, culture, and the planet. i'm particularly interested in working collectively to rethink the narratives and behaviours surrounding technologies, prioritising collaborative research as a process for testing, imagining and prototyping more equitable, alternative futures.</p>
 
-<p>i'm an associate lecturer at UAL (LCF + CCI), and i've worked with Neu Futur, DAZED, co&#8288;—&#8288;matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer and Selfridges, among others.</p>
+		<p>i'm an associate lecturer at UAL (LCF + CCI), and i've worked with Neu Futur, DAZED, co&#8288;—&#8288;matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer and Selfridges, among others.</p>
+	</div>
 
-<!-- kes: newest at the top. the lorem ipsum lines are placeholders, swap them for real things -->
+	<div>
+		<!-- kes: newest at the top. the lorem ipsum lines are placeholders, swap them for real things -->
+		<div class="new">
+			<h2>new-ish <span class=p>✶</span></h2>
+			<ul>
+				<li>lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
+				<li>sed do eiusmod tempor incididunt ut labore et dolore</li>
+				<li>ut enim ad minim veniam, quis nostrud exercitation</li>
+			</ul>
+		</div>
 
-<h2>new-ish ✶</h2>
-<ul>
-	<li>lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
-	<li>sed do eiusmod tempor incididunt ut labore et dolore</li>
-	<li>ut enim ad minim veniam, quis nostrud exercitation</li>
-</ul>
+		<div class="doodles">
+			<pre class="art net" aria-hidden="true">   <span class=p>o</span><span class=b>-----------</span><span class=p>o</span>
+  <span class=b>/ \         / \</span>
+ <span class=b>/   \       /   \</span>
+<span class=p>o</span><span class=b>-----</span><span class=p>o</span><span class=b>-----</span><span class=p>o</span><span class=b>-----</span><span class=p>o</span>
+ <span class=b>\   / \   / \   /</span>
+  <span class=b>\ /   \ /   \ /</span>
+   <span class=p>o</span><span class=b>-----</span><span class=p>o</span><span class=b>-----</span><span class=p>o</span></pre>
+			<pre class="art mac" aria-hidden="true">.------------------.
+| .--------------. |
+| |              | |
+| |<span class=p><span class=a>   o      o   </span><span class=h>   ^      ^   </span></span>| |
+| |<span class=p><span class=a>     \__/     </span><span class=h>      &lt;3      </span></span>| |
+| |              | |
+| '--------------' |
+|                  |
+|    <span class=i>________</span>   <span class=p>o</span>  |
+|   <span class=i>|________|</span>     |
+|__________________|
+'------------------'</pre>
+		</div>
+	</div>
+</div>
+
+<div class="cable" aria-hidden="true"><pre class="art"> <span class=i>.---.    </span><span class=b>.--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.  </span>
+<span class=i>[|||||]</span><span class=b>=-'    `--'    `--'    `</span><span class=p>&lt;3</span><span class=b>'    `--'    `--'    `--'    `--'    `--'    `</span><span class=p>&lt;3</span><span class=b>'    `--'    `--'    `--'    `--'    `--'    `</span><span class=p>&lt;3</span><span class=b>'    `--'    `--'    `--'    `--'    `--'    `</span><span class=p>&lt;3</span><span class=b>'    `--'    `--'    `--'    `--'    `--'    `</span><span class=p>&lt;3</span><span class=b>'    `--'    `--'    `--'    `--'    `--'    `</span><span class=p>&lt;3</span><span class=b>'    `--'    `--'    `--'    `--'    `--'    `</span><span class=p>&lt;3</span><span class=b>'    `--'    `--'    `--'    `--'    `-</span></pre></div>
 
 <!-- to add a project: copy a <dt> + <dd> pair. photos: keep them about 150px tall so they sit in a row and fit on phones -->
 
-<h2>projects (for fun)</h2>
-<dl>
-	<dt><a href="https://latent-space.vercel.app/">latent space</a></dt>
-	<dd>
-		lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.<br>
-		<figure><img src="https://picsum.photos/seed/latentspace/200/150" width="200" height="150" alt="lorem ipsum"><figcaption>lorem ipsum dolor</figcaption></figure>
-		<figure><img src="https://picsum.photos/seed/latentspace2/200/150" width="200" height="150" alt="lorem ipsum"><figcaption>lorem ipsum dolor</figcaption></figure>
-	</dd>
+<div class="row">
+	<div>
+		<h2>projects (for fun)</h2>
+		<dl>
+			<dt><a href="https://latent-space.vercel.app/">latent space</a></dt>
+			<dd>
+				lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.<br>
+				<figure><img src="https://picsum.photos/seed/latentspace/200/150" width="200" height="150" alt="lorem ipsum"><figcaption>lorem ipsum dolor</figcaption></figure>
+				<figure><img src="https://picsum.photos/seed/latentspace2/200/150" width="200" height="150" alt="lorem ipsum"><figcaption>lorem ipsum dolor</figcaption></figure>
+			</dd>
 
-	<dt><a href="https://protecht.vercel.app/">pro(tech)t</a></dt>
-	<dd>duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</dd>
-</dl>
+			<dt><a href="https://protecht.vercel.app/">pro(tech)t</a></dt>
+			<dd>duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</dd>
+		</dl>
+	</div>
 
-<h2>projects (for funds)</h2>
-<dl>
-	<dt><a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1">MØRNING Ø</a></dt>
-	<dd>lorem ipsum dolor sit amet, consectetur adipiscing elit.</dd>
+	<div style="--hl: var(--blush)">
+		<h2>projects (for funds)</h2>
+		<dl>
+			<dt><a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1">MØRNING Ø</a></dt>
+			<dd>lorem ipsum dolor sit amet, consectetur adipiscing elit.</dd>
 
-	<dt><a href="https://co-matter.com/project/networked-worlds">networked worlds</a>, for co&#8288;—&#8288;matter</dt>
-	<dd>
-		ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. duis aute irure dolor in reprehenderit.<br>
-		<figure><img src="https://picsum.photos/seed/networked/200/150" width="200" height="150" alt="lorem ipsum"><figcaption>lorem ipsum, photo by dolor sit</figcaption></figure>
-		<figure><img src="https://picsum.photos/seed/networked2/113/150" width="113" height="150" alt="lorem ipsum"><figcaption>lorem ipsum</figcaption></figure>
-		<figure><img src="https://picsum.photos/seed/networked3/200/150" width="200" height="150" alt="lorem ipsum"><figcaption>lorem ipsum dolor</figcaption></figure>
-	</dd>
+			<dt><a href="https://co-matter.com/project/networked-worlds">networked worlds</a>, for co&#8288;—&#8288;matter</dt>
+			<dd>
+				ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. duis aute irure dolor in reprehenderit.<br>
+				<figure><img src="https://picsum.photos/seed/networked/200/150" width="200" height="150" alt="lorem ipsum"><figcaption>lorem ipsum, photo by dolor sit</figcaption></figure>
+				<figure><img src="https://picsum.photos/seed/networked2/113/150" width="113" height="150" alt="lorem ipsum"><figcaption>lorem ipsum</figcaption></figure>
+				<figure><img src="https://picsum.photos/seed/networked3/200/150" width="200" height="150" alt="lorem ipsum"><figcaption>lorem ipsum dolor</figcaption></figure>
+			</dd>
 
-	<dt><a href="https://www.protein.xyz/dirty-words-4-community/">dirty words #4: community report</a>, for Protein</dt>
-	<dd>excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia.</dd>
-</dl>
+			<dt><a href="https://www.protein.xyz/dirty-words-4-community/">dirty words #4: community report</a>, for Protein</dt>
+			<dd>excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia.</dd>
+		</dl>
+	</div>
+</div>
 
-<h2>things i've written</h2>
-<ul>
-	<li><a href="https://www.protein.xyz/sex-and-the-internet/">mindy seu on sex and the internet</a> (Protein)</li>
-	<li><a href="https://midnight.agency/thoughts/dreaming-and-designing-more-accessible-web">dreaming and designing a more accessible web</a> (Midnight Agency)</li>
-	<li><a href="https://midnight.agency/thoughts/coding-a-more-creative-and-playful-web">coding a more creative and playful web</a> (Midnight Agency)</li>
-	<li><a href="https://midnight.agency/thoughts/composing-a-flexible-and-modular-web">composing a flexible and modular web</a> (Midnight Agency)</li>
-	<li><a href="https://morningfyi.substack.com/p/020-uh-oh-meet">burn after reading: uh oh, meet o</a> (MØRNING)</li>
-	<li><a href="https://morningfyi.substack.com/p/024-entering-limb-with">burn after reading: entering limbo, with o</a> (MØRNING)</li>
-</ul>
+<div class="row">
+	<div style="--hl: var(--mist)">
+		<h2>things i've written</h2>
+		<ul>
+			<li><a href="https://www.protein.xyz/sex-and-the-internet/">mindy seu on sex and the internet</a> (Protein)</li>
+			<li><a href="https://midnight.agency/thoughts/dreaming-and-designing-more-accessible-web">dreaming and designing a more accessible web</a> (Midnight Agency)</li>
+			<li><a href="https://midnight.agency/thoughts/coding-a-more-creative-and-playful-web">coding a more creative and playful web</a> (Midnight Agency)</li>
+			<li><a href="https://midnight.agency/thoughts/composing-a-flexible-and-modular-web">composing a flexible and modular web</a> (Midnight Agency)</li>
+			<li><a href="https://morningfyi.substack.com/p/020-uh-oh-meet">burn after reading: uh oh, meet o</a> (MØRNING)</li>
+			<li><a href="https://morningfyi.substack.com/p/024-entering-limb-with">burn after reading: entering limbo, with o</a> (MØRNING)</li>
+		</ul>
+	</div>
 
-<h2>podcasts (good for a long bus ride)</h2>
-<ul>
-	<li><a href="https://podcasts.apple.com/gb/podcast/mindy-seu-on-collaboration-community-and/id1449302502?i=1000597869409">mindy seu on collaboration, community and the cyberfeminism index</a></li>
-	<li><a href="https://soundcloud.com/proteincommunity/protein-forum-what-can-web2-organisations-learn-from-web3-communities">what can web2 organisations learn from web3 communities?</a></li>
-	<li><a href="https://podcasts.apple.com/gb/podcast/cherie-hu-on-water-musics-journey-through-web3/id1449302502?i=1000581859804">cherie hu on water &amp; music's journey through web3</a></li>
-	<li><a href="https://podcasts.apple.com/gb/podcast/molly-dickson-on-dao-activism-and-fighting-for/id1449302502?i=1000578164761">molly dickson on dao activism</a></li>
-	<li><a href="https://podcasts.apple.com/gb/podcast/dame-on-the-need-for-education-accessibility/id1449302502?i=1000559829008">dame on education, accessibility and inclusivity in web3</a></li>
-	<li><a href="https://podcasts.apple.com/gb/podcast/nadia-piet-on-creative-ai-and-protopian-futures/id1449302502?i=1000559822732">nadia piet on creative ai and protopian futures</a></li>
-	<li><a href="https://podcasts.apple.com/gb/podcast/cyn-bahati-on-her-journey-into-web3-with-her-family/id1449302502?i=1000559818509">cyn bahati on her journey into web3 with her family</a></li>
-	<li><a href="https://podcasts.apple.com/gb/podcast/latash%C3%A1-on-the-potential-of-web3-for-music-artists/id1449302502?i=1000552812458">latasha on the potential of web3 for music artists</a></li>
-</ul>
+	<div>
+		<h2>podcasts (good for a long bus ride)</h2>
+		<pre class="art bus" aria-hidden="true">                           <span class="y ding">ding ding!</span>
+   <span class=p>_________________________________</span>
+  <span class=p>|  </span><span class=b>___  ___  ___  ___  ___  </span><span class=p>[</span><span class=y>&lt;3</span><span class=p>] \</span>
+  <span class=p>| </span><span class=b>|___||___||___||___||___|       </span><span class=p>|</span>
+  <span class=p>|---------------------------------|</span>
+  <span class=p>|  </span><span class=b>___  ___  ___  ___   </span><span class=p>__   </span><span class=b>___  </span><span class=p>|</span>
+  <span class=p>| </span><span class=b>|___||___||___||___| </span>|  | |<span class=b>___| </span>|
+  <span class=p>|______________________|__|_______|</span>
+    <span class=i>'-(@)-'              '-(@)-'</span></pre>
+		<ul>
+			<li><a href="https://podcasts.apple.com/gb/podcast/mindy-seu-on-collaboration-community-and/id1449302502?i=1000597869409">mindy seu on collaboration, community and the cyberfeminism index</a></li>
+			<li><a href="https://soundcloud.com/proteincommunity/protein-forum-what-can-web2-organisations-learn-from-web3-communities">what can web2 organisations learn from web3 communities?</a></li>
+			<li><a href="https://podcasts.apple.com/gb/podcast/cherie-hu-on-water-musics-journey-through-web3/id1449302502?i=1000581859804">cherie hu on water &amp; music's journey through web3</a></li>
+			<li><a href="https://podcasts.apple.com/gb/podcast/molly-dickson-on-dao-activism-and-fighting-for/id1449302502?i=1000578164761">molly dickson on dao activism</a></li>
+			<li><a href="https://podcasts.apple.com/gb/podcast/dame-on-the-need-for-education-accessibility/id1449302502?i=1000559829008">dame on education, accessibility and inclusivity in web3</a></li>
+			<li><a href="https://podcasts.apple.com/gb/podcast/nadia-piet-on-creative-ai-and-protopian-futures/id1449302502?i=1000559822732">nadia piet on creative ai and protopian futures</a></li>
+			<li><a href="https://podcasts.apple.com/gb/podcast/cyn-bahati-on-her-journey-into-web3-with-her-family/id1449302502?i=1000559818509">cyn bahati on her journey into web3 with her family</a></li>
+			<li><a href="https://podcasts.apple.com/gb/podcast/latash%C3%A1-on-the-potential-of-web3-for-music-artists/id1449302502?i=1000552812458">latasha on the potential of web3 for music artists</a></li>
+		</ul>
+	</div>
 
-<h2>talks, workshops, a residency + other bits</h2>
-<ul>
-	<li><a href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1">olden residency</a></li>
-	<li><a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1">softer london</a>, talk + workshop</li>
-	<li><a href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard">tech yard</a>, workshop</li>
-	<li><a href="https://www.instagram.com/p/BslwSSPH5Rc/?img_index=2">ovar it</a></li>
-</ul>
-<figure><img src="https://picsum.photos/seed/workshop/200/150" width="200" height="150" alt="lorem ipsum"><figcaption>lorem ipsum, photo by dolor sit</figcaption></figure>
-<figure><img src="https://picsum.photos/seed/workshop2/113/150" width="113" height="150" alt="lorem ipsum"><figcaption>lorem ipsum</figcaption></figure>
-<figure><img src="https://picsum.photos/seed/talk/200/150" width="200" height="150" alt="lorem ipsum"><figcaption>lorem ipsum, photo by dolor sit</figcaption></figure>
+	<div style="--hl: var(--blush)">
+		<h2>talks, workshops, a residency + other bits</h2>
+		<ul>
+			<li><a href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1">olden residency</a></li>
+			<li><a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1">softer london</a>, talk + workshop</li>
+			<li><a href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard">tech yard</a>, workshop</li>
+			<li><a href="https://www.instagram.com/p/BslwSSPH5Rc/?img_index=2">ovar it</a></li>
+		</ul>
+		<figure><img src="https://picsum.photos/seed/workshop/200/150" width="200" height="150" alt="lorem ipsum"><figcaption>lorem ipsum, photo by dolor sit</figcaption></figure>
+		<figure><img src="https://picsum.photos/seed/workshop2/113/150" width="113" height="150" alt="lorem ipsum"><figcaption>lorem ipsum</figcaption></figure>
+		<figure><img src="https://picsum.photos/seed/talk/200/150" width="200" height="150" alt="lorem ipsum"><figcaption>lorem ipsum, photo by dolor sit</figcaption></figure>
+	</div>
+</div>
 
-<h2>studied</h2>
-<ul>
-	<li>MA internet equalities</li>
-	<li>BA creative direction</li>
-	<li>PhD [ ? ]</li>
-</ul>
+<div class="cable flip" aria-hidden="true"><pre class="art">  <span class=b>.--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    .--.    </span><span class=i>.---. </span>
+<span class=b>-'    `--'    `--'    `</span><span class=p>&lt;3</span><span class=b>'    `--'    `--'    `--'    `--'    `--'    `</span><span class=p>&lt;3</span><span class=b>'    `--'    `--'    `--'    `--'    `--'    `</span><span class=p>&lt;3</span><span class=b>'    `--'    `--'    `--'    `--'    `--'    `</span><span class=p>&lt;3</span><span class=b>'    `--'    `--'    `--'    `--'    `--'    `</span><span class=p>&lt;3</span><span class=b>'    `--'    `--'    `--'    `--'    `--'    `</span><span class=p>&lt;3</span><span class=b>'    `--'    `--'    `--'    `--'    `--'    `</span><span class=p>&lt;3</span><span class=b>'    `--'    `--'    `--'    `--'    `-=</span><span class=i>[|||||]</span></pre></div>
 
-<details>
-	<summary>need a bio in the third person? (for event programmes etc)</summary>
-	<p>Kesia Inkersole is a freelance creative strategist and internet equalities researcher based in London. Inkersole's practice focuses on understanding and critiquing the impacts of emerging technologies on people, culture and the planet, prioritising collaborative research as a process for testing, imagining and prototyping more equitable, alternative futures. Inkersole is an associate lecturer at UAL (London College of Fashion and the Creative Computing Institute) and has worked with Neu Futur, DAZED, co&#8288;—&#8288;matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer and Selfridges.</p>
-</details>
+<div class="row">
+	<div style="--hl: var(--mist)">
+		<h2>studied</h2>
+		<ul>
+			<li>MA internet equalities</li>
+			<li>BA creative direction</li>
+			<li>PhD [ ? ]</li>
+		</ul>
+	</div>
 
-<h2>say hi</h2>
-<p><a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a><br>
-cv + portfolio on request, just ask</p>
+	<div>
+		<h2>say hi (^_^)/</h2>
+		<p><a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a><br>
+		cv + portfolio on request, just ask</p>
+	</div>
+
+	<details>
+		<summary>need a bio in the third person? (for event programmes etc)</summary>
+		<p>Kesia Inkersole is a freelance creative strategist and internet equalities researcher based in London. Inkersole's practice focuses on understanding and critiquing the impacts of emerging technologies on people, culture and the planet, prioritising collaborative research as a process for testing, imagining and prototyping more equitable, alternative futures. Inkersole is an associate lecturer at UAL (London College of Fashion and the Creative Computing Institute) and has worked with Neu Futur, DAZED, co&#8288;—&#8288;matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer and Selfridges.</p>
+	</details>
+</div>
+
+<pre class="art garden" aria-hidden="true" title="it loads fine on bad wifi. the snail is the bad wifi">     <span class=b>_      </span><span class=p>_  _          _____       </span><span class=i>@  @             </span><span class=y>\ | /    </span><span class=p>_  _          </span><span class=b>_            </span><span class=p>_  _      </span><span class=y>\ | /          </span><span class=b>_      </span><span class=p>_  _            _  _    </span><span class=y>\ | /          </span><span class=b>_            </span><span class=p>_  _        </span><span class=b>_      </span><span class=y>\ | /    </span><span class=p>_  _                </span><span class=b>_      </span><span class=p>_  _      </span><span class=y>\ | /          </span><span class=p>_  _      </span><span class=b>_          </span><span class=p>_  _    </span><span class=y>\ | /            </span><span class=b>_      </span><span class=p>_  _</span>
+   <span class=b>_(_)_   </span><span class=p>( \/ )       .'     '.      </span><span class=b>\ |      </span><span class=p>@      </span><span class=y>-</span><span class=p>(@)</span><span class=y>-   </span><span class=p>( \/ )       </span><span class=b>_(_)_     </span><span class=p>@   ( \/ )     </span><span class=y>-</span><span class=p>(@)</span><span class=y>-        </span><span class=b>_(_)_   </span><span class=p>( \/ )    @     ( \/ )   </span><span class=y>-</span><span class=p>(@)</span><span class=y>-        </span><span class=b>_(_)_     </span><span class=p>@   ( \/ )     </span><span class=b>_(_)_    </span><span class=y>-</span><span class=p>(@)</span><span class=y>-   </span><span class=p>( \/ )        @    </span><span class=b>_(_)_   </span><span class=p>( \/ )     </span><span class=y>-</span><span class=p>(@)</span><span class=y>-     </span><span class=p>@   ( \/ )   </span><span class=b>_(_)_       </span><span class=p>( \/ )   </span><span class=y>-</span><span class=p>(@)</span><span class=y>-     </span><span class=p>@    </span><span class=b>_(_)_   </span><span class=p>( \/ )</span>
+  <span class=b>(_)</span><span class=y>@</span><span class=b>(_)   </span><span class=p>\  /       /  </span><span class=y>.---.  </span><span class=p>\     </span><span class=b>| |     </span><span class=g>\|      </span><span class=y>/ </span><span class=g>| </span><span class=y>\    </span><span class=p>\  /       </span><span class=b>(_)</span><span class=y>@</span><span class=b>(_)   </span><span class=g>\|    </span><span class=p>\  /      </span><span class=y>/ </span><span class=g>| </span><span class=y>\       </span><span class=b>(_)</span><span class=y>@</span><span class=b>(_)   </span><span class=p>\  /    </span><span class=g>\|      </span><span class=p>\  /    </span><span class=y>/ </span><span class=g>| </span><span class=y>\       </span><span class=b>(_)</span><span class=y>@</span><span class=b>(_)   </span><span class=g>\|    </span><span class=p>\  /     </span><span class=b>(_)</span><span class=y>@</span><span class=b>(_)   </span><span class=y>/ </span><span class=g>| </span><span class=y>\    </span><span class=p>\  /        </span><span class=g>\|   </span><span class=b>(_)</span><span class=y>@</span><span class=b>(_)   </span><span class=p>\  /      </span><span class=y>/ </span><span class=g>| </span><span class=y>\    </span><span class=g>\|    </span><span class=p>\  /   </span><span class=b>(_)</span><span class=y>@</span><span class=b>(_)       </span><span class=p>\  /    </span><span class=y>/ </span><span class=g>| </span><span class=y>\    </span><span class=g>\|   </span><span class=b>(_)</span><span class=y>@</span><span class=b>(_)   </span><span class=p>\  /</span>
+    <span class=b>(_)      </span><span class=p>\/       |  </span><span class=y>( (@) )  </span><span class=p>|</span><span class=b>____/ /      </span><span class=g>|/       |       </span><span class=p>\/          </span><span class=b>(_)      </span><span class=g>|/    </span><span class=p>\/         </span><span class=g>|           </span><span class=b>(_)      </span><span class=p>\/      </span><span class=g>|/      </span><span class=p>\/       </span><span class=g>|           </span><span class=b>(_)      </span><span class=g>|/    </span><span class=p>\/        </span><span class=b>(_)       </span><span class=g>|       </span><span class=p>\/          </span><span class=g>|/    </span><span class=b>(_)      </span><span class=p>\/         </span><span class=g>|       |/    </span><span class=p>\/      </span><span class=b>(_)          </span><span class=p>\/       </span><span class=g>|       |/    </span><span class=b>(_)      </span><span class=p>\/</span>
+    <span class=g>\|       |/        </span><span class=p>\  </span><span class=y>'---'  </span><span class=p>/      </span><span class=b>/      </span><span class=g>\|       \|       |/          \|      \|     |/        \|           \|       |/     \|       |/      \|           \|      \|     |/        \|       \|       |/         \|     \|       |/        \|      \|     |/      \|           |/      \|      \|     \|       |/</span>
+<span class=g>,,,,,|,,,,,,,|,,,,,,,</span><span class=b>___</span><span class=p>'._____.</span><span class=b>'______/</span><span class=g>,,,,,,,,|,,,,,,,,|,,,,,,,|,,,,,,,,,,,,|,,,,,,,|,,,,,|,,,,,,,,,,|,,,,,,,,,,,,|,,,,,,,|,,,,,,,|,,,,,,,|,,,,,,,,|,,,,,,,,,,,,|,,,,,,,|,,,,,|,,,,,,,,,,|,,,,,,,,|,,,,,,,|,,,,,,,,,,,|,,,,,,|,,,,,,,|,,,,,,,,,,|,,,,,,,|,,,,,|,,,,,,,,|,,,,,,,,,,,|,,,,,,,,|,,,,,,,|,,,,,,|,,,,,,,|,,,,,</span></pre>
 
 <!-- change the date when you change something! -->
 
-<p>this page was last updated on 1 october 2026. it's plain html in <a href="http://contemporary-home-computing.org/prof-dr-style/">olia lialina's prof. dr. style</a>, so it's easy for me to update and it loads fine on bad wifi.</p>
-
-<p>thanks for stopping by ♡</p>
+<footer>
+	<p>this page was last updated on 1 october 2026. it's still mostly plain html (it started out in <a href="http://contemporary-home-computing.org/prof-dr-style/">olia lialina's prof. dr. style</a>, then i planted some flowers), so it's easy for me to update and it loads fine on bad wifi.</p>
+	<p>thanks for stopping by <span class=p>♡</span></p>
+</footer>
 
 <script>
 	console.log('hi ♡ thanks for looking under the hood');

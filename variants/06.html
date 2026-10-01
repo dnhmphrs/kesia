@@ -6,6 +6,8 @@
 <title>kes inkersole</title>
 <meta name="description" content="Kesia Inkersole — freelance creative strategist & internet equalities researcher, based in london.">
 <meta name="author" content="Kes Inkersole">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#fff7f1">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <meta property="og:type" content="website">
 <meta property="og:title" content="kes inkersole">
@@ -15,59 +17,239 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://kesia-coral.vercel.app/square.png">
 <style>
-img { max-width: 100%; height: auto; }
-h2 { font: inherit; }
+:root {
+  --paper: #fff7f1;
+  --ink: #3b1f47;     /* plum, instead of black */
+  --pink: #ff5ca8;
+  --rose: #c42a72;    /* the pink, dark enough to read */
+  --blue: #3d4ee0;    /* links */
+  --lilac: #8d4fcf;   /* links you've been to */
+  --gold: #e7a200;
+  --mint: #23a26b;
+  --butter: #ffec85;
+  --blush: #ffe3ee;
+  --sky: #e7e9ff;
+  --mono: Menlo, Consolas, "DejaVu Sans Mono", "Liberation Mono", "Courier New", monospace;
+}
+html { background: var(--paper); color: var(--ink); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { margin: 0; padding: 12px clamp(16px, 3vw, 48px) 0; font: 17px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif; }
+::selection { background: var(--pink); color: #fff; }
+
+a { color: var(--blue); text-decoration-color: #3d4ee055; text-underline-offset: 3px; }
+a:visited { color: var(--lilac); }
+a:hover { color: var(--rose); text-decoration: underline wavy var(--pink); }
+a:focus-visible { outline: 2px dashed var(--pink); outline-offset: 2px; }
+
+h1, h2 { font: bold 1rem/1.3 var(--mono); color: var(--rose); margin: 0 0 .6em; }
+h2 i { font-style: normal; color: var(--pink); }
+h1 { font-size: 1.6rem; }
+h2 span, mark { background: linear-gradient(transparent 45%, var(--butter) 45%, var(--butter) 92%, transparent 92%); color: inherit; }
+ul { list-style: none; margin: 0; padding: 0; }
+li { padding-left: 1.3em; margin-bottom: .3em; }
+li::before { content: "☆"; display: inline-block; width: 1.3em; margin-left: -1.3em; color: var(--gold); }
+li:hover::before { content: "★"; color: var(--pink); }
+
+/* ascii. all plain ascii characters, so it lines up in any monospace font */
+.art { font: 15px/1.15 var(--mono); margin: 0; white-space: pre; color: var(--ink); }
+.art .p { color: var(--pink); }
+.art .n { color: var(--pink); font-weight: bold; }
+.art .b, .wire { color: var(--blue); }
+.art .y { color: var(--gold); }
+.art .l { color: var(--lilac); }
+.art .g { color: var(--mint); }
+.wire i { color: var(--pink); font-style: normal; }
+.shut { display: none; }
+header:hover .open { display: none; }
+header:hover .shut { display: inline; }
+
+/* the banner is 126 characters wide, so it's sized to fill the page */
+header { container-type: inline-size; margin-bottom: 28px; }
+.banner { font-size: 1.1vw; font-size: min(32px, 100cqi / 77.5); }
+.banner.small { display: none; font-size: min(17px, 100cqi / 23.4); }
+
+.hello { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 4fr) auto; gap: 32px 56px; align-items: start; margin-bottom: 64px; }
+.hello p { font-size: 1.15rem; margin: 0 0 .8em; max-width: 34em; }
+.lately { background: var(--blush); border-radius: 18px; padding: 18px 24px 12px; }
+.bunny:hover { animation: hop .5s; }
+@keyframes hop { 40% { transform: translateY(-8px); } }
+
+.funds { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px 40px; margin-bottom: 56px; }
+.funds p { margin: 0 0 .6em; max-width: 36em; }
+.photos { display: flex; gap: 8px; }
+.photos img { flex: 1.5 1 0; min-width: 0; height: auto; border-radius: 8px; background: var(--sky); transition: transform .2s; }
+.photos img.tall { flex-grow: .75; }
+.photos img:nth-child(2n) { background: var(--blush); }
+.photos img:hover { transform: rotate(-2deg); }
+.photos img:nth-child(2n):hover { transform: rotate(2deg); }
+.cap { font: 13px/1.4 var(--mono); color: var(--lilac); }
+
+.lists { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0 48px; margin-bottom: 24px; }
+.lists section { margin-bottom: 32px; }
+.pods { grid-column: span 2; }
+.pods ul { columns: 2; column-gap: 48px; }
+.pods li { break-inside: avoid; }
+
+.dolls { overflow: hidden; margin: 8px 0 32px; }
+
+.serious { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 32px 56px; align-items: start; margin-bottom: 40px; }
+.serious > div > p:first-of-type { font-size: 1.25rem; max-width: 34em; }
+.hi { background: var(--sky); border-radius: 18px; padding: 18px 24px; }
+.hi p { margin: 0 0 .8em; max-width: 40em; }
+.meadow { overflow: hidden; padding-bottom: 6px; }
+
+@media (max-width: 1240px) {
+  .lists { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+}
+@media (max-width: 1100px) {
+  .hello { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .hello > div:first-child { grid-row: span 2; }
+}
+@media (max-width: 900px) {
+  .funds, .serious { grid-template-columns: minmax(0, 1fr); }
+  .funds > div { max-width: 640px; }
+}
+@media (max-width: 760px) {
+  body { font-size: 16px; }
+  .banner.big { display: none; }
+  .banner.small { display: block; }
+  .hello, .lists { grid-template-columns: minmax(0, 1fr); }
+  .hello > div:first-child { grid-row: auto; }
+  .pods { grid-column: auto; }
+  .pods ul { columns: 1; }
+  .art { font-size: 13px; }
+}
 </style>
 </head>
 <body>
 
-<!-- hiya, you're reading the source :) it's just html, take whatever's useful x -->
+<!-- hiya, you're reading the source :) it's still mostly just html, take whatever's useful x -->
 
+<header>
+<!-- me and the internet, in ascii. the little <3 on the cable moves (the script's at the bottom) -->
+<pre class="art banner big" aria-hidden="true">
+                <span class="b">.---------------.</span>                   <span class="y">.                    *                     +</span>
+               <span class="b">( hello, world</span> <span class="p">&lt;3</span> <span class="b">)</span>          <span class="y">*                                       .                          *</span>
+                <span class="b">'-----.---------'</span>                            <span class="y">+                                         .</span>
+                     <span class="b">/</span>                <span class="y">.                                        +</span>                               .-----------.
+   .----------------.                                                                                          |    ---    |
+   | .------------. |                                                                                          | .-------. |
+   | |            | |       <span class="n">_                                _                                _</span>                | |       | |
+   | |  ^      <span class="open">^</span><span class="shut">-</span>  | |      <span class="n">( )                     _        ( )                              (_ )</span>              | | <span class="p">_  _</span>  | |
+   | |  <span class="p">..</span>  w  <span class="p">..</span> | |      <span class="n">| |/')    __    ___    (_)  ___  | |/')    __   _ __   ___    _    | |    __</span>        | |<span class="p">( \/ )</span> | |
+   | |            | |      <span class="n">| , &lt;   /'__`\/',__)   | |/' _ `\| , &lt;   /'__`\( '__)/',__) /'_`\  | |  /'__`\</span>      | | <span class="p">\  /</span>  | |
+   | '------------' |      <span class="n">| |\`\ (  ___/\__, \   | || ( ) || |\`\ (  ___/| |   \__, \( (_) ) | | (  ___/</span>      | |  <span class="p">\/</span>   | |
+   |  ==        o   |      <span class="n">(_) (_)`\____)(____/   (_)(_) (_)(_) (_)`\____)(_)   (____/`\___/'(___)`\____)</span>      | |       | |
+   '----------------'         <span class="y">.                                                             +</span>                  | '-------' |
+       _|______|_                                         <span class="y">*</span>                                                    |    (_)    |
+      [__________]<span class="b">=.</span>                                                  <span class="y">.</span>                                        '-----.-----'
+                   <span class="b">'</span><span class="wire">-------------------------------------------------------------------------------------------------</span><span class="b">'</span>
+</pre>
+<pre class="art banner small" aria-hidden="true">
+         <span class="b">.--------.</span>            <span class="y">.</span>
+  <span class="y">.</span>     <span class="b">( hiya!</span> <span class="p">&lt;3</span> <span class="b">)</span>    <span class="y">*</span>
+         <span class="b">'---.----'</span>                <span class="y">+</span>
+            <span class="b">/</span>
+ .-----------.
+ | .-------. |
+ | |       | |   <span class="n">_</span>
+ | | ^ w <span class="open">^</span><span class="shut">-</span> | |  <span class="n">( )</span>
+ | |       | |  <span class="n">| |/')    __    ___</span>
+ | '-------' |  <span class="n">| , &lt;   /'__`\/',__)</span>
+ |  ==   o   |  <span class="n">| |\`\ (  ___/\__, \</span>
+ '-----------'  <span class="n">(_) (_)`\____)(____/</span>
+    _|___|_
+   [_______]<span class="b">=.</span>
+             <span class="b">'</span><span class="wire">----------------------</span><span class="b">&gt;</span>
+</pre>
+</header>
+
+<div class="hello">
+<div>
 <h1>hello, i'm kes ♡</h1>
 
 <p>(kesia inkersole, if we're being formal.) i'm a freelance creative strategist and internet equalities researcher, based in london, and an associate lecturer at UAL (LCF + CCI).</p>
 
 <p>i've worked with Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer and Selfridges.</p>
 
-<p>i'm available for work! <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a> (cv and portfolio on request x)</p>
+<p><mark>i'm available for work!</mark> <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a> (cv and portfolio on request x)</p>
+</div>
 
-<h2>lately <span aria-hidden="true">⋆｡°✩</span></h2>
+<div class="lately">
+<h2><span>lately</span> <i aria-hidden="true">⋆｡°✩</i></h2>
 <ul>
 <li>lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
 <li>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</li>
 <li>ut enim ad minim veniam, quis nostrud exercitation</li>
 </ul>
+</div>
 
-<h2>projects (for fun)</h2>
+<pre class="art bunny" aria-hidden="true">
+ .--------------------.
+ |  i'm available     |
+ |  for work !!  <span class="p">&lt;3</span>   |
+ '---------. .--------'
+           | |
+    (\_/)  | |
+   ( ^.^ )o| |
+   (")_(") | |
+ <span class="g">,,,,,,,,,,</span>|_|<span class="g">,,,,,,,,,,</span>
+</pre>
+</div>
+
+<h2><span>projects (for funds)</span></h2>
+
+<!-- photos are placeholders. when the real ones go in, say what's in them in alt="" -->
+
+<div class="funds">
+<div>
+<p class="photos"><img src="https://picsum.photos/seed/morning/480/320" width="240" height="160" alt="">
+<img class="tall" src="https://picsum.photos/seed/oslash/240/320" width="120" height="160" alt=""></p>
+<p class="cap">lorem ipsum dolor sit amet, photos by lorem ipsum</p>
+<p><a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1">MØRNING Ø</a><br>
+lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+</div>
+
+<div>
+<p class="photos"><img class="tall" src="https://picsum.photos/seed/networked/240/320" width="120" height="160" alt="">
+<img src="https://picsum.photos/seed/worlds/480/320" width="240" height="160" alt=""></p>
+<p class="cap">lorem ipsum dolor (left), consectetur adipiscing (right)</p>
+<p><a href="https://co-matter.com/project/networked-worlds">networked worlds</a> (co—matter)<br>
+duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+</div>
+
+<div>
+<p class="photos"><img class="tall" src="https://picsum.photos/seed/dirty/240/320" width="120" height="160" alt="">
+<img class="tall" src="https://picsum.photos/seed/words/240/320" width="120" height="160" alt="">
+<img class="tall" src="https://picsum.photos/seed/community/240/320" width="120" height="160" alt=""></p>
+<p class="cap">lorem ipsum dolor sit amet, photos by lorem ipsum</p>
+<p><a href="https://www.protein.xyz/dirty-words-4-community/">dirty words #4: community report</a> (Protein)<br>
+sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam. nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.</p>
+</div>
+</div>
+
+<div class="lists">
+<div>
+<section>
+<h2><span>projects (for fun)</span></h2>
 <ul>
 <li><a href="https://latent-space.vercel.app/">latent space</a> — lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
 <li><a href="https://protecht.vercel.app/">pro(tech)t</a> — sed do eiusmod tempor incididunt ut labore</li>
 </ul>
+</section>
 
-<h2>projects (for funds)</h2>
+<section>
+<h2><span>irl (mostly)</span></h2>
+<ul>
+<li><a href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1">olden residency</a></li>
+<li><a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1">softer london</a>, talk + workshop</li>
+<li><a href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard">tech yard</a>, workshop</li>
+<li><a href="https://www.instagram.com/p/BslwSSPH5Rc/?img_index=2">ovar it</a></li>
+</ul>
+</section>
+</div>
 
-<!-- photos are placeholders. when the real ones go in, say what's in them in alt="" -->
-
-<p><a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1">MØRNING Ø</a><br>
-lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-<p><img src="https://picsum.photos/seed/morning/480/320" width="240" height="160" alt="">
-<img src="https://picsum.photos/seed/oslash/240/320" width="120" height="160" alt=""><br>
-lorem ipsum dolor sit amet, photos by lorem ipsum</p>
-
-<p><a href="https://co-matter.com/project/networked-worlds">networked worlds</a> (co—matter)<br>
-duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-<p><img src="https://picsum.photos/seed/networked/240/320" width="120" height="160" alt="">
-<img src="https://picsum.photos/seed/worlds/480/320" width="240" height="160" alt=""><br>
-lorem ipsum dolor (left), consectetur adipiscing (right)</p>
-
-<p><a href="https://www.protein.xyz/dirty-words-4-community/">dirty words #4: community report</a> (Protein)<br>
-sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam. nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.</p>
-<p><img src="https://picsum.photos/seed/dirty/240/320" width="120" height="160" alt="">
-<img src="https://picsum.photos/seed/words/240/320" width="120" height="160" alt="">
-<img src="https://picsum.photos/seed/community/240/320" width="120" height="160" alt=""><br>
-lorem ipsum dolor sit amet, photos by lorem ipsum</p>
-
-<h2>things i've written</h2>
+<section>
+<h2><span>things i've written</span></h2>
 <ul>
 <li><a href="https://www.protein.xyz/sex-and-the-internet/">mindy seu on sex and the internet</a> (Protein)</li>
 <li><a href="https://midnight.agency/thoughts/dreaming-and-designing-more-accessible-web">dreaming and designing a more accessible web</a> (Midnight Agency)</li>
@@ -76,8 +258,10 @@ lorem ipsum dolor sit amet, photos by lorem ipsum</p>
 <li><a href="https://morningfyi.substack.com/p/020-uh-oh-meet">burn after reading: uh oh, meet o</a></li>
 <li><a href="https://morningfyi.substack.com/p/024-entering-limb-with">burn after reading: entering limbo, with o</a></li>
 </ul>
+</section>
 
-<h2>podcasts, for the bus</h2>
+<section class="pods">
+<h2><span>podcasts, for the bus</span></h2>
 <ul>
 <li><a href="https://podcasts.apple.com/gb/podcast/mindy-seu-on-collaboration-community-and/id1449302502?i=1000597869409">mindy seu on collaboration, community and the cyberfeminism index</a></li>
 <li><a href="https://soundcloud.com/proteincommunity/protein-forum-what-can-web2-organisations-learn-from-web3-communities">what can web2 organisations learn from web3 communities?</a></li>
@@ -88,30 +272,59 @@ lorem ipsum dolor sit amet, photos by lorem ipsum</p>
 <li><a href="https://podcasts.apple.com/gb/podcast/cyn-bahati-on-her-journey-into-web3-with-her-family/id1449302502?i=1000559818509">cyn bahati on her journey into web3 with her family</a></li>
 <li><a href="https://podcasts.apple.com/gb/podcast/latash%C3%A1-on-the-potential-of-web3-for-music-artists/id1449302502?i=1000552812458">latasha on the potential of web3 for music artists</a></li>
 </ul>
+</section>
+</div>
 
-<h2>irl (mostly)</h2>
-<ul>
-<li><a href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1">olden residency</a></li>
-<li><a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1">softer london</a>, talk + workshop</li>
-<li><a href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard">tech yard</a>, workshop</li>
-<li><a href="https://www.instagram.com/p/BslwSSPH5Rc/?img_index=2">ovar it</a></li>
-</ul>
+<pre class="art dolls" aria-hidden="true">
+                 <span class="p">&lt;3                                      &lt;3                                                                         &lt;3                                      &lt;3                                                               &lt;3                                                     &lt;3</span>
+  <span class="p">o</span>    <span class="b">o</span>    <span class="l">o</span>    <span class="p">o</span>    <span class="b">o</span>    <span class="l">o</span>    <span class="p">o</span>    <span class="b">o</span>    <span class="l">o</span>    <span class="p">o</span>    <span class="b">o</span>    <span class="l">o</span>    <span class="p">o</span>    <span class="b">o</span>    <span class="l">o</span>    <span class="p">o</span>    <span class="b">o</span>    <span class="l">o</span>    <span class="p">o</span>    <span class="b">o</span>    <span class="l">o</span>    <span class="p">o</span>    <span class="b">o</span>    <span class="l">o</span>    <span class="p">o</span>    <span class="b">o</span>    <span class="l">o</span>    <span class="p">o</span>    <span class="b">o</span>    <span class="l">o</span>    <span class="p">o</span>    <span class="b">o</span>    <span class="l">o</span>    <span class="p">o</span>    <span class="b">o</span>    <span class="l">o</span>    <span class="p">o</span>    <span class="b">o</span>    <span class="l">o</span>    <span class="p">o</span>    <span class="b">o</span>    <span class="l">o</span>    <span class="p">o</span>    <span class="b">o</span>    <span class="l">o</span>    <span class="p">o</span>    <span class="b">o</span>    <span class="l">o</span>    <span class="p">o</span>    <span class="b">o</span>    <span class="l">o</span>    <span class="p">o</span>    <span class="b">o</span>    <span class="l">o</span>    <span class="p">o</span>    <span class="b">o</span>    <span class="l">o</span>    <span class="p">o</span>    <span class="b">o</span>    <span class="l">o</span>
+_<span class="p">/|\</span>__<span class="b">/|\</span>__<span class="l">/|\</span>__<span class="p">/|\</span>__<span class="b">/|\</span>__<span class="l">/|\</span>__<span class="p">/|\</span>__<span class="b">/|\</span>__<span class="l">/|\</span>__<span class="p">/|\</span>__<span class="b">/|\</span>__<span class="l">/|\</span>__<span class="p">/|\</span>__<span class="b">/|\</span>__<span class="l">/|\</span>__<span class="p">/|\</span>__<span class="b">/|\</span>__<span class="l">/|\</span>__<span class="p">/|\</span>__<span class="b">/|\</span>__<span class="l">/|\</span>__<span class="p">/|\</span>__<span class="b">/|\</span>__<span class="l">/|\</span>__<span class="p">/|\</span>__<span class="b">/|\</span>__<span class="l">/|\</span>__<span class="p">/|\</span>__<span class="b">/|\</span>__<span class="l">/|\</span>__<span class="p">/|\</span>__<span class="b">/|\</span>__<span class="l">/|\</span>__<span class="p">/|\</span>__<span class="b">/|\</span>__<span class="l">/|\</span>__<span class="p">/|\</span>__<span class="b">/|\</span>__<span class="l">/|\</span>__<span class="p">/|\</span>__<span class="b">/|\</span>__<span class="l">/|\</span>__<span class="p">/|\</span>__<span class="b">/|\</span>__<span class="l">/|\</span>__<span class="p">/|\</span>__<span class="b">/|\</span>__<span class="l">/|\</span>__<span class="p">/|\</span>__<span class="b">/|\</span>__<span class="l">/|\</span>__<span class="p">/|\</span>__<span class="b">/|\</span>__<span class="l">/|\</span>__<span class="p">/|\</span>__<span class="b">/|\</span>__<span class="l">/|\</span>__<span class="p">/|\</span>__<span class="b">/|\</span>__<span class="l">/|\</span>_
+ <span class="p">/ \</span>  <span class="b">/_\</span>  <span class="l">/ \</span>  <span class="p">/_\</span>  <span class="b">/ \</span>  <span class="l">/_\</span>  <span class="p">/ \</span>  <span class="b">/_\</span>  <span class="l">/ \</span>  <span class="p">/_\</span>  <span class="b">/ \</span>  <span class="l">/_\</span>  <span class="p">/ \</span>  <span class="b">/_\</span>  <span class="l">/ \</span>  <span class="p">/_\</span>  <span class="b">/ \</span>  <span class="l">/_\</span>  <span class="p">/ \</span>  <span class="b">/_\</span>  <span class="l">/ \</span>  <span class="p">/_\</span>  <span class="b">/ \</span>  <span class="l">/_\</span>  <span class="p">/ \</span>  <span class="b">/_\</span>  <span class="l">/ \</span>  <span class="p">/_\</span>  <span class="b">/ \</span>  <span class="l">/_\</span>  <span class="p">/ \</span>  <span class="b">/_\</span>  <span class="l">/ \</span>  <span class="p">/_\</span>  <span class="b">/ \</span>  <span class="l">/_\</span>  <span class="p">/ \</span>  <span class="b">/_\</span>  <span class="l">/ \</span>  <span class="p">/_\</span>  <span class="b">/ \</span>  <span class="l">/_\</span>  <span class="p">/ \</span>  <span class="b">/_\</span>  <span class="l">/ \</span>  <span class="p">/_\</span>  <span class="b">/ \</span>  <span class="l">/_\</span>  <span class="p">/ \</span>  <span class="b">/_\</span>  <span class="l">/ \</span>  <span class="p">/_\</span>  <span class="b">/ \</span>  <span class="l">/_\</span>  <span class="p">/ \</span>  <span class="b">/_\</span>  <span class="l">/ \</span>  <span class="p">/_\</span>  <span class="b">/ \</span>  <span class="l">/_\</span>
+</pre>
 
-<h2>the serious bit</h2>
+<div class="serious">
+<div>
+<h2><span>the serious bit</span> <i aria-hidden="true">(｀・ω・´)</i></h2>
 <p>my practice focuses on understanding and critiquing the impacts of emerging technologies on people, culture, and the planet. i'm particularly interested in working collectively to rethink the narratives and behaviours surrounding technologies — prioritising collaborative research as a process for testing, imagining and prototyping more equitable, alternative futures.</p>
 <p>letters after my name: MA internet equalities, BA creative direction, PhD [ ? ]</p>
+</div>
 
+<div class="hi">
 <p>say hi! <a href="mailto:inkersolekesia@gmail.com?subject=hello%20from%20your%20website">inkersolekesia@gmail.com</a></p>
-
-<p>last updated 1 october 2026. it's just html, in the <a href="http://contemporary-home-computing.org/prof-dr-style/">Prof. Dr. style</a>, so it should load even on bad train wifi. i was going to write my name in <span role="img" aria-label="fancy letters">𝓯𝓪𝓷𝓬𝔂 𝓵𝓮𝓽𝓽𝓮𝓻𝓼</span> but screen readers read them out as maths symbols, sorry.</p>
-
+<p>last updated 1 october 2026. it's still mostly just html (it started out in the <a href="http://contemporary-home-computing.org/prof-dr-style/">Prof. Dr. style</a>, then i got carried away with the colours), so it should load even on bad train wifi. i was going to write my name in <span role="img" aria-label="fancy letters">𝓯𝓪𝓷𝓬𝔂 𝓵𝓮𝓽𝓽𝓮𝓻𝓼</span> but screen readers read them out as maths symbols, so i drew it in ascii instead and hid it from them.</p>
 <p>thanks for stopping by ♡</p>
+</div>
+</div>
+
+<pre class="art meadow" aria-hidden="true">
+      <span class="p">_</span>         <span class="b">.-.</span>            <span class="l">wWWWw</span>    <span class="y">.    \|/</span>        <span class="p">_                     _</span>         <span class="b">.-.</span>            <span class="l">wWWWw</span>    <span class="y">.    \|/</span>        <span class="p">_                     _</span>         <span class="b">.-.</span>            <span class="l">wWWWw</span>    <span class="y">.    \|/</span>        <span class="p">_                     _</span>         <span class="b">.-.</span>            <span class="l">wWWWw</span>    <span class="y">.    \|/</span>        <span class="p">_                     _</span>         <span class="b">.-.</span>            <span class="l">wWWWw</span>    <span class="y">.    \|/</span>        <span class="p">_                     _</span>         <span class="b">.-.</span>            <span class="l">wWWWw</span>    <span class="y">.    \|/</span>        <span class="p">_</span>
+    <span class="p">_(_)_</span>  <span class="y">*</span>   <span class="b">(</span> <span class="p">@</span> <span class="b">)</span>           <span class="l">(___)</span>        <span class="y">-(</span><span class="p">o</span><span class="y">)-</span>     <span class="p">_(_)_</span>   <span class="y">+</span>             <span class="p">_(_)_</span>  <span class="y">*</span>   <span class="b">(</span> <span class="p">@</span> <span class="b">)</span>           <span class="l">(___)</span>        <span class="y">-(</span><span class="p">o</span><span class="y">)-</span>     <span class="p">_(_)_</span>   <span class="y">+</span>             <span class="p">_(_)_</span>  <span class="y">*</span>   <span class="b">(</span> <span class="p">@</span> <span class="b">)</span>           <span class="l">(___)</span>        <span class="y">-(</span><span class="p">o</span><span class="y">)-</span>     <span class="p">_(_)_</span>   <span class="y">+</span>             <span class="p">_(_)_</span>  <span class="y">*</span>   <span class="b">(</span> <span class="p">@</span> <span class="b">)</span>           <span class="l">(___)</span>        <span class="y">-(</span><span class="p">o</span><span class="y">)-</span>     <span class="p">_(_)_</span>   <span class="y">+</span>             <span class="p">_(_)_</span>  <span class="y">*</span>   <span class="b">(</span> <span class="p">@</span> <span class="b">)</span>           <span class="l">(___)</span>        <span class="y">-(</span><span class="p">o</span><span class="y">)-</span>     <span class="p">_(_)_</span>   <span class="y">+</span>             <span class="p">_(_)_</span>  <span class="y">*</span>   <span class="b">(</span> <span class="p">@</span> <span class="b">)</span>           <span class="l">(___)</span>        <span class="y">-(</span><span class="p">o</span><span class="y">)-</span>     <span class="p">_(_)_</span>   <span class="y">+</span>
+   <span class="p">(_)</span><span class="y">@</span><span class="p">(_)</span>      <span class="b">'-'</span>            <span class="g">\ | /</span>         <span class="y">/|\</span>     <span class="p">(_)</span><span class="y">@</span><span class="p">(_)               (_)</span><span class="y">@</span><span class="p">(_)</span>      <span class="b">'-'</span>            <span class="g">\ | /</span>         <span class="y">/|\</span>     <span class="p">(_)</span><span class="y">@</span><span class="p">(_)               (_)</span><span class="y">@</span><span class="p">(_)</span>      <span class="b">'-'</span>            <span class="g">\ | /</span>         <span class="y">/|\</span>     <span class="p">(_)</span><span class="y">@</span><span class="p">(_)               (_)</span><span class="y">@</span><span class="p">(_)</span>      <span class="b">'-'</span>            <span class="g">\ | /</span>         <span class="y">/|\</span>     <span class="p">(_)</span><span class="y">@</span><span class="p">(_)               (_)</span><span class="y">@</span><span class="p">(_)</span>      <span class="b">'-'</span>            <span class="g">\ | /</span>         <span class="y">/|\</span>     <span class="p">(_)</span><span class="y">@</span><span class="p">(_)               (_)</span><span class="y">@</span><span class="p">(_)</span>      <span class="b">'-'</span>            <span class="g">\ | /</span>         <span class="y">/|\</span>     <span class="p">(_)</span><span class="y">@</span><span class="p">(_)</span>
+     <span class="p">(_)</span><span class="g">\        |/    \ | /    \|/           |</span>        <span class="p">(_)</span><span class="g">\     \ | /</span>        <span class="p">(_)</span><span class="g">\        |/    \ | /    \|/           |</span>        <span class="p">(_)</span><span class="g">\     \ | /</span>        <span class="p">(_)</span><span class="g">\        |/    \ | /    \|/           |</span>        <span class="p">(_)</span><span class="g">\     \ | /</span>        <span class="p">(_)</span><span class="g">\        |/    \ | /    \|/           |</span>        <span class="p">(_)</span><span class="g">\     \ | /</span>        <span class="p">(_)</span><span class="g">\        |/    \ | /    \|/           |</span>        <span class="p">(_)</span><span class="g">\     \ | /</span>        <span class="p">(_)</span><span class="g">\        |/    \ | /    \|/           |</span>        <span class="p">(_)</span><span class="g">\     \ | /</span>
+        <span class="g">|        |      \|/      |            |           |      \|/            |        |      \|/      |            |           |      \|/            |        |      \|/      |            |           |      \|/            |        |      \|/      |            |           |      \|/            |        |      \|/      |            |           |      \|/            |        |      \|/      |            |           |      \|/</span>
+<span class="g">,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,</span>
+</pre>
 
 <script>
+// the tab says bye when you leave
 var title = document.title;
 document.addEventListener("visibilitychange", function () {
   document.title = document.hidden ? "ok bye x" : title;
 });
+
+// a little <3 runs along the cable, from the computer to the phone
+if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  var wires = document.querySelectorAll(".wire"), t = 0;
+  setInterval(function () {
+    t++;
+    for (var i = 0; i < wires.length; i++) {
+      var n = wires[i].getAttribute("data-n") || wires[i].textContent.length;
+      wires[i].setAttribute("data-n", n);
+      var at = t % (n - 1);
+      wires[i].innerHTML = "-".repeat(at) + "<i>&lt;3</i>" + "-".repeat(n - 2 - at);
+    }
+  }, 90);
+}
 </script>
 </body>
 </html>

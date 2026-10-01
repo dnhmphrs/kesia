@@ -18,112 +18,310 @@
 <meta name="twitter:description" content="kes inkersole — freelance creative strategist & internet equalities researcher, based in london.">
 <meta name="twitter:image" content="https://kesia-coral.vercel.app/square.png">
 <style>
-img { display: inline-block; max-width: 100%; height: auto; }
-figure { display: inline-block; margin: 0 1em 1em 0; }
+/* five colours and a cream page. that's it */
+:root {
+  --paper: #fffaf4;
+  --ink: #2e2236;
+  --pink: #c92f6b;
+  --rose: #f0508a;
+  --blue: #3434d0;
+  --plum: #8a3cc0;
+  --butter: #ffe36b;
+  --gold: #e3a500;
+  --cream-butter: #fff5c4;
+  --cream-pink: #ffe8f0;
+}
+html { background: var(--paper); }
+body {
+  margin: 0;
+  padding: 20px 3vw 40px;
+  color: var(--ink);
+  font: 19px/1.45 Times, "Times New Roman", serif;
+}
+::selection { background: var(--rose); color: #fff; }
+
+a { color: var(--blue); text-underline-offset: 2px; position: relative; }
+a:visited { color: var(--plum); }
+a:hover { background: var(--butter); color: var(--ink); }
+a:hover::after { content: "✧"; position: absolute; right: -0.7em; top: -0.8em; color: var(--gold); font-size: 15px; }
+
+h1, h2 { font-weight: normal; }
+h1 { font-size: 1.3em; margin: 0 0 0.6em; }
+h2, .art { font-family: ui-monospace, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+h2 { font-size: 15px; color: var(--pink); margin: 0 0 0.5em; }
+.heart { color: var(--rose); }
+.nw { white-space: nowrap; }
+mark { background: linear-gradient(transparent 55%, var(--butter) 55%); color: inherit; }
+
+ul { margin: 0; padding-left: 1.3em; list-style: "☆ "; }
+li { margin-bottom: 0.3em; }
+li::marker { color: var(--rose); }
+li:hover { list-style-type: "★ "; }
+
+/* ascii. pure ascii only, so it lines up in any monospace font */
+.art { margin: 0; font-size: 14px; line-height: 1.2; white-space: pre; }
+.art .name { color: var(--rose); }
+.art .pc, .art .say, .art .win, .art .wheel { color: var(--ink); }
+.art .eyes, .art .face, .art .who, .art .cable { color: var(--blue); }
+.art .heart, .art .love { color: var(--rose); }
+.art .star { color: var(--gold); }
+.art .red { color: var(--pink); }
+.eyes span + span { display: none; }
+.art:hover .eyes span:first-child { display: none; }
+.art:hover .eyes span + span { display: inline; }
+@media (prefers-reduced-motion: no-preference) {
+  .banner .heart { animation: blink 2.4s infinite; }
+  .banner .n2 { animation-delay: 0.6s; }
+  .banner .n3 { animation-delay: 1.2s; }
+  .banner .n4 { animation-delay: 1.8s; }
+}
+@keyframes blink { 0%, 100% { opacity: 0.25; } 15%, 35% { opacity: 1; } }
+
+/* the banner is 150 characters wide, so it scales with the window */
+.banner { font-size: min(20px, 1.01vw); line-height: 1.05; margin-bottom: 28px; }
+.banner .name { font-weight: bold; color: var(--pink); }
+.banner.phone { display: none; }
+
+.top { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr) minmax(0, 1fr); gap: 32px 3vw; align-items: start; }
+.hello p { max-width: 34em; }
+.box { padding: 14px 18px 16px; border-radius: 12px; }
+.lately { background: var(--cream-butter); }
+.mail { background: var(--cream-pink); }
+.mail .art { margin: 4px 0 12px; }
+.mail p { margin: 0; }
+
+.lists { columns: 4 15em; column-gap: 3vw; margin: 44px 0 36px; font-size: 18px; }
+.lists > div { break-inside: avoid; margin-bottom: 28px; }
+
+.photos { display: flex; gap: 14px; align-items: flex-start; margin: 0 0 44px; }
+figure { flex: 1.333 1 0; margin: 0; min-width: 0; }
+figure.tall { flex-grow: 0.75; }
+figure img { display: block; width: 100%; height: auto; border-radius: 6px; }
+figure:nth-child(3n+1) img { background: var(--cream-pink); }
+figure:nth-child(3n+2) img { background: var(--cream-butter); }
+figure:nth-child(3n) img { background: #e8e6ff; }
+figcaption { font-size: 15px; margin-top: 6px; }
+
+.bus { display: flex; gap: 3vw; align-items: center; margin-bottom: 44px; }
+.bus ul { columns: 2 17em; column-gap: 3vw; font-size: 18px; }
+.bus li { break-inside: avoid; }
+
+.end { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr) minmax(0, 1fr); gap: 32px 3vw; align-items: start; margin-bottom: 36px; }
+.end p { margin-top: 0; max-width: 34em; }
+.end .note { font: 15px/1.45 ui-monospace, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+
+/* the footer cable keeps going to the edge of the window, however wide */
+footer { display: flex; align-items: flex-end; align-items: last baseline; }
+footer p { margin: 0 0 0 0.5em; white-space: nowrap; }
+.wire { flex: 1; overflow: hidden; color: var(--blue); }
+.kiss { font: inherit; color: var(--pink); background: none; border: 0; padding: 0; cursor: pointer; }
+
+@media (max-width: 1000px) {
+  .top, .end { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .hello, .bio { grid-column: 1 / -1; }
+  .photos { flex-wrap: wrap; }
+  figure { flex-basis: 30%; }
+  .bus { flex-direction: column; align-items: flex-start; }
+}
+@media (max-width: 640px) {
+  body { font-size: 18px; padding: 12px 16px 32px; }
+  .banner.wide { display: none; }
+  .banner.phone { display: block; font-size: min(15px, 3.8vw); }
+  .top, .end { grid-template-columns: minmax(0, 1fr); }
+  .photos { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .photos figure:first-child { grid-column: 1 / -1; }
+  footer { flex-wrap: wrap; }
+  .wire { display: none; }
+  footer p { margin: 12px 0 0; flex-basis: 100%; }
+  .bus .art { font-size: min(14px, 3.2vw); }
+}
 </style>
 </head>
 <body>
 
-<!-- hello, you're reading the source :) -->
+<!-- hello, you're reading the source :)
+     the drawings are plain ascii in <pre> tags, made on a grid and coloured with spans -->
 
-<p>hi, i'm kes inkersole (kesia on paper) ♡</p>
+<pre class="art banner wide" aria-hidden="true"><span class="star">*                .           +                         *            .                        .          *                                            +</span>
+  <span class="pc">.-----------.</span>                             <span class="star">.                                    +</span>                          <span class="say">________________________</span>   <span class="pc">.-----------.</span>
+  <span class="pc">| .-------. |</span>     <span class="name">,--.                     ,--.        ,--.                               ,--.</span>           <span class="say">/ hello! welcome to      \</span>  <span class="pc">| .-------. |</span>
+  <span class="pc">| |</span> <span class="eyes"><span>^   ^</span><span>^   -</span></span> <span class="pc">| |</span>     <span class="name">|  |,-. ,---.  ,---.     `--',--,--, |  |,-. ,---. ,--.--. ,---.  ,---. |  | ,---.</span>     <span class="say">| kes's little corner     &gt;</span> <span class="pc">| |</span> <span class="eyes"><span>*   *</span><span>*   -</span></span> <span class="pc">| |</span>
+  <span class="pc">| |</span>  <span class="face">\_/</span>  <span class="pc">| |</span>     <span class="name">|     /| .-. :(  .-'     ,--.|      \|     /| .-. :|  .--'(  .-' | .-. ||  || .-. :</span>    <span class="say">\ of the internet</span> <span class="love">&lt;3</span>     <span class="say">/</span>  <span class="pc">| |</span>  <span class="face">\_/</span>  <span class="pc">| |</span>
+  <span class="pc">| '-------' |</span>     <span class="name">|  \  \\   --..-'  `)    |  ||  ||  ||  \  \\   --.|  |   .-'  `)' '-' '|  |\   --.</span>     <span class="say">------------------------</span>   <span class="pc">| '-------' |</span> <span class="star">.</span>
+  <span class="pc">'-----.-----'</span>     <span class="name">`--'`--'`----'`----'     `--'`--''--'`--'`--'`----'`--'   `----'  `---' `--' `----'</span>                                <span class="pc">'-----.-----'</span>
+      <span class="pc">__|__</span>                                                                                                 <span class="star">*</span>                              <span class="pc">__|__</span>
+    <span class="pc">[_______]</span><span class="cable">-.</span>          <span class="star">.                          +                           .                                     .</span>                <span class="cable">.-</span><span class="pc">[_______]</span>
+              <span class="cable">'-----------------------</span><span class="heart n1">&lt;3</span><span class="cable">--------------------------</span><span class="heart n2">&lt;3</span><span class="cable">--------------------------</span><span class="heart n3">&lt;3</span><span class="cable">--------------------------</span><span class="heart n4">&lt;3</span><span class="cable">-----------'</span>
+</pre>
+<pre class="art banner phone" aria-hidden="true"><span class="star">*         .         +               *</span>
+ <span class="pc">.-----------.</span>               <span class="star">.</span>
+ <span class="pc">| .-------. |</span>  <span class="name">,--.</span>
+ <span class="pc">| |</span> <span class="eyes"><span>^   ^</span><span>^   -</span></span> <span class="pc">| |</span>  <span class="name">|  |,-. ,---.  ,---.</span> <span class="star">.</span>
+ <span class="pc">| |</span>  <span class="face">\_/</span>  <span class="pc">| |</span>  <span class="name">|     /| .-. :(  .-'</span>
+ <span class="pc">| '-------' |</span>  <span class="name">|  \  \\   --..-'  `)</span>
+ <span class="pc">'-----.-----'</span>  <span class="name">`--'`--'`----'`----'</span>
+     <span class="pc">__|__</span>                       <span class="star">.</span>
+   <span class="pc">[_______]</span><span class="cable">-.</span>  <span class="star">.       +</span>
+             <span class="cable">'----------------------</span><span class="heart n1">&lt;3</span></pre>
 
-<p>my practice focuses on understanding and critiquing the impacts of emerging technologies on people, culture, and the planet. i work collectively to rethink the narratives and behaviours surrounding technologies — prioritising collaborative research as a process for testing, imagining and prototyping more equitable, alternative futures.</p>
+<div class="top">
+  <div class="hello">
+    <h1>hi, i'm kes inkersole (kesia on paper)&nbsp;<span class="heart">♡</span></h1>
+    <p>my practice focuses on understanding and critiquing the impacts of emerging technologies on people, culture, and the planet. i work collectively to rethink the narratives and behaviours surrounding technologies — prioritising collaborative research as a process for testing, imagining and prototyping more equitable, alternative futures.</p>
+    <p>i'm an associate lecturer at UAL (LCF + CCI), so if you're one of my students, hi! <span class="nw">( ˙▿˙ )/</span> i've also worked with Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer and Selfridges.</p>
+  </div>
 
-<p>i'm an associate lecturer at UAL (LCF + CCI), so if you're one of my students, hi! i've also worked with Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer and Selfridges.</p>
+  <div class="box lately">
+    <h2>lately ✧</h2>
+    <ul>
+      <li>lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
+      <li>sed do eiusmod tempor incididunt ut labore et dolore</li>
+      <li>ut enim ad minim veniam, quis nostrud exercitation</li>
+    </ul>
+  </div>
 
-<p>i'm freelance and available for work. email is best: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
+  <div class="box mail">
+    <pre class="art" aria-hidden="true"><span class="pc">.------------------------.</span>
+<span class="pc">|`-._                _.-'|</span>
+<span class="pc">|    `-._        _.-'    |</span>
+<span class="pc">|        `-.</span><span class="heart">&lt;3</span><span class="pc">.-'        |</span>
+<span class="pc">|                        |</span>
+<span class="pc">'------------------------'</span></pre>
+    <p>i'm <mark>freelance and available for work</mark>. email is best:<br>
+    <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
+  </div>
+</div>
 
-<p>lately ✧</p>
-<ul>
-  <li>lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
-  <li>sed do eiusmod tempor incididunt ut labore et dolore</li>
-  <li>ut enim ad minim veniam, quis nostrud exercitation</li>
-</ul>
+<div class="lists">
+  <div>
+    <h2>projects (for fun)</h2>
+    <ul>
+      <li><a href="https://latent-space.vercel.app/">latent space</a> — lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
+      <li><a href="https://protecht.vercel.app/">pro(tech)t</a> — sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</li>
+    </ul>
+  </div>
 
-<p>projects (for fun)</p>
-<ul>
-  <li><a href="https://latent-space.vercel.app/">latent space</a> — lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
-  <li><a href="https://protecht.vercel.app/">pro(tech)t</a> — sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</li>
-</ul>
+  <div>
+    <h2>projects (for funds)</h2>
+    <ul>
+      <li><a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1">MØRNING Ø</a> — lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
+      <li><a href="https://co-matter.com/project/networked-worlds">networked worlds</a> (co—matter) — ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</li>
+      <li><a href="https://www.protein.xyz/dirty-words-4-community/">dirty words #4: community report</a> (Protein) — duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</li>
+    </ul>
+  </div>
 
-<p>projects (for funds)</p>
-<ul>
-  <li><a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1">MØRNING Ø</a> — lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
-  <li><a href="https://co-matter.com/project/networked-worlds">networked worlds</a> (co—matter) — ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</li>
-  <li><a href="https://www.protein.xyz/dirty-words-4-community/">dirty words #4: community report</a> (Protein) — duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</li>
-</ul>
+  <div>
+    <h2>writing ✎</h2>
+    <ul>
+      <li><a href="https://www.protein.xyz/sex-and-the-internet/">mindy seu on sex and the internet</a> (Protein)</li>
+      <li><a href="https://midnight.agency/thoughts/dreaming-and-designing-more-accessible-web">dreaming and designing a more accessible web</a> (Midnight Agency)</li>
+      <li><a href="https://midnight.agency/thoughts/coding-a-more-creative-and-playful-web">coding a more creative and playful web</a> (Midnight Agency)</li>
+      <li><a href="https://midnight.agency/thoughts/composing-a-flexible-and-modular-web">composing a flexible and modular web</a> (Midnight Agency)</li>
+      <li><a href="https://morningfyi.substack.com/p/020-uh-oh-meet">burn after reading: uh oh meet o</a></li>
+      <li><a href="https://morningfyi.substack.com/p/024-entering-limb-with">burn after reading: entering limbo, with o</a></li>
+    </ul>
+  </div>
 
-<figure>
-  <img src="https://picsum.photos/seed/morning/288/216" width="288" height="216" alt="MØRNING Ø, placeholder photo">
-  <figcaption>MØRNING Ø, lorem ipsum, photo by lorem ipsum</figcaption>
-</figure>
-<figure>
-  <img src="https://picsum.photos/seed/networked/288/216" width="288" height="216" alt="networked worlds, placeholder photo">
-  <figcaption>networked worlds, lorem ipsum, photo by dolor sit</figcaption>
-</figure>
-<figure>
-  <img src="https://picsum.photos/seed/dirtywords/216/288" width="216" height="288" alt="dirty words #4, placeholder photo">
-  <figcaption>dirty words #4, lorem ipsum</figcaption>
-</figure>
+  <div>
+    <h2>other bits ✿</h2>
+    <ul>
+      <li><a href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1">olden residency</a></li>
+      <li><a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1">softer london</a>, talk + workshop</li>
+      <li><a href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard">tech yard</a>, workshop</li>
+      <li><a href="https://www.instagram.com/p/BslwSSPH5Rc/?img_index=2">ovar it</a></li>
+    </ul>
+  </div>
 
-<p>writing</p>
-<ul>
-  <li><a href="https://www.protein.xyz/sex-and-the-internet/">mindy seu on sex and the internet</a> (Protein)</li>
-  <li><a href="https://midnight.agency/thoughts/dreaming-and-designing-more-accessible-web">dreaming and designing a more accessible web</a> (Midnight Agency)</li>
-  <li><a href="https://midnight.agency/thoughts/coding-a-more-creative-and-playful-web">coding a more creative and playful web</a> (Midnight Agency)</li>
-  <li><a href="https://midnight.agency/thoughts/composing-a-flexible-and-modular-web">composing a flexible and modular web</a> (Midnight Agency)</li>
-  <li><a href="https://morningfyi.substack.com/p/020-uh-oh-meet">burn after reading: uh oh meet o</a></li>
-  <li><a href="https://morningfyi.substack.com/p/024-entering-limb-with">burn after reading: entering limbo, with o</a></li>
-</ul>
+  <div>
+    <h2>degrees (so far)</h2>
+    <ul>
+      <li>MA internet equalities</li>
+      <li>BA creative direction</li>
+      <li>PhD ...dreaming...</li>
+    </ul>
+  </div>
+</div>
 
-<p>podcasts, for the bus</p>
-<ul>
-  <li><a href="https://podcasts.apple.com/gb/podcast/mindy-seu-on-collaboration-community-and/id1449302502?i=1000597869409">mindy seu on collaboration, community and the cyberfeminism index</a></li>
-  <li><a href="https://soundcloud.com/proteincommunity/protein-forum-what-can-web2-organisations-learn-from-web3-communities">what can web2 organisations learn from web3 communities?</a></li>
-  <li><a href="https://podcasts.apple.com/gb/podcast/cherie-hu-on-water-musics-journey-through-web3/id1449302502?i=1000581859804">cherie hu on water &amp; music's journey through web3</a></li>
-  <li><a href="https://podcasts.apple.com/gb/podcast/molly-dickson-on-dao-activism-and-fighting-for/id1449302502?i=1000578164761">molly dickson on dao activism</a></li>
-  <li><a href="https://podcasts.apple.com/gb/podcast/dame-on-the-need-for-education-accessibility/id1449302502?i=1000559829008">dame on education, accessibility and inclusivity in web3</a></li>
-  <li><a href="https://podcasts.apple.com/gb/podcast/nadia-piet-on-creative-ai-and-protopian-futures/id1449302502?i=1000559822732">nadia piet on creative ai and protopian futures</a></li>
-  <li><a href="https://podcasts.apple.com/gb/podcast/cyn-bahati-on-her-journey-into-web3-with-her-family/id1449302502?i=1000559818509">cyn bahati on her journey into web3 with her family</a></li>
-  <li><a href="https://podcasts.apple.com/gb/podcast/latash%C3%A1-on-the-potential-of-web3-for-music-artists/id1449302502?i=1000552812458">latasha on the potential of web3 for music artists</a></li>
-</ul>
+<div class="photos">
+  <figure>
+    <img src="https://picsum.photos/seed/morning/288/216" width="288" height="216" alt="MØRNING Ø, placeholder photo">
+    <figcaption>MØRNING Ø, lorem ipsum, photo by lorem ipsum</figcaption>
+  </figure>
+  <figure>
+    <img src="https://picsum.photos/seed/networked/288/216" width="288" height="216" alt="networked worlds, placeholder photo">
+    <figcaption>networked worlds, lorem ipsum, photo by dolor sit</figcaption>
+  </figure>
+  <figure class="tall">
+    <img src="https://picsum.photos/seed/dirtywords/216/288" width="216" height="288" alt="dirty words #4, placeholder photo">
+    <figcaption>dirty words #4, lorem ipsum</figcaption>
+  </figure>
+  <figure>
+    <img src="https://picsum.photos/seed/olden/288/216" width="288" height="216" alt="olden residency, placeholder photo">
+    <figcaption>olden residency, lorem ipsum, photo by lorem ipsum</figcaption>
+  </figure>
+  <figure>
+    <img src="https://picsum.photos/seed/softer/288/216" width="288" height="216" alt="softer london, placeholder photo">
+    <figcaption>softer london, lorem ipsum, photo by dolor sit</figcaption>
+  </figure>
+</div>
 
-<p>other bits</p>
-<ul>
-  <li><a href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1">olden residency</a></li>
-  <li><a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1">softer london</a>, talk + workshop</li>
-  <li><a href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard">tech yard</a>, workshop</li>
-  <li><a href="https://www.instagram.com/p/BslwSSPH5Rc/?img_index=2">ovar it</a></li>
-</ul>
+<div class="bus">
+  <pre class="art" aria-hidden="true">      <span class="red">______________________________________</span>
+     <span class="red">/</span>  <span class="win">_______   _______   _______   ____</span>  <span class="red">\</span>
+<span class="say">- -</span>  <span class="red">|</span> <span class="win">|</span><span class="who">d(-_-)b</span><span class="win">| |       | |       | |    |</span> <span class="red">|</span>
+     <span class="red">|</span> <span class="win">|_______| |_______| |_______| |____|</span> <span class="red">|</span>
+     <span class="red">|===============================</span><span class="win">[</span> <span class="heart">&lt;3</span> <span class="win">]</span><span class="red">=|</span>
+<span class="say">--</span>   <span class="red">|</span>  <span class="win">_______   _______   _______   ____</span>  <span class="red">|</span>
+     <span class="red">|</span> <span class="win">|       | |       | |   |   | |  o |</span> <span class="red">|</span>
+<span class="say">- -</span>  <span class="red">|</span> <span class="win">|_______| |_______| |   |   | |____|</span> <span class="red">|</span>
+     <span class="red">|____</span><span class="wheel">/ o \</span><span class="red">____________________</span><span class="wheel">/ o \</span><span class="red">____|</span>
+          <span class="wheel">\___/                    \___/</span></pre>
+  <div>
+    <h2>podcasts, for the bus</h2>
+    <ul>
+      <li><a href="https://podcasts.apple.com/gb/podcast/mindy-seu-on-collaboration-community-and/id1449302502?i=1000597869409">mindy seu on collaboration, community and the cyberfeminism index</a></li>
+      <li><a href="https://soundcloud.com/proteincommunity/protein-forum-what-can-web2-organisations-learn-from-web3-communities">what can web2 organisations learn from web3 communities?</a></li>
+      <li><a href="https://podcasts.apple.com/gb/podcast/cherie-hu-on-water-musics-journey-through-web3/id1449302502?i=1000581859804">cherie hu on water &amp; music's journey through web3</a></li>
+      <li><a href="https://podcasts.apple.com/gb/podcast/molly-dickson-on-dao-activism-and-fighting-for/id1449302502?i=1000578164761">molly dickson on dao activism</a></li>
+      <li><a href="https://podcasts.apple.com/gb/podcast/dame-on-the-need-for-education-accessibility/id1449302502?i=1000559829008">dame on education, accessibility and inclusivity in web3</a></li>
+      <li><a href="https://podcasts.apple.com/gb/podcast/nadia-piet-on-creative-ai-and-protopian-futures/id1449302502?i=1000559822732">nadia piet on creative ai and protopian futures</a></li>
+      <li><a href="https://podcasts.apple.com/gb/podcast/cyn-bahati-on-her-journey-into-web3-with-her-family/id1449302502?i=1000559818509">cyn bahati on her journey into web3 with her family</a></li>
+      <li><a href="https://podcasts.apple.com/gb/podcast/latash%C3%A1-on-the-potential-of-web3-for-music-artists/id1449302502?i=1000552812458">latasha on the potential of web3 for music artists</a></li>
+    </ul>
+  </div>
+</div>
 
-<figure>
-  <img src="https://picsum.photos/seed/olden/288/216" width="288" height="216" alt="olden residency, placeholder photo">
-  <figcaption>olden residency, lorem ipsum, photo by lorem ipsum</figcaption>
-</figure>
-<figure>
-  <img src="https://picsum.photos/seed/softer/288/216" width="288" height="216" alt="softer london, placeholder photo">
-  <figcaption>softer london, lorem ipsum, photo by dolor sit</figcaption>
-</figure>
+<div class="end">
+  <div class="bio">
+    <h2>bio in the third person, for event programmes etc</h2>
+    <p>Kes Inkersole is a freelance creative strategist and internet equalities researcher based in London. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+  </div>
+  <div>
+    <h2>email me for cv / portfolio</h2>
+    <p><a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
+  </div>
+  <p class="note">last updated 1 october 2026. it's in <a href="http://contemporary-home-computing.org/prof-dr-style/">prof. dr. style</a> so i can keep it up to date.</p>
+</div>
 
-<p>degrees (so far)</p>
-<ul>
-  <li>MA internet equalities</li>
-  <li>BA creative direction</li>
-  <li>PhD ...dreaming...</li>
-</ul>
-
-<p>bio in the third person, for event programmes etc</p>
-<p>Kes Inkersole is a freelance creative strategist and internet equalities researcher based in London. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-
-<p>email me for cv / portfolio<br>
-<a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
-
-<p>last updated 1 october 2026. it's in <a href="http://contemporary-home-computing.org/prof-dr-style/">prof. dr. style</a> so i can keep it up to date.</p>
-
-<p>thanks for stopping by, kes x</p>
+<footer>
+  <pre class="art" aria-hidden="true"><span class="pc">.-----------.</span>
+<span class="pc">| .-------. |</span>   <span class="say">________________________</span>
+<span class="pc">| |</span> <span class="eyes"><span>^   ^</span><span>-   -</span></span> <span class="pc">| |</span>  <span class="say">/ bye for now!           \</span>
+<span class="pc">| |</span>  <span class="face">\_/</span>  <span class="pc">| |</span> <span class="say">&lt;  come back soon</span> <span class="heart">&lt;3</span>      <span class="say">|</span>
+<span class="pc">| '-------' |</span>  <span class="say">\ (^_^)/~               /</span>
+<span class="pc">'-----.-----'</span>   <span class="say">------------------------</span>
+    <span class="pc">__|__</span>
+  <span class="pc">[_______]</span><span class="cable">-.</span>
+            <span class="cable">'---------------------------</span><span class="heart">&lt;3</span></pre><span class="art wire" aria-hidden="true">----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</span>
+  <p>thanks for stopping by, kes <button class="kiss" type="button" title="more?">x</button></p>
+</footer>
 
 <script>
+  // the only javascript: kisses, and a note for the console
+  var kiss = document.querySelector(".kiss");
+  kiss.onclick = function () {
+    kiss.textContent = kiss.textContent.length < 9 ? kiss.textContent + "x" : "x";
+  };
   console.log("hello ♡ you found the console");
   console.log("no cookies, no tracking, promise");
   console.log("it's all just html, view source and take whatever's useful");

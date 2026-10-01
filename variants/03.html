@@ -18,68 +18,214 @@
 <meta name="twitter:description" content="kes inkersole — freelance creative strategist & internet equalities researcher, based in london.">
 <meta name="twitter:image" content="https://kesia-coral.vercel.app/square.png">
 <style>
-img { max-width: 100%; height: auto; display: inline-block; }
+/* colours: plum ink on warm paper, strawberry for hearts, periwinkle links */
+:root {
+  --paper: #fffaf4;
+  --ink: #3d2645;
+  --rose: #e0578a;
+  --blush: #ffe4ec;
+  --butter: #fff0a3;
+  --peri: #4a55d0;
+  --lilac: #9a5cc6;
+  --sage: #6f9a68;
+  --mono: ui-monospace, Menlo, Monaco, Consolas, "Courier New", monospace;
+  --pad: clamp(16px, 3vw, 48px);
+}
+html { background: var(--paper); color: var(--ink); }
+body { margin: 0; padding: 18px var(--pad) 0; font: 18px/1.45 "Times New Roman", Times, serif; overflow-x: hidden; }
+a { color: var(--peri); text-underline-offset: .18em; text-decoration-thickness: 1px; }
+a:visited { color: var(--lilac); }
+a:hover { background: var(--blush); text-decoration-style: wavy; }
+::selection { background: var(--butter); color: var(--ink); }
+mark { background: linear-gradient(transparent 50%, var(--butter) 50%); color: inherit; }
+mark.pink { background: linear-gradient(transparent 50%, var(--blush) 50%); }
+img { max-width: 100%; height: auto; display: block; background: var(--blush); }
+
+h1, h2 { font-weight: normal; font-style: italic; line-height: 1.15; }
+h1 { font-size: 2.3em; margin: 0 0 .4em; }
+h2 { font-size: 1.3em; margin: 0 0 .45em; width: fit-content; background: linear-gradient(transparent 55%, var(--butter) 55%); }
+.heart { color: var(--rose); font-style: normal; }
+.kao { white-space: nowrap; font-style: normal; }
+ul { padding-left: 1.5em; margin: 0 0 1.2em; }
+li { margin-bottom: .3em; }
+li::marker { color: var(--rose); }
+.new { list-style-type: "✧  "; }
+.fun { list-style-type: "✿  "; }
+.funds { list-style-type: "☆  "; }
+.writing { list-style-type: "✎  "; }
+.pods { list-style-type: "♪  "; }
+.uni { list-style-type: "✦  "; }
+
+/* side by side on big screens, one column on phones */
+.row { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px 52px; margin: 0 0 8px; }
+@media (min-width: 760px) { .row { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1150px) {
+  .row { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .intro { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr) minmax(0, 1fr); }
+}
+.row > * { min-width: 0; }
+
+/* the little tinted note cards, "stitched" */
+.note { background: var(--blush); border-radius: 16px; padding: 20px 24px 8px; outline: 1.5px dashed var(--rose); outline-offset: -8px; align-self: start; }
+.note h2 { background: none; }
+.bio { background: #f1ebfa; outline-color: var(--lilac); }
+
+/* ascii lives in pre; the classes are just colours */
+pre { font: 13px/1.2 var(--mono); margin: 0; color: var(--ink); }
+pre b { font-weight: inherit; }
+.rose, b.heart { color: var(--rose); }
+.lilac, .wire { color: var(--lilac); }
+.peri { color: var(--peri); }
+.stem { color: var(--sage); }
+.spark { color: var(--lilac); }
+
+/* the sign: kes inkersole in tiny <3s. font size is worked out from the width so it always fits */
+.sign { container-type: inline-size; margin: 0 0 26px; }
+.sign pre { color: #f8cbd9; line-height: 1.22; font-size: min(19px, calc(100cqw / 101.9)); font-weight: bold; width: fit-content;
+  background: linear-gradient(var(--blush), var(--blush)) 1.5ch .5lh / calc(100% - 3ch) calc(100% - 1lh) no-repeat; }
+.sign s { text-decoration: none; color: var(--ink); font-weight: normal; }
+.sign b { color: var(--rose); }
+.sign b.h { color: var(--lilac); animation: blink 1.6s steps(1) infinite; }
+.sign .small { display: none; }
+@media (max-width: 640px) {
+  .sign .big { display: none; }
+  .sign .small { display: block; font-size: min(16px, calc(100cqw / 25.9)); }
+}
+@keyframes blink { 50% { color: var(--rose); } }
+
+/* two computers in love. hover = they get shy */
+.pc-spot { container-type: inline-size; align-self: center; }
+.pcs { margin: 0; font-size: min(17px, calc(100cqw / 24.8)); }
+.pcs i { font-style: normal; }
+.pcs .shy, .pcs:hover .calm { display: none; }
+.pcs:hover .shy { display: inline; }
+.pcs .heart { display: inline-block; }
+.pcs:hover .heart { animation: beat .7s ease-in-out infinite; }
+@keyframes beat { 50% { transform: scale(1.35); } }
+
+/* cables between sections. they just run off the edge on small screens */
+.cable { overflow: hidden; margin: 30px 0 34px; white-space: pre; font-size: 15px; font-weight: bold; position: relative; }
+/* a little packet of love going down the wire */
+.cable .go { position: absolute; top: 0; background: var(--paper); animation: send 22s linear infinite; }
+.cable:nth-of-type(2) .go { animation-duration: 31s; animation-direction: reverse; }
+@keyframes send { from { left: -2ch; } to { left: 100%; } }
+
+/* talks + photos */
+.talks { list-style: none; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 26px 32px; }
+.talks p { margin: 10px 0 0; }
+.pics { display: flex; gap: 12px; }
+.pics img { flex: 1 1 0; min-width: 0; }
+.cap { font: 13px/1.4 var(--mono); }
+@media (min-width: 760px) {
+  .talks { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: auto auto auto 1fr; grid-auto-flow: dense; }
+  .olden { grid-column: span 2; }
+  .softer { grid-row: span 3; }
+}
+@media (min-width: 1150px) {
+  .talks { grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: auto auto 1fr; }
+  .olden, .softer { grid-row: span 3; }
+}
+
+.thanks { align-self: end; }
+.bye { font-size: 1.6em; font-style: italic; margin: 0 0 6px; }
+.small-print { font: 13px/1.5 var(--mono); margin: 0 0 26px; max-width: 70ch; }
+.garden { overflow: hidden; white-space: pre; font-size: 14px; margin-top: 30px; }
+
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
 </style>
 </head>
 <body>
 
 <!-- hello view-source person ♡ -->
 
-<h1>hello, i'm kes ♡</h1>
-
 <!-- <marquee>~ welcome ~ welcome ~ thanks for visiting my little corner of the web ~ welcome ~</marquee> too much?? -->
 
-<p>kes inkersole (kesia if we're being formal) — freelance creative strategist &amp; internet equalities researcher, based in london.</p>
+<!-- the sign: every lit dot is a little <3 -->
+<header class="sign" role="img" aria-label="kes inkersole, spelled out in tiny <3 hearts on a dot-matrix screen">
+<pre class="big"><s> .---------------------------------------------------------------------------------------------------------------------------------------------------------------------. </s>
+<s> |</s> . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .<s> | </s>
+<s> |</s> . .<b>&lt;3</b> . . . . . . . . . . . . . . . . . . . . .<b>&lt;3</b> . . . . . . . .<b>&lt;3</b> . . . . . . . . . . . . . . . . . . . . . . . . . . . . .<b>&lt;3&lt;3</b> . . . . . . . . . . . . . . . . .<s> | </s>
+<s> |</s> . .<b>&lt;3</b> . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .<b>&lt;3</b> . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .<b>&lt;3</b> . . . . . . . . .<b class="h">&lt;3&lt;3</b> .<b class="h">&lt;3&lt;3</b> . . .<s> | </s>
+<s> |</s> . .<b>&lt;3</b> . .<b>&lt;3</b> . . .<b>&lt;3&lt;3&lt;3</b> . . .<b>&lt;3&lt;3&lt;3&lt;3</b> . . . .<b>&lt;3&lt;3</b> . .<b>&lt;3</b> .<b>&lt;3&lt;3</b> . .<b>&lt;3</b> . .<b>&lt;3</b> . . .<b>&lt;3&lt;3&lt;3</b> . .<b>&lt;3</b> .<b>&lt;3&lt;3</b> . . .<b>&lt;3&lt;3&lt;3&lt;3</b> . .<b>&lt;3&lt;3&lt;3</b> . . .<b>&lt;3</b> . . .<b>&lt;3&lt;3&lt;3</b> . .<b class="h">&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3</b> . .<s> | </s>
+<s> |</s> . .<b>&lt;3</b> .<b>&lt;3</b> . . .<b>&lt;3</b> . . .<b>&lt;3</b> .<b>&lt;3</b> . . . . . . . . .<b>&lt;3</b> . .<b>&lt;3&lt;3</b> . .<b>&lt;3</b> .<b>&lt;3</b> .<b>&lt;3</b> . . .<b>&lt;3</b> . . .<b>&lt;3</b> .<b>&lt;3&lt;3</b> . .<b>&lt;3</b> .<b>&lt;3</b> . . . . .<b>&lt;3</b> . . .<b>&lt;3</b> . .<b>&lt;3</b> . .<b>&lt;3</b> . . .<b>&lt;3</b> .<b class="h">&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3</b> . .<s> | </s>
+<s> |</s> . .<b>&lt;3&lt;3</b> . . . .<b>&lt;3&lt;3&lt;3&lt;3&lt;3</b> . .<b>&lt;3&lt;3&lt;3</b> . . . . . .<b>&lt;3</b> . .<b>&lt;3</b> . . .<b>&lt;3</b> .<b>&lt;3&lt;3</b> . . . .<b>&lt;3&lt;3&lt;3&lt;3&lt;3</b> .<b>&lt;3</b> . . . . . .<b>&lt;3&lt;3&lt;3</b> . .<b>&lt;3</b> . . .<b>&lt;3</b> . .<b>&lt;3</b> . .<b>&lt;3&lt;3&lt;3&lt;3&lt;3</b> . .<b class="h">&lt;3&lt;3&lt;3&lt;3&lt;3</b> . . .<s> | </s>
+<s> |</s> . .<b>&lt;3</b> .<b>&lt;3</b> . . .<b>&lt;3</b> . . . . . . . . .<b>&lt;3</b> . . . . .<b>&lt;3</b> . .<b>&lt;3</b> . . .<b>&lt;3</b> .<b>&lt;3</b> .<b>&lt;3</b> . . .<b>&lt;3</b> . . . . .<b>&lt;3</b> . . . . . . . . .<b>&lt;3</b> .<b>&lt;3</b> . . .<b>&lt;3</b> . .<b>&lt;3</b> . .<b>&lt;3</b> . . . . . . .<b class="h">&lt;3&lt;3&lt;3</b> . . . .<s> | </s>
+<s> |</s> . .<b>&lt;3</b> . .<b>&lt;3</b> . . .<b>&lt;3&lt;3&lt;3</b> . .<b>&lt;3&lt;3&lt;3&lt;3</b> . . . . .<b>&lt;3&lt;3&lt;3</b> .<b>&lt;3</b> . . .<b>&lt;3</b> .<b>&lt;3</b> . .<b>&lt;3</b> . . .<b>&lt;3&lt;3&lt;3</b> . .<b>&lt;3</b> . . . . .<b>&lt;3&lt;3&lt;3&lt;3</b> . . .<b>&lt;3&lt;3&lt;3</b> . .<b>&lt;3&lt;3&lt;3</b> . .<b>&lt;3&lt;3&lt;3</b> . . . . .<b class="h">&lt;3</b> . . . . .<s> | </s>
+<s> |</s> . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .<s> | </s>
+<s> '---------------------------------------------------------------------------------------------------------------------------------------------------------------------' </s></pre>
+<pre class="small"><s> .---------------------------------------. </s>
+<s> |</s> . . . . . . . . . . . . . . . . . . .<s> | </s>
+<s> |</s> .<b>&lt;3</b> . . . . . . . . . . . . . . . . .<s> | </s>
+<s> |</s> .<b>&lt;3</b> . . . . . . . . . . . . . . . . .<s> | </s>
+<s> |</s> .<b>&lt;3</b> . .<b>&lt;3</b> . . .<b>&lt;3&lt;3&lt;3</b> . . .<b>&lt;3&lt;3&lt;3&lt;3</b> .<s> | </s>
+<s> |</s> .<b>&lt;3</b> .<b>&lt;3</b> . . .<b>&lt;3</b> . . .<b>&lt;3</b> .<b>&lt;3</b> . . . . .<s> | </s>
+<s> |</s> .<b>&lt;3&lt;3</b> . . . .<b>&lt;3&lt;3&lt;3&lt;3&lt;3</b> . .<b>&lt;3&lt;3&lt;3</b> . .<s> | </s>
+<s> |</s> .<b>&lt;3</b> .<b>&lt;3</b> . . .<b>&lt;3</b> . . . . . . . . .<b>&lt;3</b> .<s> | </s>
+<s> |</s> .<b>&lt;3</b> . .<b>&lt;3</b> . . .<b>&lt;3&lt;3&lt;3</b> . .<b>&lt;3&lt;3&lt;3&lt;3</b> . .<s> | </s>
+<s> |</s> . . . . . . . . . . . . . . . . . . .<s> | </s>
+<s> '---------------------------------------' </s></pre>
+</header>
+
+<div class="row intro">
+
+<div>
+<h1>hello, i'm kes <span class="heart">♡</span></h1>
+
+<p>kes inkersole (kesia if we're being formal) — <mark>freelance creative strategist &amp; internet equalities researcher</mark>, based in london.</p>
 
 <p>my practice focuses on understanding and critiquing the impacts of emerging technologies on people, culture, and the planet. i'm particularly interested in working collectively to rethink the narratives and behaviours surrounding technologies — prioritising collaborative research as a process for testing, imagining and prototyping more equitable, alternative futures.</p>
 
 <p>i'm an associate lecturer at UAL (LCF + CCI), and i've worked with Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer and Selfridges.</p>
+</div>
 
-<p>i'm available for work! email me for cv / portfolio: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
-
-<p role="heading" aria-level="2">what's new ✧</p>
-<ul>
+<div class="note">
+<h2>what's new ✧</h2>
+<ul class="new">
 <li>lorem ipsum dolor sit amet, consectetur (adipiscing elit)</li>
 <li>sed do eiusmod tempor incididunt ut labore (dolore magna)</li>
 </ul>
+<p><mark class="pink">i'm available for work!</mark> <span class="kao">(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧</span><br>email me for cv / portfolio: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
+</div>
 
-<p role="heading" aria-level="2">projects (for fun)</p>
-<ul>
+<!-- two computers in love. hover over them, they get shy -->
+<div class="pc-spot">
+<pre class="pcs" role="img" aria-label="two little computers joined by a cable, with a heart in the middle"> .---------.             <b class="spark">.    </b>.---------.
+ | .-----. |   <b class="spark">*              </b>| .-----. |
+ | | <b class="eyesL">^ ^ </b>| |         <b class="spark">+        </b>| | <b class="eyesR">o o </b>| |
+ | |  v  | |              <b class="spark">*   </b>| |  u  | |
+ | '-----' |     <b class="spark">.            </b>| '-----' |
+ '---------'                  '---------'
+  [_______]<b class="wire">-.                .-</b>[_______]
+             <b class="wire">\              /</b>
+              <b class="wire">'.          .'</b>
+                <b class="wire">'-._</b><b class="heart">&lt;3</b><b class="wire">_.-'</b></pre>
+</div>
+
+</div>
+
+<!-- a cable, carrying <3s -->
+<pre class="cable" aria-hidden="true"><b class="wire">~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</b><b class="heart">&lt;3</b><b class="wire">~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</b><b class="heart">&lt;3</b><b class="wire">~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</b><b class="heart">&lt;3</b><b class="wire">~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</b><b class="heart go">&lt;3</b></pre>
+
+<div class="row">
+
+<div>
+<h2>projects (for fun)</h2>
+<ul class="fun">
 <li><a href="https://latent-space.vercel.app/">latent space</a></li>
 <li><a href="https://protecht.vercel.app/">pro(tech)t</a></li>
 </ul>
 
-<p role="heading" aria-level="2">projects (for funds)</p>
-<ul>
+<h2>projects (for funds)</h2>
+<ul class="funds">
 <li><a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1">MØRNING Ø</a></li>
 <li><a href="https://co-matter.com/project/networked-worlds">networked worlds</a> (co—matter)</li>
 <li><a href="https://www.protein.xyz/dirty-words-4-community/">protein dirty words #4: community report</a></li>
 </ul>
+</div>
 
-<p role="heading" aria-level="2">talks, workshops + other bits</p>
-<ul>
-<li><a href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1">olden residency</a><br>
-lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.
-<!-- placeholder photos: swap the picsum links for real ones + write real alt text -->
-<p>
-<img src="https://picsum.photos/seed/olden/600/400" width="300" height="200" alt="olden residency (placeholder photo)">
-<img src="https://picsum.photos/seed/residency/600/400" width="300" height="200" alt="olden residency (placeholder photo)">
-<br>lorem ipsum dolor, photos by sit amet
-</p>
-</li>
-<li><a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1">softer london</a>, talk + workshop<br>
-ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.
-<p>
-<img src="https://picsum.photos/seed/softer/600/400" width="300" height="200" alt="softer london talk + workshop (placeholder photo)">
-<br>lorem ipsum dolor, photo by sit amet
-</p>
-</li>
-<li><a href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard">tech yard</a>, workshop</li>
-<li><a href="https://www.instagram.com/p/BslwSSPH5Rc/?img_index=2">ovar it</a></li>
-</ul>
-
-<p role="heading" aria-level="2">writing</p>
-<ul>
+<div>
+<h2>writing</h2>
+<ul class="writing">
 <li><a href="https://www.protein.xyz/sex-and-the-internet/">mindy seu on sex and the internet</a> (Protein)</li>
 <li><a href="https://midnight.agency/thoughts/dreaming-and-designing-more-accessible-web">dreaming and designing a more accessible web</a> (Midnight Agency)</li>
 <li><a href="https://midnight.agency/thoughts/coding-a-more-creative-and-playful-web">coding a more creative and playful web</a> (Midnight Agency)</li>
@@ -87,9 +233,11 @@ ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliqu
 <li><a href="https://morningfyi.substack.com/p/020-uh-oh-meet">burn after reading: uh oh meet o</a> (MØRNING)</li>
 <li><a href="https://morningfyi.substack.com/p/024-entering-limb-with">burn after reading: entering limbo, with o</a> (MØRNING)</li>
 </ul>
+</div>
 
-<p role="heading" aria-level="2">podcasts</p>
-<ul>
+<div>
+<h2>podcasts (good for the bus)</h2>
+<ul class="pods">
 <li><a href="https://podcasts.apple.com/gb/podcast/mindy-seu-on-collaboration-community-and/id1449302502?i=1000597869409">mindy seu on collaboration, community and the cyberfeminism index</a></li>
 <li><a href="https://soundcloud.com/proteincommunity/protein-forum-what-can-web2-organisations-learn-from-web3-communities">what can web2 organisations learn from web3 communities?</a></li>
 <li><a href="https://podcasts.apple.com/gb/podcast/cherie-hu-on-water-musics-journey-through-web3/id1449302502?i=1000581859804">cherie hu on water &amp; music's journey through web3</a></li>
@@ -99,20 +247,74 @@ ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliqu
 <li><a href="https://podcasts.apple.com/gb/podcast/cyn-bahati-on-her-journey-into-web3-with-her-family/id1449302502?i=1000559818509">cyn bahati on her journey into web3 with her family</a></li>
 <li><a href="https://podcasts.apple.com/gb/podcast/latash%C3%A1-on-the-potential-of-web3-for-music-artists/id1449302502?i=1000552812458">latasha on the potential of web3 for music artists</a></li>
 </ul>
+</div>
 
-<p role="heading" aria-level="2">uni stuff</p>
-<ul>
+</div>
+
+<pre class="cable" aria-hidden="true"><b class="wire">~~~~~~~~~~~~</b><b class="heart">&lt;3</b><b class="wire">~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</b><b class="heart">&lt;3</b><b class="wire">~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</b><b class="heart">&lt;3</b><b class="wire">~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</b><b class="heart">&lt;3</b><b class="wire">~~~~~~~~~~~~~~~~~</b><b class="heart go">&lt;3</b></pre>
+
+<h2>talks, workshops + other bits</h2>
+<!-- placeholder photos: swap the picsum links for real ones + write real alt text -->
+<ul class="talks">
+<li class="olden"><a href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1">olden residency</a><br>
+lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.
+<p class="pics">
+<img src="https://picsum.photos/seed/olden/600/400" width="600" height="400" alt="olden residency (placeholder photo)">
+<img src="https://picsum.photos/seed/residency/600/400" width="600" height="400" alt="olden residency (placeholder photo)">
+</p>
+<p class="cap">lorem ipsum dolor, photos by sit amet</p>
+</li>
+<li class="softer"><a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1">softer london</a>, talk + workshop<br>
+ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.
+<p class="pics"><img src="https://picsum.photos/seed/softer/600/400" width="600" height="400" alt="softer london talk + workshop (placeholder photo)"></p>
+<p class="cap">lorem ipsum dolor, photo by sit amet</p>
+</li>
+<li><a href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard">tech yard</a>, workshop</li>
+<li><a href="https://www.instagram.com/p/BslwSSPH5Rc/?img_index=2">ovar it</a></li>
+<li class="doodle" aria-hidden="true"><pre>    <b class="rose">.---.</b>
+ <b class="lilac">( </b><b class="rose">/:::::\ </b><b class="lilac">)</b>
+<b class="lilac">(( </b><b class="rose">|:::::| </b><b class="lilac">))</b>
+ <b class="lilac">( </b><b class="rose">\:::::/ </b><b class="lilac">)</b>
+    <b class="rose">'-+-'</b>
+      |
+      |
+   ___|___</pre></li>
+</ul>
+
+<pre class="cable" aria-hidden="true"><b class="wire">~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</b><b class="heart">&lt;3</b><b class="wire">~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</b><b class="heart">&lt;3</b><b class="wire">~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</b><b class="heart">&lt;3</b><b class="wire">~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</b><b class="heart go">&lt;3</b></pre>
+
+<div class="row">
+
+<div>
+<h2>uni stuff</h2>
+<ul class="uni">
 <li>MA internet equalities</li>
 <li>BA creative direction</li>
 <li>PhD [ ? ] ...dreaming...</li>
 </ul>
+</div>
 
-<p role="heading" aria-level="2">bio (third person, for event listings + press)</p>
+<div class="note bio">
+<h2>bio (third person, for event listings + press)</h2>
 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+</div>
 
-<p>thanks for stopping by ♡</p>
+<div class="thanks">
+<p class="bye">thanks for stopping by <span class="heart">♡</span> <span class="kao">(˘︶˘)</span></p>
+<p class="small-print">last updated 1 october 2026. plain-ish html, after olia lialina's <a href="http://contemporary-home-computing.org/prof-dr-style/">prof. dr. style</a> (with flowers). no tracking here. if something's broken, <a href="mailto:inkersolekesia@gmail.com">tell me</a>.</p>
+</div>
 
-<p>last updated 1 october 2026. plain html, after olia lialina's <a href="http://contemporary-home-computing.org/prof-dr-style/">prof. dr. style</a>. no tracking here. if something's broken, <a href="mailto:inkersolekesia@gmail.com">tell me</a>.</p>
+</div>
+
+<footer>
+<!-- a little garden, so the page has somewhere soft to end -->
+<pre class="garden" aria-hidden="true">    <b class="rose">_                             </b><b class="lilac">_                          </b><b class="rose">_                        </b><b class="peri">_                            </b><b class="rose">_                        </b><b class="lilac">_                             </b><b class="peri">_</b>
+  <b class="rose">_(_)_         @               </b><b class="lilac">_(_)_         </b><b class="peri">@            </b><b class="rose">_(_)_              @     </b><b class="peri">_(_)_         </b><b class="rose">@              _(_)_    </b><b class="lilac">@               _(_)_         </b><b class="peri">@               _(_)_    </b><b class="rose">@</b>
+ <b class="rose">(_)@(_)        </b><b class="stem">|/  </b><b class="peri">vVv        </b><b class="lilac">(_)@(_)        </b><b class="stem">|/    </b><b class="rose">vVv   (_)@(_)             </b><b class="stem">|/   </b><b class="peri">(_)@(_)  </b><b class="lilac">vVv   </b><b class="stem">|/            </b><b class="rose">(_)@(_)   </b><b class="stem">|/  </b><b class="rose">vVv        </b><b class="lilac">(_)@(_)        </b><b class="stem">|/  </b><b class="lilac">vVv        </b><b class="peri">(_)@(_)   </b><b class="stem">|/  </b><b class="lilac">vVv</b>
+   <b class="rose">(_)    </b><b class="lilac">vVv  </b><b class="stem">\|   </b><b class="peri">(_)    </b><b class="lilac">*     (_)    </b><b class="rose">vVv  </b><b class="stem">\|     </b><b class="rose">(_)     (_)     </b><b class="peri">*   </b><b class="lilac">vVv  </b><b class="stem">\|      </b><b class="peri">(_)    </b><b class="lilac">(_)  </b><b class="stem">\|   </b><b class="rose">vVv   </b><b class="lilac">*     </b><b class="rose">(_)    </b><b class="stem">\|   </b><b class="rose">(_)  </b><b class="peri">vVv     </b><b class="lilac">(_)     </b><b class="rose">*   </b><b class="stem">\|   </b><b class="lilac">(_)   </b><b class="rose">vVv    </b><b class="peri">(_)    </b><b class="stem">\|   </b><b class="lilac">(_)  </b><b class="rose">vVv</b>
+    <b class="stem">|/    </b><b class="lilac">(_)   </b><b class="stem">|   \|     |/     |/    </b><b class="rose">(_)   </b><b class="stem">|     \|       |/     |/  </b><b class="lilac">(_)   </b><b class="stem">|       |/    \|    |   </b><b class="rose">(_)   </b><b class="stem">|/     |/     |   \|   </b><b class="peri">(_)      </b><b class="stem">|/     |/   |   \|    </b><b class="rose">(_)     </b><b class="stem">|/     |   \|   </b><b class="rose">(_)</b>
+   <b class="stem">\|      |    |    |    \|     \|      |    |      |      \|     \|    |    |      \|      |    |    |   \|     \|      |    |    |      \|     \|    |    |     |     \|      |    |    |</b></pre>
+</footer>
 
 <script>
 console.log('hi ♡ you found the console');

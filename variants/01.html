@@ -18,96 +18,304 @@
 <meta name="twitter:description" content="kes inkersole — freelance creative strategist & internet equalities researcher, based in london.">
 <meta name="twitter:image" content="https://kesia-coral.vercel.app/square.png">
 <style>
-img { max-width: 100%; height: auto; }
-figure { display: inline-block; }
+/* colours are all css names except the highlighter. strawberry milk + biro. */
+:root {
+  --paper: lavenderblush;
+  --ink: midnightblue;
+  --berry: mediumvioletred;
+  --pink: hotpink;
+  --blue: cornflowerblue;
+  --butter: #fff3a0;
+  --fabric: #f5cfe0;
+  --gut: clamp(16px, 3.5vw, 52px);
+  --mono: ui-monospace, Menlo, "DejaVu Sans Mono", Consolas, "Courier New", monospace;
+}
+html { background: var(--paper); color: var(--ink); }
+body { max-width: 1920px; margin: 0 auto; padding: 28px var(--gut) 0; font: 19px/1.45 "Times New Roman", Times, serif; }
+a { color: var(--ink); text-decoration-color: var(--pink); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+a:visited { color: #5a3d8f; text-decoration-color: var(--blue); }
+a:hover { background: var(--butter); color: var(--berry); text-decoration-style: wavy; }
+::selection { background: var(--pink); color: white; }
+
+h1 { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+h2 { font-size: 1em; color: var(--berry); margin: 0 0 .35em; }
+.next { margin-top: 1.4em; }
+p { margin: 0 0 .8em; }
+ul { margin: 0; padding-left: 1.5em; list-style: "☆  "; }
+li { margin: 0 0 .3em; break-inside: avoid; }
+li::marker { color: var(--pink); }
+
+pre { font-family: var(--mono); font-size-adjust: ch-width .602; margin: 0; }
+b { font-weight: inherit; }
+mark { background: var(--butter); color: inherit; padding: 0 .15em; }
+.h { color: var(--pink); }  .b { color: var(--blue); }  .k { color: var(--berry); }  .i { color: var(--ink); }  .g { color: plum; }
+
+/* cross stitch: one x per square of aida, and the holes are drawn by css so the art stays readable in view-source */
+.stitch { --cols: 112; --cap: 28px; font-size: min(var(--cap), calc((100vw - 2 * var(--gut)) / (var(--cols) + 1) / .602)); line-height: .6; padding: .9em .5ch; color: var(--berry); background: var(--thread, none), radial-gradient(circle, var(--fabric) .07em, transparent .1em) 0 0 / 1ch .6em; overflow: hidden; margin-bottom: 28px; }
+.phone { display: none; }
+
+/* rows: things sit side by side, three across, then two, then one on a phone */
+.row { display: flex; flex-wrap: wrap; gap: 28px 48px; margin-bottom: 40px; }
+.row > * { flex: 1 1 15em; min-width: 0; }
+.cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+.hello { flex: 2 1 15em; font-size: 1.12em; max-width: 36em; }
+.note { flex: 1 1 14em; max-width: 19em; align-self: start; margin-left: auto; background: var(--butter); padding: 16px 22px 14px; transform: rotate(-1.2deg); box-shadow: 3px 4px 0 var(--fabric); }
+button { font: 15px var(--mono); color: var(--berry); background: none; border: 0; padding: 0; cursor: pointer; }
+button:hover { background: var(--butter); }
+
+/* a cable with little hearts going along it */
+.cable { display: flex; flex-wrap: wrap; font: 16px/1.2 var(--mono); color: var(--blue); white-space: pre; margin: 8px 0 40px; }
+.wire { flex: 1; position: relative; overflow: hidden; }
+.wire i { position: absolute; left: -3ch; font-style: normal; color: var(--pink); background: var(--paper); animation: packet 9s linear infinite; }
+.wire i + i { animation-delay: -4.5s; }
+@keyframes packet { to { left: 100%; } }
+.cable b { margin-left: auto; padding-left: 2ch; }
+
+.wrote { list-style: "✎  "; }
+.pods { list-style: "♪  "; columns: 2 18em; column-gap: 48px; }
+.wrote li::marker, .pods li::marker { color: var(--blue); }
+
+/* photos, stitched on. they stay photo-sized and get scattered across the width */
+.photos { justify-content: space-around; align-items: flex-start; }
+.photos > figure { flex: 0 0 auto; box-sizing: border-box; width: clamp(150px, 23vw, 400px); margin: 0; padding: 12px 12px 14px; background: white; outline: 2px dashed var(--pink); outline-offset: -7px; box-shadow: 0 2px 6px rgba(25, 25, 112, .12); transform: rotate(-1deg); }
+.photos > figure:nth-child(2) { margin-top: 48px; transform: rotate(1.4deg); outline-color: var(--blue); }
+.photos > figure:nth-child(3) { margin-top: 14px; transform: rotate(-.3deg); }
+figure img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; background: var(--fabric); }
+figcaption { font-size: 15px; margin-top: 6px; }
+
+/* it's leaving without you */
+.row > .stop { flex: 0 0 auto; align-self: end; margin-left: auto; overflow: hidden; }
+.bus { font-size: 14px; line-height: 1.2; color: var(--pink); transition: transform 1s ease-out; }
+@media (hover: hover) and (prefers-reduced-motion: no-preference) { .stop:hover .bus { transform: translateX(110%); transition: transform 2.5s ease-in; } }
+
+.about section { container-type: inline-size; }
+.books { font-size: min(14px, 100cqw / 34 / .602); line-height: 1; color: var(--blue); margin: 10px 0 18px; }
+
+footer { display: flex; flex-wrap: wrap; align-items: end; gap: 20px 40px; margin-bottom: 28px; }
+footer p { max-width: 34em; }
+footer .stitch { --cap: 22px; margin: 0 0 0 auto; color: var(--blue); }
+small { font-size: 15px; }
+/* the hem: hearts and sparkles, pink and blue in turn */
+@supports (background-clip: text) or (-webkit-background-clip: text) {
+  .hem { --thread: repeating-linear-gradient(90deg, var(--pink) 0 4ch, var(--blue) 0 8ch); color: transparent; -webkit-background-clip: text, border-box; background-clip: text, border-box; }
+}
+
+@media (min-width: 701px) and (max-width: 1080px) {
+  .cols { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cols > :last-child:nth-child(odd) { grid-column: 1 / -1; columns: 2; column-gap: 48px; }
+  .cols > :last-child:nth-child(odd) h2 { column-span: all; }
+}
+@media (max-width: 700px) {
+  .cols { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 900px) {
+  .desk { display: none; }
+  .phone { display: block; }
+  .stitch { --cols: 43; --cap: 24px; }
+}
+@media (max-width: 760px) {
+  body { font-size: 18px; padding-top: 20px; }
+  .row { margin-bottom: 32px; }
+  .note { margin-left: 0; }
+  .bus { font-size: calc((100vw - 2 * var(--gut)) / 50 / .602); }
+}
+@media (max-width: 560px) {
+  .photos { justify-content: center; gap: 24px 20px; }
+  .photos > figure { width: calc(50% - 10px); padding: 8px 8px 10px; outline-offset: -5px; }
+  .photos > figure:nth-child(2) { margin-top: 18px; }
+  .photos > figure:nth-child(3) { margin-top: -6px; }
+  figcaption { font-size: 13px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wire i { display: none; }
+}
 </style>
 </head>
 <body>
 
 <h1>kes inkersole</h1>
+<pre class="stitch desk" aria-hidden="true">
+                                                                                                <b class=b>xxxxxxxxxxxxx</b>
+                                                                                                <b class=b>x           x</b>
+                                                                                      <b class=b>x         x   x   x   x</b>
+   x                 <b class=h>x x</b>      x                        x             <b class=h>xx xx</b>           <b class=b>xxx        x           x</b>
+   x                  <b class=h>x</b>       x                        x            <b class=h>xxxxxxx</b>           <b class=b>x         x  x     x  x</b>
+   x  x  xx   xxx        xxx  x  x  xx  x xx  xxx  xx  x   xx       <b class=h>xxxxxxx</b>                     <b class=b>x   xxxxx   x</b>
+   x x  x  x x        x  x  x x x  x  x xx   x    x  x x  x  x       <b class=h>xxxxx</b>   <b class=b>x x x x x x x x x xx           x</b>
+   xx   xxxx  xx      x  x  x xx   xxxx x     xx  x  x x  xxxx        <b class=h>xxx</b>                       <b class=b>xxxxxxxxxxxxx</b>
+   x x  x       x     x  x  x x x  x    x       x x  x x  x            <b class=h>x                x</b>            <b class=b>xxx</b>
+   x  x  xxx xxx      x  x  x x  x  xxx x    xxx   xx   x  xxx                         <b class=h>xxx</b>        <b class=b>xxxxxxxxx</b>
+                                                                                        <b class=h>x</b></pre>
+<pre class="stitch phone" aria-hidden="true">
+                            <b class=b>xxxxxxxxxxxxx</b>
+                            <b class=b>x           x</b>
+                            <b class=b>x   x   x   x</b>
+ x                <b class=h>xx xx</b>     <b class=b>x           x</b>
+ x               <b class=h>xxxxxxx</b>    <b class=b>x  x     x  x</b>
+ x  x  xx   xxx  <b class=h>xxxxxxx</b> <b class=b>x xx   xxxxx   x</b>
+ x x  x  x x      <b class=h>xxxxx</b>     <b class=b>x           x</b>
+ xx   xxxx  xx     <b class=h>xxx</b>      <b class=b>xxxxxxxxxxxxx</b>
+ x x  x       x     <b class=h>x</b>            <b class=b>xxx</b>
+ x  x  xxx xxx                <b class=b>xxxxxxxxx</b>
 
-<p>Kes here (Kesia on forms). I'm a freelance creative strategist and internet equalities researcher based in London, and an associate lecturer at UAL (LCF + CCI). I've worked with Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer and Selfridges. Links below, help yourself ↓</p>
 
-<p>available for work, say hi: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a> <button onclick="navigator.clipboard && navigator.clipboard.writeText('inkersolekesia@gmail.com').then(() => this.textContent = 'copied ♡', () => this.textContent = 'hmm, didn\'t work')">copy email</button></p>
+ <b class=h>x x</b>      x                        x
+  <b class=h>x</b>       x                        x
+     xxx  x  x  xx  x xx  xxx  xx  x   xx
+  x  x  x x x  x  x xx   x    x  x x  x  x
+  x  x  x xx   xxxx x     xx  x  x x  xxxx
+  x  x  x x x  x    x       x x  x x  x
+  x  x  x x  x  xxx x    xxx   xx   x  xxx</pre>
 
-<p>lately ✶</p>
-<ul>
-  <li>lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
-  <li>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</li>
-</ul>
+<div class="row">
+  <div class="hello">
+    <p>Kes here (Kesia on forms). I'm a freelance creative strategist and internet equalities researcher based in London, and an associate lecturer at UAL (LCF + CCI). I've worked with Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer and Selfridges. Links below, help yourself ↓</p>
+    <p><mark>available for work</mark>, say hi: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a> <button onclick="navigator.clipboard && navigator.clipboard.writeText('inkersolekesia@gmail.com').then(() => this.textContent = '[ copied ♡ ]', () => this.textContent = '[ hmm, didn\'t work ]')">[ copy email ]</button></p>
+  </div>
+  <div class="note">
+    <h2>lately ✶</h2>
+    <ul>
+      <li>lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
+      <li>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</li>
+    </ul>
+  </div>
+</div>
 
-<p>projects (for fun)</p>
-<ul>
-  <li><a href="https://latent-space.vercel.app/">latent space</a>, lorem ipsum dolor sit amet consectetur</li>
-  <li><a href="https://protecht.vercel.app/">pro(tech)t</a>, sed do eiusmod tempor incididunt</li>
-</ul>
+<div class="cable" aria-hidden="true">[|||]=<span class="wire">~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<i>&lt;3</i><i>&lt;3</i></span>=[|||]</div>
 
-<p>projects (for funds)</p>
-<ul>
-  <li><a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1">MØRNING Ø</a></li>
-  <li><a href="https://co-matter.com/project/networked-worlds">networked worlds</a> with co—matter</li>
-  <li><a href="https://www.protein.xyz/dirty-words-4-community/">dirty words #4: community report</a> for Protein</li>
-</ul>
+<div class="row cols">
+  <div>
+  <section>
+    <h2>projects (for fun)</h2>
+    <ul>
+      <li><a href="https://latent-space.vercel.app/">latent space</a>, lorem ipsum dolor sit amet consectetur</li>
+      <li><a href="https://protecht.vercel.app/">pro(tech)t</a>, sed do eiusmod tempor incididunt</li>
+    </ul>
+  </section>
+  <section class="next">
+    <h2>projects (for funds)</h2>
+    <ul>
+      <li><a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1">MØRNING Ø</a></li>
+      <li><a href="https://co-matter.com/project/networked-worlds">networked worlds</a> with co—matter</li>
+      <li><a href="https://www.protein.xyz/dirty-words-4-community/">dirty words #4: community report</a> for Protein</li>
+    </ul>
+  </section>
+  </div>
+  <section>
+    <h2>elsewhere, mostly irl</h2>
+    <ul>
+      <li><a href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1">olden residency</a></li>
+      <li><a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1">softer london</a>, talk + workshop</li>
+      <li><a href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard">tech yard</a>, workshop</li>
+      <li><a href="https://www.instagram.com/p/BslwSSPH5Rc/?img_index=2">ovar it</a></li>
+    </ul>
+  </section>
+  <section>
+    <h2>things i wrote</h2>
+    <ul class="wrote">
+      <li><a href="https://www.protein.xyz/sex-and-the-internet/">mindy seu on sex and the internet</a></li>
+      <li><a href="https://midnight.agency/thoughts/dreaming-and-designing-more-accessible-web">dreaming and designing a more accessible web</a></li>
+      <li><a href="https://midnight.agency/thoughts/coding-a-more-creative-and-playful-web">coding a more creative and playful web</a></li>
+      <li><a href="https://midnight.agency/thoughts/composing-a-flexible-and-modular-web">composing a flexible and modular web</a></li>
+      <li><a href="https://morningfyi.substack.com/p/020-uh-oh-meet">burn after reading: uh oh meet o</a></li>
+      <li><a href="https://morningfyi.substack.com/p/024-entering-limb-with">burn after reading: entering limbo, with o</a></li>
+    </ul>
+  </section>
+</div>
 
-<p>elsewhere, mostly irl</p>
-<ul>
-  <li><a href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1">olden residency</a></li>
-  <li><a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1">softer london</a>, talk + workshop</li>
-  <li><a href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard">tech yard</a>, workshop</li>
-  <li><a href="https://www.instagram.com/p/BslwSSPH5Rc/?img_index=2">ovar it</a></li>
-</ul>
+<div class="row photos">
+  <figure>
+    <img src="https://picsum.photos/seed/olden/600/450" width="600" height="450" alt="olden residency">
+    <figcaption>olden residency, photo by lorem ipsum</figcaption>
+  </figure>
+  <figure>
+    <img src="https://picsum.photos/seed/softer/600/450" width="600" height="450" alt="softer london talk and workshop">
+    <figcaption>softer london, photo by lorem ipsum</figcaption>
+  </figure>
+  <figure>
+    <img src="https://picsum.photos/seed/techyard/600/450" width="600" height="450" alt="tech yard workshop">
+    <figcaption>tech yard, photo by lorem ipsum</figcaption>
+  </figure>
+</div>
 
-<figure>
-  <img src="https://picsum.photos/seed/olden/300/225" width="300" height="225" alt="">
-  <figcaption>olden residency, photo by lorem ipsum</figcaption>
-</figure>
-<figure>
-  <img src="https://picsum.photos/seed/softer/300/225" width="300" height="225" alt="">
-  <figcaption>softer london, photo by lorem ipsum</figcaption>
-</figure>
-<figure>
-  <img src="https://picsum.photos/seed/techyard/300/225" width="300" height="225" alt="">
-  <figcaption>tech yard, photo by lorem ipsum</figcaption>
-</figure>
+<div class="row">
+  <section>
+    <h2>podcasts, for the bus</h2>
+    <ul class="pods">
+      <li><a href="https://podcasts.apple.com/gb/podcast/mindy-seu-on-collaboration-community-and/id1449302502?i=1000597869409">mindy seu on collaboration, community and the cyberfeminism index</a></li>
+      <li><a href="https://soundcloud.com/proteincommunity/protein-forum-what-can-web2-organisations-learn-from-web3-communities">what can web2 organisations learn from web3 communities?</a></li>
+      <li><a href="https://podcasts.apple.com/gb/podcast/cherie-hu-on-water-musics-journey-through-web3/id1449302502?i=1000581859804">cherie hu on water &amp; music's journey through web3</a></li>
+      <li><a href="https://podcasts.apple.com/gb/podcast/molly-dickson-on-dao-activism-and-fighting-for/id1449302502?i=1000578164761">molly dickson on dao activism</a></li>
+      <li><a href="https://podcasts.apple.com/gb/podcast/dame-on-the-need-for-education-accessibility/id1449302502?i=1000559829008">dame on education, accessibility and inclusivity in web3</a></li>
+      <li><a href="https://podcasts.apple.com/gb/podcast/nadia-piet-on-creative-ai-and-protopian-futures/id1449302502?i=1000559822732">nadia piet on creative ai and protopian futures</a></li>
+      <li><a href="https://podcasts.apple.com/gb/podcast/cyn-bahati-on-her-journey-into-web3-with-her-family/id1449302502?i=1000559818509">cyn bahati on her journey into web3 with her family</a></li>
+      <li><a href="https://podcasts.apple.com/gb/podcast/latash%C3%A1-on-the-potential-of-web3-for-music-artists/id1449302502?i=1000552812458">latasha on the potential of web3 for music artists</a></li>
+    </ul>
+  </section>
+  <div class="stop">
+  <pre class="bus" role="img" aria-label="a pink double-decker bus, with one passenger wearing headphones">    .----------------------------------------.
+   /                                          \
+  |  .-----.  .-----.  .-----.  .-----.  .---. |
+  |  |     |  |<b class=k>d^_^b</b>|  |     |  |     |  |   | |
+  |  '-----'  '-----'  '-----'  '-----'  '---' |
+  |============================================|
+  |  <b class=b>[  ~ ding ding ~  ]</b>                       |
+  |============================================|
+  | |  .-----.  .-----.  .-----.  .-----.  .-. |
+  | |  |     |  |     |  |     |  |     |  | | |_
+  | |  '-----'  '-----'  '-----'  '-----'  '-' |o|
+  '-'---<b class=b>(@)</b>--------------------------<b class=b>(@)</b>-------'-'</pre>
+  </div>
+</div>
 
-<p>things i wrote ✎</p>
-<ul>
-  <li><a href="https://www.protein.xyz/sex-and-the-internet/">mindy seu on sex and the internet</a></li>
-  <li><a href="https://midnight.agency/thoughts/dreaming-and-designing-more-accessible-web">dreaming and designing a more accessible web</a></li>
-  <li><a href="https://midnight.agency/thoughts/coding-a-more-creative-and-playful-web">coding a more creative and playful web</a></li>
-  <li><a href="https://midnight.agency/thoughts/composing-a-flexible-and-modular-web">composing a flexible and modular web</a></li>
-  <li><a href="https://morningfyi.substack.com/p/020-uh-oh-meet">burn after reading: uh oh meet o</a></li>
-  <li><a href="https://morningfyi.substack.com/p/024-entering-limb-with">burn after reading: entering limbo, with o</a></li>
-</ul>
+<div class="row cols about">
+  <section>
+    <h2>the serious bit</h2>
+    <p>My practice focuses on understanding and critiquing the impacts of emerging technologies on people, culture, and the planet. I'm particularly interested in working collectively to rethink the narratives and behaviours surrounding technologies — prioritising collaborative research as a process for testing, imagining and prototyping more equitable, alternative futures.</p>
+  </section>
+  <section>
+    <h2>degrees, so far:</h2>
+    <pre class="books" role="img" aria-label="a stack of books: BA Creative Direction, MA Internet Equalities, and a dotted outline of one more that says PhD, question mark"><b class=g>     ............................
+    ::  <b class=k>PhD  [ ? ]</b>               :</b>
+  __<b class=g>::...........................:</b>
+  ||  <b class=i>MA   Internet Equalities</b> |
+__||___________________________|
+||  <b class=i>BA   Creative Direction</b>  |
+||___________________________|</pre>
+    <p>cv and portfolio on request, <a href="mailto:inkersolekesia@gmail.com">just ask</a></p>
+  </section>
+  <section>
+    <h2>bio, in the third person, for posters and programmes</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+  </section>
+</div>
 
-<p>podcasts, for the bus</p>
-<ul>
-  <li><a href="https://podcasts.apple.com/gb/podcast/mindy-seu-on-collaboration-community-and/id1449302502?i=1000597869409">mindy seu on collaboration, community and the cyberfeminism index</a></li>
-  <li><a href="https://soundcloud.com/proteincommunity/protein-forum-what-can-web2-organisations-learn-from-web3-communities">what can web2 organisations learn from web3 communities?</a></li>
-  <li><a href="https://podcasts.apple.com/gb/podcast/cherie-hu-on-water-musics-journey-through-web3/id1449302502?i=1000581859804">cherie hu on water &amp; music's journey through web3</a></li>
-  <li><a href="https://podcasts.apple.com/gb/podcast/molly-dickson-on-dao-activism-and-fighting-for/id1449302502?i=1000578164761">molly dickson on dao activism</a></li>
-  <li><a href="https://podcasts.apple.com/gb/podcast/dame-on-the-need-for-education-accessibility/id1449302502?i=1000559829008">dame on education, accessibility and inclusivity in web3</a></li>
-  <li><a href="https://podcasts.apple.com/gb/podcast/nadia-piet-on-creative-ai-and-protopian-futures/id1449302502?i=1000559822732">nadia piet on creative ai and protopian futures</a></li>
-  <li><a href="https://podcasts.apple.com/gb/podcast/cyn-bahati-on-her-journey-into-web3-with-her-family/id1449302502?i=1000559818509">cyn bahati on her journey into web3 with her family</a></li>
-  <li><a href="https://podcasts.apple.com/gb/podcast/latash%C3%A1-on-the-potential-of-web3-for-music-artists/id1449302502?i=1000552812458">latasha on the potential of web3 for music artists</a></li>
-</ul>
+<div class="cable" aria-hidden="true">[|||]=<span class="wire">~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</span>=      [|||]<b class=k>unplugged. night night</b></div>
 
-<p>the serious bit</p>
-<p>My practice focuses on understanding and critiquing the impacts of emerging technologies on people, culture, and the planet. I'm particularly interested in working collectively to rethink the narratives and behaviours surrounding technologies — prioritising collaborative research as a process for testing, imagining and prototyping more equitable, alternative futures.</p>
+<footer>
+  <div>
+    <p>that's everything ✶ thanks for scrolling all the way down (^_^)/</p>
+    <p><small>last updated 1 october 2026. no cookies or trackers here. made in the spirit of <a href="http://contemporary-home-computing.org/prof-dr-style/">Prof. Dr. style</a>, so it's easy to keep up to date.</small></p>
+  </div>
+  <pre class="stitch" aria-hidden="true">
+                      <b class=h>xxxxx</b>
+ xxxxxxxxxxxxx           <b class=h>x</b>
+ x           x          <b class=h>x</b>
+ x           x         <b class=h>x</b>
+ x  xxx xxx  x  <b class=h>xxxx  xxxxx</b>
+ x           x    <b class=h>x</b>
+ x     x     x   <b class=h>x</b>
+ x           x  <b class=h>xxxx</b>
+ xxxxxxxxxxxxx
+      xxx
+   xxxxxxxxx</pre>
+</footer>
 
-<p>bio, in the third person, for posters and programmes</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-
-<p>degrees, so far:<br>
-MA Internet Equalities<br>
-BA Creative Direction<br>
-PhD [ ? ]</p>
-
-<p>cv and portfolio on request, <a href="mailto:inkersolekesia@gmail.com">just ask</a></p>
-
-<p>that's everything ✶ thanks for scrolling all the way down</p>
-
-<p>last updated 1 october 2026. no cookies or trackers here. made in the spirit of <a href="http://contemporary-home-computing.org/prof-dr-style/">Prof. Dr. style</a>, so it's easy to keep up to date.</p>
+<pre class="stitch hem" aria-hidden="true">
+x x  x  x x  x  x x  x  x x  x  x x  x  x x  x  x x  x  x x  x  x x  x  x x  x  x x  x  x x  x  x x  x  x x  x
+xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx
+ x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x</pre>
 
 <script>
 console.log('oh hi');

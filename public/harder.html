@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>HARDER</title>
+<meta name="description" content="HARDER — a movement for harder digital futures. Do not soften to the system. Take it apart." />
+<meta name="author" content="HARDER" />
+
+<!-- share / link-preview card -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="HARDER" />
+<meta property="og:description" content="A movement for harder digital futures. Do not soften to the system. Take it apart." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="HARDER" />
+<meta name="twitter:description" content="A movement for harder digital futures. Do not soften to the system. Take it apart." />
+
+<style>
+/* ===========================================================
+   HARDER — brutalist terminal / anarchist zine.
+   full-bleed rigid grid, hard rules, hazard accents, system
+   fonts only (this page phones no one — that's the point).
+   committed single dark identity by design.
+   =========================================================== */
+
+:root {
+  /* color — hazard red is SOFTER's own accent, turned up to the whole */
+  --void:     #0c0b0a;   /* near-black, faint warm bias */
+  --concrete: #151310;   /* raised panel */
+  --bone:     #e9e4d7;   /* warm off-white text */
+  --ash:      #8b8477;   /* muted secondary */
+  --signal:   #ff3b0f;   /* hazard red — THE color */
+  --amber:    #ffb000;   /* warning amber — secondary */
+  --wire:     #2b2822;   /* hairlines */
+
+  /* type — all system, no webfonts */
+  --mono:   "Courier New", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --grot:   Impact, Haettenschweiler, "Franklin Gothic Bold", "Arial Black", sans-serif;
+  --cond:   "Arial Narrow", "Helvetica Neue Condensed", "Liberation Sans Narrow", sans-serif;
+  --sans:   "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; background: var(--void); }
+::selection { background: var(--signal); color: var(--void); text-shadow: none; }
+
+body {
+  margin: 0;
+  background: var(--void);
+  color: var(--bone);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; }
+img { max-width: 100%; }
+
+/* hazard tape motif */
+.tape {
+  height: 14px;
+  background: repeating-linear-gradient(-45deg,
+    var(--signal) 0 16px, var(--void) 16px 32px);
+}
+.tape.amber {
+  background: repeating-linear-gradient(-45deg,
+    var(--amber) 0 16px, var(--void) 16px 32px);
+}
+
+/* ---- top conference strip ---- */
+.banner {
+  background: var(--signal);
+  color: var(--void);
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  padding: 9px 18px;
+}
+.banner .date { background: var(--void); color: var(--amber); padding: 2px 8px; white-space: nowrap; }
+.banner .ttl { font-weight: 700; }
+.banner .sub { font-weight: 400; opacity: .85; }
+.banner a.prog {
+  margin-left: auto;
+  background: var(--void);
+  color: var(--bone);
+  text-decoration: none;
+  padding: 5px 12px;
+  white-space: nowrap;
+  border: 2px solid var(--void);
+}
+.banner a.prog:hover { background: var(--amber); color: var(--void); }
+
+/* ---- nav ---- */
+.nav {
+  display: flex;
+  align-items: baseline;
+  gap: 0;
+  border-bottom: 2px solid var(--wire);
+  font-family: var(--mono);
+  text-transform: uppercase;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+}
+.nav .brand {
+  font-family: var(--grot);
+  font-size: 22px;
+  letter-spacing: 0.02em;
+  padding: 10px 18px;
+  color: var(--signal);
+  border-right: 2px solid var(--wire);
+}
+.nav a {
+  padding: 14px 16px;
+  text-decoration: none;
+  color: var(--ash);
+  border-right: 1px solid var(--wire);
+}
+.nav a:hover { color: var(--void); background: var(--amber); }
+.nav .stat { margin-left: auto; padding: 14px 16px; color: var(--signal); border-right: none; }
+.nav .stat .dot { color: var(--amber); }
+
+/* ---- hero ---- */
+.hero { padding: 40px 18px 30px; border-bottom: 2px solid var(--wire); position: relative; }
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--signal);
+  margin: 0 0 14px;
+}
+.wordmark {
+  font-family: var(--grot);
+  text-transform: uppercase;
+  font-weight: 400;
+  font-size: clamp(90px, 28vw, 340px);
+  line-height: 0.78;
+  letter-spacing: -0.02em;
+  margin: 0;
+  color: var(--bone);
+}
+.wordmark .cut { color: var(--signal); }
+.tagline {
+  font-family: var(--cond);
+  text-transform: uppercase;
+  font-size: clamp(20px, 4.4vw, 46px);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  margin: 18px 0 0;
+  max-width: 22ch;
+}
+.tagline .b { color: var(--signal); }
+
+.statement {
+  font-family: var(--sans);
+  font-size: clamp(20px, 2.7vw, 34px);
+  line-height: 1.28;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  margin: 34px 0 0;
+  max-width: 24ch;
+  text-wrap: balance;
+}
+.statement .hl { color: var(--signal); }
+
+.hero-meta {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--ash);
+  margin-top: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+}
+.hero-meta span, .hero-meta a {
+  padding: 6px 12px;
+  border: 1px solid var(--wire);
+  margin: 0 -1px -1px 0;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.hero-meta a { color: var(--amber); }
+.hero-meta a:hover { background: var(--amber); color: var(--void); }
+.hero-meta .live { color: var(--signal); }
+
+/* ---- motto banner ---- */
+.motto {
+  border-bottom: 2px solid var(--wire);
+  padding: 46px 18px;
+  background:
+    linear-gradient(var(--void), var(--void)) padding-box,
+    repeating-linear-gradient(-45deg, var(--wire) 0 10px, transparent 10px 20px);
+}
+.motto blockquote {
+  margin: 0;
+  font-family: var(--grot);
+  text-transform: uppercase;
+  font-size: clamp(30px, 6.2vw, 86px);
+  line-height: 0.92;
+  letter-spacing: -0.01em;
+  max-width: 16ch;
+}
+.motto blockquote .q { color: var(--ash); }
+.motto blockquote .k { color: var(--signal); }
+.motto .cite { font-family: var(--mono); font-size: 13px; color: var(--ash); margin-top: 20px; text-transform: uppercase; letter-spacing: 0.06em; }
+
+/* ---- section head ---- */
+.sec-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 18px;
+  border-bottom: 2px solid var(--wire);
+  font-family: var(--mono);
+  text-transform: uppercase;
+}
+.sec-head h2 {
+  font-family: var(--grot);
+  font-weight: 400;
+  font-size: clamp(22px, 3.4vw, 40px);
+  letter-spacing: 0.01em;
+  margin: 0;
+}
+.sec-head .note { font-size: 12px; color: var(--ash); letter-spacing: 0.04em; }
+
+/* filter row (static index labels) */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  border-bottom: 2px solid var(--wire);
+  font-family: var(--mono);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.filters span {
+  padding: 11px 15px;
+  border-right: 1px solid var(--wire);
+  color: var(--ash);
+}
+.filters span.on { background: var(--signal); color: var(--void); font-weight: 700; }
+
+/* ---- card grid ---- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+.card {
+  border-right: 2px solid var(--wire);
+  border-bottom: 2px solid var(--wire);
+  padding: 22px 18px 24px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.card.wide { grid-column: span 2; background: var(--concrete); }
+.card .cat {
+  font-family: var(--mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--signal);
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.card .cat .tag { border: 1px solid var(--wire); padding: 2px 7px; color: var(--ash); }
+.card h3 {
+  font-family: var(--cond);
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: clamp(26px, 3.6vw, 46px);
+  line-height: 0.96;
+  letter-spacing: 0.005em;
+  margin: 0;
+  text-wrap: balance;
+}
+.card.wide h3 { font-size: clamp(32px, 5.4vw, 72px); }
+.card .lede { font-family: var(--sans); font-size: 16px; color: var(--bone); margin: 0; max-width: 60ch; }
+.card .body { font-family: var(--sans); font-size: 15px; line-height: 1.55; color: var(--ash); margin: 0; max-width: 68ch; }
+.card .body strong { color: var(--bone); font-weight: 600; }
+.card .more {
+  font-family: var(--mono);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--amber);
+  text-decoration: none;
+  margin-top: auto;
+}
+.card .more:hover { color: var(--signal); }
+.card .more::after { content: " →"; }
+
+/* detail list inside residency card */
+.spec { font-family: var(--mono); font-size: 13px; color: var(--ash); line-height: 1.7; margin: 4px 0 0; }
+.spec b { color: var(--bone); font-weight: 700; }
+.redact { background: var(--bone); color: var(--bone); padding: 0 .35em; user-select: none; }
+.redact:hover { color: var(--void); }
+
+/* ---- newsletter ---- */
+.signal {
+  border-bottom: 2px solid var(--wire);
+  padding: 46px 18px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  align-items: end;
+}
+.signal h2 {
+  font-family: var(--grot);
+  text-transform: uppercase;
+  font-weight: 400;
+  font-size: clamp(40px, 8vw, 110px);
+  line-height: 0.82;
+  margin: 0;
+  color: var(--bone);
+}
+.signal p { font-family: var(--mono); font-size: 14px; line-height: 1.6; color: var(--ash); margin: 16px 0 0; max-width: 46ch; }
+.signalform { display: flex; flex-wrap: wrap; gap: 0; }
+.signalform input {
+  flex: 1 1 220px;
+  min-width: 0;
+  background: var(--concrete);
+  border: 2px solid var(--wire);
+  color: var(--bone);
+  font-family: var(--mono);
+  font-size: 15px;
+  padding: 14px 14px;
+}
+.signalform input::placeholder { color: var(--ash); text-transform: uppercase; letter-spacing: 0.04em; }
+.signalform input:focus { outline: none; border-color: var(--signal); }
+.signalform a {
+  background: var(--signal);
+  color: var(--void);
+  font-family: var(--mono);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  padding: 14px 20px;
+  border: 2px solid var(--signal);
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+}
+.signalform a:hover { background: var(--amber); border-color: var(--amber); }
+
+/* ---- footer ---- */
+.footer { padding: 40px 18px 0; }
+.foot-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+.foot-col h4 {
+  font-family: var(--mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--signal);
+  margin: 0 0 12px;
+}
+.foot-col p { font-family: var(--mono); font-size: 13px; line-height: 1.7; color: var(--ash); margin: 0 0 12px; }
+.foot-col a { color: var(--amber); text-decoration: none; display: inline-block; }
+.foot-col a:hover { color: var(--signal); text-decoration: underline; }
+.foot-col .links a { display: block; padding: 3px 0; }
+
+.colophon {
+  margin-top: 36px;
+  border-top: 2px solid var(--wire);
+  padding: 22px 0 34px;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ash);
+  line-height: 1.7;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px 48px;
+  justify-content: space-between;
+}
+.colophon .no { color: var(--bone); }
+.colophon .reply { max-width: 52ch; }
+.colophon .reply b { color: var(--bone); font-weight: 700; }
+.colophon .reply .s { color: var(--signal); }
+
+@media (max-width: 760px) {
+  .grid { grid-template-columns: 1fr; }
+  .card, .card.wide { grid-column: auto; }
+  .signal { grid-template-columns: 1fr; align-items: start; }
+  .foot-grid { grid-template-columns: 1fr 1fr; }
+  .nav .stat { display: none; }
+}
+@media (max-width: 440px) {
+  .foot-grid { grid-template-columns: 1fr; }
+  .nav { flex-wrap: wrap; }
+  .nav .brand { width: 100%; border-right: none; border-bottom: 1px solid var(--wire); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  a, input { transition: background .12s linear, color .12s linear, border-color .12s linear; }
+}
+</style>
+</head>
+<body>
+
+<div class="banner">
+  <span class="date">01–03 OCT 2026</span>
+  <span class="ttl">Harder Digital Futures: Convergence 2026</span>
+  <span class="sub">three days to take technology apart and hand the power back</span>
+  <a class="prog" href="#convergence">See program</a>
+</div>
+<div class="tape"></div>
+
+<nav class="nav">
+  <span class="brand">HARDER</span>
+  <a href="#index">Blog</a>
+  <a href="#convergence">Calendar</a>
+  <a href="#why">About</a>
+  <a href="#contact">Contact</a>
+  <span class="stat"><span class="dot">●</span> status: ungoverned</span>
+</nav>
+
+<header class="hero">
+  <p class="eyebrow">// do not soften to the system. take it apart.</p>
+  <h1 class="wordmark">HARD<span class="cut">E</span>R</h1>
+  <p class="tagline">A movement for <span class="b">harder</span> digital futures.</p>
+  <p class="statement">HARDER is a network on a mission to refuse the idea that technology must be made <span class="hl">comfortable</span> before it is made ours. We are an unfinished platform built on an anarchist consciousness. We hold that harder values — refusal, autonomy, confrontation, friction, solidarity and teeth — are the only honest way to take our tools back from the people who own them.</p>
+  <p class="hero-meta">
+    <span class="live">● open to anyone who shows up</span>
+    <span>no founders</span>
+    <span>no funding we can't refuse</span>
+    <a href="#contact">find us →</a>
+  </p>
+</header>
+
+<section class="motto">
+  <blockquote><span class="q">&ldquo;Move fast and break things.&rdquo;</span><br />We kept the <span class="k">verb</span>. We changed the <span class="k">target</span>.</blockquote>
+  <p class="cite">— the industry broke you for its growth. we break the locks it put on you.</p>
+</section>
+
+<div class="sec-head" id="index">
+  <h2>Index</h2>
+  <span class="note">dispatches / open calls / arguments</span>
+</div>
+<div class="filters">
+  <span class="on">All</span>
+  <span>Assembly</span>
+  <span>Convergence</span>
+  <span>Lab</span>
+  <span>School</span>
+  <span>Residency</span>
+</div>
+
+<div class="grid">
+
+  <article class="card wide" id="convergence">
+    <div class="cat">Convergence <span class="tag">Convergence</span><span class="tag">2026</span></div>
+    <h3>Harder Digital Futures 2026</h3>
+    <p class="lede">The gathering returns — louder, and with the exits clearly marked.</p>
+    <p class="body">What if the future of technology was not about moving slower and being kinder, but about asking who owns the machine, and taking it back? For three days we bring together hackers, organisers, repairers, artists, coders and refuseniks to build the digital futures we are not being offered. Through teardown workshops, repair clinics, self-hosting labs, digital self-defence training, reading groups and loud public argument, Convergence asks what technology looks like when it answers to us and to no one above us. <strong>Tickets are pay-what-you-can. No logos. No sponsors with something to launder.</strong></p>
+    <a class="more" href="#contact">Read more</a>
+  </article>
+
+  <article class="card">
+    <div class="cat">Lab <span class="tag">Repair</span></div>
+    <h3>Own the machine, or it owns you</h3>
+    <p class="body">Every sealed device is an argument: that you are a user, not an owner — a tenant in hardware you paid for. We disagree with a soldering iron. We flash, we self-host, we keep the old machines running out of principle and spite. A computer you can open is a computer you can trust. <strong>Reclaim the right to understand what you hold.</strong></p>
+    <a class="more" href="#index">Read more</a>
+  </article>
+
+  <article class="card">
+    <div class="cat">School <span class="tag">Essay</span></div>
+    <h3>Hardware isn't scary. Ownership is forbidden.</h3>
+    <p class="body">They didn't make the machine mysterious. They made it a crime to understand — glue where there were screws, locked bootloaders, warranty-void stickers, firmware you may use but never read. That fog in your head when you open the case is not incompetence. <strong>It was designed, and it was sold to you. The computer is not beyond you. It was put beyond you on purpose.</strong></p>
+    <a class="more" href="#index">Read more</a>
+  </article>
+
+  <article class="card">
+    <div class="cat">Residency <span class="tag">Open Call</span></div>
+    <h3>Autonomy Residency: build the off-ramps</h3>
+    <p class="body">A two-week residency for people who build the exits from Big Tech: self-hosted services, mesh networks, encryption ordinary people can actually use, repair guides for the devices we're told to throw away. You build it, you document it, and you give it away free.</p>
+    <p class="spec"><b>WHEN</b> rolling · <b>WHERE</b> wherever the iron is hot<br /><b>YOU GET</b> a stipend, parts, and no NDA<br /><b>YOU LEAVE</b> a tutorial anyone can follow<br /><b>DEADLINE</b> <span class="redact">████████</span> — ask us</p>
+    <a class="more" href="#contact">Apply</a>
+  </article>
+
+  <article class="card">
+    <div class="cat">Assembly <span class="tag">Argument</span></div>
+    <h3>They learned to say care</h3>
+    <p class="body">The industry absorbed its own critique and sold it back. It appointed heads of ethics, softened the fonts, rounded the corners, published manifestos about wellbeing and slowness — and the surveillance, the extraction, the enclosure grew right through it. Softer language, same machine. <strong>Kindness without power is a brand. Care without confrontation is customer service.</strong></p>
+    <a class="more" href="#index">Read more</a>
+  </article>
+
+  <article class="card" id="why">
+    <div class="cat">Assembly <span class="tag">Origin</span></div>
+    <h3>Why HARDER</h3>
+    <p class="body">We kept being told the problem with technology was its tone — too cold, too male, too hard. We agreed. Then we watched the same companies adopt the warmer tone and change nothing underneath it. <strong>You can make the cage more comfortable, or you can pick the lock.</strong> We decided to learn to pick locks. Comfort is not the same as freedom.</p>
+    <a class="more" href="#contact">Read more</a>
+  </article>
+
+</div>
+
+<section class="signal" id="contact">
+  <div>
+    <h2>Transmissions</h2>
+    <p>No list brokers. No open-tracking pixel. No "we value your privacy" while we sell it. We keep almost nothing, and we delete the rest. If you want in, leave a line — or just find us.</p>
+  </div>
+  <div class="signalform">
+    <input type="email" id="sig-email" placeholder="you@wherever — we won't profile it" aria-label="email" />
+    <a href="mailto:join@harder.example?subject=HARDER">Send signal</a>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="foot-grid">
+    <div class="foot-col">
+      <h4>HARDER</h4>
+      <p>No founders. No board. No funding we can't refuse. Organised by whoever shows up and does the work.</p>
+      <p><a href="mailto:join@harder.example">join@harder.example</a></p>
+    </div>
+    <div class="foot-col">
+      <h4>Where</h4>
+      <p>Everywhere there's a soldering iron and a spare key. Meets in squats, libraries, backrooms and encrypted threads. Nowhere you can subpoena.</p>
+    </div>
+    <div class="foot-col">
+      <h4>Elsewhere</h4>
+      <div class="links">
+        <a href="#index">Mastodon</a>
+        <a href="#index">Git</a>
+        <a href="#index">RSS</a>
+        <a href="#index">PGP key</a>
+      </div>
+    </div>
+    <div class="foot-col">
+      <h4>Read</h4>
+      <div class="links">
+        <a href="#index">Manifesto</a>
+        <a href="#convergence">Convergence 2026</a>
+        <a href="#why">Why HARDER</a>
+        <a href="#contact">Colophon</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="colophon">
+    <div>
+      <span class="no">This page made zero third-party requests.</span><br />
+      No analytics. No cookies. No fonts phoned home. No consent banner, because there is nothing to consent to. We don't know you were here, and we'd like to keep it that way.
+    </div>
+    <div class="reply">
+      <b>HARDER is written in reply to <span class="s">SOFTER</span>.</b> One of us wants to make the machine kinder. One of us wants to take it apart. The future needs both hands — this is the one with teeth.
+    </div>
+  </div>
+</footer>
+<div class="tape amber"></div>
+
+</body>
+</html>

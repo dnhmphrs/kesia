@@ -1,106 +1,112 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en-GB">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light">
 <title>chainmail · kes inkersole</title>
-<meta name="description" content="chainmail: short pieces of writing by kes inkersole, sent in by email.">
+<meta name="description" content="chainmail: short pieces of writing by kes inkersole, sent in by email and collected over time.">
 <style>
-/* the same composition as the home page, calmer: the same black line, white rectangles,
-   one blue plane at the top and one yellow plane at the foot. three sizes: 13 mono, 16 sans, 40 sans. */
+/* the same painting as the home page, calmer: the same lines and columns, white pieces,
+   one blue plane at the top and one yellow plane at the bottom. */
 :root {
-  --line: 10px;
-  --pad: 32px;
-  --ink: #000;
+  --ink: #111;
   --paper: #fff;
-  --blue: #2034ff;
-  --pink: #ff2d92;
-  --yellow: #ffd200;
+  --blue: #1f3dff;
+  --pink: #ff2d95;
+  --yellow: #ffd500;
+  --line: 10px;
+  --pad: 36px;
+  --cols: minmax(0, 26fr) minmax(0, 37fr) minmax(0, 25fr) minmax(0, 12fr);
   --sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
   --mono: ui-monospace, Menlo, Consolas, "DejaVu Sans Mono", "Liberation Mono", "Courier New", monospace;
+  --serif: "Times New Roman", Times, serif;
 }
-html { background: var(--ink); color: var(--ink); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
-body { margin: 0; min-height: 100vh; display: flex; flex-direction: column; gap: var(--line); background: var(--ink); font: 16px/24px var(--sans); }
-h1, h2, p, figure, pre { margin: 0; }
+*, *::before, *::after { box-sizing: border-box; }
+html { background: var(--paper); color: var(--ink); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { margin: 0; font: 16px/24px var(--sans); overflow-wrap: break-word; }
+h1, h2, p, pre { margin: 0; }
 h2 { font-size: inherit; }
+a { color: var(--blue); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover, a:focus-visible { background: var(--pink); color: var(--ink); }
+a:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 ::selection { background: var(--pink); color: var(--ink); }
 
-a { color: var(--blue); text-decoration-thickness: 1px; text-underline-offset: .2em; }
-a:hover { background: var(--pink); color: var(--ink); text-decoration: none; }
-a:focus-visible { outline: 2px solid var(--pink); outline-offset: 2px; }
+.label { font: 13px/24px var(--mono); }
+.heart { color: var(--pink); font-style: normal; }
+h1 { font: italic 400 40px/48px var(--serif); }
+.aside { font: 13px/0 var(--mono); font-style: normal; vertical-align: 1.2em; white-space: nowrap; }
+.art { font: 13px/16px var(--mono); white-space: pre; color: var(--ink); }
+.art b { font-weight: inherit; }
 
-.label { font: 400 13px/24px var(--mono); }
-.voice { font: 400 40px/48px var(--sans); letter-spacing: -.015em; }
-.heart { color: var(--pink); }
-
-/* ---------- rectangles in grids, black showing through the gaps ---------- */
-.band { display: grid; gap: var(--line); }
-.col { display: flex; flex-direction: column; gap: var(--line); min-width: 0; }
+/* ---------- the composition ---------- */
+.canvas, .canvas > footer { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--line); }
+.canvas { background: var(--ink); }
+.band { display: grid; gap: var(--line); grid-template-columns: var(--cols); }
 .cell { background: var(--paper); padding: var(--pad); min-width: 0; }
-.plane.blue { background: var(--blue); }
-.plane.yellow { background: var(--yellow); }
+.blue { background: var(--blue); }
+.yellow { background: var(--yellow); }
 
-/* ---------- the top: home, the little computer, the title, how it works, one blue plane ---------- */
-.head { grid-template-columns: minmax(0, 30fr) minmax(0, 56fr) minmax(0, 34fr) minmax(0, 21fr); grid-template-areas: "c1 intro how blue"; }
-.head > .col { grid-area: c1; }
-.intro { grid-area: intro; }
-.how { grid-area: how; }
-.head .blue { grid-area: blue; }
-.pc-cell { flex: 1 0 auto; }
-.art { font: 13px/1.15 var(--mono); white-space: pre; color: var(--ink); }
-.art b { font: inherit; color: var(--pink); }
-.intro p { margin-top: 24px; max-width: 34em; text-wrap: pretty; }
-.how p + p { margin-top: 12px; }
+/* the top: back home, the little computer, the title; blue on the right edge */
+.top { grid-template-areas: "back title title blue"; }
+.back { grid-area: back; display: flex; flex-direction: column; gap: 24px; }
+.pc { width: fit-content; margin-left: -1ch; }
+.pc b { color: var(--pink); }
+.title { grid-area: title; display: flex; flex-direction: column; gap: 16px; }
+.title p { max-width: 36em; }
+.title .addr { margin-top: auto; padding-top: 24px; }
+.top .blue { grid-area: blue; }
 
-/* ---------- the pieces: newest first, poured down columns, a black line between each ---------- */
-.pieces { columns: 3; column-gap: var(--line); column-rule: var(--line) solid var(--ink); background: var(--paper); margin-top: calc(-1 * var(--line)); }
-.piece { break-inside: avoid; border-top: var(--line) solid var(--ink); padding: var(--pad); background: var(--paper); }
-.piece-title { font-weight: 700; }
-.piece-body { margin-top: 12px; max-width: 34em; text-wrap: pretty; }
-.piece-body p + p { margin-top: 24px; }
+/* ---------- the pieces: one <article> per email, newest first, three to a row ---------- */
+.pieces { display: grid; gap: var(--line); grid-template-columns: var(--cols); }
+.piece { background: var(--paper); padding: var(--pad); min-width: 0; }
+.piece .subject { margin-top: 8px; font-weight: bold; }
+.piece .text { margin-top: 16px; max-width: 36em; }
+.piece .text p + p { margin-top: 16px; }
+@media (min-width: 1100px) {
+  .piece:nth-child(3n) { grid-column: span 2; }
+  .piece:nth-child(3n+1):last-child { grid-column: 1 / -1; }
+  .piece:nth-child(3n+2):last-child { grid-column: 2 / -1; }
+}
 
-/* ---------- the end, with the garden along the bottom edge ---------- */
-.end { grid-template-columns: minmax(0, 30fr) minmax(0, 56fr) minmax(0, 34fr) minmax(0, 21fr); grid-template-areas: "note note note yellow" "garden garden garden garden"; }
-.end .note { grid-area: note; }
+/* ---------- the end ---------- */
+.end { grid-template-areas: "yellow note note note"; }
 .end .yellow { grid-area: yellow; }
-.garden-wrap { grid-area: garden; container-type: inline-size; padding-block: 24px; }
-.garden { overflow: hidden; white-space: pre; font: 400 min(16px, calc(100cqw / 114))/1.2 var(--mono); color: var(--ink); }
-.garden b { font-weight: inherit; }
-.garden .rose { color: var(--pink); }
+.note { grid-area: note; }
+.note > * + * { margin-top: 16px; }
+.note p { max-width: 38em; }
+.bed { padding: 32px 0 0 var(--pad); overflow: hidden; }
+.garden .rose, .garden .lilac { color: var(--pink); }
 .garden .peri { color: var(--blue); }
-.garden .lilac, .garden .stem { color: var(--ink); }
 
-@media (max-width: 1259px) and (min-width: 760px) {
-  :root { --line: 8px; --pad: 24px; }
-  .head { grid-template-columns: minmax(0, 30fr) minmax(0, 56fr) minmax(0, 12fr); grid-template-areas: "c1 intro blue" "c1 how blue"; }
-  .pieces { columns: 2; }
-  .end { grid-template-columns: minmax(0, 86fr) minmax(0, 12fr); grid-template-areas: "note yellow" "garden garden"; }
+/* ---------- narrower: two columns of pieces ---------- */
+@media (max-width: 1099px) {
+  :root { --line: 8px; --pad: 32px; --cols: minmax(0, 40fr) minmax(0, 52fr) minmax(0, 8fr); }
+  .top { grid-template-areas: "back title blue"; }
+  .piece:nth-child(2n) { grid-column: span 2; }
+  .piece:nth-child(2n+1):last-child { grid-column: 1 / -1; }
+  .end { grid-template-areas: "yellow note note"; }
 }
-@media (max-width: 759px) {
-  :root { --line: 6px; --pad: 20px; }
-  .band { grid-template-columns: minmax(0, 1fr); grid-template-areas: none; }
-  .band > *, .band .cell, .band .plane { grid-area: auto; }
-  .head > .col { display: contents; }
-  .head .home { order: 1; }
-  .head .intro { order: 2; }
-  .head .how { order: 3; }
-  .head .pc-cell { order: 4; }
-  .head .blue { order: 5; height: 32px; }
-  .pieces { columns: 1; }
-  .end .yellow { height: 24px; }
-  .garden { font-size: 12px; }
+/* ---------- phone: one stack ---------- */
+@media (max-width: 699px) {
+  :root { --line: 6px; --pad: 24px; --cols: minmax(0, 1fr); }
+  .top { grid-template-areas: "back" "title" "blue"; }
+  .top .blue { min-height: 32px; }
+  .piece:nth-child(n) { grid-column: auto; }
+  .end { grid-template-areas: "yellow" "note"; }
+  .end .yellow { min-height: 24px; }
+  .bed { padding-top: 24px; }
 }
-@media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
 </style>
 </head>
 <body>
 
-<header class="band head">
-  <div class="col">
-    <p class="cell label home"><a href="index.html">← kes inkersole</a></p>
-    <div class="cell pc-cell">
-<pre class="art pc" role="img" aria-label="ascii drawing of a little computer with a heart on its screen, its cable running off the edge of the page">
+<div class="canvas">
+
+<header class="band top">
+  <div class="cell back">
+    <p class="label"><a href="index.html">← kes' little corner of the internet</a></p>
+    <pre class="art pc" role="img" aria-label="ascii drawing of a little computer with a heart on its screen">
   ______________________
  |  __________________  |
  | |                  | |
@@ -114,149 +120,117 @@ a:focus-visible { outline: 2px solid var(--pink); outline-offset: 2px; }
  | |__________________| |
  |                      |
  |  <b>o</b>          ______   |
- |______________________|\
-   |__________________|   \</pre>
-    </div>
+ |______________________|
+   |__________________|</pre>
   </div>
-  <div class="cell intro">
-    <h1 class="voice">chainmail <span class="heart">♡</span></h1>
-    <p>my writing. short pieces, the kind i write in my notes app, sent here by email. each one lands on this page as it arrives, and over time they collect into a kind of text moodboard.</p>
+  <div class="cell title">
+    <h1>chainmail <small class="aside">(working title)</small></h1>
+    <p>a space for my own writing: short pieces, mostly from my notes app, sent here by email and collected over time into a kind of text moodboard.</p>
+    <p class="addr label">pieces arrive by email: (address tbc)<br>newest first</p>
   </div>
-  <div class="cell how label">
-    <p>pieces arrive by email, at (address tbc).</p>
-    <p>newest first. chainmail is a working title, and everything below is lorem ipsum until the real pieces come in.</p>
-  </div>
-  <div class="plane blue" aria-hidden="true"></div>
+  <div class="blue" aria-hidden="true"></div>
 </header>
 
-<!-- each piece is one email: subject = .piece-title, date = <time>, body = .piece-body.
-     new pieces go at the top of #pieces, newest first, in exactly this shape. -->
-<main id="pieces" class="pieces">
+<main class="pieces" id="pieces">
+<!--
+  chainmail: every email becomes one <article class="piece">, newest first, at the top of #pieces.
+  subject line -> h2.subject, date sent -> time[datetime], body -> one <p> per paragraph in .text.
+  the grid places them by itself, three to a row; a short last row stretches to fill.
+  the dates and words below are placeholders.
 
-<article class="piece" id="piece-011">
-  <header class="piece-head">
-    <p class="piece-meta label"><span class="piece-no">no. 011</span> · <time datetime="2026-10-18">18 oct 2026</time></p>
-    <h2 class="piece-title">lorem ipsum</h2>
-  </header>
-  <div class="piece-body">
-    <p>lorem ipsum dolor sit amet.</p>
+  <article class="piece" id="piece-YYYY-MM-DD-slug">
+    <p class="date label"><time datetime="YYYY-MM-DD">DD mon YYYY</time></p>
+    <h2 class="subject">the email subject</h2>
+    <div class="text"><p>the email body</p></div>
+  </article>
+-->
+
+<article class="piece" id="piece-2026-10-14-lorem-ipsum">
+  <p class="date label"><time datetime="2026-10-14">14 oct 2026</time></p>
+  <h2 class="subject">lorem ipsum</h2>
+  <div class="text"><p>lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></div>
+</article>
+
+<article class="piece" id="piece-2026-10-09-consectetur">
+  <p class="date label"><time datetime="2026-10-09">09 oct 2026</time></p>
+  <h2 class="subject">consectetur adipiscing elit</h2>
+  <div class="text"><p>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p></div>
+</article>
+
+<article class="piece" id="piece-2026-10-02-sed-do-eiusmod">
+  <p class="date label"><time datetime="2026-10-02">02 oct 2026</time></p>
+  <h2 class="subject">sed do eiusmod</h2>
+  <div class="text">
+    <p>excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.</p>
+    <p>totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.</p>
+    <p>sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
   </div>
 </article>
 
-<article class="piece" id="piece-010">
-  <header class="piece-head">
-    <p class="piece-meta label"><span class="piece-no">no. 010</span> · <time datetime="2026-10-16">16 oct 2026</time></p>
-    <h2 class="piece-title">re: dolor sit amet</h2>
-  </header>
-  <div class="piece-body">
-    <p>consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-    <p>duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-    <p>sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+<article class="piece" id="piece-2026-09-27-tempor">
+  <p class="date label"><time datetime="2026-09-27">27 sep 2026</time></p>
+  <h2 class="subject">tempor incididunt</h2>
+  <div class="text"><p>neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.</p></div>
+</article>
+
+<article class="piece" id="piece-2026-09-21-ut-labore">
+  <p class="date label"><time datetime="2026-09-21">21 sep 2026</time></p>
+  <h2 class="subject">ut labore et dolore</h2>
+  <div class="text"><p>lorem ipsum<br>dolor sit amet<br>consectetur adipiscing<br>sed do eiusmod tempor<br>ut labore et dolore magna aliqua</p></div>
+</article>
+
+<article class="piece" id="piece-2026-09-15-magna-aliqua">
+  <p class="date label"><time datetime="2026-09-15">15 sep 2026</time></p>
+  <h2 class="subject">magna aliqua</h2>
+  <div class="text"><p>ut enim ad minim veniam.</p></div>
+</article>
+
+<article class="piece" id="piece-2026-09-08-ut-enim">
+  <p class="date label"><time datetime="2026-09-08">08 sep 2026</time></p>
+  <h2 class="subject">ut enim ad minim veniam</h2>
+  <div class="text">
+    <p>quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+    <p>at vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.</p>
   </div>
 </article>
 
-<article class="piece" id="piece-009">
-  <header class="piece-head">
-    <p class="piece-meta label"><span class="piece-no">no. 009</span> · <time datetime="2026-10-11">11 oct 2026</time></p>
-    <h2 class="piece-title">(no subject)</h2>
-  </header>
-  <div class="piece-body">
-    <p>nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit?</p>
-  </div>
+<article class="piece" id="piece-2026-08-30-quis-nostrud">
+  <p class="date label"><time datetime="2026-08-30">30 aug 2026</time></p>
+  <h2 class="subject">quis nostrud</h2>
+  <div class="text"><p>similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. et harum quidem rerum facilis est et expedita distinctio.</p></div>
 </article>
 
-<article class="piece" id="piece-008">
-  <header class="piece-head">
-    <p class="piece-meta label"><span class="piece-no">no. 008</span> · <time datetime="2026-10-07">7 oct 2026</time></p>
-    <h2 class="piece-title">consectetur adipiscing</h2>
-  </header>
-  <div class="piece-body">
-    <p>sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
-    <p>ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam.</p>
-  </div>
+<article class="piece" id="piece-2026-08-24-exercitation">
+  <p class="date label"><time datetime="2026-08-24">24 aug 2026</time></p>
+  <h2 class="subject">exercitation ullamco?</h2>
+  <div class="text"><p>nam libero tempore, cum soluta nobis est eligendi optio?</p></div>
 </article>
 
-<article class="piece" id="piece-007">
-  <header class="piece-head">
-    <p class="piece-meta label"><span class="piece-no">no. 007</span> · <time datetime="2026-10-02">2 oct 2026</time></p>
-    <h2 class="piece-title">fwd: sed do eiusmod</h2>
-  </header>
-  <div class="piece-body">
-    <p>tempor incididunt<br>ut labore et dolore<br>magna aliqua<br>ut enim ad minim veniam</p>
-  </div>
-</article>
-
-<article class="piece" id="piece-006">
-  <header class="piece-head">
-    <p class="piece-meta label"><span class="piece-no">no. 006</span> · <time datetime="2026-09-26">26 sep 2026</time></p>
-    <h2 class="piece-title">quis autem vel eum</h2>
-  </header>
-  <div class="piece-body">
-    <p>quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur. at vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.</p>
-  </div>
-</article>
-
-<article class="piece" id="piece-005">
-  <header class="piece-head">
-    <p class="piece-meta label"><span class="piece-no">no. 005</span> · <time datetime="2026-09-19">19 sep 2026</time></p>
-    <h2 class="piece-title">et harum quidem</h2>
-  </header>
-  <div class="piece-body">
-    <p>et harum quidem rerum facilis est et expedita distinctio.</p>
-  </div>
-</article>
-
-<article class="piece" id="piece-004">
-  <header class="piece-head">
-    <p class="piece-meta label"><span class="piece-no">no. 004</span> · <time datetime="2026-09-12">12 sep 2026</time></p>
-    <h2 class="piece-title">re: re: nam libero tempore</h2>
-  </header>
-  <div class="piece-body">
-    <p>nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.</p>
+<article class="piece" id="piece-2026-08-17-duis-aute">
+  <p class="date label"><time datetime="2026-08-17">17 aug 2026</time></p>
+  <h2 class="subject">duis aute irure dolor</h2>
+  <div class="text">
     <p>temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. itaque earum rerum hic tenetur a sapiente delectus.</p>
-  </div>
-</article>
-
-<article class="piece" id="piece-003">
-  <header class="piece-head">
-    <p class="piece-meta label"><span class="piece-no">no. 003</span> · <time datetime="2026-09-03">3 sep 2026</time></p>
-    <h2 class="piece-title">ut aut reiciendis</h2>
-  </header>
-  <div class="piece-body">
-    <p>ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat. lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-  </div>
-</article>
-
-<article class="piece" id="piece-002">
-  <header class="piece-head">
-    <p class="piece-meta label"><span class="piece-no">no. 002</span> · <time datetime="2026-08-28">28 aug 2026</time></p>
-    <h2 class="piece-title">magna aliqua</h2>
-  </header>
-  <div class="piece-body">
-    <p>lorem ipsum dolor sit amet, consectetur adipiscing elit. integer nec odio. praesent libero. sed cursus ante dapibus diam. sed nisi. nulla quis sem at nibh elementum imperdiet. duis sagittis ipsum. praesent mauris.</p>
-    <p>fusce nec tellus sed augue semper porta. mauris massa. vestibulum lacinia arcu eget nulla. class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p>
-    <p>curabitur sodales ligula in libero. sed dignissim lacinia nunc. curabitur tortor. pellentesque nibh. aenean quam. in scelerisque sem at dolor. maecenas mattis. sed convallis tristique sem.</p>
-    <p>proin ut ligula vel nunc egestas porttitor.</p>
-  </div>
-</article>
-
-<article class="piece" id="piece-001">
-  <header class="piece-head">
-    <p class="piece-meta label"><span class="piece-no">no. 001</span> · <time datetime="2026-08-20">20 aug 2026</time></p>
-    <h2 class="piece-title">sit amet</h2>
-  </header>
-  <div class="piece-body">
-    <p>lorem ipsum. dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
+    <p>ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat. lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
+    <p>ut labore et dolore magna aliqua. quis ipsum suspendisse ultrices gravida. risus commodo viverra maecenas accumsan lacus vel facilisis.</p>
+    <p>lorem ipsum.</p>
   </div>
 </article>
 
 </main>
 
-<footer class="band end">
-  <p class="cell label note">that's everything so far. <a href="index.html">back home</a></p>
-  <div class="plane yellow" aria-hidden="true"></div>
-  <div class="cell garden-wrap">
-<pre class="garden" aria-hidden="true">    <b class="rose">_                             </b><b class="lilac">_                          </b><b class="rose">_                        </b><b class="peri">_                            </b><b class="rose">_                        </b><b class="lilac">_                             </b><b class="peri">_</b>
+<footer>
+  <div class="band end">
+    <div class="yellow" aria-hidden="true"></div>
+    <div class="cell note">
+      <p class="label">about this site</p>
+      <p>mostly plain html: system fonts, no cookies, no tracking and no scripts on this page. then i planted some flowers. it's easy for me to update and it loads fine on bad wifi.</p>
+      <p><a href="index.html">← back to kes' little corner of the internet</a></p>
+      <p>thanks for stopping by <span class="heart">♡</span></p>
+    </div>
+  </div>
+  <div class="cell bed">
+  <pre class="art garden" aria-hidden="true">    <b class="rose">_                             </b><b class="lilac">_                          </b><b class="rose">_                        </b><b class="peri">_                            </b><b class="rose">_                        </b><b class="lilac">_                             </b><b class="peri">_</b>
   <b class="rose">_(_)_         @               </b><b class="lilac">_(_)_         </b><b class="peri">@            </b><b class="rose">_(_)_              @     </b><b class="peri">_(_)_         </b><b class="rose">@              _(_)_    </b><b class="lilac">@               _(_)_         </b><b class="peri">@               _(_)_    </b><b class="rose">@</b>
  <b class="rose">(_)@(_)        </b><b class="stem">|/  </b><b class="peri">vVv        </b><b class="lilac">(_)@(_)        </b><b class="stem">|/    </b><b class="rose">vVv   (_)@(_)             </b><b class="stem">|/   </b><b class="peri">(_)@(_)  </b><b class="lilac">vVv   </b><b class="stem">|/            </b><b class="rose">(_)@(_)   </b><b class="stem">|/  </b><b class="rose">vVv        </b><b class="lilac">(_)@(_)        </b><b class="stem">|/  </b><b class="lilac">vVv        </b><b class="peri">(_)@(_)   </b><b class="stem">|/  </b><b class="lilac">vVv</b>
    <b class="rose">(_)    </b><b class="lilac">vVv  </b><b class="stem">\|   </b><b class="peri">(_)    </b><b class="lilac">*     (_)    </b><b class="rose">vVv  </b><b class="stem">\|     </b><b class="rose">(_)     (_)     </b><b class="peri">*   </b><b class="lilac">vVv  </b><b class="stem">\|      </b><b class="peri">(_)    </b><b class="lilac">(_)  </b><b class="stem">\|   </b><b class="rose">vVv   </b><b class="lilac">*     </b><b class="rose">(_)    </b><b class="stem">\|   </b><b class="rose">(_)  </b><b class="peri">vVv     </b><b class="lilac">(_)     </b><b class="rose">*   </b><b class="stem">\|   </b><b class="lilac">(_)   </b><b class="rose">vVv    </b><b class="peri">(_)    </b><b class="stem">\|   </b><b class="lilac">(_)  </b><b class="rose">vVv</b>
@@ -264,6 +238,8 @@ a:focus-visible { outline: 2px solid var(--pink); outline-offset: 2px; }
    <b class="stem">\|      |    |    |    \|     \|      |    |      |      \|     \|    |    |      \|      |    |    |   \|     \|      |    |    |      \|     \|    |    |     |     \|      |    |    |</b></pre>
   </div>
 </footer>
+
+</div>
 
 </body>
 </html>

@@ -1,91 +1,92 @@
-<!DOCTYPE html>
-<html lang="en-GB">
+<!doctype html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>chainmail · kes inkersole</title>
+<title>chainmail</title>
 <meta name="description" content="chainmail: short pieces of writing by kes inkersole, sent in by email.">
+<link rel="icon" href="data:,">
 <style>
-/* ---------------------------------------------------------------
-   chainmail. the same rules as the home page:
-   a field of characters, one cell = 1ch x 18px, and every piece sits
-   in its own opening, snapped to the cells. one type size, doubled for
-   the title. black on white, grey field, blue links, pink highlight.
-   --------------------------------------------------------------- */
+/* same page as the home one: one character grid (13px monospace, 18px rows), a field of characters
+   drawn by the script at the bottom, and clean blocks cut out of it. each piece is one block. */
 :root {
-  --r: 18px;
   --ink: #000;
   --paper: #fff;
-  --soft: #666;
-  --field: #c4c4c4;
-  --blue: #0038ff;
-  --pink: #ff3399;
-  --mono: ui-monospace, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  color-scheme: light;
+  --field: #b8b8b8;
+  --soft: #6b6b6b;
+  --blue: #0a33ff;
+  --hot: #ff2e93;
+  --mono: ui-monospace, Menlo, Consolas, "DejaVu Sans Mono", "Liberation Mono", "Courier New", monospace;
+  --r: 18px;
 }
-html { background: var(--paper); color: var(--ink); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
-body { margin: 0; position: relative; min-height: 100vh; overflow-x: clip; font: 13px/18px var(--mono); }
-h1, h2, p, figure, pre { margin: 0; }
-h2 { font: inherit; font-weight: 700; }
-pre { font: inherit; white-space: pre; }
-::selection { background: var(--pink); color: var(--ink); }
+* { box-sizing: border-box; }
+html { overflow-x: clip; background: var(--paper); color: var(--ink); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { margin: 0; position: relative; overflow-x: clip; font: 13px/18px var(--mono); background: var(--paper); }
+h1, h2, p, figure, pre, small { margin: 0; padding: 0; font: inherit; }
+h1, h2 { font-weight: 700; }
+a { color: var(--blue); text-decoration-thickness: 1px; text-underline-offset: 3px; overflow-wrap: anywhere; }
+a:hover { background: var(--hot); color: var(--ink); }
+a:focus-visible { outline: none; background: var(--blue); color: var(--paper); }
+::selection { background: var(--hot); color: var(--ink); }
+.soft, h1 small { color: var(--soft); font-weight: 400; }
+.heart { color: var(--hot); }
 
-a { color: var(--blue); text-decoration-thickness: 1px; text-underline-offset: 3px; }
-a:visited { color: var(--blue); }
-a:hover, a:focus-visible { background: var(--pink); color: var(--ink); text-decoration: none; outline: none; }
-.m { color: var(--soft); }
-.big2 { font-size: 26px; line-height: calc(var(--r) * 2); font-weight: 400; }
+/* ---------- the field ---------- */
+.field { position: absolute; inset: 0; z-index: 0; overflow: hidden; contain: strict; white-space: pre; color: var(--field);
+  pointer-events: none; user-select: none; -webkit-user-select: none; }
 
-.field { position: absolute; inset: 0; z-index: 0; overflow: hidden; color: var(--field); pointer-events: none; user-select: none; -webkit-user-select: none; }
+/* ---------- the grid: 40ch columns, 5ch gutters, 2-row gaps ---------- */
+.page, main { display: grid; grid-template-columns: minmax(0, 1fr); row-gap: calc(2 * var(--r)); align-items: start; }
+.page { position: relative; z-index: 1; width: calc(100% - 4ch); width: round(down, 100% - 4ch, 1ch); margin-left: 2ch; padding-top: calc(2 * var(--r)); }
+main { grid-column: 1 / -1; }
+.blk { background: var(--paper); padding: var(--r) 2ch; }
+@media (min-width: 720px) {
+  .page { --n: 2; width: calc(var(--n) * 45ch - 5ch); margin-left: max(2ch, round(down, (100% - var(--n) * 45ch + 5ch) / 2, 1ch)); }
+  .page, main { grid-template-columns: repeat(var(--n), 40ch); column-gap: 5ch; }
+}
+@media (min-width: 1080px) { .page { --n: 3; } }
+@media (min-width: 1420px) { .page { --n: 4; } }
 
-.page { position: relative; z-index: 1; container: page / inline-size; padding: calc(var(--r) * 2) 0 calc(var(--r) * 4); }
-.frame { --fl: 2ch; margin-left: var(--fl); width: calc(100cqw - 4ch); width: round(down, 100cqw - 4ch, 1ch); }
-.blk { padding: var(--r) 2ch; }
+/* ---------- back home ---------- */
+.back { justify-self: start; width: 19ch; }
 
-/* ---------- the top: the little computer the pieces arrive at ---------- */
-.home { width: fit-content; padding: 0 2ch; }
-.mailhead { margin-top: calc(var(--r) * 2); display: grid; grid-template-columns: minmax(0, 1fr); row-gap: calc(var(--r) * 2); }
-.intro h1 { margin-bottom: var(--r); }
-.intro p + p { margin-top: var(--r); }
-.pcbox { width: fit-content; padding-bottom: 0; align-self: end; }
-.pc b, .cable b { font-weight: inherit; }
-/* the cable leaves the computer and runs off the edge of the screen */
-.cable { margin-left: 29ch; padding: 0; width: calc(100cqw - var(--fl) - 29ch); overflow: hidden; }
-.cable pre { display: flex; }
+/* ---------- the top: the love-heart computer; the pieces come down its wire ---------- */
+.head { display: grid; grid-template-columns: 27ch 3ch minmax(0, 1fr); align-items: end; padding-bottom: 0; }
+@media (min-width: 720px) { .head { grid-column: span 2; } }
+.pc, .cable { color: var(--ink); }
+.pc b, .cable b { font-weight: inherit; color: var(--hot); }
+.pc { grid-area: 1 / 1; }
+.intro { grid-area: 1 / 3; padding-bottom: var(--r); }
+.intro p { margin-top: var(--r); }
+.cable { grid-area: 2 / 1 / 3 / -1; width: 100vw; display: flex; background: var(--paper); }
 .wire { flex: 1; overflow: hidden; }
 .wire span { display: inline-block; margin-left: -30ch; animation: send 6s linear infinite paused; }
-.mailhead:hover + .cable .wire span, .cable:hover .wire span { animation-play-state: running; }   /* hover the top and the hearts go down the wire */
+.head:hover .wire span { animation-play-state: running; }
 @keyframes send { to { transform: translateX(30ch); } }
+@media (max-width: 719px) {
+  .head { grid-template-columns: minmax(0, 1fr); }
+  .intro { grid-area: 1 / 1; }
+  .pc { grid-area: 2 / 1; }
+  .cable { grid-area: 3 / 1; }
+}
 
-/* ---------- the pieces, newest first, each in its own opening ---------- */
-.pieces { margin-top: calc(var(--r) * 3); column-gap: 4ch; }
-.piece { break-inside: avoid; margin-bottom: calc(var(--r) * 2); }
-.piece .meta { color: var(--soft); }
-.piece h2 { margin-bottom: var(--r); }
+/* ---------- the pieces: each one an <article class="piece">, newest first ---------- */
+.piece h2 { margin-top: var(--r); }
+.piece .meta .no + time::before { content: " · "; }
+.piece .text { margin-top: var(--r); }
 .piece .text p + p { margin-top: var(--r); }
 
 /* ---------- the end ---------- */
-.foot { margin-top: calc(var(--r) * 2); display: grid; grid-template-columns: minmax(0, 1fr); gap: calc(var(--r) * 2) 4ch; align-items: start; }
-.foot .back { width: fit-content; }
-.bye { width: fit-content; }
-.garden-bed { position: relative; z-index: 1; padding-top: var(--r); overflow: hidden; }
-.garden { overflow: hidden; }
+.note p + p { margin-top: var(--r); }
+@media (min-width: 720px) { .note { grid-column: 1 / -1; } }
+@media (min-width: 1080px) { .note { grid-column: 2 / span 2; } }
+.garden-box { position: relative; z-index: 1; margin-top: calc(2 * var(--r)); padding-top: var(--r); background: var(--paper); overflow: hidden; }
+.garden { line-height: 15px; }
+.garden b { font-weight: inherit; }
+.garden .rose { color: var(--hot); }
+.garden .lilac, .garden .peri { color: var(--blue); }
 
-@container page (min-width: 104ch) {
-  .frame { --fl: round(down, (100cqw - 100ch) / 2, 1ch); width: 100ch; }
-  .mailhead { grid-template-columns: 48ch 48ch; column-gap: 4ch; grid-template-areas: "p i"; }
-  .pcbox { grid-area: p; } .intro { grid-area: i; align-self: start; }
-  .pieces { columns: 2; }
-  .foot { grid-template-columns: 48ch 48ch; }
-}
-@container page (min-width: 180ch) {
-  .frame { --fl: round(down, (100cqw - 176ch) / 2, 1ch); width: 176ch; }
-  .mailhead { grid-template-columns: 56ch 56ch 56ch; }
-  .pieces { columns: 3; }
-  .foot { grid-template-columns: 56ch 56ch 56ch; }
-  .foot .bye { grid-column: 3; }
-}
-@media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
 </style>
 </head>
 <body>
@@ -93,18 +94,12 @@ a:hover, a:focus-visible { background: var(--pink); color: var(--ink); text-deco
 <pre class="field" id="field" aria-hidden="true"></pre>
 
 <div class="page">
-<div class="frame">
 
-<p class="home blk"><a href="index.html">← kes inkersole</a></p>
+<nav class="blk back" aria-label="home"><a href="index.html">← kes inkersole</a></nav>
 
-<header class="mailhead">
-<div class="intro blk">
-<h1 class="big2">chainmail <span class="heart">♡</span></h1>
-<p>my own writing: short pieces, the kind i write in my notes app. each one is an email, its subject is the title, and they collect here over time into a kind of text moodboard, newest first.</p>
-<p class="m">pieces arrive by email at (address tbc)<br>chainmail is a working title</p>
-</div>
-<div class="pcbox blk">
-<pre class="pc" role="img" aria-label="ascii drawing of a little computer with a heart on its screen, its cable running off the edge of the page">  ______________________
+<header class="blk head">
+<pre class="pc" role="img" aria-label="ascii drawing of a little computer with a heart on its screen, its cable running off the edge of the page">
+  ______________________
  |  __________________  |
  | |                  | |
  | |   <b>&lt;3&lt;3</b>    <b>&lt;3&lt;3</b>   | |
@@ -119,246 +114,161 @@ a:hover, a:focus-visible { background: var(--pink); color: var(--ink); text-deco
  |  <b>o</b>          ______   |
  |______________________|\
    |__________________|   \</pre>
-</div>
+  <div class="intro">
+    <h1>chainmail <small>(working title)</small></h1>
+    <p>short pieces of writing, the kind i type into my notes app. i send them in by email and they land here, newest first, slowly piling up into a kind of text moodboard.</p>
+    <p class="soft">pieces arrive by email: (address tbc)</p>
+  </div>
+<pre class="cable" aria-hidden="true"><span>                           \</span><span class="wire"><span>_____________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>_______________</span></span></pre>
 </header>
-<div class="cable blk" aria-hidden="true"><pre><span>\</span><span class="wire"><span>_____________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________</span></span></pre></div>
 
-<main class="pieces" id="pieces">
-<!--
-  the pipeline: each email becomes one <article class="piece blk">, added straight
-  below this comment so the newest is first. the subject is the h2, the date
-  is the day it was sent, and each paragraph of the email is a <p>. the shape:
+<main id="pieces">
+<!-- new pieces go at the top. each email becomes one <article class="piece">, shaped exactly like these:
+     id="piece-NNN", .meta (number + <time>), the subject as <h2>, the text in .text -->
 
-  <article class="piece blk" id="piece-NNN" data-sent="YYYY-MM-DD">
-  <header><p class="meta">no. NNN · <time datetime="YYYY-MM-DD">D mon YYYY</time></p>
-  <h2>the email subject</h2></header>
-  <div class="text"><p>the email, one paragraph per p</p></div>
-  </article>
-
-  the pieces below are lorem ipsum placeholders with placeholder dates.
--->
-
-<article class="piece blk" id="piece-010" data-sent="2026-10-18">
-<header><p class="meta">no. 010 · <time datetime="2026-10-18">18 oct 2026</time></p>
-<h2>lorem ipsum</h2></header>
-<div class="text"><p>lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></div>
+<article class="blk piece" id="piece-010">
+  <p class="meta soft"><span class="no">010</span> <time datetime="2026-09-28">28 september 2026</time></p>
+  <h2>lorem ipsum</h2>
+  <div class="text">
+    <p>Lorem ipsum dolor sit amet.</p>
+  </div>
 </article>
 
-<article class="piece blk" id="piece-009" data-sent="2026-10-15">
-<header><p class="meta">no. 009 · <time datetime="2026-10-15">15 oct 2026</time></p>
-<h2>sed do eiusmod tempor</h2></header>
-<div class="text"><p>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-<p>excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
-<p>nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. neque porro quisquam est.</p></div>
+<article class="blk piece" id="piece-009">
+  <p class="meta soft"><span class="no">009</span> <time datetime="2026-09-21">21 september 2026</time></p>
+  <h2>sed ut perspiciatis</h2>
+  <div class="text">
+    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+    <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
+    <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.</p>
+  </div>
 </article>
 
-<article class="piece blk" id="piece-008" data-sent="2026-10-12">
-<header><p class="meta">no. 008 · <time datetime="2026-10-12">12 oct 2026</time></p>
-<h2>ut labore</h2></header>
-<div class="text"><p>ut labore et dolore magna aliqua. quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.</p></div>
+<article class="blk piece" id="piece-008">
+  <p class="meta soft"><span class="no">008</span> <time datetime="2026-09-14">14 september 2026</time></p>
+  <h2>ut enim ad minima</h2>
+  <div class="text">
+    <p>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam. Nisi ut aliquid ex ea commodi consequatur?</p>
+  </div>
 </article>
 
-<article class="piece blk" id="piece-007" data-sent="2026-10-09">
-<header><p class="meta">no. 007 · <time datetime="2026-10-09">9 oct 2026</time></p>
-<h2>magna aliqua</h2></header>
-<div class="text"><p>lorem ipsum<br>dolor sit amet<br>consectetur adipiscing<br>sed do eiusmod<br>tempor &lt;3</p></div>
+<article class="blk piece" id="piece-007">
+  <p class="meta soft"><span class="no">007</span> <time datetime="2026-09-02">2 september 2026</time></p>
+  <h2>quis autem vel eum</h2>
+  <div class="text">
+    <p>Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur. At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint.</p>
+  </div>
 </article>
 
-<article class="piece blk" id="piece-006" data-sent="2026-10-05">
-<header><p class="meta">no. 006 · <time datetime="2026-10-05">5 oct 2026</time></p>
-<h2>quis nostrud exercitation</h2></header>
-<div class="text"><p>quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. at vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi.</p></div>
+<article class="blk piece" id="piece-006">
+  <p class="meta soft"><span class="no">006</span> <time datetime="2026-08-26">26 august 2026</time></p>
+  <h2>at vero eos</h2>
+  <div class="text">
+    <p>at vero eos<br>et accusamus<br>et iusto odio<br>dignissimos ducimus</p>
+  </div>
 </article>
 
-<article class="piece blk" id="piece-005" data-sent="2026-10-01">
-<header><p class="meta">no. 005 · <time datetime="2026-10-01">1 oct 2026</time></p>
-<h2>re: dolor</h2></header>
-<div class="text"><p>dolor sit amet, iterum.</p></div>
+<article class="blk piece" id="piece-005">
+  <p class="meta soft"><span class="no">005</span> <time datetime="2026-08-11">11 august 2026</time></p>
+  <h2>nam libero</h2>
+  <div class="text">
+    <p>Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit.</p>
+  </div>
 </article>
 
-<article class="piece blk" id="piece-004" data-sent="2026-09-27">
-<header><p class="meta">no. 004 · <time datetime="2026-09-27">27 sep 2026</time></p>
-<h2>ullamco laboris</h2></header>
-<div class="text"><p>ullamco laboris nisi ut aliquip ex ea commodo consequat. duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur, et harum quidem rerum facilis est et expedita distinctio.</p>
-<p>nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est.</p></div>
+<article class="blk piece" id="piece-004">
+  <p class="meta soft"><span class="no">004</span> <time datetime="2026-07-30">30 july 2026</time></p>
+  <h2>temporibus autem</h2>
+  <div class="text">
+    <p>Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae.</p>
+    <p>Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.</p>
+  </div>
 </article>
 
-<article class="piece blk" id="piece-003" data-sent="2026-09-22">
-<header><p class="meta">no. 003 · <time datetime="2026-09-22">22 sep 2026</time></p>
-<h2>nisi ut aliquip</h2></header>
-<div class="text"><p>nisi ut aliquip ex ea commodo.<br>temporibus autem quibusdam.<br>et aut officiis debitis.</p></div>
+<article class="blk piece" id="piece-003">
+  <p class="meta soft"><span class="no">003</span> <time datetime="2026-07-12">12 july 2026</time></p>
+  <h2>itaque earum rerum</h2>
+  <div class="text">
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.</p>
+    <p>Neque porro quisquam est.</p>
+  </div>
 </article>
 
-<article class="piece blk" id="piece-002" data-sent="2026-09-16">
-<header><p class="meta">no. 002 · <time datetime="2026-09-16">16 sep 2026</time></p>
-<h2>commodo consequat</h2></header>
-<div class="text"><p>commodo consequat, temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat. lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</p>
-<p>ut enim ad minim veniam.</p></div>
+<article class="blk piece" id="piece-002">
+  <p class="meta soft"><span class="no">002</span> <time datetime="2026-06-24">24 june 2026</time></p>
+  <h2>duis aute irure</h2>
+  <div class="text">
+    <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.</p>
+  </div>
 </article>
 
-<article class="piece blk" id="piece-001" data-sent="2026-09-09">
-<header><p class="meta">no. 001 · <time datetime="2026-09-09">9 sep 2026</time></p>
-<h2>duis aute irure</h2></header>
-<div class="text"><p>duis aute irure dolor in reprehenderit, lorem ipsum dolor sit amet.</p></div>
+<article class="blk piece" id="piece-001">
+  <p class="meta soft"><span class="no">001</span> <time datetime="2026-06-03">3 june 2026</time></p>
+  <h2>excepteur sint</h2>
+  <div class="text">
+    <p>Excepteur sint occaecat cupidatat non proident.</p>
+  </div>
 </article>
+
 </main>
 
-<footer class="foot">
-<p class="back blk"><a href="index.html">← back to kes's little corner of the internet</a></p>
-<p class="bye blk"><span class="big2">thanks for reading <span class="heart">♡</span></span></p>
+<!-- change the date when you change something! -->
+<footer class="blk note">
+  <p><b>thanks for stopping by&nbsp;<span class="heart">♡</span></b></p>
+  <p>this page was last updated on 1 october 2026. it's still mostly plain html (it started out in <a href="http://contemporary-home-computing.org/prof-dr-style/">olia lialina's prof. dr. style</a>, then i planted some flowers), so it's easy for me to update and it loads fine on bad wifi. <a href="index.html">back home</a></p>
 </footer>
 
 </div>
-</div>
 
-<div class="garden-bed blk">
-<pre class="garden" aria-hidden="true">    _                             _                          _                        _                            _                        _                             _
-  _(_)_         @               _(_)_         @            _(_)_              @     _(_)_         @              _(_)_    @               _(_)_         @               _(_)_    @
- (_)@(_)        |/  vVv        (_)@(_)        |/    vVv   (_)@(_)             |/   (_)@(_)  vVv   |/            (_)@(_)   |/  vVv        (_)@(_)        |/  vVv        (_)@(_)   |/  vVv
-   (_)    vVv  \|   (_)    *     (_)    vVv  \|     (_)     (_)     *   vVv  \|      (_)    (_)  \|   vVv   *     (_)    \|   (_)  vVv     (_)     *   \|   (_)   vVv    (_)    \|   (_)  vVv
-    |/    (_)   |   \|     |/     |/    (_)   |     \|       |/     |/  (_)   |       |/    \|    |   (_)   |/     |/     |   \|   (_)      |/     |/   |   \|    (_)     |/     |   \|   (_)
-   \|      |    |    |    \|     \|      |    |      |      \|     \|    |    |      \|      |    |    |   \|     \|      |    |    |      \|     \|    |    |     |     \|      |    |    |</pre>
+<div class="garden-box" aria-hidden="true">
+<pre class="garden">    <b class="rose">_                             </b><b class="lilac">_                          </b><b class="rose">_                        </b><b class="peri">_                            </b><b class="rose">_                        </b><b class="lilac">_                             </b><b class="peri">_</b>
+  <b class="rose">_(_)_         @               </b><b class="lilac">_(_)_         </b><b class="peri">@            </b><b class="rose">_(_)_              @     </b><b class="peri">_(_)_         </b><b class="rose">@              _(_)_    </b><b class="lilac">@               _(_)_         </b><b class="peri">@               _(_)_    </b><b class="rose">@</b>
+ <b class="rose">(_)@(_)        </b><b class="stem">|/  </b><b class="peri">vVv        </b><b class="lilac">(_)@(_)        </b><b class="stem">|/    </b><b class="rose">vVv   (_)@(_)             </b><b class="stem">|/   </b><b class="peri">(_)@(_)  </b><b class="lilac">vVv   </b><b class="stem">|/            </b><b class="rose">(_)@(_)   </b><b class="stem">|/  </b><b class="rose">vVv        </b><b class="lilac">(_)@(_)        </b><b class="stem">|/  </b><b class="lilac">vVv        </b><b class="peri">(_)@(_)   </b><b class="stem">|/  </b><b class="lilac">vVv</b>
+   <b class="rose">(_)    </b><b class="lilac">vVv  </b><b class="stem">\|   </b><b class="peri">(_)    </b><b class="lilac">*     (_)    </b><b class="rose">vVv  </b><b class="stem">\|     </b><b class="rose">(_)     (_)     </b><b class="peri">*   </b><b class="lilac">vVv  </b><b class="stem">\|      </b><b class="peri">(_)    </b><b class="lilac">(_)  </b><b class="stem">\|   </b><b class="rose">vVv   </b><b class="lilac">*     </b><b class="rose">(_)    </b><b class="stem">\|   </b><b class="rose">(_)  </b><b class="peri">vVv     </b><b class="lilac">(_)     </b><b class="rose">*   </b><b class="stem">\|   </b><b class="lilac">(_)   </b><b class="rose">vVv    </b><b class="peri">(_)    </b><b class="stem">\|   </b><b class="lilac">(_)  </b><b class="rose">vVv</b>
+    <b class="stem">|/    </b><b class="lilac">(_)   </b><b class="stem">|   \|     |/     |/    </b><b class="rose">(_)   </b><b class="stem">|     \|       |/     |/  </b><b class="lilac">(_)   </b><b class="stem">|       |/    \|    |   </b><b class="rose">(_)   </b><b class="stem">|/     |/     |   \|   </b><b class="peri">(_)      </b><b class="stem">|/     |/   |   \|    </b><b class="rose">(_)     </b><b class="stem">|/     |   \|   </b><b class="rose">(_)</b>
+   <b class="stem">\|      |    |    |    \|     \|      |    |      |      \|     \|    |    |      \|      |    |    |   \|     \|      |    |    |      \|     \|    |    |     |     \|      |    |    |</b></pre>
 </div>
 
 <script>
-/* ---------------------------------------------------------------
-   the field. one byte pattern, repeated, that comes apart into noise
-   the further down the page it goes, like a binary file opened as text.
-   it's seeded, so it's the same field every time. every block on the
-   page cuts a clear opening in it, snapped to whole cells.
-   --------------------------------------------------------------- */
+/* the field, as on the home page: one long run of bytes in the same grid as the text.
+   at the top it repeats exactly, its ÅÂÀ3Ï columns falling in the gutters between the
+   blocks; further down it breaks up into noise. same page, same field. */
 (function () {
-  "use strict";
-  var d = document, F = d.getElementById("field");
-  if (!F || !window.getComputedStyle) return;
-
-  var MOTIF = "<3±0ðKDDDDDDDDDDDDDDÅÂÀEÏDDDDDDDDDDDDDDS,", P = MOTIF.length;   // one period, with a <3 in it
-  var ABC = "", k;                                                          // printable ascii + latin-1
-  for (k = 33; k < 256; k++) if (k < 127 || (k > 160 && k !== 173)) ABC += String.fromCharCode(k);
-  var RAMP = " .'`^\",:;Il!i><~+_-?][}{1)(|/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$";
-
-  var cw = 7.8, rh = 18, cols = 0, rows = 0, noise = [], holes = [], shift = 0, queued = 0, pics = [];
-
-  function prng(a) {                     // mulberry32
-    return function () {
-      a = a + 0x6D2B79F5 | 0;
-      var t = Math.imul(a ^ a >>> 15, 1 | a);
-      t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
-      return ((t ^ t >>> 14) >>> 0) / 4294967296;
-    };
-  }
-  // how far the pattern has come apart at depth t (0 = top of the page, 1 = the bottom)
-  function decay(t) { t = (t - .1) / .75; t = t < 0 ? 0 : t > 1 ? 1 : t; return t * t * (3 - 2 * t); }
-
-  // one row of noise: bursts that start rare and short, then grow until they swallow the pattern
-  function noiseRow(r) {
-    var rnd = prng(r * 9973 + 17), p = decay(rows > 1 ? r / (rows - 1) : 0);
-    var start = p * p * .5, longest = 3 + 70 * p, row = [], run = 0, last = "";
-    for (var c = 0; c < cols; c++) {
-      var a = rnd(), b = rnd(), e = rnd();
-      if (run <= 0 && a < start) run = 1 + Math.floor(e * e * e * longest);
-      if (run > 0) { run--; last = b < .1 && last ? last : ABC.charAt(Math.floor(rnd() * ABC.length)); row.push(last); }
-      else { row.push(""); last = ""; }
-    }
-    return row;
-  }
-
-  function paint() {
+  var F = document.getElementById("field"), page = document.querySelector(".page");
+  var M = "DDDDDDDDDDDDDDDDT,<Q\xb10\xf0LDDDDDDDDDDDDDDDD\xc5\xc2\xc03\xcf", P = M.length, N = "";   // 45 = a 40ch column + a 5ch gutter
+  for (var i = 33; i < 256; i++) if (i < 127 || (i > 160 && i !== 173)) N += String.fromCharCode(i);
+  var R = 18, CELL = 7.8, cols = 0, rows = 0, off = 0;
+  F.textContent = M + M;
+  var rg = document.createRange(); rg.selectNodeContents(F); CELL = rg.getBoundingClientRect().width / (2 * P) || CELL;
+  function hash(a, b) { var h = Math.imul(a, 374761393) + Math.imul(b, 668265263) | 0; h = Math.imul(h ^ h >>> 13, 1274126177); return ((h ^ h >>> 16) >>> 0) / 4294967296; }
+  function build() {
     var out = [];
     for (var r = 0; r < rows; r++) {
-      var nz = noise[r], h = holes[r], line = [], c, j;
-      for (c = 0; c < cols; c++) line.push(nz[c] || MOTIF.charAt(((c - 2 * r - shift) % P + P) % P));
-      if (h) for (j = 0; j < h.length; j++) for (c = h[j][0]; c < h[j][1]; c++) line[c] = " ";
-      out.push(line.join(""));
-    }
-    F.textContent = out.join("\n");
-  }
-
-  function build() {
-    queued = 0;
-    var probe = d.createElement("span");
-    probe.textContent = new Array(201).join("0");
-    F.textContent = ""; F.appendChild(probe);
-    cw = probe.getBoundingClientRect().width / 200 || cw;
-    rh = parseFloat(getComputedStyle(F).lineHeight) || rh;
-    F.textContent = "";
-    pics.forEach(function (draw) { draw(); });
-    var box = F.getBoundingClientRect(), nc = Math.ceil(box.width / cw), nr = Math.ceil(box.height / rh);
-    if (nc !== cols || nr !== rows) {
-      cols = nc; rows = nr; noise = [];
-      for (var r = 0; r < rows; r++) noise.push(noiseRow(r));
-    }
-    holes = [];
-    [].forEach.call(d.querySelectorAll(".blk"), function (el) {
-      var b = el.getBoundingClientRect();
-      if (!b.width || !b.height) return;
-      var c0 = Math.max(0, Math.floor((b.left - box.left) / cw + .05)), c1 = Math.min(cols, Math.ceil((b.right - box.left) / cw - .05));
-      var r0 = Math.max(0, Math.floor((b.top - box.top) / rh + .05)), r1 = Math.min(rows, Math.ceil((b.bottom - box.top) / rh - .05));
-      for (var r = r0; r < r1; r++) (holes[r] = holes[r] || []).push([c0, c1]);
-    });
-    paint();
-  }
-  function later() { if (!queued) queued = requestAnimationFrame(build); }
-
-  // the project pictures, drawn in characters on the same grid
-  [].forEach.call(d.querySelectorAll(".pic[data-src]"), function (fig) {
-    var pre = fig.querySelector("pre"), photo = null, img = new Image();
-    function draw() {
-      var w = Math.max(8, Math.floor(pre.getBoundingClientRect().width / cw + .02)), h = Math.max(4, Math.round(w * cw / 1.5 / rh));
-      var lum = null, out = [], i, x, y, s;
-      if (photo) try {
-        var cv = d.createElement("canvas"), g = cv.getContext("2d");
-        cv.width = w; cv.height = h; g.drawImage(photo, 0, 0, w, h);
-        var px = g.getImageData(0, 0, w, h).data, lo = 1, hi = 0;
-        lum = [];
-        for (i = 0; i < w * h; i++) {
-          var v = (px[i * 4] * .3 + px[i * 4 + 1] * .59 + px[i * 4 + 2] * .11) / 255;
-          lum.push(v); if (v < lo) lo = v; if (v > hi) hi = v;
+      var t = r / (rows - 1 || 1), d = t < .1 ? 0 : Math.min(.97, Math.pow((t - .1) / .85, 1.6)), s = "", c = 0, slip = 0;
+      while (c < cols) {
+        var a = hash(r, 3 * c), u = hash(r, 3 * c + 1), k = hash(r, 3 * c + 2), n = 2 + (a * a * 26 | 0);
+        for (; n-- && c < cols; c++) {
+          var x = c - off;
+          s += u < d ? (k < .12 ? N[k * 1e4 % N.length | 0] : k < .25 ? M[((x + (k * 1e3 | 0)) % P + P) % P] : N[hash(c, r + 9e3) * N.length | 0])
+                     : M[((x + slip) % P + P) % P];
         }
-        for (i = 0; i < lum.length; i++) lum[i] = (lum[i] - lo) / (hi - lo || 1);
-      } catch (err) { lum = null; }
-      for (y = 0; y < h; y++) {
-        s = "";
-        for (x = 0; x < w; x++) {
-          var L = lum ? lum[y * w + x] : 1 - .42 * Math.pow((x / w + y / h) / 2, 1.4);   // no photo yet: a soft dithered ramp
-          s += RAMP.charAt(Math.round((1 - L) * (RAMP.length - 1)));
-        }
-        out.push(s);
+        if (u < d && k > .8) slip += 1 + (k * 1e3 | 0) % 7;   // a dropped byte or two: the columns slide
       }
-      if (!lum) {
-        var tag = " placeholder photo ", m = Math.floor(h / 2), at = Math.max(0, Math.floor((w - tag.length) / 2));
-        out[m] = (out[m].slice(0, at) + tag + out[m].slice(at + tag.length)).slice(0, w);
-      }
-      pre.textContent = out.join("\n");
+      out.push(s);
     }
-    pics.push(draw);
-    img.crossOrigin = "anonymous";
-    img.onload = function () { photo = img; later(); };
-    img.src = fig.getAttribute("data-src");
-  });
-
-  // KES FM's volume, as a row of characters over the real slider
-  var vol = d.getElementById("vol"), bar = d.querySelector(".volbar");
-  function volbar() {
-    var n = 16, on = Math.round(+vol.value * n);
-    bar.textContent = "[" + new Array(on + 1).join("=") + "o" + new Array(n - on + 1).join("-") + "]";
+    return out.join("\n");
   }
-  if (vol && bar) { vol.addEventListener("input", volbar); volbar(); }
-
-  // on air, the pattern slips one cell on every beat (KES FM only beats when motion is allowed)
-  var face = d.querySelector(".stack.sound");
-  if (face && window.MutationObserver) new MutationObserver(function () {
-    if (/\bthump\b/.test(face.className) && /\bon-air\b/.test(d.body.className)) { shift++; paint(); }
-  }).observe(face, { attributes: true, attributeFilter: ["class"] });
-
-  build();
-  addEventListener("resize", later);
-  addEventListener("load", later);
-  if (window.ResizeObserver) {
-    var ro = new ResizeObserver(later);
-    ro.observe(d.body);
-    [].forEach.call(d.querySelectorAll(".blk"), function (el) { ro.observe(el); });
+  function fit() {
+    var c = Math.ceil(document.documentElement.clientWidth / CELL) + 1, r = Math.ceil(document.body.offsetHeight / R),
+        o = Math.round(page.getBoundingClientRect().left / CELL);
+    if (c === cols && r === rows && o === off) return;
+    cols = c; rows = r; off = o;
+    F.textContent = build();
   }
+  fit();
+  if (window.ResizeObserver) new ResizeObserver(fit).observe(document.body); else addEventListener("resize", fit);
 })();
 </script>
 </body>

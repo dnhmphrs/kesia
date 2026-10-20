@@ -1,215 +1,217 @@
-<!DOCTYPE html>
-<html lang="en-GB">
+<!doctype html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>kes inkersole</title>
 <meta name="description" content="kes inkersole (kesia on paper): freelance creative strategist &amp; internet equalities researcher, based in london.">
+<link rel="icon" href="data:,">
 <style>
-/* ---------------------------------------------------------------
-   kes inkersole. one html file, system fonts, no trackers.
-   the rules of the page:
-   - the page is a field of characters. one cell = 1ch x 18px.
-   - everything you read sits in an opening cut into the field.
-     openings are snapped to the cells, so the field draws their edges.
-   - the field is a byte pattern that repeats cleanly at the top of the
-     page and comes apart into noise the further down you go.
-   - one type size (13px mono), doubled for saying hello.
-   - colour: black on white, grey for the field, blue links, pink highlight.
-   --------------------------------------------------------------- */
+/* one character grid: 13px monospace, 18px rows. the page is a field of characters (#field, drawn by the
+   script at the bottom); content sits in clean blocks cut out of it. every block edge lands on a character
+   cell: widths and gaps are counted in ch, heights in rows. greys, plus blue links and a hot pink highlight. */
 :root {
-  --r: 18px;
   --ink: #000;
   --paper: #fff;
-  --soft: #666;      /* labels and small print */
-  --field: #c4c4c4;  /* the field: quieter than anything you read */
-  --dots: #a6a6a6;   /* the dots behind the name */
-  --blue: #0038ff;   /* links */
-  --pink: #ff3399;   /* the highlight under your mouse, and on air */
-  --mono: ui-monospace, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  color-scheme: light;
+  --field: #b8b8b8;  /* the field: always quieter than the text */
+  --soft: #6b6b6b;   /* labels */
+  --blue: #0a33ff;   /* links */
+  --hot: #ff2e93;    /* hover highlight, and the hearts */
+  --mono: ui-monospace, Menlo, Consolas, "DejaVu Sans Mono", "Liberation Mono", "Courier New", monospace;
+  --r: 18px;         /* one row */
 }
-html { background: var(--paper); color: var(--ink); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
-body { margin: 0; position: relative; min-height: 100vh; overflow-x: clip; font: 13px/18px var(--mono); }
-h1, h2, h3, p, ul, dl, dd, figure, pre { margin: 0; }
-h2, h3 { font: inherit; font-weight: 700; }
-pre { font: inherit; white-space: pre; }
-ul { padding: 0; list-style: none; }
-::selection { background: var(--pink); color: var(--ink); }
+* { box-sizing: border-box; }
+html { overflow-x: clip; background: var(--paper); color: var(--ink); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { margin: 0; position: relative; overflow-x: clip; font: 13px/18px var(--mono); background: var(--paper); }
+h1, h2, p, ul, dl, dd, figure, pre { margin: 0; padding: 0; font: inherit; }
+h1, h2 { font-weight: 700; }
+ul { list-style: none; }
+a { color: var(--blue); text-decoration-thickness: 1px; text-underline-offset: 3px; overflow-wrap: anywhere; }
+a:hover { background: var(--hot); color: var(--ink); }
+a:focus-visible, button:focus-visible { outline: none; background: var(--blue); color: var(--paper); }
+::selection { background: var(--hot); color: var(--ink); }
+.soft { color: var(--soft); }
+.heart { color: var(--hot); }
 
-a { color: var(--blue); text-decoration-thickness: 1px; text-underline-offset: 3px; }
-a:visited { color: var(--blue); }
-a:hover, a:focus-visible { background: var(--pink); color: var(--ink); text-decoration: none; outline: none; }
-.m { color: var(--soft); }
-.big2 { font-size: 26px; line-height: calc(var(--r) * 2); font-weight: 400; }
+/* ---------- the field ---------- */
+.field { position: absolute; inset: 0; z-index: 0; overflow: hidden; contain: strict; white-space: pre; color: var(--field);
+  pointer-events: none; user-select: none; -webkit-user-select: none; }
 
-/* ---------- the field (drawn by the script at the bottom) ---------- */
-.field { position: absolute; inset: 0; z-index: 0; overflow: hidden; color: var(--field); pointer-events: none; user-select: none; -webkit-user-select: none; }
+/* ---------- the grid: 40ch columns, 5ch gutters, 2-row gaps. 1, 2, 3 or 4 columns ---------- */
+.page, main { display: grid; grid-template-columns: minmax(0, 1fr); row-gap: calc(2 * var(--r)); align-items: start; }
+.page { position: relative; z-index: 1; width: calc(100% - 4ch); width: round(down, 100% - 4ch, 1ch); margin-left: 2ch; padding-top: calc(2 * var(--r)); }
+main { grid-column: 1 / -1; grid-auto-flow: row dense; }
+.blk { background: var(--paper); padding: var(--r) 2ch; }
+@media (min-width: 720px) {
+  .page { --n: 2; width: calc(var(--n) * 45ch - 5ch); margin-left: max(2ch, round(down, (100% - var(--n) * 45ch + 5ch) / 2, 1ch)); }
+  .page, main { grid-template-columns: repeat(var(--n), 40ch); column-gap: 5ch; }
+}
+@media (min-width: 1080px) { .page { --n: 3; } }
+@media (min-width: 1420px) { .page { --n: 4; } }
 
-/* ---------- the frame: every width and gap is whole cells ---------- */
-.page { position: relative; z-index: 1; container: page / inline-size; padding: calc(var(--r) * 2) 0 calc(var(--r) * 4); }
-.frame { --fl: 2ch; margin-left: var(--fl); width: calc(100cqw - 4ch); width: round(down, 100cqw - 4ch, 1ch); }
-.blk { padding: var(--r) 2ch; }
-.band { margin-top: calc(var(--r) * 4); }
-.cols { display: grid; grid-template-columns: minmax(0, 1fr); gap: calc(var(--r) * 2) 4ch; align-items: start; }
-
-/* ---------- the name, in <3s ---------- */
-.sign { width: fit-content; max-width: 100%; box-sizing: border-box; overflow: hidden; }
-.sign pre { color: var(--dots); }
-.sign b { font-weight: inherit; color: var(--ink); }
-.sign b.h { color: var(--blue); animation: blink 1.6s steps(1) infinite; }
-@keyframes blink { 50% { color: var(--pink); } }
+/* ---------- the sign: kes inkersole in <3s ---------- */
+.sign { grid-column: 1 / -1; padding: var(--r) 1ch; container-type: inline-size; }
+.sign pre { color: var(--field); }
+.sign s { text-decoration: none; color: var(--soft); }
+.sign b { color: var(--ink); }
+.sign b.h { color: var(--hot); animation: blink 1.6s steps(1) infinite; }
+body.on-air .sign b.h { animation-duration: .706s; } /* on air, the little heart blinks on the beat */
+@keyframes blink { 50% { color: var(--blue); } }
 .sign .big { display: none; }
+.sign .small { font-size: min(13px, 100cqw / 25.9); }
+@media (min-width: 720px) and (max-width: 1079px) { .sign { justify-self: start; width: 45ch; } }
+@media (min-width: 1080px) {
+  .sign .small { display: none; }
+  .sign .big { display: block; font-size: calc(13px * 128 / 169); line-height: calc(7 * var(--r) / 11); }
+}
+@media (min-width: 1420px) { .sign { padding-inline: 3ch; } .sign .big { font-size: 13px; line-height: var(--r); } }
 
-/* ---------- hello, the radio and the card ---------- */
-.top { margin-top: calc(var(--r) * 2); display: grid; grid-template-columns: minmax(0, 1fr); row-gap: calc(var(--r) * 2); align-items: start; }
-.cola { display: grid; row-gap: calc(var(--r) * 2); }
-.hello .welcome { margin: var(--r) 0; }
+/* ---------- hello ---------- */
+.hi p:not(.soft) { margin-top: var(--r); }
 
-.card .name { margin-bottom: var(--r); }
-.card .name .m { font-weight: 400; }
-.card dt { color: var(--soft); }
-.card dd + dt { margin-top: var(--r); }
-.bunny { margin-top: calc(var(--r) * 2); width: fit-content; }
-.bunny:hover { animation: hop .5s; }
-@keyframes hop { 40% { transform: translateY(-4px); } }
-.contact { margin-top: var(--r); }
+/* ---------- KES FM: speaker on the left, readout beside it, keys underneath ---------- */
+.fm { display: grid; grid-template-columns: 37ch 3ch minmax(0, 1fr); grid-template-rows: auto auto auto 1fr auto auto; }
+@media (min-width: 720px) { .fm { grid-column: span 2; } }
+.speaker { grid-area: 1 / 1 / 5 / 2; }
+#fm-h { grid-area: 1 / 3; }
+.ident { grid-area: 2 / 3; margin-top: var(--r); }
+.deck { display: contents; }
+.lcd { grid-area: 3 / 3; margin-top: var(--r); }
+.keys { grid-area: 5 / 1 / 6 / -1; margin-top: var(--r); }
+.textin { grid-area: 6 / 1 / 7 / -1; margin-top: var(--r); }
+.stack .c, .stack .i { color: var(--ink); }
+.stack .p, .stack .y { color: var(--hot); }
+.stack .g, .stack .b { color: var(--blue); }
+.stack .sound.thump { animation: thump .3s steps(1); }
+@keyframes thump { 0% { color: var(--hot); } }
 
-/* ---------- KES FM, skinned in characters ---------- */
-.fm { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--r) 3ch; align-items: start; }
-.fm-face { overflow: hidden; }
-body:not(.on-air) .stack .w { visibility: hidden; }      /* the sound waves only come out on air */
-body.on-air .stack .p { color: var(--pink); }
-body.on-air .stack .w { color: var(--blue); }
-.sound.thump { animation: thump .2s ease-out; }
-@keyframes thump { from { transform: translateY(-3px); } }
-.ident { margin-top: var(--r); }
-.deck { margin-top: var(--r); }
 .lcd-top { display: flex; flex-wrap: wrap; justify-content: space-between; column-gap: 2ch; }
-.status { padding: 0 1ch; margin-right: -1ch; }
-body.on-air .status { background: var(--pink); }
+body.on-air .status { background: var(--hot); }
 .ticker { overflow: hidden; white-space: nowrap; color: var(--soft); }
 .ticker > div { display: inline-block; }
 .ticker span { padding-right: 1ch; }
-@keyframes run { to { translate: -50% 0; } }
-@media (prefers-reduced-motion: no-preference) { body.on-air .ticker > div { animation: run 70s linear infinite; } }
-.tracker { display: grid; grid-template-columns: repeat(8, 3ch); justify-items: start; }
-.tracker .rest { opacity: .35; }
-.tracker .rev { color: var(--pink); }
+.tracker { display: grid; grid-template-columns: repeat(8, minmax(0, 5ch)); }
+.tracker span { justify-self: start; }
+.tracker .rest { color: var(--field); }
+.tracker .rev { color: var(--hot); }
 .tracker .up { color: var(--blue); }
 .tracker .roll { text-decoration: underline; }
-.tracker .on { background: var(--pink); color: var(--ink); }
+.tracker .on { background: var(--hot); color: var(--ink); }
 .lcd-info { display: flex; flex-wrap: wrap; column-gap: 2ch; color: var(--soft); }
-.lcd-info .rev { color: var(--pink); }
+.lcd-info .rev { color: var(--hot); }
 .lcd-info .up { color: var(--blue); }
+@keyframes run { to { translate: -50% 0; } }
+@media (prefers-reduced-motion: no-preference) {
+  .ticker > div { animation: run 70s linear infinite paused; }
+  body.on-air .ticker > div { animation-play-state: running; }
+}
 
-.keys { margin-top: var(--r); }
-.keys > div, .keys > label { display: block; padding-left: 6ch; text-indent: -6ch; }
-.keys .lbl { display: inline-block; width: 6ch; text-indent: 0; color: var(--soft); }
-.keys button { font: inherit; line-height: var(--r); color: var(--ink); background: none; border: 0; border-radius: 0; padding: 0; margin: 0 1ch 0 0; cursor: pointer; text-indent: 0; vertical-align: top; }
-.keys button::before { content: "["; }
-.keys button::after { content: "]"; }
+/* bracketed text buttons */
+.keys { display: flex; flex-wrap: wrap; column-gap: 3ch; }
+.keys > div, .vol { display: flex; flex-wrap: wrap; column-gap: 1ch; }
+.keys .lbl, .vol { color: var(--soft); }
+.keys button, .floatstop { font: inherit; height: var(--r); color: var(--ink); background: none; border: 0; border-radius: 0; margin: 0; padding: 0; cursor: pointer; }
+.keys button::before, .floatstop::before { content: "["; color: var(--soft); }
+.keys button::after, .floatstop::after { content: "]"; color: var(--soft); }
+.keys .go { font-weight: 700; }
 .keys button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
-.keys .go[aria-pressed="true"] { background: var(--pink); color: var(--ink); }
-.keys button:hover, .keys button:focus-visible { background: var(--pink); color: var(--ink); outline: none; }
-.vol { position: relative; color: var(--soft); }
-.vol input { position: absolute; left: 6ch; top: 0; width: 19ch; height: var(--r); margin: 0; padding: 0; opacity: 0; cursor: pointer; }
-.volbar { margin-left: 2ch; color: var(--ink); }
-.vol:focus-within .volbar, .vol:hover .volbar { background: var(--pink); }
-.textin { margin-top: var(--r); }
-.floatstop { position: fixed; right: 2ch; bottom: var(--r); z-index: 5; font: inherit; line-height: var(--r); background: var(--pink); color: var(--ink); border: 0; border-radius: 0; padding: 0 1ch; cursor: pointer; }
-.floatstop::before { content: "["; }
-.floatstop::after { content: "]"; }
+.keys button[aria-pressed="true"]::before, .keys button[aria-pressed="true"]::after { color: inherit; }
+.keys button:hover, .floatstop:hover { background: var(--hot); color: var(--ink); }
+.keys button:focus-visible::before, .keys button:focus-visible::after, .keys button:hover::before, .keys button:hover::after { color: inherit; }
+.vol { position: relative; }
+.vol .bar { color: var(--ink); }
+.vol input { position: absolute; left: 4ch; top: 0; width: 12ch; height: var(--r); margin: 0; opacity: 0; cursor: pointer; }
+.vol:hover .bar { background: var(--hot); }
+.vol:focus-within .bar { background: var(--blue); color: var(--paper); }
+.floatstop { position: fixed; right: 2ch; bottom: var(--r); z-index: 5; background: var(--paper); padding: 0 1ch; }
 .floatstop[hidden] { display: none; }
 
-/* ---------- three projects ---------- */
-.label { width: fit-content; padding: 0 2ch; }
-.projects .cols { margin-top: var(--r); }
-.what { padding-left: 4ch; }
-.what .n { display: inline-block; width: 4ch; margin-left: -4ch; color: var(--soft); }
-.what h3 { display: inline; }
-.pic { margin-top: var(--r); }
-.pic pre { overflow: hidden; color: var(--ink); }
-.note { margin-top: var(--r); }
+@media (max-width: 719px) {
+  .fm { grid-template-columns: minmax(0, 1fr); grid-template-rows: none; }
+  .speaker, #fm-h, .ident, .lcd, .keys, .textin { grid-area: auto; }
+  #fm-h { margin-top: var(--r); }
+}
 
-/* ---------- everything else, as starred links ---------- */
-.stars + h2 { margin-top: var(--r); }
-.stars li { padding-left: 2ch; text-indent: -2ch; }
-.stars li::before { content: "\2606"; display: inline-block; width: 2ch; text-indent: 0; }
-.stars li:hover::before { content: "\2605"; color: var(--pink); }
+/* ---------- the card ---------- */
+.card dl { margin-top: var(--r); }
+.card dt { display: inline; color: var(--soft); }
+.card dd { display: inline; }
+.bunny { margin-top: var(--r); width: fit-content; }
+.bunny .p { color: var(--hot); }
+.bunny:hover { animation: hop .5s steps(1); }
+@keyframes hop { 30%, 70% { transform: translateY(calc(-1 * var(--r))); } }
+.card .mail { margin-top: var(--r); }
+
+/* ---------- three projects; the pictures are characters too ---------- */
+.meta span + span::before { content: " · "; }
+.pic { margin-top: var(--r); height: calc(10 * var(--r)); line-height: 12px; overflow: hidden; color: var(--ink); }
+.proj h2 { margin-top: var(--r); }
+
+/* ---------- everything else, starred ---------- */
+.list h2 span { color: var(--hot); font-weight: 400; }
+.list ul { margin-top: var(--r); }
+.list li { position: relative; padding-left: 2ch; }
+.list li::before { content: "☆"; position: absolute; left: 0; }
+.list li:hover::before { content: "★"; color: var(--hot); }
 
 /* ---------- the end ---------- */
-.bye { width: fit-content; }
-.garden-bed { position: relative; z-index: 1; padding-top: var(--r); overflow: hidden; }
-.garden { overflow: hidden; }
+.note p + p { margin-top: var(--r); }
+@media (min-width: 720px) { .note { grid-column: 1 / -1; } }
+@media (min-width: 1080px) { .note { grid-column: 2 / span 2; } }
+.garden-box { position: relative; z-index: 1; margin-top: calc(2 * var(--r)); padding-top: var(--r); background: var(--paper); overflow: hidden; }
+.garden { line-height: 15px; }
+.garden b { font-weight: inherit; }
+.garden .rose { color: var(--hot); }
+.garden .lilac, .garden .peri { color: var(--blue); }
 
-/* ---------- a wider screen: two columns of 48 cells ---------- */
-@container page (min-width: 104ch) {
-  .frame { --fl: round(down, (100cqw - 100ch) / 2, 1ch); width: 100ch; }
-  .top { grid-template-columns: 48ch 48ch; column-gap: 4ch; grid-template-areas: "a c" "f f"; }
-  .cola { grid-area: a; } .fm { grid-area: f; } .card { grid-area: c; }
-  .fm { grid-template-columns: 37ch minmax(0, 1fr); }
-  .tracker { grid-template-columns: repeat(16, 3ch); }
-  .cols { grid-template-columns: 48ch 48ch; }
-  .foot .bye { grid-column: 2; }
-}
-/* ---------- a big screen: 44 | 92 | 32, then three columns of 56 ---------- */
-@container page (min-width: 180ch) {
-  .frame { --fl: round(down, (100cqw - 176ch) / 2, 1ch); width: 176ch; }
-  .sign { width: auto; padding-left: 6ch; padding-right: 6ch; }
-  .sign .big { display: block; }
-  .sign .small { display: none; }
-  .top { grid-template-columns: 44ch 92ch 32ch; grid-template-areas: "a f c"; }
-  .cols { grid-template-columns: 56ch 56ch 56ch; }
-  .foot .bye { grid-column: 3; }
-}
-@media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
 </style>
 </head>
 <body>
 
-<pre class="field" id="field" aria-hidden="true"></pre>
+<pre class="field tower" id="field" aria-hidden="true"></pre>
 
 <div class="page">
-<div class="frame">
 
-<header class="sign blk" role="img" aria-label="kes inkersole, spelled out in tiny <3 hearts on a dot-matrix screen">
-<pre class="big">. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-. .<b>&lt;3</b> . . . . . . . . . . . . . . . . . . . . .<b>&lt;3</b> . . . . . . . .<b>&lt;3</b> . . . . . . . . . . . . . . . . . . . . . . . . . . . . .<b>&lt;3&lt;3</b> . . . . . . . . . . . . . . . . .
-. .<b>&lt;3</b> . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .<b>&lt;3</b> . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .<b>&lt;3</b> . . . . . . . . .<b class="h">&lt;3&lt;3</b> .<b class="h">&lt;3&lt;3</b> . . .
-. .<b>&lt;3</b> . .<b>&lt;3</b> . . .<b>&lt;3&lt;3&lt;3</b> . . .<b>&lt;3&lt;3&lt;3&lt;3</b> . . . .<b>&lt;3&lt;3</b> . .<b>&lt;3</b> .<b>&lt;3&lt;3</b> . .<b>&lt;3</b> . .<b>&lt;3</b> . . .<b>&lt;3&lt;3&lt;3</b> . .<b>&lt;3</b> .<b>&lt;3&lt;3</b> . . .<b>&lt;3&lt;3&lt;3&lt;3</b> . .<b>&lt;3&lt;3&lt;3</b> . . .<b>&lt;3</b> . . .<b>&lt;3&lt;3&lt;3</b> . .<b class="h">&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3</b> . .
-. .<b>&lt;3</b> .<b>&lt;3</b> . . .<b>&lt;3</b> . . .<b>&lt;3</b> .<b>&lt;3</b> . . . . . . . . .<b>&lt;3</b> . .<b>&lt;3&lt;3</b> . .<b>&lt;3</b> .<b>&lt;3</b> .<b>&lt;3</b> . . .<b>&lt;3</b> . . .<b>&lt;3</b> .<b>&lt;3&lt;3</b> . .<b>&lt;3</b> .<b>&lt;3</b> . . . . .<b>&lt;3</b> . . .<b>&lt;3</b> . .<b>&lt;3</b> . .<b>&lt;3</b> . . .<b>&lt;3</b> .<b class="h">&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3</b> . .
-. .<b>&lt;3&lt;3</b> . . . .<b>&lt;3&lt;3&lt;3&lt;3&lt;3</b> . .<b>&lt;3&lt;3&lt;3</b> . . . . . .<b>&lt;3</b> . .<b>&lt;3</b> . . .<b>&lt;3</b> .<b>&lt;3&lt;3</b> . . . .<b>&lt;3&lt;3&lt;3&lt;3&lt;3</b> .<b>&lt;3</b> . . . . . .<b>&lt;3&lt;3&lt;3</b> . .<b>&lt;3</b> . . .<b>&lt;3</b> . .<b>&lt;3</b> . .<b>&lt;3&lt;3&lt;3&lt;3&lt;3</b> . .<b class="h">&lt;3&lt;3&lt;3&lt;3&lt;3</b> . . .
-. .<b>&lt;3</b> .<b>&lt;3</b> . . .<b>&lt;3</b> . . . . . . . . .<b>&lt;3</b> . . . . .<b>&lt;3</b> . .<b>&lt;3</b> . . .<b>&lt;3</b> .<b>&lt;3</b> .<b>&lt;3</b> . . .<b>&lt;3</b> . . . . .<b>&lt;3</b> . . . . . . . . .<b>&lt;3</b> .<b>&lt;3</b> . . .<b>&lt;3</b> . .<b>&lt;3</b> . .<b>&lt;3</b> . . . . . . .<b class="h">&lt;3&lt;3&lt;3</b> . . . .
-. .<b>&lt;3</b> . .<b>&lt;3</b> . . .<b>&lt;3&lt;3&lt;3</b> . .<b>&lt;3&lt;3&lt;3&lt;3</b> . . . . .<b>&lt;3&lt;3&lt;3</b> .<b>&lt;3</b> . . .<b>&lt;3</b> .<b>&lt;3</b> . .<b>&lt;3</b> . . .<b>&lt;3&lt;3&lt;3</b> . .<b>&lt;3</b> . . . . .<b>&lt;3&lt;3&lt;3&lt;3</b> . . .<b>&lt;3&lt;3&lt;3</b> . .<b>&lt;3&lt;3&lt;3</b> . .<b>&lt;3&lt;3&lt;3</b> . . . . .<b class="h">&lt;3</b> . . . . .
-. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .</pre>
-<pre class="small">. . . . . . . . . . . . . . . . . . .
-.<b>&lt;3</b> . . . . . . . . . . . . . . . . .
-.<b>&lt;3</b> . . . . . . . . . . . . . . . . .
-.<b>&lt;3</b> . .<b>&lt;3</b> . . .<b>&lt;3&lt;3&lt;3</b> . . .<b>&lt;3&lt;3&lt;3&lt;3</b> .
-.<b>&lt;3</b> .<b>&lt;3</b> . . .<b>&lt;3</b> . . .<b>&lt;3</b> .<b>&lt;3</b> . . . . .
-.<b>&lt;3&lt;3</b> . . . .<b>&lt;3&lt;3&lt;3&lt;3&lt;3</b> . .<b>&lt;3&lt;3&lt;3</b> . .
-.<b>&lt;3</b> .<b>&lt;3</b> . . .<b>&lt;3</b> . . . . . . . . .<b>&lt;3</b> .
-.<b>&lt;3</b> . .<b>&lt;3</b> . . .<b>&lt;3&lt;3&lt;3</b> . .<b>&lt;3&lt;3&lt;3&lt;3</b> . .
-. . . . . . . . . . . . . . . . . . .</pre>
+<header class="blk sign" role="img" aria-label="kes inkersole, spelled out in tiny <3 hearts on a dot-matrix screen">
+<pre class="big"><s> .---------------------------------------------------------------------------------------------------------------------------------------------------------------------. </s>
+<s> |</s> . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .<s> | </s>
+<s> |</s> . .<b>&lt;3</b> . . . . . . . . . . . . . . . . . . . . .<b>&lt;3</b> . . . . . . . .<b>&lt;3</b> . . . . . . . . . . . . . . . . . . . . . . . . . . . . .<b>&lt;3&lt;3</b> . . . . . . . . . . . . . . . . .<s> | </s>
+<s> |</s> . .<b>&lt;3</b> . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .<b>&lt;3</b> . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .<b>&lt;3</b> . . . . . . . . .<b class="h">&lt;3&lt;3</b> .<b class="h">&lt;3&lt;3</b> . . .<s> | </s>
+<s> |</s> . .<b>&lt;3</b> . .<b>&lt;3</b> . . .<b>&lt;3&lt;3&lt;3</b> . . .<b>&lt;3&lt;3&lt;3&lt;3</b> . . . .<b>&lt;3&lt;3</b> . .<b>&lt;3</b> .<b>&lt;3&lt;3</b> . .<b>&lt;3</b> . .<b>&lt;3</b> . . .<b>&lt;3&lt;3&lt;3</b> . .<b>&lt;3</b> .<b>&lt;3&lt;3</b> . . .<b>&lt;3&lt;3&lt;3&lt;3</b> . .<b>&lt;3&lt;3&lt;3</b> . . .<b>&lt;3</b> . . .<b>&lt;3&lt;3&lt;3</b> . .<b class="h">&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3</b> . .<s> | </s>
+<s> |</s> . .<b>&lt;3</b> .<b>&lt;3</b> . . .<b>&lt;3</b> . . .<b>&lt;3</b> .<b>&lt;3</b> . . . . . . . . .<b>&lt;3</b> . .<b>&lt;3&lt;3</b> . .<b>&lt;3</b> .<b>&lt;3</b> .<b>&lt;3</b> . . .<b>&lt;3</b> . . .<b>&lt;3</b> .<b>&lt;3&lt;3</b> . .<b>&lt;3</b> .<b>&lt;3</b> . . . . .<b>&lt;3</b> . . .<b>&lt;3</b> . .<b>&lt;3</b> . .<b>&lt;3</b> . . .<b>&lt;3</b> .<b class="h">&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3</b> . .<s> | </s>
+<s> |</s> . .<b>&lt;3&lt;3</b> . . . .<b>&lt;3&lt;3&lt;3&lt;3&lt;3</b> . .<b>&lt;3&lt;3&lt;3</b> . . . . . .<b>&lt;3</b> . .<b>&lt;3</b> . . .<b>&lt;3</b> .<b>&lt;3&lt;3</b> . . . .<b>&lt;3&lt;3&lt;3&lt;3&lt;3</b> .<b>&lt;3</b> . . . . . .<b>&lt;3&lt;3&lt;3</b> . .<b>&lt;3</b> . . .<b>&lt;3</b> . .<b>&lt;3</b> . .<b>&lt;3&lt;3&lt;3&lt;3&lt;3</b> . .<b class="h">&lt;3&lt;3&lt;3&lt;3&lt;3</b> . . .<s> | </s>
+<s> |</s> . .<b>&lt;3</b> .<b>&lt;3</b> . . .<b>&lt;3</b> . . . . . . . . .<b>&lt;3</b> . . . . .<b>&lt;3</b> . .<b>&lt;3</b> . . .<b>&lt;3</b> .<b>&lt;3</b> .<b>&lt;3</b> . . .<b>&lt;3</b> . . . . .<b>&lt;3</b> . . . . . . . . .<b>&lt;3</b> .<b>&lt;3</b> . . .<b>&lt;3</b> . .<b>&lt;3</b> . .<b>&lt;3</b> . . . . . . .<b class="h">&lt;3&lt;3&lt;3</b> . . . .<s> | </s>
+<s> |</s> . .<b>&lt;3</b> . .<b>&lt;3</b> . . .<b>&lt;3&lt;3&lt;3</b> . .<b>&lt;3&lt;3&lt;3&lt;3</b> . . . . .<b>&lt;3&lt;3&lt;3</b> .<b>&lt;3</b> . . .<b>&lt;3</b> .<b>&lt;3</b> . .<b>&lt;3</b> . . .<b>&lt;3&lt;3&lt;3</b> . .<b>&lt;3</b> . . . . .<b>&lt;3&lt;3&lt;3&lt;3</b> . . .<b>&lt;3&lt;3&lt;3</b> . .<b>&lt;3&lt;3&lt;3</b> . .<b>&lt;3&lt;3&lt;3</b> . . . . .<b class="h">&lt;3</b> . . . . .<s> | </s>
+<s> |</s> . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .<s> | </s>
+<s> '---------------------------------------------------------------------------------------------------------------------------------------------------------------------' </s></pre>
+<pre class="small"><s> .---------------------------------------. </s>
+<s> |</s> . . . . . . . . . . . . . . . . . . .<s> | </s>
+<s> |</s> .<b>&lt;3</b> . . . . . . . . . . . . . . . . .<s> | </s>
+<s> |</s> .<b>&lt;3</b> . . . . . . . . . . . . . . . . .<s> | </s>
+<s> |</s> .<b>&lt;3</b> . .<b>&lt;3</b> . . .<b>&lt;3&lt;3&lt;3</b> . . .<b>&lt;3&lt;3&lt;3&lt;3</b> .<s> | </s>
+<s> |</s> .<b>&lt;3</b> .<b>&lt;3</b> . . .<b>&lt;3</b> . . .<b>&lt;3</b> .<b>&lt;3</b> . . . . .<s> | </s>
+<s> |</s> .<b>&lt;3&lt;3</b> . . . .<b>&lt;3&lt;3&lt;3&lt;3&lt;3</b> . .<b>&lt;3&lt;3&lt;3</b> . .<s> | </s>
+<s> |</s> .<b>&lt;3</b> .<b>&lt;3</b> . . .<b>&lt;3</b> . . . . . . . . .<b>&lt;3</b> .<s> | </s>
+<s> |</s> .<b>&lt;3</b> . .<b>&lt;3</b> . . .<b>&lt;3&lt;3&lt;3</b> . .<b>&lt;3&lt;3&lt;3&lt;3</b> . .<s> | </s>
+<s> |</s> . . . . . . . . . . . . . . . . . . .<s> | </s>
+<s> '---------------------------------------' </s></pre>
 </header>
 
-<div class="top">
+<main>
 
-<div class="cola">
-<section class="hello blk" aria-labelledby="hello-h">
-<h1 id="hello-h" class="big2">hello, i'm kes <span class="heart">♡</span></h1>
-<p class="welcome">welcome to kes's little corner of the internet <span class="pk">&lt;3</span></p>
-<p>my practice focuses on understanding and critiquing the impacts of emerging technologies on people, culture, and the planet. i work collectively to rethink the narratives and behaviours surrounding technologies — prioritising collaborative research as a process for testing, imagining and prototyping more equitable, alternative futures.</p>
-</section>
+  <section class="blk hi" aria-labelledby="hi-h">
+    <h1 id="hi-h">hello, i'm kes&nbsp;<span class="heart">♡</span></h1>
+    <p class="soft">welcome to kes's little corner of the internet <span class="heart">&lt;3</span></p>
+    <p>i'm kes inkersole (kesia on paper), a freelance creative strategist &amp; internet equalities researcher, based in london.</p>
+    <p>my practice focuses on understanding and critiquing the impacts of emerging technologies on people, culture, and the planet. i work collectively to rethink the narratives and behaviours surrounding technologies — prioritising collaborative research as a process for testing, imagining and prototyping more equitable, alternative futures.</p>
+    <p>i'm starting to publish my own writing too, short pieces, over in <a href="writing.html">chainmail</a>.</p>
+  </section>
 
-<p class="write blk"><span class="sym">✉&#xFE0E;</span> <a href="writing.html">chainmail</a>, my own writing: short pieces from my notes app, sent in by email.</p>
-</div>
-
-<!-- KES FM: a jungle machine. silent until you press on air -->
-<section class="fm blk" id="fm" aria-labelledby="fm-h">
-<div class="fm-face">
-<pre class="art stack sound" aria-hidden="true">        <span class=p>\(^o^)/</span>       <span class=p>&lt;3</span>
+  <!-- ===== KES FM: every id, class, data attribute and button from the reference, restyled ===== -->
+  <section class="blk fm" id="fm" aria-labelledby="fm-h">
+  <figure class="speaker">
+<pre class="art stack" aria-hidden="true">        <span class=p>\(^o^)/</span>       <span class=p>&lt;3</span>
 <span class=c>.--------------..--------------.</span>
 <span class=c>| .----.  .--. || .----.  .--. |</span>
 <span class=c>| |====|  </span><span class=g>(())</span><span class=c> || |====|  </span><span class=g>(())</span><span class=c> |</span>
@@ -217,300 +219,198 @@ body.on-air .status { background: var(--pink); }
 <span class=c>'--------------''--------------'</span>
 <span class=c>.--------------..--------------.</span>
 <span class=c>|   .------.   ||   .------.   |</span>
-<span class=c>|  /  .--.  \  ||  /  .--.  \  | </span> <span class="g w">)</span>
-<span class=c>| |  </span><span class=b>( </span><span class=p>&lt;3</span><span class=b> )</span><span class=c>  | || |  </span><span class=b>( </span><span class=p>&lt;3</span><span class=b> )</span><span class=c>  | | </span> <span class="g w">))</span>
-<span class=c>|  \  '--'  /  ||  \  '--'  /  | </span> <span class="g w">)))</span>
-<span class=c>|   '------'   ||   '------'   | </span> <span class="g w">))</span>
-<span class=c>|--------------||--------------| </span> <span class="g w">)</span>
+<span class=c>|  /  .--.  \  ||  /  .--.  \  | </span> <span class="g sound">)</span>
+<span class=c>| |  </span><span class=b>( </span><span class=p>&lt;3</span><span class=b> )</span><span class=c>  | || |  </span><span class=b>( </span><span class=p>&lt;3</span><span class=b> )</span><span class=c>  | | </span> <span class="g sound">))</span>
+<span class=c>|  \  '--'  /  ||  \  '--'  /  | </span> <span class="g sound">)))</span>
+<span class=c>|   '------'   ||   '------'   | </span> <span class="g sound">))</span>
+<span class=c>|--------------||--------------| </span> <span class="g sound">)</span>
 <span class=c>|    </span><span class=y>KES FM</span><span class=c>    ||   </span><span class=g>170.0 FM</span><span class=c>   |</span>
 <span class=c>'--------------''--------------'</span>
 <span class=i>""""""""""""""""""""""""""""""""</span></pre>
-</div>
-<div class="fm-desk">
-<h2 id="fm-h">KES FM 170.0</h2>
-<p class="ident">you're locked to KES FM. it's not a real station, it's this website: a little jungle machine running in your browser, every drum and bassline synthesised live, no samples, no files. nothing plays until you press on air, and stop always stops it ✧</p>
-<div class="deck">
-<div class="lcd">
-<div class="lcd-top"><span>KES FM ((( 170.0 )))</span><span class="status" id="status" role="status">off air</span></div>
-<div class="ticker" aria-hidden="true"><div><span>big up all the junglists ✦ big up everyone reading the source code ✦ big up the UAL lot, LCF + CCI ✦ big up Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges ✦ text in: inkersolekesia@gmail.com ✦ respect to the sound systems, pirates and producers who built all this ✦ lorem ipsum dolor sit amet ✦</span><span>big up all the junglists ✦ big up everyone reading the source code ✦ big up the UAL lot, LCF + CCI ✦ big up Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges ✦ text in: inkersolekesia@gmail.com ✦ respect to the sound systems, pirates and producers who built all this ✦ lorem ipsum dolor sit amet ✦</span></div></div>
-<div class="tracker" id="tracker" aria-hidden="true"></div>
-<div class="lcd-info" aria-hidden="true"><span id="lcdinfo">break: straight · bass: sub · cute: off</span><span><span class="rev">pink</span> = reversed · <span class="up">blue</span> = pitched up · underline = roll</span></div>
-</div>
+  </figure>
+  <h2 id="fm-h">KES FM 170.0</h2>
+  <p class="ident">you're locked to KES FM. it's not a real station, it's this website: a little jungle machine running in your browser, every drum and bassline synthesised live, no samples, no files. nothing plays until you press on air, and stop always stops it ✧</p>
+  <div class="deck">
+  <div class="lcd">
+  <div class="lcd-top"><span>KES FM ((( 170.0 )))</span><span class="status" id="status" role="status">off air</span></div>
+  <div class="ticker" aria-hidden="true"><div><span>big up all the junglists ✦ big up everyone reading the source code ✦ big up the UAL lot, LCF + CCI ✦ big up Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges ✦ text in: inkersolekesia@gmail.com ✦ respect to the sound systems, pirates and producers who built all this ✦ lorem ipsum dolor sit amet ✦</span><span>big up all the junglists ✦ big up everyone reading the source code ✦ big up the UAL lot, LCF + CCI ✦ big up Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges ✦ text in: inkersolekesia@gmail.com ✦ respect to the sound systems, pirates and producers who built all this ✦ lorem ipsum dolor sit amet ✦</span></div></div>
+  <div class="tracker" id="tracker" aria-hidden="true"></div>
+  <div class="lcd-info" aria-hidden="true"><span id="lcdinfo">break: straight · bass: sub · cute: off</span><span><span class="rev">pink</span> = reversed · <span class="up">blue</span> = pitched up · underline = roll</span></div>
+  </div>
 
-<div class="keys">
-<div><button class="go" id="go" type="button" aria-pressed="false">▶ on air</button><button class="stop" id="stop" type="button">■ stop</button></div>
-<div role="group" aria-label="break"><span class="lbl">break</span><button type="button" data-break="straight" aria-pressed="true">straight</button><button type="button" data-break="chopped" aria-pressed="false">chopped</button><button type="button" data-break="rollin" aria-pressed="false">rollin'</button><button type="button" id="chop" aria-pressed="false">✂ chop it</button></div>
-<div role="group" aria-label="bass"><span class="lbl">bass</span><button type="button" data-bass="sub" aria-pressed="true">sub</button><button type="button" data-bass="reese" aria-pressed="false">reese</button><button type="button" data-bass="off" aria-pressed="false">off</button></div>
-<div><button type="button" id="cute" aria-pressed="false">✿ cute</button><button type="button" id="pullup">⟲ pull up</button><button type="button" id="siren">siren</button></div>
-<label class="vol">vol <input type="range" id="vol" min="0" max="1" step="0.05" value="0.5"><span class="volbar" aria-hidden="true">[========o--------]</span></label>
-</div>
-<p class="textin">text in your shout-outs: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
-</div>
-</div>
-</section>
+  <div class="keys">
+  <div><button class="go" id="go" type="button" aria-pressed="false">▶ on air</button><button class="stop" id="stop" type="button">■ stop</button></div>
+  <div role="group" aria-label="break"><span class="lbl">break</span><button type="button" data-break="straight" aria-pressed="true">straight</button><button type="button" data-break="chopped" aria-pressed="false">chopped</button><button type="button" data-break="rollin" aria-pressed="false">rollin'</button><button type="button" id="chop" aria-pressed="false">✂ chop it</button></div>
+  <div role="group" aria-label="bass"><span class="lbl">bass</span><button type="button" data-bass="sub" aria-pressed="true">sub</button><button type="button" data-bass="reese" aria-pressed="false">reese</button><button type="button" data-bass="off" aria-pressed="false">off</button></div>
+  <div><button type="button" id="cute" aria-pressed="false">✿ cute</button><button type="button" id="pullup">⟲ pull up</button><button type="button" id="siren">siren</button></div>
+  <label class="vol">vol <span class="bar" aria-hidden="true">[=====·····]</span><input type="range" id="vol" min="0" max="1" step="0.05" value="0.5"></label>
+  </div>
+  <p class="textin">text in your shout-outs: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
+  </div>
+  </section>
 
-<aside class="card blk" aria-labelledby="card-h">
-<h2 class="name" id="card-h">kes inkersole <span class="m">(kesia on paper)</span></h2>
-<dl>
-<dt>bio</dt>
-<dd>freelance creative strategist &amp; internet equalities researcher, based in london.</dd>
-<dt>portfolio</dt>
-<dd><a href="#p1">latent space</a>, <a href="#p2">MØRNING Ø</a> and <a href="#p3">networked worlds</a>, then <a href="#more">everything else</a>.</dd>
-<dt>cv</dt>
-<dd><p>associate lecturer at UAL (LCF + CCI).</p><p>clients: Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges.</p><p>MA internet equalities, BA creative direction, <span style="white-space:nowrap">PhD [ ? ]</span>.</p></dd>
-</dl>
-<pre class="art bunny" role="img" aria-label="an ascii bunny holding a sign that says: i'm available for work">
+  <aside class="blk card" aria-labelledby="card-h">
+    <p class="soft">bio / portfolio / cv</p>
+    <h2 id="card-h">kes inkersole</h2>
+    <p>freelance creative strategist &amp; internet equalities researcher, london.</p>
+    <dl>
+      <div><dt>does</dt> <dd>creative strategy, internet equalities research, workshops, writing, teaching</dd></div>
+      <div><dt>teaches</dt> <dd>associate lecturer at UAL (LCF + CCI)</dd></div>
+      <div><dt>worked with</dt> <dd>Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges</dd></div>
+      <div><dt>school</dt> <dd>MA internet equalities, BA creative direction, PhD [ ? ]</dd></div>
+      <div><dt>cv + portfolio</dt> <dd>on request</dd></div>
+    </dl>
+<pre class="bunny" aria-hidden="true">
  .--------------------.
  |  i'm available     |
- |  for work !!  &lt;3   |
+ |  for work !!  <span class="p">&lt;3</span>   |
  '---------. .--------'
            | |
     (\_/)  | |
    ( ^.^ )o| |
    (")_(") | |
- ,,,,,,,,,,|_|,,,,,,,,,,</pre>
-<p class="contact"><a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a><br><span class="m">cv &amp; portfolio on request</span></p>
-</aside>
+ <span class="g">,,,,,,,,,,</span>|_|<span class="g">,,,,,,,,,,</span>
+</pre>
+    <p class="mail"><a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
+  </aside>
 
-</div>
+  <!-- three projects. each picture is a photo turned into characters by the script below
+       (data-src is the photo; what's in the <pre> is the stand-in if it can't load) -->
+  <article class="blk proj" aria-labelledby="p1-h">
+    <p class="meta soft"><span>01</span><span>for fun</span><span>latent-space.vercel.app</span></p>
+    <pre class="pic" role="img" aria-label="latent space, placeholder photo" data-src="https://picsum.photos/seed/latentspace/720/240" data-seed="latentspace" data-rows="15">o%%%%%%%%%%%%%%%%%%%o%o%ooooooooo%o%
+%%#%#%#%#%#%#%#%%%%o%oooo*o*******o*
+%#%#%#%#%#%#%%%%o%oo**+*++++=+=+=+=+
+###########%#%%o%oo**++=+==-=-----=-
+########%#%%%%oo**++==--:-::.:.:.:::
+&amp;#&amp;######%#%%oo**++==--::.:.........
+######%#%%%%oo**++==--::.. .       .
+###%#%%o%oooo****++==-:.:.. .   . . 
+o%oo****+*+*++++====--::.. .       .
+o**++====-====+======--::.:.........
++=--::.:.:.::----=====----::::.:::::
+=-:.... . ..::--==+=+++++======-====
+::..       . .:--=+*+**o***********o
+-::..     ...:--++oo%%#%#%#%#%####&amp;#
+==::.......::-=+*o%##&amp;&amp;8888888888@8@</pre>
+    <h2 id="p1-h"><a href="https://latent-space.vercel.app/">latent space</a></h2>
+    <p>lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam, quis nostrud exercitation.</p>
+  </article>
 
-<section class="projects band" id="projects" aria-labelledby="projects-h">
-<h2 class="label blk" id="projects-h">three projects <span class="sym">✧</span></h2>
-<div class="cols">
+  <article class="blk proj" aria-labelledby="p2-h">
+    <p class="meta soft"><span>02</span><span>for funds, with co—matter</span><span>co-matter.com</span></p>
+    <pre class="pic" role="img" aria-label="networked worlds, placeholder photo" data-src="https://picsum.photos/seed/networkedworlds/720/240" data-seed="networkedworlds" data-rows="15">+*+*+*+********o*o*o**++=-:.     ..-
+*+*+*+********o*o*o*o**+=::..   . ::
++*+++*+++*+*+*+*******++==::.....::=
+*++++++=+=+=++++****o****++=====++**
+====-=-=-------==++++****o*o*o*oooo%
+===--:-:::::::-:--==++**oo%o%%#%##&amp;#
+--::::.... . ....::-=++**oo%%#%##&amp;#&amp;
+--:.:.. .   . . ..::==++*o%%####&amp;&amp;&amp;&amp;
+:::: .           ..::==++oo%%##&amp;#&amp;&amp;8
+-::....       . ..::-=++*o%%##&amp;&amp;&amp;&amp;88
+--::.:.. .   . ..::--++**%%##&amp;#&amp;&amp;8&amp;8
++==--::::.:.::::--==+*oo%%##&amp;&amp;&amp;&amp;8888
+++=+==-=-------==++**oo%%##&amp;#&amp;&amp;8&amp;88@
+o****+*+++++++****oo%%####&amp;&amp;8&amp;88@8@@
+oooooo*o*o*oooo%o%%####&amp;&amp;&amp;&amp;888888@8@</pre>
+    <h2 id="p2-h"><a href="https://co-matter.com/project/networked-worlds">networked worlds</a></h2>
+    <p>duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. excepteur sint occaecat cupidatat non proident, sunt in culpa.</p>
+  </article>
 
-<article class="proj blk" id="p1">
-<div class="what">
-<span class="n">01</span><h3><a href="https://latent-space.vercel.app/">latent space</a></h3>
-<p class="m">for fun<br>latent-space.vercel.app</p>
-</div>
-<figure class="pic" data-src="https://picsum.photos/seed/latentspace/156/104?grayscale"><pre role="img" aria-label="latent space, placeholder photo">[ placeholder photo ]</pre></figure>
-<div class="note"><p>lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam.</p></div>
-</article>
+  <article class="blk proj" aria-labelledby="p3-h">
+    <p class="meta soft"><span>03</span><span>for funds</span><span>instagram.com</span></p>
+    <pre class="pic" role="img" aria-label="MØRNING Ø, placeholder photo" data-src="https://picsum.photos/seed/morning/720/240" data-seed="morning" data-rows="15">&amp;8&amp;&amp;&amp;&amp;&amp;&amp;#&amp;#&amp;######%#%#%%%%%%o%o%oooo
+8&amp;8&amp;8&amp;&amp;&amp;&amp;&amp;&amp;#&amp;#&amp;######%#%%%%%%o%o%o%o
+&amp;8&amp;8&amp;&amp;&amp;&amp;&amp;&amp;#&amp;#&amp;####%#%#%%%%o%o%oooooo
+888&amp;8&amp;8&amp;8&amp;&amp;&amp;&amp;#&amp;####%#%%%%oooooo*ooo*
+&amp;8&amp;8&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;####%#%%o%oo****+*+*+*+*
+88888&amp;8&amp;&amp;&amp;&amp;&amp;&amp;####%%oo*o**++++=+=+=++
+8888&amp;8&amp;&amp;&amp;&amp;#&amp;##%%%%oo**++==---------=
+@888888&amp;8&amp;&amp;#&amp;##oo**++==--:-:::::::--
+8888&amp;8&amp;8&amp;&amp;##%%oo++--::.:.... ....:.:
+@8@8888&amp;&amp;&amp;&amp;#%o*+=-:.. . . . . ....::
+8@8888&amp;8&amp;&amp;##oo+=-:.          ....::-
+@@@8@88&amp;8&amp;&amp;#%o*==:: .   . ..::::----
+8@8@8888&amp;&amp;&amp;#%%**==-:.:.:.::-:--=-==+
+@@@8@8@88&amp;8&amp;&amp;##%o**++=+=+=++++*+*+**
+@@8@8@8888&amp;8&amp;&amp;####%%oooooo*ooo*ooo*o</pre>
+    <h2 id="p3-h"><a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1">MØRNING Ø</a></h2>
+    <p>sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis.</p>
+  </article>
 
-<article class="proj blk" id="p2">
-<div class="what">
-<span class="n">02</span><h3><a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1">MØRNING Ø</a></h3>
-<p class="m">for funds<br>instagram.com</p>
-</div>
-<figure class="pic" data-src="https://picsum.photos/seed/morningo/156/104?grayscale"><pre role="img" aria-label="MØRNING Ø, placeholder photo">[ placeholder photo ]</pre></figure>
-<div class="note"><p>duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. excepteur sint occaecat cupidatat non proident.</p></div>
-</article>
+  <section class="blk list" aria-labelledby="l-own">
+    <h2 id="l-own">my own writing <span>✉</span></h2>
+    <ul>
+      <li><a href="writing.html">chainmail</a> <span class="soft">short pieces, by email</span></li>
+    </ul>
+  </section>
 
-<article class="proj blk" id="p3">
-<div class="what">
-<span class="n">03</span><h3><a href="https://co-matter.com/project/networked-worlds">networked worlds</a></h3>
-<p class="m">for funds, with co—matter<br>co-matter.com</p>
-</div>
-<figure class="pic" data-src="https://picsum.photos/seed/networkedworlds/156/104?grayscale"><pre role="img" aria-label="networked worlds, placeholder photo">[ placeholder photo ]</pre></figure>
-<div class="note"><p>ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. sunt in culpa qui officia deserunt.</p></div>
-</article>
+  <section class="blk list" aria-labelledby="l-more">
+    <h2 id="l-more">more projects <span>✿</span></h2>
+    <ul>
+      <li><a href="https://protecht.vercel.app/">pro(tech)t</a> <span class="soft">for fun</span></li>
+      <li><a href="https://www.protein.xyz/dirty-words-4-community/">protein dirty words #4: community report</a> <span class="soft">for funds</span></li>
+    </ul>
+  </section>
 
-</div>
-</section>
+  <section class="blk list" aria-labelledby="l-written">
+    <h2 id="l-written">things i've written <span>✎</span></h2>
+    <ul>
+      <li><a href="https://www.protein.xyz/sex-and-the-internet/">mindy seu on sex and the internet</a> <span class="soft">Protein</span></li>
+      <li><a href="https://midnight.agency/thoughts/dreaming-and-designing-more-accessible-web">dreaming and designing a more accessible web</a> <span class="soft">Midnight Agency</span></li>
+      <li><a href="https://midnight.agency/thoughts/coding-a-more-creative-and-playful-web">coding a more creative and playful web</a> <span class="soft">Midnight Agency</span></li>
+      <li><a href="https://midnight.agency/thoughts/composing-a-flexible-and-modular-web">composing a flexible and modular web</a> <span class="soft">Midnight Agency</span></li>
+      <li><a href="https://morningfyi.substack.com/p/020-uh-oh-meet">burn after reading: uh oh, meet o</a> <span class="soft">MØRNING</span></li>
+      <li><a href="https://morningfyi.substack.com/p/024-entering-limb-with">burn after reading: entering limbo, with o</a> <span class="soft">MØRNING</span></li>
+    </ul>
+  </section>
 
-<section class="more cols band" id="more" aria-label="everything else">
-<div class="col blk">
-<h2>more projects <span class="sym">✿</span></h2>
-<ul class="stars">
-<li><a href="https://protecht.vercel.app/">pro(tech)t</a> <span class="m">for fun</span></li>
-<li><a href="https://www.protein.xyz/dirty-words-4-community/">protein dirty words #4: community report</a> <span class="m">for funds</span></li>
-</ul>
-<h2>elsewhere <span class="sym">☂&#xFE0E;</span></h2>
-<ul class="stars">
-<li><a href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1">olden residency</a></li>
-<li><a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1">softer london</a> <span class="m">talk + workshop</span></li>
-<li><a href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard">tech yard</a> <span class="m">workshop</span></li>
-<li><a href="https://www.instagram.com/p/BslwSSPH5Rc/?img_index=2">ovar it</a></li>
-</ul>
-</div>
-<div class="col blk">
-<h2>writing <span class="sym">✎</span></h2>
-<ul class="stars">
-<li><a href="writing.html">chainmail</a> <span class="m">mine, on this site</span></li>
-<li><a href="https://www.protein.xyz/sex-and-the-internet/">mindy seu on sex and the internet</a> <span class="m">Protein</span></li>
-<li><a href="https://midnight.agency/thoughts/dreaming-and-designing-more-accessible-web">dreaming and designing a more accessible web</a> <span class="m">Midnight Agency</span></li>
-<li><a href="https://midnight.agency/thoughts/coding-a-more-creative-and-playful-web">coding a more creative and playful web</a> <span class="m">Midnight Agency</span></li>
-<li><a href="https://midnight.agency/thoughts/composing-a-flexible-and-modular-web">composing a flexible and modular web</a> <span class="m">Midnight Agency</span></li>
-<li><a href="https://morningfyi.substack.com/p/020-uh-oh-meet">burn after reading: uh oh, meet o</a> <span class="m">morningfyi</span></li>
-<li><a href="https://morningfyi.substack.com/p/024-entering-limb-with">burn after reading: entering limbo</a> <span class="m">morningfyi</span></li>
-</ul>
-</div>
-<div class="col blk">
-<h2>podcasts, for the bus <span class="sym">♫</span></h2>
-<ul class="stars">
-<li><a href="https://podcasts.apple.com/gb/podcast/mindy-seu-on-collaboration-community-and/id1449302502?i=1000597869409">mindy seu on collaboration, community and the cyberfeminism index</a></li>
-<li><a href="https://soundcloud.com/proteincommunity/protein-forum-what-can-web2-organisations-learn-from-web3-communities">what can web2 organisations learn from web3 communities?</a> <span class="m">Protein</span></li>
-<li><a href="https://podcasts.apple.com/gb/podcast/cherie-hu-on-water-musics-journey-through-web3/id1449302502?i=1000581859804">cherie hu on water &amp; music's journey through web3</a></li>
-<li><a href="https://podcasts.apple.com/gb/podcast/molly-dickson-on-dao-activism-and-fighting-for/id1449302502?i=1000578164761">molly dickson on dao activism</a></li>
-<li><a href="https://podcasts.apple.com/gb/podcast/dame-on-the-need-for-education-accessibility/id1449302502?i=1000559829008">dame on education, accessibility and inclusivity in web3</a></li>
-<li><a href="https://podcasts.apple.com/gb/podcast/nadia-piet-on-creative-ai-and-protopian-futures/id1449302502?i=1000559822732">nadia piet on creative ai and protopian futures</a></li>
-<li><a href="https://podcasts.apple.com/gb/podcast/cyn-bahati-on-her-journey-into-web3-with-her-family/id1449302502?i=1000559818509">cyn bahati on her journey into web3 with her family</a></li>
-<li><a href="https://podcasts.apple.com/gb/podcast/latash%C3%A1-on-the-potential-of-web3-for-music-artists/id1449302502?i=1000552812458">latasha on the potential of web3 for music artists</a></li>
-</ul>
-</div>
-</section>
+  <section class="blk list" aria-labelledby="l-pods">
+    <h2 id="l-pods">podcasts, for the bus <span>♫</span></h2>
+    <ul>
+      <li><a href="https://podcasts.apple.com/gb/podcast/mindy-seu-on-collaboration-community-and/id1449302502?i=1000597869409">mindy seu on collaboration, community and the cyberfeminism index</a></li>
+      <li><a href="https://soundcloud.com/proteincommunity/protein-forum-what-can-web2-organisations-learn-from-web3-communities">what can web2 organisations learn from web3 communities?</a> <span class="soft">Protein</span></li>
+      <li><a href="https://podcasts.apple.com/gb/podcast/cherie-hu-on-water-musics-journey-through-web3/id1449302502?i=1000581859804">cherie hu on water &amp; music's journey through web3</a></li>
+      <li><a href="https://podcasts.apple.com/gb/podcast/molly-dickson-on-dao-activism-and-fighting-for/id1449302502?i=1000578164761">molly dickson on dao activism</a></li>
+      <li><a href="https://podcasts.apple.com/gb/podcast/dame-on-the-need-for-education-accessibility/id1449302502?i=1000559829008">dame on education, accessibility and inclusivity in web3</a></li>
+      <li><a href="https://podcasts.apple.com/gb/podcast/nadia-piet-on-creative-ai-and-protopian-futures/id1449302502?i=1000559822732">nadia piet on creative ai and protopian futures</a></li>
+      <li><a href="https://podcasts.apple.com/gb/podcast/cyn-bahati-on-her-journey-into-web3-with-her-family/id1449302502?i=1000559818509">cyn bahati on her journey into web3 with her family</a></li>
+      <li><a href="https://podcasts.apple.com/gb/podcast/latash%C3%A1-on-the-potential-of-web3-for-music-artists/id1449302502?i=1000552812458">latasha on the potential of web3 for music artists</a></li>
+    </ul>
+  </section>
 
-<footer class="foot cols band">
-<p class="low blk">this page is still mostly plain html (it started out in <a href="http://contemporary-home-computing.org/prof-dr-style/">olia lialina's prof. dr. style</a>, then i planted some flowers), so it's easy for me to update and it loads fine on bad wifi.</p>
-<p class="bye blk"><span class="big2">thanks for stopping by <span class="heart">♡</span></span></p>
+  <section class="blk list" aria-labelledby="l-irl">
+    <h2 id="l-irl">irl (mostly) <span>☂&#xFE0E;</span></h2>
+    <ul>
+      <li><a href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1">olden residency</a></li>
+      <li><a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1">softer london</a> <span class="soft">talk + workshop</span></li>
+      <li><a href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard">tech yard</a> <span class="soft">workshop</span></li>
+      <li><a href="https://www.instagram.com/p/BslwSSPH5Rc/?img_index=2">ovar it</a></li>
+    </ul>
+  </section>
+
+</main>
+
+<!-- change the date when you change something! -->
+<footer class="blk note">
+  <p><b>thanks for stopping by&nbsp;<span class="heart">♡</span></b></p>
+  <p>this page was last updated on 1 october 2026. it's still mostly plain html (it started out in <a href="http://contemporary-home-computing.org/prof-dr-style/">olia lialina's prof. dr. style</a>, then i planted some flowers), so it's easy for me to update and it loads fine on bad wifi.</p>
 </footer>
 
 </div>
-</div>
 
-<!-- a little garden, so the page has somewhere soft to end -->
-<div class="garden-bed blk">
-<pre class="garden" aria-hidden="true">    _                             _                          _                        _                            _                        _                             _
-  _(_)_         @               _(_)_         @            _(_)_              @     _(_)_         @              _(_)_    @               _(_)_         @               _(_)_    @
- (_)@(_)        |/  vVv        (_)@(_)        |/    vVv   (_)@(_)             |/   (_)@(_)  vVv   |/            (_)@(_)   |/  vVv        (_)@(_)        |/  vVv        (_)@(_)   |/  vVv
-   (_)    vVv  \|   (_)    *     (_)    vVv  \|     (_)     (_)     *   vVv  \|      (_)    (_)  \|   vVv   *     (_)    \|   (_)  vVv     (_)     *   \|   (_)   vVv    (_)    \|   (_)  vVv
-    |/    (_)   |   \|     |/     |/    (_)   |     \|       |/     |/  (_)   |       |/    \|    |   (_)   |/     |/     |   \|   (_)      |/     |/   |   \|    (_)     |/     |   \|   (_)
-   \|      |    |    |    \|     \|      |    |      |      \|     \|    |    |      \|      |    |    |   \|     \|      |    |    |      \|     \|    |    |     |     \|      |    |    |</pre>
+<div class="garden-box" aria-hidden="true">
+<pre class="garden">    <b class="rose">_                             </b><b class="lilac">_                          </b><b class="rose">_                        </b><b class="peri">_                            </b><b class="rose">_                        </b><b class="lilac">_                             </b><b class="peri">_</b>
+  <b class="rose">_(_)_         @               </b><b class="lilac">_(_)_         </b><b class="peri">@            </b><b class="rose">_(_)_              @     </b><b class="peri">_(_)_         </b><b class="rose">@              _(_)_    </b><b class="lilac">@               _(_)_         </b><b class="peri">@               _(_)_    </b><b class="rose">@</b>
+ <b class="rose">(_)@(_)        </b><b class="stem">|/  </b><b class="peri">vVv        </b><b class="lilac">(_)@(_)        </b><b class="stem">|/    </b><b class="rose">vVv   (_)@(_)             </b><b class="stem">|/   </b><b class="peri">(_)@(_)  </b><b class="lilac">vVv   </b><b class="stem">|/            </b><b class="rose">(_)@(_)   </b><b class="stem">|/  </b><b class="rose">vVv        </b><b class="lilac">(_)@(_)        </b><b class="stem">|/  </b><b class="lilac">vVv        </b><b class="peri">(_)@(_)   </b><b class="stem">|/  </b><b class="lilac">vVv</b>
+   <b class="rose">(_)    </b><b class="lilac">vVv  </b><b class="stem">\|   </b><b class="peri">(_)    </b><b class="lilac">*     (_)    </b><b class="rose">vVv  </b><b class="stem">\|     </b><b class="rose">(_)     (_)     </b><b class="peri">*   </b><b class="lilac">vVv  </b><b class="stem">\|      </b><b class="peri">(_)    </b><b class="lilac">(_)  </b><b class="stem">\|   </b><b class="rose">vVv   </b><b class="lilac">*     </b><b class="rose">(_)    </b><b class="stem">\|   </b><b class="rose">(_)  </b><b class="peri">vVv     </b><b class="lilac">(_)     </b><b class="rose">*   </b><b class="stem">\|   </b><b class="lilac">(_)   </b><b class="rose">vVv    </b><b class="peri">(_)    </b><b class="stem">\|   </b><b class="lilac">(_)  </b><b class="rose">vVv</b>
+    <b class="stem">|/    </b><b class="lilac">(_)   </b><b class="stem">|   \|     |/     |/    </b><b class="rose">(_)   </b><b class="stem">|     \|       |/     |/  </b><b class="lilac">(_)   </b><b class="stem">|       |/    \|    |   </b><b class="rose">(_)   </b><b class="stem">|/     |/     |   \|   </b><b class="peri">(_)      </b><b class="stem">|/     |/   |   \|    </b><b class="rose">(_)     </b><b class="stem">|/     |   \|   </b><b class="rose">(_)</b>
+   <b class="stem">\|      |    |    |    \|     \|      |    |      |      \|     \|    |    |      \|      |    |    |   \|     \|      |    |    |      \|     \|    |    |     |     \|      |    |    |</b></pre>
 </div>
 
 <button class="floatstop" id="floatstop" type="button" hidden>■ stop KES FM</button>
 
-<script>
-/* ---------------------------------------------------------------
-   the field. one byte pattern, repeated, that comes apart into noise
-   the further down the page it goes, like a binary file opened as text.
-   it's seeded, so it's the same field every time. every block on the
-   page cuts a clear opening in it, snapped to whole cells.
-   --------------------------------------------------------------- */
-(function () {
-  "use strict";
-  var d = document, F = d.getElementById("field");
-  if (!F || !window.getComputedStyle) return;
-
-  var MOTIF = "<3±0ðKDDDDDDDDDDDDDDÅÂÀEÏDDDDDDDDDDDDDDS,", P = MOTIF.length;   // one period, with a <3 in it
-  var ABC = "", k;                                                          // printable ascii + latin-1
-  for (k = 33; k < 256; k++) if (k < 127 || (k > 160 && k !== 173)) ABC += String.fromCharCode(k);
-  var RAMP = " .'`^\",:;Il!i><~+_-?][}{1)(|/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$";
-
-  var cw = 7.8, rh = 18, cols = 0, rows = 0, noise = [], holes = [], shift = 0, queued = 0, pics = [];
-
-  function prng(a) {                     // mulberry32
-    return function () {
-      a = a + 0x6D2B79F5 | 0;
-      var t = Math.imul(a ^ a >>> 15, 1 | a);
-      t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
-      return ((t ^ t >>> 14) >>> 0) / 4294967296;
-    };
-  }
-  // how far the pattern has come apart at depth t (0 = top of the page, 1 = the bottom)
-  function decay(t) { t = (t - .1) / .75; t = t < 0 ? 0 : t > 1 ? 1 : t; return t * t * (3 - 2 * t); }
-
-  // one row of noise: bursts that start rare and short, then grow until they swallow the pattern
-  function noiseRow(r) {
-    var rnd = prng(r * 9973 + 17), p = decay(rows > 1 ? r / (rows - 1) : 0);
-    var start = p * p * .5, longest = 3 + 70 * p, row = [], run = 0, last = "";
-    for (var c = 0; c < cols; c++) {
-      var a = rnd(), b = rnd(), e = rnd();
-      if (run <= 0 && a < start) run = 1 + Math.floor(e * e * e * longest);
-      if (run > 0) { run--; last = b < .1 && last ? last : ABC.charAt(Math.floor(rnd() * ABC.length)); row.push(last); }
-      else { row.push(""); last = ""; }
-    }
-    return row;
-  }
-
-  function paint() {
-    var out = [];
-    for (var r = 0; r < rows; r++) {
-      var nz = noise[r], h = holes[r], line = [], c, j;
-      for (c = 0; c < cols; c++) line.push(nz[c] || MOTIF.charAt(((c - 2 * r - shift) % P + P) % P));
-      if (h) for (j = 0; j < h.length; j++) for (c = h[j][0]; c < h[j][1]; c++) line[c] = " ";
-      out.push(line.join(""));
-    }
-    F.textContent = out.join("\n");
-  }
-
-  function build() {
-    queued = 0;
-    var probe = d.createElement("span");
-    probe.textContent = new Array(201).join("0");
-    F.textContent = ""; F.appendChild(probe);
-    cw = probe.getBoundingClientRect().width / 200 || cw;
-    rh = parseFloat(getComputedStyle(F).lineHeight) || rh;
-    F.textContent = "";
-    pics.forEach(function (draw) { draw(); });
-    var box = F.getBoundingClientRect(), nc = Math.ceil(box.width / cw), nr = Math.ceil(box.height / rh);
-    if (nc !== cols || nr !== rows) {
-      cols = nc; rows = nr; noise = [];
-      for (var r = 0; r < rows; r++) noise.push(noiseRow(r));
-    }
-    holes = [];
-    [].forEach.call(d.querySelectorAll(".blk"), function (el) {
-      var b = el.getBoundingClientRect();
-      if (!b.width || !b.height) return;
-      var c0 = Math.max(0, Math.floor((b.left - box.left) / cw + .05)), c1 = Math.min(cols, Math.ceil((b.right - box.left) / cw - .05));
-      var r0 = Math.max(0, Math.floor((b.top - box.top) / rh + .05)), r1 = Math.min(rows, Math.ceil((b.bottom - box.top) / rh - .05));
-      for (var r = r0; r < r1; r++) (holes[r] = holes[r] || []).push([c0, c1]);
-    });
-    paint();
-  }
-  function later() { if (!queued) queued = requestAnimationFrame(build); }
-
-  // the project pictures, drawn in characters on the same grid
-  [].forEach.call(d.querySelectorAll(".pic[data-src]"), function (fig) {
-    var pre = fig.querySelector("pre"), photo = null, img = new Image();
-    function draw() {
-      var w = Math.max(8, Math.floor(pre.getBoundingClientRect().width / cw + .02)), h = Math.max(4, Math.round(w * cw / 1.5 / rh));
-      var lum = null, out = [], i, x, y, s;
-      if (photo) try {
-        var cv = d.createElement("canvas"), g = cv.getContext("2d");
-        cv.width = w; cv.height = h; g.drawImage(photo, 0, 0, w, h);
-        var px = g.getImageData(0, 0, w, h).data, lo = 1, hi = 0;
-        lum = [];
-        for (i = 0; i < w * h; i++) {
-          var v = (px[i * 4] * .3 + px[i * 4 + 1] * .59 + px[i * 4 + 2] * .11) / 255;
-          lum.push(v); if (v < lo) lo = v; if (v > hi) hi = v;
-        }
-        for (i = 0; i < lum.length; i++) lum[i] = (lum[i] - lo) / (hi - lo || 1);
-      } catch (err) { lum = null; }
-      for (y = 0; y < h; y++) {
-        s = "";
-        for (x = 0; x < w; x++) {
-          var L = lum ? lum[y * w + x] : 1 - .42 * Math.pow((x / w + y / h) / 2, 1.4);   // no photo yet: a soft dithered ramp
-          s += RAMP.charAt(Math.round((1 - L) * (RAMP.length - 1)));
-        }
-        out.push(s);
-      }
-      if (!lum) {
-        var tag = " placeholder photo ", m = Math.floor(h / 2), at = Math.max(0, Math.floor((w - tag.length) / 2));
-        out[m] = (out[m].slice(0, at) + tag + out[m].slice(at + tag.length)).slice(0, w);
-      }
-      pre.textContent = out.join("\n");
-    }
-    pics.push(draw);
-    img.crossOrigin = "anonymous";
-    img.onload = function () { photo = img; later(); };
-    img.src = fig.getAttribute("data-src");
-  });
-
-  // KES FM's volume, as a row of characters over the real slider
-  var vol = d.getElementById("vol"), bar = d.querySelector(".volbar");
-  function volbar() {
-    var n = 16, on = Math.round(+vol.value * n);
-    bar.textContent = "[" + new Array(on + 1).join("=") + "o" + new Array(n - on + 1).join("-") + "]";
-  }
-  if (vol && bar) { vol.addEventListener("input", volbar); volbar(); }
-
-  // on air, the pattern slips one cell on every beat (KES FM only beats when motion is allowed)
-  var face = d.querySelector(".stack.sound");
-  if (face && window.MutationObserver) new MutationObserver(function () {
-    if (/\bthump\b/.test(face.className) && /\bon-air\b/.test(d.body.className)) { shift++; paint(); }
-  }).observe(face, { attributes: true, attributeFilter: ["class"] });
-
-  build();
-  addEventListener("resize", later);
-  addEventListener("load", later);
-  if (window.ResizeObserver) {
-    var ro = new ResizeObserver(later);
-    ro.observe(d.body);
-    [].forEach.call(d.querySelectorAll(".blk"), function (el) { ro.observe(el); });
-  }
-})();
-</script>
 <script>
 /* ===== KES FM engine: paste VERBATIM, do not edit =====
    it expects: var onAir, var happy, var still, function look() (no-ops are fine),
@@ -887,6 +787,113 @@ function look() {}
   ui();
 })();
 
+</script>
+
+<script>
+/* ---------------------------------------------------------------
+   the field. the page is one long run of bytes in the same grid as the text.
+   at the top it repeats exactly, and its ÅÂÀ3Ï columns fall in the gutters
+   between the blocks; further down it breaks up into noise, like a file
+   read past its header. same page, same field: nothing here is random.
+   on air, the engine lights .tower on the beat and the field around KES FM
+   breaks up with it (not when you've asked for less motion).
+   --------------------------------------------------------------- */
+var CELL = 7.8;
+(function () {
+  var F = document.getElementById("field"), page = document.querySelector(".page"), fm = document.getElementById("fm");
+  var M = "DDDDDDDDDDDDDDDDT,<Q\xb10\xf0LDDDDDDDDDDDDDDDD\xc5\xc2\xc03\xcf", P = M.length, N = "";   // 45 = a 40ch column + a 5ch gutter
+  for (var i = 33; i < 256; i++) if (i < 127 || (i > 160 && i !== 173)) N += String.fromCharCode(i);
+  var R = 18, cols = 0, rows = 0, off = 0, box = "", base = "", hit = "";
+  F.textContent = M + M;
+  var rg = document.createRange(); rg.selectNodeContents(F); CELL = rg.getBoundingClientRect().width / (2 * P) || CELL;
+  function hash(a, b) { var h = Math.imul(a, 374761393) + Math.imul(b, 668265263) | 0; h = Math.imul(h ^ h >>> 13, 1274126177); return ((h ^ h >>> 16) >>> 0) / 4294967296; }
+  function build(B) {
+    var out = [];
+    for (var r = 0; r < rows; r++) {
+      var t = r / (rows - 1 || 1), d = t < .1 ? 0 : Math.min(.97, Math.pow((t - .1) / .85, 1.6)), s = "", c = 0, slip = 0;
+      while (c < cols) {
+        var a = hash(r, 3 * c), u = hash(r, 3 * c + 1), k = hash(r, 3 * c + 2), n = 2 + (a * a * 26 | 0), p = d;
+        for (; n-- && c < cols; c++) {
+          if (B) { var dr = Math.max(B[0] - r, 0, r - B[1]), dc = Math.max(B[2] - c, 0, c - B[3]) * .45, e = Math.sqrt(dr * dr + dc * dc); p = d + (e < 10 ? .9 - e * .09 : 0); }
+          var x = c - off;
+          s += u < p ? (k < .12 ? N[k * 1e4 % N.length | 0] : k < .25 ? M[((x + (k * 1e3 | 0)) % P + P) % P] : N[hash(c, r + 9e3) * N.length | 0])
+                     : M[((x + slip) % P + P) % P];
+        }
+        if (u < p && k > .8) slip += 1 + (k * 1e3 | 0) % 7;   // a dropped byte or two: the columns slide
+      }
+      out.push(s);
+    }
+    return out.join("\n");
+  }
+  function fit() {
+    var c = Math.ceil(document.documentElement.clientWidth / CELL) + 1, r = Math.ceil(document.body.offsetHeight / R),
+        o = Math.round(page.getBoundingClientRect().left / CELL), b = "";
+    if (fm) { var q = fm.getBoundingClientRect(), y = scrollY; b = [Math.round((q.top + y) / R), Math.round((q.bottom + y) / R) - 1, Math.round(q.left / CELL), Math.round(q.right / CELL) - 1].join(); }
+    if (c === cols && r === rows && o === off && b === box) return;
+    cols = c; rows = r; off = o; box = b; hit = "";
+    F.textContent = base = build(null);
+  }
+  fit();
+  if (window.ResizeObserver) new ResizeObserver(fit).observe(document.body); else addEventListener("resize", fit);
+  if (fm && window.MutationObserver) new MutationObserver(function () {
+    var on = F.classList.contains("lit");
+    if (on && !hit) hit = build(box.split(",").map(Number));
+    F.textContent = on ? hit : base;
+  }).observe(F, { attributes: true, attributeFilter: ["class"] });
+})();
+
+/* the pictures: each photo is read into a few hundred cells and set in characters,
+   dithered. if the photo can't load (bad wifi, no network), a stand-in is drawn instead. */
+(function () {
+  var RAMP = " .:-=+*o%#&8@", BAY = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5];
+  function chars(L, cols, gamma) {
+    var lo = Math.min.apply(0, L), hi = Math.max.apply(0, L), n = RAMP.length - 1, s = "";
+    for (var i = 0; i < L.length; i++) {
+      var x = i % cols, y = i / cols | 0, v = Math.pow(1 - (L[i] - lo) / (hi - lo || 1), gamma);
+      s += RAMP[Math.min(n, Math.floor(v * n + BAY[(y & 3) * 4 + (x & 3)] / 16))] + (x === cols - 1 && i < L.length - 1 ? "\n" : "");
+    }
+    return s;
+  }
+  function standIn(seed, cols, rows) {
+    var h = 2166136261; for (var i = 0; i < seed.length; i++) h = Math.imul(h ^ seed.charCodeAt(i), 16777619) >>> 0;
+    function r() { h = Math.imul(h ^ h >>> 15, 2246822507) >>> 0; h = (h ^ h >>> 13) >>> 0; return h / 4294967296; }
+    var a = r() * 6.283, B = [[r(), r(), .25 + r() * .2], [r(), r(), .15 + r() * .15]], L = [];
+    for (var y = 0; y < rows; y++) for (var x = 0; x < cols; x++) {
+      var u = x / (cols - 1), v = y / (rows - 1), g = .35 * ((u - .5) * Math.cos(a) + (v - .5) * Math.sin(a));
+      B.forEach(function (b) { var dx = (u - b[0]) * cols / rows * .4, dy = v - b[1]; g += Math.exp(-(dx * dx + dy * dy) / (b[2] * b[2])); });
+      L.push(g);
+    }
+    return L;
+  }
+  [].forEach.call(document.querySelectorAll(".pic[data-src]"), function (pre) {
+    var cols = Math.max(8, Math.floor(pre.clientWidth / CELL)), rows = +pre.getAttribute("data-rows") || 15,
+        lh = parseFloat(getComputedStyle(pre).lineHeight) || 12, img = new Image();
+    img.onerror = function () { pre.textContent = chars(standIn(pre.getAttribute("data-seed") || "", cols, rows), cols, 1.6); };
+    img.onload = function () {
+      try {
+        var S = 4, W = cols * S, H = rows * S, cv = document.createElement("canvas"), g = cv.getContext("2d"), L = [];
+        var iw = img.naturalWidth, ih = img.naturalHeight, k = Math.max(cols * CELL / iw, rows * lh / ih), sw = cols * CELL / k, sh = rows * lh / k;
+        cv.width = W; cv.height = H;
+        g.drawImage(img, (iw - sw) / 2, (ih - sh) / 2, sw, sh, 0, 0, W, H);
+        var d = g.getImageData(0, 0, W, H).data;
+        for (var y = 0; y < rows; y++) for (var x = 0; x < cols; x++) {
+          for (var v = 0, j = 0; j < 16; j++) { var o = ((y * S + (j >> 2)) * W + x * S + (j & 3)) * 4; v += d[o] * .3 + d[o + 1] * .59 + d[o + 2] * .11; }
+          L.push(v);
+        }
+        pre.textContent = chars(L, cols, 1.15);
+      } catch (e) { img.onerror(); }
+    };
+    img.crossOrigin = "anonymous";
+    img.src = pre.getAttribute("data-src");
+  });
+})();
+
+/* the volume, as a bar of characters over the real slider */
+(function () {
+  var v = document.getElementById("vol"), bar = document.querySelector(".vol .bar");
+  function show() { var n = Math.round(v.value * 10); bar.textContent = "[" + "==========".slice(0, n) + "··········".slice(0, 10 - n) + "]"; }
+  v.addEventListener("input", show); show();
+})();
 </script>
 </body>
 </html>

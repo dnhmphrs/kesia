@@ -7,127 +7,89 @@
 <meta name="description" content="chainmail: short pieces of writing by kes inkersole, sent in by email.">
 <style>
 /* ---------------------------------------------------------------
-   chainmail. the same composition rules as the home page, calmer:
-   one line weight (--line), one padding (--pad), three type sizes,
-   white rectangles for the pieces, two planes of colour. no scripts.
+   chainmail. the same grid as the home page, calmer: lighter fields,
+   fewer planes, one pink. every piece is its own rectangle, woven in
+   at the same size as the characters around it. without the script
+   it's just the pieces, newest first.
    --------------------------------------------------------------- */
 :root {
-  --line: 12px;
-  --pad: 32px;
   --ink: #000;
   --paper: #fff;
   --blue: #0038ff;
   --pink: #ff3399;
   --yellow: #ffd21f;
-  --sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --mono: ui-monospace, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --text: #2e2e2e;
+  --soft: #5c5c5c;
+  --fs: 13px;
+  --rh: 18px;
+  --cw: 7.8px;
+  --mono: ui-monospace, "SF Mono", Menlo, Monaco, Consolas, "DejaVu Sans Mono", "Liberation Mono", "Courier New", monospace;
   color-scheme: light;
 }
-html { background: var(--ink); color: var(--ink); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
-body { margin: 0; background: var(--ink); font: 16px/24px var(--sans); overflow-wrap: break-word; }
-p, h1, h2, pre { margin: 0; }
+html { background: var(--paper); color: var(--ink); overflow-y: scroll; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { margin: 0; background: var(--paper); font: 400 var(--fs)/var(--rh) var(--mono); }
+h1, h2, p { margin: 0; }
+h1, h2 { font: inherit; font-weight: 700; color: var(--ink); }
 ::selection { background: var(--pink); color: var(--ink); }
 
-a { color: var(--blue); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a { color: var(--blue); text-decoration: none; }
 a:visited { color: var(--blue); }
-a:hover, a:focus-visible { background: var(--pink); color: var(--ink); text-decoration: none; outline: none; }
+a:hover, a:focus-visible { background: var(--pink); color: var(--ink); outline: none; }
+.m { color: var(--soft); }
+.heart { color: var(--pink); }
+.g1 { display: inline-block; width: 1ch; text-align: center; text-indent: 0; }
 
-.m { font: 400 13px/24px var(--mono); }
-.heart, .pk { color: var(--pink); font-style: normal; }
-.big-type { font: 700 28px/32px var(--sans); letter-spacing: -.015em; }
+/* ---------- without the script ---------- */
+.page { position: relative; overflow-x: clip; }
+.cb { max-width: 72ch; margin: 0 auto; padding: var(--rh) 2ch; color: var(--text); }
+.cb > * + * { margin-top: var(--rh); }
+#g, [data-fill] { display: none; }
 
-/* ---------- the composition ---------- */
-.page { display: grid; gap: var(--line); }
-.band { display: grid; gap: var(--line); }
-.band > * { min-width: 0; }
-.cell { background: var(--paper); padding: var(--pad); }
-.blue { background: var(--blue); }
-.yellow { background: var(--yellow); }
+/* ---------- the grid ---------- */
+#g { font-family: var(--mono); }
+.g #g { display: block; position: absolute; inset: 0; overflow: hidden; pointer-events: none; user-select: none; -webkit-user-select: none; }
+.g .L { position: absolute; left: 0; top: 0; width: 100%; }
+.g .L > div { height: var(--rh); white-space: pre; overflow: hidden; }
+.L i { font-style: normal; }
+.g [data-fill] { display: block; position: absolute; pointer-events: none; }
+.g .cb { position: absolute; z-index: 1; margin: 0; padding: 0; max-width: none; overflow-wrap: anywhere; }
 
-/* ---------- the top: home, a blue plane, the intro, the little computer ---------- */
-.head { grid-template-columns: minmax(0, 300fr) minmax(0, 800fr) minmax(0, 316fr);
-  grid-template-rows: auto 1fr;
-  grid-template-areas: "home intro pc" "plane intro pc"; }
-.home { grid-area: home; }
-.head .blue { grid-area: plane; min-height: 48px; }
-.intro { grid-area: intro; }
-.intro h1 { margin-bottom: 16px; }
-.intro p { max-width: 34em; }
-.intro p + p { margin-top: 24px; }
-.pcbox { grid-area: pc; }
-.pc { font: 13px/1.1 var(--mono); color: var(--ink); }
-.pc b { font: inherit; color: var(--pink); }
+.L .k { color: var(--ink); }
+.L .K { color: var(--ink); font-weight: 700; }
+.L .p { color: var(--pink); }
+.L .pB { color: var(--pink); font-weight: 700; }
+.L .b, .L .w { color: var(--blue); }
+.L .bB { color: var(--blue); font-weight: 700; }
+.L .y { color: var(--yellow); }
+.L .gr { color: #c4c4c4; }
+.L .q1 { color: #ababab; }   /* calmer than the home page */
+.L .q2 { color: #9a9a9a; }
+.L .q3 { color: #7c7c7c; }
+.L .q4 { color: #c6c6c6; }
 
-/* ---------- the pieces: white rectangles, two to a row, newest first ----------
-   the widths step through 7/5, 4/8, 8/4 twelfths, so the vertical line moves
-   from row to row. a piece left on its own fills its row. */
-.pieces { display: flex; flex-wrap: wrap; gap: var(--line); }
-.piece { --w: 7; flex: 1 1 calc((100% - var(--line)) * var(--w) / 12 - 1px); min-width: 0; box-sizing: border-box; background: var(--paper); padding: var(--pad); }
-.piece:nth-child(6n+2) { --w: 5; }
-.piece:nth-child(6n+3) { --w: 4; }
-.piece:nth-child(6n+4) { --w: 8; }
-.piece:nth-child(6n+5) { --w: 8; }
-.piece:nth-child(6n+6) { --w: 4; }
-.piece .meta { font: 13px/24px var(--mono); }
-.piece h2 { font: 700 16px/24px var(--sans); margin-bottom: 16px; }
-.piece .text p { max-width: 34em; }
-.piece .text p + p { margin-top: 24px; }
-
-/* ---------- the end ---------- */
-.foot { grid-template-columns: minmax(0, 560fr) minmax(0, 600fr) minmax(0, 256fr); }
-.foot .yellow { min-height: 48px; }
-
-.garden-bed { background: var(--paper); container-type: inline-size; }
-.garden { margin: var(--pad); font-family: var(--mono); font-size: max(11px, calc((100cqw - 2 * var(--pad)) / 113.6)); line-height: 1.2; white-space: pre; overflow: hidden; color: var(--ink); }
-.garden b { font-weight: normal; }
-.garden .rose { color: var(--pink); }
-.garden .lilac, .garden .peri { color: var(--blue); }
-.garden .stem { color: var(--ink); }
-
-@media (max-width: 1199px) {
-  :root { --line: 10px; --pad: 24px; }
-  .head { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); grid-template-rows: auto auto; grid-template-areas: "home plane" "intro pc"; }
-  .foot { grid-template-columns: minmax(0, 3fr) minmax(0, 3fr) minmax(0, 1fr); }
+.g .L.q {
+  --mx: -10000px; --my: -10000px;
+  -webkit-mask-image: radial-gradient(ellipse calc(var(--cw) * 26) calc(var(--rh) * 7) at var(--mx) var(--my), rgba(0, 0, 0, .07) 0, rgba(0, 0, 0, .07) 45%, #000 100%);
+  mask-image: radial-gradient(ellipse calc(var(--cw) * 26) calc(var(--rh) * 7) at var(--mx) var(--my), rgba(0, 0, 0, .07) 0, rgba(0, 0, 0, .07) 45%, #000 100%);
 }
-@media (max-width: 699px) {
-  :root { --line: 6px; --pad: 20px; }
-  .head { grid-template-columns: minmax(0, 1fr); grid-template-areas: "home" "plane" "intro" "pc"; }
-  .head .blue { min-height: 32px; }
-  .piece, .piece:nth-child(n) { --w: 12; }
-  .foot { grid-template-columns: minmax(0, 1fr); }
-  .foot .yellow { min-height: 32px; }
-  .big-type { font-size: 24px; line-height: 32px; }
-}
+
+/* ---------- the pieces ---------- */
+.piece .meta { color: var(--soft); }
+.piece .text p + p { margin-top: var(--rh); }
 </style>
 </head>
 <body>
 <div class="page">
+<div id="g" aria-hidden="true"><div class="L q"></div><div class="L s"></div></div>
 
-<header class="band head">
-<p class="cell m home"><a href="index.html">← kes inkersole</a></p>
-<div class="blue" aria-hidden="true"></div>
-<div class="cell intro">
-<h1 class="big-type">chainmail <span class="heart">♡</span></h1>
+<header>
+<p class="cb home" data-r="home"><a href="index.html">← kes inkersole</a></p>
+<div class="cb intro" data-r="intro">
+<h1>chainmail <span class="g1 heart">♡</span></h1>
 <p>my own writing: short pieces, the kind i write in my notes app. each one is an email, its subject is the title, and they collect here over time into a kind of text moodboard, newest first.</p>
 <p class="m">pieces arrive by email at (address tbc)<br>chainmail is a working title</p>
 </div>
-<div class="cell pcbox">
-<pre class="pc" role="img" aria-label="ascii drawing of a little computer with a heart on its screen">  ______________________
- |  __________________  |
- | |                  | |
- | |   <b>&lt;3&lt;3</b>    <b>&lt;3&lt;3</b>   | |
- | | <b>&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3</b> | |
- | | <b>&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3</b> | |
- | |   <b>&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3</b>   | |
- | |     <b>&lt;3&lt;3&lt;3&lt;3</b>     | |
- | |       <b>&lt;3&lt;3</b>       | |
- | |        <b>&lt;3</b>        | |
- | |__________________| |
- |                      |
- |  <b>o</b>          ______   |
- |______________________|
-   |__________________|</pre>
-</div>
+<div class="pc" data-fill="pc" role="img" aria-label="ascii drawing of a little computer with a heart on its screen"></div>
 </header>
 
 <main class="pieces" id="pieces">
@@ -142,7 +104,8 @@ a:hover, a:focus-visible { background: var(--pink); color: var(--ink); text-deco
   <div class="text"><p>the email, one paragraph per p</p></div>
   </article>
 
-  the layout needs nothing else: each new piece takes the next width in the pattern.
+  the layout needs nothing else: the grid script gives each piece its own
+  rectangle, two to a row on a big screen, one on a phone.
   the pieces below are lorem ipsum placeholders with placeholder dates.
 -->
 
@@ -211,21 +174,355 @@ a:hover, a:focus-visible { background: var(--pink); color: var(--ink); text-deco
 </article>
 </main>
 
-<footer class="band foot">
-<p class="cell m"><a href="index.html">← back to kes's little corner of the internet</a></p>
-<p class="cell big-type">thanks for reading <span class="heart">♡</span></p>
-<div class="yellow" aria-hidden="true"></div>
+<footer>
+<p class="cb back" data-r="back"><a href="index.html">← back to kes's little corner of the internet</a></p>
+<p class="cb bye" data-r="bye">thanks for reading <span class="g1 heart">♡</span></p>
 </footer>
-
-<div class="garden-bed">
-<pre class="garden" aria-hidden="true">    <b class="rose">_                             </b><b class="lilac">_                          </b><b class="rose">_                        </b><b class="peri">_                            </b><b class="rose">_                        </b><b class="lilac">_                             </b><b class="peri">_</b>
-  <b class="rose">_(_)_         @               </b><b class="lilac">_(_)_         </b><b class="peri">@            </b><b class="rose">_(_)_              @     </b><b class="peri">_(_)_         </b><b class="rose">@              _(_)_    </b><b class="lilac">@               _(_)_         </b><b class="peri">@               _(_)_    </b><b class="rose">@</b>
- <b class="rose">(_)@(_)        </b><b class="stem">|/  </b><b class="peri">vVv        </b><b class="lilac">(_)@(_)        </b><b class="stem">|/    </b><b class="rose">vVv   (_)@(_)             </b><b class="stem">|/   </b><b class="peri">(_)@(_)  </b><b class="lilac">vVv   </b><b class="stem">|/            </b><b class="rose">(_)@(_)   </b><b class="stem">|/  </b><b class="rose">vVv        </b><b class="lilac">(_)@(_)        </b><b class="stem">|/  </b><b class="lilac">vVv        </b><b class="peri">(_)@(_)   </b><b class="stem">|/  </b><b class="lilac">vVv</b>
-   <b class="rose">(_)    </b><b class="lilac">vVv  </b><b class="stem">\|   </b><b class="peri">(_)    </b><b class="lilac">*     (_)    </b><b class="rose">vVv  </b><b class="stem">\|     </b><b class="rose">(_)     (_)     </b><b class="peri">*   </b><b class="lilac">vVv  </b><b class="stem">\|      </b><b class="peri">(_)    </b><b class="lilac">(_)  </b><b class="stem">\|   </b><b class="rose">vVv   </b><b class="lilac">*     </b><b class="rose">(_)    </b><b class="stem">\|   </b><b class="rose">(_)  </b><b class="peri">vVv     </b><b class="lilac">(_)     </b><b class="rose">*   </b><b class="stem">\|   </b><b class="lilac">(_)   </b><b class="rose">vVv    </b><b class="peri">(_)    </b><b class="stem">\|   </b><b class="lilac">(_)  </b><b class="rose">vVv</b>
-    <b class="stem">|/    </b><b class="lilac">(_)   </b><b class="stem">|   \|     |/     |/    </b><b class="rose">(_)   </b><b class="stem">|     \|       |/     |/  </b><b class="lilac">(_)   </b><b class="stem">|       |/    \|    |   </b><b class="rose">(_)   </b><b class="stem">|/     |/     |   \|   </b><b class="peri">(_)      </b><b class="stem">|/     |/   |   \|    </b><b class="rose">(_)     </b><b class="stem">|/     |   \|   </b><b class="rose">(_)</b>
-   <b class="stem">\|      |    |    |    \|     \|      |    |      |      \|     \|    |    |      \|      |    |    |   \|     \|      |    |    |      \|     \|    |    |     |     \|      |    |    |</b></pre>
 </div>
 
-</div>
+<script>
+/* the composition for chainmail: the same rules as the home page (see there), calmer */
+window.KART = {"pc":{"t":["  ______________________"," |  __________________  |"," | |                  | |"," | |   <3<3    <3<3   | |"," | | <3<3<3<3<3<3<3<3 | |"," | | <3<3<3<3<3<3<3<3 | |"," | |   <3<3<3<3<3<3   | |"," | |     <3<3<3<3     | |"," | |       <3<3       | |"," | |        <3        | |"," | |__________________| |"," |                      |"," |  o          ______   |"," |______________________|","   |__________________|"],"m":["..kkkkkkkkkkkkkkkkkkkkkk",".k..kkkkkkkkkkkkkkkkkk..k",".k.k..................k.k",".k.k...pppp....pppp...k.k",".k.k.pppppppppppppppp.k.k",".k.k.pppppppppppppppp.k.k",".k.k...pppppppppppp...k.k",".k.k.....pppppppp.....k.k",".k.k.......pppp.......k.k",".k.k........pp........k.k",".k.kkkkkkkkkkkkkkkkkkkk.k",".k......................k",".k..p..........kkkkkk...k",".kkkkkkkkkkkkkkkkkkkkkkkk","...kkkkkkkkkkkkkkkkkkkk"],"solid":1},"garden":{"t":["    _                             _                          _                        _                            _                        _                             _","  _(_)_         @               _(_)_         @            _(_)_              @     _(_)_         @              _(_)_    @               _(_)_         @               _(_)_    @"," (_)@(_)        |/  vVv        (_)@(_)        |/    vVv   (_)@(_)             |/   (_)@(_)  vVv   |/            (_)@(_)   |/  vVv        (_)@(_)        |/  vVv        (_)@(_)   |/  vVv","   (_)    vVv  \\|   (_)    *     (_)    vVv  \\|     (_)     (_)     *   vVv  \\|      (_)    (_)  \\|   vVv   *     (_)    \\|   (_)  vVv     (_)     *   \\|   (_)   vVv    (_)    \\|   (_)  vVv","    |/    (_)   |   \\|     |/     |/    (_)   |     \\|       |/     |/  (_)   |       |/    \\|    |   (_)   |/     |/     |   \\|   (_)      |/     |/   |   \\|    (_)     |/     |   \\|   (_)","   \\|      |    |    |    \\|     \\|      |    |      |      \\|     \\|    |    |      \\|      |    |    |   \\|     \\|      |    |    |      \\|     \\|    |    |     |     \\|      |    |    |"],"m":["....p.............................b..........................p........................b............................p........................b.............................b","..ppppp.........p...............bbbbb.........b............ppppp..............p.....bbbbb.........p..............ppppp....b...............bbbbb.........b...............bbbbb....p",".ppppppp........kk..bbb........bbbbbbb........kk....ppp...ppppppp.............kk...bbbbbbb..bbb...kk............ppppppp...kk..ppp........bbbbbbb........kk..bbb........bbbbbbb...kk..bbb","...ppp....bbb..kk...bbb....b.....bbb....ppp..kk.....ppp.....ppp.....b...bbb..kk......bbb....bbb..kk...ppp...b.....ppp....kk...ppp..bbb.....bbb.....p...kk...bbb...ppp....bbb....kk...bbb..ppp","....kk....bbb...k...kk.....kk.....kk....ppp...k.....kk.......kk.....kk..bbb...k.......kk....kk....k...ppp...kk.....kk.....k...kk...bbb......kk.....kk...k...kk....ppp.....kk.....k...kk...ppp","...kk......k....k....k....kk.....kk......k....k......k......kk.....kk....k....k......kk......k....k....k...kk.....kk......k....k....k......kk.....kk....k....k.....k.....kk......k....k....k"],"tile":1,"pad":1}};
+window.KTREE = function (c, K) {
+  var L = K.L, V = K.V, H = K.H, E = K.E;
+  var P = [].slice.call(document.querySelectorAll("#pieces > article"));
+  P.forEach(function (p) { p.classList.add("cb"); if (!p.getAttribute("data-r")) p.setAttribute("data-r", p.id); });
+  var tx = ["dots", "colon", "plus", "slash", "tilde", "bin", "hex"];
+  function pc(i, o) { return E(P[i], tx[i % tx.length], o); }
+  var B = [], i, row;
+  if (c >= 120) {
+    B.push(V({}, H({ w: 26 }, E("home", "dots"), L("B")), E("intro", "colon", { f: 1 }), c >= 160 ? L("plus", { f: .4 }) : null,
+      L("dots", { art: "pc", name: "pc", w: 29 }), L("Y", { w: 5 })));
+    var pat = [[7, 5], [4, 8], [8, 4]];
+    for (i = 0, row = 0; i < P.length; i += 2, row++) {
+      var a = pat[row % 3], kids = [pc(i, { f: a[0] })];
+      if (i + 1 < P.length) { if (row % 3 === 1) kids.push(L("sv", { w: 3 })); kids.push(pc(i + 1, { f: a[1] })); }
+      else kids.push(L("plus", { f: a[1] }));
+      if (row % 4 === 2) kids.push(L("Ph", { w: 4 }));
+      if (row % 4 === 3) kids.unshift(L("dots", { w: 8 }));
+      B.push(V.apply(null, [{}].concat(kids)));
+    }
+    B.push(V({}, E("back", "dots", { f: 1 }), L("sv", { w: 3 }), E("bye", "hearts", { f: 1 }), L("Y", { w: 12 })));
+  } else {
+    B.push(V({}, E("home", "dots", { f: 1 }), L("B", { w: 8 })), E("intro", "colon"),
+      V({}, L("dots", { art: "pc", name: "pc", w: Math.min(29, c - 8) }), H({ f: 1 }, L("Y"), L("sh", { h: 1 }), L("plus"))));
+    P.forEach(function (p, j) { var e = pc(j, { f: 1 }); B.push(j % 3 === 1 ? V({}, e, L("sv", { w: 2 })) : j % 3 === 2 ? V({}, L("dots", { w: 4 }), e) : e); });
+    B.push(E("back", "dots"), V({}, E("bye", "hearts", { f: 1 }), L("Y", { w: 6 })));
+  }
+  B.push(L("dots", { art: "garden", h: 8 }));
+  return H.apply(null, [{}].concat(B));
+};
+/*<grid>*/
+/* ---------------------------------------------------------------
+   the grid. measures one character, fits a whole number of columns
+   to the screen, lays the rectangles out in columns and rows, fills
+   each with its texture, then clears one cell around every word.
+   seeded, so it's the same picture every time at the same width.
+   --------------------------------------------------------------- */
+(function () {
+  "use strict";
+  var d = document, root = d.documentElement, G = d.getElementById("g");
+  if (!G || !d.createRange || !d.createTreeWalker || !window.requestAnimationFrame || typeof window.KTREE !== "function") return;
+  var page = G.parentNode, LQ = G.children[0], LS = G.children[1], ART = window.KART || {};
+  var MOTIF = "Q±0ðLDDDDDDDDDDDDDDÅÂÀ3ÏDDDDDDDDDDDDDDT,<", MP = MOTIF.length, HEX = "0123456789ABCDEF", ABC = "", k;
+  for (k = 33; k < 256; k++) if (k < 127 || (k > 160 && k !== 173)) ABC += String.fromCharCode(k);
+  var RAMP = " .'`^\",:;Il!i><~+_-?][}{1)(|/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$", RN = RAMP.length;
+  var BOOGIE = "YYYPYY.YYYBBYYgYYYKYYPPYY.YYBYYYYgYPYY", BN = BOOGIE.length;   // a yellow line with little squares on it
+  var CN = ["", "k", "K", "p", "pB", "b", "bB", "w", "y", "gr", "q1", "q2", "q3", "q4"], QUIET = 10, C = {};
+  CN.forEach(function (n, i) { C[n] = i; });
+  var SQ = { Y: C.y, P: C.p, B: C.b, K: C.k, g: C.gr, ".": 0 };
+  var BLK = "█", SHD = "▓", cw = 7.8, rh = 18, fs = 13, cols = 0, rows = 0;
+  var CH = null, CL = null, BL = null, rects = [], byName = {}, beat = 0, air = false, lastW = -1, queued = 0, oc = " ", ok = 0;
+
+  Object.keys(ART).forEach(function (n) {
+    var A = ART[n], w = 0;
+    A.t.forEach(function (l) { w = Math.max(w, l.length); });
+    w += A.pad || 0; A.w = w;
+    A.t = A.t.map(function (l) { while (l.length < w) l += " "; return l; });
+    A.m = A.m.map(function (l) { while (l.length < w) l += "."; return l; });
+  });
+
+  // ---------- one character, measured ----------
+  var probe = d.createElement("span");
+  probe.style.cssText = "position:absolute;left:0;top:0;visibility:hidden;white-space:pre;line-height:1;font-weight:400";
+  G.appendChild(probe);
+  function rep(s, n) { return n > 0 ? new Array(n + 1).join(s) : ""; }
+  function wOf(s, size) { probe.style.fontSize = size + "px"; probe.textContent = s; return probe.getBoundingClientRect().width; }
+  function fits(ch) { return Math.abs(wOf(rep(ch, 40), fs) - 40 * cw) < .8; }
+  function metrics() {
+    var vw = root.clientWidth || innerWidth, z = rep("0", 100), w13 = wOf(z, 13) / 100 || 7.8;
+    cols = Math.max(30, Math.round(vw / w13));
+    fs = 13 * vw / (cols * w13) * .9995;                 // the type is sized so the columns fill the width
+    cw = wOf(z, fs) / 100 || w13;
+    if (cw * cols > vw) cols = Math.floor(vw / cw);
+    rh = Math.round(fs * 1.25);
+    BLK = fits("█") ? "█" : "#"; SHD = fits("▓") ? "▓" : "%";
+    var s = root.style;
+    s.setProperty("--fs", fs + "px"); s.setProperty("--rh", rh + "px"); s.setProperty("--cw", cw + "px");
+  }
+  function hs(x, y, s) {                                   // a seeded hash: the same cell, the same character
+    var h = (Math.imul(x, 374761393) + Math.imul(y, 668265263) + Math.imul(s + 7, -1640531535)) | 0;
+    h = Math.imul(h ^ (h >>> 13), 1274126177); h ^= h >>> 16;
+    return (h >>> 0) / 4294967296;
+  }
+
+  // ---------- the composition: rectangles in columns and rows ----------
+  function mk(kind, o) { o = o || {}; o.k = kind; return o; }
+  var K = {
+    L: function (t, o) { o = mk("L", o); o.t = t; return o; },
+    E: function (x, t, o) {
+      o = mk("L", o); o.t = t;
+      o.el = typeof x === "string" ? d.querySelector('[data-r="' + x + '"]') : x;
+      if (o.el) o.name = o.el.getAttribute("data-r");
+      return o;
+    },
+    V: function (o) { o = mk("V", o); o.kids = [].slice.call(arguments, 1).filter(Boolean); return o; },
+    H: function (o) { o = mk("H", o); o.kids = [].slice.call(arguments, 1).filter(Boolean); return o; }
+  };
+  function split(n, w) {
+    var kids = n.kids, avail = w - 2 * (kids.length - 1), fixed = 0, tf = 0, out = [], acc = 0, af = 0;
+    kids.forEach(function (c) { if (c.w) fixed += c.w; else tf += c.f || 1; });
+    var rest = Math.max(0, avail - fixed);
+    kids.forEach(function (c) {
+      if (c.w) { out.push(c.w); return; }
+      af += c.f || 1;
+      var t = Math.round(rest * af / tf);
+      out.push(Math.max(1, t - acc)); acc = t;
+    });
+    return out;
+  }
+  function measure(n, w) {
+    var h = n.h || 0;
+    if (n.k === "L") {
+      h = h || 1;
+      if (n.el) {
+        var iw = Math.max(4, w - 4);
+        n.el.classList.toggle("nw", iw < 54);
+        n.el.style.width = iw * cw + "px";
+        h = Math.max(h, Math.ceil(n.el.offsetHeight / rh - .05) + 2);
+      }
+      if (n.art && ART[n.art]) h = Math.max(h, ART[n.art].t.length + 2);
+    } else if (n.k === "V") {
+      n.ws = split(n, w);
+      n.kids.forEach(function (c, i) { h = Math.max(h, measure(c, n.ws[i])); });
+    } else {
+      var s = n.kids.length - 1;
+      n.kids.forEach(function (c) { s += measure(c, w); });
+      h = Math.max(h, s);
+    }
+    return (n.nat = h);
+  }
+  function place(n, x, y, w, h) {
+    if (n.k === "L") {
+      var R = { n: n, x: x, y: y, w: w, h: h, s: n.s != null ? n.s : rects.length * 7 + 3 };
+      rects.push(R); if (n.name) byName[n.name] = R;
+      return;
+    }
+    if (n.k === "V") { n.kids.forEach(function (c, i) { place(c, x, y, n.ws[i], h); x += n.ws[i] + 2; }); return; }
+    var gs = n.kids.map(function (c) { return c.g != null ? c.g : c.k === "L" && !c.el && !c.h ? 1 : 0; }), tg = 0, sum = n.kids.length - 1;
+    n.kids.forEach(function (c, i) { tg += gs[i]; sum += c.nat; });
+    if (!tg) { gs[gs.length - 1] = 1; tg = 1; }
+    var extra = h - sum, acc = 0, ag = 0;
+    n.kids.forEach(function (c, i) {
+      ag += gs[i];
+      var t = Math.round(extra * ag / tg), hh = c.nat + t - acc;
+      acc = t; place(c, x, y, w, hh); y += hh + 1;
+    });
+  }
+
+  // ---------- textures: each rectangle its own ----------
+  function o(ch, cl) { oc = ch; ok = cl; }
+  function tex(t, X, Y, x, y, w, h, s) {
+    var r, i, b = air ? beat : 0;
+    switch (t) {
+      case "dump": o(MOTIF.charAt(((X - 2 * Y + s) % MP + MP) % MP), C.q1); break;                 // the binary dump
+      case "dumpn": r = hs(X, Y, s);                                                                 // the dump coming apart
+        if (r < .3) o(ABC.charAt(hs(Y, X, s) * ABC.length | 0), C.q2); else o(MOTIF.charAt(((X + 3 * Y) % MP + MP) % MP), C.q1); break;
+      case "noise": o(hs(X, Y, s) < .6 ? ABC.charAt(hs(Y, X, s + 1) * ABC.length | 0) : " ", C.q2); break;
+      case "hex": i = x % 3; r = hs(x - i, Y, s); o(i === 2 ? " " : r < .35 ? "0" : HEX.charAt(hs(X, Y, s + 2) * 16 | 0), C.q2); break;
+      case "bin": o(x % 9 === 8 ? " " : hs(X, Y, s) < .5 ? "0" : "1", C.q1); break;
+      case "dots": o(y % 2 === 0 && (x + y) % 4 === 0 ? "." : " ", C.q3); break;
+      case "dotsname": o(x % 2 === 0 ? "." : " ", C.q4); break;
+      case "colon": o(x % 2 ? " " : hs(X, Y, s) < .7 ? ":" : ".", C.q2); break;
+      case "plus": o(y % 2 ? (x % 4 ? " " : "|") : (x % 4 ? "-" : "+"), C.q4); break;
+      case "slash": i = (x + y) % 4; o(i === 0 ? "/" : i === 2 && hs(X, Y, s) < .35 ? "." : " ", C.q2); break;
+      case "tilde": o(y % 2 ? " " : (x + y) % 3 ? "~" : "-", C.q2); break;
+      case "eq": o(y % 2 ? (x % 2 ? " " : ".") : "=", C.q1); break;
+      case "hearts": i = (x + 3 * (y % 2)) % 6; o(i === 0 ? "<" : i === 1 ? "3" : " ", C.q2); break;
+      case "ramp":                                                                                   // a placeholder photo, in characters
+        var u = x / Math.max(1, w - 1), v = y / Math.max(1, h - 1), lum, dx, dy;
+        if (s % 3 === 0) lum = 1 - .75 * Math.pow((u + v) / 2, 1.2);
+        else if (s % 3 === 1) { dx = u - .62; dy = (v - .4) * .7; lum = .2 + 1.6 * Math.sqrt(dx * dx + dy * dy); }
+        else lum = .55 + .4 * Math.sin(v * 5 + u * 2);
+        lum += (hs(X, Y, s) - .5) * .15;
+        o(RAMP.charAt(Math.round((1 - Math.max(0, Math.min(1, lum))) * (RN - 1))), C.q2); break;
+      case "P": o(BLK, C.p); break;
+      case "Ph": o((x + y + b) % 2 ? "3" : "<", C.pB); break;                                      // a plane of <3s
+      case "B": o(BLK, C.b); break;
+      case "Bd": o(MOTIF.charAt(((X - 2 * Y) % MP + MP) % MP), C.bB); break;                        // the dump, set in blue
+      case "Y": o(BLK, C.y); break;
+      case "Ys": o(SHD, C.y); break;
+      case "K": o(BLK, C.k); break;
+      case "Ka": o(SHD, C.k); break;
+      case "sv": i = SQ[BOOGIE.charAt(((y - b) % BN + BN) % BN)]; o(i ? BLK : " ", i); break;
+      case "sh": i = SQ[BOOGIE.charAt((((x >> 1) - b) % BN + BN) % BN)]; o(i ? BLK : " ", i); break;
+      default: o(" ", 0);
+    }
+  }
+  function put(X, Y, ch, cl) { var i = Y * cols + X; CH[i] = ch; CL[i] = cl; }
+  function fill(R) {
+    var n = R.n, x, y;
+    for (y = 0; y < R.h; y++) for (x = 0; x < R.w; x++) { tex(n.t, R.x + x, R.y + y, x, y, R.w, R.h, R.s); put(R.x + x, R.y + y, oc, ok); }
+    if (n.label && R.w >= 22 && R.h >= 3) {
+      var lab = " placeholder photo ", ly = R.y + (R.h >> 1), lx = R.x + ((R.w - lab.length) >> 1);
+      for (x = 0; x < lab.length; x++) put(lx + x, ly, lab.charAt(x), lab.charAt(x) === " " ? 0 : C.q3);
+    }
+    if (n.art && ART[n.art]) art(R, ART[n.art]);
+  }
+  // the drawings: the <3 name, the speakers, the garden
+  function art(R, A) {
+    var ax = R.x + 2, ay = R.y + 1, maxX = R.x + R.w - 1, j, i, X, Y;
+    for (j = 0; j < A.t.length; j++) {
+      Y = ay + j; if (Y >= R.y + R.h - 1) break;
+      var ln = A.t[j], mk2 = A.m[j], first = -1, last = -1;
+      for (i = 0; i < ln.length; i++) if (ln.charAt(i) !== " " && mk2.charAt(i) !== "w") { if (first < 0) first = i; last = i; }
+      var span = A.tile ? maxX - ax : Math.min(ln.length, maxX - ax);
+      for (i = 0; i < span; i++) {
+        var li = i % ln.length, ch = ln.charAt(li), m = mk2.charAt(li);
+        X = ax + i;
+        if (m === "w") { if (air) { X += beat % 2; if (X < maxX) put(X, Y, ch, C.w); } continue; }   // the sound waves only come out on air
+        if (ch === " ") { if (A.solid && li > first && li < last) put(X, Y, " ", 0); continue; }
+        put(X, Y, ch, m === "p" ? (A.blink && air && beat % 2 ? C.b : C.p) : m === "b" ? C.b : m === "K" || A.bold ? C.K : C.k);
+      }
+    }
+  }
+
+  // ---------- clearing one cell around every word ----------
+  function blank(R) {
+    var e = R.n.el, gb = G.getBoundingClientRect(), list = [], rng = d.createRange(), a, j, t;
+    var tw = d.createTreeWalker(e, NodeFilter.SHOW_TEXT, null, false);
+    while ((t = tw.nextNode())) if (/\S/.test(t.data)) { rng.selectNodeContents(t); a = rng.getClientRects(); for (j = 0; j < a.length; j++) list.push(a[j]); }
+    [].forEach.call(e.querySelectorAll("button, .volbar"), function (b) { a = b.getClientRects(); for (j = 0; j < a.length; j++) list.push(a[j]); });
+    var x0 = R.x + 1, x1 = R.x + R.w - 1, y1 = R.y + R.h;
+    list.forEach(function (r) {
+      if (r.width < .5) return;
+      var row = Math.floor(((r.top + r.bottom) / 2 - gb.top) / rh);
+      if (row < R.y || row >= y1) return;
+      var c0 = Math.max(x0, Math.floor((r.left - gb.left) / cw + .05) - 1), c1 = Math.min(x1, Math.ceil((r.right - gb.left) / cw - .05) + 1);
+      for (var c = c0; c < c1; c++) BL[row * cols + c] = 1;
+    });
+  }
+
+  // ---------- drawing it: two layers, the quiet one under the reveal ----------
+  function line(r, q) {
+    var out = "", run = "", cur = 0, i = r * cols, end = i + cols, kk, ch;
+    for (; i < end; i++) {
+      kk = BL[i] ? 0 : CL[i];
+      if (kk && (kk >= QUIET) !== q) kk = 0;
+      ch = kk ? CH[i] : " ";
+      if (kk !== cur) { if (run) out += cur ? '<i class="' + CN[cur] + '">' + run + "</i>" : run; run = ""; cur = kk; }
+      run += ch === "<" ? "&lt;" : ch === ">" ? "&gt;" : ch === "&" ? "&amp;" : ch;
+    }
+    if (run) out += cur ? '<i class="' + CN[cur] + '">' + run + "</i>" : run;
+    return out;
+  }
+  function renderAll() {
+    var a = [], b = [];
+    for (var r = 0; r < rows; r++) { a.push("<div>" + line(r, true) + "</div>"); b.push("<div>" + line(r, false) + "</div>"); }
+    LQ.innerHTML = a.join(""); LS.innerHTML = b.join("");
+  }
+  function renderRow(r) { if (LQ.children[r]) { LQ.children[r].innerHTML = line(r, true); LS.children[r].innerHTML = line(r, false); } }
+
+  function layout() {
+    queued = 0;
+    root.classList.add("g");
+    metrics();
+    var tree = window.KTREE(cols, K), n, i;
+    rects = []; byName = {};
+    rows = measure(tree, cols);
+    place(tree, 0, 0, cols, rows);
+    n = rows * cols;
+    CH = new Array(n); CL = new Uint8Array(n); BL = new Uint8Array(n);
+    for (i = 0; i < n; i++) { CH[i] = BLK; CL[i] = C.k; }               // what isn't a rectangle is a black line
+    rects.forEach(function (R) {
+      var t = R.n;
+      R.live = /^(sv|sh|Ph)$/.test(t.t) || !!(t.art && ART[t.art] && ART[t.art].live);
+      fill(R);
+      if (t.el) { var s = t.el.style; s.left = (R.x + 2) * cw + "px"; s.top = (R.y + 1) * rh + "px"; s.width = (R.w - 4) * cw + "px"; }
+    });
+    page.style.height = rows * rh + "px";
+    [].forEach.call(d.querySelectorAll("[data-fill]"), function (e) {
+      var R = byName[e.getAttribute("data-fill")], s = e.style;
+      if (!R) { s.display = "none"; return; }
+      s.display = ""; s.left = R.x * cw + "px"; s.top = R.y * rh + "px"; s.width = R.w * cw + "px"; s.height = R.h * rh + "px";
+    });
+    rects.forEach(function (R) { if (R.n.el) blank(R); });
+    renderAll();
+    lastW = root.clientWidth;
+  }
+  function safe() {
+    try { layout(); } catch (err) { root.classList.remove("g"); page.style.height = ""; if (window.console) console.warn(err); }
+  }
+  function later() { if (!queued) queued = requestAnimationFrame(function () { queued = 0; if (root.clientWidth !== lastW) safe(); }); }
+
+  // the composition answers the radio: squares travel the yellow lines, the heart and the waves keep time
+  function live() {
+    if (!CL) return;
+    var set = {};
+    rects.forEach(function (R) { if (!R.live) return; fill(R); for (var r = R.y; r < R.y + R.h; r++) set[r] = 1; });
+    Object.keys(set).forEach(function (r) { renderRow(+r); });
+  }
+  // when a block's words change (the radio's readout), clear around them again
+  function refresh(e) {
+    var R = null;
+    rects.forEach(function (x) { if (x.n.el === e) R = x; });
+    if (!R || !CL) return;
+    if (Math.ceil(e.offsetHeight / rh - .05) + 2 > R.h) { safe(); return; }
+    for (var y = R.y; y < R.y + R.h; y++) for (var x = R.x; x < R.x + R.w; x++) BL[y * cols + x] = 0;
+    blank(R);
+    for (y = R.y; y < R.y + R.h; y++) renderRow(y);
+  }
+
+  // KES FM's volume, as a row of characters over the real slider
+  var vol = d.getElementById("vol"), bar = d.querySelector(".volbar");
+  function volbar() { var n = 16, on = Math.round(+vol.value * n); bar.textContent = "[" + rep("=", on) + "o" + rep("-", n - on) + "]"; }
+  if (vol && bar) { vol.addEventListener("input", volbar); volbar(); }
+
+  safe();
+  addEventListener("resize", later);
+  addEventListener("load", function () { lastW = -1; later(); });
+
+  if (window.MutationObserver) {
+    var fm = d.getElementById("fm"), fq = 0, snd = d.querySelector(".sound");
+    if (fm) new MutationObserver(function () {
+      if (!fq) fq = requestAnimationFrame(function () { fq = 0; if (root.classList.contains("g")) refresh(fm); });
+    }).observe(fm, { childList: true, characterData: true, subtree: true });
+    new MutationObserver(function () {
+      var a = d.body.classList.contains("on-air");
+      if (a !== air) { air = a; beat = 0; live(); }
+    }).observe(d.body, { attributes: true, attributeFilter: ["class"] });
+    if (snd) new MutationObserver(function () {                         // KES FM marks the beat here (never with reduced motion)
+      if (air && /\bthump\b/.test(snd.className)) { beat++; live(); }
+    }).observe(snd, { attributes: true, attributeFilter: ["class"] });
+  }
+
+  // the reveal: the quiet texture falls away around your pointer, or around whatever has focus
+  var cx = null, cy = null;
+  function aim(x, y) { LQ.style.setProperty("--mx", x + "px"); LQ.style.setProperty("--my", y + "px"); }
+  function follow() { if (cx === null) return; var b = G.getBoundingClientRect(); aim(cx - b.left, cy - b.top); }
+  function pointer(e) { cx = e.clientX; cy = e.clientY; follow(); }
+  d.addEventListener("pointermove", pointer, { passive: true });
+  d.addEventListener("pointerdown", pointer, { passive: true });
+  addEventListener("scroll", follow, { passive: true });
+  root.addEventListener("mouseleave", function () { cx = null; aim(-10000, -10000); });
+  d.addEventListener("focusin", function (e) {
+    var t = e.target;
+    if (!t || t === d.body || !t.getBoundingClientRect) return;
+    var r = t.getBoundingClientRect(), b = G.getBoundingClientRect();
+    cx = null; aim((r.left + r.right) / 2 - b.left, (r.top + r.bottom) / 2 - b.top);
+  });
+})();
+/*</grid>*/
+</script>
 </body>
 </html>

@@ -7,136 +7,103 @@
 <title>chainmail · kes inkersole</title>
 <meta name="description" content="chainmail: short pieces of writing by kes inkersole, sent in by email and collected over time.">
 <style>
-/* the same painting as the home page, calmer: the same lines and columns, white pieces,
-   one blue plane at the top and one yellow plane at the bottom. */
+/* a mondrian made only of characters. everything sits on one monospace grid: one cell is one character
+   wide (--cw) and one row tall (--rh). no borders, no boxes, no panels: the lines are runs of █,
+   the white rectangles are fields of quiet characters, the colour planes are rectangles of coloured ones.
+   the words are written into the same grid on every other row, a shade darker than the texture.
+   without the script it's a plain page you can read top to bottom. */
 :root {
   --ink: #111;
   --paper: #fff;
-  --blue: #1f3dff;
   --pink: #ff2d95;
+  --blue: #1f3dff;
   --yellow: #ffd500;
-  --line: 10px;
-  --pad: 36px;
-  --cols: minmax(0, 26fr) minmax(0, 37fr) minmax(0, 25fr) minmax(0, 12fr);
-  --sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --mono: ui-monospace, Menlo, Consolas, "DejaVu Sans Mono", "Liberation Mono", "Courier New", monospace;
-  --serif: "Times New Roman", Times, serif;
+  --f1: #c6c6c6;   /* the quiet rectangles */
+  --f2: #a2a2a2;   /* the texture around the words */
+  --tx: #555;      /* the words: only a little darker */
+  --dim: #7c7c7c;  /* labels and small print */
+  --rh: 15px;
+  --cw: 7.83px;
+  --ls: 0px;
+  --mono: Menlo, "DejaVu Sans Mono", Consolas, "Liberation Mono", "Courier New", monospace;
 }
 *, *::before, *::after { box-sizing: border-box; }
-html { background: var(--paper); color: var(--ink); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
-body { margin: 0; font: 16px/24px var(--sans); overflow-wrap: break-word; }
-h1, h2, p, pre { margin: 0; }
-h2 { font-size: inherit; }
-a { color: var(--blue); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+html { background: var(--paper); color: var(--ink); scrollbar-gutter: stable; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { margin: 0; font: 13px/15px var(--mono); overflow-wrap: break-word; }
+h1, h2, h3, p, ul, dl, dd, pre { margin: 0; }
+h1, h2, h3 { font-size: inherit; }
+ul { padding: 0; list-style: none; }
+a { color: var(--blue); text-decoration-thickness: 1px; text-underline-offset: 2px; }
 a:hover, a:focus-visible { background: var(--pink); color: var(--ink); }
-a:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 1px; }
 ::selection { background: var(--pink); color: var(--ink); }
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.heart, .sym { color: var(--pink); font-style: normal; }
+.label, .meta, .lbl, dt { color: var(--dim); }
+h1, .title, .subject { font-weight: bold; }
+.aside { font-size: inherit; font-weight: normal; color: var(--dim); }
 
-.label { font: 13px/24px var(--mono); }
-.heart { color: var(--pink); font-style: normal; }
-h1 { font: italic 400 40px/48px var(--serif); }
-.aside { font: 13px/0 var(--mono); font-style: normal; vertical-align: 1.2em; white-space: nowrap; }
-.art { font: 13px/16px var(--mono); white-space: pre; color: var(--ink); }
-.art b { font-weight: inherit; }
+/* ---------- without the grid: a readable page ---------- */
+html:not(.grid) .page { max-width: 84ch; margin: 0 auto; padding: 30px 2ch; }
+html:not(.grid) .page :is(p, h1, h2, h3, ul, dl, .ticker, .tracker, .lcd-info, .keys > *, .sign, .pc) { margin-bottom: 15px; }
+html:not(.grid) :is(header, section, aside, article, footer, #l1, #l2, #l3) { margin-bottom: 45px; }
+html:not(.grid) .tracker { display: grid; grid-template-columns: repeat(8, 3ch); }
+html:not(.grid) dl { display: grid; grid-template-columns: 9ch 1fr; }
+.tex { display: none; }
 
-/* ---------- the composition ---------- */
-.canvas, .canvas > footer { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--line); }
-.canvas { background: var(--ink); }
-.band { display: grid; gap: var(--line); grid-template-columns: var(--cols); }
-.cell { background: var(--paper); padding: var(--pad); min-width: 0; }
-.blue { background: var(--blue); }
-.yellow { background: var(--yellow); }
+/* ---------- the grid ---------- */
+.grid body { overflow-x: hidden; }
+.grid .page { position: relative; overflow: hidden; letter-spacing: var(--ls); color: var(--tx); }
+.grid .page :is(h1, h2, h3, p, ul, dl, dt, dd, li) { margin: 0; padding: 0; font-size: inherit; }
+.grid .tex { display: block; position: absolute; inset: 0; pointer-events: none; user-select: none; -webkit-user-select: none; }
+.L { position: absolute; left: 0; top: 0; margin: 0; font: inherit; line-height: var(--rh); letter-spacing: inherit; white-space: pre; }
+.L.f1 { color: var(--f1); }
+.L.f2 { color: var(--f2); }
+.L.k { color: var(--ink); font-weight: bold; }
+.L.p, .L.b1 { color: var(--pink); font-weight: bold; }
+.L.u, .L.b2 { color: var(--blue); font-weight: bold; }
+.L.y, .L.b3 { color: var(--yellow); font-weight: bold; }
+/* while KES FM plays, the beads along the lines and the speaker cones swap colours on the beat */
+[data-beat="1"] .L.b1, [data-beat="2"] .L.b3 { color: var(--blue); }
+[data-beat="1"] .L.b2, [data-beat="2"] .L.b1 { color: var(--yellow); }
+[data-beat="1"] .L.b3, [data-beat="2"] .L.b2 { color: var(--pink); }
+/* the reveal: wherever the cursor (or the focus) is, the texture goes quiet and the words come forward */
+.lens { position: absolute; left: 0; top: 0; width: 340px; height: 340px; margin: -170px 0 0 -170px; border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(255, 255, 255, .93) 52%, rgba(255, 255, 255, 0));
+  opacity: 0; transition: opacity .25s; will-change: transform; }
+.lens.on { opacity: 1; }
+.grid [data-lit], .grid :is(section, aside, article, header, footer, #l1, #l2, #l3, #top, #title):focus-within { --tx: #111; --dim: #444; }
 
-/* the top: back home, the little computer, the title; blue on the right edge */
-.top { grid-template-areas: "back title title blue"; }
-.back { grid-area: back; display: flex; flex-direction: column; gap: 24px; }
-.pc { width: fit-content; margin-left: -1ch; }
-.pc b { color: var(--pink); }
-.title { grid-area: title; display: flex; flex-direction: column; gap: 16px; }
-.title p { max-width: 36em; }
-.title .addr { margin-top: auto; padding-top: 24px; }
-.top .blue { grid-area: blue; }
-
-/* ---------- the pieces: one <article> per email, newest first, three to a row ---------- */
-.pieces { display: grid; gap: var(--line); grid-template-columns: var(--cols); }
-.piece { background: var(--paper); padding: var(--pad); min-width: 0; }
-.piece .subject { margin-top: 8px; font-weight: bold; }
-.piece .text { margin-top: 16px; max-width: 36em; }
-.piece .text p + p { margin-top: 16px; }
-@media (min-width: 1100px) {
-  .piece:nth-child(3n) { grid-column: span 2; }
-  .piece:nth-child(3n+1):last-child { grid-column: 1 / -1; }
-  .piece:nth-child(3n+2):last-child { grid-column: 2 / -1; }
-}
-
-/* ---------- the end ---------- */
-.end { grid-template-areas: "yellow note note note"; }
-.end .yellow { grid-area: yellow; }
-.note { grid-area: note; }
-.note > * + * { margin-top: 16px; }
-.note p { max-width: 38em; }
-.bed { padding: 32px 0 0 var(--pad); overflow: hidden; }
-.garden .rose, .garden .lilac { color: var(--pink); }
-.garden .peri { color: var(--blue); }
-
-/* ---------- narrower: two columns of pieces ---------- */
-@media (max-width: 1099px) {
-  :root { --line: 8px; --pad: 32px; --cols: minmax(0, 40fr) minmax(0, 52fr) minmax(0, 8fr); }
-  .top { grid-template-areas: "back title blue"; }
-  .piece:nth-child(2n) { grid-column: span 2; }
-  .piece:nth-child(2n+1):last-child { grid-column: 1 / -1; }
-  .end { grid-template-areas: "yellow note note"; }
-}
-/* ---------- phone: one stack ---------- */
-@media (max-width: 699px) {
-  :root { --line: 6px; --pad: 24px; --cols: minmax(0, 1fr); }
-  .top { grid-template-areas: "back" "title" "blue"; }
-  .top .blue { min-height: 32px; }
-  .piece:nth-child(n) { grid-column: auto; }
-  .end { grid-template-areas: "yellow" "note"; }
-  .end .yellow { min-height: 24px; }
-  .bed { padding-top: 24px; }
-}
+.grid .at { position: absolute; z-index: 1; white-space: pre; line-height: calc(2 * var(--rh)); }
+.grid .at.one { line-height: var(--rh); }
+.grid .u { display: inline-block; width: var(--cw); letter-spacing: 0; text-align: center; text-indent: 0; overflow: visible; }
+.grid .page a { text-decoration-skip-ink: none; }
+.grid .stars li::before { content: "*"; content: "*" / ""; position: absolute; left: calc(-2 * var(--cw)); color: var(--dim); }
+.grid .stars li:hover::before { content: "+"; content: "+" / ""; color: var(--pink); }
+.grid .sign, .grid .pc { pointer-events: none; }
 </style>
 </head>
 <body>
+<div class="page" id="page">
+<div class="tex" aria-hidden="true"><pre class="L f1"></pre><pre class="L f2"></pre><div class="lens"></div><pre class="L k"></pre><pre class="L p"></pre><pre class="L u"></pre><pre class="L y"></pre><pre class="L b1"></pre><pre class="L b2"></pre><pre class="L b3"></pre></div>
 
-<div class="canvas">
-
-<header class="band top">
-  <div class="cell back">
-    <p class="label"><a href="index.html">← kes' little corner of the internet</a></p>
-    <pre class="art pc" role="img" aria-label="ascii drawing of a little computer with a heart on its screen">
-  ______________________
- |  __________________  |
- | |                  | |
- | |   <b>&lt;3&lt;3</b>    <b>&lt;3&lt;3</b>   | |
- | | <b>&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3</b> | |
- | | <b>&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3</b> | |
- | |   <b>&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3</b>   | |
- | |     <b>&lt;3&lt;3&lt;3&lt;3</b>     | |
- | |       <b>&lt;3&lt;3</b>       | |
- | |        <b>&lt;3</b>        | |
- | |__________________| |
- |                      |
- |  <b>o</b>          ______   |
- |______________________|
-   |__________________|</pre>
+<header>
+  <div id="top">
+    <p class="label" id="back"><a href="index.html">← kes' little corner of the internet</a></p>
+    <div class="pc" id="pcimg" role="img" aria-label="ascii drawing of a little computer with a heart on its screen"></div>
   </div>
-  <div class="cell title">
+  <div id="title">
     <h1>chainmail <small class="aside">(working title)</small></h1>
-    <p>a space for my own writing: short pieces, mostly from my notes app, sent here by email and collected over time into a kind of text moodboard.</p>
+    <p id="intro">a space for my own writing: short pieces, mostly from my notes app, sent here by email and collected over time into a kind of text moodboard.</p>
     <p class="addr label">pieces arrive by email: (address tbc)<br>newest first</p>
   </div>
-  <div class="blue" aria-hidden="true"></div>
 </header>
 
 <main class="pieces" id="pieces">
 <!--
   chainmail: every email becomes one <article class="piece">, newest first, at the top of #pieces.
   subject line -> h2.subject, date sent -> time[datetime], body -> one <p> per paragraph in .text.
-  the grid places them by itself, three to a row; a short last row stretches to fill.
-  the dates and words below are placeholders.
+  the painting gives each piece its own rectangle by itself. the dates and words below are placeholders.
 
   <article class="piece" id="piece-YYYY-MM-DD-slug">
     <p class="date label"><time datetime="YYYY-MM-DD">DD mon YYYY</time></p>
@@ -220,26 +187,460 @@ h1 { font: italic 400 40px/48px var(--serif); }
 </main>
 
 <footer>
-  <div class="band end">
-    <div class="yellow" aria-hidden="true"></div>
-    <div class="cell note">
-      <p class="label">about this site</p>
-      <p>mostly plain html: system fonts, no cookies, no tracking and no scripts on this page. then i planted some flowers. it's easy for me to update and it loads fine on bad wifi.</p>
-      <p><a href="index.html">← back to kes' little corner of the internet</a></p>
-      <p>thanks for stopping by <span class="heart">♡</span></p>
-    </div>
-  </div>
-  <div class="cell bed">
-  <pre class="art garden" aria-hidden="true">    <b class="rose">_                             </b><b class="lilac">_                          </b><b class="rose">_                        </b><b class="peri">_                            </b><b class="rose">_                        </b><b class="lilac">_                             </b><b class="peri">_</b>
-  <b class="rose">_(_)_         @               </b><b class="lilac">_(_)_         </b><b class="peri">@            </b><b class="rose">_(_)_              @     </b><b class="peri">_(_)_         </b><b class="rose">@              _(_)_    </b><b class="lilac">@               _(_)_         </b><b class="peri">@               _(_)_    </b><b class="rose">@</b>
- <b class="rose">(_)@(_)        </b><b class="stem">|/  </b><b class="peri">vVv        </b><b class="lilac">(_)@(_)        </b><b class="stem">|/    </b><b class="rose">vVv   (_)@(_)             </b><b class="stem">|/   </b><b class="peri">(_)@(_)  </b><b class="lilac">vVv   </b><b class="stem">|/            </b><b class="rose">(_)@(_)   </b><b class="stem">|/  </b><b class="rose">vVv        </b><b class="lilac">(_)@(_)        </b><b class="stem">|/  </b><b class="lilac">vVv        </b><b class="peri">(_)@(_)   </b><b class="stem">|/  </b><b class="lilac">vVv</b>
-   <b class="rose">(_)    </b><b class="lilac">vVv  </b><b class="stem">\|   </b><b class="peri">(_)    </b><b class="lilac">*     (_)    </b><b class="rose">vVv  </b><b class="stem">\|     </b><b class="rose">(_)     (_)     </b><b class="peri">*   </b><b class="lilac">vVv  </b><b class="stem">\|      </b><b class="peri">(_)    </b><b class="lilac">(_)  </b><b class="stem">\|   </b><b class="rose">vVv   </b><b class="lilac">*     </b><b class="rose">(_)    </b><b class="stem">\|   </b><b class="rose">(_)  </b><b class="peri">vVv     </b><b class="lilac">(_)     </b><b class="rose">*   </b><b class="stem">\|   </b><b class="lilac">(_)   </b><b class="rose">vVv    </b><b class="peri">(_)    </b><b class="stem">\|   </b><b class="lilac">(_)  </b><b class="rose">vVv</b>
-    <b class="stem">|/    </b><b class="lilac">(_)   </b><b class="stem">|   \|     |/     |/    </b><b class="rose">(_)   </b><b class="stem">|     \|       |/     |/  </b><b class="lilac">(_)   </b><b class="stem">|       |/    \|    |   </b><b class="rose">(_)   </b><b class="stem">|/     |/     |   \|   </b><b class="peri">(_)      </b><b class="stem">|/     |/   |   \|    </b><b class="rose">(_)     </b><b class="stem">|/     |   \|   </b><b class="rose">(_)</b>
-   <b class="stem">\|      |    |    |    \|     \|      |    |      |      \|     \|    |    |      \|      |    |    |   \|     \|      |    |    |      \|     \|    |    |     |     \|      |    |    |</b></pre>
+  <div id="note">
+    <p class="label">about this site</p>
+    <p>mostly plain html: system fonts, no cookies, no tracking, and one little script that lays the page out as a painting made of characters. then i planted some flowers. it's easy for me to update and it loads fine on bad wifi.</p>
+    <p><a href="index.html">← back to kes' little corner of the internet</a></p>
+    <p>thanks for stopping by <span class="heart">♡</span></p>
   </div>
 </footer>
-
 </div>
 
+<script>
+/* ===== the painting =====
+   the whole page is one grid of monospace characters, worked out in columns and rows for this window.
+   the black lines are runs of █, the white rectangles are fields of quiet characters, the colour planes
+   are rectangles of characters in pink, blue and yellow. kes' words are written into the same grid, on
+   every other row, with each rectangle's texture running between and around them.
+   nothing random: the same window always gets the same painting. */
+(function () {
+  "use strict";
+  var page = document.getElementById("page"), root = document.documentElement;
+  if (!page || !window.requestAnimationFrame || !document.createTreeWalker || !"".repeat || !window.Uint16Array || !Array.isArray) return;
+  var RH = 15, cw = 7.83, CW = 7.83, cols = 0, rows = 0, ch, cl, RECTS, LN, HOLES, ARTS, lastW = 0, lastH = 0;
+  var NAMES = ["", "f1", "f2", "k", "p", "u", "y", "b1", "b2", "b3"];
+  var CODE = { F: 1, f: 2, k: 3, p: 4, u: 5, y: 6, c: 7, w: 8, b: 9 };
+  var pres = NAMES.map(function (n) { return n ? page.querySelector(".tex ." + n) : null; });
+  var q = function (s) { return document.querySelector(s); };
+  var kids = function (s) { return [].slice.call((typeof s === "string" ? q(s) : s).children); };
+
+  /* ---------- textures: one per rectangle ---------- */
+  var LOOP = "ÐDÐDÅD0å0åÐðÅD0å0åÐðÅD0å0åÏDDDÅ,";            // KES FM's break as bytes: Ð kick, Å snare, 0 ride, D nothing
+  var DUMP = "Q±0ðLDDDDDDDDDDDDDDÅÂÀ3ÏDDDDDDDDDDDDDDT,<";      // the top of a binary dump
+  var HEX = "00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F 10 11 12 13 14 15 16 17 18 19 1A 1B 1C 1D 1E 1F ";
+  function mod(a, n) { return ((a % n) + n) % n; }
+  function hash(a, b) { var h = Math.imul(a | 0, 374761393) + Math.imul(b | 0, 668265263) | 0; h = Math.imul(h ^ h >>> 13, 1274126177); h ^= h >>> 16; return (h >>> 0) / 4294967296; }
+  function noise(h) { var n = h < .55 ? 161 + (h * 99991 | 0) % 95 : 33 + (h * 99991 | 0) % 94; return String.fromCharCode(n === 173 ? 172 : n); }
+  function stream(s) { return function (x, y, w, z) { return s.charAt(mod(y * w + x + z, s.length)); }; }
+  function one(c) { return function () { return c; }; }
+  var TEX = {
+    loop: stream(LOOP), dump: stream(DUMP), hex: stream(HEX), hearts: stream("<3"), D: stream(DUMP),
+    hiss: function (x, y, w, z) { return noise(hash(x + z * 977, y + z)); },
+    chop: function (x, y, w, z) { var h = hash(x + z * 31, y * 3 + z); return h < .32 ? noise(hash(y + z, x)) : LOOP.charAt(mod(y * w + x + z, 32)); },
+    bin: function (x, y, w, z) { var h = hash(x + z, y + 99); return h < .3 ? "0" : h < .62 ? "1" : ""; },
+    dots: function (x) { return x % 2 ? "." : ""; },
+    sparse: function (x, y, w, z) { var h = hash(x + z * 131, y + z * 17); return h < .06 ? "." : h < .09 ? "·" : h < .1 ? ":" : h < .106 ? "'" : ""; },
+    slash: function (x, y) { return mod(x + 2 * y, 6) ? "" : "/"; },
+    plus: function (x, y) { return x % 4 === 1 && y % 2 === 0 ? "+" : x % 2 && y % 2 === 0 ? "-" : ""; },
+    colon: function (x) { return x % 3 === 1 ? ":" : ""; },
+    rule: function (x, y) { return y % 2 ? "" : x % 4 === 3 ? "+" : "-"; },
+    tilde: stream("~^~-_-"),
+    solid: one("█"), shade: one("▓"), mid: one("▒"), light: one("░"), lcd: one("▓"), hash: one("#")
+  };
+
+  /* ---------- the buffer ---------- */
+  function put(x, y, c, k) { if (x < 0 || y < 0 || x >= cols || y >= rows) return; var i = y * cols + x; ch[i] = c.charCodeAt(0); cl[i] = k; }
+  function hole(x0, x1, y, R) { HOLES.push([Math.max(x0, R.x), Math.min(x1, R.x + R.w), y]); }
+
+  /* ---------- words: whitespace tidied, every wide symbol given exactly one cell ---------- */
+  var VS = /[︎️]/;
+  function nodes(el) {
+    var w = document.createTreeWalker(el, 5, null, false), out = [], n;   // elements + text
+    while ((n = w.nextNode())) if (n.nodeType === 3 || n.nodeName === "BR") out.push(n);
+    return out;
+  }
+  function prep(el) {
+    var sp = true, last = null;
+    nodes(el).forEach(function (n) {
+      if (n.nodeType !== 3) { if (last) last.nodeValue = last.nodeValue.replace(/ $/, ""); sp = true; last = null; return; }
+      var v = n.nodeValue.replace(/\s+/g, " ");
+      if (sp) v = v.replace(/^ /, "");
+      if (v) { sp = v.charAt(v.length - 1) === " "; last = n; }
+      n.nodeValue = v;
+    });
+    if (last) last.nodeValue = last.nodeValue.replace(/ $/, "");
+    nodes(el).forEach(function (n) {
+      if (n.nodeType !== 3 || !/[^\u0000-ÿ︎️]/.test(n.nodeValue) || n.parentNode.className === "u") return;
+      var v = n.nodeValue, f = document.createDocumentFragment(), buf = "";
+      for (var i = 0; i < v.length; i++) {
+        var c = v.charAt(i);
+        if (v.charCodeAt(i) > 255 && !VS.test(c)) {
+          if (buf) f.appendChild(document.createTextNode(buf));
+          buf = "";
+          while (VS.test(v.charAt(i + 1))) c += v.charAt(++i);
+          var s = document.createElement("span");
+          s.className = "u"; s.textContent = c; f.appendChild(s);
+        } else buf += c;
+      }
+      if (buf) f.appendChild(document.createTextNode(buf));
+      n.parentNode.replaceChild(f, n);
+    });
+  }
+  function cells(el) {
+    if (el._S != null) return el._S;
+    prep(el);
+    var s = "";
+    nodes(el).forEach(function (n) { s += n.nodeType === 3 ? n.nodeValue.replace(/[︎️]/g, "").replace(/\n/g, " ") : "\n"; });
+    return (el._S = s);
+  }
+  function wrap(S, W) {
+    var out = [], base = 0;
+    S.split("\n").forEach(function (P) {
+      var s = 0, n = P.length;
+      if (!n) out.push([base, base]);
+      while (s < n) {
+        if (n - s <= W) { out.push([base + s, base + n]); break; }
+        var cut = P.lastIndexOf(" ", s + W);
+        if (cut <= s) { cut = P.indexOf(" ", s + W); if (cut < 0) { out.push([base + s, base + n]); break; } }
+        out.push([base + s, base + cut]); s = cut + 1;
+      }
+      base += n + 1;
+    });
+    return out;
+  }
+  function breaks(el, L) {
+    var S = cells(el), br = {}, i = 0;
+    L.forEach(function (l) { if (S.charAt(l[1]) === " ") br[l[1]] = 1; });
+    nodes(el).forEach(function (n) {
+      if (n.nodeType !== 3) { i++; return; }
+      var v = n.nodeValue, o = "";
+      for (var j = 0; j < v.length; j++) {
+        var c = v.charAt(j);
+        if (VS.test(c)) { o += c; continue; }
+        if (c === " " || c === "\n") c = br[i] ? "\n" : " ";
+        o += c; i++;
+      }
+      if (o !== v) n.nodeValue = o;
+    });
+  }
+  function at(el, x, y, w, single) {
+    el.classList.add("at");
+    el.classList.toggle("one", !!single);
+    el.style.left = x * CW + "px";
+    el.style.top = (single ? y * RH : y * RH - RH / 2) + "px";
+    if (w != null) el.style.width = w * CW + "px";
+  }
+
+  /* ---------- blocks: each returns the rows it takes. text sits on every other row ---------- */
+  function txt(b, x, y, w, go, R) {
+    var ind = b.i || 0, L = wrap(cells(b.e), Math.max(4, w - ind));
+    if (go) {
+      breaks(b.e, L); at(b.e, x + ind, y);
+      L.forEach(function (l, k) { hole(x + ind - 1 - (k || !b.bul ? 0 : 2), x + ind + l[1] - l[0] + 1, y + 2 * k, R); });
+    }
+    return 2 * L.length - 1;
+  }
+  function list(b, x, y, w, go, R) {
+    var r = 0, h = 0;
+    kids(b.e).forEach(function (li, k) { if (k) r += h + 1; h = txt({ e: li, i: 2, bul: 1 }, x, y + r, w, go, R); });
+    return r + h;
+  }
+  function dl(b, x, y, w, go, R) {
+    var r = 0, h = 0, k = kids(b.e), dw = b.dw || 9;
+    for (var i = 0; i < k.length; i += 2) {
+      if (i) r += h + 1;
+      h = Math.max(txt({ e: k[i] }, x, y + r, dw - 1, go, R), txt({ e: k[i + 1] }, x + dw, y + r, w - dw, go, R));
+    }
+    return r + h;
+  }
+  function art(b, x, y, w, go, R) {
+    var A = b.a;
+    if (go) {
+      ARTS.push({ A: A, x: x, y: y, R: R });
+      if (b.e) { at(b.e, x, y, Math.min(A.w, w), true); b.e.style.height = A.h * RH + "px"; }
+    }
+    return A.h;
+  }
+  // KES FM: the display and the keys, as lines of the grid
+  function lcdtop(b, x, y, w, go, R) {
+    var k = kids(b.e), a = k[0], s = k[1], aw = cells(a).length, two = w < aw + 2 + 26;
+    var sx = two ? x : x + aw + 2, sy = two ? y + 2 : y, sw = Math.min(31, x + w - sx);
+    if (go) { at(a, x, y); hole(x - 1, x + aw + 1, y, R); at(s, sx, sy, null, true); s.style.maxWidth = sw * CW + "px"; hole(sx - 1, sx + sw + 1, sy, R); }
+    return two ? 3 : 1;
+  }
+  function ticker(b, x, y, w, go, R) {
+    if (go) {
+      at(b.e, x, y, w, true); b.e.style.height = RH + "px"; hole(x - 1, x + w + 1, y, R);
+      var sp = b.e.querySelectorAll("span");
+      cells(sp[0]); cells(sp[1]);
+      b.e.firstElementChild.style.setProperty("--n", cells(sp[0]).length + 1);
+    }
+    return 1;
+  }
+  function tracker(b, x, y, w, go, R) {
+    var n = w >= 48 ? 16 : 8;
+    if (go) {
+      at(b.e, x, y, 3 * n, true); b.e.style.setProperty("--q", n);
+      for (var i = 0; i < 32; i++) hole(x + 3 * (i % n), x + 3 * (i % n) + 2, y + 2 * Math.floor(i / n), R);
+    }
+    return 2 * (32 / n) - 1;
+  }
+  function lcdinfo(b, x, y, w, go, R) {
+    var n = w >= 54 ? 1 : 2;
+    if (go) { at(b.e, x, y, w); for (var k = 0; k < n; k++) hole(x - 1, x + w + 1, y + 2 * k, R); }
+    return 2 * n - 1;
+  }
+  function keys(b, x, y, w, go, R) {
+    var r = 0;
+    kids(b.e).forEach(function (g, gi) {
+      if (gi) r += 2;
+      var lbl = g.querySelector(".lbl"), x0 = lbl ? x + 7 : x, cx = x0;
+      if (lbl && go) { at(lbl, x, y + r); hole(x - 1, x + cells(lbl).length + 1, y + r, R); }
+      if (g.classList.contains("vol")) {
+        if (go) {
+          var bar = g.querySelector(".volbar"), inp = g.querySelector("input");
+          at(bar, x0, y + r); at(inp, x0, y + r, 22, true); inp.style.height = RH + "px";
+          hole(x0 - 1, x0 + 23, y + r, R);
+        }
+        return;
+      }
+      [].forEach.call(g.querySelectorAll("button"), function (bt) {
+        var bw = cells(bt).length + 2;
+        if (cx > x0 && cx + bw > x + w) { r += 2; cx = x0; }
+        if (go) { at(bt, cx, y + r, null, true); hole(cx - 1, cx + bw + 1, y + r, R); }
+        cx += bw + 1;
+      });
+    });
+    return r + 1;
+  }
+  function flow(B, x, y, w, go, R) {
+    var r = 0, h = 0;
+    B.forEach(function (b, k) { if (k) r += h + 1 + 2 * (b.g || 0); h = (b.f || txt)(b, x, y + r, w, go, R); });
+    return r + h;
+  }
+
+  /* ---------- the composition: rectangles split by lines, sized in cells ---------- */
+  function split(n, w) {
+    var lw = n.lw || 2, k = n.k, avail = w - lw * (k.length - 1), fix = 0, fr = 0, out = [], big = -1, bf = 0, got = 0;
+    k.forEach(function (c) { if (typeof c.s === "number") fix += c.s; else fr += Array.isArray(c.s) ? c.s[0] : 1; });
+    k.forEach(function (c, i) {
+      if (typeof c.s === "number") out[i] = c.s;
+      else { var f = Array.isArray(c.s) ? c.s[0] : 1; out[i] = Math.floor((avail - fix) * f / fr); if (f > bf) { bf = f; big = i; } }
+      got += out[i];
+    });
+    out[big < 0 ? k.length - 1 : big] += avail - got;
+    return out;
+  }
+  function need(n, w) {
+    if (n._w === w) return n._h;
+    var h;
+    if (n.d === "H") { var ws = split(n, w); h = 1; n.k.forEach(function (c, i) { h = Math.max(h, need(c, ws[i])); }); }
+    else if (n.d === "V") { h = n.k.length - 1; n.k.forEach(function (c) { h += typeof c.s === "number" ? c.s : need(c, w); }); }
+    else if (n.c) h = flow(n.c, 0, 0, w - 4, false) + 2;
+    else if (n.a) h = n.a.h + 2;
+    else h = n.m || 1;
+    if (n.fit) h = Math.max(h, n.fit);
+    n._w = w; n._h = h;
+    return h;
+  }
+  function beady(n, i) { return n.beads === true || (n.beads && n.beads.indexOf(i) >= 0); }
+  function place(n, x, y, w, h) {
+    var last = n.k ? n.k.length - 1 : 0;
+    if (n.d === "H") {
+      var ws = split(n, w), lw = n.lw || 2, cx = x;
+      n.k.forEach(function (c, i) {
+        place(c, cx, y, ws[i], h); cx += ws[i];
+        if (i < last) { LN.push({ x: cx, y: y, w: lw, h: h, b: beady(n, i) }); cx += lw; }
+      });
+    } else if (n.d === "V") {
+      var base = [], fr = 0, sum = last, big = -1, bf = 0, given = 0;
+      n.k.forEach(function (c, i) {
+        base[i] = typeof c.s === "number" ? c.s : need(c, w); sum += base[i];
+        if (Array.isArray(c.s)) { fr += c.s[0]; if (c.s[0] > bf) { bf = c.s[0]; big = i; } }
+      });
+      var extra = h - sum;
+      if (extra > 0) {
+        if (fr) n.k.forEach(function (c, i) { if (Array.isArray(c.s)) { var e = Math.floor(extra * c.s[0] / fr); base[i] += e; given += e; } });
+        base[big < 0 ? last : big] += extra - given;
+      }
+      var cy = y;
+      n.k.forEach(function (c, i) {
+        place(c, x, cy, w, base[i]); cy += base[i];
+        if (i < last) { LN.push({ x: x, y: cy, w: w, h: 1, b: beady(n, i) }); cy += 1; }
+      });
+    } else {
+      var R = { x: x, y: y, w: w, h: h, n: n, i: RECTS.length };
+      RECTS.push(R);
+      if (n.c) flow(n.c, x + 2, y + 1, w - 4, true, R);
+      if (n.a) ARTS.push({ A: n.a, x: x + 2 + (n.ax || 0), y: n.av === "bot" ? y + h - 1 - n.a.h : y + 1, R: R });
+    }
+  }
+
+  /* ---------- painting it ---------- */
+  function drawArt(o) {
+    var A = o.A, R = o.R;
+    for (var r = 0; r < A.h; r++) {
+      var s = A.r[r], c = A.c[r], y = o.y + r, a = s.search(/\S/), b = s.length;
+      if (y < R.y || y >= R.y + R.h) continue;
+      for (var j = 0; j < s.length; j++) {
+        var x = o.x + j;
+        if (x < R.x || x >= R.x + R.w) continue;
+        var k = c.charAt(j);
+        if (k !== " " && k) put(x, y, s.charAt(j), CODE[k]);
+        else if (A.hollow && j >= a && j < b) put(x, y, " ", 0);
+      }
+    }
+  }
+  function paint() {
+    ch = new Uint16Array(cols * rows); cl = new Uint8Array(cols * rows);
+    RECTS.forEach(function (R) {
+      var n = R.n, g = TEX[n.t] || TEX.sparse, k = CODE[n.k || "F"], z = R.i * 53 + 7;
+      for (var y = 0; y < R.h; y++) for (var x = 0; x < R.w; x++) { var c = g(x, y, R.w, z); if (c) put(R.x + x, R.y + y, c, k); }
+    });
+    LN.forEach(function (l) { for (var y = l.y; y < l.y + l.h; y++) for (var x = l.x; x < l.x + l.w; x++) put(x, y, "█", 3); });
+    // boogie woogie: small squares clustered along some lines
+    LN.forEach(function (l, i) {
+      if (!l.b) return;
+      var across = l.h === 1, n = across ? l.w : l.h, step = across ? 2 : 1;
+      for (var p = 1; p < n - 1; p += step) {
+        if (hash((p / (across ? 14 : 7)) | 0, i * 31 + 5) > .5 || hash(p, i * 131 + 3) > .6) continue;
+        var k = 7 + (hash(p + i, 11) * 3 | 0);
+        if (across) { put(l.x + p, l.y, "█", k); if (p + 1 < l.w) put(l.x + p + 1, l.y, "█", k); }
+        else for (var x = l.x; x < l.x + l.w; x++) put(x, l.y + p, "█", k);
+      }
+    });
+    ARTS.forEach(drawArt);
+    HOLES.forEach(function (s) { for (var x = s[0]; x < s[1]; x++) put(x, s[2], " ", 0); });
+    // one <pre> per colour, trailing spaces trimmed
+    var out = [], buf = [], end = [], y, x, k;
+    for (k = 1; k < NAMES.length; k++) { out[k] = []; buf[k] = new Uint16Array(cols); }
+    for (y = 0; y < rows; y++) {
+      for (k = 1; k < NAMES.length; k++) { buf[k].fill(32); end[k] = 0; }
+      for (x = 0; x < cols; x++) { var i = y * cols + x, c = cl[i]; if (c) { buf[c][x] = ch[i]; end[c] = x + 1; } }
+      for (k = 1; k < NAMES.length; k++) out[k].push(end[k] ? String.fromCharCode.apply(null, buf[k].subarray(0, end[k])) : "");
+    }
+    for (k = 1; k < NAMES.length; k++) if (pres[k]) pres[k].textContent = out[k].join("\n");
+  }
+  function measure(W) {
+    var s = document.createElement("span");
+    s.style.cssText = "position:absolute;visibility:hidden;white-space:pre;letter-spacing:0";
+    s.textContent = "0".repeat(200);
+    page.appendChild(s);
+    cw = s.getBoundingClientRect().width / 200 || cw;
+    page.removeChild(s);
+    cols = Math.max(24, Math.floor(W / cw)); CW = W / cols;
+    root.style.setProperty("--cw", CW + "px");
+    root.style.setProperty("--ls", (CW - cw) + "px");
+  }
+  function layout() {
+    var W = root.clientWidth, Hv = window.innerHeight;
+    if (W === lastW && Hv === lastH) return;
+    lastW = W; lastH = Hv;
+    try {
+      measure(W);
+      RECTS = []; LN = []; HOLES = []; ARTS = [];
+      var tree = SPEC(cols, Math.max(20, Math.floor(Hv / RH)));
+      rows = need(tree, cols);
+      place(tree, 0, 0, cols, rows);
+      paint();
+      page.style.height = rows * RH + "px";
+      root.classList.add("grid");
+    } catch (e) {
+      root.classList.remove("grid"); page.style.height = "";
+      if (window.console) console.error(e);
+    }
+  }
+
+  /* ---------- the reveal: a lens that follows the cursor (or the focus) and quiets the texture ---------- */
+  var lens = page.querySelector(".lens"), litEl = null, raf = 0, px = 0, py = 0;
+  function lit(el) { if (el === litEl) return; if (litEl) litEl.removeAttribute("data-lit"); litEl = el; if (el) el.setAttribute("data-lit", ""); }
+  function hit(x, y) {
+    var cx = x / CW | 0, cy = y / RH | 0;
+    for (var i = 0; RECTS && i < RECTS.length; i++) { var R = RECTS[i]; if (cx >= R.x && cx < R.x + R.w && cy >= R.y && cy < R.y + R.h) return R.n.el || null; }
+    return null;
+  }
+  function aim(x, y) { if (lens) { lens.style.transform = "translate(" + x + "px," + y + "px)"; lens.classList.add("on"); } }
+  function track(e) {
+    var r = page.getBoundingClientRect(); px = e.clientX - r.left; py = e.clientY - r.top;
+    if (!raf) raf = requestAnimationFrame(function () { raf = 0; aim(px, py); lit(hit(px, py)); });
+  }
+  page.addEventListener("pointermove", track);
+  page.addEventListener("pointerdown", track);
+  page.addEventListener("pointerleave", function () { if (lens) lens.classList.remove("on"); lit(null); });
+  document.addEventListener("focusin", function (e) {
+    if (!page.contains(e.target) || !root.classList.contains("grid")) return;
+    var a = e.target.getBoundingClientRect(), r = page.getBoundingClientRect();
+    aim(a.left - r.left + Math.min(a.width / 2, 120), a.top - r.top + a.height / 2);
+  });
+
+  /* ---------- KES FM: the beads on the lines change colour on the beat (not if you'd rather things kept still) ---------- */
+  if (q("#tracker")) {
+    var calm = matchMedia("(prefers-reduced-motion: reduce)"), beat = 0;
+    window.look = function (c) {
+      if (c === undefined || calm.matches) { root.removeAttribute("data-beat"); return; }
+      beat = beat % 3 + 1; root.setAttribute("data-beat", beat);
+    };
+    var vol = q("#vol"), bar = q(".volbar");
+    if (vol && bar) {
+      var show = function () { var k = Math.round(vol.value * 20); bar.textContent = "[" + "=".repeat(k) + "-".repeat(20 - k) + "]"; };
+      vol.addEventListener("input", show); show();
+    }
+  }
+
+  function mk(r, c, hollow) { return { r: r, c: c, h: r.length, w: Math.max.apply(null, r.map(function (x) { return x.length; })), hollow: hollow }; }
+  function H(k, o) { o = o || {}; o.d = "H"; o.k = k; return o; }
+  function V(k, o) { o = o || {}; o.d = "V"; o.k = k; return o; }
+  function T(e, g) { return { e: typeof e === "string" ? q(e) : e, g: g || 0 }; }
+  function UL(e, g) { return { e: typeof e === "string" ? q(e) : e, f: list, g: g || 0 }; }
+  function Ct(c, el, s, t, k) { return { c: c, el: typeof el === "string" ? q(el) : el, s: s, t: t, k: k || "f" }; }
+  function W(t, s, m) { return { t: t, k: "F", s: s, m: m }; }
+  function P(k, s, m, t) { return { t: t || "solid", k: k, s: s, m: m }; }
+  function Ar(a, s, t, o) { o = o || {}; o.a = a; o.s = s; o.t = t || "sparse"; o.k = "F"; return o; }
+
+  var ART = {
+    pc: mk(["  ______________________", " |  __________________  |", " | |                  | |", " | |   <3<3    <3<3   | |", " | | <3<3<3<3<3<3<3<3 | |", " | | <3<3<3<3<3<3<3<3 | |", " | |   <3<3<3<3<3<3   | |", " | |     <3<3<3<3     | |", " | |       <3<3       | |", " | |        <3        | |", " | |__________________| |", " |                      |", " |  o          ______   |", " |______________________|", "   |__________________|"], ["  kkkkkkkkkkkkkkkkkkkkkk", " k  kkkkkkkkkkkkkkkkkk  k", " k k                  k k", " k k   pppp    pppp   k k", " k k pppppppppppppppp k k", " k k pppppppppppppppp k k", " k k   pppppppppppp   k k", " k k     pppppppp     k k", " k k       pppp       k k", " k k        pp        k k", " k kkkkkkkkkkkkkkkkkkkk k", " k                      k", " k  p          kkkkkk   k", " kkkkkkkkkkkkkkkkkkkkkkkk", "   kkkkkkkkkkkkkkkkkkkk"], true),
+    garden: mk(["    _                             _                          _                        _                            _                        _                             _", "  _(_)_         @               _(_)_         @            _(_)_              @     _(_)_         @              _(_)_    @               _(_)_         @               _(_)_    @", " (_)@(_)        |/  vVv        (_)@(_)        |/    vVv   (_)@(_)             |/   (_)@(_)  vVv   |/            (_)@(_)   |/  vVv        (_)@(_)        |/  vVv        (_)@(_)   |/  vVv", "   (_)    vVv  \\|   (_)    *     (_)    vVv  \\|     (_)     (_)     *   vVv  \\|      (_)    (_)  \\|   vVv   *     (_)    \\|   (_)  vVv     (_)     *   \\|   (_)   vVv    (_)    \\|   (_)  vVv", "    |/    (_)   |   \\|     |/     |/    (_)   |     \\|       |/     |/  (_)   |       |/    \\|    |   (_)   |/     |/     |   \\|   (_)      |/     |/   |   \\|    (_)     |/     |   \\|   (_)", "   \\|      |    |    |    \\|     \\|      |    |      |      \\|     \\|    |    |      \\|      |    |    |   \\|     \\|      |    |    |      \\|     \\|    |    |     |     \\|      |    |    |"], ["    p                             p                          p                        u                            p                        p                             u", "  ppppp         p               ppppp         u            ppppp              p     uuuuu         p              ppppp    p               ppppp         u               uuuuu    p", " ppppppp        kk  uuu        ppppppp        kk    ppp   ppppppp             kk   uuuuuuu  ppp   kk            ppppppp   kk  ppp        ppppppp        kk  ppp        uuuuuuu   kk  ppp", "   ppp    ppp  kk   uuu    p     ppp    ppp  kk     ppp     ppp     u   ppp  kk      uuu    ppp  kk   ppp   p     ppp    kk   ppp  uuu     ppp     p   kk   ppp   ppp    uuu    kk   ppp  ppp", "    kk    ppp   k   kk     kk     kk    ppp   k     kk       kk     kk  ppp   k       kk    kk    k   ppp   kk     kk     k   kk   uuu      kk     kk   k   kk    ppp     kk     k   kk   ppp", "   kk      k    k    k    kk     kk      k    k      k      kk     kk    k    k      kk      k    k    k   kk     kk      k    k    k      kk     kk    k    k     k     kk      k    k    k"], false)
+  };
+  /* ---------- chainmail: the same painting, calmer. one rectangle per piece ---------- */
+  function SPEC(C, Rv) {
+    var nt = kids("#note"), arts = kids("#pieces");
+    var TOPL = [T("#back"), { f: art, a: ART.pc, e: q("#pcimg") }];
+    var TITLE = [T("#title h1"), T("#intro", 1), T("#title .addr", 1)];
+    var NOTE = [T(nt[0]), T(nt[1]), T(nt[2], 1), T(nt[3], 1)];
+    var TX = ["slash", "loop", "colon", "bin", "rule", "hex", "plus", "dump", "sparse", "chop"];
+    var piece = function (a, i, s) {
+      var c = kids(a), B = [T(c[0]), T(c[1])];
+      kids(c[2]).forEach(function (p) { B.push(T(p, 1)); });
+      return Ct(B, a, s, TX[i % TX.length]);
+    };
+    var fill = function (i) { return i === 4 ? P("p", [1], 2) : i === 7 ? P("y", [1], 2) : W(i % 2 ? "dots" : "sparse", [1], 2); };
+    var col = function (a, i, s) { return V([piece(a, i, "a"), fill(i)], { s: s }); };
+    var garden = Ar(ART.garden, "a", "sparse", { av: "bot" });
+    var out = [], i, per = C >= 150 ? 3 : C >= 100 ? 2 : 1;
+    var W3 = [[26, 37, 25], [37, 25, 26], [25, 26, 37]];
+
+    if (per > 1) {
+      out.push(H([Ct(TOPL, "#top", 30, "sparse", "F"), Ct(TITLE, "#title", [1], "dump"),
+        V([P("u", [1]), W("dots", [1], 2)], { s: per === 3 ? 14 : 8 })]));
+      for (i = 0; i < arts.length; i += per) {
+        var row = [], r = i / per, ws = per === 3 ? W3[r % 3] : r % 2 ? [3, 2] : [2, 3];
+        for (var j = 0; j < per; j++) {
+          if (i + j < arts.length) row.push(col(arts[i + j], i + j, [ws[j]]));
+          else row.push(W(j % 2 ? "dots" : "sparse", [ws[j]]));
+        }
+        var sd = V(r % 2 ? [W("sparse", [1]), P("p", 2)] : [W("dots", [2]), W("colon", [1])], { s: per === 3 ? 10 : 6 });
+        if (r % 2) row.unshift(sd); else row.push(sd);
+        out.push(H(row));
+      }
+      out.push(H([V([P("y", [2], 3), W("loop", [1])], { s: [1] }), Ct(NOTE, "#note", [3], "dots")]));
+    } else {
+      var sw = C >= 70 ? 10 : 6;
+      var beside = function (c, k, left) { var s = V(k, { s: sw }); return H(left ? [s, c] : [c, s]); };
+      out.push(C - sw - 2 >= 29 ? beside(Ct(TOPL, "#top", [1], "sparse", "F"), [P("u", [1]), W("dots", [1])]) : Ct(TOPL, "#top", "a", "sparse", "F"));
+      out.push(Ct(TITLE, "#title", "a", "dump"));
+      arts.forEach(function (a, i) {
+        out.push(beside(col(a, i, [1]), i % 2 ? [W("sparse", [1]), P("p", 2)] : [W("dots", [2]), W("colon", [1])], i % 2));
+      });
+      out.push(beside(Ct(NOTE, "#note", [1], "dots"), [P("y", [2]), W("loop", [1])], true));
+    }
+    out.push(garden);
+    return V(out, { beads: [0] });
+  }
+
+  layout();
+  var queued = 0;
+  window.addEventListener("resize", function () { if (!queued) queued = requestAnimationFrame(function () { queued = 0; layout(); }); });
+})();
+</script>
 </body>
 </html>

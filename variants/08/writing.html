@@ -3,108 +3,99 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
 <title>chainmail · kes inkersole</title>
-<meta name="description" content="chainmail: short pieces of writing by kes inkersole, sent in by email and collected here over time.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M8 14 1.6 7.6A3.6 3.6 0 0 1 8 3.4a3.6 3.6 0 0 1 6.4 4.2Z' fill='%23ff2e93'/%3E%3C/svg%3E">
+<meta name="description" content="chainmail: short pieces of writing by kes inkersole, sent in by email.">
 <style>
-/* ------------------------------------------------------------------
-   chainmail: kes's own writing. same page rules as the home page:
-   white, black, electric blue links, a hot pink highlight, one unit
-   (--u, the 24px line), one grid of four columns, three type sizes.
-   ------------------------------------------------------------------ */
+/* chainmail: kes's writing. the same field as the home page: one long data dump that opens as a
+   repeating pattern and breaks into noise further down. each piece is an opening cut out of it.
+   one cell: 1ch by one row (--r, 16px). one font: system monospace, 13px, and double size for the title. */
 :root {
-  --paper: #fff;
   --ink: #000;
-  --blue: #1a3cff;
-  --pink: #ff2e93;
-  --u: 24px;
-  --gap: calc(var(--u) * 2);
-  --gut: calc(var(--u) * 2);
-  --sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --paper: #fff;
+  --blue: #0038ff;
+  --pink: #ff2d87;
+  --grey: #6f6f6f;
+  --dust: #c4c4c4;
   --mono: ui-monospace, Menlo, Consolas, "DejaVu Sans Mono", "Liberation Mono", "Courier New", monospace;
-  --serif: "Times New Roman", Times, serif;
-  color-scheme: light;
+  --r: 16px;
+  --pad: 3;
+  --inner: 999;
 }
-html { background: var(--paper); color: var(--ink); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
-body { margin: 0; padding: calc(var(--u) * 2) var(--gut) 0; font: 16px/24px var(--sans); overflow-wrap: break-word; }
+* { box-sizing: border-box; }
+html { background: var(--paper); color: var(--ink); font: 13px/16px var(--mono); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { margin: 0; position: relative; min-height: 100vh; overflow-x: clip; overflow-wrap: anywhere; }
+h1, h2, h3, p, pre { margin: 0; padding: 0; font: inherit; }
+p + p { margin-top: var(--r); }
 ::selection { background: var(--pink); color: var(--ink); }
-h1, h2, p, figure { margin: 0; }
 
-.label, .piece-meta, .colo { font: 13px/24px var(--mono); }
-.voice { font: italic 40px/48px var(--serif); letter-spacing: -.01em; font-weight: normal; }
-.heart { color: var(--pink); font-style: normal; }
-
-a { color: var(--blue); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a { color: var(--blue); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
 a:visited { text-decoration-style: dotted; }
-a:hover { background: var(--pink); color: var(--ink); text-decoration-color: transparent; }
-a:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+a:hover { background: var(--pink); color: var(--ink); text-decoration: none; }
+a:focus-visible { outline: 0; background: var(--blue); color: var(--paper); text-decoration: none; }
 
-.grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: var(--gap); }
-.band { background: linear-gradient(var(--ink), var(--ink)) top left / 100% 1px no-repeat; padding-top: var(--u); }
+#field { position: absolute; inset: 0; overflow: hidden; color: var(--dust); pointer-events: none; -webkit-user-select: none; user-select: none; }
+#field pre { white-space: pre; }
 
-.art { font: 13px/16px var(--mono); margin: 0; white-space: pre; color: var(--ink); }
-pre b, pre i { font-weight: inherit; font-style: normal; }
+.page { position: relative; padding: calc(2 * var(--r)) 0 calc(3 * var(--r)) calc(var(--pad) * 1ch); }
+.o { padding: var(--r) 2ch; max-width: min(100%, calc(var(--inner) * 1ch)); }
+.slot { width: fit-content; padding: 0 1ch; }
+.lbl { color: var(--grey); }
+.double { font-size: 26px; line-height: 32px; }
+.heart { color: var(--pink); }
 
-/* ---------- the top: the love-heart computer (index 5, variant 08). the pieces come down its wire ---------- */
-.mail { align-items: end; }
-.mail-say { grid-column: 2 / 4; grid-row: 1; }
-.mail-say .voice { margin: 0 0 var(--u); }
-.mail-say p { max-width: 34em; }
-.mail-say p + p { margin-top: var(--u); }
-.pc { grid-column: 1; grid-row: 1; }
-.pc b, .cable b { color: var(--pink); }
-.cable { grid-column: 1 / -1; display: flex; margin-right: calc(var(--gut) * -1); }
-.wire { flex: 1; overflow: hidden; padding-bottom: 3px; }
+/* ---------- the top: the love-heart computer, and its cable of <3s running off the edge of the page ---------- */
+.top { margin-top: calc(2 * var(--r)); }
+.whead { display: flex; flex-wrap: wrap; align-items: flex-end; gap: calc(2 * var(--r)) 3ch; }
+.pc-o { padding: var(--r) 1ch 0 0; width: fit-content; }
+.pc { color: var(--ink); }
+.pc b, .cable b { color: var(--pink); font-weight: inherit; }
+.wt { width: 57ch; margin-bottom: calc(2 * var(--r)); }
+.wt .double + p { margin-top: var(--r); }
+.how { width: 57ch; margin-bottom: calc(2 * var(--r)); }
+.cable { display: flex; padding: 0; max-width: none; color: var(--ink); }
+.wire { flex: 1; overflow: hidden; }
 .wire span { display: inline-block; margin-left: -30ch; animation: send 6s linear infinite paused; }
-.mail:hover .wire span { animation-play-state: running; }
+.top:hover .wire span { animation-play-state: running; }
 @keyframes send { to { transform: translateX(30ch); } }
 
-/* ---------- the pieces: newest first, poured into two columns of the grid ---------- */
-.pieces { columns: 2; column-gap: var(--gap); column-rule: 1px solid var(--ink); margin: calc(var(--u) * 3) 0 calc(var(--u) * 4); }
-.piece { break-inside: avoid; padding-bottom: calc(var(--u) * 3); max-width: 34em; }
-.piece-title { font: 700 16px/24px var(--sans); }
-.piece-body p + p { margin-top: var(--u); }
+/* ---------- the pieces: one opening each, newest first ---------- */
+.pieces { display: grid; grid-template-columns: repeat(auto-fill, min(57ch, 100%)); gap: calc(2 * var(--r)) 3ch; align-items: start;
+  max-width: calc(var(--inner) * 1ch + 1px); margin-top: calc(3 * var(--r)); }
+.piece .meta { display: flex; justify-content: space-between; column-gap: 2ch; }
+.piece h2 { font-weight: 700; margin-bottom: var(--r); }
 
 /* ---------- the end ---------- */
-.end { margin-bottom: calc(var(--u) * 3); }
-.end .voice { grid-column: 1 / 3; }
-.colo { grid-column: 3 / 5; max-width: 62ch; }
-.colo p + p { margin-top: var(--u); }
-.garden { overflow: hidden; margin: 0 calc(var(--gut) * -1); padding: 0 var(--u); }
-.garden .p { color: var(--pink); }
-.garden .b, .garden .l { color: var(--blue); }
-.garden s, .garden u { text-decoration: none; }
-.garden u, .garden:hover s { display: none; }
-.garden:hover u { display: inline; }
+.foot { display: grid; grid-template-columns: repeat(auto-fill, min(57ch, 100%)); gap: calc(2 * var(--r)) 3ch; align-items: start;
+  max-width: calc(var(--inner) * 1ch + 1px); margin-top: calc(4 * var(--r)); }
+.foot .say { grid-column: -2 / -1; }
+.foot .double + p { margin-top: var(--r); }
+.garden-o { margin-top: calc(4 * var(--r)); margin-left: calc(var(--pad) * -1ch); max-width: none; padding: var(--r) 0 0; overflow: hidden; }
+.garden b { font-weight: inherit; }
+.garden .rose { color: var(--pink); }
+.garden .peri { color: var(--blue); }
+.garden .lilac, .garden .stem { color: var(--ink); }
 
-@media (max-width: 1099px) {
-  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .mail-say { grid-column: 2; }
-  .end .voice { grid-column: 1; }
-  .colo { grid-column: 2; }
-}
 @media (max-width: 699px) {
-  :root { --gut: var(--u); }
-  .grid { grid-template-columns: minmax(0, 1fr); }
-  .mail-say, .pc, .end .voice, .colo { grid-column: 1; grid-row: auto; }
-  .mail-say { margin-bottom: calc(var(--u) * 2); }
-  .pieces { columns: 1; }
-  .colo { margin-top: var(--u); }
-  .voice { font-size: 36px; }
+  .wt, .how { width: 100%; margin-bottom: 0; }
+  .whead { align-items: flex-start; }
+  .pc-o { order: 3; }
 }
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; } }
+@media (prefers-reduced-motion: reduce) { .wire span { animation: none; } }
 </style>
 </head>
 <body>
 
-<header class="mail grid">
-  <div class="mail-say">
-    <p class="label"><a href="index.html">kes inkersole</a> / writing</p>
-    <h1 class="voice">chainmail <span class="heart">♡</span></h1>
-    <p>short pieces, the kind i write in my notes app. i send them in by email and they land here, newest at the top, collecting over time into a kind of text moodboard.</p>
-    <p class="label">pieces arrive by email at (address tbc)</p>
-  </div>
-<pre class="art pc" role="img" aria-label="ascii drawing of a little computer with a heart on its screen, its cable running off the edge of the page">
+<div id="field" aria-hidden="true"></div>
+
+<div class="page">
+
+<p class="o slot"><a href="index.html">← kes inkersole</a></p>
+
+<header class="top">
+<div class="whead">
+<div class="o pc-o">
+<pre class="pc" role="img" aria-label="ascii drawing of a little computer with a heart on its screen, its cable running off the edge of the page">
   ______________________
  |  __________________  |
  | |                  | |
@@ -120,116 +111,216 @@ pre b, pre i { font-weight: inherit; font-style: normal; }
  |  <b>o</b>          ______   |
  |______________________|\
    |__________________|   \</pre>
-<pre class="art cable" aria-hidden="true"><span>                           \</span><span class="wire"><span>_____________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>_______________</span></span></pre>
+</div>
+<div class="o wt">
+<h1 class="double">chainmail <span class="heart">♡</span></h1>
+<p>my own writing. short pieces, the kind i write in my notes app, sent here by email and collected over time into a kind of text moodboard.</p>
+</div>
+<div class="o how">
+<p class="lbl">by email</p>
+<p>each piece arrives as an email to (address tbc). the subject line becomes its title and the newest one lands at the top.</p>
+</div>
+</div>
+<pre class="o cable" aria-hidden="true"><span>                           \</span><span class="wire"><span>_____________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>_______________</span></span></pre>
 </header>
 
-<!--
-  chainmail pipeline: each email becomes one <article class="piece"> at the TOP of #pieces (newest first).
-    subject      -> h2.piece-title
-    date sent    -> time.piece-date (datetime="YYYY-MM-DD"), shown as "d mon yyyy"
-    running no.  -> span.piece-n and data-n
-    body         -> div.piece-body, one <p> per paragraph
-  the empty template below has the exact shape. the pieces here are lorem ipsum placeholders.
--->
-<template id="piece-template">
-  <article class="piece" id="piece-000" data-n="0">
-    <p class="piece-meta"><span class="piece-n">no. 0</span> · <time class="piece-date" datetime="YYYY-MM-DD">d mon yyyy</time></p>
-    <h2 class="piece-title">subject</h2>
-    <div class="piece-body"><p>text</p></div>
-  </article>
-</template>
+<main class="pieces" id="pieces">
+<!-- new pieces go at the top. one email = one <article class="o piece">, always in this shape:
+<article class="o piece" id="piece-NNN">
+<p class="meta lbl"><span>no. NNN</span><time datetime="YYYY-MM-DD">D mon YYYY</time></p>
+<h2>the email subject</h2>
+<div class="text"><p>the email body, one <p> per paragraph</p></div>
+</article>
+the dates and words below are placeholders. -->
 
-<main class="pieces" id="pieces" aria-label="pieces, newest first">
+<article class="o piece" id="piece-011">
+<p class="meta lbl"><span>no. 011</span><time datetime="2026-10-18">18 oct 2026</time></p>
+<h2>lorem ipsum</h2>
+<div class="text"><p>lorem ipsum dolor sit amet.</p></div>
+</article>
 
-  <article class="piece" id="piece-010" data-n="10">
-    <p class="piece-meta"><span class="piece-n">no. 10</span> · <time class="piece-date" datetime="2026-10-14">14 oct 2026</time></p>
-    <h2 class="piece-title">re: lorem ipsum</h2>
-    <div class="piece-body"><p>lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></div>
-  </article>
+<article class="o piece" id="piece-010">
+<p class="meta lbl"><span>no. 010</span><time datetime="2026-10-14">14 oct 2026</time></p>
+<h2>consectetur adipiscing elit</h2>
+<div class="text">
+<p>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+<p>excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.</p>
+<p>totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+</div>
+</article>
 
-  <article class="piece" id="piece-009" data-n="9">
-    <p class="piece-meta"><span class="piece-n">no. 9</span> · <time class="piece-date" datetime="2026-10-09">9 oct 2026</time></p>
-    <h2 class="piece-title">sed do eiusmod tempor</h2>
-    <div class="piece-body">
-      <p>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-      <p>duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-      <p>sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.</p>
-    </div>
-  </article>
+<article class="o piece" id="piece-009">
+<p class="meta lbl"><span>no. 009</span><time datetime="2026-10-09">9 oct 2026</time></p>
+<h2>(no subject)</h2>
+<div class="text"><p>nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.</p></div>
+</article>
 
-  <article class="piece" id="piece-008" data-n="8">
-    <p class="piece-meta"><span class="piece-n">no. 8</span> · <time class="piece-date" datetime="2026-10-02">2 oct 2026</time></p>
-    <h2 class="piece-title">ut enim</h2>
-    <div class="piece-body"><p>ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur.</p></div>
-  </article>
+<article class="o piece" id="piece-008">
+<p class="meta lbl"><span>no. 008</span><time datetime="2026-10-06">6 oct 2026</time></p>
+<h2>sed quia consequuntur</h2>
+<div class="text"><p>magni dolores eos qui ratione voluptatem sequi nesciunt. neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p></div>
+</article>
 
-  <article class="piece" id="piece-007" data-n="7">
-    <p class="piece-meta"><span class="piece-n">no. 7</span> · <time class="piece-date" datetime="2026-09-27">27 sep 2026</time></p>
-    <h2 class="piece-title">fwd: quis nostrud exercitation</h2>
-    <div class="piece-body"><p>quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur. at vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores.</p></div>
-  </article>
+<article class="o piece" id="piece-007">
+<p class="meta lbl"><span>no. 007</span><time datetime="2026-10-02">2 oct 2026</time></p>
+<h2>ut enim ad minima</h2>
+<div class="text"><p>quis autem vel eum<br>iure reprehenderit<br>qui in ea voluptate<br>velit esse quam nihil<br>molestiae consequatur</p></div>
+</article>
 
-  <article class="piece" id="piece-006" data-n="6">
-    <p class="piece-meta"><span class="piece-n">no. 6</span> · <time class="piece-date" datetime="2026-09-20">20 sep 2026</time></p>
-    <h2 class="piece-title">duis aute irure</h2>
-    <div class="piece-body"><p>duis aute irure dolor in reprehenderit.</p></div>
-  </article>
+<article class="o piece" id="piece-006">
+<p class="meta lbl"><span>no. 006</span><time datetime="2026-09-27">27 sep 2026</time></p>
+<h2>at vero eos et accusamus</h2>
+<div class="text">
+<p>et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.</p>
+<p>similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. et harum quidem rerum facilis est et expedita distinctio.</p>
+</div>
+</article>
 
-  <article class="piece" id="piece-005" data-n="5">
-    <p class="piece-meta"><span class="piece-n">no. 5</span> · <time class="piece-date" datetime="2026-09-12">12 sep 2026</time></p>
-    <h2 class="piece-title">excepteur sint occaecat</h2>
-    <div class="piece-body">
-      <p>excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.</p>
-      <p>neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.</p>
-    </div>
-  </article>
+<article class="o piece" id="piece-005">
+<p class="meta lbl"><span>no. 005</span><time datetime="2026-09-21">21 sep 2026</time></p>
+<h2>nam libero</h2>
+<div class="text"><p>tempore, cum soluta nobis est eligendi optio.</p></div>
+</article>
 
-  <article class="piece" id="piece-004" data-n="4">
-    <p class="piece-meta"><span class="piece-n">no. 4</span> · <time class="piece-date" datetime="2026-09-03">3 sep 2026</time></p>
-    <h2 class="piece-title">nulla pariatur</h2>
-    <div class="piece-body"><p>nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est.</p></div>
-  </article>
+<article class="o piece" id="piece-004">
+<p class="meta lbl"><span>no. 004</span><time datetime="2026-09-14">14 sep 2026</time></p>
+<h2>re: temporibus autem quibusdam</h2>
+<div class="text"><p>et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.</p></div>
+</article>
 
-  <article class="piece" id="piece-003" data-n="3">
-    <p class="piece-meta"><span class="piece-n">no. 3</span> · <time class="piece-date" datetime="2026-08-28">28 aug 2026</time></p>
-    <h2 class="piece-title">re: re: magna aliqua</h2>
-    <div class="piece-body">
-      <p>lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-      <p>temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. itaque earum rerum hic tenetur a sapiente delectus.</p>
-      <p>ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.</p>
-      <p>et harum quidem rerum facilis est et expedita distinctio. nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.</p>
-    </div>
-  </article>
+<article class="o piece" id="piece-003">
+<p class="meta lbl"><span>no. 003</span><time datetime="2026-09-03">3 sep 2026</time></p>
+<h2>quis nostrum exercitationem</h2>
+<div class="text">
+<p>ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur.</p>
+<p>lorem ipsum dolor sit amet, consectetur adipiscing elit. integer nec odio. praesent libero. sed cursus ante dapibus diam. sed nisi. nulla quis sem at nibh elementum imperdiet. duis sagittis ipsum.</p>
+<p>praesent mauris. fusce nec tellus sed augue semper porta. mauris massa. vestibulum lacinia arcu eget nulla. class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p>
+<p>curabitur sodales ligula in libero.</p>
+</div>
+</article>
 
-  <article class="piece" id="piece-002" data-n="2">
-    <p class="piece-meta"><span class="piece-n">no. 2</span> · <time class="piece-date" datetime="2026-08-19">19 aug 2026</time></p>
-    <h2 class="piece-title">cillum dolore</h2>
-    <div class="piece-body"><p>cillum dolore eu fugiat nulla pariatur, lorem ipsum.</p></div>
-  </article>
+<article class="o piece" id="piece-002">
+<p class="meta lbl"><span>no. 002</span><time datetime="2026-08-28">28 aug 2026</time></p>
+<h2>sed dignissim lacinia</h2>
+<div class="text"><p>nunc. curabitur tortor. pellentesque nibh. aenean quam. in scelerisque sem at dolor. maecenas mattis. sed convallis tristique sem.</p></div>
+</article>
 
-  <article class="piece" id="piece-001" data-n="1">
-    <p class="piece-meta"><span class="piece-n">no. 1</span> · <time class="piece-date" datetime="2026-08-11">11 aug 2026</time></p>
-    <h2 class="piece-title">sunt in culpa</h2>
-    <div class="piece-body"><p>sunt in culpa qui officia deserunt mollit anim id est laborum. at vero eos et accusamus et iusto odio dignissimos.</p></div>
-  </article>
+<article class="o piece" id="piece-001">
+<p class="meta lbl"><span>no. 001</span><time datetime="2026-08-15">15 aug 2026</time></p>
+<h2>hello, lorem</h2>
+<div class="text">
+<p>proin ut ligula vel nunc egestas porttitor. morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. fusce ac turpis quis ligula lacinia aliquet.</p>
+<p>mauris ipsum.</p>
+</div>
+</article>
 
 </main>
 
-<footer class="end grid band">
-  <p class="voice">thanks for stopping by <span class="heart">♡</span></p>
-  <div class="colo">
-    <p>this page is plain html, like the rest of the site: system fonts, no cookies, no tracking, so it loads fine on bad wifi. new pieces arrive by email and pile up at the top.</p>
-    <p><a href="index.html">back to kes' little corner of the internet</a></p>
-  </div>
+<footer class="foot">
+<div class="o note">
+<p class="double">thanks for stopping by <span class="heart">♡</span></p>
+<p>this website is mostly plain html: system fonts and no trackers. it's easy for me to update and it loads fine on bad wifi.</p>
+</div>
+<div class="o say">
+<p class="lbl">elsewhere</p>
+<p><a href="index.html">back to kes' little corner of the internet</a><br><a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
+</div>
 </footer>
 
-<pre class="art garden" aria-hidden="true">                  <b class=p>_</b>   <b class=p>_</b>                                                             <b class=p>_</b>   <b class=p>_</b>                                                    <b class=p>_</b>   <b class=p>_</b>                                                                            <b class=p>_</b>   <b class=p>_</b>                                                             <b class=p>_</b>   <b class=p>_</b>                                                    <b class=p>_</b>   <b class=p>_</b>
-     <b class=p>_</b>           <b class=p>(</b> <b class=p>`v'</b> <b class=p>)</b>                                              <b class=b>_</b>            <b class=p>(</b> <b class=p>`v'</b> <b class=p>)</b>            <b class=p>_</b>                                     <b class=p>(</b> <b class=p>`v'</b> <b class=p>)</b>       <b class=b>_</b>                              <b class=p>_</b>                       <b class=p>_</b>           <b class=p>(</b> <b class=p>`v'</b> <b class=p>)</b>                                              <b class=b>_</b>            <b class=p>(</b> <b class=p>`v'</b> <b class=p>)</b>            <b class=p>_</b>                                     <b class=p>(</b> <b class=p>`v'</b> <b class=p>)</b>       <b class=b>_</b>                              <b class=p>_</b>
-   <b class=p>_(_)_</b>          <b class=p>\</b>   <b class=p>/</b>           <b class=y>\</b> <b class=y>|</b> <b class=y>/</b>               <b class=l>@@@</b>           <b class=b>_(_)_</b>           <b class=p>\</b>   <b class=p>/</b>           <b class=p>_(_)_</b>           <b class=l>@@@</b>       <b class=y>\</b> <b class=y>|</b> <b class=y>/</b>          <b class=p>\</b>   <b class=p>/</b>      <b class=b>_(_)_</b>                <b class=l>@@@</b>       <b class=p>_(_)_</b>     <b class=y>\</b> <b class=y>|</b> <b class=y>/</b>         <b class=p>_(_)_</b>          <b class=p>\</b>   <b class=p>/</b>           <b class=y>\</b> <b class=y>|</b> <b class=y>/</b>               <b class=l>@@@</b>           <b class=b>_(_)_</b>           <b class=p>\</b>   <b class=p>/</b>           <b class=p>_(_)_</b>           <b class=l>@@@</b>       <b class=y>\</b> <b class=y>|</b> <b class=y>/</b>          <b class=p>\</b>   <b class=p>/</b>      <b class=b>_(_)_</b>                <b class=l>@@@</b>       <b class=p>_(_)_</b>     <b class=y>\</b> <b class=y>|</b> <b class=y>/</b>
-  <b class=p>(_)</b><b class=y>@</b><b class=p>(_)</b>          <b class=p>`.'</b>           <b class=y>--</b> <b class=p>o</b> <b class=y>--</b>             <b class=l>@@@@@</b>         <b class=b>(_)</b><b class=y>@</b><b class=b>(_)</b>           <b class=p>`.'</b>           <b class=p>(_)</b><b class=y>@</b><b class=p>(_)</b>         <b class=l>@@@@@</b>     <b class=y>--</b> <b class=p>o</b> <b class=y>--</b>          <b class=p>`.'</b>      <b class=b>(_)</b><b class=y>@</b><b class=b>(_)</b>              <b class=l>@@@@@</b>     <b class=p>(_)</b><b class=y>@</b><b class=p>(_)</b>   <b class=y>--</b> <b class=p>o</b> <b class=y>--</b>       <b class=p>(_)</b><b class=y>@</b><b class=p>(_)</b>          <b class=p>`.'</b>           <b class=y>--</b> <b class=p>o</b> <b class=y>--</b>             <b class=l>@@@@@</b>         <b class=b>(_)</b><b class=y>@</b><b class=b>(_)</b>           <b class=p>`.'</b>           <b class=p>(_)</b><b class=y>@</b><b class=p>(_)</b>         <b class=l>@@@@@</b>     <b class=y>--</b> <b class=p>o</b> <b class=y>--</b>          <b class=p>`.'</b>      <b class=b>(_)</b><b class=y>@</b><b class=b>(_)</b>              <b class=l>@@@@@</b>     <b class=p>(_)</b><b class=y>@</b><b class=p>(_)</b>   <b class=y>--</b> <b class=p>o</b> <b class=y>--</b>
-    <b class=p>(_)</b>             <b class=g>|</b>             <b class=y>/</b> <b class=y>|</b> <b class=y>\</b>    <b class=k>(\_/)</b>      <b class=l>@@@</b>            <b class=b>(_)</b>              <b class=g>|</b>              <b class=p>(_)</b>            <b class=l>@@@</b>       <b class=y>/</b> <b class=y>|</b> <b class=y>\</b>            <b class=g>|</b>         <b class=b>(_)</b>                 <b class=l>@@@</b>        <b class=p>(_)</b>      <b class=y>/</b> <b class=y>|</b> <b class=y>\</b>          <b class=p>(_)</b>             <b class=g>|</b>             <b class=y>/</b> <b class=y>|</b> <b class=y>\</b>    <b class=k>(\_/)</b>      <b class=l>@@@</b>            <b class=b>(_)</b>              <b class=g>|</b>              <b class=p>(_)</b>            <b class=l>@@@</b>       <b class=y>/</b> <b class=y>|</b> <b class=y>\</b>            <b class=g>|</b>         <b class=b>(_)</b>                 <b class=l>@@@</b>        <b class=p>(_)</b>      <b class=y>/</b> <b class=y>|</b> <b class=y>\</b>
-     <b class=g>|\</b>            <b class=g>/|</b>        <b class=g>,</b>      <b class=g>|</b>      <b class=k>(<s>-.-</s><u>o.o</u>)</b>       <b class=g>|</b>             <b class=g>/|</b>       <b class=g>,</b>      <b class=g>/|</b>               <b class=g>|\</b>      <b class=g>,</b>      <b class=g>|</b>          <b class=g>|</b>             <b class=g>/|</b>         <b class=g>/|</b>      <b class=g>,</b>            <b class=g>|</b>          <b class=g>|\</b>        <b class=g>|</b>             <b class=g>|\</b>            <b class=g>/|</b>        <b class=g>,</b>      <b class=g>|</b>      <b class=k>(<s>-.-</s><u>o.o</u>)</b>       <b class=g>|</b>             <b class=g>/|</b>       <b class=g>,</b>      <b class=g>/|</b>               <b class=g>|\</b>      <b class=g>,</b>      <b class=g>|</b>          <b class=g>|</b>             <b class=g>/|</b>         <b class=g>/|</b>      <b class=g>,</b>            <b class=g>|</b>          <b class=g>|\</b>        <b class=g>|</b>
-     <b class=g>|</b>      <b class=g>\|/</b>     <b class=g>|</b>       <b class=g>\|</b>      <b class=g>|/</b>     <b class=k>(")(")</b>     <b class=g>\|</b>     <b class=g>\|/</b>      <b class=g>|</b>      <b class=g>\|</b>       <b class=g>|</b>     <b class=g>\|/</b>       <b class=g>|</b>      <b class=g>\|</b>     <b class=g>\|</b>          <b class=g>|/</b>    <b class=g>\|/</b>      <b class=g>|</b>          <b class=g>|</b>     <b class=g>\|</b>   <b class=g>\|/</b>     <b class=g>\|</b>          <b class=g>|</b>         <b class=g>|/</b>    <b class=g>\|/</b>     <b class=g>|</b>      <b class=g>\|/</b>     <b class=g>|</b>       <b class=g>\|</b>      <b class=g>|/</b>     <b class=k>(")(")</b>     <b class=g>\|</b>     <b class=g>\|/</b>      <b class=g>|</b>      <b class=g>\|</b>       <b class=g>|</b>     <b class=g>\|/</b>       <b class=g>|</b>      <b class=g>\|</b>     <b class=g>\|</b>          <b class=g>|/</b>    <b class=g>\|/</b>      <b class=g>|</b>          <b class=g>|</b>     <b class=g>\|</b>   <b class=g>\|/</b>     <b class=g>\|</b>          <b class=g>|</b>         <b class=g>|/</b>    <b class=g>\|/</b>
-<b class=g>,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,</b><b class=g>,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,</b></pre>
+<div class="o garden-o" aria-hidden="true">
+<pre class="garden">    <b class="rose">_                             </b><b class="lilac">_                          </b><b class="rose">_                        </b><b class="peri">_                            </b><b class="rose">_                        </b><b class="lilac">_                             </b><b class="peri">_</b>
+  <b class="rose">_(_)_         @               </b><b class="lilac">_(_)_         </b><b class="peri">@            </b><b class="rose">_(_)_              @     </b><b class="peri">_(_)_         </b><b class="rose">@              _(_)_    </b><b class="lilac">@               _(_)_         </b><b class="peri">@               _(_)_    </b><b class="rose">@</b>
+ <b class="rose">(_)@(_)        </b><b class="stem">|/  </b><b class="peri">vVv        </b><b class="lilac">(_)@(_)        </b><b class="stem">|/    </b><b class="rose">vVv   (_)@(_)             </b><b class="stem">|/   </b><b class="peri">(_)@(_)  </b><b class="lilac">vVv   </b><b class="stem">|/            </b><b class="rose">(_)@(_)   </b><b class="stem">|/  </b><b class="rose">vVv        </b><b class="lilac">(_)@(_)        </b><b class="stem">|/  </b><b class="lilac">vVv        </b><b class="peri">(_)@(_)   </b><b class="stem">|/  </b><b class="lilac">vVv</b>
+   <b class="rose">(_)    </b><b class="lilac">vVv  </b><b class="stem">\|   </b><b class="peri">(_)    </b><b class="lilac">*     (_)    </b><b class="rose">vVv  </b><b class="stem">\|     </b><b class="rose">(_)     (_)     </b><b class="peri">*   </b><b class="lilac">vVv  </b><b class="stem">\|      </b><b class="peri">(_)    </b><b class="lilac">(_)  </b><b class="stem">\|   </b><b class="rose">vVv   </b><b class="lilac">*     </b><b class="rose">(_)    </b><b class="stem">\|   </b><b class="rose">(_)  </b><b class="peri">vVv     </b><b class="lilac">(_)     </b><b class="rose">*   </b><b class="stem">\|   </b><b class="lilac">(_)   </b><b class="rose">vVv    </b><b class="peri">(_)    </b><b class="stem">\|   </b><b class="lilac">(_)  </b><b class="rose">vVv</b>
+    <b class="stem">|/    </b><b class="lilac">(_)   </b><b class="stem">|   \|     |/     |/    </b><b class="rose">(_)   </b><b class="stem">|     \|       |/     |/  </b><b class="lilac">(_)   </b><b class="stem">|       |/    \|    |   </b><b class="rose">(_)   </b><b class="stem">|/     |/     |   \|   </b><b class="peri">(_)      </b><b class="stem">|/     |/   |   \|    </b><b class="rose">(_)     </b><b class="stem">|/     |   \|   </b><b class="rose">(_)</b>
+   <b class="stem">\|      |    |    |    \|     \|      |    |      |      \|     \|    |    |      \|      |    |    |   \|     \|      |    |    |      \|     \|    |    |     |     \|      |    |    |</b></pre>
+</div>
+
+</div>
+
+<script>
+/* the field: one long data dump read left to right, top to bottom. it opens as the repeating
+   pattern from the example file and breaks into that file's own noise further down the page.
+   the openings are cut where the content sits, snapped outwards to whole characters.
+   same page, same field, every time. nothing on this page moves. */
+(function () {
+  var PAT = "Q±0ðLDDDDDDDDDDDDDDÅÂÀ3ÏDDDDDDDDDDDDDDT,<";
+  var NOISE = "ýküúë¯˜9sæ³®àã?ÆÊ•+Ÿu5ˆˆˆè)¸{÷.Æ³gÏ>ëªQ!mÛ¶ o½õ²³³Ÿêqx¦\"ËÎÎFpp0²²²Š\\6##AAAxøða)ÔìßcÃ† hÚ´)âââžuUŒÄÄÄàîÝ»ÅÚGzz:RSS‘““c´íÑ£GHMM5ú{ôèQ¾ûÔëõ…Ê÷´eff\"55z½À?çnøw^ÙÙÙùnÿ/0œsQ¾ã6ù™0µÿ«W¯\"%%Åh›££#¾üòKlß¾½Hu&¢’£×ëqýúõ'ú=NHHÀ•+W––V 5û÷øðÃÑ«W¯g] #\"‚ÐÐP“¿¯æÚŒŒ³yÂÂÂ uípóæMÜ¸q£ÐÇ~šçièledd˜½–€œœœ|·ÿ[æý40u½f®¬áõHOOWÒ’’’0yòäåõ.Ñÿª°°0$''¹\\JJ ®\\¹‚ÄÄD³yŠò›ð_‡æÍ›ã÷ßÖU1’’’‚ÐÐPˆH‘Ë>|ø°PípNNBBBpóæÍBÕ'((Hõûÿo’{Á0¦_]ÓÒÒþµçR[·n!66¶Èå²²²píÚ5Ü¹s§À¼ù÷yxx`ÿþý¼Qœ¨„=éw;·üú6O:Nû_”.]º`Þ¼yÏº*FŠ2nšWZZBBB ¼60¼×¦Æ¤E‘‘‘ÿWŽYgee©>Ã†Ï´¹ºþWûëÀ“ÅÖ «ÏÎÎÆÕ«W‘””d´\\¹røî»ï°víÚ'®ó¢BÊÊÊ’7ÞxCììì€ØÚÚÊ«¯¾*™™™–MMM•É“'‹N§@:vì(¡¡¡O¡æOWNNŽÔªUKÚ·oÿ¬«¢²ÿ~©R¥Šòú×[WÎ;WäýÄÅÅ‰›››={öm¯^½ºrŒÜ[·Îw¿Ÿ|òI¡ò=m¾¾¾bee%÷ïß‘=z™5k–ÉüK–,ráÂ…§YÍ“™™) 4²hÑ¢ó?zôH^~ùe±¶¶âàà S¦L‘œœ“y‡.¶¶¶@4¼òÊ+ò";
+  var P = PAT.length, N = NOISE.length, ROWS = 48;
+  var de = document.documentElement, field = document.getElementById("field");
+  var probe = document.createElement("span");
+  probe.style.cssText = "position:absolute;left:0;top:0;visibility:hidden;white-space:pre";
+  probe.textContent = new Array(101).join("0");
+  field.appendChild(probe);
+  var cw = 8, rh = 16, W = 0, R = 0, kind = null, mask = null, pres = [], sig = "", raf = 0;
+
+  function rng(a) {
+    return function () { a = a + 0x6D2B79F5 | 0; var t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+  }
+  function dump() {
+    var r = rng(170), phase = 0, left = 0, at = 0, i = 0;
+    kind = new Int16Array(W * R);
+    for (var y = 0; y < R; y++) {
+      var t = R > 1 ? y / (R - 1) : 0, f = Math.pow(t, 1.6), len = 3 + 90 * t * t;
+      var start = f > .995 ? 1 : f / (len * (1 - f));
+      for (var x = 0; x < W; x++, i++) {
+        if (!left && r() < start) { left = 1 + Math.floor(-Math.log(1 - r()) * len); at = Math.floor(r() * N); }
+        if (left) { kind[i] = -1 - at; at = (at + 1) % N; if (!--left && r() < .6) phase += 1 + Math.floor(r() * (P - 1)); }
+        else kind[i] = (i + phase) % P;
+      }
+    }
+  }
+  function line(y) {
+    var s = "", i = y * W, k;
+    for (var x = 0; x < W; x++, i++) {
+      if (mask[i]) { s += " "; continue; }
+      k = kind[i];
+      s += k >= 0 ? PAT[k] : NOISE[-1 - k];
+    }
+    return s;
+  }
+  function build() {
+    raf = 0;
+    cw = probe.getBoundingClientRect().width / 100 || 8;
+    rh = parseFloat(getComputedStyle(field).lineHeight) || 16;
+    var cols = Math.floor(de.clientWidth / cw + .01);
+    var pad = cols >= 183 ? Math.floor((cols - 177) / 2) : cols < 70 ? 2 : 3;
+    de.style.setProperty("--pad", pad);
+    de.style.setProperty("--inner", Math.max(10, cols - 2 * pad));
+    var os = [].slice.call(document.querySelectorAll(".o"));
+    os.forEach(function (o) { o.style.minHeight = ""; });
+    var hs = os.map(function (o) { return o.getBoundingClientRect().height; });
+    os.forEach(function (o, n) { var h = hs[n], up = Math.ceil(h / rh - .02) * rh; if (h && up - h > .5) o.style.minHeight = up + "px"; });
+    var fr = field.getBoundingClientRect(), w = Math.ceil(fr.width / cw), h = Math.ceil(fr.height / rh - .02), box = [];
+    os.forEach(function (o) {
+      var b = o.getBoundingClientRect();
+      if (b.width && b.height) box.push(
+        Math.max(0, Math.floor((b.left - fr.left) / cw + .05)), Math.min(w, Math.ceil((b.right - fr.left) / cw - .05)),
+        Math.max(0, Math.floor((b.top - fr.top) / rh + .05)), Math.min(h, Math.ceil((b.bottom - fr.top) / rh - .05)));
+    });
+    var s = w + "x" + h + ":" + box.join(",");
+    if (s === sig) return;
+    sig = s;
+    if (w !== W || h !== R) { W = w; R = h; dump(); }
+    mask = new Uint8Array(W * R);
+    for (var n = 0; n < box.length; n += 4) for (var y = box[n + 2]; y < box[n + 3]; y++) mask.fill(1, y * W + box[n], y * W + box[n + 1]);
+    var need = Math.ceil(R / ROWS);
+    while (pres.length < need) pres.push(field.appendChild(document.createElement("pre")));
+    while (pres.length > need) field.removeChild(pres.pop());
+    for (var k = 0; k < need; k++) {
+      var out = [];
+      for (y = k * ROWS; y < Math.min(R, (k + 1) * ROWS); y++) out.push(line(y));
+      pres[k].textContent = out.join("\n");
+    }
+  }
+  function later() { if (!raf) raf = requestAnimationFrame(build); }
+
+  build();
+  addEventListener("resize", later);
+  addEventListener("load", later);
+  if (window.ResizeObserver) new ResizeObserver(later).observe(document.querySelector(".page"));
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(later);
+})();
+</script>
 </body>
 </html>

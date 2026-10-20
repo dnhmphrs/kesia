@@ -1,238 +1,259 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en-GB">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
 <title>kes inkersole</title>
-<meta name="description" content="kes inkersole (kesia on paper): freelance creative strategist &amp; internet equalities researcher, based in london.">
+<meta name="description" content="kes inkersole (kesia on paper): freelance creative strategist and internet equalities researcher, based in london.">
 <style>
-/* ---------------------------------------------------------------
-   kes inkersole. one html file, system fonts, no trackers.
-   the rules of the page:
-   - one unit, --u (24px, the line height). every gap is a multiple of it.
-   - one grid: 3 columns on a big screen, 2 on a small one, 1 on a phone.
-   - three type sizes: 13px mono (labels, ascii), 16px sans (reading),
-     40px times italic (saying hello).
-   - colour: black on white, blue links, pink highlight, and the pink of the name.
-   --------------------------------------------------------------- */
+/* kes inkersole, after mondrian.
+   the page is one composition. the canvas is black and every rectangle sits on it, so the lines are the
+   gaps between them: one weight (--L), running to the edges of the window.
+   most rectangles are white and hold one thing each. a few are flat planes of colour and hold nothing:
+   kes's hot pink stands in for mondrian's red (it is also the highlight under your mouse),
+   her electric blue is the blue (it is also every link), plus one yellow and one small black.
+   three type sizes: 13px mono for labels and drawings, 16px sans for reading, 40px sans for saying hello. */
 :root {
-  --u: 24px;
   --ink: #000;
-  --paper: #fff;
-  --blue: #0038ff;   /* links */
-  --pink: #ff3399;   /* the hearts in the name, and the highlight under your mouse */
-  --blush: #ffe3f0;  /* the name's pink ground */
-  --dot: #ffb8d9;    /* the name's unlit dots */
+  --white: #fff;
+  --off: #f2f0eb;
+  --blue: #0038ff;
+  --pink: #ff2d87;
+  --yellow: #ffd200;
+  --L: 12px;
+  --pad: 32px;
+  --u: 24px;
+  /* five tracks shared by every band, so the long verticals line up down the page */
+  --cols: minmax(0, 300fr) minmax(0, 308fr) minmax(0, 424fr) minmax(0, 172fr) minmax(0, 188fr);
   --sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --mono: ui-monospace, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  --serif: "Times New Roman", Times, serif;
-  --side: calc(var(--u) * 2);
-  --gap: calc(var(--u) * 2);
-  color-scheme: light;
+  --mono: ui-monospace, Menlo, Consolas, "DejaVu Sans Mono", "Liberation Mono", "Courier New", monospace;
 }
-html { background: var(--paper); color: var(--ink); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
-body { margin: 0 auto; max-width: 1920px; padding: calc(var(--u) * 2) var(--side) 0; font: 16px/24px var(--sans); }
-p, h1, h2, h3, ul, dl, dd, figure { margin: 0; }
+html { background: var(--white); color: var(--ink); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { margin: 0; font: 16px/24px var(--sans); overflow-x: hidden; overflow-wrap: break-word; }
+h1, h2, h3, p, ul, dl, dd, pre { margin: 0; }
+h1, h2, h3 { font: inherit; }
 ::selection { background: var(--pink); color: var(--ink); }
 
-a { color: var(--blue); text-decoration-thickness: 1px; text-underline-offset: 3px; }
-a:visited { color: var(--blue); }
-a:hover, a:focus-visible { background: var(--pink); color: var(--ink); text-decoration: none; outline: none; }
+a { color: var(--blue); text-decoration-thickness: 1px; text-underline-offset: .2em; }
+a:visited { text-decoration-style: dotted; }
+a:hover { background: var(--pink); color: var(--ink); text-decoration: none; }
+a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
-.m { font: 13px/24px var(--mono); }
-.sym, .heart, .pk { color: var(--pink); font-style: normal; }
-.title { font: 400 13px/24px var(--mono); }
+/* the three sizes */
+.lbl, .soft, #fm-h, .card dt { font: 13px/24px var(--mono); }
+.display { font: 400 40px/44px var(--sans); letter-spacing: -.02em; }
+.heart, .sym { color: var(--pink); font-style: normal; }
+pre { font: 13px/15px var(--mono); white-space: pre; }
+pre b, pre i { font: inherit; }
 
-/* the grid */
-.grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--gap); }
-.band { margin-top: calc(var(--u) * 4); }
+/* ---------- the composition ---------- */
+.canvas { background: var(--ink); display: flex; flex-direction: column; gap: var(--L); }
+.band { display: grid; grid-template-columns: var(--cols); gap: var(--L); }
+.stack { display: flex; flex-direction: column; gap: var(--L); min-width: 0; }
+.r { background: var(--white); padding: var(--pad); min-width: 0; }
+.r > * + * { margin-top: var(--u); }
+.r > .lbl + * { margin-top: 8px; }
+.grow { flex: 1 1 auto; }
+.pl-pink { background: var(--pink); }
+.pl-blue { background: var(--blue); }
+.pl-yellow { background: var(--yellow); }
+.pl-black { background: var(--ink); }
+.pl-off { background: var(--off); }
+/* a small split at the foot of a right-hand column: it falls on the same line as tracks four and five */
+.split { display: grid; grid-template-columns: minmax(0, 172fr) minmax(0, 188fr); gap: var(--L); flex: none; }
 
-/* ---------- the name, in <3s on a pink sign ---------- */
-.sign { container-type: inline-size; margin: 0 0 calc(var(--u) * 4); }
-.sign pre { margin: 0; font-family: var(--mono); font-weight: bold; color: var(--dot); line-height: 1.22; font-size: min(19px, calc(100cqw / 101.9)); width: fit-content;
-  background: linear-gradient(var(--blush), var(--blush)) 1.5ch .5lh / calc(100% - 3ch) calc(100% - 1lh) no-repeat; }
-.sign s { text-decoration: none; color: var(--ink); font-weight: normal; }
-.sign b { font-weight: inherit; color: var(--pink); }
-.sign b.h { color: var(--blue); animation: blink 1.6s steps(1) infinite; }
-@keyframes blink { 50% { color: var(--pink); } }
-.sign .small { display: none; }
-@container (max-width: 879px) {
-  .sign .big { display: none; }
-  .sign .small { display: block; font-size: min(16px, calc(100cqw / 25.9)); }
-}
+/* band one: the first view. name across the top, pink at the top right,
+   then hello / KES FM / the card, with blue at the foot of the left and a little yellow in the bottom corner */
+.b1 { grid-template-areas: "name name name pk pk" "g f f c c"; grid-template-rows: auto 1fr; }
+.name { grid-area: name; } .pk1 { grid-area: pk; }
+.s-g { grid-area: g; } .s-f { grid-area: f; } .s-c { grid-area: c; }
+.s-g .pl-blue { flex: none; height: 120px; }
+.s-c .split { height: 48px; }
 
-/* ---------- hello, the radio and the card ---------- */
-.top { grid-template-areas: "hello . card" "fm fm card"; row-gap: calc(var(--u) * 4); align-items: start; }
-.hello { grid-area: hello; }
-.fm { grid-area: fm; }
-.card { grid-area: card; }
+/* band two: three projects */
+.b2 { grid-template-areas: "p1 p1 p2 p3 p3"; }
+.p1 { grid-area: p1; } .p2s { grid-area: p2; } .p3 { grid-area: p3; }
+.p2s .pl-blue { flex: 1 1 auto; min-height: 64px; }
 
-.hello h1 { font: italic 400 40px/48px var(--serif); letter-spacing: -.01em; }
-.hello .welcome { margin-bottom: var(--u); }
-.hello p + p { margin-top: var(--u); }
-.hello p { max-width: 34em; }
+/* band three: everything else */
+.b3 { grid-template-areas: "a b b c c"; }
+.s-a { grid-area: a; } .s-b { grid-area: b; } .s-r { grid-area: c; }
+.s-r .split { height: 72px; }
 
-/* the card: bio / portfolio / cv, on the right */
-.card { container-type: inline-size; border: 1px solid var(--ink); padding: var(--u); }
-.card .name { font: 700 16px/24px var(--sans); letter-spacing: -.01em; margin-bottom: var(--u); }
-.card .name .m { font-weight: 400; letter-spacing: 0; }
-.card dt { font: 13px/24px var(--mono); }
-.card dd + dt { margin-top: var(--u); }
-.card dd p + p { margin-top: 0; }
-.card .contact { margin-top: var(--u); }
-.bunny { font: 13px/1.15 var(--mono); margin: calc(var(--u) * 2) 0 0; color: var(--ink); white-space: pre; width: fit-content; }
-.bunny .p { color: var(--pink); }
-.bunny .g { color: var(--ink); }
-.bunny:hover { animation: hop .5s; }
-@keyframes hop { 40% { transform: translateY(-8px); } }
+/* band four: goodbye, with pink at the bottom left */
+.b4 { grid-template-areas: "pk bye bye hi hi"; }
+.pk4 { grid-area: pk; } .bye { grid-area: bye; } .hi { grid-area: hi; }
 
-/* ---------- KES FM ---------- */
-.fm { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--gap); align-items: start; }
-.fm-face { container-type: inline-size; }
-.stack { margin: 0; font-family: var(--mono); font-size: min(13px, calc(100cqw / 22.5)); line-height: 1.15; color: var(--ink); white-space: pre; }
-.stack .c, .stack .i, .stack .y { color: var(--ink); }
-.stack .p { color: var(--pink); }
-.stack .g, .stack .b { color: var(--blue); }
-body:not(.on-air) .stack .w { visibility: hidden; }      /* the sound waves only come out on air */
-.sound.thump { animation: thump .2s ease-out; }
-@keyframes thump { from { transform: translateY(-2px); } }
+/* ---------- the name, in tiny <3s, inked black with a pink heart ---------- */
+.name { container-type: inline-size; display: flex; align-items: center; }
+.name > pre { margin: 0; font-weight: 700; line-height: 1.2; }
+.name .big { font-size: min(16px, calc(100cqw / 95.5)); }
+.name .small { display: none; font-size: min(20px, calc(100cqw / 20.9)); }
+.name b { color: var(--ink); }
+.name b.h { color: var(--pink); animation: blink 1.6s steps(1) infinite; }
+@keyframes blink { 50% { color: var(--blue); } }
 
-#fm-h { display: inline; font: 700 13px/24px var(--mono); margin-right: 1ch; }
-.ident { display: inline; }
-.deck { margin-top: var(--u); }
-.lcd { font: 13px/24px var(--mono); border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
-.lcd-top { display: flex; flex-wrap: wrap; justify-content: space-between; column-gap: 2ch; }
-.status { padding: 0 .5ch; }
-body.on-air .status { background: var(--pink); }
-.ticker { overflow: hidden; white-space: nowrap; }
+/* ---------- the card ---------- */
+.card dl { display: grid; grid-template-columns: 9ch minmax(0, 1fr); column-gap: 12px; row-gap: 8px; }
+.card dt { padding-top: 0; }
+
+/* ---------- KES FM: the speaker is its face, the deck is plain type and square keys ---------- */
+.r-fm { container-type: inline-size; }
+.fm { display: grid; grid-template-columns: min-content minmax(0, 1fr); column-gap: var(--pad); align-items: start;
+  grid-template-areas: "h deck" "face deck" "ident deck"; grid-template-rows: auto auto 1fr; }
+#fm-h { grid-area: h; font-weight: 700; }
+.speaker { grid-area: face; margin-top: var(--u); color: var(--ink); width: fit-content; }
+.ident { grid-area: ident; margin-top: var(--u); }
+.deck { grid-area: deck; font: 13px/24px var(--mono); }
+.speaker .c, .speaker .b, .speaker .i { color: var(--ink); }
+.speaker .p { color: var(--pink); }
+.speaker .g { color: var(--blue); }
+.speaker .y { background: var(--yellow); color: var(--ink); }
+.speaker.lit .p { color: var(--blue); }
+.speaker .sound.thump { animation: thump .3s steps(1); }
+@keyframes thump { 0% { color: var(--pink); } }
+
+.lcd-top { display: flex; flex-wrap: wrap; justify-content: space-between; column-gap: var(--u); font-weight: 700; }
+body.on-air .status { color: var(--pink); }
+.ticker { overflow: hidden; white-space: nowrap; background: var(--off); margin-top: 4px; }
 .ticker > div { display: inline-block; }
 .ticker span { padding-right: .5em; }
 @keyframes run { to { translate: -50% 0; } }
-@media (prefers-reduced-motion: no-preference) { body.on-air .ticker > div { animation: run 70s linear infinite; } }
-.tracker { display: grid; grid-template-columns: repeat(16, minmax(0, 1fr)); text-align: center; }
+@media (prefers-reduced-motion: no-preference) { .ticker > div { animation: run 70s linear infinite; } }
+.tracker { display: grid; grid-template-columns: repeat(16, auto); justify-content: space-between; margin-top: 4px; }
+.tracker span { padding: 0 2px; margin: 0 -2px; }
 .tracker .rest { opacity: .35; }
-.tracker .rev { color: var(--pink); }
-.tracker .up { color: var(--blue); }
-.tracker .roll { text-decoration: underline; }
-.tracker .on { background: var(--pink); color: var(--ink); }
-.lcd-info { display: flex; flex-wrap: wrap; column-gap: 2ch; }
-.lcd-info .rev { color: var(--pink); }
-.lcd-info .up { color: var(--blue); }
+.tracker .roll { text-decoration: underline; text-underline-offset: .2em; }
+.tracker .on { background: var(--yellow); color: var(--ink); }
+.deck .rev { color: var(--pink); }
+.deck .up { color: var(--blue); }
+.tracker .on.rev, .tracker .on.up { color: var(--ink); }
+.lcd-info { display: flex; flex-direction: column; margin-top: 4px; }
 
-.keys { margin-top: var(--u); font: 13px/24px var(--mono); }
-.keys > div, .keys > label { display: block; padding-left: 6ch; text-indent: -6ch; }
-.keys > div:not([role]) { text-indent: 0; }
-.keys .lbl { display: inline-block; width: 6ch; text-indent: 0; }
-.keys button { font: 13px/24px var(--mono); color: var(--ink); background: none; border: 0; border-radius: 0; padding: 0; margin: 0 1ch 0 0; cursor: pointer; text-indent: 0; }
-.keys button::before { content: "["; }
-.keys button::after { content: "]"; }
-.keys button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+.keys { margin-top: var(--u); }
+.keys > div { display: flex; flex-wrap: wrap; align-items: center; padding-left: 7ch; }
+.keys > div + div { margin-top: 8px; }
+.keys .lbl { width: 7ch; margin-left: -7ch; }
+.keys button { box-sizing: border-box; height: 32px; margin: 0; padding: 0 1.2ch; font: 13px/28px var(--mono); color: var(--ink); background: var(--white);
+  border: 2px solid var(--ink); border-radius: 0; cursor: pointer; }
+.keys > div > button + button { margin-left: -2px; }
+.keys button:hover, .keys button[aria-pressed="true"]:hover { background: var(--pink); color: var(--ink); }
+.keys button:active { translate: 0 1px; }
+.keys button[aria-pressed="true"] { background: var(--ink); color: var(--white); }
+.keys .go, .keys .stop { font-weight: 700; }
 .keys .go[aria-pressed="true"] { background: var(--pink); color: var(--ink); }
-.keys button:hover, .keys button:focus-visible { background: var(--pink); color: var(--ink); outline: none; }
-.vol input { width: calc(var(--u) * 5); margin: 0; vertical-align: middle; accent-color: var(--ink); }
-.textin { margin-top: var(--u); font: 13px/24px var(--mono); }
-.floatstop { position: fixed; right: var(--u); bottom: var(--u); z-index: 5; font: 13px/24px var(--mono); background: var(--pink); color: var(--ink); border: 0; border-radius: 0; padding: 0 1ch; cursor: pointer; }
+.vol { display: grid; grid-template-columns: 7ch auto; justify-content: start; align-items: center; margin-top: var(--u); }
+.vol input { width: 10em; margin: 0; accent-color: var(--ink); }
+.textin { margin-top: var(--u); }
+.floatstop { position: fixed; right: var(--u); bottom: var(--u); z-index: 5; box-sizing: border-box; height: 32px; padding: 0 1.2ch;
+  font: 700 13px/28px var(--mono); color: var(--ink); background: var(--pink); border: 2px solid var(--ink); border-radius: 0; cursor: pointer; }
+.floatstop:hover { background: var(--white); }
 .floatstop[hidden] { display: none; }
 
-/* ---------- three projects, as slices ---------- */
-.slices .title { margin-bottom: 0; }
-.slice { border-top: 1px solid var(--ink); padding: var(--u) 0 calc(var(--u) * 2); align-items: start; }
-.slice:last-child { border-bottom: 1px solid var(--ink); }
-.what { padding-left: calc(var(--u) * 2); }
-.what .n { display: inline-block; width: calc(var(--u) * 2); margin-left: calc(var(--u) * -2); }
-.what h3 { display: inline; font: inherit; }
-.pic img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; background: #eee; filter: grayscale(1); }
-.note p { max-width: 34em; }
+/* when KES FM's rectangle gets narrow, the deck drops under the speaker */
+@container (max-width: 679px) {
+  .fm { grid-template-areas: "h h" "face ident" "deck deck"; grid-template-rows: auto; }
+  .deck { margin-top: calc(1.5 * var(--u)); }
+}
+@container (max-width: 539px) {
+  .fm { grid-template-columns: minmax(0, 1fr); grid-template-areas: "h" "face" "ident" "deck"; }
+}
 
-/* ---------- everything else, as links ---------- */
-.more { align-items: stretch; }
-.more .col { position: relative; }
-.more .col + .col::before { content: ""; position: absolute; top: 0; bottom: 0; left: calc(var(--gap) / -2); border-left: 1px solid var(--ink); }
-.stars { list-style: "☆  "; padding-left: var(--u); }
-.stars + .title { margin-top: calc(var(--u) * 2); }
-.stars li::marker { color: var(--ink); }
-.stars li:hover { list-style-type: "★  "; }
-.stars li:hover::marker { color: var(--pink); }
+/* ---------- projects ---------- */
+.slice .pic { display: block; }
+.slice .pic img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; background: var(--off); filter: grayscale(1); }
+.slice .pic:hover { background: var(--pink); }
+.slice .pic:hover img { mix-blend-mode: multiply; }
+.slice .cap > * + * { margin-top: 8px; }
+.slice .meta { display: flex; justify-content: space-between; column-gap: var(--u); }
+
+/* ---------- link lists ---------- */
+.list ul { padding-left: 1.6em; list-style: "☆  "; }
+.list li + li { margin-top: 4px; }
+.list li:hover { list-style-type: "★  "; }
+.list li:hover::marker { color: var(--pink); }
 
 /* ---------- the end ---------- */
-.foot { border-top: 1px solid var(--ink); padding-top: var(--u); align-items: start; }
-.foot .bye { grid-column: 3; font: italic 400 40px/48px var(--serif); letter-spacing: -.01em; }
-.foot .low { max-width: 40em; }
-.garden-bed { container-type: inline-size; margin-top: calc(var(--u) * 4); }
-.garden { margin: 0; font-family: var(--mono); font-size: max(11px, calc(100cqw / 113.6)); line-height: 1.2; white-space: pre; overflow: hidden; color: var(--ink); }
-.garden b { font-weight: normal; }
+.gardenr { padding: var(--pad) 0 0; overflow: hidden; }
+.garden { padding-left: 8px; }
 .garden .rose { color: var(--pink); }
-.garden .lilac, .garden .peri { color: var(--blue); }
-.garden .stem { color: var(--ink); }
+.garden .peri { color: var(--blue); }
+.garden .lilac, .garden .stem { color: var(--ink); }
 
-/* ---------- a smaller screen: two columns ---------- */
-@media (max-width: 1199px) {
-  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .top { grid-template-areas: "hello hello" "fm card"; }
-  .fm { grid-template-columns: minmax(0, 1fr); row-gap: calc(var(--u) * 2); }
-  .slice { grid-template-areas: "what pic" "note pic"; }
-  .what { grid-area: what; } .pic { grid-area: pic; } .note { grid-area: note; margin-top: var(--u); }
-  .more .col:nth-child(3) { margin-top: calc(var(--u) * 2); }
-  .more .col:nth-child(3)::before { content: none; }
-  .foot .bye { grid-column: 2; }
+/* ---------- narrower: two columns ---------- */
+@media (max-width: 1279px) {
+  :root { --cols: minmax(0, 5fr) minmax(0, 7fr); }
+  .b1 { grid-template-areas: "name pk" "f f" "g c"; grid-template-rows: auto; }
+  .name .big { display: none; }
+  .name .small { display: block; }
+  .b2 { grid-template-areas: "p1 p1" "p2 p3"; }
+  .p1 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--pad); align-items: start; }
+  .p1 > .cap { margin-top: 0; }
+  .b3 { grid-template-areas: "a b" "c b"; }
+  .b4 { grid-template-areas: "pk bye" "pk hi"; }
 }
-/* ---------- a phone: one column ---------- */
-@media (max-width: 699px) {
-  :root { --side: var(--u); }
-  body { padding-top: var(--u); }
-  .grid { grid-template-columns: minmax(0, 1fr); }
-  .sign { margin-bottom: calc(var(--u) * 2); }
-  .top { grid-template-areas: "hello" "fm" "card"; row-gap: calc(var(--u) * 3); }
-  .tracker { grid-template-columns: repeat(8, minmax(0, 1fr)); }
-  .slice { grid-template-areas: "what" "pic" "note"; }
-  .pic { margin-top: var(--u); }
-  .more .col + .col { margin-top: calc(var(--u) * 2); }
-  .more .col + .col::before { content: none; }
-  .foot .bye { grid-column: 1; margin-top: var(--u); }
+
+/* ---------- phone: one stack of rectangles, a few planes kept as bands ---------- */
+@media (max-width: 819px) {
+  :root { --L: 6px; --pad: 24px; }
+  .band { display: flex; flex-direction: column; gap: var(--L); }
+  .p1 { display: block; }
+  .p1 > .cap { margin-top: var(--u); }
+  .pk1, .pk4 { height: 40px; }
+  .s-g .pl-blue, .s-r .split { display: none; }
+  .s-c .split { height: 40px; }
+  .p2s .pl-blue { flex: none; height: 40px; min-height: 0; }
+  .display { font-size: 32px; line-height: 40px; }
 }
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
 </style>
 </head>
 <body>
 
-<header class="sign" role="img" aria-label="kes inkersole, spelled out in tiny <3 hearts on a dot-matrix screen">
-<pre class="big"><s> .---------------------------------------------------------------------------------------------------------------------------------------------------------------------. </s>
-<s> |</s> . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .<s> | </s>
-<s> |</s> . .<b>&lt;3</b> . . . . . . . . . . . . . . . . . . . . .<b>&lt;3</b> . . . . . . . .<b>&lt;3</b> . . . . . . . . . . . . . . . . . . . . . . . . . . . . .<b>&lt;3&lt;3</b> . . . . . . . . . . . . . . . . .<s> | </s>
-<s> |</s> . .<b>&lt;3</b> . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .<b>&lt;3</b> . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .<b>&lt;3</b> . . . . . . . . .<b class="h">&lt;3&lt;3</b> .<b class="h">&lt;3&lt;3</b> . . .<s> | </s>
-<s> |</s> . .<b>&lt;3</b> . .<b>&lt;3</b> . . .<b>&lt;3&lt;3&lt;3</b> . . .<b>&lt;3&lt;3&lt;3&lt;3</b> . . . .<b>&lt;3&lt;3</b> . .<b>&lt;3</b> .<b>&lt;3&lt;3</b> . .<b>&lt;3</b> . .<b>&lt;3</b> . . .<b>&lt;3&lt;3&lt;3</b> . .<b>&lt;3</b> .<b>&lt;3&lt;3</b> . . .<b>&lt;3&lt;3&lt;3&lt;3</b> . .<b>&lt;3&lt;3&lt;3</b> . . .<b>&lt;3</b> . . .<b>&lt;3&lt;3&lt;3</b> . .<b class="h">&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3</b> . .<s> | </s>
-<s> |</s> . .<b>&lt;3</b> .<b>&lt;3</b> . . .<b>&lt;3</b> . . .<b>&lt;3</b> .<b>&lt;3</b> . . . . . . . . .<b>&lt;3</b> . .<b>&lt;3&lt;3</b> . .<b>&lt;3</b> .<b>&lt;3</b> .<b>&lt;3</b> . . .<b>&lt;3</b> . . .<b>&lt;3</b> .<b>&lt;3&lt;3</b> . .<b>&lt;3</b> .<b>&lt;3</b> . . . . .<b>&lt;3</b> . . .<b>&lt;3</b> . .<b>&lt;3</b> . .<b>&lt;3</b> . . .<b>&lt;3</b> .<b class="h">&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3</b> . .<s> | </s>
-<s> |</s> . .<b>&lt;3&lt;3</b> . . . .<b>&lt;3&lt;3&lt;3&lt;3&lt;3</b> . .<b>&lt;3&lt;3&lt;3</b> . . . . . .<b>&lt;3</b> . .<b>&lt;3</b> . . .<b>&lt;3</b> .<b>&lt;3&lt;3</b> . . . .<b>&lt;3&lt;3&lt;3&lt;3&lt;3</b> .<b>&lt;3</b> . . . . . .<b>&lt;3&lt;3&lt;3</b> . .<b>&lt;3</b> . . .<b>&lt;3</b> . .<b>&lt;3</b> . .<b>&lt;3&lt;3&lt;3&lt;3&lt;3</b> . .<b class="h">&lt;3&lt;3&lt;3&lt;3&lt;3</b> . . .<s> | </s>
-<s> |</s> . .<b>&lt;3</b> .<b>&lt;3</b> . . .<b>&lt;3</b> . . . . . . . . .<b>&lt;3</b> . . . . .<b>&lt;3</b> . .<b>&lt;3</b> . . .<b>&lt;3</b> .<b>&lt;3</b> .<b>&lt;3</b> . . .<b>&lt;3</b> . . . . .<b>&lt;3</b> . . . . . . . . .<b>&lt;3</b> .<b>&lt;3</b> . . .<b>&lt;3</b> . .<b>&lt;3</b> . .<b>&lt;3</b> . . . . . . .<b class="h">&lt;3&lt;3&lt;3</b> . . . .<s> | </s>
-<s> |</s> . .<b>&lt;3</b> . .<b>&lt;3</b> . . .<b>&lt;3&lt;3&lt;3</b> . .<b>&lt;3&lt;3&lt;3&lt;3</b> . . . . .<b>&lt;3&lt;3&lt;3</b> .<b>&lt;3</b> . . .<b>&lt;3</b> .<b>&lt;3</b> . .<b>&lt;3</b> . . .<b>&lt;3&lt;3&lt;3</b> . .<b>&lt;3</b> . . . . .<b>&lt;3&lt;3&lt;3&lt;3</b> . . .<b>&lt;3&lt;3&lt;3</b> . .<b>&lt;3&lt;3&lt;3</b> . .<b>&lt;3&lt;3&lt;3</b> . . . . .<b class="h">&lt;3</b> . . . . .<s> | </s>
-<s> |</s> . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .<s> | </s>
-<s> '---------------------------------------------------------------------------------------------------------------------------------------------------------------------' </s></pre>
-<pre class="small"><s> .---------------------------------------. </s>
-<s> |</s> . . . . . . . . . . . . . . . . . . .<s> | </s>
-<s> |</s> .<b>&lt;3</b> . . . . . . . . . . . . . . . . .<s> | </s>
-<s> |</s> .<b>&lt;3</b> . . . . . . . . . . . . . . . . .<s> | </s>
-<s> |</s> .<b>&lt;3</b> . .<b>&lt;3</b> . . .<b>&lt;3&lt;3&lt;3</b> . . .<b>&lt;3&lt;3&lt;3&lt;3</b> .<s> | </s>
-<s> |</s> .<b>&lt;3</b> .<b>&lt;3</b> . . .<b>&lt;3</b> . . .<b>&lt;3</b> .<b>&lt;3</b> . . . . .<s> | </s>
-<s> |</s> .<b>&lt;3&lt;3</b> . . . .<b>&lt;3&lt;3&lt;3&lt;3&lt;3</b> . .<b>&lt;3&lt;3&lt;3</b> . .<s> | </s>
-<s> |</s> .<b>&lt;3</b> .<b>&lt;3</b> . . .<b>&lt;3</b> . . . . . . . . .<b>&lt;3</b> .<s> | </s>
-<s> |</s> .<b>&lt;3</b> . .<b>&lt;3</b> . . .<b>&lt;3&lt;3&lt;3</b> . .<b>&lt;3&lt;3&lt;3&lt;3</b> . .<s> | </s>
-<s> |</s> . . . . . . . . . . . . . . . . . . .<s> | </s>
-<s> '---------------------------------------' </s></pre>
-</header>
+<h1 class="vh">Kes Inkersole</h1>
 
-<div class="top grid">
+<div class="canvas">
 
-<section class="hello" aria-labelledby="hello-h">
-<h1 id="hello-h">hello, i'm kes <span class="heart">♡</span></h1>
-<p class="m welcome">welcome to kes's little corner of the internet <span class="pk">&lt;3</span></p>
+<!-- band one: the first view -->
+<div class="band b1">
+
+<!-- the name, spelled out in tiny <3 hearts (index 5, variant 03), its frame and dots left to the grid -->
+<div class="r name" aria-hidden="true">
+<pre class="big"><b>&lt;3</b>                                          <b>&lt;3</b>                <b>&lt;3</b>                                                          <b>&lt;3&lt;3</b>
+<b>&lt;3</b>                                                            <b>&lt;3</b>                                                            <b>&lt;3</b>                  <b class="h">&lt;3&lt;3</b>  <b class="h">&lt;3&lt;3</b>
+<b>&lt;3</b>    <b>&lt;3</b>      <b>&lt;3&lt;3&lt;3</b>      <b>&lt;3&lt;3&lt;3&lt;3</b>        <b>&lt;3&lt;3</b>    <b>&lt;3</b>  <b>&lt;3&lt;3</b>    <b>&lt;3</b>    <b>&lt;3</b>      <b>&lt;3&lt;3&lt;3</b>    <b>&lt;3</b>  <b>&lt;3&lt;3</b>      <b>&lt;3&lt;3&lt;3&lt;3</b>    <b>&lt;3&lt;3&lt;3</b>      <b>&lt;3</b>      <b>&lt;3&lt;3&lt;3</b>    <b class="h">&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3</b>
+<b>&lt;3</b>  <b>&lt;3</b>      <b>&lt;3</b>      <b>&lt;3</b>  <b>&lt;3</b>                  <b>&lt;3</b>    <b>&lt;3&lt;3</b>    <b>&lt;3</b>  <b>&lt;3</b>  <b>&lt;3</b>      <b>&lt;3</b>      <b>&lt;3</b>  <b>&lt;3&lt;3</b>    <b>&lt;3</b>  <b>&lt;3</b>          <b>&lt;3</b>      <b>&lt;3</b>    <b>&lt;3</b>    <b>&lt;3</b>      <b>&lt;3</b>  <b class="h">&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3</b>
+<b>&lt;3&lt;3</b>        <b>&lt;3&lt;3&lt;3&lt;3&lt;3</b>    <b>&lt;3&lt;3&lt;3</b>            <b>&lt;3</b>    <b>&lt;3</b>      <b>&lt;3</b>  <b>&lt;3&lt;3</b>        <b>&lt;3&lt;3&lt;3&lt;3&lt;3</b>  <b>&lt;3</b>            <b>&lt;3&lt;3&lt;3</b>    <b>&lt;3</b>      <b>&lt;3</b>    <b>&lt;3</b>    <b>&lt;3&lt;3&lt;3&lt;3&lt;3</b>    <b class="h">&lt;3&lt;3&lt;3&lt;3&lt;3</b>
+<b>&lt;3</b>  <b>&lt;3</b>      <b>&lt;3</b>                  <b>&lt;3</b>          <b>&lt;3</b>    <b>&lt;3</b>      <b>&lt;3</b>  <b>&lt;3</b>  <b>&lt;3</b>      <b>&lt;3</b>          <b>&lt;3</b>                  <b>&lt;3</b>  <b>&lt;3</b>      <b>&lt;3</b>    <b>&lt;3</b>    <b>&lt;3</b>              <b class="h">&lt;3&lt;3&lt;3</b>
+<b>&lt;3</b>    <b>&lt;3</b>      <b>&lt;3&lt;3&lt;3</b>    <b>&lt;3&lt;3&lt;3&lt;3</b>          <b>&lt;3&lt;3&lt;3</b>  <b>&lt;3</b>      <b>&lt;3</b>  <b>&lt;3</b>    <b>&lt;3</b>      <b>&lt;3&lt;3&lt;3</b>    <b>&lt;3</b>          <b>&lt;3&lt;3&lt;3&lt;3</b>      <b>&lt;3&lt;3&lt;3</b>    <b>&lt;3&lt;3&lt;3</b>    <b>&lt;3&lt;3&lt;3</b>          <b class="h">&lt;3</b></pre>
+<pre class="small"><b>&lt;3</b>
+<b>&lt;3</b>
+<b>&lt;3</b>    <b>&lt;3</b>      <b>&lt;3&lt;3&lt;3</b>      <b>&lt;3&lt;3&lt;3&lt;3</b>
+<b>&lt;3</b>  <b>&lt;3</b>      <b>&lt;3</b>      <b>&lt;3</b>  <b>&lt;3</b>
+<b>&lt;3&lt;3</b>        <b>&lt;3&lt;3&lt;3&lt;3&lt;3</b>    <b>&lt;3&lt;3&lt;3</b>
+<b>&lt;3</b>  <b>&lt;3</b>      <b>&lt;3</b>                  <b>&lt;3</b>
+<b>&lt;3</b>    <b>&lt;3</b>      <b>&lt;3&lt;3&lt;3</b>    <b>&lt;3&lt;3&lt;3&lt;3</b></pre>
+</div>
+
+<div class="pl-pink pk1" aria-hidden="true"></div>
+
+<div class="stack s-g">
+<div class="r greet grow">
+<p class="display">hello, i'm kes <span class="heart">♡</span></p>
+<p>i'm kes inkersole (kesia on paper), a freelance creative strategist and internet equalities researcher based in london. welcome to kes' little corner of the internet.</p>
 <p>my practice focuses on understanding and critiquing the impacts of emerging technologies on people, culture, and the planet. i work collectively to rethink the narratives and behaviours surrounding technologies — prioritising collaborative research as a process for testing, imagining and prototyping more equitable, alternative futures.</p>
-<p><span class="sym">✉&#xFE0E;</span> <a href="writing.html">chainmail</a>, my own writing: short pieces from my notes app, sent in by email.</p>
-</section>
+</div>
+<div class="pl-blue" aria-hidden="true"></div>
+</div>
 
-<!-- KES FM: a jungle machine. silent until you press on air -->
+<!-- KES FM 170.0. the engine at the bottom of the page is pasted in verbatim; this is only its skin -->
+<div class="stack s-f">
+<div class="r r-fm grow">
 <section class="fm" id="fm" aria-labelledby="fm-h">
-<div class="fm-face">
-<pre class="art stack sound" aria-hidden="true">        <span class=p>\(^o^)/</span>       <span class=p>&lt;3</span>
+<h2 id="fm-h">KES FM 170.0</h2>
+<pre class="speaker tower" aria-hidden="true">        <span class=p>\(^o^)/</span>       <span class=p>&lt;3</span>
 <span class=c>.--------------..--------------.</span>
 <span class=c>| .----.  .--. || .----.  .--. |</span>
 <span class=c>| |====|  </span><span class=g>(())</span><span class=c> || |====|  </span><span class=g>(())</span><span class=c> |</span>
@@ -240,17 +261,14 @@ body.on-air .status { background: var(--pink); }
 <span class=c>'--------------''--------------'</span>
 <span class=c>.--------------..--------------.</span>
 <span class=c>|   .------.   ||   .------.   |</span>
-<span class=c>|  /  .--.  \  ||  /  .--.  \  | </span> <span class="g w">)</span>
-<span class=c>| |  </span><span class=b>( </span><span class=p>&lt;3</span><span class=b> )</span><span class=c>  | || |  </span><span class=b>( </span><span class=p>&lt;3</span><span class=b> )</span><span class=c>  | | </span> <span class="g w">))</span>
-<span class=c>|  \  '--'  /  ||  \  '--'  /  | </span> <span class="g w">)))</span>
-<span class=c>|   '------'   ||   '------'   | </span> <span class="g w">))</span>
-<span class=c>|--------------||--------------| </span> <span class="g w">)</span>
+<span class=c>|  /  .--.  \  ||  /  .--.  \  | </span> <span class="g sound">)</span>
+<span class=c>| |  </span><span class=b>( </span><span class=p>&lt;3</span><span class=b> )</span><span class=c>  | || |  </span><span class=b>( </span><span class=p>&lt;3</span><span class=b> )</span><span class=c>  | | </span> <span class="g sound">))</span>
+<span class=c>|  \  '--'  /  ||  \  '--'  /  | </span> <span class="g sound">)))</span>
+<span class=c>|   '------'   ||   '------'   | </span> <span class="g sound">))</span>
+<span class=c>|--------------||--------------| </span> <span class="g sound">)</span>
 <span class=c>|    </span><span class=y>KES FM</span><span class=c>    ||   </span><span class=g>170.0 FM</span><span class=c>   |</span>
 <span class=c>'--------------''--------------'</span>
 <span class=i>""""""""""""""""""""""""""""""""</span></pre>
-</div>
-<div class="fm-desk">
-<h2 id="fm-h">KES FM 170.0</h2>
 <p class="ident">you're locked to KES FM. it's not a real station, it's this website: a little jungle machine running in your browser, every drum and bassline synthesised live, no samples, no files. nothing plays until you press on air, and stop always stops it ✧</p>
 <div class="deck">
 <div class="lcd">
@@ -269,99 +287,102 @@ body.on-air .status { background: var(--pink); }
 </div>
 <p class="textin">text in your shout-outs: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
 </div>
-</div>
 </section>
-<button class="floatstop" id="floatstop" type="button" hidden>■ stop KES FM</button>
+</div>
+</div>
 
-<aside class="card" aria-labelledby="card-h">
-<h2 class="name" id="card-h">kes inkersole <span class="m">(kesia on paper)</span></h2>
+<!-- the card: bio, portfolio and cv at a glance -->
+<div class="stack s-c">
+<aside class="r card grow" aria-labelledby="card-h">
+<p class="lbl">this website presents <span class="sym">✦</span></p>
+<h2 class="display" id="card-h">kes inkersole</h2>
+<p>creative strategist<br>internet equalities researcher<br>london</p>
 <dl>
-<dt>bio</dt>
-<dd>freelance creative strategist &amp; internet equalities researcher, based in london.</dd>
-<dt>portfolio</dt>
-<dd><a href="#p1">latent space</a>, <a href="#p2">MØRNING Ø</a> and <a href="#p3">networked worlds</a>, then <a href="#more">everything else</a>.</dd>
-<dt>cv</dt>
-<dd><p>associate lecturer at UAL (LCF + CCI).</p><p>clients: Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges.</p><p>MA internet equalities, BA creative direction, <span style="white-space:nowrap">PhD [ ? ]</span>.</p></dd>
+<dt>does</dt><dd>creative strategy, research, workshops, writing and teaching</dd>
+<dt>teaches</dt><dd>associate lecturer at UAL (LCF + CCI)</dd>
+<dt>clients</dt><dd>Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges</dd>
+<dt>school</dt><dd>MA internet equalities<br>BA creative direction<br>PhD [ ? ]</dd>
+<dt>portfolio</dt><dd><a href="#projects">three projects</a>, then <a href="#more">everything else</a></dd>
+<dt>cv</dt><dd>cv &amp; portfolio on request</dd>
 </dl>
-<pre class="art bunny" role="img" aria-label="an ascii bunny holding a sign that says: i'm available for work">
- .--------------------.
- |  i'm available     |
- |  for work !!  <span class="p">&lt;3</span>   |
- '---------. .--------'
-           | |
-    (\_/)  | |
-   ( ^.^ )o| |
-   (")_(") | |
- <span class="g">,,,,,,,,,,</span>|_|<span class="g">,,,,,,,,,,</span>
-</pre>
-<p class="contact"><a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a><br><span class="m">cv &amp; portfolio on request</span></p>
+<p class="lbl">info line ☎</p>
+<p class="mail"><a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
 </aside>
+<div class="split" aria-hidden="true"><div class="pl-off"></div><div class="pl-yellow"></div></div>
+</div>
 
 </div>
 
-<section class="slices band" id="projects" aria-labelledby="projects-h">
-<h2 class="title" id="projects-h">three projects <span class="sym">✧</span></h2>
+<!-- band two: three projects -->
+<section class="band b2" id="projects" aria-labelledby="projects-h">
+<h2 class="vh" id="projects-h">three projects</h2>
 
-<article class="slice grid" id="p1">
-<div class="what">
-<span class="n m">01</span><h3><a href="https://latent-space.vercel.app/">latent space</a></h3>
-<p class="m">for fun<br>latent-space.vercel.app</p>
+<article class="r slice p1">
+<a class="pic" href="https://latent-space.vercel.app/"><img src="https://picsum.photos/seed/latentspace/480/360" width="480" height="360" alt="latent space, placeholder photo" loading="lazy"></a>
+<div class="cap">
+<p class="lbl meta"><span>01</span><span>for fun <span class="sym">✿</span></span></p>
+<h3><a href="https://latent-space.vercel.app/">latent space</a></h3>
+<p>lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam.</p>
 </div>
-<figure class="pic"><img src="https://picsum.photos/seed/latentspace/480/320" width="480" height="320" alt="latent space, placeholder photo" loading="lazy"></figure>
-<div class="note"><p>lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam.</p></div>
 </article>
 
-<article class="slice grid" id="p2">
-<div class="what">
-<span class="n m">02</span><h3><a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1">MØRNING Ø</a></h3>
-<p class="m">for funds<br>instagram.com</p>
+<div class="stack p2s">
+<article class="r slice">
+<a class="pic" href="https://co-matter.com/project/networked-worlds"><img src="https://picsum.photos/seed/networkedworlds/480/360" width="480" height="360" alt="networked worlds, placeholder photo" loading="lazy"></a>
+<div class="cap">
+<p class="lbl meta"><span>02</span><span>for funds <span class="sym">✧</span></span></p>
+<h3><a href="https://co-matter.com/project/networked-worlds">networked worlds</a> <span class="soft">with co—matter</span></h3>
+<p>duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. excepteur sint occaecat cupidatat non proident.</p>
 </div>
-<figure class="pic"><img src="https://picsum.photos/seed/morningo/480/320" width="480" height="320" alt="MØRNING Ø, placeholder photo" loading="lazy"></figure>
-<div class="note"><p>duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. excepteur sint occaecat cupidatat non proident.</p></div>
 </article>
-
-<article class="slice grid" id="p3">
-<div class="what">
-<span class="n m">03</span><h3><a href="https://co-matter.com/project/networked-worlds">networked worlds</a></h3>
-<p class="m">for funds, with co—matter<br>co-matter.com</p>
+<div class="pl-blue" aria-hidden="true"></div>
 </div>
-<figure class="pic"><img src="https://picsum.photos/seed/networkedworlds/480/320" width="480" height="320" alt="networked worlds, placeholder photo" loading="lazy"></figure>
-<div class="note"><p>ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. sunt in culpa qui officia deserunt.</p></div>
+
+<article class="r slice p3">
+<a class="pic" href="https://www.protein.xyz/dirty-words-4-community/"><img src="https://picsum.photos/seed/dirtywords/480/360" width="480" height="360" alt="dirty words #4, placeholder photo" loading="lazy"></a>
+<div class="cap">
+<p class="lbl meta"><span>03</span><span>for funds <span class="sym">✧</span></span></p>
+<h3><a href="https://www.protein.xyz/dirty-words-4-community/">protein dirty words #4: community report</a></h3>
+<p>sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo.</p>
+</div>
 </article>
 </section>
 
-<section class="more grid band" id="more" aria-label="everything else">
-<div class="col">
-<h2 class="title">more projects <span class="sym">✿</span></h2>
-<ul class="stars">
-<li><a href="https://protecht.vercel.app/">pro(tech)t</a> <span class="m">for fun</span></li>
-<li><a href="https://www.protein.xyz/dirty-words-4-community/">protein dirty words #4: community report</a> <span class="m">for funds</span></li>
+<!-- band three: the writing link, everything else as starred links, and the low-wifi note -->
+<section class="band b3" id="more" aria-label="everything else">
+
+<div class="stack s-a">
+<section class="r list wlink">
+<h2 class="lbl">my writing <span class="sym">✉</span></h2>
+<p>new: i've started publishing my own writing. it's called <a href="writing.html">chainmail</a> →</p>
+<p class="soft">short pieces from my notes app, sent in by email</p>
+</section>
+<section class="r list grow">
+<h2 class="lbl">more projects <span class="sym">✧</span></h2>
+<ul>
+<li><a href="https://protecht.vercel.app/">pro(tech)t</a> <span class="soft">for fun</span></li>
+<li><a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1">MØRNING Ø</a> <span class="soft">for funds</span></li>
 </ul>
-<h2 class="title">elsewhere <span class="sym">☂&#xFE0E;</span></h2>
-<ul class="stars">
-<li><a href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1">olden residency</a></li>
-<li><a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1">softer london</a> <span class="m">talk + workshop</span></li>
-<li><a href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard">tech yard</a> <span class="m">workshop</span></li>
-<li><a href="https://www.instagram.com/p/BslwSSPH5Rc/?img_index=2">ovar it</a></li>
-</ul>
+</section>
 </div>
-<div class="col">
-<h2 class="title">writing <span class="sym">✎</span></h2>
-<ul class="stars">
-<li><a href="writing.html">chainmail</a> <span class="m">mine, on this site</span></li>
-<li><a href="https://www.protein.xyz/sex-and-the-internet/">mindy seu on sex and the internet</a> <span class="m">Protein</span></li>
-<li><a href="https://midnight.agency/thoughts/dreaming-and-designing-more-accessible-web">dreaming and designing a more accessible web</a> <span class="m">Midnight Agency</span></li>
-<li><a href="https://midnight.agency/thoughts/coding-a-more-creative-and-playful-web">coding a more creative and playful web</a> <span class="m">Midnight Agency</span></li>
-<li><a href="https://midnight.agency/thoughts/composing-a-flexible-and-modular-web">composing a flexible and modular web</a> <span class="m">Midnight Agency</span></li>
-<li><a href="https://morningfyi.substack.com/p/020-uh-oh-meet">burn after reading: uh oh, meet o</a> <span class="m">morningfyi</span></li>
-<li><a href="https://morningfyi.substack.com/p/024-entering-limb-with">burn after reading: entering limbo</a> <span class="m">morningfyi</span></li>
+
+<div class="stack s-b">
+<section class="r list">
+<h2 class="lbl">things i've written <span class="sym">✎</span></h2>
+<ul>
+<li><a href="https://www.protein.xyz/sex-and-the-internet/">mindy seu on sex and the internet</a> <span class="soft">Protein</span></li>
+<li><a href="https://midnight.agency/thoughts/dreaming-and-designing-more-accessible-web">dreaming and designing a more accessible web</a> <span class="soft">Midnight Agency</span></li>
+<li><a href="https://midnight.agency/thoughts/coding-a-more-creative-and-playful-web">coding a more creative and playful web</a> <span class="soft">Midnight Agency</span></li>
+<li><a href="https://midnight.agency/thoughts/composing-a-flexible-and-modular-web">composing a flexible and modular web</a> <span class="soft">Midnight Agency</span></li>
+<li><a href="https://morningfyi.substack.com/p/020-uh-oh-meet">burn after reading: uh oh, meet o</a> <span class="soft">morningfyi</span></li>
+<li><a href="https://morningfyi.substack.com/p/024-entering-limb-with">burn after reading: entering limbo</a> <span class="soft">morningfyi</span></li>
 </ul>
-</div>
-<div class="col">
-<h2 class="title">podcasts, for the bus <span class="sym">♫</span></h2>
-<ul class="stars">
+</section>
+<section class="r list grow">
+<h2 class="lbl">podcasts, for the bus <span class="sym">♫</span></h2>
+<ul>
 <li><a href="https://podcasts.apple.com/gb/podcast/mindy-seu-on-collaboration-community-and/id1449302502?i=1000597869409">mindy seu on collaboration, community and the cyberfeminism index</a></li>
-<li><a href="https://soundcloud.com/proteincommunity/protein-forum-what-can-web2-organisations-learn-from-web3-communities">what can web2 organisations learn from web3 communities?</a> <span class="m">Protein</span></li>
+<li><a href="https://soundcloud.com/proteincommunity/protein-forum-what-can-web2-organisations-learn-from-web3-communities">what can web2 organisations learn from web3 communities?</a> <span class="soft">Protein</span></li>
 <li><a href="https://podcasts.apple.com/gb/podcast/cherie-hu-on-water-musics-journey-through-web3/id1449302502?i=1000581859804">cherie hu on water &amp; music's journey through web3</a></li>
 <li><a href="https://podcasts.apple.com/gb/podcast/molly-dickson-on-dao-activism-and-fighting-for/id1449302502?i=1000578164761">molly dickson on dao activism</a></li>
 <li><a href="https://podcasts.apple.com/gb/podcast/dame-on-the-need-for-education-accessibility/id1449302502?i=1000559829008">dame on education, accessibility and inclusivity in web3</a></li>
@@ -369,16 +390,39 @@ body.on-air .status { background: var(--pink); }
 <li><a href="https://podcasts.apple.com/gb/podcast/cyn-bahati-on-her-journey-into-web3-with-her-family/id1449302502?i=1000559818509">cyn bahati on her journey into web3 with her family</a></li>
 <li><a href="https://podcasts.apple.com/gb/podcast/latash%C3%A1-on-the-potential-of-web3-for-music-artists/id1449302502?i=1000552812458">latasha on the potential of web3 for music artists</a></li>
 </ul>
+</section>
 </div>
+
+<div class="stack s-r">
+<section class="r list">
+<h2 class="lbl">irl (mostly) <span class="sym">☂&#xFE0E;</span></h2>
+<ul>
+<li><a href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1">olden residency</a></li>
+<li><a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1">softer london</a> <span class="soft">talk + workshop</span></li>
+<li><a href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard">tech yard</a> <span class="soft">workshop</span></li>
+<li><a href="https://www.instagram.com/p/BslwSSPH5Rc/?img_index=2">ovar it</a></li>
+</ul>
+</section>
+<div class="r note grow">
+<p>this website is mostly plain html: system fonts, no trackers, a few small grey photos and one radio that stays quiet until you ask. it's easy for me to update and it loads fine on bad wifi.</p>
+</div>
+<div class="split" aria-hidden="true"><div class="pl-black"></div><div class="pl-off"></div></div>
+</div>
+
 </section>
 
-<footer class="foot grid band">
-<p class="m low">this page is still mostly plain html (it started out in <a href="http://contemporary-home-computing.org/prof-dr-style/">olia lialina's prof. dr. style</a>, then i planted some flowers), so it's easy for me to update and it loads fine on bad wifi.</p>
-<p class="bye">thanks for stopping by <span class="heart">♡</span></p>
+<!-- band four: a thank you and where to find me -->
+<footer class="band b4">
+<div class="pl-pink pk4" aria-hidden="true"></div>
+<div class="r bye"><p class="display">thanks for stopping by <span class="heart">♡</span></p></div>
+<div class="r hi">
+<p class="lbl">say hello</p>
+<p class="mail"><a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a><br>available for work. cv &amp; portfolio on request.<br>my writing lives on <a href="writing.html">chainmail</a>.</p>
+</div>
 </footer>
 
-<!-- a little garden, so the page has somewhere soft to end -->
-<div class="garden-bed">
+<!-- a little garden, a long thin rectangle along the bottom edge (index 5, variant 03) -->
+<div class="r gardenr">
 <pre class="garden" aria-hidden="true">    <b class="rose">_                             </b><b class="lilac">_                          </b><b class="rose">_                        </b><b class="peri">_                            </b><b class="rose">_                        </b><b class="lilac">_                             </b><b class="peri">_</b>
   <b class="rose">_(_)_         @               </b><b class="lilac">_(_)_         </b><b class="peri">@            </b><b class="rose">_(_)_              @     </b><b class="peri">_(_)_         </b><b class="rose">@              _(_)_    </b><b class="lilac">@               _(_)_         </b><b class="peri">@               _(_)_    </b><b class="rose">@</b>
  <b class="rose">(_)@(_)        </b><b class="stem">|/  </b><b class="peri">vVv        </b><b class="lilac">(_)@(_)        </b><b class="stem">|/    </b><b class="rose">vVv   (_)@(_)             </b><b class="stem">|/   </b><b class="peri">(_)@(_)  </b><b class="lilac">vVv   </b><b class="stem">|/            </b><b class="rose">(_)@(_)   </b><b class="stem">|/  </b><b class="rose">vVv        </b><b class="lilac">(_)@(_)        </b><b class="stem">|/  </b><b class="lilac">vVv        </b><b class="peri">(_)@(_)   </b><b class="stem">|/  </b><b class="lilac">vVv</b>
@@ -386,6 +430,10 @@ body.on-air .status { background: var(--pink); }
     <b class="stem">|/    </b><b class="lilac">(_)   </b><b class="stem">|   \|     |/     |/    </b><b class="rose">(_)   </b><b class="stem">|     \|       |/     |/  </b><b class="lilac">(_)   </b><b class="stem">|       |/    \|    |   </b><b class="rose">(_)   </b><b class="stem">|/     |/     |   \|   </b><b class="peri">(_)      </b><b class="stem">|/     |/   |   \|    </b><b class="rose">(_)     </b><b class="stem">|/     |   \|   </b><b class="rose">(_)</b>
    <b class="stem">\|      |    |    |    \|     \|      |    |      |      \|     \|    |    |      \|      |    |    |   \|     \|      |    |    |      \|     \|    |    |     |     \|      |    |    |</b></pre>
 </div>
+
+</div>
+
+<button class="floatstop" id="floatstop" type="button" hidden>■ stop KES FM</button>
 
 <script>
 /* ===== KES FM engine: paste VERBATIM, do not edit =====

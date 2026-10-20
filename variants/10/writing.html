@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>chainmail · kes inkersole</title>
+<meta name="description" content="chainmail: short pieces of writing by kes inkersole, sent in by email and collected here over time.">
+<style>
+/* same paper, same ink, same grid as the home page.
+   one unit: 12px, the line is 24px. three columns, 48px gutter. three sizes: 13 mono, 16 sans, 40 times italic. */
+:root {
+  --ink: #000;
+  --paper: #fff;
+  --blue: #1f36ff;
+  --pink: #ff2d95;
+  --sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --mono: ui-monospace, Menlo, Consolas, "DejaVu Sans Mono", "Liberation Mono", "Courier New", monospace;
+  --serif: "Times New Roman", Times, serif;
+  --gut: 48px;
+  --gap: 48px;
+  --sec: 96px;
+}
+html { background: var(--paper); color: var(--ink); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { margin: 0; padding: var(--gut) var(--gut) 0; font: 16px/24px var(--sans); }
+::selection { background: var(--pink); color: var(--ink); }
+a { color: var(--blue); text-decoration-thickness: 1px; text-underline-offset: .18em; }
+a:visited { text-decoration-style: dotted; }
+a:hover { background: var(--pink); color: var(--ink); text-decoration: none; }
+a:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+p, h1, h2 { margin: 0; }
+h1, h2 { font: inherit; }
+
+.label { font: 13px/24px var(--mono); }
+.big-i { font: italic 40px/48px var(--serif); }
+.heart { color: var(--pink); font-style: normal; }
+.grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--gap); }
+.ruled { margin-top: var(--sec); border-top: 1px solid var(--ink); padding-top: 12px; }
+
+pre { margin: 0; font-family: var(--mono); white-space: pre; }
+pre b { font-weight: inherit; }
+
+/* ---------- the top: a little computer, its cable full of <3s (i5-08, recoloured) ---------- */
+.back { margin-bottom: 48px; }
+.mast { grid-template-areas: "pc title title" "cable cable cable"; align-items: end; }
+.mast .title { grid-area: title; padding-bottom: 12px; }
+.mast .title .big-i { margin-bottom: 12px; }
+.mast .title .label { margin-top: 12px; }
+.pc, .cable { font: 13px/1.1 var(--mono); color: var(--ink); }
+.pc { grid-area: pc; }
+.pc b, .cable b { color: var(--pink); }
+.cable { grid-area: cable; display: flex; }
+.wire { flex: 1; overflow: hidden; padding-bottom: 3px; }
+.wire span { display: inline-block; margin-left: -30ch; animation: send 6s linear infinite paused; }
+.mast:hover .wire span { animation-play-state: running; }
+@keyframes send { to { transform: translateX(30ch); } }
+
+/* ---------- the pieces: one <article> per email, newest first, poured into the columns ---------- */
+.pieces { margin-top: 72px; columns: 3; column-gap: var(--gap); }
+.piece { break-inside: avoid; border-top: 1px solid var(--ink); padding-top: 12px; margin-bottom: 48px; }
+.piece header { margin-bottom: 12px; }
+.piece time { display: block; font: 13px/24px var(--mono); }
+.piece h2 { font-weight: bold; }
+.piece p + p { margin-top: 12px; }
+
+/* ---------- the end ---------- */
+.end { margin-top: 48px; }
+.garden { margin-top: 72px; overflow: hidden; container-type: inline-size; }
+.garden pre { font-size: max(12px, min(16px, calc(100cqw / 113.6))); line-height: 1.2; }
+.garden .rose { color: var(--pink); }
+.garden .lilac, .garden .peri { color: var(--blue); }
+
+@media (max-width: 1099px) {
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .mast { grid-template-areas: "pc title" "cable cable"; }
+  .pieces { columns: 2; }
+  .end.grid { row-gap: 48px; }
+}
+@media (max-width: 720px) {
+  :root { --gut: 24px; --sec: 72px; }
+  .grid { grid-template-columns: minmax(0, 1fr); }
+  .mast { grid-template-areas: "title" "pc" "cable"; }
+  .mast .title { padding-bottom: 48px; }
+  .pieces { columns: 1; margin-top: 48px; }
+}
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
+</style>
+</head>
+<body>
+
+<p class="back label"><a href="index.html">← kes inkersole</a></p>
+
+<header class="mast grid">
+  <div class="title">
+    <h1 class="big-i">chainmail</h1>
+    <p>short pieces i write, mostly in my notes app, collected here over time like a moodboard made of text. newest first.</p>
+    <p class="label">pieces arrive by email: (address tbc)</p>
+  </div>
+<pre class="pc" role="img" aria-label="ascii drawing of a little computer with a heart on its screen, its cable of hearts running across the page">
+  ______________________
+ |  __________________  |
+ | |                  | |
+ | |   <b>&lt;3&lt;3</b>    <b>&lt;3&lt;3</b>   | |
+ | | <b>&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3</b> | |
+ | | <b>&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3</b> | |
+ | |   <b>&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3</b>   | |
+ | |     <b>&lt;3&lt;3&lt;3&lt;3</b>     | |
+ | |       <b>&lt;3&lt;3</b>       | |
+ | |        <b>&lt;3</b>        | |
+ | |__________________| |
+ |                      |
+ |  <b>o</b>          ______   |
+ |______________________|\
+   |__________________|   \</pre>
+<pre class="cable" aria-hidden="true"><span>                           \</span><span class="wire"><span>_____________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>_______________</span></span></pre>
+</header>
+
+<main class="pieces" aria-label="pieces">
+<!-- each email becomes one <article class="piece">: the subject is the h2, the date it was sent is the <time>,
+     the body is the <p>s. new pieces go here, at the top. (dates below are placeholders.) -->
+
+<article class="piece" id="piece-10">
+  <header>
+    <time datetime="2026-10-14">14 oct 2026</time>
+    <h2>lorem ipsum</h2>
+  </header>
+  <p>lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+</article>
+
+<article class="piece" id="piece-09">
+  <header>
+    <time datetime="2026-10-11">11 oct 2026</time>
+    <h2>(no subject)</h2>
+  </header>
+  <p>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam.</p>
+  <p>quis nostrud exercitation ullamco laboris.</p>
+</article>
+
+<article class="piece" id="piece-08">
+  <header>
+    <time datetime="2026-10-08">8 oct 2026</time>
+    <h2>dolor sit amet</h2>
+  </header>
+  <p>duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. curabitur pretium tincidunt lacus, nulla gravida orci a odio, nullam varius turpis et commodo pharetra.</p>
+</article>
+
+<article class="piece" id="piece-07">
+  <header>
+    <time datetime="2026-10-05">5 oct 2026</time>
+    <h2>ut enim ad minim</h2>
+  </header>
+  <p>nullam varius, turpis et commodo pharetra, est eros bibendum elit.</p>
+</article>
+
+<article class="piece" id="piece-06">
+  <header>
+    <time datetime="2026-10-01">1 oct 2026</time>
+    <h2>consectetur adipiscing elit</h2>
+  </header>
+  <p>lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+  <p>duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+  <p>sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+</article>
+
+<article class="piece" id="piece-05">
+  <header>
+    <time datetime="2026-09-26">26 sep 2026</time>
+    <h2>sed do eiusmod</h2>
+  </header>
+  <p>nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
+</article>
+
+<article class="piece" id="piece-04">
+  <header>
+    <time datetime="2026-09-21">21 sep 2026</time>
+    <h2>lorem, ipsum, dolor</h2>
+  </header>
+  <p>lorem ipsum<br>dolor sit amet<br>consectetur adipiscing<br>sed do eiusmod tempor<br>ut labore et dolore</p>
+</article>
+
+<article class="piece" id="piece-03">
+  <header>
+    <time datetime="2026-09-15">15 sep 2026</time>
+    <h2>re: magna aliqua</h2>
+  </header>
+  <p>neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
+  <p>ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur.</p>
+</article>
+
+<article class="piece" id="piece-02">
+  <header>
+    <time datetime="2026-09-09">9 sep 2026</time>
+    <h2>quis nostrud</h2>
+  </header>
+  <p>ut aliquip ex ea commodo consequat.</p>
+</article>
+
+<article class="piece" id="piece-01">
+  <header>
+    <time datetime="2026-09-02">2 sep 2026</time>
+    <h2>excepteur sint occaecat</h2>
+  </header>
+  <p>at vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.</p>
+  <p>similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. et harum quidem rerum facilis est et expedita distinctio.</p>
+  <p>nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.</p>
+  <p>temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae.</p>
+</article>
+
+</main>
+
+<footer>
+  <div class="end grid ruled">
+    <p class="label"><a href="index.html">← back to kes inkersole</a></p>
+    <p class="label">new pieces arrive by email: (address tbc). no cookies, no tracking, system fonts.</p>
+    <p class="big-i">thanks for reading <span class="heart">♡</span></p>
+  </div>
+  <div class="garden">
+<pre aria-hidden="true">    <b class="rose">_                             </b><b class="lilac">_                          </b><b class="rose">_                        </b><b class="peri">_                            </b><b class="rose">_                        </b><b class="lilac">_                             </b><b class="peri">_</b>
+  <b class="rose">_(_)_         @               </b><b class="lilac">_(_)_         </b><b class="peri">@            </b><b class="rose">_(_)_              @     </b><b class="peri">_(_)_         </b><b class="rose">@              _(_)_    </b><b class="lilac">@               _(_)_         </b><b class="peri">@               _(_)_    </b><b class="rose">@</b>
+ <b class="rose">(_)@(_)        </b><b class="stem">|/  </b><b class="peri">vVv        </b><b class="lilac">(_)@(_)        </b><b class="stem">|/    </b><b class="rose">vVv   (_)@(_)             </b><b class="stem">|/   </b><b class="peri">(_)@(_)  </b><b class="lilac">vVv   </b><b class="stem">|/            </b><b class="rose">(_)@(_)   </b><b class="stem">|/  </b><b class="rose">vVv        </b><b class="lilac">(_)@(_)        </b><b class="stem">|/  </b><b class="lilac">vVv        </b><b class="peri">(_)@(_)   </b><b class="stem">|/  </b><b class="lilac">vVv</b>
+   <b class="rose">(_)    </b><b class="lilac">vVv  </b><b class="stem">\|   </b><b class="peri">(_)    </b><b class="lilac">*     (_)    </b><b class="rose">vVv  </b><b class="stem">\|     </b><b class="rose">(_)     (_)     </b><b class="peri">*   </b><b class="lilac">vVv  </b><b class="stem">\|      </b><b class="peri">(_)    </b><b class="lilac">(_)  </b><b class="stem">\|   </b><b class="rose">vVv   </b><b class="lilac">*     </b><b class="rose">(_)    </b><b class="stem">\|   </b><b class="rose">(_)  </b><b class="peri">vVv     </b><b class="lilac">(_)     </b><b class="rose">*   </b><b class="stem">\|   </b><b class="lilac">(_)   </b><b class="rose">vVv    </b><b class="peri">(_)    </b><b class="stem">\|   </b><b class="lilac">(_)  </b><b class="rose">vVv</b>
+    <b class="stem">|/    </b><b class="lilac">(_)   </b><b class="stem">|   \|     |/     |/    </b><b class="rose">(_)   </b><b class="stem">|     \|       |/     |/  </b><b class="lilac">(_)   </b><b class="stem">|       |/    \|    |   </b><b class="rose">(_)   </b><b class="stem">|/     |/     |   \|   </b><b class="peri">(_)      </b><b class="stem">|/     |/   |   \|    </b><b class="rose">(_)     </b><b class="stem">|/     |   \|   </b><b class="rose">(_)</b>
+   <b class="stem">\|      |    |    |    \|     \|      |    |      |      \|     \|    |    |      \|      |    |    |   \|     \|      |    |    |      \|     \|    |    |     |     \|      |    |    |</b></pre>
+  </div>
+</footer>
+
+</body>
+</html>

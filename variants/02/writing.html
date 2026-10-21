@@ -4,11 +4,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>chainmail · kes inkersole</title>
-<meta name="description" content="chainmail (working title): short pieces by kes inkersole, sent in by email.">
-<script>document.documentElement.className = "js";</script>
+<meta name="description" content="chainmail (working title): short pieces from kes inkersole's notes app, sent in by email.">
+<script>
+document.documentElement.className = "js in";
+</script>
 <style>
-/* chainmail: the same painting (Mondrian, Lozenge Composition with Two Lines, 1931), smaller and quieter.
-   its heavy line runs out of the canvas and down the page; the pieces are woven over and under it. */
+/* an antenna on the roof of a tower block, after Mondrian's Lozenge with Two Lines (1931).
+   the lozenge is the aerial, its heavy line the mast; under it the block's facade is a Mondrian grid
+   of floors, flats and windows, and Kes's flower garden grows at its foot.
+   everything is characters on one monospace grid; js sizes the grid so it fills the width exactly. */
 :root {
   --paper: #fff; --ink: #0a0a0a; --grey: #8c8c8c; --pale: #d9d9d9;
   --blue: #1436ff; --pink: #ff2a8c; --yellow: #ffd000;
@@ -17,66 +21,119 @@
 }
 html { background: var(--paper); color: var(--ink); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; scrollbar-gutter: stable; }
 body { margin: 0; background: var(--paper); font-family: var(--mono); font-size: var(--fs); line-height: var(--lh); font-kerning: none; font-variant-ligatures: none; }
-h1, h2, p, pre { margin: 0; font: inherit; }
-h1, h2 { font-weight: 700; }
-i { font-style: normal; }
+h1, h2, p, ul, pre { margin: 0; font: inherit; }
+h1, h2, b { font-weight: 700; }
+ul { list-style: none; padding: 0; }
+li { padding-left: 2ch; text-indent: -2ch; }
+li::before { content: "· "; content: "· " / ""; color: var(--grey); }
+i, s, u { font-style: normal; text-decoration: none; }
 ::selection { background: var(--yellow); color: var(--ink); }
+
 a { color: var(--blue); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .18em; }
 a:hover, a:focus-visible { color: var(--ink); background: var(--pink); text-decoration-color: var(--ink); }
+button { font: inherit; line-height: inherit; color: var(--blue); background: none; border: 0; border-radius: 0; padding: 0; margin: 0; cursor: pointer; -webkit-appearance: none; appearance: none; }
+button:hover, button:focus-visible { color: var(--ink); background: var(--pink); }
 :focus-visible { outline: 2px solid var(--ink); outline-offset: 1px; }
+[tabindex="-1"]:focus { outline: none; }
 
-.art { position: absolute; left: 0; top: 0; white-space: pre; pointer-events: none; overflow: hidden; color: var(--ink); -webkit-text-stroke: .6px currentColor; }
+/* the drawing: the sky with its aerial, the facade, the garden. all aria-hidden characters */
+.art { position: absolute; left: 0; top: 0; margin: 0; white-space: pre; pointer-events: none; overflow: hidden; color: var(--ink); -webkit-text-stroke: .6px currentColor; -webkit-user-select: none; user-select: none; }
+/* block glyphs are a hair shorter than the row; stretch each run so lines read as solid */
 .art i { display: inline-block; transform: scaleY(1.12); }
-.art i.g { color: var(--grey); }
-.thread { line-height: var(--sl, 1em); }
+.k { color: var(--ink); } .p { color: var(--pink); } .u { color: var(--blue); } .y { color: var(--yellow); } .g { color: var(--grey); } .q { color: var(--pale); }
+/* the coloured planes in the facade, which trade places on the beat */
+.pa { color: var(--pink); } .pb { color: var(--blue); } .pc { color: var(--yellow); }
+@media (prefers-reduced-motion: no-preference) {
+  .tower.lit .pa { color: var(--blue); } .tower.lit .pb { color: var(--yellow); } .tower.lit .pc { color: var(--pink); }
+}
+/* windows: dark (paper) until a sixteenth lights them */
+.w { color: var(--paper); }
+.w.on.y { color: var(--yellow); } .w.on.p { color: var(--pink); } .w.on.u { color: var(--blue); }
 
+/* Kes's garden, in this page's colours */
+.garden { overflow: hidden; white-space: pre; color: var(--ink); }
+.garden b { font-weight: inherit; }
+.garden .p { color: var(--pink); } .garden .b, .garden .l { color: var(--blue); } .garden .y { color: var(--yellow); }
+.garden .g, .garden .k { color: var(--ink); } .garden .gg { color: var(--grey); }
+.garden u, .garden:hover s { display: none; } .garden:hover u { display: inline; }
+.js .garden { position: absolute; left: 0; top: 0; pointer-events: auto; -webkit-text-stroke: 0; }
+.js .garden i { transform: none; }
+html:not(.js) .garden { margin: 3em 0 0; }
+
+/* blocks: laid on the grid by js (no js: they just stack) */
 #page { position: relative; }
+.blk { overflow-wrap: anywhere; box-sizing: border-box; }
 .blk > * + * { margin-top: var(--lh); }
 .js .blk { position: absolute; left: 0; top: 0; }
 html:not(.js) .blk { margin: 0 16px 2.4em; max-width: 72ch; }
-.meta { color: var(--grey); }
-.home { white-space: nowrap; }
-.sub { color: var(--grey); }
-article .no { color: var(--ink); }
+html:not(.js) #b-go, html:not(.js) #b-quiet, html:not(.js) .fm { display: none; }
+
+/* the name, knocked out of the parapet like the sign on a block */
+.sign { white-space: nowrap; }
+.js .sign { color: var(--paper); padding: 0 1ch; -webkit-user-select: text; user-select: text; }
+
+.label, .lede, .ph { color: var(--grey); }
+.kv { padding-left: 9ch; text-indent: -9ch; }
+.kv > span:first-child { display: inline-block; width: 9ch; text-indent: 0; color: var(--grey); }
+.hearts { color: var(--pink); overflow: hidden; }
+/* a flat's window, waiting for its picture: the frame is drawn into the facade around it */
+.js .ph { height: calc(var(--lh) * 5); padding: calc(var(--lh) * 2) 0 0 2ch; box-sizing: border-box; white-space: nowrap; }
 </style>
 </head>
 <body>
 <pre id="art" class="art" aria-hidden="true"></pre>
-<div id="threads" aria-hidden="true"></div>
+<pre id="facade" class="art" aria-hidden="true"></pre>
 
 <main id="page">
 
-<header class="blk" id="b-title">
-<h1>chainmail (working title)</h1>
-</header>
+<p class="blk" id="b-back"><a href="index.html">&lt;- kes inkersole</a></p>
+
+<h1 class="blk sign" id="b-name">chainmail (working title)</h1>
 
 <section class="blk" id="b-intro">
-<p class="home"><a href="index.html">&lt;- kes inkersole</a></p>
 <h2>chainmail (working title)</h2>
 <p>my own writing. short pieces, the kind i write in my notes app, sent here by email and collected over time into a kind of text moodboard.</p>
-<p class="sub">by email</p>
+<p class="label">by email</p>
 <p>each piece arrives as an email to (address tbc). the subject line becomes its title and the newest one lands at the top.</p>
 </section>
 
-<article class="blk"><p class="meta">no. 011 · 18 oct 2026</p><h2>lorem ipsum</h2><p>lorem ipsum dolor sit amet.</p></article>
-<article class="blk"><p class="meta">no. 010 · 14 oct 2026</p><h2>consectetur adipiscing elit</h2><p>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p><p>excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.</p><p>totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p></article>
-<article class="blk"><p class="meta">no. 009 · 9 oct 2026</p><h2>(no subject)</h2><p>nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.</p></article>
-<article class="blk"><p class="meta">no. 008 · 6 oct 2026</p><h2>sed quia consequuntur</h2><p>magni dolores eos qui ratione voluptatem sequi nesciunt. neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p></article>
-<article class="blk"><p class="meta">no. 007 · 2 oct 2026</p><h2>ut enim ad minima</h2><p>quis autem vel eum</p><p>iure reprehenderit</p><p>qui in ea voluptate</p><p>velit esse quam nihil</p><p>molestiae consequatur</p></article>
-<article class="blk"><p class="meta">no. 006 · 27 sep 2026</p><h2>at vero eos et accusamus</h2><p>et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.</p><p>similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. et harum quidem rerum facilis est et expedita distinctio.</p></article>
-<article class="blk"><p class="meta">no. 005 · 21 sep 2026</p><h2>nam libero</h2><p>tempore, cum soluta nobis est eligendi optio.</p></article>
-<article class="blk"><p class="meta">no. 004 · 14 sep 2026</p><h2>re: temporibus autem quibusdam</h2><p>et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.</p></article>
-<article class="blk"><p class="meta">no. 003 · 3 sep 2026</p><h2>quis nostrum exercitationem</h2><p>ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur.</p><p>lorem ipsum dolor sit amet, consectetur adipiscing elit. integer nec odio. praesent libero. sed cursus ante dapibus diam. sed nisi. nulla quis sem at nibh elementum imperdiet. duis sagittis ipsum.</p><p>curabitur sodales ligula in libero.</p></article>
-<article class="blk"><p class="meta">no. 002 · 28 aug 2026</p><h2>sed dignissim lacinia</h2><p>nunc. curabitur tortor. pellentesque nibh. aenean quam. in scelerisque sem at dolor. maecenas mattis. sed convallis tristique sem.</p></article>
-<article class="blk"><p class="meta">no. 001 · 15 aug 2026</p><h2>hello, lorem</h2><p>proin ut ligula vel nunc egestas porttitor. morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. fusce ac turpis quis ligula lacinia aliquet.</p><p>mauris ipsum.</p></article>
+<article class="blk" id="b-a011"><p class="label">no. 011 · 18 oct 2026</p><h2>lorem ipsum</h2><p>lorem ipsum dolor sit amet.</p></article>
+<article class="blk" id="b-a010"><p class="label">no. 010 · 14 oct 2026</p><h2>consectetur adipiscing elit</h2><p>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p><p>excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.</p><p>totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p></article>
+<article class="blk" id="b-a009"><p class="label">no. 009 · 9 oct 2026</p><h2>(no subject)</h2><p>nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.</p></article>
+<article class="blk" id="b-a008"><p class="label">no. 008 · 6 oct 2026</p><h2>sed quia consequuntur</h2><p>magni dolores eos qui ratione voluptatem sequi nesciunt. neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p></article>
+<article class="blk" id="b-a007"><p class="label">no. 007 · 2 oct 2026</p><h2>ut enim ad minima</h2><p>quis autem vel eum</p><p>iure reprehenderit</p><p>qui in ea voluptate</p><p>velit esse quam nihil</p><p>molestiae consequatur</p></article>
+<article class="blk" id="b-a006"><p class="label">no. 006 · 27 sep 2026</p><h2>at vero eos et accusamus</h2><p>et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.</p><p>similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. et harum quidem rerum facilis est et expedita distinctio.</p></article>
+<article class="blk" id="b-a005"><p class="label">no. 005 · 21 sep 2026</p><h2>nam libero</h2><p>tempore, cum soluta nobis est eligendi optio.</p></article>
+<article class="blk" id="b-a004"><p class="label">no. 004 · 14 sep 2026</p><h2>re: temporibus autem quibusdam</h2><p>et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.</p></article>
+<article class="blk" id="b-a003"><p class="label">no. 003 · 3 sep 2026</p><h2>quis nostrum exercitationem</h2><p>ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur.</p><p>lorem ipsum dolor sit amet, consectetur adipiscing elit. integer nec odio. praesent libero. sed cursus ante dapibus diam. sed nisi. nulla quis sem at nibh elementum imperdiet. duis sagittis ipsum.</p><p>curabitur sodales ligula in libero.</p></article>
+<article class="blk" id="b-a002"><p class="label">no. 002 · 28 aug 2026</p><h2>sed dignissim lacinia</h2><p>nunc. curabitur tortor. pellentesque nibh. aenean quam. in scelerisque sem at dolor. maecenas mattis. sed convallis tristique sem.</p></article>
+<article class="blk" id="b-a001"><p class="label">no. 001 · 15 aug 2026</p><h2>hello, lorem</h2><p>proin ut ligula vel nunc egestas porttitor. morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. fusce ac turpis quis ligula lacinia aliquet.</p><p>mauris ipsum.</p></article>
 
 </main>
 
+<pre id="garden" class="garden" aria-hidden="true">                  <b class=p>_</b>   <b class=p>_</b>                                                             <b class=p>_</b>   <b class=p>_</b>                                                    <b class=p>_</b>   <b class=p>_</b>                                                                            <b class=p>_</b>   <b class=p>_</b>                                                             <b class=p>_</b>   <b class=p>_</b>                                                    <b class=p>_</b>   <b class=p>_</b>
+     <b class=p>_</b>           <b class=p>(</b> <b class=p>`v'</b> <b class=p>)</b>                                              <b class=b>_</b>            <b class=p>(</b> <b class=p>`v'</b> <b class=p>)</b>            <b class=p>_</b>                                     <b class=p>(</b> <b class=p>`v'</b> <b class=p>)</b>       <b class=b>_</b>                              <b class=p>_</b>                       <b class=p>_</b>           <b class=p>(</b> <b class=p>`v'</b> <b class=p>)</b>                                              <b class=b>_</b>            <b class=p>(</b> <b class=p>`v'</b> <b class=p>)</b>            <b class=p>_</b>                                     <b class=p>(</b> <b class=p>`v'</b> <b class=p>)</b>       <b class=b>_</b>                              <b class=p>_</b>
+   <b class=p>_(_)_</b>          <b class=p>\</b>   <b class=p>/</b>           <b class=y>\</b> <b class=y>|</b> <b class=y>/</b>               <b class=l>@@@</b>           <b class=b>_(_)_</b>           <b class=p>\</b>   <b class=p>/</b>           <b class=p>_(_)_</b>           <b class=l>@@@</b>       <b class=y>\</b> <b class=y>|</b> <b class=y>/</b>          <b class=p>\</b>   <b class=p>/</b>      <b class=b>_(_)_</b>                <b class=l>@@@</b>       <b class=p>_(_)_</b>     <b class=y>\</b> <b class=y>|</b> <b class=y>/</b>         <b class=p>_(_)_</b>          <b class=p>\</b>   <b class=p>/</b>           <b class=y>\</b> <b class=y>|</b> <b class=y>/</b>               <b class=l>@@@</b>           <b class=b>_(_)_</b>           <b class=p>\</b>   <b class=p>/</b>           <b class=p>_(_)_</b>           <b class=l>@@@</b>       <b class=y>\</b> <b class=y>|</b> <b class=y>/</b>          <b class=p>\</b>   <b class=p>/</b>      <b class=b>_(_)_</b>                <b class=l>@@@</b>       <b class=p>_(_)_</b>     <b class=y>\</b> <b class=y>|</b> <b class=y>/</b>
+  <b class=p>(_)</b><b class=y>@</b><b class=p>(_)</b>          <b class=p>`.'</b>           <b class=y>--</b> <b class=p>o</b> <b class=y>--</b>             <b class=l>@@@@@</b>         <b class=b>(_)</b><b class=y>@</b><b class=b>(_)</b>           <b class=p>`.'</b>           <b class=p>(_)</b><b class=y>@</b><b class=p>(_)</b>         <b class=l>@@@@@</b>     <b class=y>--</b> <b class=p>o</b> <b class=y>--</b>          <b class=p>`.'</b>      <b class=b>(_)</b><b class=y>@</b><b class=b>(_)</b>              <b class=l>@@@@@</b>     <b class=p>(_)</b><b class=y>@</b><b class=p>(_)</b>   <b class=y>--</b> <b class=p>o</b> <b class=y>--</b>       <b class=p>(_)</b><b class=y>@</b><b class=p>(_)</b>          <b class=p>`.'</b>           <b class=y>--</b> <b class=p>o</b> <b class=y>--</b>             <b class=l>@@@@@</b>         <b class=b>(_)</b><b class=y>@</b><b class=b>(_)</b>           <b class=p>`.'</b>           <b class=p>(_)</b><b class=y>@</b><b class=p>(_)</b>         <b class=l>@@@@@</b>     <b class=y>--</b> <b class=p>o</b> <b class=y>--</b>          <b class=p>`.'</b>      <b class=b>(_)</b><b class=y>@</b><b class=b>(_)</b>              <b class=l>@@@@@</b>     <b class=p>(_)</b><b class=y>@</b><b class=p>(_)</b>   <b class=y>--</b> <b class=p>o</b> <b class=y>--</b>
+    <b class=p>(_)</b>             <b class=g>|</b>             <b class=y>/</b> <b class=y>|</b> <b class=y>\</b>    <b class=k>(\_/)</b>      <b class=l>@@@</b>            <b class=b>(_)</b>              <b class=g>|</b>              <b class=p>(_)</b>            <b class=l>@@@</b>       <b class=y>/</b> <b class=y>|</b> <b class=y>\</b>            <b class=g>|</b>         <b class=b>(_)</b>                 <b class=l>@@@</b>        <b class=p>(_)</b>      <b class=y>/</b> <b class=y>|</b> <b class=y>\</b>          <b class=p>(_)</b>             <b class=g>|</b>             <b class=y>/</b> <b class=y>|</b> <b class=y>\</b>    <b class=k>(\_/)</b>      <b class=l>@@@</b>            <b class=b>(_)</b>              <b class=g>|</b>              <b class=p>(_)</b>            <b class=l>@@@</b>       <b class=y>/</b> <b class=y>|</b> <b class=y>\</b>            <b class=g>|</b>         <b class=b>(_)</b>                 <b class=l>@@@</b>        <b class=p>(_)</b>      <b class=y>/</b> <b class=y>|</b> <b class=y>\</b>
+     <b class=g>|\</b>            <b class=g>/|</b>        <b class=g>,</b>      <b class=g>|</b>      <b class=k>(<s>-.-</s><u>o.o</u>)</b>       <b class=g>|</b>             <b class=g>/|</b>       <b class=g>,</b>      <b class=g>/|</b>               <b class=g>|\</b>      <b class=g>,</b>      <b class=g>|</b>          <b class=g>|</b>             <b class=g>/|</b>         <b class=g>/|</b>      <b class=g>,</b>            <b class=g>|</b>          <b class=g>|\</b>        <b class=g>|</b>             <b class=g>|\</b>            <b class=g>/|</b>        <b class=g>,</b>      <b class=g>|</b>      <b class=k>(<s>-.-</s><u>o.o</u>)</b>       <b class=g>|</b>             <b class=g>/|</b>       <b class=g>,</b>      <b class=g>/|</b>               <b class=g>|\</b>      <b class=g>,</b>      <b class=g>|</b>          <b class=g>|</b>             <b class=g>/|</b>         <b class=g>/|</b>      <b class=g>,</b>            <b class=g>|</b>          <b class=g>|\</b>        <b class=g>|</b>
+     <b class=g>|</b>      <b class=g>\|/</b>     <b class=g>|</b>       <b class=g>\|</b>      <b class=g>|/</b>     <b class=k>(")(")</b>     <b class=g>\|</b>     <b class=g>\|/</b>      <b class=g>|</b>      <b class=g>\|</b>       <b class=g>|</b>     <b class=g>\|/</b>       <b class=g>|</b>      <b class=g>\|</b>     <b class=g>\|</b>          <b class=g>|/</b>    <b class=g>\|/</b>      <b class=g>|</b>          <b class=g>|</b>     <b class=g>\|</b>   <b class=g>\|/</b>     <b class=g>\|</b>          <b class=g>|</b>         <b class=g>|/</b>    <b class=g>\|/</b>     <b class=g>|</b>      <b class=g>\|/</b>     <b class=g>|</b>       <b class=g>\|</b>      <b class=g>|/</b>     <b class=k>(")(")</b>     <b class=g>\|</b>     <b class=g>\|/</b>      <b class=g>|</b>      <b class=g>\|</b>       <b class=g>|</b>     <b class=g>\|/</b>       <b class=g>|</b>      <b class=g>\|</b>     <b class=g>\|</b>          <b class=g>|/</b>    <b class=g>\|/</b>      <b class=g>|</b>          <b class=g>|</b>     <b class=g>\|</b>   <b class=g>\|/</b>     <b class=g>\|</b>          <b class=g>|</b>         <b class=g>|/</b>    <b class=g>\|/</b>
+<b class=g>,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,</b><b class=g>,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,</b></pre>
+
 <script>
-/* the same lozenge, rasterised into characters, and the line that runs out of it: pieces lie over it, then under it */
-(function () {
+/* the scene: Mondrian's lozenge as an aerial on the roof of a tower block, the block's facade as a
+   Mondrian grid of floors, flats and windows, and Kes's flower garden at its foot.
+   one character grid, sized to the window; the same columns and rows every time for the same window. */
+function kesScene(cfg) {
   var D = document, H = D.documentElement, $ = function (s) { return D.querySelector(s); };
-  var art = $("#art"), threads = $("#threads"), page = $("#page"), G;
+  var art = $("#art"), fac = $("#facade"), gdn = $("#garden"), page = $("#page");
+  var RM = window.matchMedia ? matchMedia("(prefers-reduced-motion: reduce)") : { matches: false };
+  function calm() { return (typeof still !== "undefined" && still) || RM.matches; }
+  function air() { return typeof onAir !== "undefined" && onAir; }
+  var S = { inn: !H.classList.contains("gated"), phi: 0, spin0: 0, pulse0: 0, pulse: 0, plane: -1, rip: [], step: -1, scol: "y", beat: 0, drawn: 0, now: 0, sway: 0, hover: false };
+  var G = null, COL = ["p", "u", "y"], WB = [], LIT = [];
+
+  // how wide is one character of this machine's monospace, per px of font size
   var ratio = (function () {
     var s = D.createElement("span");
     s.style.cssText = "position:absolute;left:-999em;top:0;white-space:pre;font-size:100px;line-height:1";
@@ -84,95 +141,462 @@ article .no { color: var(--ink); }
     var w = s.getBoundingClientRect().width / 1000; D.body.removeChild(s);
     return w > .3 && w < 1 ? w : .6;
   })();
+
+  // 2x2 samples per character cell -> full and half blocks
   var HALF = { 3: "▀", 12: "▄", 5: "▌", 10: "▐" };
   function bits(p) { return (p & 1) + (p >> 1 & 1) + (p >> 2 & 1) + (p >> 3 & 1); }
   function blk(p) { var n = bits(p); return n >= 3 || p === 6 || p === 9 ? "█" : n === 2 ? HALF[p] : ""; }
-  function raster(L, C, R, ext) {
-    var cw = G.cw, lh = G.lh, dp = L.d * cw, out = [];
-    var V = L.v.map(function (a) { return [a[0] * cw, a[1] * cw]; }), Hh = L.h.map(function (a) { return [a[0] * lh, a[1] * lh]; });
+  function rng(seed) { var s = (seed * 2654435761 >>> 0) || 7; return function () { s ^= s << 13; s >>>= 0; s ^= s >>> 17; s ^= s << 5; s >>>= 0; return s / 4294967296; }; }
+  function esc(s) { return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+  function wrap(run, k) {
+    if (!run) return "";
+    if (!k) return esc(run);
+    var p = k.split("|"), a = "";
+    if (p[1]) a = p[1].charAt(0) === "t" ? ' data-t="' + p[1].slice(1) + '"' : ' data-s="' + p[1] + '"';
+    return '<i class="' + p[0] + '"' + a + ">" + esc(run) + "</i>";
+  }
+
+  // ---------- a character grid: lines go in 2x2 sub-cells, planes and windows are whole glyphs ----------
+  function Grid(C, R) { this.C = C; this.R = R; this.b = new Uint8Array(C * R); this.g = {}; }
+  Grid.prototype.sub = function (x0, y0, x1, y1) {
+    var C = this.C, X1 = Math.min(x1, 2 * C), Y1 = Math.min(y1, 2 * this.R);
+    for (var y = Math.max(0, y0); y < Y1; y++) for (var x = Math.max(0, x0); x < X1; x++) this.b[(y >> 1) * C + (x >> 1)] |= 1 << ((x & 1) | ((y & 1) << 1));
+  };
+  Grid.prototype.v = function (c, y0, y1) { this.sub(2 * c, y0, 2 * c + 2, y1); };       // one column wide, sub-rows y0..y1
+  Grid.prototype.h = function (r, c0, c1) { this.sub(2 * c0, 2 * r, 2 * c1, 2 * r + 1); };  // half a row tall, top of row r
+  Grid.prototype.put = function (c, r, ch, cl) { if (c >= 0 && c < this.C && r >= 0 && r < this.R) this.g[r * this.C + c] = [ch, cl]; };
+  // a plane inside a rectangle of the grid: a column clear of the side lines, half a row clear above and below
+  Grid.prototype.plane = function (c0, r0, c1, r1, cl, tight) {
+    if (!cl) return;
+    for (var r = r0; r < r1; r++) {
+      var ch = r === r0 && tight ? "▄" : r === r1 - 1 ? "▀" : "█";
+      for (var c = c0 + 1; c < c1 - 1; c++) this.put(c, r, ch, cl);
+    }
+  };
+  Grid.prototype.html = function (r0, r1) {
+    var C = this.C, out = [];
+    for (var r = r0; r < r1; r++) {
+      var line = "", run = "", key = null;
+      for (var c = 0; c < C; c++) {
+        var i = r * C + c, q = this.g[i], ch = " ", k = "";
+        if (q) { ch = q[0]; k = q[1]; } else { var bb = blk(this.b[i]); if (bb) { ch = bb; k = "k"; } }
+        if (k !== key) { line += wrap(run, key); run = ""; key = k; }
+        run += ch;
+      }
+      line += wrap(run, key);
+      out.push(line.replace(/ +$/, ""));
+    }
+    return out.join("\n");
+  };
+
+  // split a rectangle of the facade with lines, Mondrian style, into flats and windows
+  function mond(gr, c0, r0, c1, r1, rnd, o, tight) {
+    var leaves = [];
+    (function split(a, b, c, d, depth, tt) {
+      var w = c - a, h = d - b, canV = w >= 2 * o.mw + 1, canH = !o.flat && h >= 2 * o.mh + 1;
+      if ((!canV && !canH) || depth >= o.depth || (depth > 0 && rnd() < o.stop)) { leaves.push([a, b, c, d, tt]); return; }
+      if (canV && (!canH || rnd() < (w > 4 * h ? .8 : w > 2 * h ? .55 : .3))) {
+        var x = a + o.mw + Math.floor(rnd() * (w - 2 * o.mw));
+        gr.v(x, 2 * b - (tt ? 0 : 1), 2 * d + 1);
+        split(a, b, x, d, depth + 1, tt); split(x + 1, b, c, d, depth + 1, tt);
+      } else {
+        var y = b + o.mh + Math.floor(rnd() * (h - 2 * o.mh));
+        gr.h(y, a - 1, c + 1);
+        split(a, b, c, y, depth + 1, tt); split(a, y + 1, c, d, depth + 1, false);
+      }
+    })(c0, r0, c1, r1, 0, tight);
+    return leaves;
+  }
+
+  // a flat's window waiting for its picture: a frame with a mullion or two
+  function pane(gr, c0, r0, w, kind) {
+    var r4 = r0 + 4, c1 = c0 + w - 1;
+    gr.h(r0, c0, c0 + w); gr.h(r4, c0, c0 + w);
+    gr.v(c0, 2 * r0, 2 * r4 + 1); gr.v(c1, 2 * r0, 2 * r4 + 1);
+    if (w < 30) return;
+    var mx = c0 + 21;
+    gr.v(mx, 2 * r0, 2 * r4 + 1);
+    if (kind !== "1") gr.h(r0 + 2, mx, c1 + 1);
+    if (kind === "3") gr.v(mx + Math.floor((c1 - mx) / 2), 2 * (r0 + 2), 2 * r4 + 1);
+  }
+
+  // ---------- Kes's garden, read once from the page ----------
+  var GD = (function () {
+    var rows = [[]], wake = "";
+    (function walk(n, cls) {
+      for (var k = n.firstChild; k; k = k.nextSibling) {
+        if (k.nodeType === 3) {
+          for (var i = 0; i < k.data.length; i++) { var ch = k.data.charAt(i); if (ch === "\n") rows.push([]); else rows[rows.length - 1].push([ch, cls]); }
+        } else if (k.nodeName === "U") wake += k.textContent;
+        else if (k.nodeName === "S") walk(k, "k eye");
+        else if (k.nodeType === 1) walk(k, k.className || cls);
+      }
+    })(gdn, "");
+    var last = rows[rows.length - 1];
+    for (var i = 0; i < last.length; i++) last[i][1] = "gg";   // the ground, in grey
+    return { rows: rows, wake: wake };
+  })();
+  function drawGarden() {
+    if (!G) return;
+    var C = G.C, rows = GD.rows, out = [], awake = air() || S.hover, ei = 0, base = G.gTop * C;
+    for (var r = 0; r < rows.length; r++) {
+      var src = rows[r], sh = r < 3 ? S.sway : 0, line = "", run = "", key = null;
+      for (var c = 0; c < C; c++) {
+        var q = src[c + G.gox - sh], ch = " ", k = "";
+        if (q && q[0] !== " ") {
+          ch = q[0]; k = q[1];
+          if (k === "k eye") { if (awake && GD.wake.charAt(ei)) ch = GD.wake.charAt(ei); ei++; k = "k"; }
+        } else { var bb = blk(G.gr.b[base + r * C + c]); if (bb) { ch = bb; k = "k"; } }
+        if (k !== key) { line += wrap(run, key); run = ""; key = k; }
+        run += ch;
+      }
+      line += wrap(run, key);
+      out.push(line.replace(/ +$/, ""));
+    }
+    gdn.innerHTML = out.join("\n");
+  }
+  gdn.addEventListener("mouseenter", function () { S.hover = true; drawGarden(); });
+  gdn.addEventListener("mouseleave", function () { S.hover = false; drawGarden(); });
+
+  // ---------- layout: columns and rows for this window ----------
+  var B = {};
+  cfg.blocks.forEach(function (n) { B[n] = $("#b-" + n); });
+  if (cfg.home) B.fm = $("#fm");
+  function put(el, col, row, w) {
+    el.style.left = col * G.cw + "px"; el.style.top = row * G.lh + "px"; el.style.width = w * G.cw + "px";
+    return Math.max(1, Math.round(el.offsetHeight / G.lh));
+  }
+
+  // the width the page really has to draw in (a reserved scrollbar gutter is not ours)
+  function width() { return page.getBoundingClientRect().width || H.clientWidth; }
+  function layout() {
+    var W = width(), VH = window.innerHeight;
+    var t = W < 640 ? 7.6 : Math.max(7.8, Math.min(10.5, W / 168));
+    var C = Math.max(36, Math.round(W / t)), cw = W / C, lh = 2 * cw;
+    H.style.setProperty("--cw", cw + "px"); H.style.setProperty("--lh", lh + "px"); H.style.setProperty("--fs", (cw / ratio) + "px");
+    var R = Math.max(24, Math.floor(VH / lh)), wide = C >= 120;
+    var g = G = { W: W, C: C, R: R, cw: cw, lh: lh, wide: wide, wv: wide ? 4 : 2, hh: wide ? 2 : 1, mask: [], mb: 0 };
+    var wv = g.wv, hh = g.hh, tx0, tx1, sl, vx = 0, wings, cxN = Math.floor(C / 2);
+
+    // the block, in columns: wall, stairwell, then two wings either side of the mast (wide) or one stack of flats
+    if (wide) {
+      var avail = C - 15, rw = Math.min(76, Math.round(avail * .64)), lw = Math.min(44, avail - rw), T = 11 + rw + lw;
+      tx0 = Math.round((C - T) * .55); sl = tx0 + 5; vx = sl + 1 + lw; tx1 = vx + wv + rw;
+      wings = [[sl + 1, vx], [vx + wv, tx1]];
+    } else {
+      tx0 = 0; tx1 = C - 1; sl = 4;
+      var mb = tx1 - sl - 1 >= 86 ? sl + 1 + 76 : 0;
+      wings = mb ? [[sl + 1, mb], [mb + 1, tx1]] : [[sl + 1, tx1]];
+      g.mb = mb;
+    }
+
+    // the aerial: Mondrian's lozenge with its heavy line run down as the mast
+    var dW = wide ? Math.min(56, Math.floor((vx + wv / 2) / .7), Math.floor((C - 2 - vx - wv / 2) / 1.3)) : Math.min(56, cxN - 1, C - 2 - cxN);
+    function geo(d, top) {
+      d = Math.max(8, d - d % 2);
+      g.d = d; g.cy = top + d / 2;
+      if (wide) { g.vx = vx; g.cx = vx + wv / 2 + Math.round(.3 * d); }
+      else { g.cx = cxN; g.vx = cxN - Math.round(.3 * d) - wv / 2; }
+      var h0 = 2 * g.cy + Math.round(d / 2) - Math.floor(hh / 2);
+      if (hh === 2) h0 -= h0 % 2;
+      g.h0 = h0; g.goRow = Math.floor(h0 / 2); g.goC0 = g.vx + wv; g.goC1 = g.goC0 + 15;
+      g.mastTop = Math.floor(g.cy - (d * cw - Math.abs(g.vx + wv / 2 - g.cx) * cw) / lh);
+      g.bot = g.cy + d / 2;
+    }
+    function edge(r) { return Math.ceil(g.cx + Math.max(0, g.d - 2 * Math.abs(r + .5 - g.cy))); }
+    var roof;
+    if (cfg.home) {
+      roof = R - 3;
+      var d0 = Math.min(dW, roof - 5);
+      geo(d0, 2 + Math.floor(Math.max(0, roof - 5 - d0) * .3));
+      var fr = g.goRow + 2, fc = edge(fr) + 3, fw = Math.min(52, C - 2 - fc), fh;
+      if (fw >= 40) fh = put(B.fm, fc, fr, fw);
+      else {
+        // no room beside the lozenge: the controls hang under it, to the right of the mast
+        fc = (wide ? vx : cxN - Math.round(.3 * dW) - wv / 2) + wv + 2; fw = Math.min(52, tx1 - 1 - fc);
+        fh = put(B.fm, fc, 0, fw);
+        var d1 = Math.min(dW, roof - fh - 7);
+        geo(d1, 2 + Math.floor(Math.max(0, roof - fh - 7 - d1) * .3));
+        fc = g.vx + wv + 2; fr = g.bot + 2; fw = Math.min(52, tx1 - 1 - fc);
+        fh = put(B.fm, fc, fr, fw);
+      }
+      put(B.quiet, fc, fr, fw);
+      put(B.go, g.goC0 + 1, g.goRow, 13);
+      g.mask.push([g.goC0, g.goRow, g.goC1, g.goRow + 1]);
+      g.mask.push(S.inn ? [fc - 1, fr, fc + fw + 1, fr + fh] : [fc - 1, fr, fc + 24, fr + 1]);
+    } else {
+      geo(Math.min(dW, wide ? 26 : 18), 3);
+      roof = g.bot + (wide ? 4 : 5);
+      put(B.back, wide ? tx0 : 2, 1, 30);
+    }
+    g.roof = roof;
+
+    // the floors, top to bottom: a slab, a row of air, the flats, a row of air
+    var floors = [], row = roof;
+    cfg.floors(wide).forEach(function (F) {
+      var s = row;
+      if (F.strip) { floors.push({ s: s, e: s + 3, strip: 1, F: F }); row = s + 3; return; }
+      var top = s + 2, hmax = 1, cells = [];
+      wings.forEach(function (w, k) {
+        var id = wide ? (k ? F.r : F.l) : (k ? null : F.m), el = id ? B[id] : null, h = 0;
+        if (el) { h = put(el, w[0] + 2, top, w[1] - w[0] - (wings.length > 1 ? 4 : 3)); hmax = Math.max(hmax, h); }
+        cells.push({ a: w[0], b: w[1], el: el, h: h });
+      });
+      var e = top + hmax + (F.last ? 2 : 1);
+      floors.push({ s: s, e: e, top: top, cells: cells, F: F });
+      row = e;
+    });
+    var gTop = row, total = gTop + GD.rows.length;
+    g.gTop = gTop; g.gox = 0;
+    var nw = cfg.nameW, nc = Math.min(g.vx + wv + 2, tx1 - 1 - nw);
+    put(B.name, nc, roof, nw);
+
+    // ---------- draw the block ----------
+    var gr = g.gr = new Grid(C, total), yEnd = 2 * (total - 1), O = cfg.opt;
+    gr.sub(2 * tx0, 2 * roof, 2 * (tx1 + 1), 2 * roof + 2);               // the parapet
+    [tx0, tx1, sl].forEach(function (c) { gr.v(c, 2 * roof, yEnd); });    // walls run down into the flowers
+    if (wide) for (var k = 0; k < wv; k++) gr.v(vx + k, 2 * roof, yEnd);  // the mast carries on down as the core
+    if (g.mb) gr.v(g.mb, 2 * roof, yEnd);
+    // the stairwell: half-landings every three rows, a window between each pair
+    for (var r = roof + 3; r < gTop; r += 3) gr.h(r, tx0, sl + 1);
+    var litF = null;
+    floors.forEach(function (f) { if (f.F.lit) litF = f; });
+    for (var r2 = roof + 1, n = 0; r2 + 2 <= gTop; r2 += 3, n++) {
+      var wc = cfg.home ? "w|t" + (n % 8) : litF && r2 >= litF.s && r2 < litF.e ? "pc" : "";
+      gr.plane(tx0 + 1, r2, sl, r2 + 2, wc, r2 === roof + 1);
+    }
+    floors.forEach(function (f, fi) {
+      if (f.s !== roof) gr.h(f.s, sl, tx1 + 1);
+      var tight = f.s === roof, r0 = f.s + 1, r1 = f.e, rnd = rng(fi * 97 + 13), wins = [];
+      function region(a, b, c, d, o, tt) {
+        var L = mond(gr, a, b, c, d, rnd, o, tt);
+        L.forEach(function (q) {
+          if (q[2] - q[0] < 3) return;
+          var x = rnd();
+          if (x < o.plane && (!o.maxA || (q[2] - q[0]) * (q[3] - q[1]) <= o.maxA)) gr.plane(q[0], q[1], q[2], q[3], O.planes[Math.floor(rnd() * O.planes.length)], q[4]);
+          else if (x < o.plane + o.win) wins.push(q);
+        });
+        return L;
+      }
+      if (f.strip) wings.forEach(function (w) { region(w[0], r0, w[1], r1, O.strip, tight); });
+      else f.cells.forEach(function (c) {
+        if (!c.el) {
+          var L = region(c.a, r0, c.b, r1, f.F.calm ? O.calm : O.full, tight);
+          if (f.F.lit) { L.sort(function (p, q) { return (q[2] - q[0]) * (q[3] - q[1]) - (p[2] - p[0]) * (p[3] - p[1]); }); gr.plane(L[0][0], L[0][1], L[0][2], L[0][3], "pc", L[0][4]); }
+        } else {
+          var y = f.top + c.h + 1;
+          if (r1 - y >= 6) { gr.h(y, c.a - 1, c.b + 1); region(c.a, y + 1, c.b, r1, O.full, false); }
+          var ph = c.el.querySelector(".ph");
+          if (ph) pane(gr, c.a + 2, f.top + Math.round(ph.offsetTop / lh), Math.min(36, c.b - c.a - 4), ph.getAttribute("data-k"));
+        }
+      });
+      // windows that light with the break: one floor at a time, left to right, eight sixteenths a floor
+      if (cfg.home) {
+        wins.sort(function (p, q) { return p[0] - q[0] || p[1] - q[1]; });
+        var qd = fi % 4, nW = wins.length;
+        wins.forEach(function (q, j) { gr.plane(q[0], q[1], q[2], q[3], "w|" + (qd * 8 + (nW <= 8 ? Math.floor(j * 8 / nW) : j % 8)), q[4]); });
+      }
+    });
+
+    art.style.width = fac.style.width = gdn.style.width = W + "px";
+    art.style.height = roof * lh + "px";
+    fac.style.top = roof * lh + "px";
+    fac.innerHTML = gr.html(roof, gTop);
+    gdn.style.top = gTop * lh + "px";
+    page.style.height = total * lh + "px";
+    WB = []; LIT = [];
+    for (var s = 0; s < 32; s++) WB.push([]);
+    [].forEach.call(fac.querySelectorAll("i[data-s]"), function (el) { WB[+el.getAttribute("data-s")].push(el); });
+    [].forEach.call(fac.querySelectorAll("i[data-t]"), function (el) { for (var q = +el.getAttribute("data-t"); q < 32; q += 8) WB[q].push(el); });
+    if (air() && S.step >= 0) lightWindows(S.step, S.scol);
+    drawGarden();
+    draw(performance.now(), true);
+  }
+
+  // ---------- the aerial, redrawn while it transmits ----------
+  function masked(c, r) {
+    for (var i = 0; i < G.mask.length; i++) { var m = G.mask[i]; if (c >= m[0] && c < m[2] && r >= m[1] && r < m[3]) return true; }
+    return false;
+  }
+  function ringAt(m, small) {
+    for (var i = S.rip.length - 1; i >= 0; i--) {
+      var q = S.rip[i], dp = G.d * G.cw;
+      if (small !== undefined && q.small) continue;
+      var rho = (S.now - q.t) / 1000 * 3.4 * dp * (q.small ? .7 : 1), x = rho - m;
+      if (small === undefined) { var bw = dp * (q.small ? .03 : .075); if (x >= 0 && x < bw) return [x < bw * .4 ? q.lead : q.trail, q.c]; }
+      else if (x >= 0 && x < G.cw * 1.5) return ["·", q.c];
+    }
+    return null;
+  }
+  var FL = "█▓▒░ ▓█▒";
+  function raster() {
+    var g = G, C = g.C, R = g.roof, cw = g.cw, lh = g.lh, cx = g.cx, cy = g.cy, dp = g.d * cw;
+    var co = Math.cos(S.phi), si = Math.sin(S.phi), pw = S.pulse * cw * (g.wide ? 1 : .5);
+    var v0 = (g.vx - cx) * cw - pw, v1 = (g.vx + g.wv - cx) * cw + pw, h0 = (g.h0 / 2 - cy) * lh, h1 = ((g.h0 + g.hh) / 2 - cy) * lh;
+    var m0 = (g.vx - cx) * cw, m1 = (g.vx + g.wv - cx) * cw, xc = m0 + g.wv * cw / 2, yc = ((g.h0 + g.hh / 2) / 2 - cy) * lh;
+    var band = null, flick = S.spin0 ? Math.floor(S.now / 45) : -1, out = [];
+    if (S.step >= 0 && air()) { var Lm = R - g.mastTop; band = [Math.floor(R - (S.step + 1) * Lm / 32), Math.floor(R - S.step * Lm / 32)]; if (band[1] <= band[0]) band[1] = band[0] + 1; }
     for (var r = 0; r < R; r++) {
       var line = "", run = "", rk = null;
       for (var c = 0; c < C; c++) {
-        var pb = 0, pi = 0, ch = " ", k = "";
-        for (var s = 0; s < 4; s++) {
-          var X = (c + (s & 1 ? .75 : .25) - L.cx) * cw, Y = (r + (s & 2 ? .75 : .25) - L.cy) * lh, i, on = false;
-          if (Math.abs(X) + Math.abs(Y) <= dp) {
-            pi |= 1 << s;
-            for (i = 0; i < V.length; i++) if (X >= V[i][0] && X < V[i][1]) on = true;
-            for (i = 0; i < Hh.length; i++) if (Y >= Hh[i][0] && Y < Hh[i][1]) on = true;
-          } else if (Y > 0 && X >= V[0][0] && X < V[0][1]) on = true;   // the heavy line, running on past the canvas
-          if (on) pb |= 1 << s;
+        var ch = " ", k = "";
+        if (!masked(c, r)) {
+          var pb = 0, pi = 0, vert = false;
+          for (var s = 0; s < 4; s++) {
+            var X = (c + (s & 1 ? .75 : .25) - cx) * cw, Y = (r + (s & 2 ? .75 : .25) - cy) * lh, u = X * co + Y * si, v = Y * co - X * si;
+            if (Math.abs(u) + Math.abs(v) <= dp) {
+              pi |= 1 << s;
+              var onv = u >= v0 && u < v1;
+              if (onv || (v >= h0 && v < h1)) { pb |= 1 << s; if (onv) vert = true; }
+            } else if (Y > 0 && X >= m0 && X < m1) { pb |= 1 << s; vert = true; }
+          }
+          var b = blk(pb);
+          if (b) {
+            ch = b; k = "k";
+            if (vert && c >= g.vx && c < g.vx + g.wv) {
+              if (flick >= 0) { ch = FL.charAt((r * 5 + c * 3 + flick) % FL.length); if (ch === " ") k = ""; }
+              else if (band && r >= band[0] && r < band[1]) k = S.scol;
+            }
+          } else {
+            var X0 = (c + .5 - cx) * cw, Y0 = (r + .5 - cy) * lh, U = X0 * co + Y0 * si, V = Y0 * co - X0 * si, e = null;
+            if (bits(pi) >= 2) {
+              if (S.plane >= 0 && U < m0 && V > h1) e = ["█", COL[S.plane]];
+              else if (S.rip.length) e = ringAt(Math.abs(U - xc) + Math.abs(V - yc));
+              if (!e && pi !== 15) e = ["·", "g"];     // the canvas edge, a dotted hairline
+            } else if (S.rip.length && (c + r) % 2 === 0) e = ringAt(Math.abs(X0 - xc) + Math.abs(Y0 - yc), true);   // the signal carries on over the sky
+            if (e) { ch = e[0]; k = e[1]; }
+          }
         }
-        var b = blk(pb);
-        if (b) { ch = b; k = "k"; }
-        else if (bits(pi) >= 2 && pi !== 15) { ch = "·"; k = "g"; }
-        if (k !== rk) { if (run) line += rk ? '<i class="' + rk + '">' + run + "</i>" : run; run = ""; rk = k; }
+        if (k !== rk) { line += wrap(run, rk); run = ""; rk = k; }
         run += ch;
       }
-      if (run) line += rk ? '<i class="' + rk + '">' + run + "</i>" : run;
-      out.push(line.replace(/\s+$/, ""));
+      line += wrap(run, rk);
+      out.push(line.replace(/ +$/, ""));
     }
     return out.join("\n");
   }
-
-  var title = $("#b-title"), intro = $("#b-intro"), arts = [].slice.call(D.querySelectorAll("article"));
-  function layout() {
-    var W = H.clientWidth, VH = window.innerHeight;
-    var t = W < 640 ? 7.6 : Math.max(7.8, Math.min(10.5, W / 168));
-    var C = Math.max(36, Math.round(W / t)), cw = W / C, lh = 2 * cw, fs = cw / ratio;
-    H.style.setProperty("--cw", cw + "px"); H.style.setProperty("--lh", lh + "px"); H.style.setProperty("--fs", fs + "px");
-    var R = Math.max(30, Math.floor(VH / lh));
-    G = { C: C, cw: cw, lh: lh };
-    var wv = 2, hh = 1, wide = C >= 120, d, cx, cy;
-    var colW = Math.min(76, C - 10), vmax = C - 4 - colW - wv;
-    if (wide) { d = Math.min(R - 24, 30); d -= d % 2; cx = 4 + d; }
-    else { d = Math.min(R - 30, Math.floor((C - 2 - vmax) / 1.3)); d -= d % 2; cx = Math.floor(C / 2); }
-    d = Math.max(d, 12);
-    if (cx - Math.round(.3 * d) - wv / 2 > vmax) cx = vmax + wv / 2 + Math.round(.3 * d);
-    cy = 2 + d / 2;
-    var vx = cx - Math.round(.3 * d) - wv / 2, h0 = 2 * cy + Math.round(d / 2);
-    var L = { cx: cx, cy: cy, d: d, v: [[vx - cx, vx + wv - cx]], h: [[h0 / 2 - cy, (h0 + hh) / 2 - cy]] };
-
-    function put(el, col, row, w) {
-      el.style.left = col * cw + "px"; el.style.top = row * lh + "px"; el.style.width = w * cw + "px";
-      return row + Math.max(1, Math.round(el.offsetHeight / lh));
-    }
-    var bot = cy + d / 2, row;
-    // the title hangs on the painting itself: in the big white field, right of the heavy line, above the light one
-    var tx = vx + wv + 2, tr = cy - 3, tw = Math.min(30, cx + d - 2 * (cy - tr) - tx - 1);
-    put(title, tx, tr, Math.max(12, tw));
-    if (wide && C - (cx + d + 3) - 2 >= 40) {
-      var wx = cx + d + 3, ww = Math.min(76, C - 2 - wx);
-      row = put(intro, wx, 2, ww);
-      row = Math.max(row, bot) + 3;
-    } else {
-      var ix = vx + wv + 3;
-      row = put(intro, ix, bot + 2, Math.min(76, C - 2 - ix)) + 3;
-    }
-    // woven: one piece lies over the line (and hides it), the next lies beside it, under
-    var under = vx + wv + 3, over = Math.max(2, vx - 12), gaps = [];
-    arts.forEach(function (a, i) {
-      var x = i % 2 ? over : under, w = Math.min(76, C - 2 - x), top = row;
-      row = put(a, x, row, w);
-      if (i % 2) gaps.push([top - 1, row + 1]);
-      row += 3;
-    });
-    var rows = row + 2, A = bot + 1;
-    page.style.height = rows * lh + "px";
-    art.style.width = W + "px";
-    art.innerHTML = raster(L, C, A, true);
-    // the line below the painting, in solid runs between the pieces that cover it
-    var segs = [], y = A;
-    gaps.concat([[rows, rows]]).forEach(function (g) { if (g[0] > y) segs.push([y, g[0]]); y = Math.max(y, g[1]); });
-    threads.innerHTML = segs.map(function (s) {
-      var h = (s[1] - s[0]) * lh;
-      return '<pre class="art thread" style="left:' + vx * cw + "px;top:" + s[0] * lh + "px;height:" + h + "px;--sl:" + fs + 'px">' +
-        new Array(Math.ceil(h / fs) + 2).join(new Array(wv + 1).join("█") + "\n") + "</pre>";
-    }).join("");
+  function draw(now, force) {
+    if (!G) return;
+    if (!force && now - S.drawn < 33) return;
+    if (!force && window.scrollY > G.roof * G.lh) return;
+    S.drawn = now; S.now = now;
+    art.innerHTML = raster();
   }
-  var rt = 0, lastW = H.clientWidth;
-  window.addEventListener("resize", function () { clearTimeout(rt); rt = setTimeout(function () { if (H.clientWidth !== lastW) { lastW = H.clientWidth; layout(); } }, 120); });
+
+  function stepCol(cls) { return /rest/.test(cls) ? "" : /rev/.test(cls) ? "p" : /up|roll/.test(cls) ? "u" : "y"; }
+  function lightWindows(i, col) {
+    for (var k = 0; k < LIT.length; k++) LIT[k].className = "w";
+    LIT = [];
+    if (i < 0 || !col || !WB[i]) return;
+    var on = "w on " + col;
+    WB[i].forEach(function (el) { el.className = on; LIT.push(el); });
+  }
+
+  var raf = 0;
+  function kick() { if (!raf) raf = requestAnimationFrame(frame); }
+  function ease(k) { return k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2; }
+  function frame(now) {
+    raf = 0;
+    var more = false;
+    if (S.spin0) { var k = (now - S.spin0) / 1050; if (k >= 1 || calm()) { S.spin0 = 0; S.phi = 0; } else { S.phi = -2 * Math.PI * ease(k); more = true; } }
+    S.pulse = S.pulse0 ? Math.max(0, 1 - (now - S.pulse0) / 170) : 0;
+    if (S.pulse) more = true;
+    S.rip = S.rip.filter(function (q) { return now - q.t < 900; });
+    if (S.rip.length) more = true;
+    if (air() && !calm()) {
+      var tr = $("#tracker"), on = tr && tr.querySelector(".on"), i = on ? [].indexOf.call(tr.children, on) : -1;
+      if (i !== S.step) {
+        S.step = i;
+        var col = on ? stepCol(on.className) : "";
+        S.scol = col || "y";
+        lightWindows(i, col);
+        if (on && /rev|up|roll/.test(on.className)) S.rip.push({ t: now, c: col === "p" ? "p" : "u", lead: "·", trail: "·", small: 1 });
+      }
+      more = true;
+    }
+    draw(now, !more);
+    if (more) kick();
+  }
+
+  // look(): the engine calls it every beat ("^" every other beat, "@" on pull up, nothing on stop and resume)
+  function bass() { var m = /bass: (\w+)/.exec(($("#lcdinfo") || {}).textContent || ""); return m ? m[1] : "sub"; }
+  window.kesLook = function (mark) {
+    var now = performance.now();
+    if (!air()) { S.step = -1; S.plane = -1; S.rip = []; S.pulse0 = 0; S.spin0 = 0; S.phi = 0; S.sway = 0; lightWindows(-1); drawGarden(); draw(now, true); return; }
+    if (calm() || mark === undefined) { drawGarden(); kick(); return; }
+    var md = bass();
+    S.beat++; S.pulse0 = now;
+    S.rip.push({ t: now, c: COL[S.beat % 3], lead: md === "reese" ? "▓" : md === "off" ? "·" : "▒", trail: md === "off" ? " " : "░" });
+    if (S.rip.length > 6) S.rip.shift();
+    if (mark === "^") S.plane = (S.plane + 1) % 3;
+    if (mark === "@") { S.spin0 = now; S.plane = -1; }
+    S.sway = [1, 0, -1, 0][S.beat % 4];   // the garden leans with the beat
+    drawGarden();
+    kick();
+  };
+
+  // ---------- the gate (home only) ----------
+  if (cfg.home) {
+    var enter = function (how) {
+      if (S.inn) return;
+      S.inn = true;
+      H.classList.remove("gated"); H.classList.add("in");
+      try { sessionStorage.setItem("kes-in", "1"); } catch (e) {}
+      layout();
+      if (how === "quiet") {
+        var h = $("#hello-h"); h.setAttribute("tabindex", "-1");
+        try { h.focus({ preventScroll: true }); } catch (e) { h.focus(); }
+        window.scrollTo({ top: Math.max(0, (G.roof - 4) * G.lh), behavior: calm() ? "auto" : "smooth" });
+      }
+    };
+    $("#go").addEventListener("click", function () { enter("play"); kick(); });
+    $("#quiet").addEventListener("click", function () { enter("quiet"); });
+    D.addEventListener("focusin", function (e) { if (!S.inn && e.target.id !== "go" && e.target.id !== "quiet") enter("tab"); });
+    // the volume as characters: [=====|-----]
+    var vol = $("#vol"), bar = $(".vol .bar");
+    var vbar = function () { var n = Math.round(+vol.value * 10); bar.textContent = "[" + new Array(n + 1).join("=") + "|" + new Array(11 - n).join("-") + "]"; };
+    vol.addEventListener("input", vbar); vbar();
+    window.addEventListener("scroll", function () { if (air() || S.rip.length) kick(); }, { passive: true });
+  } else {
+    try { sessionStorage.setItem("kes-in", "1"); } catch (e) {}
+  }
+
+  var rt = 0, lastW = width();
+  window.addEventListener("resize", function () {
+    clearTimeout(rt);
+    rt = setTimeout(function () {
+      // phones change height as their address bar comes and goes; only the gate follows the height
+      var gated = H.classList.contains("gated");
+      if (width() !== lastW || (gated && Math.floor(window.innerHeight / G.lh) !== G.R)) { lastW = width(); layout(); }
+    }, 120);
+  });
   layout();
+}
+(function () {
+  var ids = ["intro", "a011", "a010", "a009", "a008", "a007", "a006", "a005", "a004", "a003", "a002", "a001"];
+  kesScene({
+    home: false, nameW: 27,
+    blocks: ["back", "name"].concat(ids),
+    opt: {
+      planes: ["q"],
+      full: { mw: 8, mh: 3, depth: 2, stop: .4, plane: .12, win: 0 },
+      calm: { mw: 8, mh: 3, depth: 2, stop: .4, plane: .12, win: 0 },
+      strip: { mw: 7, mh: 9, depth: 3, stop: .25, plane: .1, win: 0, flat: 1 }
+    },
+    // one piece to a flat, the newest at the top, its lights on
+    floors: function (wide) {
+      var out = [];
+      ids.forEach(function (id, i) {
+        var f = wide ? { r: id } : { m: id };
+        if (i === 0) f.calm = 1;
+        if (id === "a011") f.lit = 1;
+        out.push(f);
+        if (i % 4 === 3 && i < ids.length - 1) out.push({ strip: 1 });
+      });
+      out[out.length - 1].last = 1;
+      return out;
+    }
+  });
 })();
 </script>
 </body>

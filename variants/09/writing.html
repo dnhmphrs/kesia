@@ -7,8 +7,8 @@
 <meta name="description" content="chainmail: kes inkersole's own writing, short pieces from her notes app, sent in by email.">
 <script>document.documentElement.className = "js";</script>
 <style>
-/* the same painting, calmer: white ground, a few black lines, one pair close together, one small yellow plane at an edge.
-   the pieces are woven into it, two columns that keep crossing each other's lines. */
+/* the same tower, calmer: the rig on the roof is switched off, the windows are dark but one,
+   and each piece that arrives by email has a flat of its own. */
 :root {
   --white: #ffffff; --ink: #111111; --grey: #6f6f6f; --pale: #c2c2c2;
   --pink: #ff1f8f; --blue: #1f2fff; --yellow: #ffd400;
@@ -28,28 +28,35 @@ a:focus-visible { outline: 2px solid var(--pink); outline-offset: 2px; }
 #probe { position: absolute; left: 0; top: 0; visibility: hidden; white-space: pre; font-family: var(--mono); line-height: 1; }
 html:not(.js) body { padding: 16px; max-width: 64ch; }
 html:not(.js) #art, html:not(.js) .title { display: none; }
+html:not(.js) #wt .sr { position: static; width: auto; height: auto; clip-path: none; white-space: normal; }
 .js #grid { position: relative; overflow: hidden; overflow: clip; }
 .js .blk { position: absolute; left: 0; top: 0; margin: 0; overflow-wrap: anywhere; }
 .js .blk > * { margin: 0 0 var(--rh); }
 .js .blk > :last-child { margin-bottom: 0; }
-.js #art { position: absolute; inset: 0; pointer-events: none; }
+.js #art, .js #art > div { position: absolute; inset: 0; pointer-events: none; }
 .ch { position: absolute; white-space: pre; line-height: var(--rh); }
 .ln { color: var(--ink); }
-.sl { color: var(--pale); }
-.yl { color: var(--yellow); }
+.w, .dg, .ring, .rig { color: var(--pale); }
+.w.yellow { color: var(--yellow); }
 .title { display: block; white-space: pre; line-height: var(--rh); }
+.gd { position: absolute; left: 0; white-space: pre; line-height: var(--rh); pointer-events: auto; color: var(--ink); }
+.gd b { font-weight: inherit; }
+.gd .gp { color: var(--pink); } .gd .gb, .gd .gl { color: var(--blue); } .gd .gy { color: var(--yellow); } .gd .gg { color: var(--grey); }
+.gd s, .gd u { text-decoration: none; }
+.gd u, .gd:hover s { display: none; }
+.gd:hover u { display: inline; }
 </style>
 </head>
 <body>
 <div id="probebox" aria-hidden="true"><span id="probe">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span></div>
 <div id="grid">
-<div id="art" aria-hidden="true"></div>
+<div id="art" aria-hidden="true"><div id="sky"></div><div id="block"></div><div id="ground"></div></div>
 <main>
 <h1 id="wt" class="blk"><span class="sr">chainmail (working title)</span><span class="title" aria-hidden="true">chainmail</span></h1>
 <section id="intro">
 <p id="home" class="blk"><a href="index.html">&lt;- kes inkersole</a></p>
 <div id="lede" class="blk"><h2>chainmail (working title)</h2><p>my own writing. short pieces, the kind i write in my notes app, sent here by email and collected over time into a kind of text moodboard.</p></div>
-<div id="post" class="blk"><p><b>by email</b></p><p>each piece arrives as an email to (address tbc). the subject line becomes its title and the newest one lands at the top.</p></div>
+<div id="post" class="blk"><p class="lbl">by email</p><p>each piece arrives as an email to (address tbc). the subject line becomes its title and the newest one lands at the top.</p></div>
 </section>
 <article class="blk"><p class="lbl">no. 011 · 18 oct 2026</p><h2>lorem ipsum</h2><p>lorem ipsum dolor sit amet.</p></article>
 <article class="blk"><p class="lbl">no. 010 · 14 oct 2026</p><h2>consectetur adipiscing elit</h2><p>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p><p>excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.</p><p>totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p></article>
@@ -68,13 +75,15 @@ html:not(.js) #art, html:not(.js) .title { display: none; }
 <script>
 (function () {
   var root = document.documentElement, $ = function (s) { return document.querySelector(s); };
-  var art = $("#art"), grid = $("#grid"), probe = $("#probe"), M = {};
+  var grid = $("#grid"), probe = $("#probe"), sky = $("#sky"), block = $("#block"), ground = $("#ground");
+  var M = {}, O = [], wn = 0;
+
   function rep(c, n) { return n > 0 ? new Array(n + 1).join(c) : ""; }
   function rect(line, n) { var a = []; for (var i = 0; i < n; i++) a.push(line); return a.join("\n"); }
   function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
   function metrics() {
     var W = grid.clientWidth || root.clientWidth;
-    var C = Math.max(34, Math.round(W / (W < 760 ? 8.5 : 8.8)));
+    var C = Math.max(34, Math.round(W / (W < 600 ? 8.5 : 8.8)));
     var cw = W / C, fs = cw / 0.602;
     for (var k = 0; k < 3; k++) {
       probe.style.fontSize = fs + "px";
@@ -82,26 +91,69 @@ html:not(.js) #art, html:not(.js) .title { display: none; }
       if (a) fs *= cw / a;
     }
     var rh = Math.round(fs * 1.16);
-    M = { W: W, C: C, cw: cw, fs: fs, rh: rh };
+    M = { W: W, C: C, cw: cw, fs: fs, rh: rh, vh: window.innerHeight };
     root.style.setProperty("--fs", fs + "px");
     root.style.setProperty("--rh", rh + "px");
     root.style.setProperty("--cw", cw + "px");
   }
-  function put(c, r, txt, cls) {
+  function occ(c0, r0, c1, r1) {
+    for (var r = Math.max(0, r0); r <= r1 && r < O.length; r++)
+      for (var c = Math.max(0, c0); c <= c1 && c < M.C; c++) O[r][c] = 1;
+  }
+  function free(c, r) { return r >= 0 && r < O.length && c >= 0 && c < M.C && !O[r][c]; }
+  function put(layer, c, r, txt, cls) {
     var e = document.createElement("span");
     e.className = "ch " + (cls || "");
     e.style.left = (c * M.cw) + "px"; e.style.top = (r * M.rh) + "px";
-    e.textContent = txt; art.appendChild(e); return e;
+    e.textContent = txt; layer.appendChild(e); return e;
   }
-  function H(r, c0, c1) { return put(c0, r, rep("█", c1 - c0 + 1), "ln"); }
-  function V(c, r0, r1) { return put(c, r0, rect("██", r1 - r0 + 1), "ln"); }
-  function plane(c0, r0, c1, r1, g, cls) { if (c1 >= c0 && r1 >= r0) put(c0, r0, rect(rep(g, c1 - c0 + 1), r1 - r0 + 1), cls); }
+  function H(layer, r, c0, c1) {
+    c0 = Math.max(0, c0); c1 = Math.min(M.C - 1, c1);
+    if (c1 < c0) return null;
+    occ(c0 - 1, r, c1 + 1, r);
+    return put(layer, c0, r, rep("█", c1 - c0 + 1), "ln");
+  }
+  function V(layer, c, r0, r1) {
+    if (r1 < r0) return null;
+    occ(c - 1, r0, c + 2, r1);
+    return put(layer, c, r0, rect("██", r1 - r0 + 1), "ln");
+  }
+  function shape(layer, cells, g, cls) {
+    var rs = {}, r0 = 1e9, r1 = -1, c0 = 1e9;
+    cells.forEach(function (x) {
+      var a = Math.max(0, x[1]), b = Math.min(M.C - 1, x[2]);
+      if (b < a || x[0] < 0) return;
+      (rs[x[0]] = rs[x[0]] || []).push([a, b]);
+      r0 = Math.min(r0, x[0]); r1 = Math.max(r1, x[0]); c0 = Math.min(c0, a);
+    });
+    if (r1 < 0) return;
+    var out = [];
+    for (var r = r0; r <= r1; r++) {
+      var l = "", at = c0;
+      (rs[r] || []).sort(function (p, q) { return p[0] - q[0]; }).forEach(function (s) { if (s[0] < at) return; l += rep(" ", s[0] - at) + rep(g, s[1] - s[0] + 1); at = s[1] + 1; });
+      out.push(l);
+    }
+    put(layer, c0, r0, out.join("\n"), cls);
+  }
   function at(el, c, r, w) {
     el.style.left = (c * M.cw) + "px"; el.style.top = (r * M.rh) + "px"; el.style.width = (w * M.cw) + "px";
     return Math.max(1, Math.round(el.offsetHeight / M.rh));
   }
+  /* windows, dark: only the flat where the newest piece landed is lit */
+  function fillWins(c0, c1, r0, r1, tw, lit) {
+    var aw = c1 - c0 - 1, ah = r1 - r0 - 1;
+    if (aw < 3 || ah < 2) return;
+    tw = tw || 8;
+    var n = Math.max(1, Math.round((aw + 2) / (tw + 2))), ww = Math.floor((aw - 2 * (n - 1)) / n);
+    while (ww < 4 && n > 1) { n--; ww = Math.floor((aw - 2 * (n - 1)) / n); }
+    var off = Math.floor((aw - (n * ww + 2 * (n - 1))) / 2), m = Math.floor((ah + 1) / 3);
+    for (var j = 0; j < m; j++) for (var i = 0; i < n; i++) {
+      put(block, c0 + 1 + off + i * (ww + 2), r0 + 1 + j * 3, rect(rep(lit ? "█" : "░", ww), 2), "w" + (lit ? " yellow" : ""));
+      wn++;
+    }
+  }
 
-  /* "chainmail" in a little pixel face: half blocks (one column, half a row per pixel) or doubled */
+  /* "chainmail" in a little pixel face: half blocks, or doubled where there's room */
   var FONT = {
     c: ["....", "....", ".###", "#...", ".###"], h: ["#...", "#...", "###.", "#..#", "#..#"],
     a: ["....", "....", ".###", "#..#", ".###"], i: ["#", ".", "#", "#", "#"],
@@ -123,75 +175,164 @@ html:not(.js) #art, html:not(.js) .title { display: none; }
     return out.join("\n");
   }
   function doubled(rows) { return rows.map(function (l) { return l.replace(/#/g, "██").replace(/\./g, "  "); }).join("\n"); }
-  var TB = bits("chainmail"), TW = TB[0].length;
+
+  var GARDEN = [["                  _   _                                                             _   _                                                    _   _                                                          ", "                  p   p                                                             p   p                                                    p   p                                                          "], ["     _           ( `v' )                                              _            ( `v' )            _                                     ( `v' )       _                              _                  ", "     p           p ppp p                                              b            p ppp p            p                                     p ppp p       b                              p                  "], ["   _(_)_          \\   /           \\ | /               @@@           _(_)_           \\   /           _(_)_           @@@       \\ | /          \\   /      _(_)_                @@@       _(_)_     \\ | /      ", "   ppppp          p   p           y y y               lll           bbbbb           p   p           ppppp           lll       y y y          p   p      bbbbb                lll       ppppp     y y y      "], ["  (_)@(_)          `.'           -- o --             @@@@@         (_)@(_)           `.'           (_)@(_)         @@@@@     -- o --          `.'      (_)@(_)              @@@@@     (_)@(_)   -- o --     ", "  pppyppp          ppp           yy p yy             lllll         bbbybbb           ppp           pppyppp         lllll     yy p yy          ppp      bbbybbb              lllll     pppyppp   yy p yy     "], ["    (_)             |             / | \\    (\\_/)      @@@            (_)              |              (_)            @@@       / | \\            |         (_)                 @@@        (_)      / | \\      ", "    ppp             g             y y y    kkkkk      lll            bbb              g              ppp            lll       y y y            g         bbb                 lll        ppp      y y y      "], ["     |\\            /|        ,      |      (-.-)       |             /|       ,      /|               |\\      ,      |          |             /|         /|      ,            |          |\\        |        ", "     gg            gg        g      g      keeek       g             gg       g      gg               gg      g      g          g             gg         gg      g            g          gg        g        "], ["     |      \\|/     |       \\|      |/     (\")(\")     \\|     \\|/      |      \\|       |     \\|/       |      \\|     \\|          |/    \\|/      |          |     \\|   \\|/     \\|          |         |/    \\|/", "     g      ggg     g       gg      gg     kkkkkk     gg     ggg      g      gg       g     ggg       g      gg     gg          gg    ggg      g          g     gg   ggg     gg          g         gg    ggg"], [",.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,", "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg"]];
+  /* place the garden so the tower's walls rise between flowers, not through them */
+  function gardenOff(L, Rt) {
+    var C = M.C, best = 0, bs = 1e9;
+    for (var off = 0; off < 204; off++) {
+      var s = 0;
+      for (var i = 0; i < 7; i++) {
+        var ch = GARDEN[i][0], k = GARDEN[i][1];
+        for (var z = 0; z < 2; z++) for (var c = (z ? Rt - 3 : L - 2); c <= (z ? Rt + 2 : L + 3); c++) if (c >= 0 && c < C && ch[(c + off) % 204] !== " ") s++;
+        if (/[ke]/.test(k[off % 204] + k[(C - 1 + off) % 204])) s += 5;
+      }
+      if (s < bs) { bs = s; best = off; }
+    }
+    return best;
+  }
+  function garden(G, L, Rt, off) {
+    var C = M.C, html = "";
+    for (var i = 0; i < 8; i++) {
+      var src = GARDEN[i], l = "", cur = null, run = "";
+      var flush = function () {
+        if (!run) return;
+        if (cur === "e") l += '<b><s>' + run + '</s><u>o.o</u></b>';
+        else l += cur ? '<b class="g' + cur + '">' + run + "</b>" : run;
+        run = "";
+      };
+      for (var c = 0; c < C; c++) {
+        var j = (c + off) % 204, ch = src[0][j], k = src[1][j];
+        if (i < 7 && ((c >= L - 1 && c <= L + 2) || (c >= Rt - 2 && c <= Rt + 1))) { ch = " "; k = " "; }
+        if (i === 7) k = "k";
+        if (k === " ") k = null;
+        if (k !== cur) { flush(); cur = k; }
+        run += ch === "<" ? "&lt;" : ch === "&" ? "&amp;" : ch === ">" ? "&gt;" : ch;
+      }
+      flush();
+      html += (i ? "\n" : "") + l;
+    }
+    var a = document.createElement("div");
+    a.className = "gd"; a.style.top = (G * M.rh) + "px"; a.innerHTML = html;
+    ground.appendChild(a);
+  }
+
+  var arts = [].slice.call(document.querySelectorAll("article")), title = $(".title");
 
   function layout() {
     metrics();
-    art.textContent = "";
-    var C = M.C, title = $("#wt .title"), arts = [].slice.call(document.querySelectorAll("article")), T;
-    if (C >= 110) {
-      var s = clamp(Math.round(C * 0.235), 38, 52), R0 = s + 2, RW = C - R0;
-      var g2 = C - Math.max(14, Math.round(RW * 0.17)) - 2;
-      var big = g2 - (R0 + 4) - 2 >= TW * 2;
-      title.textContent = big ? doubled(TB) : halfblock(TB);
-      var tr = at($("#wt"), R0 + 4, 2, big ? TW * 2 : TW);
-      var h1 = 2 + tr + 2;
-      H(h1, s, C - 1); V(g2, 0, h1);
-      plane(g2 + 2, 0, C - 1, h1 - 1, "░", "sl");
-      var hr = at($("#home"), 2, 2, s - 4);
-      var x2 = R0 + Math.round(RW * 0.55);
-      var la = at($("#lede"), R0 + 4, h1 + 2, Math.min(64, x2 - R0 - 7));
-      var lb = at($("#post"), x2 + 5, h1 + 2, Math.min(52, C - x2 - 2 - 7));
-      var hb = h1 + 2 + Math.max(la, lb, 7) + 2;
-      V(x2, h1, hb);
-      var Y = 5, h2 = hb - Y - 1;
-      if (h2 > 2 + hr) { H(h2, 0, s - 1); plane(0, h2 + 1, s - 1, hb - 1, "█", "yl"); }
-      H(hb, 0, C - 1); H(hb + 2, 0, C - 1);
-      /* the pieces, woven: each goes into whichever column is shorter, and draws its own line under itself */
-      var a0 = hb + 2, xb = R0 + Math.round(RW * 0.5);
-      var col = [{ y: a0, c: R0 + 3, w: Math.min(62, xb - R0 - 6), l0: s, l1: xb + 1 }, { y: a0, c: xb + 5, w: Math.min(62, C - xb - 2 - 6), l0: xb, l1: C - 1 }];
-      arts.forEach(function (el) {
-        var k = col[1].y < col[0].y ? 1 : 0, cl = col[k];
-        var n = at(el, cl.c, cl.y + 2, cl.w);
-        cl.y = cl.y + 2 + n + 2;
-        H(cl.y, cl.l0, cl.l1);
-      });
-      var end = Math.max(col[0].y, col[1].y);
-      col.forEach(function (cl) { if (end - cl.y > 1) plane(cl.l0 + 2, cl.y + 1, cl.l1 - (cl.l1 === C - 1 ? 0 : 2), end - 1, "░", "sl"); });
-      H(end, 0, C - 1);
-      V(xb, a0, end);
-      T = end + 4;
-      V(s, 0, T - 1);
-    } else {
-      var yv = C - 4, tw = TW, tc = clamp(yv - tw - 2, 0, 2);
-      title.textContent = halfblock(TB);
-      at($("#home"), 2, 1, C - 4);
-      var trn = at($("#wt"), tc, 3, tw);
-      var hA = 3 + trn + 1;
-      H(hA, 0, C - 1); V(yv, 0, hA);
-      plane(yv + 2, 0, C - 1, hA - 1, "░", "sl");
-      var w = Math.min(64, C - 8), y = hA + 2;
-      y += at($("#lede"), 6, y, w) + 2;
-      y += at($("#post"), 6, y, w) + 1;
-      var hbn = y + 1;
-      H(hbn - 7, 0, 1); plane(0, hbn - 6, 1, hbn - 1, "█", "yl");
-      H(hbn, 0, C - 1); H(hbn + 2, 0, C - 1);
-      var yy = hbn + 2;
-      arts.forEach(function (el, i) {
-        var n = at(el, 6, yy + 2, w), yb = yy + 2 + n + 2;
-        H(yb, 0, C - 1);
-        if (i % 2) plane(0, yy + 1, 1, yb - 1, "░", "sl");
-        yy = yb;
-      });
-      T = yy + 4;
-      V(2, hA, T - 1);
+    sky.textContent = ""; block.textContent = ""; ground.textContent = ""; wn = 0;
+    var C = M.C, R = Math.max(24, Math.floor(M.vh / M.rh));
+    var wide = C >= 110, phone = C < 70;
+    var Wt = wide ? Math.round(C * 0.8) : phone ? C - (C < 43 ? 2 : 4) : C - 8;
+    var L = wide ? Math.round((C - Wt) * 0.62) : Math.floor((C - Wt) / 2), Rt = L + Wt - 1;
+    var wb = wide ? clamp(Math.round(Wt * 0.06), 7, 10) : phone ? 0 : clamp(Math.round(Wt * 0.09), 7, 9);
+    var cs = L + 2 + (wide ? wb + 2 : 0), ce = Rt - 2 - (wb ? wb + 2 : 0), Wc = ce - cs + 1;
+    var ins = phone ? 2 : 3;
+
+    /* a lower sky: the antenna stands quiet, the rig is off */
+    var P = clamp(Math.round(R * 0.4), 14, 26);
+    O = []; for (var r = 0; r < P; r++) O.push(new Uint8Array(C));
+    var bw = wide ? clamp(Math.round(Wt * 0.36), 32, 52) : phone ? clamp(C - 16, 28, 31) : clamp(Math.round(Wt * 0.44), 29, 44);
+    var bx = Rt - bw + 1, by = P - 8;
+    H(sky, by, bx, Rt); V(sky, bx, by, P - 1); V(sky, Rt - 1, by, P - 1);
+    put(sky, bx + 2, by + 1, rect(rep("░", bw - 4), 7), "rig");
+    occ(bx, by - 3, Rt + 1, P - 1);
+    var hn = at($("#home"), bx + 2, by - 2, bw - 4);
+    var mc = wide ? L + Math.round(Wt * 0.27) : phone ? Math.max(L + 5, Math.min(bx - 8, L + Math.round(Wt * 0.2))) : L + Math.round(Wt * 0.25);
+    var mt = clamp(Math.round(P * 0.1), 2, 5), Hm = P - mt;
+    V(sky, mc, mt, P - 1);
+    put(sky, mc, mt - 1, "▄▄", "rig"); occ(mc - 1, mt - 1, mc + 2, mt - 1);
+    var u = wide ? clamp(Math.round(Wt * 0.07), 6, 12) : phone ? 5 : 7;
+    u = Math.max(3, Math.min(u, bx - mc - 4));
+    var cb1 = mt + Math.max(2, Math.round(Hm * 0.07)), cb2 = cb1 + Math.max(3, Math.round(Hm * 0.1));
+    H(sky, cb1, mc - Math.round(u * 0.6), mc + 1 + Math.round(u * 0.6));
+    H(sky, cb2, mc - u, mc + 1 + u);
+    var d0 = cb2 + Math.max(2, Math.round(Hm * 0.1)), n = Math.max(2, Math.min(Math.round(Hm * 0.3), by - 4 - d0));
+    var lf = [], rt = [];
+    for (var k = 0; k < n; k++) { lf.push([d0 + k, mc - 3 - 2 * k, mc - 1 - 2 * k]); rt.push([d0 + k, mc + 2 + 2 * k, mc + 4 + 2 * k]); }
+    rt = rt.filter(function (x) { return x[2] < bx - 1 || x[0] < by - 3; });
+    [lf, rt].forEach(function (cells) { shape(sky, cells, "░", "dg"); cells.forEach(function (x) { occ(x[1] - 1, x[0], x[2] + 1, x[0]); }); });
+    var rk = Math.max(3, Math.round(Hm * 0.92)), ring = [];
+    for (var dy = -rk; dy <= rk; dy++) {
+      var rr = mt + dy, dx = 2 * (rk - Math.abs(dy));
+      if (free(mc - dx, rr) && free(mc - dx - 1, rr) && free(mc - dx + 1, rr)) ring.push([rr, mc - dx, mc - dx]);
+      if (dx && free(mc + 1 + dx, rr) && free(mc + dx, rr) && free(mc + 2 + dx, rr)) ring.push([rr, mc + 1 + dx, mc + 1 + dx]);
     }
-    grid.style.height = (T * M.rh) + "px";
+    shape(sky, ring, "·", "ring");
+
+    /* the roof, then the floors */
+    var ov = Math.min(2, L);
+    H(block, P, L - ov, Rt + ov); H(block, P + 2, L - ov, Rt + ov);
+    var tdw = Wc - 2 * 4 >= 74, stack = !tdw && Wc - 2 < 37;
+    title.textContent = tdw ? doubled(bits("chainmail")) : stack ? halfblock(bits("chain")) + "\n\n" + halfblock(bits("mail")) : halfblock(bits("chainmail"));
+    var tw = tdw ? 74 : stack ? 21 : 37;
+
+    function floor(top, rooms, o) {
+      o = o || {};
+      var rs = [], c = cs;
+      rooms.forEach(function (rm, i) {
+        var w = i === rooms.length - 1 || !rm.w ? ce - c + 1 : Math.min(rm.w, ce - c + 1);
+        rs.push({ c0: c, c1: c + w - 1, rm: rm });
+        c += w + 2;
+      });
+      var strip = phone && !o.sign, y0 = top + (strip ? 4 : 0), end = y0 + 1;
+      rs.forEach(function (x) {
+        var rm = x.rm; if (!rm.items) return;
+        var inset = rm.inset == null ? ins : rm.inset, r = y0 + (strip ? 1 : 3), first = true;
+        rm.items.forEach(function (el) {
+          if (!first) r += 2;
+          first = false;
+          var w = Math.min(rm.maxw || 999, x.c1 - x.c0 + 1 - 2 * inset);
+          r += at(el, x.c0 + inset, r, w);
+        });
+        end = Math.max(end, r);
+      });
+      var yb = end + 2, bot = o.last ? yb - 1 : yb;
+      rs.forEach(function (x, i) {
+        if (i) V(block, x.c0 - 2, top, bot);
+        if (x.rm.win) fillWins(x.c0, x.c1, top, bot);
+      });
+      if (strip) fillWins(cs, ce, top, top + 4, 7, o.lit);
+      if (wide) fillWins(L + 2, L + 1 + wb, top, bot, 8, o.lit);
+      if (wb) fillWins(Rt - 1 - wb, Rt - 2, top, bot, 8, o.lit && !wide);
+      if (!o.last) H(block, yb, L, Rt);
+      return yb;
+    }
+
+    var y = P + 2, half = Math.floor((Wc - 2) / 2);
+    var tIn = Math.max(0, Math.min(4, Math.floor((Wc - tw) / 2)));
+    y = floor(y, Wc - tw - 2 * tIn - 2 >= 14 ? [{ items: [$("#wt")], w: tw + 2 * tIn, inset: tIn }, { win: 1 }] : [{ items: [$("#wt")], inset: tIn }], { sign: 1 });
+    y = floor(y, half >= 40 ? [{ items: [$("#lede")], w: half, maxw: 60 }, { items: [$("#post")], maxw: 56 }] : [{ items: [$("#lede"), $("#post")], maxw: 60 }]);
+    if (half >= 40) {
+      for (var i = 0; i < arts.length; i += 2) {
+        var rm = [{ items: [arts[i]], w: half, maxw: 60 }];
+        if (arts[i + 1]) rm.push({ items: [arts[i + 1]], maxw: 60 }); else rm.push({ win: 1 });
+        y = floor(y, rm, { lit: i === 0, last: i + 2 >= arts.length });
+      }
+    } else {
+      var mw = Math.min(64, Wc - 2 * ins);
+      arts.forEach(function (a, i) {
+        var rms = [{ items: [a], maxw: mw, w: mw + 2 * ins }];
+        if (Wc - mw - 2 * ins - 2 >= 12) rms.push({ win: 1 }); else rms[0].w = null;
+        y = floor(y, rms, { lit: i === 0, last: i === arts.length - 1 });
+      });
+    }
+    var G = y;
+    V(block, L, P, G + 6); V(block, Rt - 1, P, G + 6);
+    if (wide) V(block, L + 2 + wb, P + 2, G - 1);
+    if (wb) V(block, Rt - 3 - wb, P + 2, G - 1);
+    garden(G, L, Rt, gardenOff(L, Rt));
+    grid.style.height = ((G + 8) * M.rh) + "px";
   }
+
   layout();
   var t = 0;
-  window.addEventListener("resize", function () { clearTimeout(t); t = setTimeout(function () { if (grid.clientWidth !== M.W) layout(); }, 120); });
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
+  window.addEventListener("resize", function () {
+    clearTimeout(t);
+    t = setTimeout(function () { if (grid.clientWidth !== M.W) layout(); }, 120);
+  });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { layout(); });
 })();
 </script>
 </body>

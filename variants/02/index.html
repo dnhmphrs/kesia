@@ -10,12 +10,13 @@
 (function () { var d = document.documentElement, c = "js gated"; try { if (sessionStorage.getItem("kes-in") === "1") c = "js in"; } catch (e) {} d.className = c; })();
 </script>
 <style>
-/* one painting, set in type: Mondrian, Lozenge Composition with Two Lines (1931).
-   a white square hung on its corner, two black lines of different weights.
-   everything below is characters on one monospace grid; js sizes the grid so it fills the width exactly. */
+/* an antenna on the roof of a tower block, after Mondrian's Lozenge with Two Lines (1931).
+   the lozenge is the aerial, its heavy line the mast; under it the block's facade is a Mondrian grid
+   of floors, flats and windows, and Kes's flower garden grows at its foot.
+   everything is characters on one monospace grid; js sizes the grid so it fills the width exactly. */
 :root {
   --paper: #fff; --ink: #0a0a0a; --grey: #8c8c8c; --pale: #d9d9d9;
-  --blue: #1436ff; --pink: #ff2a8c; --yellow: #ffd000; --ochre: #b98a00;
+  --blue: #1436ff; --pink: #ff2a8c; --yellow: #ffd000;
   --mono: Menlo, "DejaVu Sans Mono", Consolas, "Liberation Mono", "Courier New", ui-monospace, monospace;
   --fs: 14px; --lh: 17px; --cw: 8.4px;
 }
@@ -26,7 +27,7 @@ h1, h2, b { font-weight: 700; }
 ul { list-style: none; padding: 0; }
 li { padding-left: 2ch; text-indent: -2ch; }
 li::before { content: "· "; content: "· " / ""; color: var(--grey); }
-i { font-style: normal; }
+i, s, u { font-style: normal; text-decoration: none; }
 ::selection { background: var(--yellow); color: var(--ink); }
 
 a { color: var(--blue); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .18em; }
@@ -34,155 +35,137 @@ a:hover, a:focus-visible { color: var(--ink); background: var(--pink); text-deco
 button { font: inherit; line-height: inherit; color: var(--blue); background: none; border: 0; border-radius: 0; padding: 0; margin: 0; cursor: pointer; -webkit-appearance: none; appearance: none; }
 button:hover, button:focus-visible { color: var(--ink); background: var(--pink); }
 :focus-visible { outline: 2px solid var(--ink); outline-offset: 1px; }
+[tabindex="-1"]:focus { outline: none; }
 
-/* the art layers: the painting on the first screen, and the long line that runs out of it */
-.art { position: absolute; left: 0; top: 0; white-space: pre; pointer-events: none; overflow: hidden; color: var(--ink); -webkit-text-stroke: .6px currentColor; }
-/* block glyphs are a hair shorter than the row; stretch each run so the lines read as solid */
+/* the drawing: the sky with its aerial, the facade, the garden. all aria-hidden characters */
+.art { position: absolute; left: 0; top: 0; margin: 0; white-space: pre; pointer-events: none; overflow: hidden; color: var(--ink); -webkit-text-stroke: .6px currentColor; -webkit-user-select: none; user-select: none; }
+/* block glyphs are a hair shorter than the row; stretch each run so lines read as solid */
 .art i { display: inline-block; transform: scaleY(1.12); }
-#spine { line-height: var(--sl, 1em); }
-.art i.p, .p { color: var(--pink); } .art i.u, .u { color: var(--blue); } .art i.y { color: var(--yellow); } .art i.g, .g { color: var(--grey); } .art i.q { color: var(--pale); }
-#spine { visibility: hidden; }
-#spine.up { visibility: visible; }
+.k { color: var(--ink); } .p { color: var(--pink); } .u { color: var(--blue); } .y { color: var(--yellow); } .g { color: var(--grey); } .q { color: var(--pale); }
+/* the coloured planes in the facade, which trade places on the beat */
+.pa { color: var(--pink); } .pb { color: var(--blue); } .pc { color: var(--yellow); }
+@media (prefers-reduced-motion: no-preference) {
+  .tower.lit .pa { color: var(--blue); } .tower.lit .pb { color: var(--yellow); } .tower.lit .pc { color: var(--pink); }
+}
+/* windows: dark (paper) until a sixteenth lights them */
+.w { color: var(--paper); }
+.w.on.y { color: var(--yellow); } .w.on.p { color: var(--pink); } .w.on.u { color: var(--blue); }
+
+/* Kes's garden, in this page's colours */
+.garden { overflow: hidden; white-space: pre; color: var(--ink); }
+.garden b { font-weight: inherit; }
+.garden .p { color: var(--pink); } .garden .b, .garden .l { color: var(--blue); } .garden .y { color: var(--yellow); }
+.garden .g, .garden .k { color: var(--ink); } .garden .gg { color: var(--grey); }
+.garden u, .garden:hover s { display: none; } .garden:hover u { display: inline; }
+.js .garden { position: absolute; left: 0; top: 0; pointer-events: auto; -webkit-text-stroke: 0; }
+.js .garden i { transform: none; }
+html:not(.js) .garden { margin: 3em 0 0; }
 
 /* blocks: laid on the grid by js (no js: they just stack) */
 #page { position: relative; }
-.blk { overflow-wrap: anywhere; }
-.blk > * + *, .lcd > * + * { margin-top: var(--lh); }
+.blk { overflow-wrap: anywhere; box-sizing: border-box; }
+.blk > * + * { margin-top: var(--lh); }
 .js .blk { position: absolute; left: 0; top: 0; }
 html:not(.js) .blk { margin: 0 16px 2.4em; max-width: 72ch; }
-html:not(.js) #b-go, html:not(.js) #b-quiet { display: none; }
+html:not(.js) #b-go, html:not(.js) #b-quiet, html:not(.js) .fm { display: none; }
 
-/* the gate: the painting at rest. content stays in the page for screen readers, it is only out of sight */
+/* the name, knocked out of the parapet like the sign on a block */
+.sign { white-space: nowrap; }
+.js .sign { color: var(--paper); padding: 0 1ch; -webkit-user-select: text; user-select: text; }
+
+.label, .lede, .ph { color: var(--grey); }
+.kv { padding-left: 9ch; text-indent: -9ch; }
+.kv > span:first-child { display: inline-block; width: 9ch; text-indent: 0; color: var(--grey); }
+.hearts { color: var(--pink); overflow: hidden; }
+/* a flat's window, waiting for its picture: the frame is drawn into the facade around it */
+.js .ph { height: calc(var(--lh) * 5); padding: calc(var(--lh) * 2) 0 0 2ch; box-sizing: border-box; white-space: nowrap; }
+
+/* the gate: the aerial on the roof, at rest. the content stays in the page for screen readers, it is only out of sight */
 .gated, .gated body { height: 100%; overflow: hidden; }
-.gated .blk { opacity: 0; }
-.gated #b-title, .gated #b-go, .gated #b-quiet { opacity: 1; }
+.gated .blk { opacity: 0; pointer-events: none; }
+.gated #b-name, .gated #b-go, .gated #b-quiet { opacity: 1; pointer-events: auto; }
 .in #b-quiet { display: none; }
 @media (prefers-reduced-motion: no-preference) { .blk { transition: opacity .9s ease .25s; } }
 
-#b-title h1 { white-space: nowrap; }
-#b-title p { color: var(--grey); }
 #go { color: var(--pink); font-weight: 700; white-space: pre; }
 #go:hover, #go:focus-visible { color: var(--ink); background: var(--pink); }
 .on-air #go { color: var(--ink); }
-.on-air #go.lit { color: var(--blue); }
-#quiet { color: var(--blue); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .18em; }
+#quiet { color: var(--blue); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .18em; white-space: nowrap; }
 
-/* KES FM, set as plain characters */
-.fm .hd { display: flex; flex-wrap: wrap; column-gap: 2ch; }
+/* KES FM, cut down to a few bracketed words beside the aerial */
+.fm > * + * { margin-top: 0; }
+.fm .hd h2 { display: inline; }
 .status { color: var(--pink); }
-.ident { color: var(--ink); }
-.ticker { overflow: hidden; white-space: nowrap; height: var(--lh); color: var(--grey); }
-.ticker > div { display: inline-block; }
-.ticker span { padding-right: 1ch; }
-@keyframes run { to { transform: translateX(-50%); } }
-@media (prefers-reduced-motion: no-preference) { .on-air .ticker > div { animation: run 80s linear infinite; } }
-#tracker { display: grid; grid-template-columns: repeat(8, 3ch); color: var(--grey); }
-#tracker .rest { color: var(--pale); }
-#tracker .rev { color: var(--pink); }
-#tracker .up { color: var(--ochre); }
-#tracker .roll { text-decoration: underline; }
-#tracker .on { color: var(--ink); font-weight: 700; }
-.lcd-info { color: var(--grey); }
-.lcd-info .rev { color: var(--pink); } .lcd-info .up { color: var(--ochre); }
-.keys p + p { margin-top: 0; }
-.keys .lbl { color: var(--grey); display: inline-block; width: 6ch; }
-.keys button::before { content: "["; content: "[" / ""; color: var(--ink); }
-.keys button::after { content: "]"; content: "]" / ""; color: var(--ink); }
+.keys button { white-space: nowrap; }
+.keys button::before { content: "["; content: "[" / ""; color: var(--grey); }
+.keys button::after { content: "]"; content: "]" / ""; color: var(--grey); }
 .keys button[aria-pressed="true"] { color: var(--ink); font-weight: 700; }
 .keys button[aria-pressed="true"]::before, .keys button[aria-pressed="true"]::after { color: var(--pink); }
 .keys button:hover::before, .keys button:hover::after, .keys button:focus-visible::before, .keys button:focus-visible::after { color: var(--ink); }
-#stop { color: var(--pink); font-weight: 700; }
+#stop { color: var(--pink); }
+#stop:hover, #stop:focus-visible { color: var(--ink); }
 .vol { position: relative; white-space: nowrap; color: var(--grey); }
 .vol .bar { color: var(--ink); }
 .vol input { position: absolute; right: 0; top: 0; width: 13ch; height: var(--lh); margin: 0; opacity: .001; cursor: pointer; }
 .vol:focus-within .bar, .vol:hover .bar { background: var(--pink); }
-.textin { color: var(--ink); }
+/* the readouts, tiny */
+.readout { color: var(--grey); font-size: calc(var(--fs) * .78); }
+.ticker { overflow: hidden; white-space: nowrap; height: var(--lh); }
+.ticker > div { display: inline-block; }
+.ticker span { padding-right: 1ch; }
+@keyframes run { to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: no-preference) { .on-air .ticker > div { animation: run 80s linear infinite; } }
+/* the tracker is folded into the scene: it lights the mast and the windows */
+.sr { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
 
-/* Kes's pieces */
-.speaker .w { color: var(--blue); }
-@keyframes thump { from { color: var(--pink); } }
-.speaker.thump .w, .speaker.thump .cone { animation: thump .32s steps(2, end); }
-.hearts { line-height: var(--lh); overflow: hidden; }
-#b-speaker { overflow: hidden; }
-
-.kv { padding-left: 9ch; text-indent: -9ch; }
-.kv > span:first-child { display: inline-block; width: 9ch; text-indent: 0; color: var(--grey); }
-.label { color: var(--grey); }
-.ph { color: var(--grey); }
-.lede { color: var(--grey); }
-
-/* the stop that is always there while KES FM plays: a slab of █ with the word knocked out of it */
+/* the stop that is always there while KES FM plays: a slab of █ with the words knocked out of it */
 .floatstop { position: fixed; right: calc(var(--cw) * 2); bottom: var(--lh); z-index: 5; color: var(--paper); font-weight: 700; white-space: pre; isolation: isolate; }
 .floatstop .slab { position: absolute; left: 0; top: 0; z-index: -1; color: var(--ink); font-weight: 400; }
 .floatstop:hover, .floatstop:focus-visible { background: none; color: var(--ink); }
 .floatstop:hover .slab, .floatstop:focus-visible .slab { color: var(--pink); }
 .floatstop[hidden] { display: none; }
-
-.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
 </style>
 </head>
 <body>
 <pre id="art" class="art" aria-hidden="true"></pre>
-<pre id="spine" class="art" aria-hidden="true"></pre>
+<pre id="facade" class="art tower" aria-hidden="true"></pre>
 
 <main id="page">
 
-<header class="blk" id="b-title">
-<h1>kes inkersole</h1>
-</header>
+<h1 class="blk sign" id="b-name">kes inkersole</h1>
 
-<div class="blk" id="b-go"><button class="go tower" id="go" type="button" aria-pressed="false">▶ play KES FM</button></div>
+<div class="blk" id="b-go"><button class="go" id="go" type="button" aria-pressed="false">▶ play KES FM</button></div>
 <div class="blk" id="b-quiet"><p><button type="button" id="quiet">or enter without sound</button></p></div>
 
 <section class="blk fm" id="fm" aria-labelledby="fm-h">
-<div class="hd"><h2 id="fm-h">KES FM 170.0</h2><span class="status" id="status" role="status">off air</span></div>
-<p class="ident">you're locked to KES FM. it's not a real station, it's this website: a little jungle machine running in your browser, every drum and bassline synthesised live, no samples, no files. nothing plays until you press on air, and stop always stops it ✧</p>
-<div class="lcd">
-<div class="ticker" aria-hidden="true"><div><span>big up all the junglists ✦ big up everyone reading the source code ✦ big up the UAL lot, LCF + CCI ✦ big up Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges ✦ text in: inkersolekesia@gmail.com ✦ respect to the sound systems, pirates and producers who built all this ✦ lorem ipsum dolor sit amet ✦</span><span>big up all the junglists ✦ big up everyone reading the source code ✦ big up the UAL lot, LCF + CCI ✦ big up Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges ✦ text in: inkersolekesia@gmail.com ✦ respect to the sound systems, pirates and producers who built all this ✦ lorem ipsum dolor sit amet ✦</span></div></div>
-<div class="tracker" id="tracker" aria-hidden="true"></div>
-<div class="lcd-info" aria-hidden="true"><p id="lcdinfo">break: straight · bass: sub · cute: off</p><p><span class="rev">pink</span> = reversed · <span class="up">yellow</span> = pitched up · underline = roll</p></div>
-</div>
+<div class="hd"><h2 id="fm-h">KES FM 170.0</h2> <span class="status" id="status" role="status">off air</span></div>
 <div class="keys">
-<p><button class="stop" id="stop" type="button">■ stop</button> <label class="vol">vol <span class="bar" aria-hidden="true">[=====|-----]</span><input type="range" id="vol" min="0" max="1" step="0.05" value="0.5"></label></p>
-<p role="group" aria-label="break"><span class="lbl" aria-hidden="true">break</span><button type="button" data-break="straight" aria-pressed="true">straight</button> <button type="button" data-break="chopped" aria-pressed="false">chopped</button> <button type="button" data-break="rollin" aria-pressed="false">rollin'</button> <button type="button" id="chop" aria-pressed="false">chop it</button></p>
-<p role="group" aria-label="bass"><span class="lbl" aria-hidden="true">bass</span><button type="button" data-bass="sub" aria-pressed="true">sub</button> <button type="button" data-bass="reese" aria-pressed="false">reese</button> <button type="button" data-bass="off" aria-pressed="false">off</button></p>
-<p><span class="lbl" aria-hidden="true">dj</span><button type="button" id="cute" aria-pressed="false">cute</button> <button type="button" id="pullup">pull up</button> <button type="button" id="siren">siren</button></p>
+<p><button class="stop" id="stop" type="button">■ stop</button> <span role="group" aria-label="break"><button type="button" data-break="straight" aria-pressed="true">straight</button> <button type="button" data-break="chopped" aria-pressed="false">chopped</button> <button type="button" data-break="rollin" aria-pressed="false">rollin'</button> <button type="button" id="chop" aria-pressed="false">chop it</button></span></p>
+<p><span role="group" aria-label="bass"><button type="button" data-bass="sub" aria-pressed="true">sub</button> <button type="button" data-bass="reese" aria-pressed="false">reese</button> <button type="button" data-bass="off" aria-pressed="false">off</button></span> <button type="button" id="cute" aria-pressed="false">cute</button> <button type="button" id="pullup">pull up</button> <button type="button" id="siren">siren</button></p>
+<p><label class="vol">vol <span class="bar" aria-hidden="true">[=====|-----]</span><input type="range" id="vol" min="0" max="1" step="0.05" value="0.5"></label></p>
 </div>
-<p class="textin">text in your shout-outs: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
+<div class="readout" aria-hidden="true">
+<p class="lcd-info" id="lcdinfo">break: straight · bass: sub · cute: off</p>
+<div class="ticker"><div><span>big up all the junglists ✦ big up everyone reading the source code ✦ big up the UAL lot, LCF + CCI ✦ big up Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges ✦ text in: inkersolekesia@gmail.com ✦ respect to the sound systems, pirates and producers who built all this ✦ lorem ipsum dolor sit amet ✦</span><span>big up all the junglists ✦ big up everyone reading the source code ✦ big up the UAL lot, LCF + CCI ✦ big up Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges ✦ text in: inkersolekesia@gmail.com ✦ respect to the sound systems, pirates and producers who built all this ✦ lorem ipsum dolor sit amet ✦</span></div></div>
+</div>
+<div class="tracker sr" id="tracker" aria-hidden="true"></div>
 </section>
 
-<div class="blk" id="b-speaker" aria-hidden="true"><pre class="speaker sound">        <i class=p>\(^o^)/</i>       <i class=p>&lt;3</i>
-.--------------..--------------.
-| .----.  .--. || .----.  .--. |
-| |====|  <i class=u>(())</i> || |====|  <i class=u>(())</i> |
-| '----'  '--' || '----'  '--' |
-'--------------''--------------'
-.--------------..--------------.
-|   .------.   ||   .------.   |
-|  /  .--.  \  ||  /  .--.  \  |  <i class=w>)</i>
-| |  ( <i class="p cone">&lt;3</i> )  | || |  ( <i class="p cone">&lt;3</i> )  | |  <i class=w>))</i>
-|  \  '--'  /  ||  \  '--'  /  |  <i class=w>)))</i>
-|   '------'   ||   '------'   |  <i class=w>))</i>
-|--------------||--------------|  <i class=w>)</i>
-|    <b>KES FM</b>    ||   <i class=u>170.0 FM</i>   |
-'--------------''--------------'
-<i class=g>""""""""""""""""""""""""""""""""</i></pre></div>
-
-<section class="blk" id="b-hello">
-<h2>hello, i'm kes &lt;3</h2>
+<section class="blk" id="b-hello" aria-labelledby="hello-h">
+<h2 id="hello-h">hello, i'm kes &lt;3</h2>
 <p>i'm kes inkersole (kesia on paper), a freelance creative strategist and internet equalities researcher based in london. welcome to kes' little corner of the internet.</p>
 <p>my practice focuses on understanding and critiquing the impacts of emerging technologies on people, culture, and the planet. i work collectively to rethink the narratives and behaviours surrounding technologies — prioritising collaborative research as a process for testing, imagining and prototyping more equitable, alternative futures.</p>
 </section>
 
-<section class="blk" id="b-presents">
+<section class="blk" id="b-cv">
 <p class="lede">this website presents</p>
-<pre class="hearts" aria-hidden="true"><i class=p>&lt;3</i>
-<i class=p>&lt;3</i>
-<i class=p>&lt;3</i>    <i class=p>&lt;3</i>      <i class=p>&lt;3&lt;3&lt;3</i>      <i class=p>&lt;3&lt;3&lt;3&lt;3</i>
-<i class=p>&lt;3</i>  <i class=p>&lt;3</i>      <i class=p>&lt;3</i>      <i class=p>&lt;3</i>  <i class=p>&lt;3</i>
-<i class=p>&lt;3&lt;3</i>        <i class=p>&lt;3&lt;3&lt;3&lt;3&lt;3</i>    <i class=p>&lt;3&lt;3&lt;3</i>
-<i class=p>&lt;3</i>  <i class=p>&lt;3</i>      <i class=p>&lt;3</i>                  <i class=p>&lt;3</i>
-<i class=p>&lt;3</i>    <i class=p>&lt;3</i>      <i class=p>&lt;3&lt;3&lt;3</i>    <i class=p>&lt;3&lt;3&lt;3&lt;3</i></pre>
+<pre class="hearts" aria-hidden="true">&lt;3
+&lt;3
+&lt;3    &lt;3      &lt;3&lt;3&lt;3      &lt;3&lt;3&lt;3&lt;3
+&lt;3  &lt;3      &lt;3      &lt;3  &lt;3
+&lt;3&lt;3        &lt;3&lt;3&lt;3&lt;3&lt;3    &lt;3&lt;3&lt;3
+&lt;3  &lt;3      &lt;3                  &lt;3
+&lt;3    &lt;3      &lt;3&lt;3&lt;3    &lt;3&lt;3&lt;3&lt;3</pre>
 <h2>kes inkersole</h2>
 <p>creative strategist, internet equalities researcher, london. available for work.</p>
 <div>
@@ -195,27 +178,24 @@ html:not(.js) #b-go, html:not(.js) #b-quiet { display: none; }
 </div>
 </section>
 
-<section class="blk proj" id="b-p1">
+<section class="blk" id="b-p1">
 <p class="label">01 · for fun</p>
 <h2><a href="https://latent-space.vercel.app/">latent space</a></h2>
-<pre class="mini" aria-hidden="true" data-v="0.42" data-h="-0.5"></pre>
-<p class="ph">(picture to come)</p>
+<p class="ph" data-k="1">(picture to come)</p>
 <p>lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam.</p>
 </section>
 
-<section class="blk proj" id="b-p2">
+<section class="blk" id="b-p2">
 <p class="label">02 · for funds</p>
 <h2><a href="https://co-matter.com/project/networked-worlds">networked worlds</a> with co—matter</h2>
-<pre class="mini" aria-hidden="true" data-v="-0.62 0.62" data-h="0.6"></pre>
-<p class="ph">(picture to come)</p>
+<p class="ph" data-k="2">(picture to come)</p>
 <p>duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. excepteur sint occaecat cupidatat non proident.</p>
 </section>
 
-<section class="blk proj" id="b-p3">
+<section class="blk" id="b-p3">
 <p class="label">03 · for funds</p>
 <h2><a href="https://www.protein.xyz/dirty-words-4-community/">protein dirty words #4: community report</a></h2>
-<pre class="mini" aria-hidden="true" data-v="0.1" data-h="-0.2 0.45"></pre>
-<p class="ph">(picture to come)</p>
+<p class="ph" data-k="3">(picture to come)</p>
 <p>sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo.</p>
 </section>
 
@@ -251,6 +231,15 @@ html:not(.js) #b-go, html:not(.js) #b-quiet { display: none; }
 </footer>
 
 </main>
+
+<pre id="garden" class="garden sound" aria-hidden="true">                  <b class=p>_</b>   <b class=p>_</b>                                                             <b class=p>_</b>   <b class=p>_</b>                                                    <b class=p>_</b>   <b class=p>_</b>                                                                            <b class=p>_</b>   <b class=p>_</b>                                                             <b class=p>_</b>   <b class=p>_</b>                                                    <b class=p>_</b>   <b class=p>_</b>
+     <b class=p>_</b>           <b class=p>(</b> <b class=p>`v'</b> <b class=p>)</b>                                              <b class=b>_</b>            <b class=p>(</b> <b class=p>`v'</b> <b class=p>)</b>            <b class=p>_</b>                                     <b class=p>(</b> <b class=p>`v'</b> <b class=p>)</b>       <b class=b>_</b>                              <b class=p>_</b>                       <b class=p>_</b>           <b class=p>(</b> <b class=p>`v'</b> <b class=p>)</b>                                              <b class=b>_</b>            <b class=p>(</b> <b class=p>`v'</b> <b class=p>)</b>            <b class=p>_</b>                                     <b class=p>(</b> <b class=p>`v'</b> <b class=p>)</b>       <b class=b>_</b>                              <b class=p>_</b>
+   <b class=p>_(_)_</b>          <b class=p>\</b>   <b class=p>/</b>           <b class=y>\</b> <b class=y>|</b> <b class=y>/</b>               <b class=l>@@@</b>           <b class=b>_(_)_</b>           <b class=p>\</b>   <b class=p>/</b>           <b class=p>_(_)_</b>           <b class=l>@@@</b>       <b class=y>\</b> <b class=y>|</b> <b class=y>/</b>          <b class=p>\</b>   <b class=p>/</b>      <b class=b>_(_)_</b>                <b class=l>@@@</b>       <b class=p>_(_)_</b>     <b class=y>\</b> <b class=y>|</b> <b class=y>/</b>         <b class=p>_(_)_</b>          <b class=p>\</b>   <b class=p>/</b>           <b class=y>\</b> <b class=y>|</b> <b class=y>/</b>               <b class=l>@@@</b>           <b class=b>_(_)_</b>           <b class=p>\</b>   <b class=p>/</b>           <b class=p>_(_)_</b>           <b class=l>@@@</b>       <b class=y>\</b> <b class=y>|</b> <b class=y>/</b>          <b class=p>\</b>   <b class=p>/</b>      <b class=b>_(_)_</b>                <b class=l>@@@</b>       <b class=p>_(_)_</b>     <b class=y>\</b> <b class=y>|</b> <b class=y>/</b>
+  <b class=p>(_)</b><b class=y>@</b><b class=p>(_)</b>          <b class=p>`.'</b>           <b class=y>--</b> <b class=p>o</b> <b class=y>--</b>             <b class=l>@@@@@</b>         <b class=b>(_)</b><b class=y>@</b><b class=b>(_)</b>           <b class=p>`.'</b>           <b class=p>(_)</b><b class=y>@</b><b class=p>(_)</b>         <b class=l>@@@@@</b>     <b class=y>--</b> <b class=p>o</b> <b class=y>--</b>          <b class=p>`.'</b>      <b class=b>(_)</b><b class=y>@</b><b class=b>(_)</b>              <b class=l>@@@@@</b>     <b class=p>(_)</b><b class=y>@</b><b class=p>(_)</b>   <b class=y>--</b> <b class=p>o</b> <b class=y>--</b>       <b class=p>(_)</b><b class=y>@</b><b class=p>(_)</b>          <b class=p>`.'</b>           <b class=y>--</b> <b class=p>o</b> <b class=y>--</b>             <b class=l>@@@@@</b>         <b class=b>(_)</b><b class=y>@</b><b class=b>(_)</b>           <b class=p>`.'</b>           <b class=p>(_)</b><b class=y>@</b><b class=p>(_)</b>         <b class=l>@@@@@</b>     <b class=y>--</b> <b class=p>o</b> <b class=y>--</b>          <b class=p>`.'</b>      <b class=b>(_)</b><b class=y>@</b><b class=b>(_)</b>              <b class=l>@@@@@</b>     <b class=p>(_)</b><b class=y>@</b><b class=p>(_)</b>   <b class=y>--</b> <b class=p>o</b> <b class=y>--</b>
+    <b class=p>(_)</b>             <b class=g>|</b>             <b class=y>/</b> <b class=y>|</b> <b class=y>\</b>    <b class=k>(\_/)</b>      <b class=l>@@@</b>            <b class=b>(_)</b>              <b class=g>|</b>              <b class=p>(_)</b>            <b class=l>@@@</b>       <b class=y>/</b> <b class=y>|</b> <b class=y>\</b>            <b class=g>|</b>         <b class=b>(_)</b>                 <b class=l>@@@</b>        <b class=p>(_)</b>      <b class=y>/</b> <b class=y>|</b> <b class=y>\</b>          <b class=p>(_)</b>             <b class=g>|</b>             <b class=y>/</b> <b class=y>|</b> <b class=y>\</b>    <b class=k>(\_/)</b>      <b class=l>@@@</b>            <b class=b>(_)</b>              <b class=g>|</b>              <b class=p>(_)</b>            <b class=l>@@@</b>       <b class=y>/</b> <b class=y>|</b> <b class=y>\</b>            <b class=g>|</b>         <b class=b>(_)</b>                 <b class=l>@@@</b>        <b class=p>(_)</b>      <b class=y>/</b> <b class=y>|</b> <b class=y>\</b>
+     <b class=g>|\</b>            <b class=g>/|</b>        <b class=g>,</b>      <b class=g>|</b>      <b class=k>(<s>-.-</s><u>o.o</u>)</b>       <b class=g>|</b>             <b class=g>/|</b>       <b class=g>,</b>      <b class=g>/|</b>               <b class=g>|\</b>      <b class=g>,</b>      <b class=g>|</b>          <b class=g>|</b>             <b class=g>/|</b>         <b class=g>/|</b>      <b class=g>,</b>            <b class=g>|</b>          <b class=g>|\</b>        <b class=g>|</b>             <b class=g>|\</b>            <b class=g>/|</b>        <b class=g>,</b>      <b class=g>|</b>      <b class=k>(<s>-.-</s><u>o.o</u>)</b>       <b class=g>|</b>             <b class=g>/|</b>       <b class=g>,</b>      <b class=g>/|</b>               <b class=g>|\</b>      <b class=g>,</b>      <b class=g>|</b>          <b class=g>|</b>             <b class=g>/|</b>         <b class=g>/|</b>      <b class=g>,</b>            <b class=g>|</b>          <b class=g>|\</b>        <b class=g>|</b>
+     <b class=g>|</b>      <b class=g>\|/</b>     <b class=g>|</b>       <b class=g>\|</b>      <b class=g>|/</b>     <b class=k>(")(")</b>     <b class=g>\|</b>     <b class=g>\|/</b>      <b class=g>|</b>      <b class=g>\|</b>       <b class=g>|</b>     <b class=g>\|/</b>       <b class=g>|</b>      <b class=g>\|</b>     <b class=g>\|</b>          <b class=g>|/</b>    <b class=g>\|/</b>      <b class=g>|</b>          <b class=g>|</b>     <b class=g>\|</b>   <b class=g>\|/</b>     <b class=g>\|</b>          <b class=g>|</b>         <b class=g>|/</b>    <b class=g>\|/</b>     <b class=g>|</b>      <b class=g>\|/</b>     <b class=g>|</b>       <b class=g>\|</b>      <b class=g>|/</b>     <b class=k>(")(")</b>     <b class=g>\|</b>     <b class=g>\|/</b>      <b class=g>|</b>      <b class=g>\|</b>       <b class=g>|</b>     <b class=g>\|/</b>       <b class=g>|</b>      <b class=g>\|</b>     <b class=g>\|</b>          <b class=g>|/</b>    <b class=g>\|/</b>      <b class=g>|</b>          <b class=g>|</b>     <b class=g>\|</b>   <b class=g>\|/</b>     <b class=g>\|</b>          <b class=g>|</b>         <b class=g>|/</b>    <b class=g>\|/</b>
+<b class=g>,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,</b><b class=g>,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,</b></pre>
 
 <button class="floatstop" id="floatstop" type="button" hidden><span class="slab" aria-hidden="true">███████████████</span> ■ stop KES FM </button>
 
@@ -629,19 +618,20 @@ function look(mark) { if (window.kesLook) window.kesLook(mark); }
   document.querySelectorAll("[data-bass]").forEach(function (b) { b.onclick = function () { bassMode = b.dataset.bass; bassMix(); ui(); }; });
   ui();
 })();
-
 </script>
 
 <script>
-/* the composition: one lozenge rasterised into characters, two lines, and a grid that fits the window */
-(function () {
+/* the scene: Mondrian's lozenge as an aerial on the roof of a tower block, the block's facade as a
+   Mondrian grid of floors, flats and windows, and Kes's flower garden at its foot.
+   one character grid, sized to the window; the same columns and rows every time for the same window. */
+function kesScene(cfg) {
   var D = document, H = D.documentElement, $ = function (s) { return D.querySelector(s); };
-  var art = $("#art"), spine = $("#spine"), page = $("#page");
+  var art = $("#art"), fac = $("#facade"), gdn = $("#garden"), page = $("#page");
   var RM = window.matchMedia ? matchMedia("(prefers-reduced-motion: reduce)") : { matches: false };
-  function calm() { return still || RM.matches; }
-  var S = { inn: !H.classList.contains("gated"), ext: 0, ext0: 0, phi: 0, spin0: 0, pulse0: 0, pulse: 0, plane: -1, rip: [], step: -1, beat: 0, drawn: 0 };
-  if (S.inn) S.ext = 1;
-  var G = null, COL = ["p", "u", "y"];
+  function calm() { return (typeof still !== "undefined" && still) || RM.matches; }
+  function air() { return typeof onAir !== "undefined" && onAir; }
+  var S = { inn: !H.classList.contains("gated"), phi: 0, spin0: 0, pulse0: 0, pulse: 0, plane: -1, rip: [], step: -1, scol: "y", beat: 0, drawn: 0, now: 0, sway: 0, hover: false };
+  var G = null, COL = ["p", "u", "y"], WB = [], LIT = [];
 
   // how wide is one character of this machine's monospace, per px of font size
   var ratio = (function () {
@@ -656,167 +646,350 @@ function look(mark) { if (window.kesLook) window.kesLook(mark); }
   var HALF = { 3: "▀", 12: "▄", 5: "▌", 10: "▐" };
   function bits(p) { return (p & 1) + (p >> 1 & 1) + (p >> 2 & 1) + (p >> 3 & 1); }
   function blk(p) { var n = bits(p); return n >= 3 || p === 6 || p === 9 ? "█" : n === 2 ? HALF[p] : ""; }
+  function rng(seed) { var s = (seed * 2654435761 >>> 0) || 7; return function () { s ^= s << 13; s >>>= 0; s ^= s >>> 17; s ^= s << 5; s >>>= 0; return s / 4294967296; }; }
+  function esc(s) { return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+  function wrap(run, k) {
+    if (!run) return "";
+    if (!k) return esc(run);
+    var p = k.split("|"), a = "";
+    if (p[1]) a = p[1].charAt(0) === "t" ? ' data-t="' + p[1].slice(1) + '"' : ' data-s="' + p[1] + '"';
+    return '<i class="' + p[0] + '"' + a + ">" + esc(run) + "</i>";
+  }
 
-  // rasterise one lozenge. L: cx, cy (cells), d (half-width in columns; the height is d rows),
-  // v: vertical lines [x0, x1] in columns from cx, h: horizontal lines [y0, y1] in rows from cy. fx: the live bits (main painting only)
-  function raster(L, C, R, fx) {
-    var cw = G.cw, lh = G.lh, dp = L.d * cw, ph = fx ? fx.phi : 0, co = Math.cos(ph), si = Math.sin(ph), pw = fx ? fx.pw : 0;
-    var V = L.v.map(function (a) { return [a[0] * cw - pw, a[1] * cw + pw]; }), Hh = L.h.map(function (a) { return [a[0] * lh, a[1] * lh]; });
-    var out = [];
-    for (var r = 0; r < R; r++) {
-      var line = "", run = "", rk = null;
+  // ---------- a character grid: lines go in 2x2 sub-cells, planes and windows are whole glyphs ----------
+  function Grid(C, R) { this.C = C; this.R = R; this.b = new Uint8Array(C * R); this.g = {}; }
+  Grid.prototype.sub = function (x0, y0, x1, y1) {
+    var C = this.C, X1 = Math.min(x1, 2 * C), Y1 = Math.min(y1, 2 * this.R);
+    for (var y = Math.max(0, y0); y < Y1; y++) for (var x = Math.max(0, x0); x < X1; x++) this.b[(y >> 1) * C + (x >> 1)] |= 1 << ((x & 1) | ((y & 1) << 1));
+  };
+  Grid.prototype.v = function (c, y0, y1) { this.sub(2 * c, y0, 2 * c + 2, y1); };       // one column wide, sub-rows y0..y1
+  Grid.prototype.h = function (r, c0, c1) { this.sub(2 * c0, 2 * r, 2 * c1, 2 * r + 1); };  // half a row tall, top of row r
+  Grid.prototype.put = function (c, r, ch, cl) { if (c >= 0 && c < this.C && r >= 0 && r < this.R) this.g[r * this.C + c] = [ch, cl]; };
+  // a plane inside a rectangle of the grid: a column clear of the side lines, half a row clear above and below
+  Grid.prototype.plane = function (c0, r0, c1, r1, cl, tight) {
+    if (!cl) return;
+    for (var r = r0; r < r1; r++) {
+      var ch = r === r0 && tight ? "▄" : r === r1 - 1 ? "▀" : "█";
+      for (var c = c0 + 1; c < c1 - 1; c++) this.put(c, r, ch, cl);
+    }
+  };
+  Grid.prototype.html = function (r0, r1) {
+    var C = this.C, out = [];
+    for (var r = r0; r < r1; r++) {
+      var line = "", run = "", key = null;
       for (var c = 0; c < C; c++) {
-        var pb = 0, pi = 0, hot = 0, ch = " ", k = "";
-        if (!(fx && fx.gap(c, r))) {
-          for (var s = 0; s < 4; s++) {
-            var X = (c + (s & 1 ? .75 : .25) - L.cx) * cw, Y = (r + (s & 2 ? .75 : .25) - L.cy) * lh;
-            var u = X * co + Y * si, v = Y * co - X * si;
-            if (Math.abs(u) + Math.abs(v) <= dp) {
-              pi |= 1 << s;
-              var onv = false, onh = false, i;
-              for (i = 0; i < V.length; i++) if (u >= V[i][0] && u < V[i][1]) onv = true;
-              for (i = 0; i < Hh.length; i++) if (v >= Hh[i][0] && v < Hh[i][1]) onh = true;
-              if (onv || onh) { pb |= 1 << s; if (fx && onh && !onv && fx.hot(u)) hot++; }
-            } else if (fx && fx.ext(X, Y)) pb |= 1 << s;
-          }
-          var b = blk(pb);
-          if (b) { ch = b; k = hot > 1 ? "p" : "k"; }
-          else if (bits(pi) >= 2) {
-            var e = fx && fx.paint((c + .5 - L.cx) * cw * co + (r + .5 - L.cy) * lh * si, (r + .5 - L.cy) * lh * co - (c + .5 - L.cx) * cw * si);
-            if (e) { ch = e[0]; k = e[1]; }
-            else if (pi !== 15) { ch = "·"; k = "g"; }   // the canvas edge, a dotted hairline
-          }
-        }
-        if (k !== rk) { if (run) line += rk ? '<i class="' + rk + '">' + run + "</i>" : run; run = ""; rk = k; }
+        var i = r * C + c, q = this.g[i], ch = " ", k = "";
+        if (q) { ch = q[0]; k = q[1]; } else { var bb = blk(this.b[i]); if (bb) { ch = bb; k = "k"; } }
+        if (k !== key) { line += wrap(run, key); run = ""; key = k; }
         run += ch;
       }
-      if (run) line += rk ? '<i class="' + rk + '">' + run + "</i>" : run;
-      out.push(line.replace(/\s+$/, ""));
+      line += wrap(run, key);
+      out.push(line.replace(/ +$/, ""));
     }
     return out.join("\n");
+  };
+
+  // split a rectangle of the facade with lines, Mondrian style, into flats and windows
+  function mond(gr, c0, r0, c1, r1, rnd, o, tight) {
+    var leaves = [];
+    (function split(a, b, c, d, depth, tt) {
+      var w = c - a, h = d - b, canV = w >= 2 * o.mw + 1, canH = !o.flat && h >= 2 * o.mh + 1;
+      if ((!canV && !canH) || depth >= o.depth || (depth > 0 && rnd() < o.stop)) { leaves.push([a, b, c, d, tt]); return; }
+      if (canV && (!canH || rnd() < (w > 4 * h ? .8 : w > 2 * h ? .55 : .3))) {
+        var x = a + o.mw + Math.floor(rnd() * (w - 2 * o.mw));
+        gr.v(x, 2 * b - (tt ? 0 : 1), 2 * d + 1);
+        split(a, b, x, d, depth + 1, tt); split(x + 1, b, c, d, depth + 1, tt);
+      } else {
+        var y = b + o.mh + Math.floor(rnd() * (h - 2 * o.mh));
+        gr.h(y, a - 1, c + 1);
+        split(a, b, c, y, depth + 1, tt); split(a, y + 1, c, d, depth + 1, false);
+      }
+    })(c0, r0, c1, r1, 0, tight);
+    return leaves;
   }
+
+  // a flat's window waiting for its picture: a frame with a mullion or two
+  function pane(gr, c0, r0, w, kind) {
+    var r4 = r0 + 4, c1 = c0 + w - 1;
+    gr.h(r0, c0, c0 + w); gr.h(r4, c0, c0 + w);
+    gr.v(c0, 2 * r0, 2 * r4 + 1); gr.v(c1, 2 * r0, 2 * r4 + 1);
+    if (w < 30) return;
+    var mx = c0 + 21;
+    gr.v(mx, 2 * r0, 2 * r4 + 1);
+    if (kind !== "1") gr.h(r0 + 2, mx, c1 + 1);
+    if (kind === "3") gr.v(mx + Math.floor((c1 - mx) / 2), 2 * (r0 + 2), 2 * r4 + 1);
+  }
+
+  // ---------- Kes's garden, read once from the page ----------
+  var GD = (function () {
+    var rows = [[]], wake = "";
+    (function walk(n, cls) {
+      for (var k = n.firstChild; k; k = k.nextSibling) {
+        if (k.nodeType === 3) {
+          for (var i = 0; i < k.data.length; i++) { var ch = k.data.charAt(i); if (ch === "\n") rows.push([]); else rows[rows.length - 1].push([ch, cls]); }
+        } else if (k.nodeName === "U") wake += k.textContent;
+        else if (k.nodeName === "S") walk(k, "k eye");
+        else if (k.nodeType === 1) walk(k, k.className || cls);
+      }
+    })(gdn, "");
+    var last = rows[rows.length - 1];
+    for (var i = 0; i < last.length; i++) last[i][1] = "gg";   // the ground, in grey
+    return { rows: rows, wake: wake };
+  })();
+  function drawGarden() {
+    if (!G) return;
+    var C = G.C, rows = GD.rows, out = [], awake = air() || S.hover, ei = 0, base = G.gTop * C;
+    for (var r = 0; r < rows.length; r++) {
+      var src = rows[r], sh = r < 3 ? S.sway : 0, line = "", run = "", key = null;
+      for (var c = 0; c < C; c++) {
+        var q = src[c + G.gox - sh], ch = " ", k = "";
+        if (q && q[0] !== " ") {
+          ch = q[0]; k = q[1];
+          if (k === "k eye") { if (awake && GD.wake.charAt(ei)) ch = GD.wake.charAt(ei); ei++; k = "k"; }
+        } else { var bb = blk(G.gr.b[base + r * C + c]); if (bb) { ch = bb; k = "k"; } }
+        if (k !== key) { line += wrap(run, key); run = ""; key = k; }
+        run += ch;
+      }
+      line += wrap(run, key);
+      out.push(line.replace(/ +$/, ""));
+    }
+    gdn.innerHTML = out.join("\n");
+  }
+  gdn.addEventListener("mouseenter", function () { S.hover = true; drawGarden(); });
+  gdn.addEventListener("mouseleave", function () { S.hover = false; drawGarden(); });
 
   // ---------- layout: columns and rows for this window ----------
   var B = {};
-  ["title", "go", "quiet", "speaker", "hello", "presents", "p1", "p2", "p3", "more", "writing", "written", "pods", "irl", "foot"].forEach(function (n) { B[n] = $("#b-" + n); });
-  B.fm = $("#fm");
+  cfg.blocks.forEach(function (n) { B[n] = $("#b-" + n); });
+  if (cfg.home) B.fm = $("#fm");
+  function put(el, col, row, w) {
+    el.style.left = col * G.cw + "px"; el.style.top = row * G.lh + "px"; el.style.width = w * G.cw + "px";
+    return Math.max(1, Math.round(el.offsetHeight / G.lh));
+  }
 
+  // the width the page really has to draw in (a reserved scrollbar gutter is not ours)
+  function width() { return page.getBoundingClientRect().width || H.clientWidth; }
   function layout() {
-    var W = H.clientWidth, VH = window.innerHeight;
+    var W = width(), VH = window.innerHeight;
     var t = W < 640 ? 7.6 : Math.max(7.8, Math.min(10.5, W / 168));
     var C = Math.max(36, Math.round(W / t)), cw = W / C, lh = 2 * cw;
     H.style.setProperty("--cw", cw + "px"); H.style.setProperty("--lh", lh + "px"); H.style.setProperty("--fs", (cw / ratio) + "px");
-    var R = Math.max(30, Math.floor(VH / lh));
-    var g = G = { W: W, C: C, R: R, cw: cw, lh: lh };
-    var wide = C >= 140, d, cx, cy, wv, hh;
+    var R = Math.max(24, Math.floor(VH / lh)), wide = C >= 120;
+    var g = G = { W: W, C: C, R: R, cw: cw, lh: lh, wide: wide, wv: wide ? 4 : 2, hh: wide ? 2 : 1, mask: [], mb: 0 };
+    var wv = g.wv, hh = g.hh, tx0, tx1, sl, vx = 0, wings, cxN = Math.floor(C / 2);
+
+    // the block, in columns: wall, stairwell, then two wings either side of the mast (wide) or one stack of flats
     if (wide) {
-      wv = 4; hh = 2;
-      d = Math.min(R - 6, Math.floor(C / 2) - 38); d -= d % 2;
-      cx = Math.floor(C / 2); cy = Math.floor((R - d) / 2) + d / 2;
+      var avail = C - 15, rw = Math.min(76, Math.round(avail * .64)), lw = Math.min(44, avail - rw), T = 11 + rw + lw;
+      tx0 = Math.round((C - T) * .55); sl = tx0 + 5; vx = sl + 1 + lw; tx1 = vx + wv + rw;
+      wings = [[sl + 1, vx], [vx + wv, tx1]];
     } else {
-      wv = 2; hh = 1;
-      var colW = Math.min(76, C - 10), vmax = C - 4 - colW - wv;
-      d = Math.min(R - 14, Math.floor((C - 2 - vmax) / 1.3)); d -= d % 2;
-      cx = Math.floor(C / 2);
-      if (cx - Math.round(.3 * d) - wv / 2 > vmax) cx = vmax + wv / 2 + Math.round(.3 * d);
-      cy = 2 + d / 2;
+      tx0 = 0; tx1 = C - 1; sl = 4;
+      var mb = tx1 - sl - 1 >= 86 ? sl + 1 + 76 : 0;
+      wings = mb ? [[sl + 1, mb], [mb + 1, tx1]] : [[sl + 1, tx1]];
+      g.mb = mb;
     }
-    var vx = cx - Math.round(.3 * d) - wv / 2;                 // first column of the heavy vertical
-    var h0 = 2 * cy + Math.round(d / 2) - Math.floor(hh / 2);  // first half-row of the light horizontal
-    if (hh === 2) h0 -= h0 % 2;                                // a whole row, so the play button sits inside it
-    g.wide = wide; g.d = d; g.cx = cx; g.cy = cy; g.vx = vx; g.wv = wv; g.h0 = h0; g.hh = hh;
-    g.L = { cx: cx, cy: cy, d: d, v: [[vx - cx, vx + wv - cx]], h: [[h0 / 2 - cy, (h0 + hh) / 2 - cy]] };
-    g.goRow = Math.floor(h0 / 2); g.goC0 = vx + wv; g.goC1 = vx + wv + 15;
-    g.exitY = ((d - (cx - vx)) / 2) * lh;                       // where the heavy line leaves the canvas, px below centre
 
-    art.style.width = W + "px";
-    function put(el, col, row, w) {
-      el.style.left = col * cw + "px"; el.style.top = row * lh + "px"; el.style.width = w * cw + "px";
-      return row + Math.max(1, Math.round(el.offsetHeight / lh));
+    // the aerial: Mondrian's lozenge with its heavy line run down as the mast
+    var dW = wide ? Math.min(56, Math.floor((vx + wv / 2) / .7), Math.floor((C - 2 - vx - wv / 2) / 1.3)) : Math.min(56, cxN - 1, C - 2 - cxN);
+    function geo(d, top) {
+      d = Math.max(8, d - d % 2);
+      g.d = d; g.cy = top + d / 2;
+      if (wide) { g.vx = vx; g.cx = vx + wv / 2 + Math.round(.3 * d); }
+      else { g.cx = cxN; g.vx = cxN - Math.round(.3 * d) - wv / 2; }
+      var h0 = 2 * g.cy + Math.round(d / 2) - Math.floor(hh / 2);
+      if (hh === 2) h0 -= h0 % 2;
+      g.h0 = h0; g.goRow = Math.floor(h0 / 2); g.goC0 = g.vx + wv; g.goC1 = g.goC0 + 15;
+      g.mastTop = Math.floor(g.cy - (d * cw - Math.abs(g.vx + wv / 2 - g.cx) * cw) / lh);
+      g.bot = g.cy + d / 2;
     }
-    put(B.go, vx + wv + 1, g.goRow, g.goC1 - g.goC0 - 1);
-
-    var top = cy - d / 2, bot = cy + d / 2, wl = cx - d - 4, wr = C - 4 - (cx + d), walls = wide && wl >= 32 && wr >= 30;
-    var lx = 2, lw = vx - 5, rx = vx + wv + 3, rw = Math.min(76, C - 2 - rx), twoCol = lw >= 30;
-    var gated = H.classList.contains("gated");
-    var L = [], Rr = [], lrow, rrow;
-    if (walls) {
-      var r1 = put(B.title, cx + d + 2, top, wr);
-      put(B.quiet, cx + d + 2, g.goRow, wr);
-      var r2 = put(B.hello, cx + d + 2, r1 + 1, wr);
-      var r3 = put(B.fm, 2, top, wl), sp = r3 + 1, fits = sp + 16 <= R;
-      for (var q = sp; fits && q < sp + 16; q++) if (cx - d + 2 * Math.abs(q + .5 - cy) < 2 + (q - sp >= 7 && q - sp <= 12 ? 39 : 34)) fits = false;
-      if (fits) r3 = put(B.speaker, 2, sp, 40);
-      lrow = Math.max(R + 1, r3 + 2); rrow = Math.max(R + 1, r2 + 2);
-      L = fits ? [B.written, B.pods, B.irl] : [B.speaker, B.written, B.pods, B.irl];
-      Rr = [B.presents, B.p1, B.p2, B.p3, B.more, B.writing, B.foot];
+    function edge(r) { return Math.ceil(g.cx + Math.max(0, g.d - 2 * Math.abs(r + .5 - g.cy))); }
+    var roof;
+    if (cfg.home) {
+      roof = R - 3;
+      var d0 = Math.min(dW, roof - 5);
+      geo(d0, 2 + Math.floor(Math.max(0, roof - 5 - d0) * .3));
+      var fr = g.goRow + 2, fc = edge(fr) + 3, fw = Math.min(52, C - 2 - fc), fh;
+      if (fw >= 40) fh = put(B.fm, fc, fr, fw);
+      else {
+        // no room beside the lozenge: the controls hang under it, to the right of the mast
+        fc = (wide ? vx : cxN - Math.round(.3 * dW) - wv / 2) + wv + 2; fw = Math.min(52, tx1 - 1 - fc);
+        fh = put(B.fm, fc, 0, fw);
+        var d1 = Math.min(dW, roof - fh - 7);
+        geo(d1, 2 + Math.floor(Math.max(0, roof - fh - 7 - d1) * .3));
+        fc = g.vx + wv + 2; fr = g.bot + 2; fw = Math.min(52, tx1 - 1 - fc);
+        fh = put(B.fm, fc, fr, fw);
+      }
+      put(B.quiet, fc, fr, fw);
+      put(B.go, g.goC0 + 1, g.goRow, 13);
+      g.mask.push([g.goC0, g.goRow, g.goC1, g.goRow + 1]);
+      g.mask.push(S.inn ? [fc - 1, fr, fc + fw + 1, fr + fh] : [fc - 1, fr, fc + 24, fr + 1]);
     } else {
-      var rt = put(B.title, rx, bot + 2, rw);
-      if (gated) put(B.quiet, rx, rt + 1, rw);
-      rrow = lrow = rt + 2;
-      if (twoCol) { L = [B.fm, B.speaker, B.written, B.pods, B.irl]; Rr = [B.hello, B.presents, B.p1, B.p2, B.p3, B.more, B.writing, B.foot]; lrow = Math.max(lrow, bot + 2); }
-      else Rr = [B.fm, B.speaker, B.hello, B.presents, B.p1, B.p2, B.p3, B.more, B.writing, B.written, B.pods, B.irl, B.foot];
+      geo(Math.min(dW, wide ? 26 : 18), 3);
+      roof = g.bot + (wide ? 4 : 5);
+      put(B.back, wide ? tx0 : 2, 1, 30);
     }
-    minis();
-    L.forEach(function (el) { lrow = put(el, lx, lrow, lw) + 3; });
-    Rr.forEach(function (el) { rrow = put(el, rx, rrow, rw) + 3; });
-    var rows = Math.max(R, lrow, rrow) + 1;
-    g.rows = rows;
-    page.style.height = rows * lh + "px";
-    // the long line: a solid run of █, set tighter than the text rows so no gaps show
-    var fs = cw / ratio, sh = Math.max(0, rows - R) * lh;
-    spine.style.left = vx * cw + "px"; spine.style.top = R * lh + "px"; spine.style.height = sh + "px";
-    spine.style.setProperty("--sl", fs + "px");
-    spine.textContent = new Array(Math.ceil(sh / fs) + 2).join(new Array(wv + 1).join("█") + "\n");
-    spine.classList.toggle("up", S.ext >= 1);
+    g.roof = roof;
+
+    // the floors, top to bottom: a slab, a row of air, the flats, a row of air
+    var floors = [], row = roof;
+    cfg.floors(wide).forEach(function (F) {
+      var s = row;
+      if (F.strip) { floors.push({ s: s, e: s + 3, strip: 1, F: F }); row = s + 3; return; }
+      var top = s + 2, hmax = 1, cells = [];
+      wings.forEach(function (w, k) {
+        var id = wide ? (k ? F.r : F.l) : (k ? null : F.m), el = id ? B[id] : null, h = 0;
+        if (el) { h = put(el, w[0] + 2, top, w[1] - w[0] - (wings.length > 1 ? 4 : 3)); hmax = Math.max(hmax, h); }
+        cells.push({ a: w[0], b: w[1], el: el, h: h });
+      });
+      var e = top + hmax + (F.last ? 2 : 1);
+      floors.push({ s: s, e: e, top: top, cells: cells, F: F });
+      row = e;
+    });
+    var gTop = row, total = gTop + GD.rows.length;
+    g.gTop = gTop; g.gox = 0;
+    var nw = cfg.nameW, nc = Math.min(g.vx + wv + 2, tx1 - 1 - nw);
+    put(B.name, nc, roof, nw);
+
+    // ---------- draw the block ----------
+    var gr = g.gr = new Grid(C, total), yEnd = 2 * (total - 1), O = cfg.opt;
+    gr.sub(2 * tx0, 2 * roof, 2 * (tx1 + 1), 2 * roof + 2);               // the parapet
+    [tx0, tx1, sl].forEach(function (c) { gr.v(c, 2 * roof, yEnd); });    // walls run down into the flowers
+    if (wide) for (var k = 0; k < wv; k++) gr.v(vx + k, 2 * roof, yEnd);  // the mast carries on down as the core
+    if (g.mb) gr.v(g.mb, 2 * roof, yEnd);
+    // the stairwell: half-landings every three rows, a window between each pair
+    for (var r = roof + 3; r < gTop; r += 3) gr.h(r, tx0, sl + 1);
+    var litF = null;
+    floors.forEach(function (f) { if (f.F.lit) litF = f; });
+    for (var r2 = roof + 1, n = 0; r2 + 2 <= gTop; r2 += 3, n++) {
+      var wc = cfg.home ? "w|t" + (n % 8) : litF && r2 >= litF.s && r2 < litF.e ? "pc" : "";
+      gr.plane(tx0 + 1, r2, sl, r2 + 2, wc, r2 === roof + 1);
+    }
+    floors.forEach(function (f, fi) {
+      if (f.s !== roof) gr.h(f.s, sl, tx1 + 1);
+      var tight = f.s === roof, r0 = f.s + 1, r1 = f.e, rnd = rng(fi * 97 + 13), wins = [];
+      function region(a, b, c, d, o, tt) {
+        var L = mond(gr, a, b, c, d, rnd, o, tt);
+        L.forEach(function (q) {
+          if (q[2] - q[0] < 3) return;
+          var x = rnd();
+          if (x < o.plane && (!o.maxA || (q[2] - q[0]) * (q[3] - q[1]) <= o.maxA)) gr.plane(q[0], q[1], q[2], q[3], O.planes[Math.floor(rnd() * O.planes.length)], q[4]);
+          else if (x < o.plane + o.win) wins.push(q);
+        });
+        return L;
+      }
+      if (f.strip) wings.forEach(function (w) { region(w[0], r0, w[1], r1, O.strip, tight); });
+      else f.cells.forEach(function (c) {
+        if (!c.el) {
+          var L = region(c.a, r0, c.b, r1, f.F.calm ? O.calm : O.full, tight);
+          if (f.F.lit) { L.sort(function (p, q) { return (q[2] - q[0]) * (q[3] - q[1]) - (p[2] - p[0]) * (p[3] - p[1]); }); gr.plane(L[0][0], L[0][1], L[0][2], L[0][3], "pc", L[0][4]); }
+        } else {
+          var y = f.top + c.h + 1;
+          if (r1 - y >= 6) { gr.h(y, c.a - 1, c.b + 1); region(c.a, y + 1, c.b, r1, O.full, false); }
+          var ph = c.el.querySelector(".ph");
+          if (ph) pane(gr, c.a + 2, f.top + Math.round(ph.offsetTop / lh), Math.min(36, c.b - c.a - 4), ph.getAttribute("data-k"));
+        }
+      });
+      // windows that light with the break: one floor at a time, left to right, eight sixteenths a floor
+      if (cfg.home) {
+        wins.sort(function (p, q) { return p[0] - q[0] || p[1] - q[1]; });
+        var qd = fi % 4, nW = wins.length;
+        wins.forEach(function (q, j) { gr.plane(q[0], q[1], q[2], q[3], "w|" + (qd * 8 + (nW <= 8 ? Math.floor(j * 8 / nW) : j % 8)), q[4]); });
+      }
+    });
+
+    art.style.width = fac.style.width = gdn.style.width = W + "px";
+    art.style.height = roof * lh + "px";
+    fac.style.top = roof * lh + "px";
+    fac.innerHTML = gr.html(roof, gTop);
+    gdn.style.top = gTop * lh + "px";
+    page.style.height = total * lh + "px";
+    WB = []; LIT = [];
+    for (var s = 0; s < 32; s++) WB.push([]);
+    [].forEach.call(fac.querySelectorAll("i[data-s]"), function (el) { WB[+el.getAttribute("data-s")].push(el); });
+    [].forEach.call(fac.querySelectorAll("i[data-t]"), function (el) { for (var q = +el.getAttribute("data-t"); q < 32; q += 8) WB[q].push(el); });
+    if (air() && S.step >= 0) lightWindows(S.step, S.scol);
+    drawGarden();
     draw(performance.now(), true);
   }
 
-  // the three "(picture to come)" placeholders: little lozenges from the same family
-  function minis() {
-    [].forEach.call(D.querySelectorAll(".mini"), function (el) {
-      var d = 12, C = 2 * d + 2, R = d + 2;
-      var L = { cx: d + 1, cy: R / 2, d: d,
-        v: el.dataset.v.split(" ").map(function (a) { var x = Math.round(+a * d); return [x - .5, x + .5]; }),
-        h: el.dataset.h.split(" ").map(function (a) { var y = Math.round(+a * d) / 2; return [y - .25, y + .25]; }) };
-      el.innerHTML = raster(L, C, R, null);
-    });
+  // ---------- the aerial, redrawn while it transmits ----------
+  function masked(c, r) {
+    for (var i = 0; i < G.mask.length; i++) { var m = G.mask[i]; if (c >= m[0] && c < m[2] && r >= m[1] && r < m[3]) return true; }
+    return false;
   }
-
-  // ---------- the live painting ----------
-  function bass() { var m = /bass: (\w+)/.exec(($("#lcdinfo") || {}).textContent || ""); return m ? m[1] : "sub"; }
-  var FX = {
-    phi: 0, pw: 0,
-    gap: function (c, r) { return r === G.goRow && c >= G.goC0 && c < G.goC1; },
-    hot: function (u) {
-      if (S.step < 0) return false;
-      var y = (G.h0 + G.hh / 2) / 2 - G.cy, half = (G.d - 2 * y) * G.cw;   // the light line's half-length, px
-      return Math.floor((u + half) / (2 * half) * 32) === S.step;
-    },
-    ext: function (X, Y) {
-      if (S.ext <= 0 || Y <= 0) return false;
-      var x0 = (G.vx - G.cx) * G.cw, x1 = x0 + G.wv * G.cw;
-      return X >= x0 && X < x1 && Y < G.exitY + S.ext * (G.R * G.lh);
-    },
-    paint: function (u, v) {
-      var cw = G.cw, lh = G.lh, x0 = (G.vx - G.cx) * cw, y1 = ((G.h0 + G.hh) / 2 - G.cy) * lh;
-      if (S.plane >= 0 && u < x0 && v > y1) return ["█", COL[S.plane]];
-      if (!S.rip.length) return null;
-      var xc = x0 + G.wv * cw / 2, yc = ((G.h0 + G.hh / 2) / 2 - G.cy) * lh, m = Math.abs(u - xc) + Math.abs(v - yc), dp = G.d * cw, now = FX.now;
-      for (var i = S.rip.length - 1; i >= 0; i--) {
-        var q = S.rip[i], rho = (now - q.t) / 1000 * 3.4 * dp * (q.small ? .7 : 1), band = dp * (q.small ? .03 : .075);
-        var x = rho - m;
-        if (x >= 0 && x < band) return [x < band * .4 ? q.lead : q.trail, q.c];
-      }
-      return null;
+  function ringAt(m, small) {
+    for (var i = S.rip.length - 1; i >= 0; i--) {
+      var q = S.rip[i], dp = G.d * G.cw;
+      if (small !== undefined && q.small) continue;
+      var rho = (S.now - q.t) / 1000 * 3.4 * dp * (q.small ? .7 : 1), x = rho - m;
+      if (small === undefined) { var bw = dp * (q.small ? .03 : .075); if (x >= 0 && x < bw) return [x < bw * .4 ? q.lead : q.trail, q.c]; }
+      else if (x >= 0 && x < G.cw * 1.5) return ["·", q.c];
     }
-  };
+    return null;
+  }
+  var FL = "█▓▒░ ▓█▒";
+  function raster() {
+    var g = G, C = g.C, R = g.roof, cw = g.cw, lh = g.lh, cx = g.cx, cy = g.cy, dp = g.d * cw;
+    var co = Math.cos(S.phi), si = Math.sin(S.phi), pw = S.pulse * cw * (g.wide ? 1 : .5);
+    var v0 = (g.vx - cx) * cw - pw, v1 = (g.vx + g.wv - cx) * cw + pw, h0 = (g.h0 / 2 - cy) * lh, h1 = ((g.h0 + g.hh) / 2 - cy) * lh;
+    var m0 = (g.vx - cx) * cw, m1 = (g.vx + g.wv - cx) * cw, xc = m0 + g.wv * cw / 2, yc = ((g.h0 + g.hh / 2) / 2 - cy) * lh;
+    var band = null, flick = S.spin0 ? Math.floor(S.now / 45) : -1, out = [];
+    if (S.step >= 0 && air()) { var Lm = R - g.mastTop; band = [Math.floor(R - (S.step + 1) * Lm / 32), Math.floor(R - S.step * Lm / 32)]; if (band[1] <= band[0]) band[1] = band[0] + 1; }
+    for (var r = 0; r < R; r++) {
+      var line = "", run = "", rk = null;
+      for (var c = 0; c < C; c++) {
+        var ch = " ", k = "";
+        if (!masked(c, r)) {
+          var pb = 0, pi = 0, vert = false;
+          for (var s = 0; s < 4; s++) {
+            var X = (c + (s & 1 ? .75 : .25) - cx) * cw, Y = (r + (s & 2 ? .75 : .25) - cy) * lh, u = X * co + Y * si, v = Y * co - X * si;
+            if (Math.abs(u) + Math.abs(v) <= dp) {
+              pi |= 1 << s;
+              var onv = u >= v0 && u < v1;
+              if (onv || (v >= h0 && v < h1)) { pb |= 1 << s; if (onv) vert = true; }
+            } else if (Y > 0 && X >= m0 && X < m1) { pb |= 1 << s; vert = true; }
+          }
+          var b = blk(pb);
+          if (b) {
+            ch = b; k = "k";
+            if (vert && c >= g.vx && c < g.vx + g.wv) {
+              if (flick >= 0) { ch = FL.charAt((r * 5 + c * 3 + flick) % FL.length); if (ch === " ") k = ""; }
+              else if (band && r >= band[0] && r < band[1]) k = S.scol;
+            }
+          } else {
+            var X0 = (c + .5 - cx) * cw, Y0 = (r + .5 - cy) * lh, U = X0 * co + Y0 * si, V = Y0 * co - X0 * si, e = null;
+            if (bits(pi) >= 2) {
+              if (S.plane >= 0 && U < m0 && V > h1) e = ["█", COL[S.plane]];
+              else if (S.rip.length) e = ringAt(Math.abs(U - xc) + Math.abs(V - yc));
+              if (!e && pi !== 15) e = ["·", "g"];     // the canvas edge, a dotted hairline
+            } else if (S.rip.length && (c + r) % 2 === 0) e = ringAt(Math.abs(X0 - xc) + Math.abs(Y0 - yc), true);   // the signal carries on over the sky
+            if (e) { ch = e[0]; k = e[1]; }
+          }
+        }
+        if (k !== rk) { line += wrap(run, rk); run = ""; rk = k; }
+        run += ch;
+      }
+      line += wrap(run, rk);
+      out.push(line.replace(/ +$/, ""));
+    }
+    return out.join("\n");
+  }
   function draw(now, force) {
     if (!G) return;
     if (!force && now - S.drawn < 33) return;
-    if (!force && window.scrollY > G.R * G.lh) return;
-    S.drawn = now; FX.now = now; FX.phi = S.phi; FX.pw = S.pulse * G.cw;
-    art.innerHTML = raster(G.L, G.C, G.R, FX);
+    if (!force && window.scrollY > G.roof * G.lh) return;
+    S.drawn = now; S.now = now;
+    art.innerHTML = raster();
+  }
+
+  function stepCol(cls) { return /rest/.test(cls) ? "" : /rev/.test(cls) ? "p" : /up|roll/.test(cls) ? "u" : "y"; }
+  function lightWindows(i, col) {
+    for (var k = 0; k < LIT.length; k++) LIT[k].className = "w";
+    LIT = [];
+    if (i < 0 || !col || !WB[i]) return;
+    var on = "w on " + col;
+    WB[i].forEach(function (el) { el.className = on; LIT.push(el); });
   }
 
   var raf = 0;
@@ -825,23 +998,19 @@ function look(mark) { if (window.kesLook) window.kesLook(mark); }
   function frame(now) {
     raf = 0;
     var more = false;
-    if (S.ext < 1) {
-      S.ext = calm() ? 1 : Math.min(1, (now - S.ext0) / 1100);
-      if (S.ext >= 1) spine.classList.add("up"); else more = true;
-    }
     if (S.spin0) { var k = (now - S.spin0) / 1050; if (k >= 1 || calm()) { S.spin0 = 0; S.phi = 0; } else { S.phi = -2 * Math.PI * ease(k); more = true; } }
     S.pulse = S.pulse0 ? Math.max(0, 1 - (now - S.pulse0) / 170) : 0;
     if (S.pulse) more = true;
-    S.rip = S.rip.filter(function (q) { return now - q.t < 700; });
+    S.rip = S.rip.filter(function (q) { return now - q.t < 900; });
     if (S.rip.length) more = true;
-    if (onAir && !calm()) {
+    if (air() && !calm()) {
       var tr = $("#tracker"), on = tr && tr.querySelector(".on"), i = on ? [].indexOf.call(tr.children, on) : -1;
       if (i !== S.step) {
         S.step = i;
-        if (on && /rev|up|roll/.test(on.className)) {
-          var c = /rev/.test(on.className) ? "p" : /up/.test(on.className) ? "y" : "u";
-          S.rip.push({ t: now, c: c, lead: "·", trail: "·", small: 1 });
-        }
+        var col = on ? stepCol(on.className) : "";
+        S.scol = col || "y";
+        lightWindows(i, col);
+        if (on && /rev|up|roll/.test(on.className)) S.rip.push({ t: now, c: col === "p" ? "p" : "u", lead: "·", trail: "·", small: 1 });
       }
       more = true;
     }
@@ -849,46 +1018,85 @@ function look(mark) { if (window.kesLook) window.kesLook(mark); }
     if (more) kick();
   }
 
-  // look(): the engine calls it every beat ("^" every other beat, "@" on pull up, nothing on stop/resume)
+  // look(): the engine calls it every beat ("^" every other beat, "@" on pull up, nothing on stop and resume)
+  function bass() { var m = /bass: (\w+)/.exec(($("#lcdinfo") || {}).textContent || ""); return m ? m[1] : "sub"; }
   window.kesLook = function (mark) {
-    var go = $("#go");
-    go.textContent = onAir ? "● on air     " : "▶ play KES FM";
-    if (!onAir) { S.step = -1; S.plane = -1; S.rip = []; S.pulse0 = 0; S.spin0 = 0; S.phi = 0; draw(performance.now(), true); return; }
-    if (calm() || mark === undefined) { kick(); return; }
-    var now = performance.now(), md = bass();
+    var now = performance.now();
+    if (!air()) { S.step = -1; S.plane = -1; S.rip = []; S.pulse0 = 0; S.spin0 = 0; S.phi = 0; S.sway = 0; lightWindows(-1); drawGarden(); draw(now, true); return; }
+    if (calm() || mark === undefined) { drawGarden(); kick(); return; }
+    var md = bass();
     S.beat++; S.pulse0 = now;
     S.rip.push({ t: now, c: COL[S.beat % 3], lead: md === "reese" ? "▓" : md === "off" ? "·" : "▒", trail: md === "off" ? " " : "░" });
-    if (S.rip.length > 5) S.rip.shift();
+    if (S.rip.length > 6) S.rip.shift();
     if (mark === "^") S.plane = (S.plane + 1) % 3;
     if (mark === "@") { S.spin0 = now; S.plane = -1; }
+    S.sway = [1, 0, -1, 0][S.beat % 4];   // the garden leans with the beat
+    drawGarden();
     kick();
   };
 
-  // ---------- the gate ----------
-  function enter(how) {
-    if (S.inn) return;
-    S.inn = true;
-    H.classList.remove("gated"); H.classList.add("in");
+  // ---------- the gate (home only) ----------
+  if (cfg.home) {
+    var enter = function (how) {
+      if (S.inn) return;
+      S.inn = true;
+      H.classList.remove("gated"); H.classList.add("in");
+      try { sessionStorage.setItem("kes-in", "1"); } catch (e) {}
+      layout();
+      if (how === "quiet") {
+        var h = $("#hello-h"); h.setAttribute("tabindex", "-1");
+        try { h.focus({ preventScroll: true }); } catch (e) { h.focus(); }
+        window.scrollTo({ top: Math.max(0, (G.roof - 4) * G.lh), behavior: calm() ? "auto" : "smooth" });
+      }
+    };
+    $("#go").addEventListener("click", function () { enter("play"); kick(); });
+    $("#quiet").addEventListener("click", function () { enter("quiet"); });
+    D.addEventListener("focusin", function (e) { if (!S.inn && e.target.id !== "go" && e.target.id !== "quiet") enter("tab"); });
+    // the volume as characters: [=====|-----]
+    var vol = $("#vol"), bar = $(".vol .bar");
+    var vbar = function () { var n = Math.round(+vol.value * 10); bar.textContent = "[" + new Array(n + 1).join("=") + "|" + new Array(11 - n).join("-") + "]"; };
+    vol.addEventListener("input", vbar); vbar();
+    window.addEventListener("scroll", function () { if (air() || S.rip.length) kick(); }, { passive: true });
+  } else {
     try { sessionStorage.setItem("kes-in", "1"); } catch (e) {}
-    S.ext0 = performance.now(); S.ext = calm() ? 1 : 0.0001;
-    layout(); kick();
-    if (how === "quiet") { var h = $("#fm-h"); h.setAttribute("tabindex", "-1"); h.focus({ preventScroll: true }); }
   }
-  $("#go").addEventListener("click", function () { enter("play"); kick(); });
-  $("#quiet").addEventListener("click", function () { enter("quiet"); });
-  D.addEventListener("focusin", function (e) { if (!S.inn && e.target.id !== "go" && e.target.id !== "quiet") enter("tab"); });
 
-  // the volume as characters: [=====|-----]
-  var vol = $("#vol"), bar = $(".vol .bar");
-  function vbar() { var n = Math.round(+vol.value * 10); bar.textContent = "[" + new Array(n + 1).join("=") + "|" + new Array(11 - n).join("-") + "]"; }
-  vol.addEventListener("input", vbar); vbar();
-
-  var rt = 0, lastW = 0;
-  window.addEventListener("resize", function () { clearTimeout(rt); rt = setTimeout(function () { if (H.clientWidth !== lastW || !G || Math.floor(window.innerHeight / G.lh) !== G.R) { lastW = H.clientWidth; layout(); } }, 120); });
-  window.addEventListener("scroll", function () { if (onAir || S.rip.length) kick(); }, { passive: true });
-  lastW = H.clientWidth;
+  var rt = 0, lastW = width();
+  window.addEventListener("resize", function () {
+    clearTimeout(rt);
+    rt = setTimeout(function () {
+      // phones change height as their address bar comes and goes; only the gate follows the height
+      var gated = H.classList.contains("gated");
+      if (width() !== lastW || (gated && Math.floor(window.innerHeight / G.lh) !== G.R)) { lastW = width(); layout(); }
+    }, 120);
+  });
   layout();
-})();
+}
+kesScene({
+  home: true, nameW: 15,
+  blocks: ["name", "go", "quiet", "hello", "cv", "p1", "p2", "p3", "more", "writing", "written", "pods", "irl", "foot"],
+  opt: {
+    planes: ["pa", "pb", "pc", "pc", "q"],
+    full: { mw: 6, mh: 2, depth: 4, stop: .22, plane: .2, win: .6 },
+    calm: { mw: 9, mh: 3, depth: 2, stop: .3, plane: .45, win: .25, maxA: 70 },
+    strip: { mw: 5, mh: 9, depth: 5, stop: .1, plane: .14, win: .8, flat: 1 }
+  },
+  // Kes on the top floor, alone; the rest down the floors; the ground floor says goodbye above the flowers
+  floors: function (wide) {
+    return wide ? [
+      { r: "hello", calm: 1 }, { r: "cv" }, { strip: 1 },
+      { r: "p1", l: "p2" }, { r: "p3", l: "more" }, { strip: 1 },
+      { r: "written", l: "writing" }, { r: "pods", l: "irl" }, { strip: 1 },
+      { r: "foot", last: 1 }
+    ] : [
+      { m: "hello", calm: 1 }, { m: "cv" }, { strip: 1 },
+      { m: "p1" }, { m: "p2" }, { m: "p3" }, { strip: 1 },
+      { m: "more" }, { m: "writing" }, { m: "written" }, { strip: 1 },
+      { m: "pods" }, { m: "irl" }, { strip: 1 },
+      { m: "foot", last: 1 }
+    ];
+  }
+});
 </script>
 </body>
 </html>

@@ -5,198 +5,109 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light">
 <title>chainmail · kes inkersole</title>
-<meta name="description" content="chainmail (working title): short pieces by kes inkersole, sent in by email.">
+<meta name="description" content="my own writing. short pieces, the kind i write in my notes app, sent here by email and collected over time into a kind of text moodboard.">
 <style>
-/* one character grid. every line, plane and word sits on it.
-   --cw and --lh are the cell, worked out for the window by the script below. */
+/* the same tower, further down and quieter: thin lines woven over and under like chainmail,
+   one letterbox per piece, and the garden at the bottom. no radio on this page. */
 :root {
   --paper: #fff;
   --ink: #0e0e0e;
-  --pink: #ff2a8c;    /* mondrian's red, turned hot pink */
-  --blue: #1f33ff;    /* electric blue: links, and the blue plane */
+  --pink: #ff2a8c;
+  --blue: #1f33ff;
   --yellow: #ffd300;
+  --ochre: #b08a00;
   --grey: #6a6a6a;
-  --pale: #9c9c9c;
+  --pale: #a6a6a6;
   --mono: Menlo, ui-monospace, Consolas, "DejaVu Sans Mono", "Liberation Mono", monospace;
   --fs: 14px; --lh: 16.24px; --cw: 8.43px;
 }
 * { box-sizing: border-box; }
 html { background: var(--paper); color: var(--ink); scrollbar-gutter: stable; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 body { margin: 0; background: var(--paper); color: var(--ink); font: 400 var(--fs)/var(--lh) var(--mono); font-variant-ligatures: none; font-kerning: none; }
-[hidden] { display: none !important; }
-
 #grid { position: relative; }
 .js #grid { overflow: hidden; }
 .layer { position: absolute; left: 0; top: 0; margin: 0; font: inherit; line-height: var(--lh); white-space: pre; pointer-events: none; user-select: none; -webkit-user-select: none; }
 #probe { position: absolute; left: 0; top: 0; visibility: hidden; white-space: pre; font-family: var(--mono); }
 .nojs .layer, .nojs #probe { display: none; }
-
-/* the planes, and how they trade colours with the music (data-k turns on the half bar) */
+#ink { color: var(--ink); }
+#slots { color: var(--ink); }
 .P0 { color: var(--pink); } .P1 { color: var(--yellow); } .P2 { color: var(--blue); }
-[data-k="1"] .P0 { color: var(--yellow); } [data-k="1"] .P1 { color: var(--blue); } [data-k="1"] .P2 { color: var(--pink); }
-[data-k="2"] .P0 { color: var(--blue); } [data-k="2"] .P1 { color: var(--pink); } [data-k="2"] .P2 { color: var(--yellow); }
 
-/* blocks of content, placed on the grid in whole cells */
 .nojs main { max-width: 72ch; padding: var(--lh) 2ch; }
 .nojs .blk { margin-bottom: calc(var(--lh) * 2); }
 .js .blk { position: absolute; left: 0; top: 0; margin: 0; }
 .js #grid:not(.ready) .blk { visibility: hidden; }
-.off, .sr { position: absolute !important; width: 1px !important; height: 1px !important; overflow: hidden !important; clip-path: inset(50%) !important; white-space: nowrap !important; }
-.blk h1, .blk h2, .blk p, .blk ul { font: inherit; margin: 0 0 var(--lh); }
-.blk > :last-child, .blk li:last-child { margin-bottom: 0; }
-.blk h2 { font-weight: 700; }
+.blk h1, .blk h2, .blk p { font: inherit; margin: 0 0 var(--lh); }
+.blk > :last-child { margin-bottom: 0; }
+.blk h1, .blk h2 { font-weight: 700; }
 .lab { color: var(--grey); }
-ul { list-style: none; padding: 0; }
-li { padding-left: 3ch; text-indent: -3ch; }
-li::before { content: "├─ "; color: var(--pale); }
-li:last-child::before { content: "└─ "; }
-[tabindex="-1"]:focus { outline: none; }
+#b-h1 h1 { margin: 0; }
+#b-h1 .lab { font-weight: 400; }
 
 a { color: var(--blue); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
 a:hover { color: var(--pink); text-decoration-thickness: 2px; }
 a:focus-visible { outline: none; color: var(--pink); text-decoration-thickness: 3px; }
 
-button { font: inherit; line-height: inherit; color: inherit; background: none; border: 0; border-radius: 0; padding: 0; margin: 0; cursor: pointer; text-align: left; -webkit-appearance: none; appearance: none; }
-button:focus-visible { outline: none; }
-
-.pic { position: relative; height: calc(var(--lh) * 6); }
-.pic-art { position: absolute; left: 0; top: 0; white-space: pre; color: var(--pale); }
-.pic-t { position: absolute; left: 2ch; top: calc(var(--lh) * 2); color: var(--grey); white-space: pre; }
-.nojs .pic { height: auto; } .nojs .pic-t { position: static; }
-
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
-
-/* chainmail: the same painting, calmer. thin lines, woven over and under where they cross. */
-#ink { color: var(--ink); }
-#b-title h1 { font-size: calc(var(--fs) * 2); line-height: calc(var(--lh) * 2); font-weight: 700; margin: 0; }
-#b-title .wt { display: block; font-size: var(--fs); line-height: var(--lh); font-weight: 400; color: var(--grey); }
-.verse { margin-bottom: 0 !important; }
-article h2 { font-weight: 700; }
-
+.garden { color: var(--ink); }
+.garden .p { color: var(--pink); } .garden .b, .garden .l { color: var(--blue); } .garden .y { color: var(--ochre); } .garden .g { color: var(--grey); }
+.garden s, .garden u { text-decoration: none; }
+.garden u { display: none; }
 </style>
 </head>
 <body data-page="writing">
 <div id="grid">
 <pre class="layer" id="planes" aria-hidden="true"></pre>
 <pre class="layer" id="ink" aria-hidden="true"></pre>
+<pre class="layer" id="slots" aria-hidden="true"></pre>
+<pre class="layer garden" id="gT" aria-hidden="true"></pre>
 <span id="probe" aria-hidden="true"></span>
 
 <main id="site">
-<header class="blk" id="b-title">
-<h1>chainmail <span class="wt">(working title)</span></h1>
+<header class="blk" id="b-h1">
+<h1>chainmail <span class="lab">(working title)</span></h1>
 </header>
 
-<section class="blk" id="b-head" aria-labelledby="h-head">
-<p class="back"><a href="index.html">&lt;- kes inkersole</a></p>
-<h2 id="h-head">chainmail (working title)</h2>
+<section class="blk" id="b-intro" aria-labelledby="h-intro">
+<p><a href="index.html">&lt;- kes inkersole</a></p>
+<h2 id="h-intro">chainmail (working title)</h2>
 <p>my own writing. short pieces, the kind i write in my notes app, sent here by email and collected over time into a kind of text moodboard.</p>
 <p class="lab">by email</p>
 <p>each piece arrives as an email to (address tbc). the subject line becomes its title and the newest one lands at the top.</p>
 </section>
 
-<article class="blk" id="a11" aria-labelledby="h11">
-<p class="lab">no. 011 · 18 oct 2026</p>
-<h2 id="h11">lorem ipsum</h2>
-<p>lorem ipsum dolor sit amet.</p>
-</article>
-
-<article class="blk" id="a10" aria-labelledby="h10">
-<p class="lab">no. 010 · 14 oct 2026</p>
-<h2 id="h10">consectetur adipiscing elit</h2>
-<p>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-<p>excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.</p>
-<p>totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
-</article>
-
-<article class="blk" id="a09" aria-labelledby="h09">
-<p class="lab">no. 009 · 9 oct 2026</p>
-<h2 id="h09">(no subject)</h2>
-<p>nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.</p>
-</article>
-
-<article class="blk" id="a08" aria-labelledby="h08">
-<p class="lab">no. 008 · 6 oct 2026</p>
-<h2 id="h08">sed quia consequuntur</h2>
-<p>magni dolores eos qui ratione voluptatem sequi nesciunt. neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
-</article>
-
-<article class="blk" id="a07" aria-labelledby="h07">
-<p class="lab">no. 007 · 2 oct 2026</p>
-<h2 id="h07">ut enim ad minima</h2>
-<p class="verse">quis autem vel eum</p>
-<p class="verse">iure reprehenderit</p>
-<p class="verse">qui in ea voluptate</p>
-<p class="verse">velit esse quam nihil</p>
-<p>molestiae consequatur</p>
-</article>
-
-<article class="blk" id="a06" aria-labelledby="h06">
-<p class="lab">no. 006 · 27 sep 2026</p>
-<h2 id="h06">at vero eos et accusamus</h2>
-<p>et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.</p>
-<p>similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. et harum quidem rerum facilis est et expedita distinctio.</p>
-</article>
-
-<article class="blk" id="a05" aria-labelledby="h05">
-<p class="lab">no. 005 · 21 sep 2026</p>
-<h2 id="h05">nam libero</h2>
-<p>tempore, cum soluta nobis est eligendi optio.</p>
-</article>
-
-<article class="blk" id="a04" aria-labelledby="h04">
-<p class="lab">no. 004 · 14 sep 2026</p>
-<h2 id="h04">re: temporibus autem quibusdam</h2>
-<p>et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.</p>
-</article>
-
-<article class="blk" id="a03" aria-labelledby="h03">
-<p class="lab">no. 003 · 3 sep 2026</p>
-<h2 id="h03">quis nostrum exercitationem</h2>
-<p>ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur.</p>
-<p>lorem ipsum dolor sit amet, consectetur adipiscing elit. integer nec odio. praesent libero. sed cursus ante dapibus diam. sed nisi. nulla quis sem at nibh elementum imperdiet. duis sagittis ipsum.</p>
-<p>curabitur sodales ligula in libero.</p>
-</article>
-
-<article class="blk" id="a02" aria-labelledby="h02">
-<p class="lab">no. 002 · 28 aug 2026</p>
-<h2 id="h02">sed dignissim lacinia</h2>
-<p>nunc. curabitur tortor. pellentesque nibh. aenean quam. in scelerisque sem at dolor. maecenas mattis. sed convallis tristique sem.</p>
-</article>
-
-<article class="blk" id="a01" aria-labelledby="h01">
-<p class="lab">no. 001 · 15 aug 2026</p>
-<h2 id="h01">hello, lorem</h2>
-<p>proin ut ligula vel nunc egestas porttitor. morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. fusce ac turpis quis ligula lacinia aliquet.</p>
-<p>mauris ipsum.</p>
-</article>
+<article class="blk" id="a11" aria-labelledby="h-a11"><p class="lab">no. 011 · 18 oct 2026</p><h2 id="h-a11">lorem ipsum</h2><p>lorem ipsum dolor sit amet.</p></article>
+<article class="blk" id="a10" aria-labelledby="h-a10"><p class="lab">no. 010 · 14 oct 2026</p><h2 id="h-a10">consectetur adipiscing elit</h2><p>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p><p>excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.</p><p>totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p></article>
+<article class="blk" id="a09" aria-labelledby="h-a09"><p class="lab">no. 009 · 9 oct 2026</p><h2 id="h-a09">(no subject)</h2><p>nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.</p></article>
+<article class="blk" id="a08" aria-labelledby="h-a08"><p class="lab">no. 008 · 6 oct 2026</p><h2 id="h-a08">sed quia consequuntur</h2><p>magni dolores eos qui ratione voluptatem sequi nesciunt. neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p></article>
+<article class="blk" id="a07" aria-labelledby="h-a07"><p class="lab">no. 007 · 2 oct 2026</p><h2 id="h-a07">ut enim ad minima</h2><p>quis autem vel eum</p><p>iure reprehenderit</p><p>qui in ea voluptate</p><p>velit esse quam nihil</p><p>molestiae consequatur</p></article>
+<article class="blk" id="a06" aria-labelledby="h-a06"><p class="lab">no. 006 · 27 sep 2026</p><h2 id="h-a06">at vero eos et accusamus</h2><p>et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.</p><p>similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. et harum quidem rerum facilis est et expedita distinctio.</p></article>
+<article class="blk" id="a05" aria-labelledby="h-a05"><p class="lab">no. 005 · 21 sep 2026</p><h2 id="h-a05">nam libero</h2><p>tempore, cum soluta nobis est eligendi optio.</p></article>
+<article class="blk" id="a04" aria-labelledby="h-a04"><p class="lab">no. 004 · 14 sep 2026</p><h2 id="h-a04">re: temporibus autem quibusdam</h2><p>et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.</p></article>
+<article class="blk" id="a03" aria-labelledby="h-a03"><p class="lab">no. 003 · 3 sep 2026</p><h2 id="h-a03">quis nostrum exercitationem</h2><p>ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur.</p><p>lorem ipsum dolor sit amet, consectetur adipiscing elit. integer nec odio. praesent libero. sed cursus ante dapibus diam. sed nisi. nulla quis sem at nibh elementum imperdiet. duis sagittis ipsum.</p><p>curabitur sodales ligula in libero.</p></article>
+<article class="blk" id="a02" aria-labelledby="h-a02"><p class="lab">no. 002 · 28 aug 2026</p><h2 id="h-a02">sed dignissim lacinia</h2><p>nunc. curabitur tortor. pellentesque nibh. aenean quam. in scelerisque sem at dolor. maecenas mattis. sed convallis tristique sem.</p></article>
+<article class="blk" id="a01" aria-labelledby="h-a01"><p class="lab">no. 001 · 15 aug 2026</p><h2 id="h-a01">hello, lorem</h2><p>proin ut ligula vel nunc egestas porttitor. morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. fusce ac turpis quis ligula lacinia aliquet.</p><p>mauris ipsum.</p></article>
 </main>
 </div>
 
 <script>
-/* the grid. the window is cut into C columns and R rows of one character each, the same
-   way every time for the same window. lines are box characters, planes are full blocks,
-   and every block of content is dropped into whole cells between the lines. */
-function kesGrid(cfg) {
+(function () {
   "use strict";
-  var d = document, root = d.documentElement, body = d.body;
-  var grid = d.getElementById("grid"), probe = d.getElementById("probe");
-  var Lp = d.getElementById("planes"), Li = d.getElementById("ink"), Li2 = d.getElementById("ink2");
-  var GL = {
-    heavy: " ╹╺┗╻┃┏┣╸┛━┻┓┫┳╋",
-    light: " ╵╶└╷│┌├╴┘─┴┐┤┬┼",
-    dbl: " ║═╚║║╔╠═╝═╩╗╣╦╬"
-  };
-  var G = { C: 0, R: 0, cw: 8, lh: 16, mode: "wide", Z: {}, V: [], lanes: [], arms: null, pos: {} };
-  var RATIO = 0, ops = [], lastW = -1, lastH = -1;
-
+  var d = document, root = d.documentElement;
+  var $ = function (id) { return d.getElementById(id); };
+  var grid = $("grid"), probe = $("probe"), Lp = $("planes"), Li = $("ink"), Ls = $("slots"), gT = $("gT");
+  var LIGHT = " ╵╶└╷│┌├╴┘─┴┐┤┬┼", HEAVY = " ╹╺┗╻┃┏┣╸┛━┻┓┫┳╋";
+  var G = { C: 0, R: 0, cw: 8, lh: 16, mode: "wide", pos: {} }, S = {}, ops = [], RATIO = 0, lastW = -1;
+  var PIECES = ["a11", "a10", "a09", "a08", "a07", "a06", "a05", "a04", "a03", "a02", "a01"];
+  var GARDEN = ["                  _   _                                                             _   _                                                    _   _                                                          ", "     _           ( `v' )                                              _            ( `v' )            _                                     ( `v' )       _                              _                  ", "   _(_)_          \\   /           \\ | /               @@@           _(_)_           \\   /           _(_)_           @@@       \\ | /          \\   /      _(_)_                @@@       _(_)_     \\ | /      ", "  (_)@(_)          `.'           -- o --             @@@@@         (_)@(_)           `.'           (_)@(_)         @@@@@     -- o --          `.'      (_)@(_)              @@@@@     (_)@(_)   -- o --     ", "    (_)             |             / | \\    (\\_/)      @@@            (_)              |              (_)            @@@       / | \\            |         (_)                 @@@        (_)      / | \\      ", "     |\\            /|        ,      |      (-.-)       |             /|       ,      /|               |\\      ,      |          |             /|         /|      ,            |          |\\        |        ", "     |      \\|/     |       \\|      |/     (\")(\")     \\|     \\|/      |      \\|       |     \\|/       |      \\|     \\|          |/    \\|/      |          |     \\|   \\|/     \\|          |         |/    \\|/", ",.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,"];
+  var GCLS = ["                  p   p                                                             p   p                                                    p   p                                                          ", "     p           p ppp p                                              b            p ppp p            p                                     p ppp p       b                              p                  ", "   ppppp          p   p           y y y               lll           bbbbb           p   p           ppppp           lll       y y y          p   p      bbbbb                lll       ppppp     y y y      ", "  pppyppp          ppp           yy p yy             lllll         bbbybbb           ppp           pppyppp         lllll     yy p yy          ppp      bbbybbb              lllll     pppyppp   yy p yy     ", "    ppp             g             y y y    kkkkk      lll            bbb              g              ppp            lll       y y y            g         bbb                 lll        ppp      y y y      ", "     gg            gg        g      g      kkkkk       g             gg       g      gg               gg      g      g          g             gg         gg      g            g          gg        g        ", "     g      ggg     g       gg      gg     kkkkkk     gg     ggg      g      gg       g     ggg       g      gg     gg          gg    ggg      g          g     gg   ggg     gg          g         gg    ggg", "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg"];
   function rep(s, n) { return n > 0 ? new Array(n + 1).join(s) : ""; }
-  G.rep = rep;
+  try { sessionStorage.setItem("kes-in", "1"); } catch (e) {}
 
   function metrics() {
     if (!RATIO) { probe.style.fontSize = "100px"; probe.textContent = rep("0", 100); RATIO = probe.getBoundingClientRect().width / 1e4 || 0.6; }
     var W = root.clientWidth;
     var t = W < 600 ? 8.1 : Math.min(9.6, Math.max(8.2, W / 170));
-    var C = Math.max(42, Math.round(W / t)), fs = Math.floor(W / C / RATIO * 100) / 100, cw = 8;
+    var C = Math.max(40, Math.round(W / t)), fs = Math.floor(W / C / RATIO * 100) / 100, cw = 8;
     for (var k = 0; k < 6; k++) {
       probe.style.fontSize = fs + "px"; probe.textContent = rep("0", 400);
       cw = probe.getBoundingClientRect().width / 400;
@@ -206,244 +117,169 @@ function kesGrid(cfg) {
     var lh = Math.round(fs * 1.16 * 100) / 100, s = root.style;
     s.setProperty("--fs", fs + "px"); s.setProperty("--lh", lh + "px"); s.setProperty("--cw", cw + "px");
     G.C = C; G.cw = cw; G.lh = lh;
-    G.mode = C >= 128 ? "wide" : C >= 90 ? "mid" : "narrow";
+    G.mode = C >= 128 ? "wide" : C >= 86 ? "mid" : "narrow";
   }
-
-  /* where the long vertical lines fall. two of them come in close pairs, like the painting's
-     double lines, and leave a narrow white strip between them. */
-  function zones() {
-    var C = G.C, z = {}, a, b, e, e2;
-    if (G.mode === "wide") {
-      a = Math.round(C * 0.07); b = Math.round(C * 0.34); var dd = Math.round(C * 0.675);
-      e2 = C - Math.max(7, Math.round(C * 0.06)) - 1; e = e2 - 3;
-      G.V = [a, b, b + 3, dd, e, e2];
-      z.E0 = [0, a - 1]; z.L = [a + 1, b - 1]; z.S1 = [b + 1, b + 2]; z.M = [b + 4, dd - 1]; z.R = [dd + 1, e - 1]; z.S2 = [e + 1, e2 - 1]; z.E1 = [e2 + 1, C - 1];
-      G.lanes = [[b, b + 3], [e, e2]];
-    } else if (G.mode === "mid") {
-      a = Math.max(4, Math.round(C * 0.06)); b = Math.round(C * 0.5); e2 = C - Math.max(5, Math.round(C * 0.06)) - 1;
-      G.V = [a, b, b + 3, e2];
-      z.E0 = [0, a - 1]; z.L = [a + 1, b - 1]; z.S1 = [b + 1, b + 2]; z.M = [b + 4, e2 - 1]; z.E1 = [e2 + 1, C - 1];
-      G.lanes = [[b, b + 3]];
-    } else {
-      e = C - 6; e2 = C - 4;
-      G.V = [3, e, e2];
-      z.E0 = [0, 2]; z.L = [4, e - 1]; z.S1 = [e + 1, e2 - 1]; z.E1 = [e2 + 1, C - 1];
-      G.lanes = [[e, e2]];
-    }
-    G.Z = z;
-  }
-  function span(zs) { var p = zs.split("-"), a = G.Z[p[0]], b = G.Z[p[p.length - 1]]; return [a[0], b[1]]; }
-
   function H(r, c0, c1) { ops.push(["h", r, Math.max(0, c0), Math.min(G.C - 1, c1)]); }
   function V(c, r0, r1) { ops.push(["v", c, r0, r1]); }
   function F(r0, r1, c0, c1, k) { ops.push(["f", r0, r1, c0, c1, k]); }
-
+  function slot(r, c0, c1) { ops.push(["s", r, c0, c1]); }
   function rows(el) { return Math.max(1, Math.ceil(el.offsetHeight / G.lh - 0.05)); }
   function put(id, x, y, w) {
-    var el = d.getElementById(id), f = cfg.fit[id];
-    el.classList.remove("off");
+    var el = $(id);
     el.style.left = x * G.cw + "px"; el.style.top = y * G.lh + "px"; el.style.width = w * G.cw + "px";
-    if (f) f(el, w);
     var h = rows(el);
     G.pos[id] = { x: x, y: y, w: w, h: h };
     return h;
   }
 
-  /* bands run down the page. each band is a row of cells; a cell can hold blocks (stacked,
-     with a short line between them), a plane pushed to its top or bottom edge, or extra
-     lines that split it. a band ends on a full-width line, single or double. */
-  function run(list, Rgate) {
-    ops = []; G.pos = {};
-    var y = 0, sep = 0, C = G.C, narrow = G.mode === "narrow";
-    for (var bi = 0; bi < list.length; bi++) {
-      var bd = list[bi], last = bi === list.length - 1;
-      var cells = (bd.cells || []).map(function (s) { var c = span(s.z); return { s: s, c0: c[0], c1: c[1], h: 0 }; });
+  /* the same tower as the home page: same walls, same lift shaft, same window column */
+  function plan() {
+    var C = G.C, m = G.mode, side = m === "wide", T0, T1, Mc;
+    if (side) { T0 = Math.round(C * 0.3); T1 = C - 1 - Math.round(C * 0.05); Mc = T0 + Math.round((T1 - T0) * 0.42); }
+    else if (m === "mid") { T0 = 2; T1 = C - 3; Mc = Math.round(C * 0.7); }
+    else { T0 = 1; T1 = C - 2; Mc = C - 7; }
+    var Z = { L: [T0 + 1, Mc - 2] };
+    if (side) { Z.R = [Mc + 2, T1 - 9]; Z.E = [T1 - 7, T1 - 1]; S.Vin = [T1 - 8]; } else { Z.R = [Mc + 2, T1 - 1]; S.Vin = []; }
+    S.T0 = T0; S.T1 = T1; S.Mc = Mc; S.Z = Z;
+    var B = [];
+    if (side) {
+      put("b-h1", 2, 1, Math.min(36, T0 - 6));
+      B.push({ cells: [{ z: "L", b: "b-intro" }, { z: "R" }, { z: "E", plane: [2, "top", 4] }] });
+      for (var i = 0; i < PIECES.length; i += 2) {
+        var cells = [{ z: "L", b: PIECES[i], box: 1 }];
+        if (PIECES[i + 1]) cells.push({ z: "R", b: PIECES[i + 1], box: 1 }); else cells.push({ z: "R" });
+        cells.push({ z: "E", plane: i === 4 ? [2, "top", 4] : i === 8 ? [0, "bottom", 3] : null });
+        B.push({ end: i === 2 || i === 6 ? 2 : 1, cells: cells });
+      }
+      B[1].cells[0].lit = 1;
+    } else {
+      B.push({ cells: [{ z: "L", b: "b-h1+b-intro" }, { z: "R", plane: [2, "bottom", 3] }] });
+      PIECES.forEach(function (id, i) {
+        B.push({ end: i % 4 === 3 ? 2 : 1, cells: [{ z: "L", b: id, box: 1, lit: i === 0 }, { z: "R", plane: i % 3 === 1 ? [i % 2 ? 2 : 0, i % 2 ? "top" : "bottom", 3] : null }] });
+      });
+    }
+    return B;
+  }
+  function storeys(list) {
+    var y = -1, narrow = G.mode === "narrow", T0 = S.T0, T1 = S.T1, bot = 0;
+    for (var fi = 0; fi < list.length; fi++) {
+      var bd = list[fi], last = fi === list.length - 1, Hh = 0;
+      var cells = bd.cells.map(function (s) { var z = S.Z[s.z]; return { s: s, c0: z[0], c1: z[1] }; });
       cells.forEach(function (c) {
-        var b = c.s.b || [], r = y + 1, px = c.s.px != null ? c.s.px : (narrow ? 1 : 2), cwid = c.c1 - c.c0 + 1;
-        b.forEach(function (id, i) {
-          var x, w;
-          if (px === "c") { var nat = cfg.nat[id](cwid); x = c.c0 + Math.max(0, Math.floor((cwid - nat) / 2)); w = Math.min(nat, cwid); }
-          else { x = c.c0 + px; w = cwid - 2 * px; }
-          r += put(id, x, r, w);
-          if (i < b.length - 1) { r += 1; H(r, c.c0 - 1, c.c1 + 1); r += 2; }
+        if (!c.s.b) return;
+        var px = narrow ? 1 : 2, w = c.c1 - c.c0 + 1 - 2 * px, r = y + 2;
+        c.s.b.split("+").forEach(function (id, i) {
+          if (i) { r += 1; H(r, c.c0 - 1, c.c1 + 1); r += 2; }
+          r += put(id, c.c0 + px, r, w);
         });
-        if (b.length) c.h = r - y + 1;
+        // the letterbox: a heavy slot beside the piece's number
+        if (c.s.box) slot(y + 2, c.c1 - px - 8, c.c1 - px - 1);
+        c.h = r - y + 1;
+        Hh = Math.max(Hh, c.h);
       });
-      var Hh = bd.min || 0;
-      cells.forEach(function (c) { Hh = Math.max(Hh, c.h); });
-      if (bd.fill && Rgate) Hh = Math.max(Hh, Rgate - bd.fill - y);
-      var bot = y + Hh;
-      G.V.forEach(function (v) {
-        for (var i = 0; i < cells.length; i++) if (v > cells[i].c0 && v < cells[i].c1) return;
-        V(v, sep, last ? 1e9 : bot);
-      });
+      if (last) Hh += 6;
+      bot = y + Hh;
+      S.Vin.forEach(function (v) { V(v, y, last ? bot + 2 : bot); });
       cells.forEach(function (c) {
         var p = c.s.plane;
-        if (p) {
-          if (p[1] === "top") { F(y, y + p[2] - 1, c.c0, c.c1, p[0]); H(y + p[2], c.c0 - 1, c.c1 + 1); }
-          else { F(bot - p[2], bot - 1, c.c0, c.c1, p[0]); H(bot - p[2] - 1, c.c0 - 1, c.c1 + 1); }
-        }
-        (c.s.split || []).forEach(function (sp) {
-          var r = y + Math.round(Hh * sp[0]);
-          if (r <= y + c.h + 1 || r + (sp[1] || 0) >= bot - 1) return;
-          H(r, c.c0 - 1, c.c1 + 1);
-          if (sp[1]) H(r + sp[1], c.c0 - 1, c.c1 + 1);
-          if (sp[2] != null) F(r + 1, r + sp[1] - 1, c.c0, c.c1, sp[2]);
-        });
+        if (c.s.lit) p = [1, "bottom", Math.max(2, Math.min(4, bot - y - c.h - 1))];
+        if (!p) return;
+        var a = p[1] === "top" ? y + 1 : bot - p[2], b = a + p[2] - 1;
+        if (b - a < 0 || (c.h && a <= y + c.h - 1)) return;
+        F(a, b, c.c0, c.c1, p[0]);
+        H(p[1] === "top" ? b + 1 : a - 1, c.c0 - 1, c.c1 + 1);
       });
-      if (last) { y = bot; break; }
-      H(bot, 0, C - 1);
-      sep = bot;
-      if (bd.end === 2) { H(bot + 2, 0, C - 1); y = bot + 3; } else y = bot + 1;
+      if (last) break;
+      H(bot, T0, T1);
+      if (bd.end === 2) { H(bot + 2, T0, T1); bot += 2; }
+      y = bot;
     }
-    G.R = Math.max(1, y);
+    return bot;
   }
 
-  function raster() {
-    var C = G.C, R = G.R, arms = new Uint8Array(R * C), fill = new Int8Array(R * C);
-    fill.fill(-1);
+  function layout() {
+    metrics();
+    ops = []; G.pos = {};
+    var bot = storeys(plan());
+    S.G0 = bot - 6; G.R = S.G0 + 8;
+    [S.T0, S.T1, S.Mc - 1, S.Mc + 1].forEach(function (v) { V(v, -1, G.R - 1); });
+    draw();
+    grid.classList.add("ready");
+    lastW = root.clientWidth;
+  }
+  function gchar(gr, c) { return GARDEN[gr].charAt(c % GARDEN[gr].length); }
+  function draw() {
+    var C = G.C, R = G.R, A = new Uint8Array(R * C), Hv = new Uint8Array(R * C), Fl = new Int8Array(R * C), i, r, c;
+    Fl.fill(-1);
     ops.forEach(function (o) {
-      var r, c;
-      if (o[0] === "h") {
+      if (o[0] === "h" || o[0] === "s") {
         r = o[1]; if (r < 0 || r >= R) return;
-        for (c = o[2]; c <= o[3]; c++) arms[r * C + c] |= (c > o[2] || o[2] <= 0 ? 8 : 0) | (c < o[3] || o[3] >= C - 1 ? 2 : 0);
+        for (c = o[2]; c <= o[3]; c++) { i = r * C + c; if (o[0] === "s") { Hv[i] = (c > o[2] ? 8 : 0) | (c < o[3] ? 2 : 0); continue; } A[i] |= (c > o[2] || o[2] <= 0 ? 8 : 0) | (c < o[3] || o[3] >= C - 1 ? 2 : 0); }
       } else if (o[0] === "v") {
-        var r0 = o[2], r1 = Math.min(o[3], R - 1);
-        for (r = r0; r <= r1; r++) arms[r * C + o[1]] |= (r > r0 || r0 <= 0 ? 1 : 0) | (r < r1 || r1 >= R - 1 ? 4 : 0);
+        if (o[1] < 0 || o[1] >= C) return;
+        for (r = Math.max(0, o[2]); r <= Math.min(o[3], R - 1); r++) A[r * C + o[1]] |= (r > o[2] || o[2] < 0 ? 1 : 0) | (r < o[3] || o[3] >= R - 1 ? 4 : 0);
       } else {
-        for (r = Math.max(0, o[1]); r <= Math.min(R - 1, o[2]); r++) for (c = o[3]; c <= o[4]; c++) fill[r * C + c] = o[5];
+        for (r = Math.max(0, o[1]); r <= Math.min(R - 1, o[2]); r++) for (c = o[3]; c <= o[4]; c++) Fl[r * C + c] = o[5];
       }
     });
-    G.arms = arms; G.fill = fill;
-  }
-
-  /* chainmail: where two lines cross, one goes over and one goes under, turn and turn about */
-  function weave(ch) {
-    var C = G.C, R = G.R, a = G.arms, li = 0;
-    for (var r = 0; r < R; r++) {
+    var ch = new Array(R * C);
+    for (i = 0; i < R * C; i++) ch[i] = LIGHT[A[i]];
+    // chainmail: where two lines cross, one goes over and one goes under, turn and turn about
+    var li = 0;
+    for (r = 0; r < R; r++) {
       var k = 0, any = false;
-      for (var c = 0; c < C; c++) {
-        var i = r * C + c;
-        if (a[i] !== 15) continue;
+      for (c = 0; c < C; c++) {
+        i = r * C + c;
+        if (A[i] !== 15) continue;
         any = true;
-        if ((k + li) % 2) {
-          ch[i] = "│";
-          if (c > 0 && a[i - 1] === 10) ch[i - 1] = " ";
-          if (c < C - 1 && a[i + 1] === 10) ch[i + 1] = " ";
-        } else {
-          ch[i] = "─";
-          if (r > 0 && a[i - C] === 5) ch[i - C] = " ";
-          if (r < R - 1 && a[i + C] === 5) ch[i + C] = " ";
-        }
+        if ((k + li) % 2) { ch[i] = "│"; if (A[i - 1] === 10) ch[i - 1] = " "; if (A[i + 1] === 10) ch[i + 1] = " "; }
+        else { ch[i] = "─"; if (r > 0 && A[i - C] === 5) ch[i - C] = " "; if (r < R - 1 && A[i + C] === 5) ch[i + C] = " "; }
         k++;
       }
       if (any) li++;
     }
-  }
-
-  function render() {
-    var C = G.C, R = G.R, a = G.arms, f = G.fill, gl = GL[cfg.lines], i, r, c;
-    var ch = new Array(R * C);
-    for (i = 0; i < R * C; i++) ch[i] = gl[a[i]];
-    if (cfg.weave) weave(ch);
-    var A = [], B = [], P = [];
+    var g0 = S.G0, L1 = [], L2 = [], P = [];
     for (r = 0; r < R; r++) {
-      var o = r * C, s = "", t = "", p = "", run = -2, buf = "";
+      var s1 = "", s2 = "", p = "", run = -2, buf = "", gr = r - g0;
       for (c = 0; c < C; c++) {
-        i = o + c; s += ch[i];
-        if (Li2) t += GL.dbl[a[i]];
-        var k = f[i];
-        if (k !== run) { if (buf) p += run >= 0 ? '<span class="P' + run + '">' + buf + "</span>" : buf; buf = ""; run = k; }
-        buf += k >= 0 ? "█" : " ";
+        i = r * C + c;
+        var blank = gr >= 0 && gr < 8 && gchar(gr, c) !== " ";
+        s1 += blank ? " " : ch[i];
+        s2 += Hv[i] ? HEAVY[Hv[i]] : " ";
+        var f = blank ? -1 : Fl[i];
+        if (f !== run) { if (buf) p += run >= 0 ? '<span class="P' + run + '">' + buf + "</span>" : buf; buf = ""; run = f; }
+        buf += f >= 0 ? "█" : " ";
       }
       if (buf) p += run >= 0 ? '<span class="P' + run + '">' + buf + "</span>" : buf;
-      A.push(s); B.push(t); P.push(p);
+      L1.push(s1.replace(/\s+$/, "")); L2.push(s2.replace(/\s+$/, "")); P.push(p);
     }
-    Li.textContent = A.join("\n");
-    if (Li2) Li2.textContent = B.join("\n");
-    Lp.innerHTML = P.join("\n");
-    grid.style.width = C * G.cw + "px";
-    grid.style.height = R * G.lh + "px";
+    Li.textContent = L1.join("\n"); Ls.textContent = L2.join("\n"); Lp.innerHTML = P.join("\n");
+    // the garden, asleep
+    var out = [];
+    for (var gr = 0; gr < 8; gr++) {
+      var s = "", rn = "", bf = "", cls = GCLS[gr], n = cls.length;
+      for (c = 0; c < C; c++) {
+        var kk = cls.charAt(c % n), cc = GARDEN[gr].charAt(c % n);
+        if (kk !== rn) { if (bf) s += rn.trim() ? '<b class="' + rn + '">' + bf + "</b>" : bf; bf = ""; rn = kk; }
+        bf += cc === "<" ? "&lt;" : cc === "&" ? "&amp;" : cc;
+      }
+      if (bf) s += rn.trim() ? '<b class="' + rn + '">' + bf + "</b>" : bf;
+      out.push(s);
+    }
+    gT.innerHTML = out.join("\n"); gT.style.top = g0 * G.lh + "px";
+    grid.style.width = C * G.cw + "px"; grid.style.height = R * G.lh + "px";
   }
-
-  G.layout = function () {
-    metrics(); zones();
-    var Rg = Math.max(18, Math.floor(window.innerHeight / G.lh));
-    cfg.blocks.forEach(function (id) { d.getElementById(id).classList.add("off"); });
-    var list = cfg.spec(G, Rg, 0);
-    run(list, Rg);
-    if (cfg.check && !cfg.check(G, Rg)) { cfg.blocks.forEach(function (id) { d.getElementById(id).classList.add("off"); }); run(cfg.spec(G, Rg, 1), Rg); }
-    raster(); render();
-    grid.classList.add("ready");
-    lastW = root.clientWidth; lastH = window.innerHeight;
-    if (cfg.after) cfg.after(G);
-    if (root.clientWidth !== lastW) G.layout();   // a scrollbar came or went
-  };
 
   var tm = 0;
-  window.addEventListener("resize", function () {
-    clearTimeout(tm);
-    tm = setTimeout(function () {
-      if (root.clientWidth === lastW && (window.innerHeight === lastH || !(cfg.tall && cfg.tall()))) return;
-      G.layout();
-    }, 120);
-  });
-  /* if a block grows (a longer status line, a font arriving late), lay out again */
+  window.addEventListener("resize", function () { clearTimeout(tm); tm = setTimeout(function () { if (root.clientWidth !== lastW) layout(); }, 120); });
   if (window.ResizeObserver) {
     var ro = new ResizeObserver(function () {
-      for (var id in G.pos) {
-        var el = d.getElementById(id);
-        if (!el.classList.contains("off") && rows(el) !== G.pos[id].h) { clearTimeout(tm); tm = setTimeout(G.layout, 60); return; }
-      }
+      for (var id in G.pos) if (rows($(id)) !== G.pos[id].h) { clearTimeout(tm); tm = setTimeout(layout, 60); return; }
     });
-    cfg.blocks.forEach(function (id) { ro.observe(d.getElementById(id)); });
+    ["b-h1", "b-intro"].concat(PIECES).forEach(function (id) { ro.observe($(id)); });
   }
   root.classList.remove("nojs"); root.classList.add("js");
-  return G;
-}
-
-(function () {
-  "use strict";
-  /* same visit: going home from here skips the gate (the sound still waits for a click) */
-  try { sessionStorage.setItem("kes-in", "1"); } catch (e) {}
-  var A = [].map.call(document.querySelectorAll("article.blk"), function (a) { return a.id; });
-  var G = kesGrid({
-    lines: "light",
-    weave: true,
-    blocks: ["b-title", "b-head"].concat(A),
-    nat: {}, fit: {},
-    spec: function (G) {
-      var m = G.mode, B = [], i, P = [[0, "bottom", 4], [2, "top", 3], [1, "bottom", 5], [0, "top", 4]];
-      if (m === "wide") {
-        B.push({ end: 2, cells: [{ z: "E0-L", b: ["b-title"], split: [[0.62, 2, 1]] }, { z: "M", b: ["b-head"] }, { z: "R", split: [[0.5]] }, { z: "E1", plane: [1, "top", 6] }] });
-        for (i = 0; i < A.length; i += 3) {
-          var n = i / 3, cells = [{ z: "L", b: [A[i]] }];
-          cells.push(A[i + 1] ? { z: "M", b: [A[i + 1]] } : { z: "M", split: [[0.5, 2]] });
-          cells.push(A[i + 2] ? { z: "R", b: [A[i + 2]] } : { z: "R", plane: [2, "bottom", 4] });
-          cells.push({ z: n % 2 ? "E1" : "E0", plane: P[n % 4] });
-          B.push({ end: n % 2 ? 2 : 1, cells: cells });
-        }
-      } else if (m === "mid") {
-        B.push({ end: 2, cells: [{ z: "E0-L", b: ["b-title"] }, { z: "M", b: ["b-head"] }, { z: "E1", plane: [1, "top", 6] }] });
-        for (i = 0; i < A.length; i += 2) {
-          var k = i / 2, c2 = [{ z: "L", b: [A[i]] }, A[i + 1] ? { z: "M", b: [A[i + 1]] } : { z: "M", plane: [2, "bottom", 4] }];
-          if (k % 2) c2.push({ z: k % 4 === 1 ? "E0" : "E1", plane: P[k % 4] });
-          B.push({ end: k % 3 === 2 ? 2 : 1, cells: c2 });
-        }
-      } else {
-        B.push({ end: 1, cells: [{ z: "E0-L", b: ["b-title"] }, { z: "E1", plane: [1, "top", 4] }] });
-        B.push({ end: 2, cells: [{ z: "L", b: ["b-head"] }] });
-        A.forEach(function (id, j) {
-          var c1 = [{ z: "L", b: [id] }];
-          if (j % 3 === 1) c1.push({ z: j % 2 ? "E0" : "E1", plane: P[j % 4] });
-          B.push({ end: j % 4 === 3 ? 2 : 1, cells: c1 });
-        });
-      }
-      B.push({ min: 2, cells: [] });
-      return B;
-    }
-  });
-  G.layout();
+  layout();
 })();
 </script>
 </body>

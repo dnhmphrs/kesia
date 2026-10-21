@@ -6,9 +6,10 @@
 <title>kes inkersole</title>
 <script>(function(d){d.classList.add("js");var g=true;try{g=sessionStorage.getItem("kes-in")!=="1"}catch(e){}if(g)d.classList.add("gated")})(document.documentElement);</script>
 <style>
-/* white ground, black type, electric-blue links, hot-pink highlight. hot pink stands in for mondrian's red */
+/* the antenna on the tower block. white sky, black type, electric-blue links, hot-pink highlight.
+   hot pink stands in for mondrian's red. every mark on the page is a character on one grid. */
 :root {
-  --paper: #ffffff; --ink: #000000; --pink: #ff1f8f; --blue: #1a36ff; --yellow: #ffd200; --grey: #8a8a8a; --pale: #c4c4c4;
+  --paper: #ffffff; --ink: #000000; --pink: #ff1f8f; --blue: #1a36ff; --yellow: #ffd200; --grey: #8a8a8a; --pale: #cdcdcd;
   --mono: ui-monospace, "SF Mono", Menlo, Monaco, Consolas, "DejaVu Sans Mono", "Liberation Mono", "Courier New", monospace;
   --fs: 15px; --lh: 17.5px; --cw: 9px;
 }
@@ -18,13 +19,25 @@ body { margin: 0; background: var(--paper); color: var(--ink); font: 400 var(--f
 #page { position: relative; overflow: hidden; }
 .vh { position: absolute !important; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 
-/* the composition: positioned runs of characters, all aria-hidden */
-#art { position: absolute; inset: 0; pointer-events: none; }
-#art pre, .redpre { position: absolute; margin: 0; overflow: hidden; font: inherit; line-height: var(--lh); white-space: pre; }
-.ln, .pl .k { color: var(--ink); text-shadow: 0 .6px 0 currentColor, 0 -.6px 0 currentColor; } /* closes the hairline between rows of █ in some fonts */
+/* the scene: positioned runs of characters, all aria-hidden */
+#art, #garden { position: absolute; left: 0; top: 0; pointer-events: none; }
+#art { right: 0; bottom: 0; }
+#art pre, #sky, #mast, #garden pre, .ant { position: absolute; margin: 0; overflow: hidden; font: inherit; line-height: var(--lh); white-space: pre; }
+#sky, #mast { left: 0; top: 0; pointer-events: none; }
+.ln, #mast, .ant { color: var(--ink); text-shadow: 0 .6px 0 currentColor, 0 -.6px 0 currentColor; } /* closes the hairline between rows of █ */
 .pl { font-weight: 700; }
 .c-pink { color: var(--pink); } .c-blue { color: var(--blue); } .c-yellow { color: var(--yellow); }
-.pl .k { color: var(--ink); font-weight: 400; } .pl .y { color: var(--yellow); }
+.crown { color: var(--pink); font-weight: 700; }
+.dk { color: var(--pale); }
+.on-air .dk.on { color: var(--yellow); font-weight: 700; }
+/* the colour planes trade places on the beat */
+.tower.lit .c-pink { color: var(--blue); } .tower.lit .c-blue { color: var(--pink); }
+#sky .w { color: var(--grey); }
+#sky .p, #sky .b, #sky .y { font-weight: 700; }
+#sky .p, #mast .p { color: var(--pink); } #sky .b, #mast .b { color: var(--blue); } #sky .y, #mast .y { color: var(--yellow); }
+#garden .s { color: var(--ink); } #garden .p { color: var(--pink); } #garden .b { color: var(--blue); } #garden .y { color: #f0b400; }
+#garden b { font-weight: 400; } #garden .p, #garden .b, #garden .y { font-weight: 700; }
+#garden .w { color: var(--ink); text-shadow: 0 .6px 0 currentColor, 0 -.6px 0 currentColor; }
 
 /* kes's words, set on the same grid */
 h1, h2, h3, p, ul, li { font: inherit; }
@@ -37,73 +50,66 @@ h1, h2, h3, p, ul, li { font: inherit; }
 .cell .k { color: var(--grey); }
 .cell .t { margin: 0; }
 .js .cell { position: absolute; top: 0; left: 0; margin: 0; }
-.no-js .cell, html:not(.js) .cell { margin: 2em 1ch; max-width: 72ch; }
+html:not(.js) .cell { margin: 2em 1ch; max-width: 72ch; }
+.js .proj .pic { position: absolute; margin: 0; white-space: nowrap; color: var(--ink); }
 
 a { color: var(--blue); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; }
 a:visited { color: var(--blue); }
 a:hover, a:focus-visible { background: var(--pink); color: var(--ink); text-decoration-thickness: 2px; outline: none; }
 [tabindex="-1"]:focus { outline: none; }
 
-/* ---- the gate: the painting at rest, one thing to do ---- */
+/* ---- the gate: the roof at rest, one thing to do ---- */
 html.gated, html.gated body { overflow: hidden; height: 100%; }
-.gated .deck { opacity: 0; }
+.gated #fm { opacity: 0; }
 html:not(.gated) .quietp { display: none; }
 
-/* the red square is the button */
-.go { font: inherit; color: var(--pink); background: none; border: 0; padding: 0; margin: 0; border-radius: 0; text-align: left; cursor: pointer; display: block; }
-.js .go { position: absolute; overflow: hidden; }
+/* the antenna is the play button */
+.go { font: inherit; color: var(--ink); background: none; border: 0; padding: 0; margin: 0; border-radius: 0; text-align: left; cursor: pointer; display: block; }
+.js .go { position: absolute; }
 .go:focus { outline: none; }
-.redpre { left: 0; top: 0; font-weight: 700; color: var(--pink); }
-.tri { color: transparent; }
-.ry { color: var(--yellow); } .rb { color: var(--blue); }
-.go:hover .tri, .go:focus-visible .tri { color: var(--blue); }
-.golabel { white-space: pre; color: var(--ink); font-weight: 700; }
-.js .golabel { position: absolute; }
-.go:hover .golabel, .go:focus-visible .golabel { color: var(--blue); text-decoration: underline; text-underline-offset: 2px; }
+.ant { left: 0; top: 0; }
+.ant .tip { color: var(--pink); font-weight: 700; text-shadow: none; }
+.golabel { position: absolute; white-space: pre; color: var(--pink); font-weight: 700; }
+.go:hover .ant, .go:focus-visible .ant { color: var(--blue); }
+.go:hover .golabel, .go:focus-visible .golabel { background: var(--pink); color: var(--ink); }
 .g-on { display: none; }
 .on-air .g-on { display: inline; } .on-air .g-off { display: none; }
 .on-air .go { cursor: default; }
-.on-air .go:hover .tri { color: transparent; }
-.rewind .redpre { color: var(--blue); } .rewind #pl-blue { color: var(--pink); }
+.on-air .go:hover .ant { color: var(--ink); }
+.on-air .go:hover .golabel { background: none; color: var(--pink); }
 
-/* ---- KES FM, set as words in brackets ---- */
+/* ---- KES FM, shrunk to a few words in brackets ---- */
 .fm button, .quiet { font: inherit; color: var(--blue); background: none; border: 0; padding: 0; margin: 0; border-radius: 0; cursor: pointer; line-height: inherit; }
-.quiet::before, .keys button::before { content: "["; color: var(--ink); }
-.quiet::after { content: " ->]"; color: var(--ink); }
-.keys button::after { content: "]"; color: var(--ink); }
-.fm button:hover, .fm button:focus-visible { background: var(--pink); color: var(--ink); outline: none; }
-.keys button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
-.keys button[aria-pressed="true"]::before, .keys button[aria-pressed="true"]::after { color: var(--paper); }
-.keys .stop { font-weight: 700; color: var(--ink); }
-.ident { color: var(--ink); }
-.deck p, .deck div { margin: 0; }
-.lcd { margin: 0 0 var(--lh); }
+.quiet::before, .keys button::before { content: "["; color: var(--grey); }
+.quiet::after { content: " ->]"; color: var(--grey); }
+.keys button::after { content: "]"; color: var(--grey); }
+.fm button:hover, .fm button:focus-visible, .quiet:hover, .quiet:focus-visible { background: var(--pink); color: var(--ink); outline: none; }
+.keys button[aria-pressed="true"] { color: var(--ink); font-weight: 700; }
+.keys .stop { color: var(--ink); font-weight: 700; }
+.js .quietp { position: absolute; margin: 0; white-space: pre; }
+.deck, .deck p, .deck div { margin: 0; }
+.fm { color: var(--grey); }
+.fm h2 { display: inline; margin: 0; font-weight: 700; color: var(--ink); }
 .status { color: var(--pink); font-weight: 700; }
-.ticker { overflow: hidden; white-space: nowrap; color: var(--grey); }
-.ticker > div { display: inline-block; }
-#tracker { color: var(--ink); }
-#tracker span { font-size: 0; }
-#tracker span::before { content: "<3"; font-size: var(--fs); }
-#tracker span:nth-child(4n)::after { content: " "; font-size: var(--fs); }
-#tracker .rest::before { content: "--"; color: var(--pale); }
-#tracker .rev::before { color: var(--pink); }
-#tracker .up::before { color: var(--blue); }
-#tracker .roll::before { text-decoration: underline; }
-#tracker .on::before { content: "██"; color: var(--yellow); }
-.lcd-info { color: var(--grey); }
-.lcd-info .rev { color: var(--pink); } .lcd-info .up { color: var(--blue); }
-.keys { margin: 0 0 var(--lh); }
-.keys > div, .keys > label { display: inline-block; vertical-align: top; margin-right: 2ch; }
+.keys .grp { display: inline-block; white-space: nowrap; margin-right: 2ch; }
 .keys .lbl { color: var(--grey); }
+.lcd-info { white-space: nowrap; overflow: hidden; }
+.ticker { overflow: hidden; white-space: nowrap; color: var(--pale); }
+.ticker > div { display: inline-block; }
+.tracker { display: none; }  /* the 16ths are drawn as lights climbing the mast */
 .volwrap { position: relative; display: inline-block; }
 .vol input { position: absolute; left: 0; top: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
 .volbar { color: var(--blue); }
 .vol input:focus-visible + .volbar, .vol input:hover + .volbar { background: var(--pink); color: var(--ink); }
 
 @keyframes run { to { transform: translateX(-50%); } }
-@media (prefers-reduced-motion: no-preference) { .on-air .ticker > div { animation: run 70s linear infinite; } }
+@keyframes flick { 0% { color: var(--ink); } 33% { color: var(--pink); } 66% { color: var(--blue); } }
+@media (prefers-reduced-motion: no-preference) {
+  .on-air .ticker > div { animation: run 70s linear infinite; }
+  .rewind #mast, .rewind .ant { animation: flick .18s steps(1) infinite; }
+}
 
-/* the yellow sliver comes loose and floats: stop is always there */
+/* stop is always there: a small yellow plane that floats */
 .floatstop { position: fixed; right: var(--cw); bottom: var(--lh); z-index: 5; padding: 0; margin: 0; border: 0; background: none; font: inherit; font-weight: 700; color: var(--ink); cursor: pointer; line-height: var(--lh); }
 .floatstop[hidden] { display: none; }
 .fs-fill { display: block; white-space: pre; color: var(--yellow); }
@@ -111,41 +117,34 @@ html:not(.gated) .quietp { display: none; }
 .floatstop:hover .fs-fill, .floatstop:focus-visible .fs-fill { color: var(--pink); }
 .floatstop:focus { outline: none; }
 
-/* placeholders for the project pictures, cut into their planes */
-.js .proj .pic { position: absolute; margin: 0; white-space: nowrap; color: var(--ink); }
 .js:not(.ready) #page { visibility: hidden; }
-#art .ph { color: var(--yellow); }
-.spk { color: var(--ink); } .spk .p { color: var(--pink); } .spk .b { color: var(--blue); } .spk .g { color: var(--pale); }
 </style>
 </head>
 <body>
 <div id="page">
-<div id="art" aria-hidden="true"></div>
+<pre id="sky" aria-hidden="true"></pre>
+<div id="garden" aria-hidden="true"><pre class="gd"></pre></div>
+<div id="art" class="tower" aria-hidden="true"></div>
+<pre id="mast" aria-hidden="true"></pre>
 <main id="main">
 <h1 class="vh">kes inkersole</h1>
 
-<!-- the big pink square is the play button. KES FM never starts on its own -->
-<button id="go" class="go" type="button" aria-pressed="false"><span class="redpre" aria-hidden="true"></span><span class="golabel"><span class="g-off">press play · KES FM 170.0</span><span class="g-on">● on air · KES FM 170.0</span></span></button>
+<!-- the antenna on the roof is the play button. KES FM never starts on its own -->
+<button id="go" class="go" type="button" aria-pressed="false"><span class="ant" aria-hidden="true"></span><span class="golabel"><span class="g-off">▶ play KES FM</span><span class="g-on">● on air</span></span></button>
+<p class="quietp" id="quietp"><button type="button" id="quiet" class="quiet">enter without sound</button></p>
 
 <section class="fm cell" id="fm" aria-labelledby="fm-h">
-<h2 id="fm-h">KES FM 170.0</h2>
-<p class="quietp" id="quietp"><button type="button" id="quiet" class="quiet">enter without sound</button></p>
-<p class="ident">you're locked to KES FM. it's not a real station, it's this website: a little jungle machine running in your browser, every drum and bassline synthesised live, no samples, no files. nothing plays until you press on air, and stop always stops it.</p>
 <div class="deck" id="deck">
-<div class="lcd">
-<p class="lcd-top"><span>KES FM ((( 170.0 )))</span>  <span class="status" id="status" role="status">off air</span></p>
+<div class="lcd-top"><h2 id="fm-h">KES FM 170.0</h2>  <span class="status" id="status" role="status">off air</span></div>
+<div class="keys">
+<span class="grp"><button class="stop" id="stop" type="button">■ stop</button> <button type="button" id="pullup">&lt;&lt; pull up</button> <button type="button" id="siren">siren</button> <button type="button" id="cute" aria-pressed="false">&lt;3 cute</button></span>
+<span class="grp" role="group" aria-label="break"><span class="lbl">break</span> <button type="button" data-break="straight" aria-pressed="true">straight</button> <button type="button" data-break="chopped" aria-pressed="false">chopped</button> <button type="button" data-break="rollin" aria-pressed="false">rollin'</button> <button type="button" id="chop" aria-pressed="false" aria-label="chop it">8&lt;</button></span>
+<span class="grp" role="group" aria-label="bass"><span class="lbl">bass</span> <button type="button" data-bass="sub" aria-pressed="true">sub</button> <button type="button" data-bass="reese" aria-pressed="false">reese</button> <button type="button" data-bass="off" aria-pressed="false">off</button></span>
+<label class="vol grp">vol <span class="volwrap"><input type="range" id="vol" min="0" max="1" step="0.05" value="0.5"><span class="volbar" aria-hidden="true">[=====o-----]</span></span></label>
+</div>
+<div class="lcd-info" aria-hidden="true"><span id="lcdinfo">break: straight · bass: sub · cute: off</span></div>
 <div class="ticker" aria-hidden="true"><div><span>big up all the junglists &lt;3 big up everyone reading the source code &lt;3 big up the UAL lot, LCF + CCI &lt;3 big up Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges &lt;3 text in: inkersolekesia@gmail.com &lt;3 respect to the sound systems, pirates and producers who built all this &lt;3 lorem ipsum dolor sit amet &lt;3 </span><span>big up all the junglists &lt;3 big up everyone reading the source code &lt;3 big up the UAL lot, LCF + CCI &lt;3 big up Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges &lt;3 text in: inkersolekesia@gmail.com &lt;3 respect to the sound systems, pirates and producers who built all this &lt;3 lorem ipsum dolor sit amet &lt;3 </span></div></div>
 <div class="tracker" id="tracker" aria-hidden="true"></div>
-<div class="lcd-info" aria-hidden="true"><span id="lcdinfo">break: straight · bass: sub · cute: off</span>  <span><span class="rev">pink</span> = reversed · <span class="up">blue</span> = pitched up · underline = roll</span></div>
-</div>
-<div class="keys">
-<div><button class="stop" id="stop" type="button">■ stop</button></div>
-<div role="group" aria-label="break"><span class="lbl">break</span> <button type="button" data-break="straight" aria-pressed="true">straight</button> <button type="button" data-break="chopped" aria-pressed="false">chopped</button> <button type="button" data-break="rollin" aria-pressed="false">rollin'</button> <button type="button" id="chop" aria-pressed="false">8&lt; chop it</button></div>
-<div role="group" aria-label="bass"><span class="lbl">bass</span> <button type="button" data-bass="sub" aria-pressed="true">sub</button> <button type="button" data-bass="reese" aria-pressed="false">reese</button> <button type="button" data-bass="off" aria-pressed="false">off</button></div>
-<div><button type="button" id="cute" aria-pressed="false">&lt;3 cute</button> <button type="button" id="pullup">&lt;&lt; pull up</button> <button type="button" id="siren">siren</button></div>
-<label class="vol">vol <span class="volwrap"><input type="range" id="vol" min="0" max="1" step="0.05" value="0.5"><span class="volbar" aria-hidden="true">[=====o-----]</span></span></label>
-</div>
-<p class="textin">text in your shout-outs: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
 </div>
 </section>
 
@@ -173,6 +172,14 @@ html:not(.gated) .quietp { display: none; }
 </main>
 </div>
 <button class="floatstop" id="floatstop" type="button" hidden><span class="fs-fill" aria-hidden="true"></span><span class="fs-txt">■ stop KES FM</span></button>
+
+<!-- kes's flower garden (from i5-03), verbatim. the tower stands in it. inert until drawn -->
+<template id="gsrc"><pre>    <b class="rose">_                             </b><b class="lilac">_                          </b><b class="rose">_                        </b><b class="peri">_                            </b><b class="rose">_                        </b><b class="lilac">_                             </b><b class="peri">_</b>
+  <b class="rose">_(_)_         @               </b><b class="lilac">_(_)_         </b><b class="peri">@            </b><b class="rose">_(_)_              @     </b><b class="peri">_(_)_         </b><b class="rose">@              _(_)_    </b><b class="lilac">@               _(_)_         </b><b class="peri">@               _(_)_    </b><b class="rose">@</b>
+ <b class="rose">(_)@(_)        </b><b class="stem">|/  </b><b class="peri">vVv        </b><b class="lilac">(_)@(_)        </b><b class="stem">|/    </b><b class="rose">vVv   (_)@(_)             </b><b class="stem">|/   </b><b class="peri">(_)@(_)  </b><b class="lilac">vVv   </b><b class="stem">|/            </b><b class="rose">(_)@(_)   </b><b class="stem">|/  </b><b class="rose">vVv        </b><b class="lilac">(_)@(_)        </b><b class="stem">|/  </b><b class="lilac">vVv        </b><b class="peri">(_)@(_)   </b><b class="stem">|/  </b><b class="lilac">vVv</b>
+   <b class="rose">(_)    </b><b class="lilac">vVv  </b><b class="stem">\|   </b><b class="peri">(_)    </b><b class="lilac">*     (_)    </b><b class="rose">vVv  </b><b class="stem">\|     </b><b class="rose">(_)     (_)     </b><b class="peri">*   </b><b class="lilac">vVv  </b><b class="stem">\|      </b><b class="peri">(_)    </b><b class="lilac">(_)  </b><b class="stem">\|   </b><b class="rose">vVv   </b><b class="lilac">*     </b><b class="rose">(_)    </b><b class="stem">\|   </b><b class="rose">(_)  </b><b class="peri">vVv     </b><b class="lilac">(_)     </b><b class="rose">*   </b><b class="stem">\|   </b><b class="lilac">(_)   </b><b class="rose">vVv    </b><b class="peri">(_)    </b><b class="stem">\|   </b><b class="lilac">(_)  </b><b class="rose">vVv</b>
+    <b class="stem">|/    </b><b class="lilac">(_)   </b><b class="stem">|   \|     |/     |/    </b><b class="rose">(_)   </b><b class="stem">|     \|       |/     |/  </b><b class="lilac">(_)   </b><b class="stem">|       |/    \|    |   </b><b class="rose">(_)   </b><b class="stem">|/     |/     |   \|   </b><b class="peri">(_)      </b><b class="stem">|/     |/   |   \|    </b><b class="rose">(_)     </b><b class="stem">|/     |   \|   </b><b class="rose">(_)</b>
+   <b class="stem">\|      |    |    |    \|     \|      |    |      |      \|     \|    |    |      \|      |    |    |   \|     \|      |    |    |      \|     \|    |    |     |     \|      |    |    |</b></pre></template>
 <script>
 /* ===== KES FM engine: paste VERBATIM, do not edit =====
    it expects: var onAir, var happy, var still, function look() (no-ops are fine),
@@ -574,9 +581,9 @@ var KG = (function () {
     if (!M) M = metrics();
     var W = doc.clientWidth, H = window.innerHeight;
     var ft = W < 560 ? 13 : W < 1000 ? 14 : W < 1700 ? 15 : 16;
-    var C = Math.max(32, Math.round(W / (M.r * ft)));
+    var C = Math.max(36, Math.round(W / (M.r * ft)));
     var cw = W / C, F = cw / M.r, lh = M.h * F;
-    G.W = W; G.H = H; G.C = C; G.cw = cw; G.F = F; G.lh = lh; G.R0 = Math.max(24, Math.ceil(H / lh));
+    G.W = W; G.H = H; G.C = C; G.cw = cw; G.F = F; G.lh = lh; G.R0 = Math.max(24, Math.floor(H / lh));
     doc.style.setProperty("--fs", F + "px");
     doc.style.setProperty("--lh", lh + "px");
     doc.style.setProperty("--cw", cw + "px");
@@ -584,37 +591,42 @@ var KG = (function () {
   }
   function begin() { parts = []; }
   function end(el) { el.innerHTML = parts.join(""); }
-  function pre(x, y, w, h, cls, txt, id) {
-    if (w <= 0 || h <= 0) return;
-    parts.push('<pre class="' + cls + '"' + (id ? ' id="' + id + '"' : "") + ' style="left:' + x * G.cw + "px;top:" + y * G.lh + "px;width:" + w * G.cw + "px;height:" + h * G.lh + 'px">' + txt + "</pre>");
+  function box(el, x, y, w, h) {
+    el.style.left = x * G.cw + "px"; el.style.top = y * G.lh + "px";
+    el.style.width = w * G.cw + "px"; el.style.height = h * G.lh + "px";
   }
-  function hline(x, y, w, kind, id) { pre(x, y, w, 1, "ln", rep(kind === "lo" ? "▄" : kind === "hi" ? "▀" : "█", w), id); }
+  function pre(x, y, w, h, cls, txt, attr) {
+    if (w <= 0 || h <= 0) return;
+    parts.push('<pre class="' + cls + '"' + (attr || "") + ' style="left:' + x * G.cw + "px;top:" + y * G.lh + "px;width:" + w * G.cw + "px;height:" + h * G.lh + 'px">' + txt + "</pre>");
+  }
+  function hline(x, y, w) { pre(x, y, w, 1, "ln", rep("█", w)); }
   function vline(x, y, h, w) {
     w = w || 2; var r = rep("█", w), a = [];
     for (var i = 0; i < h; i++) a.push(r);
     pre(x, y, w, h, "ln", a.join("\n"));
   }
   // a row of hearts. "<" always sits on an even column of the page, so planes line up with each other
-  function heartRow(x0, y, w, opt) {
-    var s = "", o = (opt && opt.stagger ? y : 0) + (opt && opt.off || 0);
-    for (var i = 0; i < w; i++) s += ((x0 + i + o) & 1) ? "3" : "<";
+  function heartRow(x0, w) {
+    var s = "";
+    for (var i = 0; i < w; i++) s += ((x0 + i) & 1) ? "3" : "<";
     return s;
   }
-  function field(x, y, w, h, holes, opt) {
+  function field(x, y, w, h, holes, mask) {
     var rows = [];
     for (var r = 0; r < h; r++) {
-      var s = heartRow(x, y + r, w, opt);
+      var s = heartRow(x, w);
       (holes || []).forEach(function (hl) {
         if (y + r >= hl.y && y + r < hl.y + hl.h) {
           var a0 = Math.max(0, hl.x - x), a1 = Math.min(w, hl.x + hl.w - x);
           if (a1 > a0) s = s.slice(0, a0) + rep(" ", a1 - a0) + s.slice(a1);
         }
       });
+      if (mask) { var t = ""; for (var c = 0; c < w; c++) t += mask[r * w + c] ? " " : s[c]; s = t; }
       rows.push(s.replace(/</g, "&lt;"));
     }
     return rows.join("\n");
   }
-  function plane(x, y, w, h, col, id, holes, opt) { pre(x, y, w, h, "pl c-" + col, field(x, y, w, h, holes, opt), id); }
+  function plane(x, y, w, h, cls, holes, attr) { pre(x, y, w, h, "pl " + cls, field(x, y, w, h, holes), attr); }
 
   // kes's heart-letter name, lifted pixel for pixel from her sign (every # was a <3)
   var BM = [
@@ -635,7 +647,7 @@ var KG = (function () {
       return s;
     });
   }
-  var FONT = { kes: seg(2, 18), inkersole: seg(23, 71), inker: seg(23, 49), sole: seg(51, 71), heart: seg(73, 79), full: seg(2, 79) };
+  var FONT = { kes: seg(2, 18), inkersole: seg(23, 71), heart: seg(73, 79), full: seg(2, 79), name: seg(2, 71) };
   FONT.kesh = cat(FONT.kes, 3, FONT.heart);
   // the same hand, for the letters her name doesn't have
   var L = {
@@ -650,17 +662,25 @@ var KG = (function () {
     for (var i = 0; i < s.length; i++) { if (i) p.push(1); p.push(L[s[i]]); }
     return cat.apply(null, p);
   }
-  function carve(mask, mw, mh, rows, x0, y0, pw, v) {
+  function carve(mask, mw, mh, rows, x0, y0, pw) {
     for (var r = 0; r < rows.length; r++) for (var c = 0; c < rows[r].length; c++) {
       if (rows[r][c] !== "#") continue;
       for (var k = 0; k < pw; k++) {
         var x = x0 + c * pw + k, y = y0 + r;
-        if (x >= 0 && x < mw && y >= 0 && y < mh) mask[y * mw + x] = v || 1;
+        if (x >= 0 && x < mw && y >= 0 && y < mh) mask[y * mw + x] = 1;
       }
     }
   }
+  // a band of hearts with a word knocked out of it
+  function sign(x, y, w, h, rows, pw, pad, cls) {
+    var mask = new Uint8Array(w * h), x0 = pad;
+    if (pw === 2 && ((x + x0) & 1)) x0++;
+    carve(mask, w, h, rows, x0, Math.floor((h - 7) / 2), pw);
+    pre(x, y, w, h, "pl " + cls, field(x, y, w, h, null, mask));
+  }
   function setX(el, x, w) { el.style.left = x * G.cw + "px"; el.style.width = w * G.cw + "px"; }
   function setY(el, y) { el.style.top = y * G.lh + "px"; }
+  function colOf(el) { return Math.round(parseFloat(el.style.left) / G.cw); }
   function rows(el) { return Math.max(1, Math.ceil(el.getBoundingClientRect().height / G.lh - 0.05)); }
   // relayout when the width changes (not when a phone's address bar slides about)
   function watch(fn) {
@@ -675,315 +695,340 @@ var KG = (function () {
     window.addEventListener("resize", soon);
     run();
   }
-  return { G: G, grid: grid, begin: begin, end: end, pre: pre, hline: hline, vline: vline, plane: plane, field: field,
-    heartRow: heartRow, FONT: FONT, word: word, carve: carve, setX: setX, setY: setY, rows: rows, rep: rep, watch: watch };
+  // kes's garden, read out of its <template> into rows of [character, colour]
+  function garden(id) {
+    var t = document.getElementById(id), src = t && t.content ? t.content.querySelector("pre") : null, out = [[]];
+    if (!src) return null;
+    var map = { rose: "p", lilac: "y", peri: "b", stem: "s" };
+    [].forEach.call(src.childNodes, function (n) {
+      var cls = n.nodeType === 1 ? (map[n.className] || "") : "", s = n.textContent;
+      for (var i = 0; i < s.length; i++) {
+        if (s[i] === "\n") out.push([]);
+        else out[out.length - 1].push([s[i], cls]);
+      }
+    });
+    var wd = 0;
+    out.forEach(function (r) { wd = Math.max(wd, r.length); });
+    out.forEach(function (r) { while (r.length < wd) r.push([" ", ""]); });
+    return out;
+  }
+  // rows of the garden, tiled across the page. the top rows can lean (shift) a column with the beat.
+  // the tower's walls go down into it, and the flowers stand in front of them.
+  function gardenRows(G0, C, off, shift, walls) {
+    var grid = [], open = {}, out = [];
+    for (var r = 0; r < G0.length; r++) {
+      var row = G0[r], wd = row.length, sh = r < 3 ? shift : 0, g = [];
+      for (var x = 0; x < C; x++) g.push(row[((x + off + sh) % wd + wd) % wd]);
+      grid.push(g);
+    }
+    // each wall carries on down until the first flower in front of it, then the garden takes over
+    for (var x0 = 0; x0 < C; x0++) if (walls[x0] === 1) {
+      for (r = 0; r < grid.length; r++) {
+        if (grid[r][x0][0] !== " " || grid[r][x0 + 1][0] !== " ") break;
+        grid[r][x0] = grid[r][x0 + 1] = ["█", "w"];
+      }
+    }
+    for (r = 0; r < grid.length; r++) {
+      var s = "", cur = null, buf = "";
+      for (var x = 0; x < C; x++) {
+        var ch = grid[r][x][0], c = grid[r][x][1];
+        if (c !== cur) { if (buf) s += cur ? '<b class="' + cur + '">' + esc(buf) + "</b>" : esc(buf); buf = ""; cur = c; }
+        buf += ch;
+      }
+      if (buf) s += cur ? '<b class="' + cur + '">' + esc(buf) + "</b>" : esc(buf);
+      out.push(s);
+    }
+    return out.join("\n");
+  }
+  function esc(s) { return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+  return { G: G, grid: grid, begin: begin, end: end, box: box, pre: pre, hline: hline, vline: vline, plane: plane, field: field,
+    heartRow: heartRow, FONT: FONT, word: word, sign: sign, setX: setX, setY: setY, colOf: colOf, rows: rows, rep: rep, watch: watch,
+    garden: garden, gardenRows: gardenRows, esc: esc };
 })();
-
+</script>
+<script>
 /* ---------------------------------------------------------------
-   composition with red, blue and yellow (1930), set in type.
-   the red square is the play button. press it and it becomes the
-   speaker cone: rings run out of the play mark on every beat, the
-   blue plane pumps like a level meter, the yellow sliver swaps
-   places every other beat and a yellow block rides the long
-   black line in 16ths. "pull up" runs it all backwards.
+   the antenna on the tower block, after composition with red,
+   blue and yellow (1930). the sky is the white of the painting,
+   the mast and its elements are the heavy black lines, and the
+   tower under it is the grid: floors, flats and windows, some lit
+   pink, blue or yellow. kes's garden is the ground it stands in.
+   the antenna is the play button. on air, a light climbs the mast
+   in 16ths, hearts go out from the tip on every beat, windows
+   light up floor by floor, the colour planes trade places and the
+   garden sways. "pull up" runs the signal back into the mast.
    --------------------------------------------------------------- */
 (function () {
   var doc = document.documentElement, body = document.body;
   function $(id) { return document.getElementById(id); }
   var G = KG.G, rep = KG.rep;
-  var art = $("art"), page = $("page"), go = $("go"), redEl = go.querySelector(".redpre"), lab = go.querySelector(".golabel");
-  var fm = $("fm"), tracker = $("tracker"), info = $("lcdinfo");
-  var S = {};
-  ["hello", "presents", "p1", "p2", "p3", "more", "writing", "written", "pods", "irl", "foot"].forEach(function (k) { S[k] = $("s-" + k); });
-  var red = null, D = {};
-  var A = { rings: [], n: 0, ph: -1, lvl: 1, spk: 0, swap: false, mode: "sub", cute: false, rwT: 0, maxR: 40, v: 3 };
+  var page = $("page"), art = $("art"), skyEl = $("sky"), mastEl = $("mast"), gardenEl = $("garden");
+  var gd = gardenEl.querySelector(".gd");
+  var go = $("go"), ant = go.querySelector(".ant"), lab = go.querySelector(".golabel");
+  var fm = $("fm"), quietp = $("quietp"), tracker = $("tracker"), info = $("lcdinfo");
+  var KEYS = ["hello", "presents", "p1", "p2", "p3", "more", "writing", "written", "pods", "irl", "foot"], S = {};
+  KEYS.forEach(function (k) { S[k] = $("s-" + k); });
+  var GARDEN = KG.garden("gsrc");
+  var Q = {}, floors = [], H = {}, P = 7;
+  var A = { rings: [], ph: -1, tc: "y", fl: -1, lean: 0, ci: 0, rwT: 0, v: 3, maxR: 40, mode: "sub", cute: false };
+  var COLS = ["p", "b", "y"];
   function live() { return onAir && !still; }
+  function gated() { return doc.classList.contains("gated"); }
 
-  // ---------- kes's speaker stack (i7-05), standing on the long line ----------
-  var SPK = [
-    "        \\(^o^)/       <3",
-    ".--------------..--------------.",
-    "| .----.  .--. || .----.  .--. |",
-    "| |====|  (()) || |====|  (()) |",
-    "| '----'  '--' || '----'  '--' |",
-    "'--------------''--------------'",
-    ".--------------..--------------.",
-    "|   .------.   ||   .------.   |",
-    "|  /  .--.  \\  ||  /  .--.  \\  |  )",
-    "| |  ( <3 )  | || |  ( <3 )  | |  ))",
-    "|  \\  '--'  /  ||  \\  '--'  /  |  )))",
-    "|   '------'   ||   '------'   |  ))",
-    "|--------------||--------------|  )",
-    "|    KES FM    ||   170.0 FM   |",
-    "'--------------''--------------'",
-    rep('"', 32)
-  ];
-  var SPKN = SPK.map(function (l, i) { return i === 0 ? "  \\(^o^)/   <3" : i === 15 ? rep('"', 16) : l.slice(0, 16) + (l.length > 32 ? l.slice(32) : ""); });
-  function esc(s) { return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
-  function paint(l) {
-    var out = "", i = 0, m, rest;
-    while (i < l.length) {
-      rest = l.slice(i);
-      if ((m = /^[\\\/]\(\^o\^\)[\\\/]/.exec(rest)) || (m = /^<3/.exec(rest))) out += '<b class="p">' + esc(m[0]) + "</b>";
-      else if ((m = /^KES FM/.exec(rest))) out += "<b>" + m[0] + "</b>";
-      else if ((m = /^170\.0 FM/.exec(rest)) || (m = /^[()]+/.exec(rest))) out += '<b class="b">' + m[0] + "</b>";
-      else if ((m = /^"+/.exec(rest))) out += '<span class="g">' + m[0] + "</span>";
-      else { m = /^[^\\\/<K1()"]+|^[\s\S]/.exec(rest); out += esc(m[0]); }
-      i += m[0].length;
-    }
-    return out;
-  }
-  function spkFrame(lines, beat) {
-    return lines.map(function (l) {
-      if (beat) {
-        l = l.replace("\\(^o^)/", "/(^o^)\\").replace(/\( <3 \)/g, "((<3))");
-        l = l.replace(/(\|  )(\)+)$/, function (_, p, w) { return p + " " + w + ")"; });
-      }
-      return paint(l);
-    }).join("\n");
-  }
-
-  // ---------- the red square: hearts, with her name and a play mark cut out of them ----------
-  function buildRed(x, y, w, h, wide) {
-    var mask = new Uint8Array(w * h), F = KG.FONT, mx = wide ? 4 : 2, my = 2;
-    var opts = [[2, ["full"]], [2, ["kesh", "inkersole"]], [2, ["kesh", "inker", "sole"]], [1, ["full"]], [1, ["kesh", "inkersole"]], [1, ["kesh", "inker", "sole"]]];
-    var pick = opts[opts.length - 1], i;
-    for (i = 0; i < opts.length; i++) {
-      var o = opts[i], mw = 0, st = o[0] === 2 ? 9 : 8;
-      o[1].forEach(function (k) { mw = Math.max(mw, F[k][0].length * o[0]); });
-      if (mw <= w - 2 * mx && my + o[1].length * st + 9 <= h) { pick = o; break; }
-    }
-    var pw = pick[0], step = pw === 2 ? 9 : 8, x0 = mx;
-    if (pw === 2 && ((x + x0) & 1)) x0++;
-    pick[1].forEach(function (k, li) { KG.carve(mask, w, h, F[k], x0, my + li * step, pw, 1); });
-    var nb = my + pick[1].length * step - (step - 7);
-    var LW = 27, avail = h - nb - 2 - 3, Ht = Math.min(15, avail), Wt = 0, gx, ty, ly;
-    if (Ht % 2 === 0) Ht--;
-    if (Ht >= 5) {
-      Wt = Math.max(3, Math.round(Ht * (G.lh / G.cw) * 0.866));
-      var gw = Math.max(Wt, LW), c = (Ht - 1) / 2;
-      gx = wide ? w - mx - gw : x0;
-      ty = nb + 2 + Math.floor((avail - Ht) / 2);
-      for (var r = 0; r < Ht; r++) {
-        var len = Math.max(1, Math.round(Wt * (1 - Math.abs(r - c) / (c + 1))));
-        for (var q = 0; q < len; q++) mask[(ty + r) * w + gx + q] = 2;
-      }
-      ly = ty + Ht + 1;
-    } else { Ht = 0; gx = x0; ty = nb; ly = Math.min(h - 2, nb + 1); }
-    for (i = 0; i < LW && gx + i < w; i++) mask[ly * w + gx + i] = 1;
-    var cx = Ht ? gx + Wt / 3 : w / 2, cy = Ht ? ty + c : h / 2, k = G.cw / G.lh, far = 0;
-    [[0, 0], [w, 0], [0, h], [w, h]].forEach(function (p) { var dx = (p[0] - cx) * k, dy = p[1] - cy; far = Math.max(far, Math.sqrt(dx * dx + dy * dy)); });
-    A.maxR = far; A.v = Math.max(2.5, far / 14);
-    return { x: x, y: y, w: w, h: h, mask: mask, cx: cx, cy: cy, lx: gx, ly: ly };
-  }
-  var CLS = ["", "", "tri", "", "ry", "rb"];
-  function run(c, s) { if (!s) return ""; s = s.replace(/</g, "&lt;"); return c ? '<span class="' + CLS[c] + '">' + s + "</span>" : s; }
-  function renderRed() {
-    if (!red) return;
-    var w = red.w, h = red.h, m = red.mask, rings = A.rings, k = G.cw / G.lh, on = live();
-    var wob = on && A.mode === "reese", thin = on && A.mode === "off", out = [], x, y, j;
-    for (y = 0; y < h; y++) {
-      var off = wob ? Math.round(Math.sin(y * 0.55 + A.n * 0.8) * 1.2) : 0, row = "", cur = 0, s = "", dy = y - red.cy;
-      for (x = 0; x < w; x++) {
-        var t = m[y * w + x], c = t;
-        if (!t) {
-          for (j = 0; j < rings.length; j++) {
-            var dx = (x - red.cx) * k, d = Math.sqrt(dx * dx + dy * dy);
-            if (Math.abs(d - rings[j].r) < rings[j].t) { c = rings[j].c; break; }
+  // ---------- the sky: guy wires, and hearts going out from the tip ----------
+  function run(c, s) { if (!s) return ""; s = s.replace(/</g, "&lt;"); return c ? '<span class="' + c + '">' + s + "</span>" : s; }
+  function drawSky() {
+    var C = G.C, R = Q.roofY, k = G.cw / G.lh, rings = A.rings, out = [], g = gated();
+    if (!R) return;
+    for (var y = 0; y < R; y++) {
+      var row = "", cur = "", s = "", dy = y - Q.ty;
+      for (var x = 0; x < C; x++) {
+        var i = y * C + x, m = Q.mask[i], ch = " ", c = "";
+        if (!(m & 1) && !((m & 2) && !g) && !((m & 4) && g)) {
+          if (rings.length) {
+            var dx = (x - Q.tx) * k, d = Math.sqrt(dx * dx + dy * dy);
+            for (var j = 0; j < rings.length; j++) if (Math.abs(d - rings[j].r) < rings[j].t) { c = rings[j].c; break; }
           }
-          if (!c && thin && (y & 1)) c = 1;
+          if (c) ch = (x & 1) ? "3" : "<";
+          else if (Q.wire[i]) { ch = "·"; c = "w"; }
         }
-        var blank = c === 1 || c === 3, cc = blank ? 0 : c;
-        if (cc !== cur) { row += run(cur, s); s = ""; cur = cc; }
-        s += blank ? " " : ((red.x + x + off) & 1) ? "3" : "<";
+        if (c !== cur) { row += run(cur, s); s = ""; cur = c; }
+        s += ch;
       }
       out.push(row + run(cur, s));
     }
-    redEl.innerHTML = out.join("\n");
+    skyEl.innerHTML = out.join("\n");
+  }
+  // the mast: a light climbs it from the roof to the elements, once a bar
+  function drawMast() {
+    var h = Q.mh, out = [], r0 = 0, r1 = 0;
+    if (!h) return;
+    if (live() && A.ph >= 0) { var p = A.ph % 16; r1 = h - Math.round(p * h / 16); r0 = h - Math.round((p + 1) * h / 16); }
+    for (var r = 0; r < h; r++) out.push(r >= r0 && r < r1 ? '<span class="' + A.tc + '">██</span>' : "██");
+    mastEl.innerHTML = out.join("\n");
+  }
+  // the dark windows light up floor by floor, top to bottom, once a bar
+  function lightFloor() {
+    var k = live() && A.ph >= 0 ? Math.floor((A.ph % 16) * floors.length / 16) : -1;
+    if (k === A.fl) return;
+    (floors[A.fl] || []).forEach(function (e) { e.classList.remove("on"); });
+    (floors[k] || []).forEach(function (e) { e.classList.add("on"); });
+    A.fl = k;
+  }
+  // the garden leans one column one way, then the other, on the beat
+  function sway(n) {
+    if (!GARDEN || !Q.walls) return;
+    gd.innerHTML = KG.gardenRows(GARDEN, G.C, Q.goff, n === 1 ? 1 : n === 2 ? -1 : 0, Q.walls);
   }
 
-  // ---------- the moving parts ----------
-  function drawBlue() {
-    var d = D.blue, el = $("pl-blue"); if (!d || !el) return;
-    var lv = live() ? (A.mode === "off" ? 0.35 + A.lvl * 0.3 : A.lvl) : 1, empty = Math.round(d.h * (1 - lv) * 0.6), rows = [];
-    for (var r = 0; r < d.h; r++) rows.push(r < empty ? "" : KG.heartRow(d.x, d.y + r, d.w).replace(/</g, "&lt;"));
-    el.innerHTML = rows.join("\n");
-  }
-  function drawStrip() {
-    var d = D.strip, el = $("strip"); if (!d || !el) return;
-    var rows = [], ln = '<span class="k">' + rep("█", d.w) + "</span>";
-    for (var r = 0; r < d.h; r++) {
-      var yel = A.swap ? r < d.cut : r > d.cut;
-      rows.push(r === d.cut ? ln : yel ? '<span class="y">' + KG.heartRow(d.x, d.y + r, d.w).replace(/</g, "&lt;") + "</span>" : "");
+  // ---------- the antenna ----------
+  function drawAntenna() {
+    var w = Q.ax1 - Q.ax0, rows = [], mx = Q.mx - Q.ax0;
+    for (var y = Q.ty; y <= Q.eY[3]; y++) {
+      var s = rep(" ", w).split(""), k = Q.eY.indexOf(y);
+      if (y === Q.ty) { rows.push(rep(" ", mx) + '<span class="tip">&lt;3</span>' + rep(" ", w - mx - 2)); continue; }
+      s[mx] = s[mx + 1] = "█";
+      if (k >= 0) {
+        var f = [0.28, 0.5, 0.74, 1][k], hL = Math.round(Q.hL * f), hR = Math.round(Q.hR * f);
+        for (var x = mx - hL; x < mx + 2 + hR; x++) if (x >= 0 && x < w) s[x] = "█";
+        if (k === 3) for (x = Q.lx - 1 - Q.ax0; x < Q.lx + 14 - Q.ax0; x++) s[x] = " ";
+      }
+      rows.push(s.join(""));
     }
-    el.innerHTML = rows.join("\n");
+    ant.innerHTML = rows.join("\n");
+    ant.style.width = w * G.cw + "px"; ant.style.height = rows.length * G.lh + "px";
   }
-  function drawH1() {
-    var el = $("ln-h1"); if (!el) return;
-    var C = G.C, i = live() ? A.ph : -1;
-    if (i < 0) { el.textContent = rep("█", C); return; }
-    var x0 = Math.round(i * C / 32), x1 = Math.round((i + 1) * C / 32);
-    el.innerHTML = rep("█", x0) + '<span class="ph">' + rep("█", x1 - x0) + "</span>" + rep("█", C - x1);
-  }
-  var spkCache = {};
-  function drawSpk() {
-    var d = D.spk, el = $("spk"); if (!d || !el) return;
-    var key = (d.narrow ? "n" : "w") + A.spk;
-    if (!spkCache[key]) spkCache[key] = spkFrame(d.narrow ? SPKN : SPK, A.spk);
-    el.innerHTML = spkCache[key];
-  }
-  function drawAll() { renderRed(); drawBlue(); drawStrip(); drawH1(); drawSpk(); }
 
-  // ---------- laying out the painting and everything under it ----------
-  function proj(el, x0, x1, y, h, P, pos, col) {
-    var w = x1 - x0, pic = el.querySelector(".pic"), py, ty;
-    if (pos === "top") { py = y; ty = y + P + 2; KG.hline(x0, y + P, w); }
-    else { py = y + h - P; ty = y + 1; KG.hline(x0, py - 1, w); }
-    var hw = 19, hy = py + Math.floor((P - 1) / 2), hx = x0 + Math.max(0, Math.floor((w - hw) / 2));
-    if (hx & 1) hx++;
-    if (hx + hw > x1) hx = Math.max(x0, x1 - hw);
-    KG.plane(x0, py, w, P, col, null, [{ x: hx, y: hy, w: hw, h: 1 }]);
-    KG.setY(el, ty);
-    var ex = parseFloat(el.style.left) / G.cw;
-    pic.style.left = (hx + 1 - ex) * G.cw + "px";
-    pic.style.top = (hy - ty) * G.lh + "px";
+  // ---------- the tower ----------
+  function tw(k, x0, x1, pad) { KG.setX(S[k], x0 + pad, Math.min(72, x1 - x0 - 2 * pad)); }
+  function setCell(sp, x0, x1, pad) {
+    if (!sp) return;
+    if (sp.k) tw(sp.k, x0, x1, pad);
+    if (sp.a) { tw(sp.a, x0, x1, pad); tw(sp.b, x0, x1, pad); }
+    if (sp.top) { setCell(sp.top, x0, x1, pad); setCell(sp.bot, x0, x1, pad); }
   }
-  function wideSet(g) {
-    var C = g.C, xR = g.xR, p = g.pad, Lw = g.a - 2 * p;
-    g.s = xR + Math.round((C - xR) * 0.6); g.s3 = xR + Math.round((C - xR) * 0.7); g.s4 = xR + Math.round((C - xR) * 0.64);
-    KG.setX(S.hello, p, Lw);
-    KG.setX(S.presents, xR + p, Math.min(72, g.s - xR - 2 * p));
-    KG.setX(S.p1, p, Lw);
-    KG.setX(S.p2, xR + p, Math.min(72, g.s - xR - 2 * p));
-    KG.setX(S.p3, g.s + 2 + p, C - g.s - 2 - 2 * p);
-    KG.setX(S.more, p, Lw);
-    KG.setX(S.writing, p, Lw);
-    KG.setX(S.written, xR + p, Math.min(72, g.s3 - xR - 2 * p));
-    KG.setX(S.pods, xR + p, Math.min(72, g.s4 - xR - 2 * p));
-    KG.setX(S.irl, g.s4 + 2 + p, C - g.s4 - 2 - 2 * p);
-    KG.setX(S.foot, xR + p, Math.min(72, g.v2 - xR - 2 * p));
+  function need(sp) {
+    if (!sp) return 0;
+    if (sp.t === "text") return H[sp.k] + 2 + (sp.under ? 4 : 0);
+    if (sp.t === "proj") return P + H[sp.k] + 3;
+    if (sp.t === "stack") return H[sp.a] + H[sp.b] + 5;
+    return 0;
   }
-  function wideDraw(y, H, g) {
-    var C = g.C, a = g.a, xR = g.xR, s = g.s, h, k;
-    // hello | this website presents | white over yellow
-    h = Math.max(H.hello, H.presents, 8) + 2;
-    KG.setY(S.hello, y + 1); KG.setY(S.presents, y + 1);
-    KG.vline(s, y, h);
-    k = y + Math.round(h * 0.62);
-    KG.hline(s + 2, k, C - s - 2);
-    KG.plane(s + 2, k + 1, C - s - 2, y + h - k - 1, "yellow");
-    y += h; KG.hline(0, y, C); y++;
-    // the three projects: each picture-to-come is a plane of its own colour
-    h = Math.max(8 + H.p1 + 3, H.p2 + 3 + 6, 11 + H.p3 + 3);
-    proj(S.p1, 0, a, y, h, 8, "top", "pink");
-    proj(S.p2, xR, s, y, h, h - H.p2 - 3, "bottom", "yellow");
-    proj(S.p3, s + 2, C, y, h, 11, "top", "blue");
-    KG.vline(s, y, h);
-    y += h; KG.hline(0, y, C); y++;
-    // more projects over my writing | things i've written | white over blue
-    var hm = H.more + 2;
-    h = Math.max(hm + H.writing + 3, H.written + 2);
-    KG.setY(S.more, y + 1);
-    KG.hline(0, y + hm, a, "lo");
-    KG.setY(S.writing, y + hm + 2);
-    KG.setY(S.written, y + 1);
-    KG.vline(g.s3, y, h);
-    k = y + Math.round(h * 0.45);
-    KG.hline(g.s3 + 2, k, C - g.s3 - 2);
-    KG.plane(g.s3 + 2, k + 1, C - g.s3 - 2, y + h - k - 1, "blue");
-    y += h; KG.hline(0, y, C); y++;
-    // pink over white | podcasts | irl
-    h = Math.max(H.pods, H.irl, 8) + 2;
-    k = y + Math.round(h * 0.4);
-    KG.plane(0, y, a, k - y, "pink"); KG.hline(0, k, a);
-    KG.setY(S.pods, y + 1); KG.setY(S.irl, y + 1);
-    KG.vline(g.s4, y, h);
-    y += h; KG.hline(0, y, C); y++;
-    // blue runs off the bottom left, and the yellow sliver comes back at the bottom right
-    h = H.foot + 5;
-    KG.plane(0, y, a, h, "blue");
-    KG.setY(S.foot, y + 1);
-    KG.vline(g.v2, y, h);
-    k = y + Math.round(h * 0.45);
-    KG.hline(g.v2 + 2, k, g.sw);
-    KG.plane(g.v2 + 2, k + 1, g.sw, y + h - k - 1, "yellow");
-    return y + h;
+  function dark(x, y, w, h, f) { KG.plane(x, y, w, h, "dk", null, ' data-f="' + f + '"'); }
+  function drawCell(sp, x0, x1, y, h, f) {
+    var w = x1 - x0, k;
+    if (!sp || h <= 0 || w <= 0) return;
+    if (sp.t === "text") {
+      KG.setY(S[sp.k], y + 1);
+      k = y + H[sp.k] + 2;
+      if (sp.under && y + h - k > 2) { KG.hline(x0, k, w); KG.plane(x0, k + 1, w, y + h - k - 1, "c-" + sp.under); }
+    } else if (sp.t === "proj") {
+      var el = S[sp.k], pic = el.querySelector(".pic"), hw = 19;
+      var hy = y + Math.floor((P - 1) / 2), hx = x0 + Math.max(0, Math.floor((w - hw) / 2));
+      if (hx & 1) hx++;
+      if (hx + hw > x1) hx = Math.max(x0, x1 - hw);
+      KG.plane(x0, y, w, P, "c-" + sp.c, [{ x: hx, y: hy, w: hw, h: 1 }]);
+      KG.hline(x0, y + P, w);
+      KG.setY(el, y + P + 2);
+      pic.style.left = (hx + 1 - KG.colOf(el)) * G.cw + "px";
+      pic.style.top = (hy - y - P - 2) * G.lh + "px";
+    } else if (sp.t === "stack") {
+      KG.setY(S[sp.a], y + 1);
+      k = y + H[sp.a] + 2;
+      KG.hline(x0, k, w);
+      KG.setY(S[sp.b], k + 2);
+    } else if (sp.t === "fill") {
+      KG.plane(x0, y, w, h, "c-" + sp.c);
+    } else if (sp.t === "dark") {
+      dark(x0, y, w, h, f);
+    } else if (sp.t === "split") {
+      k = y + Math.max(2, Math.min(h - 3, Math.round(h * sp.f)));
+      drawCell(sp.top, x0, x1, y, k - y, f);
+      KG.hline(x0, k, w);
+      drawCell(sp.bot, x0, x1, k + 1, y + h - k - 1, f);
+    }
   }
-  function narrowSet(g) {
-    var xR = g.xR, p = g.pad, tw = Math.min(72, g.C - xR - 2 * p);
-    g.sp = g.C - xR >= 30 ? Math.round((g.C - xR) * 0.3) : 0;
-    ["hello", "presents", "p1", "p2", "p3", "writing", "written", "pods", "foot"].forEach(function (k) { KG.setX(S[k], xR + p, tw); });
-    var sw2 = g.sp ? Math.min(72, g.C - xR - g.sp - 2 - 2 * p) : tw;
-    KG.setX(S.more, xR + p, sw2); KG.setX(S.irl, xR + p, sw2);
-  }
-  function narrowDraw(y, H, g) {
-    var C = g.C, a = g.a, xR = g.xR;
-    var seq = [["hello", "white"], ["presents", "yellow"], ["p1", "white", "pink"], ["p2", "white", "yellow"], ["p3", "white", "blue"],
-      ["more", "white", 0, "yellow"], ["writing", "pink"], ["written", "white"], ["pods", "white"], ["irl", "white", 0, "blue"], ["foot", "blue"]];
-    seq.forEach(function (it, i) {
-      var id = it[0], el = S[id], fill = it[1], last = i === seq.length - 1, h;
-      if (it[2]) { h = 6 + H[id] + 3; proj(el, xR, C, y, h, 6, "top", it[2]); }
-      else { h = H[id] + 2; KG.setY(el, y + 1); }
-      if (it[3] && g.sp) { KG.vline(C - g.sp - 2, y, h); KG.plane(C - g.sp, y, g.sp, h, it[3]); }
-      if (last) h += 3;
-      if (fill !== "white") KG.plane(0, y, a, h, fill);
-      if (last) { y += h; return; }
-      var merge = fill === "white" && seq[i + 1][1] === "white";
-      KG.hline(merge ? a : 0, y + h, merge ? C - a : C);
-      y += h + 1;
-    });
-    return y;
-  }
+  // floor by floor, from the top. kes first, then the cv, the projects, the links, and the ground floor
+  var WIDE = [
+    { L: { t: "split", f: 0.5, top: { t: "white" }, bot: { t: "fill", c: "blue" } }, M: { t: "text", k: "hello" }, R: { t: "white" } },
+    { L: { t: "fill", c: "yellow" }, M: { t: "text", k: "presents" }, R: { t: "split", f: 0.55, top: { t: "dark" }, bot: { t: "white" } } },
+    { L: { t: "proj", k: "p1", c: "pink" }, M: { t: "proj", k: "p2", c: "yellow" }, R: { t: "proj", k: "p3", c: "blue" } },
+    { L: { t: "stack", a: "more", b: "writing" }, M: { t: "text", k: "written" }, R: { t: "split", f: 0.45, top: { t: "dark" }, bot: { t: "fill", c: "pink" } } },
+    { L: { t: "dark" }, M: { t: "text", k: "pods" }, R: { t: "text", k: "irl", under: "yellow" } },
+    { L: { t: "fill", c: "blue" }, M: { t: "text", k: "foot" }, R: { t: "split", f: 0.5, top: { t: "dark" }, bot: { t: "white" } } }
+  ];
+  var NARROW = [
+    { M: { t: "text", k: "hello" }, R: { t: "white" } },
+    { M: { t: "text", k: "presents" }, R: { t: "fill", c: "yellow" } },
+    { M: { t: "proj", k: "p1", c: "pink" }, R: { t: "dark" } },
+    { M: { t: "proj", k: "p2", c: "yellow" }, R: { t: "dark" } },
+    { M: { t: "proj", k: "p3", c: "blue" }, R: { t: "dark" } },
+    { M: { t: "text", k: "more" }, R: { t: "fill", c: "blue" } },
+    { M: { t: "text", k: "writing" }, R: { t: "dark" } },
+    { M: { t: "text", k: "written" }, R: { t: "dark" } },
+    { M: { t: "text", k: "pods" }, R: { t: "fill", c: "pink" } },
+    { M: { t: "text", k: "irl" }, R: { t: "dark" } },
+    { M: { t: "text", k: "foot" }, R: { t: "fill", c: "yellow" } }
+  ];
+
   function layout() {
     KG.grid();
-    var C = G.C, R0 = G.R0, wide = C >= 130, pad = C < 70 ? 1 : 2;
-    doc.classList.toggle("wide", wide);
-    KG.begin(); D = {};
-    var a = wide ? Math.round(C * 0.27) : Math.max(5, Math.round(C * 0.19)), xR = a + 2;
-    var sw = wide ? Math.max(8, C - Math.round(C * 0.905) - 2) : Math.max(3, Math.round(C * 0.1)), v2 = C - sw - 2;
-    var g = { C: C, a: a, xR: xR, pad: pad, sw: sw, v2: v2 };
-    KG.setX(fm, xR + pad, Math.min(104, v2 - xR - 2 * pad));
-    (wide ? wideSet : narrowSet)(g);
-    var H = {};
-    Object.keys(S).forEach(function (k) { H[k] = KG.rows(S[k]); });
-    var fmRows = KG.rows(fm), fr = fm.getBoundingClientRect(), ib = fm.querySelector(".ident").getBoundingClientRect();
-    var restRows = Math.ceil((ib.bottom - fr.top) / G.lh - 0.05);
-    // the painting: red square upper right, the long line about two thirds down
-    var h1 = Math.min(Math.round(R0 * 0.68), R0 - restRows - 3);
-    h1 = Math.max(h1, Math.min(wide ? 24 : 36, R0 - 8));
-    var bandTop = h1 + 1, bandH = Math.max(R0 - bandTop, fmRows + 2);
-    red = buildRed(xR, 0, C - xR, h1, wide);
-    var spkIn = wide && a >= 40 && h1 - 18 >= 5;
-    KG.hline(0, spkIn ? Math.min(Math.round(R0 * 0.31), h1 - 18) : Math.round(h1 * 0.42), a);
-    if (spkIn) {
-      var sx = Math.max(1, Math.floor((a - 37) / 2));
-      D.spk = { narrow: false };
-      KG.pre(sx, h1 - 16, a - sx, 16, "spk", "", "spk");
+    var C = G.C, R0 = G.R0, wide = C >= 120, mid = !wide && C >= 76;
+    var m = wide ? Math.round(C * 0.06) : mid ? 3 : 1;
+    var tx0 = m, tx1 = C - m, ix0 = tx0 + 2, ix1 = tx1 - 2, Wi = ix1 - ix0, pad = wide ? 2 : 1;
+    P = wide ? 7 : 6;
+    KG.begin();
+
+    // KES FM's few words sit in the top corner of the sky
+    var dw = wide ? Math.min(88, Wi - 6) : mid ? Math.min(60, C - 6) : C - 4;
+    var dx = wide ? ix1 - dw : mid ? C - 3 - dw : 2;
+    KG.setX(fm, dx, dw); KG.setY(fm, 1);
+    var dRows = KG.rows(fm);
+
+    // the tower's columns: a stairwell strip, and on wide screens a strip each side
+    var cols, plan;
+    if (wide) {
+      var v1 = ix0 + Math.round(Wi * 0.22); if (v1 & 1) v1++;
+      var v2 = v1 + 2 + Math.min(76, Math.round(Wi * 0.52));
+      cols = [["L", ix0, v1], ["M", v1 + 2, v2], ["R", v2 + 2, ix1]]; plan = WIDE;
+      Q.v = [v1, v2];
+    } else {
+      var rw = Math.max(5, Math.round(Wi * (mid ? 0.2 : 0.15))), vR = ix1 - rw - 2;
+      cols = [["M", ix0, vR], ["R", vR + 2, ix1]]; plan = NARROW;
+      Q.v = [vR];
     }
-    KG.hline(0, h1, C, null, "ln-h1");
-    D.blue = { x: 0, y: bandTop, w: a, h: bandH };
-    KG.pre(0, bandTop, a, bandH, "pl c-blue", "", "pl-blue");
-    KG.setY(fm, bandTop + 1);
-    KG.vline(v2, bandTop, bandH);
-    D.strip = { x: v2 + 2, y: bandTop, w: sw, h: bandH, cut: Math.max(2, Math.round(Math.max(4, R0 - bandTop) * 0.46)) };
-    KG.pre(v2 + 2, bandTop, sw, bandH, "pl", "", "strip");
-    var y = bandTop + bandH;
-    KG.hline(0, y, C); y++;
-    if (!spkIn) {
-      var px = xR + pad;
-      D.spk = { narrow: C - px < 41 };
-      KG.pre(px, y + 1, C - px, 16, "spk", "", "spk");
-      y += 18; KG.hline(0, y, C); y++;
+    plan.forEach(function (fl) { cols.forEach(function (c) { setCell(fl[c[0]], c[1], c[2], pad); }); });
+    KEYS.forEach(function (k) { H[k] = KG.rows(S[k]); });
+
+    // the crown of the tower: her name in hearts, under the roof
+    var F = KG.FONT, opts = [[2, "full"], [2, "name"], [2, "kesh"], [2, "kes"], [1, "kesh"], [1, "kes"]], cr = opts[opts.length - 1];
+    for (var i = 0; i < opts.length; i++) if (F[opts[i][1]][0].length * opts[i][0] + 6 <= Wi) { cr = opts[i]; break; }
+    var crH = 11, cpad = wide ? 4 : 2;
+    var roofY = Math.max(dRows + 24, R0 - crH - 2);
+    var crownW = F[cr[1]][0].length * cr[0] + 2 * cpad + (cr[0] === 2 ? 1 : 0);
+    if (Wi - crownW - 2 < 6) crownW = Wi;
+
+    // ---- the sky and the antenna ----
+    var ty = dRows + 2, span = roofY - ty;
+    var s = Math.max(2, Math.min(4, Math.round(span / 10)));
+    var eY = [ty + 2, ty + 2 + s, ty + 2 + 2 * s, ty + 2 + 3 * s];
+    var mx = wide ? ix0 + Math.round(Wi * 0.3) : Math.min(Math.round(C / 2) - 1, C - 29);
+    if (mx & 1) mx--;
+    var hR = Math.max(20, Math.round(Wi * (wide ? 0.19 : 0.36)));
+    var hL = Math.min(hR, mx - 1);
+    hR = Math.min(hR, C - 1 - mx - 2);
+    var lx = mx + 5;
+    Q = { roofY: roofY, ty: ty, tx: mx + 1, mx: mx, eY: eY, hL: hL, hR: hR, lx: lx, ax0: mx - hL, ax1: mx + 2 + hR, v: Q.v };
+    Q.mh = roofY - eY[3] - 1;
+    Q.mask = new Uint8Array(C * roofY); Q.wire = new Uint8Array(C * roofY);
+    function mk(x, y, w, h, bit) {
+      for (var yy = Math.max(0, y); yy < Math.min(roofY, y + h); yy++)
+        for (var xx = Math.max(0, x); xx < Math.min(C, x + w); xx++) Q.mask[yy * C + xx] |= bit;
     }
-    y = (wide ? wideDraw : narrowDraw)(y, H, g);
-    KG.vline(a, 0, y);
-    page.style.height = y * G.lh + "px";
+    mk(lx - 1, eY[3], 15, 1, 1);                 // the label's slot in the bottom element
+    mk(dx - 1, 0, dw + 2, dRows + 2, 2);          // KES FM's words, once you're in
+    var qx = Math.min(lx, C - 26);
+    mk(qx - 1, eY[3] + 2, 26, 1, 4);              // the quiet way in, while gated
+    // guy wires from under the elements down to the roof
+    var wy0 = eY[3] + 2, wy1 = roofY - 1, spread = Math.round((wy1 - wy0 + 1) * (G.lh / G.cw) * 0.62);
+    var wl = Math.max(ix0 + 1, mx - 1 - spread), wr = Math.min(ix1 - 2, mx + 2 + spread);
+    for (var y = wy0; y <= wy1; y++) {
+      var t = (y - wy0 + 1) / (wy1 - wy0 + 1);
+      Q.wire[y * C + Math.round(mx - 1 - t * (mx - 1 - wl))] = 1;
+      Q.wire[y * C + Math.round(mx + 2 + t * (wr - mx - 2))] = 1;
+    }
+    var far = 0, kk = G.cw / G.lh;
+    [[0, 0], [C, 0], [0, roofY], [C, roofY]].forEach(function (p) { var ddx = (p[0] - Q.tx) * kk, ddy = p[1] - ty; far = Math.max(far, Math.sqrt(ddx * ddx + ddy * ddy)); });
+    A.maxR = far; A.v = Math.max(2, far / 9);
+
+    // ---- the roof and the crown ----
+    KG.hline(tx0, roofY, tx1 - tx0);
+    var cy = roofY + 1, rows = F[cr[1]];
+    KG.sign(ix0, cy, crownW, crH, rows, cr[0], cpad, "crown");
+    if (crownW < Wi) {
+      var rx = ix0 + crownW + 2, rest = ix1 - rx;
+      KG.vline(ix0 + crownW, cy, crH);
+      if (rest >= 28) {
+        var yw = Math.round(rest * 0.42);
+        KG.vline(ix1 - yw - 2, cy, crH);
+        KG.plane(ix1 - yw, cy, yw, crH, "c-yellow");
+      } else KG.plane(rx, cy, rest, crH, "c-yellow");
+    }
+    var y0 = cy + crH;
+    KG.hline(tx0, y0, tx1 - tx0);
+
+    // ---- the floors ----
+    var yy = y0 + 1;
+    plan.forEach(function (fl, fi) {
+      var h = 4;
+      cols.forEach(function (c) { h = Math.max(h, need(fl[c[0]])); });
+      cols.forEach(function (c) { drawCell(fl[c[0]], c[1], c[2], yy, h, fi); });
+      yy += h;
+      if (fi < plan.length - 1) { KG.hline(tx0, yy, tx1 - tx0); yy++; }
+    });
+    // ---- the garden: the tower's walls go down into it ----
+    var gY = yy, total = gY + 6;
+    KG.vline(tx0, roofY, gY - roofY);
+    KG.vline(tx1 - 2, roofY, gY - roofY);
+    Q.v.forEach(function (v) { KG.vline(v, y0, gY - y0); });
+    page.style.height = total * G.lh + "px";
     KG.end(art);
-    go.style.left = red.x * G.cw + "px"; go.style.top = "0px";
-    go.style.width = red.w * G.cw + "px"; go.style.height = red.h * G.lh + "px";
-    redEl.style.width = red.w * G.cw + "px"; redEl.style.height = red.h * G.lh + "px";
-    lab.style.left = (red.lx + 1) * G.cw + "px"; lab.style.top = red.ly * G.lh + "px";
-    drawAll();
+    floors = [];
+    [].forEach.call(art.querySelectorAll("[data-f]"), function (e) { var f = +e.getAttribute("data-f"); (floors[f] = floors[f] || []).push(e); });
+    A.fl = -1;
+    Q.walls = new Uint8Array(C);
+    [tx0, tx1 - 2].concat(Q.v).forEach(function (v) { Q.walls[v] = 1; Q.walls[v + 1] = 2; });
+    Q.goff = wide ? 0 : 1;
+    KG.box(gardenEl, 0, gY, C, 6); KG.box(gd, 0, 0, C, 6);
+    sway(live() ? A.lean : 0);
+
+    // ---- place the moving parts ----
+    KG.box(skyEl, 0, 0, C, roofY);
+    KG.box(mastEl, mx, eY[3] + 1, 2, Q.mh);
+    KG.box(go, Q.ax0, ty, Q.ax1 - Q.ax0, eY[3] - ty + 1);
+    lab.style.left = (lx - Q.ax0) * G.cw + "px"; lab.style.top = (eY[3] - ty) * G.lh + "px";
+    KG.setX(quietp, qx, 25); KG.setY(quietp, eY[3] + 2);
+    drawAntenna(); drawMast(); drawSky(); lightFloor();
     doc.classList.add("ready");
   }
   function safe() {
@@ -996,15 +1041,18 @@ var KG = (function () {
     var t = info.textContent, m = /bass: (\w+)/.exec(t);
     A.mode = m ? m[1] : "sub"; A.cute = /cute: on/.test(t);
   }
-  function spawn(c, inward, thick) { A.rings.push({ age: 0, r: inward ? A.maxR : 0, c: c, inward: inward, t: thick ? 1.6 : 0.95 }); }
+  function spawn(inward, thick) {
+    var c = A.cute ? "p" : COLS[A.ci++ % 3];
+    A.rings.push({ age: 0, r: inward ? A.maxR : 0, c: c, inward: inward, t: thick ? 1.5 : 0.85 });
+  }
   function age() {
     A.rings.forEach(function (r) { r.age++; r.r = r.inward ? A.maxR - r.age * A.v : r.age * A.v; });
     A.rings = A.rings.filter(function (r) { return r.r > -1 && r.r < A.maxR + 1; });
   }
   function rest() {
     clearInterval(A.rwT); body.classList.remove("rewind");
-    A.rings = []; A.ph = -1; A.lvl = 1; A.spk = 0; A.swap = false; A.n = 0; A.mode = "sub";
-    drawAll();
+    A.rings = []; A.ph = -1; A.lean = 0; sway(0);
+    drawSky(); drawMast(); lightFloor();
   }
   function rewind() {
     body.classList.add("rewind");
@@ -1012,9 +1060,8 @@ var KG = (function () {
     var n = 0;
     A.rwT = setInterval(function () {
       n++;
-      if (n % 2) spawn(3, true, false);
-      age(); A.ph = (A.ph + 31) % 32; A.n--;
-      drawH1(); renderRed();
+      if (n % 2) spawn(true, false);
+      age(); drawSky();
       if (n >= 13) clearInterval(A.rwT);
     }, 85);
   }
@@ -1024,9 +1071,8 @@ var KG = (function () {
       if (m === undefined) { clearInterval(A.rwT); body.classList.remove("rewind"); if (!onAir) rest(); return; }
       if (m === "@") { rewind(); return; }
       readInfo();
-      spawn(A.cute ? 4 : 3, false, m === "^");
-      A.spk ^= 1; drawSpk();
-      if (m === "^") { A.swap = !A.swap; drawStrip(); }
+      spawn(false, m === "^");
+      A.lean = A.lean === 1 ? 2 : 1; sway(A.lean);
     }
   };
   // the 16ths: watch the tracker light up
@@ -1035,29 +1081,27 @@ var KG = (function () {
     var on = tracker.querySelector(".on"); if (!on) return;
     var i = Array.prototype.indexOf.call(tracker.children, on);
     if (i === A.ph) return;
-    A.ph = i; A.n++;
+    A.ph = i;
     var cl = on.classList;
-    if (cl.contains("rev")) spawn(3, true, false);
-    else if (cl.contains("up")) spawn(5, false, false);
-    if (cl.contains("roll")) spawn(A.cute ? 4 : 5, false, false);
+    A.tc = cl.contains("rev") ? "p" : cl.contains("up") ? "b" : "y";
+    if (cl.contains("roll")) spawn(false, false);
     age();
-    A.lvl = i % 4 === 0 ? 1 : A.lvl * 0.84;
-    drawBlue(); drawH1(); renderRed();
+    drawMast(); drawSky(); lightFloor();
   }).observe(tracker, { attributes: true, attributeFilter: ["class"], subtree: true, childList: true });
 
   // ---------- the gate ----------
-  function gated() { return doc.classList.contains("gated"); }
   function enter(how) {
     if (!gated()) return;
     doc.classList.remove("gated");
     try { sessionStorage.setItem("kes-in", "1"); } catch (e) {}
+    drawSky();
     if (how !== "quiet") return;
     setTimeout(function () {
-      var hd = S.hello.querySelector("h2"), top = S.hello.getBoundingClientRect().top + window.pageYOffset - 2 * G.lh;
+      var hd = S.hello.querySelector("h2"), top = S.hello.getBoundingClientRect().top + window.pageYOffset - 3 * G.lh;
       try { window.scrollTo({ top: top, behavior: still ? "auto" : "smooth" }); } catch (e) { window.scrollTo(0, top); }
       hd.setAttribute("tabindex", "-1");
       try { hd.focus({ preventScroll: true }); } catch (e) { hd.focus(); }
-    }, 180);
+    }, 120);
   }
   go.addEventListener("click", function () { enter("play"); });
   $("quiet").addEventListener("click", function () { enter("quiet"); });

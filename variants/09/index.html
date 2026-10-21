@@ -7,22 +7,23 @@
 <meta name="description" content="kes inkersole (kesia on paper), freelance creative strategist and internet equalities researcher based in london.">
 <script>document.documentElement.className = "js";</script>
 <style>
-/* composition with double line and yellow, set in type.
-   white ground, a few black lines (one pair close together), one small yellow plane at an edge.
-   everything is a character on one monospace grid; javascript works the grid out for the viewport. */
+/* composition with double line and yellow, stood up as a london tower block.
+   the double line is the roof's parapet, the yellow plane is the rig on the roof, the antenna is the
+   lozenge's heavy line, the floors hold the content and kes' garden is the ground it stands in.
+   every mark is a character on one monospace grid; javascript works the grid out for the viewport. */
 :root {
-  --white: #ffffff; --ink: #111111; --grey: #6f6f6f; --pale: #c2c2c2;
+  --white: #ffffff; --ink: #111111; --grey: #6f6f6f; --pale: #c2c2c2; --dim: #9a9a9a;
   --pink: #ff1f8f; --blue: #1f2fff; --yellow: #ffd400;
   --mono: ui-monospace, Menlo, Consolas, "DejaVu Sans Mono", "Liberation Mono", monospace;
   --fs: 15px; --rh: 18px; --cw: 9px;
 }
 html { background: var(--white); color: var(--ink); scrollbar-gutter: stable; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 body { margin: 0; background: var(--white); font-family: var(--mono); font-size: var(--fs); line-height: var(--rh); }
-h1, h2, p, ul, pre { margin: 0 0 var(--rh); font: inherit; }
+h1, h2, p, ul { margin: 0 0 var(--rh); font: inherit; }
 h1, h2 { font-weight: 700; }
 ul { list-style: none; padding: 0; }
 li { padding-left: 2ch; text-indent: -2ch; }
-li::before { content: "+ "; content: "+ " / ""; color: var(--grey); }
+li::before { content: "* "; content: "* " / ""; color: var(--grey); }
 a { color: var(--blue); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .2em; }
 a:hover { color: var(--pink); }
 a:focus-visible, button:focus-visible, .vol:focus-within .track { outline: 2px solid var(--pink); outline-offset: 2px; }
@@ -33,7 +34,8 @@ a:focus-visible, button:focus-visible, .vol:focus-within .track { outline: 2px s
 
 /* no javascript: a plain, readable page */
 html:not(.js) body { padding: 16px; max-width: 64ch; }
-html:not(.js) #art, html:not(.js) #hint, html:not(.js) #quietp, html:not(.js) .speaker, html:not(.js) .ticker, html:not(.js) .tower, html:not(.js) .big { display: none; }
+html:not(.js) #art, html:not(.js) #quietp, html:not(.js) #go, html:not(.js) #stat, html:not(.js) .fm, html:not(.js) #role { display: none; }
+html:not(.js) .hearts { margin-bottom: var(--rh); }
 
 /* the grid */
 .js #grid { position: relative; overflow: hidden; overflow: clip; }
@@ -41,59 +43,71 @@ html:not(.js) #art, html:not(.js) #hint, html:not(.js) #quietp, html:not(.js) .s
 .js .blk { position: absolute; left: 0; top: 0; margin: 0; overflow-wrap: anywhere; }
 .js .blk > * { margin: 0 0 var(--rh); }
 .js .blk > :last-child { margin-bottom: 0; }
-.js #art { position: absolute; inset: 0; pointer-events: none; }
+.js #art, .js #art > div { position: absolute; inset: 0; pointer-events: none; }
 .ch { position: absolute; white-space: pre; line-height: var(--rh); }
 .ln { color: var(--ink); }
-.pull .ln { color: var(--pink); }
-.sl { color: var(--pale); }
-.sl.pink, .tram.pink { color: var(--pink); }
-.sl.blue, .tram.blue { color: var(--blue); }
-.sl.yellow, .tram.yellow { color: var(--yellow); }
-.tram { color: var(--blue); }
+.pink { color: var(--pink); } .blue { color: var(--blue); } .yellow { color: var(--yellow); }
 
-/* the name, in kes' own <3 letters */
+/* the antenna */
+.dg, .ring, .beacon { color: var(--pale); }
+.ring.on { color: var(--pink); }
+.dg.pink { color: var(--pink); } .dg.blue { color: var(--blue); }
+.pull .ant, .pull .dg { color: var(--pink); animation: flick .14s steps(1) infinite; }
+@keyframes flick { 50% { color: var(--ink); } }
+.sound.thump { animation: thump .3s steps(1); }
+@keyframes thump { 0% { color: var(--pink); } 100% { color: inherit; } }
+
+/* the tower: windows idle in pale, a few lit, trading places with the music */
+.w { color: var(--pale); }
+.w.pink { color: var(--pink); } .w.blue { color: var(--blue); } .w.yellow { color: var(--yellow); }
+.tower.lit .w.idle { color: var(--dim); }
+
+/* the name, in kes' own <3 letters, painted on the top floor */
 .hearts { display: block; white-space: pre; font-weight: 700; color: var(--ink); }
 .cute .hearts { color: var(--pink); }
 #role { color: var(--grey); }
 
-/* the yellow plane is the play button */
+/* the yellow plane on the roof is the play button */
 #go { position: absolute; padding: 0; margin: 0; border: 0; background: none; font: inherit; color: var(--ink); cursor: pointer; text-align: left; overflow: visible; }
-.tower, .big { position: absolute; left: 0; top: 0; white-space: pre; pointer-events: none; }
-.tower { color: var(--yellow); }
-#go:hover .tower, #go:focus-visible .tower, .tower.lit { color: var(--pink); }
+.fill, .big { position: absolute; left: 0; top: 0; white-space: pre; pointer-events: none; }
+.fill { color: var(--yellow); }
+#go:hover .fill, #go:focus-visible .fill, .b2 #go .fill { color: var(--pink); }
 #go:focus-visible { outline-offset: -4px; outline-color: var(--ink); }
 #stat { pointer-events: none; }
-.narrow #stat .pre { display: none; }
-#hint { color: var(--grey); }
-.js:not(.gated) #hint, .js:not(.gated) #quietp { display: none; }
+.tight #stat .pre { display: none; }
 #quiet, .keys button { padding: 0; margin: 0; border: 0; background: none; font: inherit; color: var(--ink); cursor: pointer; white-space: nowrap; }
 #quiet:hover, .keys button:hover { color: var(--pink); }
+.js:not(.gated) #quietp { display: none; }
 
-/* KES FM, as bracketed words */
+/* KES FM, shrunk to bracketed words on the roof */
 .keys { margin: 0 0 var(--rh); }
-.grp { margin-right: 2ch; }
-.narrow .grp { display: block; margin: 0; }
 .o::before { content: "["; } .c::before { content: "]"; }
 [aria-pressed="true"] .o::before { content: "\2590"; } [aria-pressed="true"] .c::before { content: "\258C"; }
 [aria-pressed="true"] { font-weight: 700; }
-.keys .lbl { margin-right: 1ch; }
-.vol { position: relative; white-space: nowrap; }
-.vol input { position: absolute; left: 4ch; top: 0; width: 12ch; height: var(--rh); margin: 0; opacity: .001; cursor: pointer; }
+.vol { position: relative; white-space: nowrap; color: var(--grey); }
+.vol .track { color: var(--ink); }
+.vol input { position: absolute; left: 4ch; top: 0; width: 11ch; height: var(--rh); margin: 0; opacity: .001; cursor: pointer; }
 .lcd { color: var(--grey); }
-.lcd .p { color: var(--pink); } .lcd .b { color: var(--blue); } .lcd .y { color: var(--yellow); }
-.ticker { overflow: hidden; white-space: nowrap; color: var(--grey); height: var(--rh); }
+.ticker { overflow: hidden; white-space: nowrap; color: var(--grey); height: var(--rh); visibility: hidden; }
+.on-air .ticker { visibility: visible; }
 .ticker > div { display: inline-block; }
 .ticker span { padding-right: 1ch; }
 @keyframes run { to { transform: translateX(-50%); } }
 @media (prefers-reduced-motion: no-preference) { .on-air .ticker > div { animation: run 70s linear infinite; } }
-.gated .ticker { visibility: hidden; }
 .tracker { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
-.speaker { white-space: pre; color: var(--ink); }
-.sound.thump { animation: thump .3s steps(1); }
-@keyframes thump { 0% { color: var(--pink); } 100% { color: inherit; } }
 
-/* projects: the picture still to come is a pale plane */
+/* projects: the picture still to come is a window */
 .js .pic { box-sizing: border-box; height: calc(var(--rh) * 5); padding-top: calc(var(--rh) * 2); color: var(--grey); white-space: nowrap; }
+
+/* the garden the tower stands in */
+.gd { position: absolute; left: 0; white-space: pre; line-height: var(--rh); pointer-events: auto; color: var(--ink); }
+.gd b { font-weight: inherit; }
+.gd .gp { color: var(--pink); } .gd .gb, .gd .gl { color: var(--blue); } .gd .gy { color: var(--yellow); } .gd .gg { color: var(--grey); }
+.gd s, .gd u { text-decoration: none; }
+.gd u, .gd:hover s, .on-air .gd s { display: none; }
+.gd:hover u, .on-air .gd u { display: inline; }
+.sway-l .heads { transform: translateX(calc(var(--cw) * -1)); }
+.sway-r .heads { transform: translateX(var(--cw)); }
 
 .floatstop { position: fixed; left: auto; right: 16px; bottom: 16px; z-index: 5; padding: 0; border: 0; background: none; font: inherit; cursor: pointer; color: var(--white); }
 .floatstop[hidden] { display: none; }
@@ -106,45 +120,33 @@ html:not(.js) #art, html:not(.js) #hint, html:not(.js) #quietp, html:not(.js) .s
 <body>
 <div id="probebox" aria-hidden="true"><span id="probe">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span></div>
 <div id="grid">
-<div id="art" aria-hidden="true"></div>
+<div id="art" aria-hidden="true"><div id="sky"></div><div id="block" class="tower"></div><div id="ground"></div><span class="ch beacon sound" id="beacon">▄▄</span></div>
 
 <header id="gate">
 <h1 id="name" class="blk"><span class="sr">kes inkersole</span><span class="hearts" aria-hidden="true">&lt;3 kes inkersole &lt;3</span></h1>
 <p id="role" class="blk" aria-hidden="true">creative strategist, internet equalities researcher, london.</p>
-<button class="go blk" id="go" type="button" aria-pressed="false" aria-label="play KES FM"><span class="tower" aria-hidden="true"></span><span class="big" aria-hidden="true"></span><span class="nojs">&#9654; play KES FM</span></button>
+<button class="blk" id="go" type="button" aria-pressed="false" aria-label="play KES FM"><span class="fill" aria-hidden="true"></span><span class="big" aria-hidden="true"></span><span class="nojs">&#9654; play KES FM</span></button>
 <p id="stat" class="blk"><span class="pre" aria-hidden="true">KES FM 170.0 · </span><span class="status" id="status" role="status">off air</span></p>
-<p id="hint" class="blk" aria-hidden="true">KES FM 170.0 · it's not a real station, it's this website: a little jungle machine running in your browser. nothing plays until you press play.</p>
 <p id="quietp" class="blk"><button id="quiet" type="button"><span aria-hidden="true">[</span>enter without sound<span aria-hidden="true"> &#8595;]</span></button></p>
 </header>
 
 <section class="fm" id="fm" aria-labelledby="fm-h">
-<h2 id="fm-h" class="blk">KES FM 170.0</h2>
-<p class="ident blk" id="ident">you're locked to KES FM. it's not a real station, it's this website: a little jungle machine running in your browser, every drum and bassline synthesised live, no samples, no files. nothing plays until you press play, and stop always stops it &lt;3</p>
+<h2 id="fm-h" class="sr">KES FM 170.0</h2>
 <div class="deck blk" id="deck">
 <div class="tracker" id="tracker" aria-hidden="true"></div>
 <div class="keys">
-<span class="grp"><button class="stop" id="stop" type="button"><span class="o" aria-hidden="true"></span>&#9632; stop<span class="c" aria-hidden="true"></span></button></span>
-<span class="grp" role="group" aria-label="break"><span class="lbl">break</span><button type="button" data-break="straight" aria-pressed="true"><span class="o" aria-hidden="true"></span>straight<span class="c" aria-hidden="true"></span></button> <button type="button" data-break="chopped" aria-pressed="false"><span class="o" aria-hidden="true"></span>chopped<span class="c" aria-hidden="true"></span></button> <button type="button" data-break="rollin" aria-pressed="false"><span class="o" aria-hidden="true"></span>rollin'<span class="c" aria-hidden="true"></span></button> <button type="button" id="chop" aria-pressed="false"><span class="o" aria-hidden="true"></span>x chop it<span class="c" aria-hidden="true"></span></button></span>
-<span class="grp" role="group" aria-label="bass"><span class="lbl">bass</span><button type="button" data-bass="sub" aria-pressed="true"><span class="o" aria-hidden="true"></span>sub<span class="c" aria-hidden="true"></span></button> <button type="button" data-bass="reese" aria-pressed="false"><span class="o" aria-hidden="true"></span>reese<span class="c" aria-hidden="true"></span></button> <button type="button" data-bass="off" aria-pressed="false"><span class="o" aria-hidden="true"></span>off<span class="c" aria-hidden="true"></span></button></span>
-<span class="grp"><button type="button" id="cute" aria-pressed="false"><span class="o" aria-hidden="true"></span>&lt;3 cute<span class="c" aria-hidden="true"></span></button> <button type="button" id="pullup"><span class="o" aria-hidden="true"></span>&lt;&lt; pull up<span class="c" aria-hidden="true"></span></button> <button type="button" id="siren"><span class="o" aria-hidden="true"></span>siren<span class="c" aria-hidden="true"></span></button></span>
-<span class="grp"><label class="vol">vol <span class="track" aria-hidden="true">━━━━━━■─────</span><input type="range" id="vol" min="0" max="1" step="0.05" value="0.5"></label></span>
+<button class="stop" id="stop" type="button"><span class="o" aria-hidden="true"></span>&#9632; stop<span class="c" aria-hidden="true"></span></button>
+<button type="button" id="brk"><span class="o" aria-hidden="true"></span>break<span class="c" aria-hidden="true"></span></button>
+<button type="button" id="bss"><span class="o" aria-hidden="true"></span>bass<span class="c" aria-hidden="true"></span></button>
+<button type="button" id="cute" aria-pressed="false"><span class="o" aria-hidden="true"></span>cute<span class="c" aria-hidden="true"></span></button>
+<button type="button" id="pullup"><span class="o" aria-hidden="true"></span>pull up<span class="c" aria-hidden="true"></span></button>
+<button type="button" id="siren"><span class="o" aria-hidden="true"></span>siren<span class="c" aria-hidden="true"></span></button>
+<label class="vol">vol <span class="track" aria-hidden="true">━━━━━■─────</span><input type="range" id="vol" min="0" max="1" step="0.05" value="0.5"></label>
+<span class="engine" hidden><button type="button" data-break="straight" aria-pressed="true">straight</button><button type="button" data-break="chopped" aria-pressed="false">chopped</button><button type="button" data-break="rollin" aria-pressed="false">rollin'</button><button type="button" id="chop" aria-pressed="false">chop it</button><button type="button" data-bass="sub" aria-pressed="true">sub</button><button type="button" data-bass="reese" aria-pressed="false">reese</button><button type="button" data-bass="off" aria-pressed="false">off</button></span>
 </div>
-<p class="lcd" aria-hidden="true"><span id="lcdinfo">break: straight · bass: sub · cute: off</span> · the tram rides the break: <span class="b">█</span> slice <span class="p">█</span> reversed <span class="y">█</span> pitched up</p>
-<div class="ticker" aria-hidden="true"><div><span>big up all the junglists &lt;3 big up everyone reading the source code &lt;3 big up the UAL lot, LCF + CCI &lt;3 big up Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges &lt;3 text in: inkersolekesia@gmail.com &lt;3 respect to the sound systems, pirates and producers who built all this &lt;3 lorem ipsum dolor sit amet &lt;3</span><span>big up all the junglists &lt;3 big up everyone reading the source code &lt;3 big up the UAL lot, LCF + CCI &lt;3 big up Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges &lt;3 text in: inkersolekesia@gmail.com &lt;3 respect to the sound systems, pirates and producers who built all this &lt;3 lorem ipsum dolor sit amet &lt;3</span></div></div>
+<p class="lcd" aria-hidden="true"><span id="lcdinfo">break: straight · bass: sub · cute: off</span></p>
 </div>
-<p class="textin blk" id="textin">text in your shout-outs: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
-<pre class="speaker blk" id="speaker" aria-hidden="true">        <span class="sound">\(^o^)/</span>       <span class="sound">&lt;3</span>
-▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
-▌ ▐██▌    ▗▄▄▖ ▐▌ ▐██▌    ▗▄▄▖ ▐
-▌ ▐██▌    ▝▀▀▘ ▐▌ ▐██▌    ▝▀▀▘ ▐
-▙▄▄▄▄▄▄▄▄▄▄▄▄▄▄▟▙▄▄▄▄▄▄▄▄▄▄▄▄▄▄▟
-▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
-▌   ▗▄▀▀▀▀▄▖   ▐▌   ▗▄▀▀▀▀▄▖   ▐ <span class="sound">)</span>
-▌  ▐   <span class="sound">&lt;3</span>   ▌  ▐▌  ▐   <span class="sound">&lt;3</span>   ▌  ▐ <span class="sound">))</span>
-▌   ▝▀▄▄▄▄▀▘   ▐▌   ▝▀▄▄▄▄▀▘   ▐ <span class="sound">)))</span>
-▌              ▐▌              ▐ <span class="sound">))</span>
-▌    KES FM    ▐▌   170.0 FM   ▐ <span class="sound">)</span>
-▙▄▄▄▄▄▄▄▄▄▄▄▄▄▄▟▙▄▄▄▄▄▄▄▄▄▄▄▄▄▄▟</pre>
+<div class="ticker blk" aria-hidden="true"><div><span>big up all the junglists ✦ big up everyone reading the source code ✦ big up the UAL lot, LCF + CCI ✦ big up Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges ✦ text in: inkersolekesia@gmail.com ✦ respect to the sound systems, pirates and producers who built all this ✦ lorem ipsum dolor sit amet ✦</span><span>big up all the junglists ✦ big up everyone reading the source code ✦ big up the UAL lot, LCF + CCI ✦ big up Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges ✦ text in: inkersolekesia@gmail.com ✦ respect to the sound systems, pirates and producers who built all this ✦ lorem ipsum dolor sit amet ✦</span></div></div>
 </section>
 
 <main id="site">
@@ -552,15 +554,16 @@ function look(mark) { if (window.kesLook) window.kesLook(mark); }
 </script>
 
 <script>
-/* the composition: a grid of C columns that fills the width exactly, worked out the same way every time */
+/* the scene: sky and antenna, the roof, the floors, the garden. a grid of C columns that fills the width exactly. */
 (function () {
   var root = document.documentElement, $ = function (s) { return document.querySelector(s); };
-  var art = $("#art"), grid = $("#grid"), probe = $("#probe"), tracker = $("#tracker");
-  var M = {}, sleepers = [], tram = null, beat = 0, idle = "░";
-  var gated = true;
+  var grid = $("#grid"), probe = $("#probe"), tracker = $("#tracker");
+  var sky = $("#sky"), block = $("#block"), ground = $("#ground"), beacon = $("#beacon");
+  var M = {}, S = {}, O = [], wins = [], rows = {}, storeys = [], rings = [], dgs = [], mlight = null;
+  var beat = 0, idle = "░", hotRow = -1, gated = true;
   try { gated = !sessionStorage.getItem("kes-in"); } catch (e) {}
   root.classList.toggle("gated", gated);
-  var nojs = document.querySelector("#go .nojs"); if (nojs) nojs.remove();
+  var nojs = $("#go .nojs"); if (nojs) nojs.remove();
 
   function rep(c, n) { return n > 0 ? new Array(n + 1).join(c) : ""; }
   function rect(line, n) { var a = []; for (var i = 0; i < n; i++) a.push(line); return a.join("\n"); }
@@ -568,7 +571,7 @@ function look(mark) { if (window.kesLook) window.kesLook(mark); }
 
   function metrics() {
     var W = grid.clientWidth || root.clientWidth;
-    var C = Math.max(34, Math.round(W / (W < 760 ? 8.5 : 8.8)));
+    var C = Math.max(34, Math.round(W / (W < 600 ? 8.5 : 8.8)));
     var cw = W / C, fs = cw / 0.602;
     for (var k = 0; k < 3; k++) {
       probe.style.fontSize = fs + "px";
@@ -580,37 +583,93 @@ function look(mark) { if (window.kesLook) window.kesLook(mark); }
     root.style.setProperty("--fs", fs + "px");
     root.style.setProperty("--rh", rh + "px");
     root.style.setProperty("--cw", cw + "px");
-    root.classList.toggle("narrow", C < 110);
   }
 
-  /* drawing: every mark is a run of characters placed on the grid */
-  function put(c, r, txt, cls) {
+  /* every mark is a run of characters placed on the grid; the sky keeps a map of what's taken */
+  function occ(c0, r0, c1, r1) {
+    for (var r = Math.max(0, r0); r <= r1 && r < O.length; r++)
+      for (var c = Math.max(0, c0); c <= c1 && c < M.C; c++) O[r][c] = 1;
+  }
+  function free(c, r) { return r >= 0 && r < O.length && c >= 0 && c < M.C && !O[r][c]; }
+  function put(layer, c, r, txt, cls) {
     var e = document.createElement("span");
     e.className = "ch " + (cls || "");
     e.style.left = (c * M.cw) + "px"; e.style.top = (r * M.rh) + "px";
-    e.textContent = txt; art.appendChild(e); return e;
+    e.textContent = txt; layer.appendChild(e); return e;
   }
-  function H(r, c0, c1) { return put(c0, r, rep("█", c1 - c0 + 1), "ln"); }
-  function V(c, r0, r1) { return put(c, r0, rect("██", r1 - r0 + 1), "ln"); }
-  function paintS(s, col) {
-    var g = col ? "█" : idle, rows = [];
-    for (var i = 0; i < s.h; i++) {
-      var l = rep(g, s.w);
-      if (s.slot && i === s.slot.r) l = l.slice(0, s.slot.a) + rep(" ", s.slot.b - s.slot.a) + l.slice(s.slot.b);
-      rows.push(l);
-    }
-    s.el.textContent = rows.join("\n");
-    s.el.className = "ch pl sl" + (col ? " " + col : "");
-    s.col = col;
+  function H(layer, r, c0, c1, cls) {
+    c0 = Math.max(0, c0); c1 = Math.min(M.C - 1, c1);
+    if (c1 < c0) return null;
+    occ(c0 - 1, r, c1 + 1, r);
+    return put(layer, c0, r, rep("█", c1 - c0 + 1), "ln" + (cls ? " " + cls : ""));
   }
-  function sleeper(c0, r0, c1, r1, slot) {
-    if (c1 < c0 || r1 < r0) return;
-    var s = { w: c1 - c0 + 1, h: r1 - r0 + 1, slot: slot, el: put(c0, r0, "", "pl sl") };
-    paintS(s, null); sleepers.push(s); return s;
+  function V(layer, c, r0, r1, cls) {
+    if (r1 < r0) return null;
+    occ(c - 1, r0, c + 2, r1);
+    return put(layer, c, r0, rect("██", r1 - r0 + 1), "ln" + (cls ? " " + cls : ""));
+  }
+  /* a shape: runs of cells, row by row, drawn in one glyph */
+  function shape(layer, cells, cls) {
+    var rs = {}, r0 = 1e9, r1 = -1, c0 = 1e9;
+    cells.forEach(function (x) {
+      var a = Math.max(0, x[1]), b = Math.min(M.C - 1, x[2]);
+      if (b < a || x[0] < 0) return;
+      (rs[x[0]] = rs[x[0]] || []).push([a, b]);
+      r0 = Math.min(r0, x[0]); r1 = Math.max(r1, x[0]); c0 = Math.min(c0, a);
+    });
+    if (r1 < 0) return null;
+    var sh = { c: c0, rows: [] };
+    for (var r = r0; r <= r1; r++) sh.rows.push((rs[r] || []).sort(function (p, q) { return p[0] - q[0]; }));
+    sh.el = put(layer, c0, r0, "", cls);
+    return sh;
+  }
+  function draw(sh, g) {
+    sh.el.textContent = sh.rows.map(function (segs) {
+      var l = "", at = sh.c;
+      segs.forEach(function (s) { if (s[0] < at) return; l += rep(" ", s[0] - at) + rep(g, s[1] - s[0] + 1); at = s[1] + 1; });
+      return l;
+    }).join("\n");
   }
   function at(el, c, r, w) {
     el.style.left = (c * M.cw) + "px"; el.style.top = (r * M.rh) + "px"; el.style.width = (w * M.cw) + "px";
     return Math.max(1, Math.round(el.offsetHeight / M.rh));
+  }
+
+  /* windows: pale until lit. a few are lit at rest; with the music they trade places */
+  function hash(j) { var x = Math.imul(j + 7, 2654435761) >>> 0; x = (x ^ (x >>> 15)) >>> 0; return (Math.imul(x, 2246822519) >>> 0) % 1013; }
+  function tint(k, b) { var m = (k + b * 7) % 26; return m === 0 ? "pink" : m === 9 ? "blue" : m === 18 ? "yellow" : null; }
+  function win(c, r, w, h, slot) {
+    var s = { w: w, h: h, slot: slot, k: hash(wins.length), hot: null };
+    s.col = tint(s.k, beat);
+    s.el = put(block, c, r, "", "w");
+    wins.push(s); (rows[r] = rows[r] || []).push(s);
+    paintW(s); return s;
+  }
+  function paintW(s) {
+    var col = s.hot || s.col, g = col ? "█" : idle, out = [];
+    for (var i = 0; i < s.h; i++) {
+      var l = rep(g, s.w);
+      if (s.slot && i === s.slot.r) l = l.slice(0, s.slot.a) + rep(" ", s.slot.b - s.slot.a) + l.slice(s.slot.b);
+      out.push(l);
+    }
+    s.el.textContent = out.join("\n");
+    s.el.className = "ch w " + (col || "idle");
+  }
+  /* fill an area (with a one-cell margin) with rows of windows, two rows tall */
+  function fillWins(c0, c1, r0, r1, tw) {
+    var aw = c1 - c0 - 1, ah = r1 - r0 - 1;
+    if (aw < 3 || ah < 2) return;
+    tw = tw || 8;
+    var n = Math.max(1, Math.round((aw + 2) / (tw + 2))), ww = Math.floor((aw - 2 * (n - 1)) / n);
+    while (ww < 4 && n > 1) { n--; ww = Math.floor((aw - 2 * (n - 1)) / n); }
+    var off = Math.floor((aw - (n * ww + 2 * (n - 1))) / 2), m = Math.floor((ah + 1) / 3);
+    for (var j = 0; j < m; j++) for (var i = 0; i < n; i++) win(c0 + 1 + off + i * (ww + 2), r0 + 1 + j * 3, ww, 2);
+  }
+  function picWin(sec, c, r, w) {
+    var p = sec.querySelector(".pic"), pad = Math.max(0, Math.floor((w - 17) / 2));
+    p.style.paddingLeft = (pad * M.cw) + "px";
+    var pr = r + Math.round(p.offsetTop / M.rh), ph = Math.max(1, Math.round(p.offsetHeight / M.rh));
+    win(c, pr, w, ph, { r: Math.floor(ph / 2), a: Math.max(0, pad - 1), b: Math.min(w, pad + 18) });
   }
 
   /* kes' heart letters, read straight off her sign: # is a lit <3 */
@@ -627,249 +686,378 @@ function look(mark) { if (window.kesLook) window.kesLook(mark); }
   var INK = NAME.map(function (l) { return l.slice(22, 72) + "." + l.slice(73, 80); });
   var KESH = NAME.map(function (l) { return l.slice(2, 18) + ".." + l.slice(73, 80); });
 
-  /* a tiny pixel face for the play button, drawn in half blocks */
+  /* a tiny pixel face for the play button, in half blocks */
   var FONT = {
     "▶": ["#..", "##.", "###", "##.", "#.."], " ": [".", ".", ".", ".", "."],
     P: ["###", "#.#", "###", "#..", "#.."], L: ["#..", "#..", "#..", "#..", "###"],
     A: [".#.", "#.#", "###", "#.#", "#.#"], Y: ["#.#", "#.#", ".#.", ".#.", ".#."]
   };
   function bits(word) {
-    var rows = ["", "", "", "", ""];
-    word.split("").forEach(function (ch, i) { for (var r = 0; r < 5; r++) rows[r] += (i ? "." : "") + FONT[ch][r]; });
-    return rows;
+    var r = ["", "", "", "", ""];
+    word.split("").forEach(function (ch, i) { for (var k = 0; k < 5; k++) r[k] += (i ? "." : "") + FONT[ch][k]; });
+    return r;
   }
-  function halfblock(rows) {
+  function halfblock(rs) {
     var out = [];
-    for (var r = 0; r < rows.length; r += 2) {
-      var a = rows[r], b = rows[r + 1] || "", l = "";
+    for (var r = 0; r < rs.length; r += 2) {
+      var a = rs[r], b = rs[r + 1] || "", l = "";
       for (var c = 0; c < a.length; c++) { var t = a[c] === "#", u = b[c] === "#"; l += t && u ? "█" : t ? "▀" : u ? "▄" : " "; }
       out.push(l);
     }
     return out.join("\n");
   }
 
+  /* kes' flower garden (i7-10), 204 columns that repeat: chars, then a colour letter per char */
+  var GARDEN = [["                  _   _                                                             _   _                                                    _   _                                                          ", "                  p   p                                                             p   p                                                    p   p                                                          "], ["     _           ( `v' )                                              _            ( `v' )            _                                     ( `v' )       _                              _                  ", "     p           p ppp p                                              b            p ppp p            p                                     p ppp p       b                              p                  "], ["   _(_)_          \\   /           \\ | /               @@@           _(_)_           \\   /           _(_)_           @@@       \\ | /          \\   /      _(_)_                @@@       _(_)_     \\ | /      ", "   ppppp          p   p           y y y               lll           bbbbb           p   p           ppppp           lll       y y y          p   p      bbbbb                lll       ppppp     y y y      "], ["  (_)@(_)          `.'           -- o --             @@@@@         (_)@(_)           `.'           (_)@(_)         @@@@@     -- o --          `.'      (_)@(_)              @@@@@     (_)@(_)   -- o --     ", "  pppyppp          ppp           yy p yy             lllll         bbbybbb           ppp           pppyppp         lllll     yy p yy          ppp      bbbybbb              lllll     pppyppp   yy p yy     "], ["    (_)             |             / | \\    (\\_/)      @@@            (_)              |              (_)            @@@       / | \\            |         (_)                 @@@        (_)      / | \\      ", "    ppp             g             y y y    kkkkk      lll            bbb              g              ppp            lll       y y y            g         bbb                 lll        ppp      y y y      "], ["     |\\            /|        ,      |      (-.-)       |             /|       ,      /|               |\\      ,      |          |             /|         /|      ,            |          |\\        |        ", "     gg            gg        g      g      keeek       g             gg       g      gg               gg      g      g          g             gg         gg      g            g          gg        g        "], ["     |      \\|/     |       \\|      |/     (\")(\")     \\|     \\|/      |      \\|       |     \\|/       |      \\|     \\|          |/    \\|/      |          |     \\|   \\|/     \\|          |         |/    \\|/", "     g      ggg     g       gg      gg     kkkkkk     gg     ggg      g      gg       g     ggg       g      gg     gg          gg    ggg      g          g     gg   ggg     gg          g         gg    ggg"], [",.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,", "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg"]];
+  /* place the garden so the tower's walls rise between flowers, not through them */
+  function gardenOff(L, Rt) {
+    var C = M.C, best = 0, bs = 1e9;
+    for (var off = 0; off < 204; off++) {
+      var s = 0;
+      for (var i = 0; i < 7; i++) {
+        var ch = GARDEN[i][0], k = GARDEN[i][1];
+        for (var z = 0; z < 2; z++) for (var c = (z ? Rt - 3 : L - 2); c <= (z ? Rt + 2 : L + 3); c++) if (c >= 0 && c < C && ch[(c + off) % 204] !== " ") s++;
+        if (/[ke]/.test(k[off % 204] + k[(C - 1 + off) % 204])) s += 5;
+      }
+      if (s < bs) { bs = s; best = off; }
+    }
+    return best;
+  }
+  function garden(G, L, Rt, off) {
+    var C = M.C, html = ["", ""];
+    for (var i = 0; i < 8; i++) {
+      var src = GARDEN[i], l = "", cur = null, run = "";
+      var flush = function () {
+        if (!run) return;
+        if (cur === "e") l += '<b><s>' + run + '</s><u>o.o</u></b>';
+        else l += cur ? '<b class="g' + cur + '">' + run + "</b>" : run;
+        run = "";
+      };
+      for (var c = 0; c < C; c++) {
+        var j = (c + off) % 204, ch = src[0][j], k = src[1][j];
+        if (i < 7 && ((c >= L - 1 && c <= L + 2) || (c >= Rt - 2 && c <= Rt + 1))) { ch = " "; k = " "; }
+        if (i === 7) k = "k";
+        if (k === " ") k = null;
+        if (k !== cur) { flush(); cur = k; }
+        run += ch === "<" ? "&lt;" : ch === "&" ? "&amp;" : ch === ">" ? "&gt;" : ch;
+      }
+      flush();
+      html[i < 4 ? 0 : 1] += (i % 4 ? "\n" : "") + l;
+    }
+    var a = document.createElement("div"), b = document.createElement("div");
+    a.className = "gd heads"; b.className = "gd";
+    a.style.top = (G * M.rh) + "px"; b.style.top = ((G + 4) * M.rh) + "px";
+    a.innerHTML = html[0]; b.innerHTML = html[1];
+    ground.appendChild(a); ground.appendChild(b);
+  }
+
+  var E = {};
+  ["name", "role", "stat", "quietp", "deck", "s-hello", "s-bio", "s-p1", "s-p2", "s-p3", "s-more", "s-writing", "s-written", "s-pods", "s-irl", "s-colo"]
+    .forEach(function (id) { E[id] = document.getElementById(id); });
+  var ticker = $(".ticker");
+
   function station(c, r, w, h) {
     var go = $("#go");
     go.style.left = (c * M.cw) + "px"; go.style.top = (r * M.rh) + "px";
     go.style.width = (w * M.cw) + "px"; go.style.height = (h * M.rh) + "px";
-    go.querySelector(".tower").textContent = rect(rep("█", w), h);
+    go.querySelector(".fill").textContent = rect(rep("█", w), h);
     var big = go.querySelector(".big");
     big.textContent = halfblock(bits("▶ PLAY"));
-    big.style.left = ((w < 28 ? 2 : 3) * M.cw) + "px"; big.style.top = (h < 6 ? Math.floor((h - 3) / 2) : 1) * M.rh + "px";
-    var st = $("#stat");
-    if (h >= 6) { st.hidden = false; at(st, c + 3, r + 5, w - 5); }
-    else if (w - 28 >= 12) { st.hidden = false; at(st, c + 26, r + Math.floor(h / 2), w - 28); }
-    else st.hidden = true;
-  }
-
-  function placeSpeaker(c, r, w) {
-    var sp = $("#speaker");
-    if (w < 36) { sp.style.fontSize = (M.fs * w / 36) + "px"; sp.style.lineHeight = (M.rh * w / 36) + "px"; }
-    else { sp.style.fontSize = ""; sp.style.lineHeight = ""; }
-    return at(sp, c, r, Math.min(w, 36));
-  }
-
-  /* a band: cells side by side, each holding blocks stacked down from the top */
-  function band(top, cells, padT, padB) {
-    var end = top + 1;
-    cells.forEach(function (cl) {
-      var r = top + padT, inset = cl.inset == null ? 3 : cl.inset, first = true;
-      (cl.items || []).forEach(function (el) {
-        if (!el) return;
-        if (!first) r += cl.gap || 2;
-        first = false;
-        var w = Math.min(cl.maxw || 999, cl.c1 - cl.c0 + 1 - 2 * inset), c = cl.c0 + inset, n;
-        if (el.id === "speaker") n = placeSpeaker(c, r, w);
-        else n = at(el, c, r, w);
-        if (el.classList.contains("proj")) picPlane(el, c, r, w);
-        r += n;
-      });
-      end = Math.max(end, r);
-    });
-    return end + padB;
-  }
-  function picPlane(sec, c, r, w) {
-    var p = sec.querySelector(".pic"), pad = Math.max(0, Math.floor((w - 17) / 2));
-    p.style.paddingLeft = (pad * M.cw) + "px";
-    var pr = r + Math.round(p.offsetTop / M.rh), ph = Math.max(1, Math.round(p.offsetHeight / M.rh));
-    sleeper(c, pr, c + w - 1, pr + ph - 1, { r: Math.floor(ph / 2), a: Math.max(0, pad - 1), b: Math.min(w, pad + 18) });
-  }
-
-  var E = {};
-  function els() {
-    ["name", "role", "stat", "hint", "quietp", "fm-h", "ident", "deck", "textin", "speaker",
-     "s-hello", "s-bio", "s-p1", "s-p2", "s-p3", "s-more", "s-writing", "s-written", "s-pods", "s-irl", "s-colo"]
-      .forEach(function (id) { E[id] = document.getElementById(id); });
+    big.style.left = ((w < 28 ? 2 : 3) * M.cw) + "px"; big.style.top = M.rh + "px";
+    root.classList.toggle("tight", w - 5 < 25);
+    at(E.stat, c + (w < 28 ? 2 : 3), r + 5, w - 4);
   }
 
   function layout() {
     metrics();
-    art.textContent = ""; sleepers = [];
-    var C = M.C, R = Math.max(24, Math.floor(M.vh / M.rh)), dl = R - 7, y, T, spIn = false, wide = C >= 110;
-    var hs = $("#name .hearts");
-    if (wide) {
-      var s = clamp(Math.round(C * 0.235), 38, 52), R0 = s + 2, RW = C - R0;
-      var h1 = clamp(Math.round(R * 0.2), 4, 12);
-      var Y = clamp(Math.round(R * 0.18), 6, 10), h2 = dl - Y - 1;
-      var g2 = C - Math.max(14, Math.round(RW * 0.17)) - 2;
-      E.hint.hidden = false;
-      H(h1, s, C - 1); V(g2, 0, h1); H(h2, 0, s - 1);
-      H(dl, 0, C - 1); H(dl + 2, 0, C - 1);
-      sleeper(g2 + 2, 0, C - 1, h1 - 1);
-      station(0, h2 + 1, s, Y);
-      if (h2 >= 14) { spIn = true; placeSpeaker(Math.floor((s - 36) / 2), h2 - 12, 36); }
-      var full = RW - 6 >= 116 && dl - h1 >= 22;
-      hs.textContent = full ? hearts(KES) + "\n\n" + hearts(INK) : hearts(KESH);
-      var nr = full ? 15 : 7;
-      at(E.name, R0 + 4, dl - 4 - nr, full ? 116 : 50);
-      at(E.role, R0 + 4, dl - 3, RW - 8);
-      /* the strip under the double line: the quiet way in, or KES FM's keys */
-      var st = dl + 3, n;
-      if (gated) { at(E.quietp, 2, st + 1, s - 4); n = at(E.hint, R0 + 3, st + 1, RW - 6); n = Math.max(2, n); }
-      else { at(E["fm-h"], 2, st + 1, s - 4); n = at(E.deck, R0 + 3, st + 1, Math.min(RW - 6, C - R0 - 3 - 22)); }
-      y = st + 1 + n + 1;
-      H(y, 0, C - 1);
-      tram = put(0, dl + 1, "", "tram"); tram.hidden = true;
+    sky.textContent = ""; block.textContent = ""; ground.textContent = "";
+    wins = []; rows = {}; rings = []; dgs = []; hotRow = -1;
+    var C = M.C, R = Math.max(24, Math.floor(M.vh / M.rh));
+    var wide = C >= 110, phone = C < 70;
 
-      var x2 = R0 + Math.round(RW * 0.56), x3 = R0 + Math.round(RW * 0.4), x5 = R0 + Math.round(RW * 0.6);
-      var b1 = [spIn ? null : E.speaker, E.ident, E.textin].concat(gated ? [E["fm-h"], E.deck] : []);
-      var y2 = band(y, [{ c0: 0, c1: s - 1, inset: 2, items: b1 }, { c0: R0, c1: x2 - 1, items: [E["s-hello"]], maxw: 64 }, { c0: x2 + 2, c1: C - 1, items: [E["s-bio"]], maxw: 56 }], 2, 2);
-      V(x2, y, y2); H(y2, 0, C - 1);
-      var w3 = Math.floor((RW - 4) / 3), xa = R0 + w3, xb = xa + 2 + w3;
-      var y3 = band(y2, [{ c0: R0, c1: xa - 1, items: [E["s-p1"]] }, { c0: xa + 2, c1: xb - 1, items: [E["s-p2"]] }, { c0: xb + 2, c1: C - 1, items: [E["s-p3"]] }], 2, 2);
-      V(xa, y2, y3); V(xb, y2, y3); H(y3, s, C - 1);
-      var y4 = band(y3, [{ c0: R0, c1: x3 - 1, items: [E["s-more"]] }, { c0: x3 + 2, c1: C - 1, items: [E["s-writing"]], maxw: 60 }], 2, 2);
-      V(x3, y3, y4); H(y4, 0, C - 1);
-      var y5 = band(y4, [{ c0: R0, c1: x2 - 1, items: [E["s-written"]], maxw: 64 }, { c0: x2 + 2, c1: C - 1, items: [E["s-irl"]] }], 2, 2);
-      V(x2, y4, y5); H(y5, s, C - 1);
-      var y6 = band(y5, [{ c0: R0, c1: x5 - 1, items: [E["s-pods"]], maxw: 72 }, { c0: x5 + 2, c1: C - 1, items: [E["s-colo"]], maxw: 52 }], 2, 2);
-      V(x5, y5, y6); H(y6, 0, C - 1);
-      sleeper(0, y4 + 1, s - 1, y6 - 1);
-      T = y6 + 4;
-      V(s, 0, T - 1);
-    } else {
-      /* tall and narrow */
-      var withHeart = C - 6 >= 50;
-      hs.textContent = hearts(withHeart ? KESH : KES);
-      at(E.name, 3, 2, withHeart ? 50 : 34);
-      var rr = at(E.role, 3, 10, C - 6);
-      var yw = clamp(Math.round(C * 0.5), 24, 50);
-      var Yn = clamp(Math.round(R * 0.17), 7, 9), hB = dl - Yn - 1;
-      var spFits = yw - 2 >= 36, above = spFits ? 13 : 10;
-      var hA = Math.max(10 + rr + 2, Math.round(R * 0.36), hB - above - 1);
-      if (hB - hA < 1) { hB = hA; Yn = dl - hA - 1; }
-      H(hA, 0, C - 1); V(yw, hA, dl);
-      if (hB > hA) {
-        H(hB, 0, yw - 1);
-        if (spFits && hB - hA - 1 >= 12) { spIn = true; placeSpeaker(Math.floor((yw - 36) / 2), hB - 12, 36); }
-        else if (hB - hA > 1) sleeper(0, hA + 1, yw - 1, hB - 1);
-      }
-      H(dl, 0, C - 1); H(dl + 2, 0, C - 1);
-      station(0, hB + 1, yw, Yn);
-      E.hint.hidden = false;
-      var hw = C - yw - 2 - 4, hn = hw >= 14 ? at(E.hint, yw + 4, 0, hw) : 99;
-      if (hn <= dl - hA - 3) { E.hint.hidden = false; at(E.hint, yw + 4, Math.max(hA + 2, dl - 1 - hn), hw); }
-      else E.hint.hidden = true;
-      var st2 = dl + 3, m;
-      if (gated) m = at(E.quietp, 2, st2 + 1, C - 4);
-      else { var a1 = at(E["fm-h"], 2, st2 + 1, C - 4); m = a1 + 1 + at(E.deck, 2, st2 + 2 + a1, C - 4); }
-      y = st2 + 1 + Math.max(2, m) + 1;
-      H(y, 0, C - 1);
-      tram = put(0, dl + 1, "", "tram"); tram.hidden = true;
-      var y0 = y, cell = function (items) { return [{ c0: 4, c1: C - 1, inset: 2, maxw: 64, items: items }]; };
-      var groups = [[spIn ? null : E.speaker, E.ident, E.textin].concat(gated ? [E["fm-h"], E.deck] : []), [E["s-hello"], E["s-bio"]], [E["s-p1"]], [E["s-p2"]], [E["s-p3"]], [E["s-more"], E["s-writing"]], [E["s-written"], E["s-pods"], E["s-irl"]], [E["s-colo"]]];
-      groups.forEach(function (g, i) {
-        var yb = band(y, cell(g), 2, 2);
-        H(yb, 0, C - 1);
-        if (i === 1 || i === 6) sleeper(0, y + 1, 1, yb - 1);
-        y = yb;
-      });
-      T = y + 4;
-      V(2, y0, T - 1);
+    /* the tower: a slab with sky either side, walls two characters thick */
+    var Wt = wide ? Math.round(C * 0.8) : phone ? C - (C < 43 ? 2 : 4) : C - 8;
+    var L = wide ? Math.round((C - Wt) * 0.62) : Math.floor((C - Wt) / 2), Rt = L + Wt - 1;
+    var wb = wide ? clamp(Math.round(Wt * 0.06), 7, 10) : phone ? 0 : clamp(Math.round(Wt * 0.09), 7, 9);
+    var cs = L + 2 + (wide ? wb + 2 : 0), ce = Rt - 2 - (wb ? wb + 2 : 0), Wc = ce - cs + 1;
+
+    /* the top floor carries her name, like a block's name; it closes the first screen */
+    var hs = $("#name .hearts"), nameW, n0, f0w, roleW;
+    function sign(full) {
+      var kh = Wc - 8 >= 50;
+      hs.textContent = full ? hearts(KES) + "\n\n" + hearts(INK) : hearts(kh ? KESH : KES);
+      nameW = full ? 116 : kh ? 50 : 32;
+      f0w = wide ? Math.min(Wc, nameW + 8) : Wc;
+      roleW = Math.min(f0w - (phone ? 4 : 8), Math.max(nameW, 44));
+      n0 = at(E.name, 0, 0, nameW) + 1 + at(E.role, 0, 0, roleW);
+      return R - 8 - n0;
     }
-    M.tramRow = dl + 1;
-    grid.style.height = ((gated ? R : T) * M.rh) + "px";
+    var P = sign(wide && Wc - 8 >= 116);
+    if (wide && Wc - 8 >= 116 && P < 30) P = sign(false);
+    P = Math.max(16, P);
+    var Rg = P + 8 + n0;
+    O = []; for (var r = 0; r < P; r++) O.push(new Uint8Array(C));
+
+    /* the rig on the roof: the painting's yellow plane, flush with the tower's right wall */
+    var bw = wide ? clamp(Math.round(Wt * 0.36), 32, 52) : phone ? clamp(C - 16, 28, 31) : clamp(Math.round(Wt * 0.44), 29, 44);
+    var bx = Rt - bw + 1, by = P - 8;
+    H(sky, by, bx, Rt); V(sky, bx, by, P - 1); V(sky, Rt - 1, by, P - 1);
+    station(bx + 2, by + 1, bw - 4, 7);
+    var dw = bw - 4, dn = at(E.deck, 0, 0, dw), dt = by - 1 - dn;
+    occ(bx, dt - 1, Rt + 1, by - 1);
+    if (gated) { at(E.deck, bx + 2, Rg + 2, dw); at(E.quietp, bx + 2, by - 2, dw); }
+    else at(E.deck, bx + 2, dt, dw);
+
+    /* the antenna: the lozenge's heavy line stood up as a mast, crossbars, diagonals flaring out */
+    var mc = wide ? L + Math.round(Wt * 0.27) : phone ? Math.max(L + 5, Math.min(bx - 8, L + Math.round(Wt * 0.2))) : L + Math.round(Wt * 0.25);
+    var mt = clamp(Math.round(P * 0.1), 2, 5), Hm = P - mt;
+    V(sky, mc, mt, P - 1, "ant");
+    beacon.style.left = (mc * M.cw) + "px"; beacon.style.top = ((mt - 1) * M.rh) + "px";
+    occ(mc - 1, mt - 1, mc + 2, mt - 1);
+    var u = wide ? clamp(Math.round(Wt * 0.07), 6, 12) : phone ? 5 : 7;
+    u = Math.max(3, Math.min(u, bx - mc - 4));
+    var cb1 = mt + Math.max(2, Math.round(Hm * 0.07)), cb2 = cb1 + Math.max(3, Math.round(Hm * 0.1));
+    H(sky, cb1, mc - Math.round(u * 0.6), mc + 1 + Math.round(u * 0.6), "ant");
+    H(sky, cb2, mc - u, mc + 1 + u, "ant");
+    var d0 = cb2 + Math.max(3, Math.round(Hm * 0.1)), n = Math.max(4, Math.round(Hm * 0.3));
+    n = Math.max(2, Math.min(n, dt - 2 - d0));
+    var lf = [], rt = [];
+    for (var k = 0; k < n; k++) { lf.push([d0 + k, mc - 3 - 2 * k, mc - 1 - 2 * k]); rt.push([d0 + k, mc + 2 + 2 * k, mc + 4 + 2 * k]); }
+    rt = rt.filter(function (x) { return x[2] < bx - 1 || x[0] < by - 3; });
+    [lf, rt].forEach(function (cells) {
+      var sh = shape(sky, cells, "dg");
+      if (sh) { dgs.push(sh); cells.forEach(function (x) { occ(x[1] - 1, x[0], x[2] + 1, x[0]); }); }
+    });
+    mlight = put(sky, mc, P - 1, "██", "ml"); mlight.hidden = true;
+
+    /* the signal: dotted lozenges round the top of the mast */
+    [0.32, 0.52, 0.72, 0.92].forEach(function (f) {
+      var rk = Math.max(3, Math.round(Hm * f)), cells = [];
+      for (var dy = -rk; dy <= rk; dy++) {
+        var rr = mt + dy, dx = 2 * (rk - Math.abs(dy));
+        if (free(mc - dx, rr) && free(mc - dx - 1, rr) && free(mc - dx + 1, rr)) cells.push([rr, mc - dx, mc - dx]);
+        if (dx && free(mc + 1 + dx, rr) && free(mc + dx, rr) && free(mc + 2 + dx, rr)) cells.push([rr, mc + 1 + dx, mc + 1 + dx]);
+      }
+      var sh = shape(sky, cells, "ring"); if (sh) rings.push(sh);
+    });
+
+    /* the roof: the painting's double line is the parapet; the station's ticker runs between */
+    var ov = Math.min(2, L);
+    H(block, P, L - ov, Rt + ov); H(block, P + 2, L - ov, Rt + ov);
+    at(ticker, L + 3, P + 1, Wt - 6);
+
+    /* the floors, top to bottom */
+    function fit(items, maxw, inset) { return { items: items, maxw: maxw, inset: inset, w: maxw + 2 * (inset == null ? 3 : inset) }; }
+    function rooms(list) {
+      /* a room asking for less than the floor gives the rest to windows, if there's room for them */
+      var out = [], used = 0;
+      list.forEach(function (rm) { out.push(rm); });
+      var last = out[out.length - 1];
+      if (last.items && last.w) {
+        out.forEach(function (rm, i) { if (i < out.length - 1) used += Math.min(rm.w, Wc) + 2; });
+        if (Wc - used - last.w - 2 >= 12) out.push({ win: 1 }); else last.w = null;
+      }
+      return out;
+    }
+    var plan, ins = phone ? 2 : 3;
+    var signRoom = { items: [E.name, E.role], gap: 1, inset: phone ? clamp(Math.floor((Wc - nameW) / 2), 1, 3) : 4, w: f0w };
+    if (wide) {
+      var w3 = Math.floor((Wc - 4) / 3), half = Math.floor((Wc - 2) / 2);
+      plan = [
+        { rooms: rooms([signRoom]), sign: 1 },
+        { rooms: rooms([fit([E["s-hello"]], 64, 4)]) },
+        { rooms: Wc - 70 >= 14 ? [{ win: 1, w: Wc - 70 }, { items: [E["s-bio"]], maxw: 60, inset: 4 }] : rooms([fit([E["s-bio"]], 60, 4)]) }
+      ];
+      if (w3 >= 32) plan.push({ rooms: [{ items: [E["s-p1"]], w: w3 }, { items: [E["s-p2"]], w: w3 }, { items: [E["s-p3"]] }] });
+      else ["s-p1", "s-p2", "s-p3"].forEach(function (id) { plan.push({ rooms: rooms([fit([E[id]], 52)]) }); });
+      if (half >= 40) plan.push(
+        { rooms: [{ items: [E["s-more"]], w: Math.min(half, 44) }, { items: [E["s-writing"]], maxw: 56 }] },
+        { rooms: [{ items: [E["s-written"]], w: Math.max(half, Wc - 46), maxw: 64 }, { items: [E["s-irl"]] }] });
+      else plan.push({ rooms: rooms([fit([E["s-more"], E["s-writing"]], 60)]) }, { rooms: rooms([fit([E["s-written"]], 64)]) }, { rooms: rooms([fit([E["s-irl"]], 60)]) });
+      plan.push(
+        { rooms: rooms([fit([E["s-pods"]], 72)]) },
+        { rooms: rooms([fit([E["s-colo"]], 56)]), last: 1 }
+      );
+    } else {
+      var mw = Math.min(64, Wc - 2 * ins);
+      plan = [{ rooms: [signRoom], sign: 1 }];
+      [["s-hello"], ["s-bio"], ["s-p1"], ["s-p2"], ["s-p3"], ["s-more", "s-writing"], ["s-written"], ["s-pods"], ["s-irl"], ["s-colo"]].forEach(function (ids, i, all) {
+        plan.push({ rooms: rooms([fit(ids.map(function (id) { return E[id]; }), mw, ins)]), last: i === all.length - 1 });
+      });
+    }
+
+    function floor(top, f) {
+      var rs = [], c = cs;
+      f.rooms.forEach(function (rm, i) {
+        var w = i === f.rooms.length - 1 || !rm.w ? ce - c + 1 : Math.min(rm.w, ce - c + 1);
+        rs.push({ c0: c, c1: c + w - 1, rm: rm });
+        c += w + 2;
+      });
+      var strip = phone && !f.sign, y0 = top + (strip ? 4 : 0), end = y0 + 1;
+      rs.forEach(function (x) {
+        var rm = x.rm; if (!rm.items) return;
+        var inset = rm.inset == null ? ins : rm.inset, r = y0 + (strip ? 1 : 3), first = true;
+        rm.items.forEach(function (el) {
+          if (!first) r += rm.gap == null ? 2 : rm.gap;
+          first = false;
+          var w = Math.min(rm.maxw || 999, x.c1 - x.c0 + 1 - 2 * inset), cc = x.c0 + inset;
+          if (el === E.role) w = roleW;
+          var nn = at(el, cc, r, w);
+          if (el.classList.contains("proj")) picWin(el, cc, r, w);
+          r += nn;
+        });
+        end = Math.max(end, r);
+      });
+      var yb = end + 2;
+      rs.forEach(function (x, i) {
+        if (i) V(block, x.c0 - 2, top, f.last ? yb - 1 : yb);
+        if (x.rm.win) fillWins(x.c0, x.c1, top, f.last ? yb - 1 : yb);
+      });
+      if (strip) fillWins(cs, ce, top, top + 4, 7);
+      if (wide) fillWins(L + 2, L + 1 + wb, top, f.last ? yb - 1 : yb);
+      if (wb) fillWins(Rt - 1 - wb, Rt - 2, top, f.last ? yb - 1 : yb);
+      if (!f.last) H(block, yb, L, Rt);
+      return yb;
+    }
+    var y = P + 2;
+    plan.forEach(function (f) { y = floor(y, f); });
+    var G = y;
+
+    /* walls and the bays' long lines run from the roof down into the garden */
+    V(block, L, P, G + 6); V(block, Rt - 1, P, G + 6);
+    if (wide) V(block, L + 2 + wb, P + 2, G - 1);
+    if (wb) V(block, Rt - 3 - wb, P + 2, G - 1);
+    garden(G, L, Rt, gardenOff(L, Rt));
+    var T = G + 8;
+    storeys = Object.keys(rows).map(Number).sort(function (a, b) { return a - b; });
+    S = { P: P, mt: mt, mc: mc };
+
+    grid.style.height = ((gated ? Rg : T) * M.rh) + "px";
     var fpl = $(".floatstop .fpl"), flab = $(".floatstop .flab");
     fpl.textContent = rect(rep("█", 17), 3);
     flab.style.left = (2 * M.cw) + "px"; flab.style.top = M.rh + "px";
-    var f = $("#floatstop"); f.style.right = "auto"; f.style.left = ((C - 19) * M.cw) + "px"; f.style.bottom = M.rh + "px";
+    var fs = $("#floatstop"); fs.style.right = "auto"; fs.style.left = ((C - 19) * M.cw) + "px"; fs.style.bottom = M.rh + "px";
     volTrack();
-    sleepers.forEach(function (s) { paintS(s, null); });
+    if (onAir && !still) paintAir(); else paintSky(-1);
   }
 
   /* the vol slider is a range input laid over a run of characters */
   var vol = $("#vol"), track = $(".vol .track");
-  function volTrack() { var n = Math.round(+vol.value * 11); track.textContent = rep("━", n) + "■" + rep("─", 11 - n); }
+  function volTrack() { var n = Math.round(+vol.value * 10); track.textContent = rep("━", n) + "■" + rep("─", 10 - n); }
   vol.addEventListener("input", volTrack);
 
+  /* break and bass are one word each: they step through the engine's own buttons */
+  var BR = ["straight", "chopped", "rollin", "chop"], BS = ["sub", "reese", "off"];
+  function pressed(sel) { var b = document.querySelector(sel + '[aria-pressed="true"]'); return b; }
+  $("#brk").addEventListener("click", function () {
+    var cur = $("#chop").getAttribute("aria-pressed") === "true" ? "chop" : ((pressed("[data-break]") || {}).dataset || {}).break || "straight";
+    var nx = BR[(BR.indexOf(cur) + 1) % BR.length];
+    (nx === "chop" ? $("#chop") : $('[data-break="' + nx + '"]')).click();
+  });
+  $("#bss").addEventListener("click", function () {
+    var b = pressed("[data-bass]"), cur = b ? b.dataset.bass : "sub";
+    $('[data-bass="' + BS[(BS.indexOf(cur) + 1) % BS.length] + '"]').click();
+  });
+
   /* entering, with sound or without */
-  function enter(withSound) {
+  function enter(withSound, byFocus) {
     if (!gated) return;
     gated = false;
     root.classList.remove("gated");
     try { sessionStorage.setItem("kes-in", "1"); } catch (e) {}
     var keep = window.scrollY;
     layout();
+    if (byFocus) { if (byFocus.scrollIntoView) byFocus.scrollIntoView({ block: "nearest" }); return; }
     if (!withSound) {
       var h = $("#hello-h");
       h.focus({ preventScroll: true });
-      var top = h.getBoundingClientRect().top + window.scrollY - 3 * M.rh;
+      var top = h.getBoundingClientRect().top + window.scrollY - 4 * M.rh;
       window.scrollTo({ top: Math.max(0, top), behavior: still ? "auto" : "smooth" });
     } else window.scrollTo(0, keep);
   }
   $("#go").addEventListener("click", function () { enter(true); });
   $("#quiet").addEventListener("click", function () { enter(false); });
   document.addEventListener("focusin", function (e) {
-    if (gated && !$("#gate").contains(e.target) && e.target !== $("#floatstop")) enter(false);
+    if (gated && !$("#gate").contains(e.target) && e.target !== $("#floatstop")) enter(false, e.target);
   });
 
-  /* the music: planes trade colours on the beat, the tram rides the break, pull up turns the lines pink */
+  /* the music: the antenna sends on the beat, windows trade colours, the garden sways, pull up shakes the mast */
+  function paintSky(on) {
+    var N = rings.length;
+    rings.forEach(function (sh, i) {
+      if (on < 0 ? i === N - 1 : i === (on + N - 1) % N) { draw(sh, "·"); sh.el.className = "ch ring"; }
+      else if (i === on) { draw(sh, "▪"); sh.el.className = "ch ring on"; }
+      else sh.el.textContent = "";
+    });
+    dgs.forEach(function (d, i) {
+      draw(d, on < 0 ? "░" : "█");
+      d.el.className = "ch dg" + (on < 0 ? "" : (i + beat) % 2 ? " blue" : " pink");
+    });
+  }
+  function paintAir() {
+    wins.forEach(function (w) { var c = tint(w.k, beat); if (c !== w.col) { w.col = c; if (!w.hot) paintW(w); } });
+    paintSky(beat % Math.max(1, rings.length));
+    var sw = beat % 4;
+    ground.className = sw === 1 ? "sway-r" : sw === 3 ? "sway-l" : "";
+  }
+  function rest() {
+    beat = 0;
+    root.classList.remove("b2");
+    ground.className = "";
+    hotRow = -1;
+    wins.forEach(function (w) { w.hot = null; w.col = tint(w.k, 0); paintW(w); });
+    if (mlight) mlight.hidden = true;
+    paintSky(-1);
+  }
   window.kesLook = function (mark) {
     if (still) return;
     if (mark === "@") { root.classList.add("pull"); return; }
-    if (mark === undefined) {
-      root.classList.remove("pull");
-      if (!onAir) { beat = 0; sleepers.forEach(function (s) { paintS(s, null); }); if (tram) tram.hidden = true; }
-      return;
-    }
+    if (mark === undefined) { root.classList.remove("pull"); if (!onAir) rest(); return; }
     root.classList.remove("pull");
     beat++;
-    sleepers.forEach(function (s, j) {
-      var k = (beat + j) % 4;
-      paintS(s, k === 0 ? "pink" : k === 2 ? "blue" : null);
-    });
+    root.classList.toggle("b2", mark === "^");
+    paintAir();
   };
+
+  /* the 16ths: a light climbs the mast every bar, and the windows you can see light floor by floor going up */
+  function unhot() { if (hotRow >= 0) (rows[hotRow] || []).forEach(function (w) { w.hot = null; paintW(w); }); hotRow = -1; }
   new MutationObserver(function () {
-    if (!tram) return;
-    if (still || !onAir) { tram.hidden = true; return; }
+    if (still || !onAir) { unhot(); if (mlight) mlight.hidden = true; return; }
     var on = tracker.querySelector(".on");
-    if (!on) return;
-    var lab = on.textContent;
-    if (!/^[0-9A-F]{2}$/i.test(lab)) { tram.hidden = true; return; }
-    var s = parseInt(lab, 16), C = M.C, a = Math.floor(s * C / 32), b = Math.floor((s + 1) * C / 32);
-    tram.hidden = false;
-    tram.style.left = (a * M.cw) + "px"; tram.style.top = (M.tramRow * M.rh) + "px";
-    tram.textContent = rep(on.classList.contains("roll") ? "▓" : "█", Math.max(1, b - a));
-    tram.className = "ch tram" + (on.classList.contains("rev") ? " pink" : on.classList.contains("up") ? " yellow" : "");
+    if (!on || !mlight) return;
+    var i = [].indexOf.call(tracker.children, on), k = i % 16;
+    var cls = on.classList.contains("rest") ? null : on.classList.contains("rev") ? "pink" : on.classList.contains("up") ? "yellow" : "blue";
+    if (cls) {
+      var Hm = S.P - S.mt;
+      mlight.hidden = false;
+      mlight.className = "ch ml " + cls;
+      mlight.textContent = on.classList.contains("roll") ? "▓▓" : "██";
+      mlight.style.top = ((S.P - 1 - Math.floor(k * Hm / 16)) * M.rh) + "px";
+    } else mlight.hidden = true;
+    var t = window.scrollY / M.rh, b = t + M.vh / M.rh, vis = storeys.filter(function (r) { return r >= t && r + 2 <= b; });
+    var row = cls && vis.length ? vis[vis.length - 1 - Math.floor(k * vis.length / 16)] : -1;
+    if (row !== hotRow) unhot();
+    if (row >= 0) { hotRow = row; rows[row].forEach(function (w) { w.hot = cls; paintW(w); }); }
   }).observe(tracker, { subtree: true, childList: true, attributes: true, attributeFilter: ["class"] });
 
-  /* the bass sets how dense the pale planes are; cute turns the name pink */
+  /* the bass sets how dense the idle windows are; cute turns her name pink */
   var info = $("#lcdinfo");
   function readInfo() {
-    var t = info.textContent, b = /bass: (\w+)/.exec(t);
+    var t = info.textContent, b = /bass: (\w+)/.exec(t), br = /break: ([^·]+)/.exec(t);
     idle = b && b[1] === "reese" ? "▒" : b && b[1] === "off" ? " " : "░";
     root.classList.toggle("cute", /cute: on/.test(t));
-    sleepers.forEach(function (s) { if (!s.col) paintS(s, null); });
+    wins.forEach(function (w) { if (!w.col && !w.hot) paintW(w); });
+    $("#brk").setAttribute("aria-label", "break: " + (br ? br[1].trim() : "straight") + ". change break");
+    $("#bss").setAttribute("aria-label", "bass: " + (b ? b[1] : "sub") + ". change bass");
   }
   new MutationObserver(readInfo).observe(info, { childList: true, characterData: true, subtree: true });
 
-  els();
   layout();
   readInfo();
-  var t = 0;
+  var rt = 0;
   window.addEventListener("resize", function () {
-    clearTimeout(t);
-    t = setTimeout(function () {
+    clearTimeout(rt);
+    rt = setTimeout(function () {
       if (grid.clientWidth !== M.W || (gated && window.innerHeight !== M.vh)) layout();
     }, 120);
   });

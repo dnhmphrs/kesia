@@ -7,16 +7,18 @@
 <meta name="description" content="kes inkersole (kesia on paper): freelance creative strategist and internet equalities researcher, london.">
 <script>(function(h){h.classList.add("js");try{if(sessionStorage.getItem("kes-in")==="1"){h.classList.remove("gated");h.classList.add("entered");}}catch(e){}})(document.documentElement);</script>
 <style>
-/* broadway boogie woogie, set in type.
-   white ground, yellow streets made of █, little squares of pink / blue / grey running along them,
-   kes's words knocked out of the streets in white. no black lines anywhere: black is only for reading. */
+/* broadway boogie woogie, stood up as a tower block, with KES FM's aerial on the roof.
+   white sky, yellow █ floors and walls, little squares of pink / blue / grey running along them,
+   lit windows, and kes's garden at the foot. no black lines: black is only for reading. */
 :root {
-  --y: #ffcc00;   /* the streets */
+  --y: #ffcc00;   /* floors, walls, the mast */
   --p: #ff2e8f;   /* mondrian's red, turned to hot pink */
-  --b: #1636ff;   /* electric blue: blocks and links */
+  --b: #1636ff;   /* electric blue: windows and links */
   --g: #c8c5be;   /* the warm grey squares */
   --ink: #0b0b0b; /* text */
   --mute: #6d6a64;
+  --gy: #f0b400;  /* yellow, for thin flower strokes */
+  --stem: #9e9a92;
   --mono: Menlo, ui-monospace, Consolas, "DejaVu Sans Mono", "Liberation Mono", "Courier New", monospace;
   --cw: 8px; --px: 16px; --lh: 16px; --fs: 13.3px;
   --seal: .3px 0 currentColor, -.3px 0 currentColor, 0 .7px currentColor, 0 -.7px currentColor;
@@ -24,19 +26,21 @@
 }
 html { background: #fff; color: var(--ink); scrollbar-gutter: stable; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 body { margin: 0; background: #fff; font: var(--fs)/var(--lh) var(--mono); font-kerning: none; font-variant-ligatures: none; }
-h1, h2, p, ul, li, pre { margin: 0; padding: 0; font: inherit; }
-h2 { font-weight: 700; }
+h1, h2, p, ul, li { margin: 0; padding: 0; font: inherit; }
+h1, h2 { font-weight: 700; }
 ul { list-style: none; }
 .sr { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .probe { position: absolute; left: -9999px; top: 0; white-space: pre; visibility: hidden; font-family: var(--mono); }
 
-/* ---------- the painting: three layers of characters ---------- */
+/* ---------- the building: layers of characters ---------- */
 #world { position: relative; width: 100%; overflow: clip; }
-.fill, .cars, .ko { position: absolute; left: 0; top: 0; width: 100%; pointer-events: none; user-select: none; -webkit-user-select: none; }
-.fill .r, .ko .r { height: var(--lh); white-space: pre; }
-.ko .r { overflow: hidden; }
-.fill .r { transform: scaleY(1.05); text-shadow: var(--seal); }            /* █ is a hair shorter than the row; this closes the seams */
-.fill b, .ko b, .cars b { font-weight: inherit; }
+.fill, .sky, .cars, .ko, .gdn { position: absolute; left: 0; top: 0; width: 100%; pointer-events: none; user-select: none; -webkit-user-select: none; }
+.fill .r, .sky .r, .ko .r, .gdn .r { height: var(--lh); white-space: pre; }
+.ko .r, .gdn .r { overflow: hidden; }
+.fill .r, .sky b.q { transform: scaleY(1.05); text-shadow: var(--seal); }
+.sky b.q { display: inline-block; }
+.sky b.h { font-weight: 700; }
+.fill b, .sky b, .ko b, .cars b, .gdn b { font-weight: inherit; }
 .ko { color: #fff; font-weight: 700; }
 .c1, .c5 { color: var(--y); }
 .c2 { color: var(--p); }
@@ -48,13 +52,12 @@ ul { list-style: none; }
 
 /* ---------- type on the grid ---------- */
 .js .u { position: absolute; display: flow-root; }
-.js:not(.laid) .u, .js:not(.laid) #go, .js:not(.laid) #quiet { visibility: hidden; }
+.js:not(.laid) .u, .js:not(.laid) #go, .js:not(.laid) #quiet, .js:not(.laid) .beacon, .js:not(.laid) #tracker, .js:not(.laid) .ticker { visibility: hidden; }
 .u > * + * { margin-top: var(--lh); }
 .u li + li { margin-top: 0; }
 .sq { font-weight: 400; }
 .sq.p { color: var(--p); } .sq.b { color: var(--b); } .sq.g { color: var(--g); } .sq.y { color: var(--y); }
-.lab { color: var(--mute); }
-.k { color: var(--mute); }
+.lab, .k { color: var(--mute); }
 li { padding-left: calc(2 * var(--cw)); text-indent: calc(-2 * var(--cw)); }
 li::before { content: "■ " / ""; color: var(--g); }
 li:nth-child(3n+2)::before { color: var(--p); }
@@ -66,183 +69,164 @@ a:hover, a:focus-visible { color: var(--ink); text-decoration: none; outline: no
 a:hover::before, a:focus-visible::before,
 .btn:hover::before, .btn:focus-visible::before,
 .keys button:hover::before, .keys button:focus-visible::before,
-button[aria-pressed="true"]::before {
+.keys button[aria-pressed="true"]::before, .floatstop::before {
   content: var(--fill); position: absolute; left: 0; top: 0; right: -1px; bottom: 0; z-index: -1;
   overflow: hidden; white-space: pre-wrap; word-break: break-all; line-height: var(--lh);
   color: var(--p); font-weight: 400; text-indent: 0; transform: scaleY(1.05); text-shadow: var(--seal);
 }
-a:focus-visible::before, .btn:focus-visible::before, .keys button:focus-visible::before { color: var(--p); }
-
 button { font: inherit; color: inherit; background: none; border: 0; border-radius: 0; padding: 0; margin: 0; cursor: pointer; position: relative; z-index: 0; line-height: var(--lh); -webkit-appearance: none; appearance: none; text-align: left; }
 button:focus-visible { outline: none; }
-.btn { color: var(--b); }
+.btn { color: var(--b); white-space: pre; }
 .btn:hover, .btn:focus-visible { color: var(--ink); }
 .br { color: var(--b); }
-button[aria-pressed="true"]::before { color: var(--b); }
 
-/* ---------- home: the gate ---------- */
+/* ---------- the gate: the roof at rest, one thing to do ---------- */
 .js.gated body { overflow: hidden; }
 .js.gated #world { height: var(--gateH) !important; }
-.js.gated main, .js.gated #fm { opacity: 0; }
+.js.gated main, .js.gated .keys { opacity: 0; }
 .js.entered .gate-only { visibility: hidden; }
 .js.entered #quiet { display: none; }
-main, #fm { transition: opacity .5s; }
-@media (prefers-reduced-motion: reduce) { main, #fm { transition: none; } }
+main, .keys { transition: opacity .5s; }
+@media (prefers-reduced-motion: reduce) { main, .keys { transition: none; } }
 
-/* the play block: a big pink plane of █ with a white ▶ knocked out of it */
+/* the transmitter on the roof is the play button: a pink plane of █ with a white ▶ knocked out of it */
 #go { position: absolute; display: block; overflow: hidden; color: #fff; }
 #go .gf, #go .gk { position: absolute; left: 0; top: 0; white-space: pre; pointer-events: none; }
 #go .gf { color: var(--p); }
-#go .ln { display: block; }
-#go .gf .ln { height: var(--lh); transform: scaleY(1.05); text-shadow: var(--seal); }
+#go .ln { display: block; height: var(--lh); }
+#go .gf .ln { transform: scaleY(1.05); text-shadow: var(--seal); }
 #go .gk .tri { text-shadow: var(--seal); }
 #go .gk { color: #fff; font-weight: 700; }
-#go .gk .ln { height: var(--lh); }
 #go:hover .gf, #go:focus-visible .gf { color: var(--b); }
 #go .t { color: var(--ink); }
 #go:hover .t, #go:focus-visible .t { color: #fff; }
 #go .on { display: none; }
 #go[aria-pressed="true"] .on { display: inline; }
 #go[aria-pressed="true"] .off { display: none; }
-#go[aria-pressed="true"]::before { content: none; }
-#quiet { position: absolute; white-space: pre; }
+#go.thump .tri { animation: thump .25s ease-out; }
+@keyframes thump { from { color: var(--y); } }
+#quiet { position: absolute; }
 
-/* the name, in kes's own little <3 pixels */
-.name { display: block; color: var(--p); font-weight: 700; white-space: pre; }
-.name .h { color: var(--b); }
-/* the speaker stack, stood on a yellow street */
-.spk { white-space: pre; color: #9c988f; }
-.spk .p { color: var(--p); } .spk .bl { color: var(--b); } .spk .y { color: var(--y); } .spk .k { color: var(--ink); font-weight: 700; }
-.sound.thump { animation: thump .22s ease-out; }
-@keyframes thump { from { color: var(--b); } }
-.tower.lit { color: var(--p); }
+/* the aerial: a beacon on the mast, and the mast is KES FM's tracker, one 16th per row, climbing */
+.beacon { position: absolute; white-space: pre; color: var(--g); transform: scaleY(1.05); text-shadow: var(--seal); }
+.beacon.lit { color: var(--p); }
+#tracker { position: absolute; display: flex; flex-direction: column-reverse; overflow: hidden; }
+#tracker span { position: relative; display: block; flex: none; height: var(--lh); color: transparent; white-space: pre; overflow: hidden; }
+#tracker span::before, #tracker span::after { position: absolute; left: 0; top: 0; white-space: pre; color: var(--y); }
+#tracker span::before { content: "████"; transform: scaleY(1.05); text-shadow: var(--seal); }
+#tracker .rest::before { color: #fff; }
+#tracker .rev::before { color: var(--p); }
+#tracker .up::before { color: var(--b); }
+#tracker .roll::before { content: "▄▄▄▄"; }
+#tracker .roll::after { content: "▀▀▀▀"; color: #fff; }
+#tracker .on::before { color: #fff; }
+#tracker .on::after { content: " <3 "; color: var(--p); font-weight: 700; }
 
-/* ---------- KES FM, as type ---------- */
-.fm h2 .st { font-weight: 400; color: var(--mute); }
-.fm .deck > * + * { margin-top: var(--lh); }
-.lcd > * + * { margin-top: 0; }
-.status { color: var(--p); }
-.ticker { position: relative; z-index: 0; overflow: hidden; white-space: nowrap; height: var(--lh); margin-top: var(--lh) !important; }
-.ticker::before { content: var(--fill) var(--fill); position: absolute; left: 0; top: 0; right: 0; bottom: 0; z-index: -1; color: var(--y); white-space: nowrap; overflow: hidden; transform: scaleY(1.05); text-shadow: var(--seal); }
-.ticker > div { display: inline-block; font-weight: 700; padding-left: var(--cw); }
+/* the roof edge carries the shout-outs, knocked out of the yellow */
+.ticker { position: absolute; z-index: 0; overflow: hidden; white-space: nowrap; height: var(--lh); color: #fff; font-weight: 700; }
+.ticker::before { content: var(--fill) var(--fill); position: absolute; left: 0; top: 0; right: 0; bottom: 0; z-index: -1; color: var(--y); white-space: nowrap; overflow: hidden; transform: scaleY(1.05); text-shadow: var(--seal); font-weight: 400; }
+.ticker > div { display: inline-block; padding-left: var(--cw); }
 .ticker span { padding-right: var(--cw); }
 @keyframes run { to { transform: translateX(-50%); } }
 @media (prefers-reduced-motion: no-preference) { .on-air .ticker > div { animation: run 70s linear infinite; } }
-.tracker { line-height: var(--lh); margin-top: var(--lh) !important; max-width: calc(32 * var(--cw)); }
-.tracker span { position: relative; display: inline-block; vertical-align: top; width: calc(2 * var(--cw)); height: var(--lh); overflow: hidden; color: transparent; }
-.tracker span::before { content: "██"; position: absolute; left: 0; top: 0; color: var(--y); transform: scaleY(1.08); }
-.tracker .rest::before { color: var(--g); }
-.tracker .rev::before { color: var(--p); }
-.tracker .up::before { color: var(--b); }
-.tracker .roll::before { content: "▄▄"; }
-.tracker .on::before { content: "<3"; color: var(--p); font-weight: 700; transform: none; }
-.lcd-info { color: var(--mute); }
-.lcd-info .rev { color: var(--p); } .lcd-info .up { color: var(--b); }
-.keys > div + div, .keys > label { display: block; margin-top: var(--lh); }
-.keys > div > * { margin-right: var(--cw); }
-.keys .lbl { color: var(--mute); }
-.keys button { color: var(--ink); }
+
+/* KES FM's controls: a few bracketed words on the roof */
+.keys { color: var(--ink); }
+.keys > * + * { margin-top: 0; }
+.keys .lcd { color: var(--mute); }
+.status { color: var(--p); }
+.keys button { color: var(--ink); white-space: pre; }
 .keys button[aria-pressed="true"] { color: #fff; }
-.keys button[aria-pressed="true"] .br { color: var(--b); }
+.keys button[aria-pressed="true"]::before { color: var(--b); }
+.keys button[aria-pressed="true"] .br { color: #fff; }
 .keys button:hover, .keys button:focus-visible { color: var(--ink); }
-.keys button:hover .br, .keys button:focus-visible .br { color: var(--p); }
+.keys button:hover::before, .keys button:focus-visible::before { color: var(--p); }
+.keys button:hover .br, .keys button:focus-visible .br { color: var(--ink); }
 #stop { font-weight: 700; }
-.vol { position: relative; display: inline-block; color: var(--mute); }
-.vol .bar { color: var(--ink); }
+.vol { position: relative; display: inline-block; color: var(--mute); white-space: pre; }
 .vol .bar b { color: var(--y); font-weight: 400; }
 .vol .bar i { color: var(--g); font-style: normal; }
 .vol input { position: absolute; left: 0; top: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.vol:focus-within, .vol:hover { color: var(--p); }
 .vol:focus-within .bar b { color: var(--p); }
-.vol:focus-within { color: var(--p); }
 .floatstop { position: fixed; right: var(--px); bottom: var(--lh); z-index: 9; padding: var(--lh) var(--px); color: var(--ink); font-weight: 700; }
-.floatstop::before { content: var(--fill); position: absolute; left: 0; top: 0; right: -1px; bottom: 0; z-index: -1; overflow: hidden; white-space: pre-wrap; word-break: break-all; color: var(--y); transform: scaleY(1.05); text-shadow: var(--seal); }
+.floatstop::before { color: var(--y); }
 .floatstop:hover::before, .floatstop:focus-visible::before { color: var(--p); }
+.floatstop:focus-visible { outline: none; }
 .floatstop[hidden] { display: none; }
 
-/* ---------- the projects' pictures are still to come: a mondrian block holds the place ---------- */
+/* ---------- the flats ---------- */
 .pic { position: relative; z-index: 0; height: calc(7 * var(--lh)); padding: var(--lh) var(--px); box-sizing: border-box; color: #fff; font-weight: 700; }
 .pic::before, .pic::after { content: var(--fill) var(--fill); position: absolute; z-index: -1; overflow: hidden; white-space: pre-wrap; word-break: break-all; line-height: var(--lh); font-weight: 400; transform: scaleY(1.05); text-shadow: var(--seal); }
 .pic::before { left: 0; top: 0; right: -1px; bottom: 0; color: var(--b); }
 .pic::after { width: calc(5 * var(--px)); height: calc(3 * var(--lh)); right: calc(2 * var(--px)); bottom: var(--lh); color: var(--p); }
 #p2 .pic::before { color: var(--p); } #p2 .pic { color: var(--ink); } #p2 .pic::after { color: var(--y); left: var(--px); right: auto; top: calc(3 * var(--lh)); bottom: auto; width: calc(4 * var(--px)); }
 #p3 .pic::before { color: var(--y); } #p3 .pic { color: var(--ink); } #p3 .pic::after { color: var(--g); width: calc(3 * var(--px)); height: calc(2 * var(--lh)); }
-
 .card p { margin-top: 0; }
 .card .gap { margin-top: var(--lh); }
-
-/* ---------- the music moves the painting ---------- */
-.beat .sw.c2 { color: var(--b); }
-.beat .sw.c3 { color: var(--p); }
-.beat .sw.c4 { color: var(--y); }
-.beat .sw.c5 { color: var(--g); }
-.cute .car s { display: none; }
-.cute .car u { display: inline-block; }
-.cute .ko { opacity: 0; }
-.bass-off .car.k2 { visibility: hidden; }
-.car.k3 { visibility: hidden; }
-.bass-reese .car.k3 { visibility: visible; }
-.car.off { visibility: hidden !important; }
-@media (prefers-reduced-motion: no-preference) {
-  .siren .car.c2, .siren .car.c4 { animation: sirenA .18s steps(1) infinite; }
-  .siren .car.c3 { animation: sirenB .18s steps(1) infinite; }
-  .rew .ko { opacity: .25; }
-}
-@keyframes sirenA { 50% { color: var(--b); } }
-@keyframes sirenB { 50% { color: var(--p); } }
 .u > h2 { padding-left: calc(3 * var(--cw)); text-indent: calc(-3 * var(--cw)); }
 .proj > h2, .card > h2 { padding-left: 0; text-indent: 0; margin-top: 0; }
 .kv { padding-left: calc(9 * var(--cw)); text-indent: calc(-9 * var(--cw)); }
 .kv .k { display: inline-block; width: calc(8 * var(--cw)); text-indent: 0; }
 #hello-h:focus { outline: none; }
 
+/* ---------- kes's garden ---------- */
+.gdn .gp { color: var(--p); } .gdn .gb { color: var(--b); } .gdn .gy { color: var(--gy); } .gdn .gg { color: var(--stem); } .gdn .gk { color: var(--ink); }
+.gdn s, .gdn u { text-decoration: none; }
+.gdn u, .on-air .gdn s { display: none; }
+.on-air .gdn u { display: inline; }
+.gdn .hd { transition: transform .12s ease-out; }
+.sway .gdn .hd { transform: translateX(var(--cw)); }
+
+/* ---------- the music moves the building ---------- */
+.beat .sw.c2 { color: var(--b); }
+.beat .sw.c3 { color: var(--p); }
+.beat .sw.c4 { color: var(--y); }
+.beat .sw.c5 { color: var(--g); }
+.fill .w.lt { color: var(--y); }
+.fill .w.lt2 { color: var(--p); }
+.cute .car s { display: none; }
+.cute .car u { display: inline-block; }
+.cute .ko { opacity: 0; }
+.bass-off .car.k2 { visibility: hidden; }
+.car.k3 { visibility: hidden; }
+.bass-reese .car.k3 { visibility: visible; }
+@media (prefers-reduced-motion: no-preference) {
+  .siren .car.c2, .siren .car.c4 { animation: sirenA .18s steps(1) infinite; }
+  .siren .car.c3 { animation: sirenB .18s steps(1) infinite; }
+  .siren .beacon { animation: sirenA .18s steps(1) infinite; }
+  .rew .ms, .rew .beacon { animation: flick .1s steps(1) infinite; }
+  .rew #tracker { animation: flick2 .1s steps(1) infinite; }
+  .rew .ko { opacity: .25; }
+}
+@media (prefers-reduced-motion: reduce) { .gdn .hd { transition: none; } }
+@keyframes sirenA { 50% { color: var(--b); } }
+@keyframes sirenB { 50% { color: var(--p); } }
+@keyframes flick { 50% { color: var(--g); } }
+@keyframes flick2 { 50% { opacity: .15; } }
 </style>
 </head>
 <body>
 <div id="world">
 <div class="fill" aria-hidden="true"></div>
+<div class="sky" aria-hidden="true"></div>
 <div class="cars" aria-hidden="true"></div>
 <div class="ko" aria-hidden="true"></div>
+<div class="gdn" aria-hidden="true"></div>
+<span class="beacon tower" aria-hidden="true">████</span>
 
-<h1 class="u" id="top"><span class="sr">kes inkersole</span><span class="name" aria-hidden="true"></span></h1>
+<h1 class="u" id="top">kes inkersole</h1>
 
-<button id="go" type="button" aria-pressed="false"><span class="t off">press play</span> <span class="t on">● on air</span> <span class="t">KES FM 170.0</span></button>
+<button id="go" class="sound" type="button" aria-pressed="false"><span class="t off">press play</span> <span class="t on">● on air</span> <span class="t">KES FM 170.0</span></button>
 <button id="quiet" class="btn" type="button"><span class="br" aria-hidden="true">[ </span>enter without sound<span class="br" aria-hidden="true"> ]</span></button>
 
-<pre class="u spk" aria-hidden="true">        <span class="p">\(^o^)/</span>       <span class="p">&lt;3</span>
-.--------------..--------------.
-| .----.  .--. || .----.  .--. |
-| |====|  <span class="bl">(())</span> || |====|  <span class="bl">(())</span> |
-| '----'  '--' || '----'  '--' |
-'--------------''--------------'
-.--------------..--------------.
-|   .------.   ||   .------.   |
-|  /  .--.  \  ||  /  .--.  \  |  <span class="bl">)</span>
-| |  <span class="bl">(</span> <span class="p sound">&lt;3</span> <span class="bl">)</span>  | || |  <span class="bl">(</span> <span class="p sound">&lt;3</span> <span class="bl">)</span>  | |  <span class="bl">))</span>
-|  \  '--'  /  ||  \  '--'  /  |  <span class="bl tower">)))</span>
-|   '------'   ||   '------'   |  <span class="bl">))</span>
-|--------------||--------------|  <span class="bl">)</span>
-|    <span class="k">KES FM</span>    ||   <span class="bl">170.0 FM</span>   |
-'--------------''--------------'
-<span class="y">▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀</span></pre>
-
-<section class="fm u" id="fm" aria-labelledby="fm-h">
-<h2 id="fm-h"><span class="sq p" aria-hidden="true">██</span> KES FM 170.0</h2>
-<p class="ident">you're locked to KES FM. it's not a real station, it's this website: a little jungle machine running in your browser, every drum and bassline synthesised live, no samples, no files. nothing plays until you press on air, and stop always stops it ✧</p>
-<div class="deck">
-<div class="lcd">
-<div class="lcd-top"><span aria-hidden="true">KES FM ((( 170.0 ))) · </span><span class="status" id="status" role="status">off air</span></div>
-<div class="ticker" aria-hidden="true"><div><span>big up all the junglists ✦ big up everyone reading the source code ✦ big up the UAL lot, LCF + CCI ✦ big up Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges ✦ text in: inkersolekesia@gmail.com ✦ respect to the sound systems, pirates and producers who built all this ✦ lorem ipsum dolor sit amet ✦</span><span>big up all the junglists ✦ big up everyone reading the source code ✦ big up the UAL lot, LCF + CCI ✦ big up Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges ✦ text in: inkersolekesia@gmail.com ✦ respect to the sound systems, pirates and producers who built all this ✦ lorem ipsum dolor sit amet ✦</span></div></div>
+<section class="fm" id="fm" aria-labelledby="fm-h">
+<h2 id="fm-h" class="sr">KES FM 170.0</h2>
 <div class="tracker" id="tracker" aria-hidden="true"></div>
-<div class="lcd-info" aria-hidden="true"><span id="lcdinfo">break: straight · bass: sub · cute: off</span><br><span class="rev">pink</span> = reversed · <span class="up">blue</span> = pitched up · ▄▄ = roll · <span class="rev">&lt;3</span> = now</div>
-</div>
-<div class="keys">
-<div><button class="stop" id="stop" type="button"><span class="br" aria-hidden="true">[</span>■ stop<span class="br" aria-hidden="true">]</span></button></div>
-<div role="group" aria-label="break"><span class="lbl" aria-hidden="true">break</span> <button type="button" data-break="straight" aria-pressed="true"><span class="br" aria-hidden="true">[</span>straight<span class="br" aria-hidden="true">]</span></button><button type="button" data-break="chopped" aria-pressed="false"><span class="br" aria-hidden="true">[</span>chopped<span class="br" aria-hidden="true">]</span></button><button type="button" data-break="rollin" aria-pressed="false"><span class="br" aria-hidden="true">[</span>rollin'<span class="br" aria-hidden="true">]</span></button><button type="button" id="chop" aria-pressed="false"><span class="br" aria-hidden="true">[</span>✂ chop it<span class="br" aria-hidden="true">]</span></button></div>
-<div role="group" aria-label="bass"><span class="lbl" aria-hidden="true">bass </span> <button type="button" data-bass="sub" aria-pressed="true"><span class="br" aria-hidden="true">[</span>sub<span class="br" aria-hidden="true">]</span></button><button type="button" data-bass="reese" aria-pressed="false"><span class="br" aria-hidden="true">[</span>reese<span class="br" aria-hidden="true">]</span></button><button type="button" data-bass="off" aria-pressed="false"><span class="br" aria-hidden="true">[</span>off<span class="br" aria-hidden="true">]</span></button></div>
-<div><span class="lbl" aria-hidden="true">     </span> <button type="button" id="cute" aria-pressed="false"><span class="br" aria-hidden="true">[</span>✿ cute<span class="br" aria-hidden="true">]</span></button><button type="button" id="pullup"><span class="br" aria-hidden="true">[</span>⟲ pull up<span class="br" aria-hidden="true">]</span></button><button type="button" id="siren"><span class="br" aria-hidden="true">[</span>siren<span class="br" aria-hidden="true">]</span></button></div>
-<label class="vol"><span class="lbl">vol  </span> <span class="bar" aria-hidden="true"></span><input type="range" id="vol" min="0" max="1" step="0.05" value="0.5"></label>
-</div>
-<p class="textin">text in your shout-outs: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
+<div class="ticker" aria-hidden="true"><div><span>big up all the junglists ✦ big up everyone reading the source code ✦ big up the UAL lot, LCF + CCI ✦ big up Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges ✦ text in: inkersolekesia@gmail.com ✦ respect to the sound systems, pirates and producers who built all this ✦ lorem ipsum dolor sit amet ✦</span><span>big up all the junglists ✦ big up everyone reading the source code ✦ big up the UAL lot, LCF + CCI ✦ big up Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges ✦ text in: inkersolekesia@gmail.com ✦ respect to the sound systems, pirates and producers who built all this ✦ lorem ipsum dolor sit amet ✦</span></div></div>
+<div class="keys u" id="keys">
+<p class="row"><button class="stop" id="stop" type="button"><span class="br" aria-hidden="true">[</span>■ stop<span class="br" aria-hidden="true">]</span></button> <span role="group" aria-label="break"><button type="button" data-break="straight" aria-pressed="true"><span class="br" aria-hidden="true">[</span>straight<span class="br" aria-hidden="true">]</span></button> <button type="button" data-break="chopped" aria-pressed="false"><span class="br" aria-hidden="true">[</span>chopped<span class="br" aria-hidden="true">]</span></button> <button type="button" data-break="rollin" aria-pressed="false"><span class="br" aria-hidden="true">[</span>rollin'<span class="br" aria-hidden="true">]</span></button> <button type="button" id="chop" aria-pressed="false"><span class="br" aria-hidden="true">[</span>✂ chop it<span class="br" aria-hidden="true">]</span></button></span> <span role="group" aria-label="bass"><button type="button" data-bass="sub" aria-pressed="true"><span class="br" aria-hidden="true">[</span>sub<span class="br" aria-hidden="true">]</span></button> <button type="button" data-bass="reese" aria-pressed="false"><span class="br" aria-hidden="true">[</span>reese<span class="br" aria-hidden="true">]</span></button> <button type="button" data-bass="off" aria-pressed="false"><span class="br" aria-hidden="true">[</span>off<span class="br" aria-hidden="true">]</span></button></span> <button type="button" id="cute" aria-pressed="false"><span class="br" aria-hidden="true">[</span>✿ cute<span class="br" aria-hidden="true">]</span></button> <button type="button" id="pullup"><span class="br" aria-hidden="true">[</span>⟲ pull up<span class="br" aria-hidden="true">]</span></button> <button type="button" id="siren"><span class="br" aria-hidden="true">[</span>siren<span class="br" aria-hidden="true">]</span></button> <label class="vol">vol <span class="bar" aria-hidden="true"></span><input type="range" id="vol" min="0" max="1" step="0.05" value="0.5"></label></p>
+<p class="lcd"><span class="status" id="status" role="status">off air</span><span aria-hidden="true"> · </span><span class="lcd-info" aria-hidden="true"><span id="lcdinfo">break: straight · bass: sub · cute: off</span></span></p>
 </div>
 </section>
 
@@ -647,16 +631,15 @@ function look(mark) { if (window.kesLook) window.kesLook(mark); }
   document.querySelectorAll("[data-bass]").forEach(function (b) { b.onclick = function () { bassMode = b.dataset.bass; bassMix(); ui(); }; });
   ui();
 })();
-
 </script>
 <script>
 /* ---------------------------------------------------------------
    the grid. everything is worked out in character columns and rows
    for this viewport: a "pixel" is two columns wide and one row tall,
-   so it comes out square. the painting is three layers of type:
-   .fill (yellow █ streets and coloured planes), .cars (the little
-   squares that run along the streets) and .ko (kes's words, knocked
-   out of the streets in white). same viewport, same picture.
+   so it comes out square. the tower is three layers of type:
+   .fill (yellow █ floors, walls and lit windows), .cars (the little
+   squares that run along them) and .ko (words knocked out of the
+   floors in white). same viewport, same building.
    --------------------------------------------------------------- */
 var Grid = (function () {
   "use strict";
@@ -671,7 +654,7 @@ var Grid = (function () {
 
   function adv(fs) { probe.style.fontSize = fs + "px"; probe.textContent = "0".repeat(200); return probe.getBoundingClientRect().width / 200; }
 
-  var G = { F: [], K: [], cars: [], maxY: 0 };
+  var G = { F: [], cars: [], maxY: 0, S: 5 };
   G.metrics = function () {
     var W = Math.floor(world.getBoundingClientRect().width * 100) / 100 || H.clientWidth || innerWidth;
     var t = Math.max(8, Math.min(10, W / 165));
@@ -680,18 +663,20 @@ var Grid = (function () {
     fs = fs * cw / adv(fs);
     var lh = 2 * cw;
     G.W = W; G.cols = cols; G.PW = cols / 2; G.cw = cw; G.px = 2 * cw; G.lh = lh; G.fs = fs;
-    G.R = Math.max(26, Math.floor((innerHeight || 700) / lh));
+    G.R = Math.max(24, Math.floor((innerHeight || 700) / lh));
     H.style.setProperty("--cw", cw + "px");
     H.style.setProperty("--px", 2 * cw + "px");
     H.style.setProperty("--lh", lh + "px");
     H.style.setProperty("--fs", fs + "px");
     return G;
   };
-  G.reset = function () { G.F = []; G.K = []; G.cars = []; G.maxY = 0; G.texts = []; };
+  G.reset = function () { G.F = []; G.cars = []; G.maxY = 0; G.texts = []; G.NS = 0; G.y0s = 0; };
   function row(y) { if (!G.F[y]) G.F[y] = new Uint8Array(G.PW); if (y > G.maxY) G.maxY = y; return G.F[y]; }
-  // codes: 1 street, 2 pink, 3 blue, 4 grey, 5 yellow plane. +16 = trades colour on the beat, +32 = only while the gate is up
+  // codes: 1 street (carries squares and words), 2 pink, 3 blue, 4 grey, 5 yellow plane,
+  // 6 the mast and its bars, 7 plain yellow structure (roof edge, balcony stubs), 8 a partition (squares, no words).
+  // +16 trades colour on the beat, +32 only while the gate is up, +64 a window on a numbered storey
   G.put = function (x, y, c) { if (x < 0 || x >= G.PW || y < 0) return; row(y)[x] = c; };
-  G.get = function (x, y) { var r = G.F[y]; return r ? r[x] : 0; };
+  G.get = function (x, y) { var r = G.F[y]; return r && x >= 0 && x < G.PW ? r[x] : 0; };
   G.rect = function (x0, y0, x1, y1, c) { for (var y = y0; y <= y1; y++) for (var x = x0; x <= x1; x++) G.put(x, y, c); };
   G.h = function (y, x0, x1) { G.rect(x0, y, x1, y, 1); };
   G.v = function (x, y0, y1) { G.rect(x, y0, x, y1, 1); };
@@ -715,66 +700,144 @@ var Grid = (function () {
       G.rect(ix, iy, ix + iw - 1, iy + ih - 1, pair[1] | f);
     }
   };
-
-  // fill leftover space at the bottom of a cell with a block that leans on the street below
+  // a lit window in a flat: a block that leans on the floor below
   G.decor = function (x0, x1, yTop, yBot, k) {
     var free = yBot - yTop + 1, w = x1 - x0 + 1;
     if (free < 5 || w < 5) return;
     var r = G.rng(x0 * 131 + yBot * 7 + k);
-    var bh = Math.min(free - 2, 3 + Math.floor(r() * 5)), bw = Math.max(3, Math.round(w * (0.3 + r() * 0.35)));
-    var left = r() < 0.5, bx0 = left ? x0 : x1 - bw + 1;
+    var bh = Math.min(free - 2, 3 + Math.floor(r() * 4)), bw = Math.max(3, Math.round(w * (0.25 + r() * 0.3)));
+    var left = r() < 0.5, bx0 = left ? x0 + 1 : x1 - bw;
     G.block(bx0, yBot - bh + 1, bx0 + bw - 1, yBot, k);
-    if (free - bh > 6 && w > 10 && r() < 0.6) {          // and sometimes a lone square up the cell
-      var sx = left ? x1 - 2 - Math.floor(r() * 3) : x0 + 1 + Math.floor(r() * 3), sy = yBot - bh - 2 - Math.floor(r() * 3);
-      G.rect(sx, sy, sx + 1, sy, [2, 3, 4][k % 3] | 16);
-    }
   };
-  // the narrow lane: a run of small blocks, like the strips between doubled lines
-  G.lane = function (x0, x1, y0, y1, k) {
-    var r = G.rng(y0 * 17 + k * 3 + 5), y = y0 + 1 + Math.floor(r() * 3);
-    while (y + 2 < y1) {
-      var bh = 2 + Math.floor(r() * 4); if (y + bh > y1) bh = y1 - y;
-      if (bh >= 2) G.rect(x0, y, x1, y + bh - 1, [3, 2, 4, 3, 2, 4][Math.floor(r() * 6)] | 16);
-      if (x1 > x0 && bh >= 3 && r() < 0.5) G.put(x0 + Math.floor(r() * (x1 - x0 + 1)), y + 1, [4, 2, 5][Math.floor(r() * 3)] | 16);
-      y += bh + 3 + Math.floor(r() * 9);
+
+  // ---------- the building ----------
+  // sky either side, two walls, a lane of balconies down one or both sides, then the flats in bays
+  G.frame = function (PW) {
+    var f = {}, sky, lane, both;
+    if (PW >= 80) { f.cls = "wide"; sky = Math.max(4, Math.round(PW * 0.05)); lane = 4; both = true; }
+    else if (PW >= 56) { f.cls = "mid"; sky = 3; lane = 3; both = true; }
+    else { f.cls = "narrow"; sky = PW >= 36 ? 2 : 1; lane = PW >= 36 ? 2 : 1; both = PW >= 36; }
+    f.wl = sky; f.wr = PW - 1 - sky;
+    f.laneL = [f.wl + 1, f.wl + lane]; f.colL = f.wl + lane + 1;
+    if (both) { f.laneR = [f.wr - lane, f.wr - 1]; f.colR = f.wr - lane - 1; } else { f.laneR = null; f.colR = f.wr; }
+    var c0 = f.colL + 1, c1 = f.colR - 1, T;
+    if (f.cls === "wide") {
+      T = c1 - c0 + 1 - 2;
+      var A = Math.round(T * 0.4), Bw = Math.round(T * 0.3);
+      f.bays = [[c0, c0 + A - 1], [c0 + A + 1, c0 + A + Bw], [c0 + A + Bw + 2, c1]];
+    } else if (f.cls === "mid") {
+      T = c1 - c0 + 1 - 1;
+      var A2 = Math.round(T / 2);
+      f.bays = [[c0, c0 + A2 - 1], [c0 + A2 + 1, c1]];
+    } else f.bays = [[c0, c1]];
+    f.pad = f.cls === "narrow" && PW < 36 ? 1 : 2;
+    return f;
+  };
+  // walls and balcony lanes from y0 to y1; storeys (a stub and a window each) from y0 down to yW
+  G.tower = function (f, y0, y1, yW) {
+    var S = G.S;
+    G.v(f.wl, y0, y1); G.v(f.wr, y0, y1);
+    G.v(f.colL, y0, y1); if (f.laneR) G.v(f.colR, y0, y1);
+    var lanes = f.laneR ? [f.laneL, f.laneR] : [f.laneL], s = 0;
+    for (var y = y0; y + S <= yW; y += S, s++) {
+      lanes.forEach(function (ln, j) {
+        G.rect(ln[0], y, ln[1], y, 7);
+        var w = ln[1] - ln[0] + 1, x0 = w >= 3 ? ln[0] + 1 : ln[0], x1 = w >= 3 ? ln[1] - 1 : ln[1];
+        var r = G.rng(s * 31 + j * 7 + 3)(), col = r < 0.5 ? 4 : r < 0.67 ? 2 : r < 0.84 ? 3 : 5;
+        G.rect(x0, y + 2, x1, y + 3, col | 64);
+      });
     }
+    G.NS = s; G.y0s = y0;
   };
 
   // ---------- type placed on the grid ----------
-  // a unit of real content in a cell x0..x1 (pixels), starting at row y; 1px gutter each side
-  G.place = function (el, x0, y, x1, pad) {
-    pad = pad == null ? 1 : pad;
-    var cols = (x1 - x0 + 1) * 2 - pad * 4;
-    el.style.fontSize = ""; el.style.lineHeight = "";
-    el.style.left = (x0 + pad) * G.px + "px";
+  // a unit of real content in a cell x0..x1 (pixels), starting at row y; pad is in columns
+  G.place = function (el, x0, y, x1, pad, max) {
+    pad = pad == null ? 2 : pad;
+    var cols = (x1 - x0 + 1) * 2 - pad * 2;
+    if (max && cols > max) cols = max;
+    el.style.left = (x0 * 2 + pad) * G.cw + "px";
     el.style.top = y * G.lh + "px";
     el.style.width = cols * G.cw + "px";
     return Math.max(1, Math.ceil(el.getBoundingClientRect().height / G.lh - 0.08));
   };
-  // ascii art keeps its own drawing; if the cell is too narrow it runs on a finer grid of its own
-  G.art = function (el, x0, y, x1, natCols, natRows, center) {
-    var avail = (x1 - x0 + 1) * 2 - 2, s = Math.min(1, avail / natCols);
-    el.style.fontSize = G.fs * s + "px"; el.style.lineHeight = G.lh * s + "px";
-    var wpx = natCols * G.cw * s, cellpx = (x1 - x0 + 1) * G.px;
-    var left = center ? x0 * G.px + Math.max(G.cw, Math.round((cellpx - wpx) / 2 / G.cw) * G.cw) : (x0 * G.px + (s < 1 ? G.cw : G.px));
-    el.style.left = left + "px"; el.style.top = y * G.lh + "px"; el.style.width = Math.ceil(wpx + 1) + "px";
-    return Math.ceil(natRows * s - 0.01);
+  G.at = function (el, x, y, w) {
+    el.style.left = x * G.px + "px"; el.style.top = y * G.lh + "px";
+    if (w != null) el.style.width = w * G.px + "px";
   };
-  // write a string on a street, in white, over whatever is under it
-  G.text = function (y, col, str) { G.texts.push([y, col, str]); };
+
+  // one floor of flats. cells: [{ x: [x0, x1], u: [elements], decor }]. returns the next floor's row
+  G.band = function (f, ys, cells, k, groundRows) {
+    var S = G.S, bottom = ys + 3;
+    cells.forEach(function (c) {
+      var yy = ys + 2; c.inner = [];
+      c.u.forEach(function (u, i) {
+        if (i) { c.inner.push(yy + 1); yy += 3; }
+        yy += G.place(u, c.x[0], yy, c.x[1], f.pad, 72);
+      });
+      c.end = c.u.length ? yy : ys + 1;
+      bottom = Math.max(bottom, yy + 1);
+    });
+    var last = !!groundRows, g0 = bottom + 1, gr = g0 + (groundRows || 0) - 1;
+    if (!last) bottom = ys + Math.ceil((bottom - ys) / S) * S;
+    cells.forEach(function (c, i) {
+      c.inner.forEach(function (iy) { G.rect(c.x[0], iy, c.x[1], iy, 8); });   // a partition between two rooms: squares, no words
+      if (c.decor !== false) G.decor(c.x[0], c.x[1], c.end + 1, last ? g0 - 2 : bottom - 1, k + i * 2);
+    });
+    for (var i = 0; i < cells.length - 1; i++) G.v(cells[i].x[1] + 1, ys, last ? gr - 1 : bottom);
+    if (last) return { g0: g0, gr: gr };
+    G.h(bottom, f.wl, f.wr);
+    return bottom;
+  };
+
+  // ---------- kes's flower garden, at the foot of the tower ----------
+  var GT = ["                  _   _                                                             _   _                                                    _   _                                                          ", "     _           ( `v' )                                              _            ( `v' )            _                                     ( `v' )       _                              _                  ", "   _(_)_          \\   /           \\ | /               @@@           _(_)_           \\   /           _(_)_           @@@       \\ | /          \\   /      _(_)_                @@@       _(_)_     \\ | /      ", "  (_)@(_)          `.'           -- o --             @@@@@         (_)@(_)           `.'           (_)@(_)         @@@@@     -- o --          `.'      (_)@(_)              @@@@@     (_)@(_)   -- o --     ", "    (_)             |             / | \\    (\\_/)      @@@            (_)              |              (_)            @@@       / | \\            |         (_)                 @@@        (_)      / | \\      ", "     |\\            /|        ,      |      (-.-)       |             /|       ,      /|               |\\      ,      |          |             /|         /|      ,            |          |\\        |        ", "     |      \\|/     |       \\|      |/     (\")(\")     \\|     \\|/      |      \\|       |     \\|/       |      \\|     \\|          |/    \\|/      |          |     \\|   \\|/     \\|          |         |/    \\|/", ",.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,"], GC = ["                  p   p                                                             p   p                                                    p   p                                                          ", "     p           p ppp p                                              b            p ppp p            p                                     p ppp p       b                              p                  ", "   ppppp          p   p           y y y               lll           bbbbb           p   p           ppppp           lll       y y y          p   p      bbbbb                lll       ppppp     y y y      ", "  pppyppp          ppp           yy p yy             lllll         bbbybbb           ppp           pppyppp         lllll     yy p yy          ppp      bbbybbb              lllll     pppyppp   yy p yy     ", "    ppp             g             y y y    kkkkk      lll            bbb              g              ppp            lll       y y y            g         bbb                 lll        ppp      y y y      ", "     gg            gg        g      g      kkkkk       g             gg       g      gg               gg      g      g          g             gg         gg      g            g          gg        g        ", "     g      ggg     g       gg      gg     kkkkkk     gg     ggg      g      gg       g     ggg       g      gg     gg          gg    ggg      g          g     gg   ggg     gg          g         gg    ggg", "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg"];
+  var GCLS = { p: "gp", b: "gb", y: "gy", g: "gg", l: "gb", k: "gk" };
+  G.GROWS = GT.length;
+  G.garden = function (el, y0) {
+    var cols = G.cols, W = GT[0].length, out = [], mask = [];
+    for (var r = 0; r < GT.length; r++) {
+      var s = "", hits = new Uint8Array(G.PW), c = 0;
+      while (c < cols) {
+        var i = c % W, ch = GT[r][i], k = GC[r][i];
+        if (ch !== " ") {
+          hits[c >> 1] = 1;
+          if (r < 4) { if (c > 0) hits[(c - 1) >> 1] = 1; if (c + 1 < cols) hits[(c + 1) >> 1] = 1; }
+        }
+        if (r === 5 && GT[r].substr(i, 3) === "-.-" && c + 3 <= cols) {
+          s += '<b class="gk"><s>-.-</s><u>o.o</u></b>'; hits[c >> 1] = hits[(c + 2) >> 1] = 1; c += 3; continue;
+        }
+        var e = c + 1; while (e < cols && GC[r][e % W] === k && !(r === 5 && GT[r].substr(e % W, 3) === "-.-")) e++;
+        var txt = ""; for (var j = c; j < e; j++) txt += GT[r][j % W];
+        txt = txt.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        s += k === " " ? txt : '<b class="' + GCLS[k] + '">' + txt + "</b>";
+        for (j = c; j < e; j++) if (GT[r][j % W] !== " ") hits[j >> 1] = 1;
+        c = e;
+      }
+      out.push('<div class="r' + (r < 4 ? " hd" : "") + '">' + s + "</div>");
+      mask.push(hits);
+    }
+    el.innerHTML = out.join("");
+    el.style.top = y0 * G.lh + "px";
+    // the flowers grow in front of the tower's feet
+    for (r = 0; r < mask.length; r++) for (var x = 0; x < G.PW; x++) if (mask[r][x]) G.put(x, y0 + r, 0);
+    G.touch(y0 + GT.length - 1);
+  };
 
   // ---------- render ----------
-  var CLS = ["", "c1", "c2", "c3", "c4", "c5"];
+  var CLS = ["", "c1", "c2", "c3", "c4", "c5", "c1 ms", "c1", "c1"];
+  function st(c) { c &= 15; return c === 1 || c === 8; }
   function esc(s) { return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
   G.render = function (phrases, density, seed, minText) {
-    var PW = G.PW, rows = G.maxY + 1, out = [], y, x;
+    var PW = G.PW, rows = G.maxY + 1, out = [], y, x, S = G.S;
     for (y = 0; y < rows; y++) {
       var r = G.F[y], s = "";
       if (r) for (x = 0; x < PW;) {
         var c = r[x], x2 = x; while (x2 < PW && r[x2] === c) x2++;
         var n = (x2 - x) * 2;
         if (!c) s += " ".repeat(n);
-        else s += '<b class="' + CLS[c & 15] + (c & 16 ? " sw" : "") + (c & 32 ? " gate-only" : "") + '">' + BLOCK.repeat(n) + "</b>";
+        else s += '<b class="' + CLS[c & 15] + (c & 16 ? " sw" : "") + (c & 32 ? " gate-only" : "") +
+          (c & 64 ? ' w" data-s="' + Math.floor((y - G.y0s) / S) : "") + '">' + BLOCK.repeat(n) + "</b>";
         x = x2;
       }
       out.push('<div class="r">' + s + "</div>");
@@ -787,37 +850,33 @@ var Grid = (function () {
     for (y = 0; y < rows; y++) {
       var rr = G.F[y]; if (!rr) continue;
       for (x = 0; x < PW;) {
-        if ((rr[x] & 15) !== 1) { x++; continue; }
-        var e = x; while (e < PW && (rr[e] & 15) === 1) e++;
-        if (e - x >= 4) segs.push({ h: 1, y: y, a: x, n: e - x });
+        if (!st(rr[x])) { x++; continue; }
+        var e = x, words = true; while (e < PW && st(rr[e])) { if ((rr[e] & 15) === 8) words = false; e++; }
+        if (e - x >= 4) segs.push({ h: 1, y: y, a: x, n: e - x, words: words });
         x = e;
       }
     }
     for (x = 0; x < PW; x++) {
       for (y = 0; y < rows;) {
-        if ((G.get(x, y) & 15) !== 1) { y++; continue; }
-        var e2 = y; while (e2 < rows && (G.get(x, e2) & 15) === 1) e2++;
+        if (!st(G.get(x, y))) { y++; continue; }
+        var e2 = y; while (e2 < rows && st(G.get(x, e2))) e2++;
         if (e2 - y >= 4) segs.push({ h: 0, x: x, a: y, n: e2 - y });
         y = e2;
       }
     }
-    // words knocked out of the streets
+    // words knocked out of the floors
     var pi = seed || 0;
     segs.forEach(function (sg) {
-      if (!sg.h || !phrases || sg.n < (minText || 6)) return;
+      if (!sg.h || !sg.words || !phrases || !phrases.length || sg.n < (minText || 8)) return;
       var ph = phrases[pi++ % phrases.length] + " · ", line = K[sg.y] || (K[sg.y] = new Array(G.cols + 1).join(" ").split(""));
       var off = (sg.y * 7) % ph.length;
       for (var c2 = sg.a * 2 + 1; c2 < (sg.a + sg.n) * 2 - 1; c2++) line[c2] = ph[(c2 + off) % ph.length];
-    });
-    G.texts.forEach(function (t) {
-      var line = K[t[0]] || (K[t[0]] = new Array(G.cols + 1).join(" ").split(""));
-      for (var i = 0; i < t[2].length && t[1] + i < G.cols; i++) line[t[1] + i] = t[2][i];
     });
     out = [];
     for (y = 0; y < rows; y++) out.push('<div class="r">' + (K[y] ? esc(K[y].join("").replace(/\s+$/, "")) : "") + "</div>");
     KL.innerHTML = out.join("");
 
-    // the little squares: grey, pink and blue, in irregular runs along every street
+    // the little squares: grey, pink and blue, in irregular runs along every floor and wall
     var html = [], cars = [];
     segs.forEach(function (sg, i) {
       var r = G.rng((sg.h ? sg.y * 97 + sg.a : sg.x * 89 + sg.a * 3) + 11), p = Math.floor(r() * 3);
@@ -838,6 +897,7 @@ var Grid = (function () {
     G.move(0);
   };
   function mod(a, n) { return ((a % n) + n) % n; }
+  G.mod = mod;
   G.move = function (t) {
     for (var i = 0; i < G.cars.length; i++) {
       var c = G.cars[i], sg = c.sg, q = mod(c.p + sg.dir * Math.floor(t / sg.sp), sg.n);
@@ -849,8 +909,9 @@ var Grid = (function () {
 })();
 
 /* ---------------------------------------------------------------
-   the home page: first a gate (the painting at rest + one big
-   pink block that plays KES FM), then the whole city opens up.
+   the home page: first the roof (KES FM's aerial at rest, and a pink
+   transmitter that plays it), then the whole tower opens up beneath,
+   floor by floor, down to kes's garden at the bottom.
    --------------------------------------------------------------- */
 (function () {
   "use strict";
@@ -858,49 +919,18 @@ var Grid = (function () {
   var still = matchMedia("(prefers-reduced-motion: reduce)").matches;
   var $ = function (s) { return D.querySelector(s); };
   var U = {
-    name: $("#top"), spk: $(".spk"), fm: $("#fm"), hello: $("#hello"), presents: $("#presents"),
+    name: $("#top"), keys: $("#keys"), hello: $("#hello"), presents: $("#presents"),
     p1: $("#p1"), p2: $("#p2"), p3: $("#p3"), more: $("#more"), writing: $("#writing"),
     written: $("#written"), pods: $("#pods"), irl: $("#irl"), about: $("#about")
   };
-  var go = $("#go"), quiet = $("#quiet");
-  var PHRASES = ["kes inkersole", "creative strategist", "internet equalities researcher", "london", "available for work",
-    "big up all the junglists", "KES FM 170.0", "research, workshops, writing and teaching", "thanks for stopping by <3"];
+  var go = $("#go"), quiet = $("#quiet"), trk = $("#tracker"), ticker = $(".ticker"), beacon = $(".beacon");
+  var SKYL = $(".sky"), GDN = $(".gdn");
+  var PHRASES = ["kes inkersole", "creative strategist", "internet equalities researcher", "london", "available for work", "KES FM 170.0"];
   var B = "█";
 
-  // kes's heart-letter name, as a bitmap: every # is one <3
-  var BM = [
-    "..#.....................#........#.............................##..................",
-    "..#..............................#..............................#.........##.##....",
-    "..#..#...###...####....##..#.##..#..#...###..#.##...####..###...#...###..#######...",
-    "..#.#...#...#.#.........#..##..#.#.#...#...#.##..#.#.....#...#..#..#...#.#######...",
-    "..##....#####..###......#..#...#.##....#####.#......###..#...#..#..#####..#####....",
-    "..#.#...#.........#.....#..#...#.#.#...#.....#.........#.#...#..#..#.......###.....",
-    "..#..#...###..####.....###.#...#.#..#...###..#.....####...###..###..###.....#......"
-  ];
-  function cut(a, b) { return BM.map(function (r) { return r.slice(a, b); }); }
-  var KES = cut(2, 19), INK = cut(23, 72), HRT = cut(73, 80);
-  function nameArt(mode) {
-    var lines = mode === 2 ? [[KES, HRT], [INK]] : mode === 1 ? [[KES, HRT]] : [[KES]];
-    var rows = [], width = 0;
-    lines.forEach(function (line, li) {
-      if (li) rows.push("");
-      for (var r = 0; r < 7; r++) {
-        var s = "";
-        line.forEach(function (bits, pi) {
-          var seg = "";
-          for (var i = 0; i < bits[r].length; i++) seg += bits[r][i] === "#" ? "&lt;3" : "  ";
-          s += pi ? "      " + '<span class="h">' + seg + "</span>" : seg;
-        });
-        rows.push(s.replace(/\s+$/, ""));
-      }
-      width = Math.max(width, line.reduce(function (a, bits, pi) { return a + bits[0].length * 2 + (pi ? 6 : 0); }, 0));
-    });
-    return { html: rows.join("\n"), cols: width, rows: rows.length };
-  }
-
-  // the play block: a pink plane of █ with a white ▶ knocked out of it
+  // the transmitter: a pink plane of █ with a white ▶ knocked out of it
   function placeGo(x, y, w, h) {
-    var cols = w * 2, t = h >= 11 ? 6 : h >= 9 ? 5 : h >= 7 ? 4 : 3, Wt = Math.round(1.75 * t);
+    var cols = w * 2, t = Math.max(3, Math.min(6, h - 5)), Wt = Math.round(1.75 * t);
     var top = Math.max(1, Math.floor((h - t - 3) / 2)), tx = Math.floor((cols - Wt) / 2);
     function wid(s) { return Math.round(Wt * (1 - Math.abs(s + 0.5 - t) / t)); }
     var fill = "", over = "";
@@ -921,148 +951,163 @@ var Grid = (function () {
       over += '<span class="ln">' + line + "</span>";
     }
     go.innerHTML = '<span class="gf" aria-hidden="true">' + fill + '</span><span class="gk">' + over + "</span>";
-    go.style.left = x * G.px + "px"; go.style.top = y * G.lh + "px";
-    go.style.width = w * G.px + "px"; go.style.height = h * G.lh + "px";
-  }
-  function placeQuiet(x, y, w) {
-    var len = 23, cols = w * 2;
-    quiet.style.left = (x * 2 + Math.max(0, Math.floor((cols - len) / 2))) * G.cw + "px";
-    quiet.style.top = y * G.lh + "px";
+    G.at(go, x, y, w); go.style.height = h * G.lh + "px";
   }
 
-  var fr, S1, ART = { spk: [37, 16] };
-  function frame(PW) {
-    var f = { PW: PW };
-    if (PW >= 80) {
-      var x = 6, T = PW - 2 - x + 1 - 2, A = Math.round(T * 0.4), C = Math.max(21, Math.round(T * 0.3)), Bw = T - A - C;
-      f.cls = "wide"; f.L = [1, 4]; f.c = [[x, x + A - 1], [x + A + 1, x + A + Bw], [x + A + Bw + 2, PW - 2]];
-    } else if (PW >= 40) {
-      var x2 = 5, T2 = PW - 2 - x2 + 1 - 1, A2 = Math.round(T2 * 0.5);
-      f.cls = "mid"; f.L = [1, 3]; f.c = [[x2, x2 + A2 - 1], [x2 + A2 + 1, PW - 2]];
-    } else {
-      f.cls = "narrow"; f.L = [1, 1]; f.c = [[3, PW - 2]];
+  // ---------- the sky: a dotted lozenge at rest; on air, the signal goes out in lozenges ----------
+  var SK = null, rings = [], ringOff = 0;
+  function skyMask(yb, rects) {
+    var m = [];
+    for (var y = 0; y < yb; y++) {
+      var r = new Uint8Array(G.PW);
+      for (var x = 0; x < G.PW; x++) if (G.get(x, y)) r[x] = 1;
+      m.push(r);
     }
-    f.lav = f.L[1] + 1;
-    f.av = [f.lav]; for (var i = 0; i < f.c.length - 1; i++) f.av.push(f.c[i][1] + 1);
-    return f;
+    rects.forEach(function (q) {
+      for (var y = Math.max(0, q[1]); y <= Math.min(yb - 1, q[3]); y++) for (var x = Math.max(0, q[0]); x <= Math.min(G.PW - 1, q[2]); x++) m[y][x] = 1;
+    });
+    return m;
   }
-  function X(i, j) { return [fr.c[i][0], fr.c[j == null ? i : j][1]]; }
-  function spkRows(x0, x1) { var s = Math.min(1, ((x1 - x0 + 1) * 2 - 2) / 37); return Math.ceil(16 * s - 0.01); }
-  function setName(mode) { var a = nameArt(mode); U.name.querySelector(".name").innerHTML = a.html; return a; }
-
-  // ---------- the first screen: the painting at rest ----------
-  function screenOne(R) {
-    var PW = G.PW, yb = R - 3, out = { yb: yb, fm: false, spk: false };
-    G.h(1, 0, PW - 1);
-    if (fr.cls === "narrow") {
-      var A = fr.c[0], nm = setName(0);
-      var nr = G.art(U.name, A[0], 3, A[1], nm.cols, nm.rows);
-      var y1 = 3 + nr + 1, sr = spkRows(A[0], A[1]);
-      G.h(y1, fr.lav, PW - 1);
-      var room = yb - 1 - y1, y2 = y1;
-      if (room >= sr + 3 + 15) {
-        out.spk = true; G.art(U.spk, A[0], y1 + 2, A[1], 37, 16, true);
-        y2 = y1 + 2 + sr + 1; G.h(y2, fr.lav, PW - 1);
+  function drawSky() {
+    if (!SK) return;
+    var PW = G.PW, grid = [], y, x, list;
+    for (y = 0; y < SK.yb; y++) grid.push(new Uint8Array(PW));
+    function dot(x, y, c) { if (x < 0 || x >= PW || y < 0 || y >= SK.yb || SK.mask[y][x] || grid[y][x]) return; grid[y][x] = c; }
+    function ring(cx0, cx1, cy, r, step, c) {
+      for (var dy = -r; dy <= r; dy++) {
+        if ((dy + r) % step) continue;
+        var dx = r - Math.abs(dy);
+        dot(cx0 - dx, cy + dy, c); dot(cx1 + dx, cy + dy, c);
       }
-      var pr = yb - 1 - y2, gh = Math.max(5, Math.min(11, pr - 5)), gw = Math.min(A[1] - A[0] + 1 - 2, 16);
-      var gx = A[0] + Math.floor((A[1] - A[0] + 1 - gw) / 2), gy = y2 + 1 + Math.max(1, Math.floor((pr - gh - 2) / 2));
-      placeGo(gx, gy, gw, gh); placeQuiet(gx, gy + gh + 1, gw);
-      G.v(fr.lav, 1, yb);
-      G.lane(fr.L[0], fr.L[1], 2, yb - 1, 1);
-    } else {
-      var A2 = fr.c[0], Bc = fr.c[1], wide = fr.cls === "wide";
-      var span = (Bc[1] - A2[0] + 1) * 2 - 4;
-      var nm2 = setName(span >= 98 ? 2 : span >= 54 ? 1 : 0);
-      var nr2 = G.art(U.name, A2[0], 3, Bc[1], nm2.cols, nm2.rows);
-      var yn = 3 + nr2 + 1;
-      G.h(yn, 0, wide ? Bc[1] + 1 : PW - 1);
-      var low0 = yn + 1, lowH = yb - 1 - low0 + 1, sr2 = spkRows(A2[0], A2[1]);
-      if (lowH >= sr2 + 2) { out.spk = true; G.art(U.spk, A2[0], low0 + 1, A2[1], 37, 16, true); G.decor(A2[0], A2[1], low0 + sr2 + 2, yb - 1, 3); }
-      else G.decor(A2[0], A2[1], low0, yb - 1, 3);
-      var bw = Bc[1] - Bc[0] + 1, gw2 = Math.min(bw - 2, 18), gh2 = Math.max(5, Math.min(12, lowH - 5));
-      var gx2 = Bc[0] + Math.floor((bw - gw2) / 2), gy2 = low0 + Math.max(1, Math.floor((lowH - gh2 - 2) / 2));
-      placeGo(gx2, gy2, gw2, gh2); placeQuiet(gx2, gy2 + gh2 + 1, gw2);
-      G.v(fr.lav, 1, yb);
-      G.v(A2[1] + 1, yn, yb);
-      if (wide) {
-        var C = fr.c[2];
-        G.v(Bc[1] + 1, 1, yb);
-        var fmr = G.place(U.fm, C[0], 3, C[1]);
-        if (3 + fmr <= yb - 2) {
-          out.fm = true;                                       // the decks live here once you're in;
-          var bh = Math.min(16, yb - 8);                        // until then a blue block stands in for them
-          G.block(C[0] + 2, 5, C[1] - 2, 5 + bh, 0, 32);
-          G.rect(C[0] + 2, 5 + bh + 2, C[0] + 3, 5 + bh + 2, 2 | 32);
-        } else G.decor(C[0], C[1], 2, yb - 1, 5);
-      }
-      G.lane(fr.L[0], fr.L[1], 2, yb - 1, 1);
     }
-    G.h(yb, 0, PW - 1);
-    return out;
-  }
-
-  // ---------- the rest of the city: bands of cells between streets ----------
-  function band(ys, cells, avs, k, min) {
-    var bottom = ys + (min || 3);
-    cells.forEach(function (c) {
-      var yy = ys + 2; c.inner = [];
-      c.u.forEach(function (u, i) {
-        if (i) { c.inner.push(yy + 1); yy += 3; }
-        yy += u === U.spk ? G.art(u, c.x[0], yy, c.x[1], 37, 16, true) : G.place(u, c.x[0], yy, c.x[1]);
+    if (window.onAir && !still) {
+      list = rings;
+      list.forEach(function (rg) {
+        var r = SK.n - rg.b + ringOff;
+        if (r < 1 || r > SK.maxR) return;
+        ring(SK.cx0, SK.cx1, SK.cy, r, r < 8 ? 1 : r < 20 ? 2 : 3, r < 28 ? rg.c : 4);
       });
-      c.end = c.u.length ? yy : ys + 1;
-      bottom = Math.max(bottom, yy + 1);
-    });
-    cells.forEach(function (c, i) {
-      c.inner.forEach(function (iy) { G.h(iy, c.x[0], c.x[1]); });
-      G.decor(c.x[0], c.x[1], c.end + 1, bottom - 1, k + i * 2);
-    });
-    avs.forEach(function (x) { G.v(x, ys, bottom); });
-    G.lane(fr.L[0], fr.L[1], ys + 1, bottom - 1, k);
-    G.h(bottom, 0, G.PW - 1);
-    return bottom;
+    } else ring(SK.cx0, SK.cx1, SK.ly, SK.lr, 2, window.onAir ? 2 : 4);
+    var cute = H.classList.contains("cute"), out = [];
+    for (y = 0; y < SK.yb; y++) {
+      var g = grid[y], s = "";
+      for (x = 0; x < PW;) {
+        var c = g[x], e = x; while (e < PW && g[e] === c) e++;
+        s += c ? '<b class="c' + c + (cute ? ' h">' + "&lt;3".repeat(e - x) : ' q">' + B.repeat(2 * (e - x))) + "</b>" : " ".repeat(2 * (e - x));
+        x = e;
+      }
+      out.push('<div class="r">' + s.replace(/\s+$/, "") + "</div>");
+    }
+    SKYL.innerHTML = out.join("");
   }
 
+  var fr, S1;
+  function X(i, j) { return [fr.bays[i][0], fr.bays[j == null ? i : j][1]]; }
+
+  // ---------- the roof ----------
+  function roof(R) {
+    var f = fr, PW = G.PW, n = f.cls === "narrow", wide = f.cls === "wide";
+    var yb = R - 3;
+    var nameRows = G.place(U.name, f.wl, 1, Math.min(PW - 1, f.wl + 15), 0);
+    var mx = Math.floor((f.wl + f.wr) / 2);
+    var bw = n ? Math.min(12, f.wr - f.wl - 3) : wide ? 16 : 14; bw -= bw % 2;
+    var bh = n ? 9 : 10;
+    var bx0 = mx + 1 - bw / 2, bx1 = bx0 + bw - 1;
+    var kx0 = bx1 + 3, kx1 = f.wr - 1, right = (kx1 - kx0 + 1) >= 25, yQ, by0, by1, kr, krect;
+    if (right) {
+      yQ = yb - 2; by1 = yQ - 2; by0 = by1 - bh + 1;
+      kr = G.place(U.keys, kx0, by0, kx1, 0, 64);
+      U.keys.style.top = (by1 - kr + 1) * G.lh + "px";
+      krect = [kx0, by1 - kr + 1, kx1, by1];
+    } else {
+      kr = G.place(U.keys, f.wl + 1, 0, f.wr - 1, 1, 64);
+      yQ = yb - 1 - kr; by1 = yQ - 2; by0 = by1 - bh + 1;
+      U.keys.style.top = yQ * G.lh + "px";
+      krect = [f.wl + 1, yQ, f.wr - 1, yQ + kr - 1];
+    }
+    placeGo(bx0, by0, bw, bh);
+    var ql = 23, qx = bx0 * 2 + Math.max(0, Math.floor((bw * 2 - ql) / 2));
+    quiet.style.left = qx * G.cw + "px"; quiet.style.top = yQ * G.lh + "px";
+
+    // the mast, standing on the transmitter
+    var yTop = 2, L = by0 - yTop;
+    G.rect(mx, yTop, mx + 1, by0 - 1, 6);
+    G.at(beacon, mx, yTop - 1);
+    G.at(trk, mx, yTop, 2); trk.style.height = L * G.lh + "px";
+    // two stays from the tip down to the corners of the transmitter, pink and blue,
+    // braced every storey with a yellow bar: a lattice tower in three colours
+    function wire(xa, ya, xb, yb2, c) {
+      var px = xa, xs = [];
+      for (var y = ya; y <= yb2; y++) {
+        var x = Math.round(xa + (xb - xa) * (y - ya) / Math.max(1, yb2 - ya));
+        var lo = y === ya ? x : Math.min(px, x), hi = y === ya ? x : Math.max(px, x);
+        for (var xx = lo; xx <= hi; xx++) if (!G.get(xx, y)) G.put(xx, y, c);
+        xs[y] = x; px = x;
+      }
+      return xs;
+    }
+    var yS = yTop + 1, sl = wire(mx - 1, yS, bx0, by0 - 1, 2 | 16), sr = wire(mx + 2, yS, bx1, by0 - 1, 3 | 16);
+    for (var yy = by0 - 1 - G.S; yy > yS + 2; yy -= G.S) G.rect(sl[yy] + 1, yy, sr[yy] - 1, yy, 6);
+    // the roof edge, with the shout-outs knocked out of it
+    G.rect(f.wl, yb, f.wr, yb, 7);
+    G.at(ticker, f.wl, yb, f.wr - f.wl + 1);
+    // a lift motor room on the roof, a mondrian block
+    var mBot = right ? yb - 1 : by1, mx0 = f.wl + 2, mx1 = bx0 - 3;
+    if (mx1 - mx0 + 1 >= 6) G.block(mx0, mBot - Math.min(5, bh - 3) + 1, mx0 + Math.min(9, mx1 - mx0), mBot, 4);
+    if (!right && kx1 - kx0 + 1 >= 6) G.block(kx1 - Math.min(6, kx1 - kx0), by1 - 2, kx1, by1, 1);
+
+    var nameCols = Math.ceil(U.name.firstChild.length / 2) + 1;
+    SK = {
+      yb: yb, cx0: mx, cx1: mx + 1, cy: yTop - 1,
+      ly: yTop + Math.round(L * 0.36), lr: Math.max(6, Math.min(n ? 14 : 18, Math.round(L * 0.5))),
+      maxR: Math.max(mx, PW - mx) + yb, n: SK ? SK.n : 0,
+      rects: [[f.wl, 1, f.wl + nameCols, nameRows], [bx0, by0, bx1, by1], [bx0, yQ, bx1, yQ], krect, [mx, yTop - 1, mx + 1, yTop - 1]]
+    };
+    return { yb: yb };
+  }
+
+  // ---------- the tower: floors of flats, down to the garden ----------
   var lastCols = 0, lastR = 0;
   function layout() {
     G.metrics(); G.reset();
-    fr = frame(G.PW);
-    var R = G.R;
-    S1 = screenOne(R);
-    var y = S1.yb, av = fr.av, k = 10;
-    var fmU = S1.spk ? [U.fm] : [U.spk, U.fm];
-    var plan;
-    if (fr.cls === "wide") {
-      var av2 = [fr.lav, fr.c[0][1] + 1];
-      plan = S1.fm ? [
-        [[{ x: X(0), u: [U.hello] }, { x: X(1), u: [U.presents] }, { x: X(2), u: [U.p1] }], av],
-        [[{ x: X(0), u: [U.p2] }, { x: X(1), u: [U.p3] }, { x: X(2), u: [U.more, U.writing] }], av],
-        [[{ x: X(0), u: [U.written] }, { x: X(1, 2), u: [U.pods] }], av2],
-        [[{ x: X(0), u: [U.irl] }, { x: X(1), u: [U.about] }, { x: X(2), u: [] }], av]
-      ] : [
-        [[{ x: X(0), u: [U.hello] }, { x: X(1), u: [U.presents] }, { x: X(2), u: fmU }], av],
-        [[{ x: X(0), u: [U.p1] }, { x: X(1), u: [U.p2] }, { x: X(2), u: [U.p3] }], av],
-        [[{ x: X(0), u: [U.more, U.writing] }, { x: X(1), u: [U.written] }, { x: X(2), u: [U.irl] }], av],
-        [[{ x: X(0, 1), u: [U.pods] }, { x: X(2), u: [U.about] }], [fr.lav, fr.c[1][1] + 1]]
-      ];
-    } else if (fr.cls === "mid") {
+    fr = G.frame(G.PW);
+    var R = G.R, f = fr;
+    S1 = roof(R);
+    var y = S1.yb, k = 10, plan, cell = function (x, u, d) { return { x: x, u: u, decor: d }; };
+    if (f.cls === "wide") {
       plan = [
-        [[{ x: X(0), u: fmU }, { x: X(1), u: [U.hello] }], av],
-        [[{ x: X(0), u: [U.presents] }, { x: X(1), u: [U.p1] }], av],
-        [[{ x: X(0), u: [U.p2] }, { x: X(1), u: [U.p3] }], av],
-        [[{ x: X(0), u: [U.more, U.writing] }, { x: X(1), u: [U.written] }], av],
-        [[{ x: X(0, 1), u: [U.pods] }], [fr.lav]],
-        [[{ x: X(0), u: [U.irl] }, { x: X(1), u: [U.about] }], av]
+        [cell(X(0, 1), [U.hello], false), cell(X(2), [])],
+        [cell(X(0), [U.presents]), cell(X(1), [U.p1]), cell(X(2), [U.p2])],
+        [cell(X(0), [U.p3]), cell(X(1), [U.more, U.writing]), cell(X(2), [U.irl])],
+        [cell(X(0), [U.written]), cell(X(1, 2), [U.pods])],
+        [cell(X(0), [U.about], false), cell(X(1), []), cell(X(2), [])]
+      ];
+    } else if (f.cls === "mid") {
+      plan = [
+        [cell(X(0, 1), [U.hello], false)],
+        [cell(X(0), [U.presents]), cell(X(1), [U.p1])],
+        [cell(X(0), [U.p2]), cell(X(1), [U.p3])],
+        [cell(X(0), [U.more, U.writing]), cell(X(1), [U.irl])],
+        [cell(X(0, 1), [U.written])],
+        [cell(X(0, 1), [U.pods])],
+        [cell(X(0), [U.about], false), cell(X(1), [])]
       ];
     } else {
-      var one = function (u, min) { return [[{ x: X(0), u: u }], av, min]; };
-      plan = [one(fmU), one([U.hello]), one([U.presents]), one([], 8), one([U.p1]), one([U.p2]), one([U.p3]), one([], 7),
-        one([U.more, U.writing]), one([U.written]), one([U.pods]), one([U.irl]), one([U.about])];
+      plan = [[U.hello], [U.presents], [U.p1], [U.p2], [U.p3], [U.more, U.writing], [U.written], [U.pods], [U.irl], [U.about]]
+        .map(function (u, i) { return [cell(X(0), u, i === 0 || i === 9 ? false : undefined)]; });
     }
-    plan.forEach(function (b) { y = band(y, b[0], b[1], k, b[2]); k += 7; });
-    G.v(0, 1, y); G.v(G.PW - 1, 1, y);
-    G.touch(y + 1);
-    G.render(PHRASES, 6, 0);
+    var g = null;
+    plan.forEach(function (cells, i) {
+      var r = G.band(f, y, cells, k, i === plan.length - 1 ? G.GROWS : 0);
+      if (typeof r === "number") y = r; else g = r;
+      k += 7;
+    });
+    G.tower(f, S1.yb, g.gr - 1, g.g0 - 1);
+    G.garden(GDN, g.g0);
+    G.render(PHRASES, 6, 0, 8);
+    SK.mask = skyMask(SK.yb, SK.rects);
+    drawSky();
+    storeys();
     H.style.setProperty("--gateH", R * G.lh + "px");
     H.classList.add("laid");
     lastCols = G.cols; lastR = R;
@@ -1087,35 +1132,65 @@ var Grid = (function () {
     if (!entered && e.target !== go && e.target !== quiet && $("#world").contains(e.target) && e.target.matches("a, button, input")) enter("focus");
   });
 
-  // ---------- the music moves the painting ----------
-  var t = 0, beat = false, rewinding = false, lastOn = null;
+  // ---------- the music moves the building ----------
+  var t = 0, beat = false, sway = false, rewinding = false, lastOn = null, byStorey = [], lit = [];
+  function storeys() {
+    byStorey = [];
+    [].forEach.call(D.querySelectorAll(".fill b[data-s]"), function (e) { var s = +e.getAttribute("data-s"); (byStorey[s] || (byStorey[s] = [])).push(e); });
+    lit = [];
+  }
+  // the windows light up floor by floor, one floor per 16th, coming down from the roof
+  function floors(tt) {
+    lit.forEach(function (e) { e.classList.remove("lt", "lt2"); }); lit = [];
+    if (!window.onAir || still || !G.NS) return;
+    [[G.mod(tt, G.NS), "lt"], [G.mod(tt - 1, G.NS), "lt2"]].forEach(function (p) {
+      (byStorey[p[0]] || []).forEach(function (e) { e.classList.add(p[1]); lit.push(e); });
+    });
+  }
   window.kesLook = function (mark) {
-    if (still) return;
-    if (mark === "^") { beat = !beat; H.classList.toggle("beat", beat); }
-    else if (mark === "@") rewind();
-    else if (mark === undefined && !window.onAir) { beat = false; H.classList.remove("beat"); }
+    if (still) { drawSky(); return; }
+    if (mark === "^") {
+      beat = !beat; H.classList.toggle("beat", beat);
+      sway = !sway; H.classList.toggle("sway", sway);
+    }
+    if (mark === "@") { rewind(); return; }
+    if (mark === undefined) {
+      if (!window.onAir) { beat = sway = false; H.classList.remove("beat", "sway"); rings = []; floors(0); }
+      drawSky(); return;
+    }
+    if (window.onAir && mark === "^") {                   // every other beat, the aerial sends a lozenge out
+      rings.push({ b: SK.n, c: rings.length && rings[rings.length - 1].c === 2 ? 3 : 2 });
+      rings = rings.filter(function (rg) { return SK.n - rg.b + ringOff <= SK.maxR; });
+    }
   };
+  // ⟲ pull up: the squares run back, the signal is pulled back into the aerial, the mast flickers
   function rewind() {
     rewinding = true; H.classList.add("rew");
     var t0 = t, start = performance.now();
     (function f(now) {
-      var q = Math.min(1, (now - start) / 1050);
-      t = t0 - Math.round((1 - Math.cos(q * Math.PI)) * 30);   // the record goes back by hand, fast then slowing
-      G.move(t);
-      if (q < 1) requestAnimationFrame(f); else { rewinding = false; H.classList.remove("rew"); }
+      var q = Math.min(1, (now - start) / 1050), back = Math.round((1 - Math.cos(q * Math.PI)) * 16);
+      t = t0 - back * 2; G.move(t);
+      ringOff = -back; drawSky();
+      if (q < 1) requestAnimationFrame(f);
+      else {
+        rings.forEach(function (rg) { rg.b += back; }); ringOff = 0;
+        rings = rings.filter(function (rg) { return SK.n - rg.b > 0; });
+        rewinding = false; H.classList.remove("rew");
+      }
     })(start);
   }
-  // every 16th note the squares step along their streets, the way the break moves:
+  // every 16th the squares step along their floors, the way the break moves:
   // a reversed slice steps them back, a pitched-up one jumps two, a rest holds still
-  var trk = $("#tracker");
   new MutationObserver(function () {
-    if (still || !window.onAir || rewinding) return;
+    if (!window.onAir) return;
     var on = trk.querySelector(".on");
     if (!on || on === lastOn) return;
     lastOn = on;
+    if (SK) SK.n++;
+    if (still || rewinding) return;
     var c = on.classList;
     t += c.contains("rest") ? 0 : c.contains("rev") ? -1 : c.contains("up") ? 2 : 1;
-    G.move(t);
+    G.move(t); floors(t); drawSky();
   }).observe(trk, { subtree: true, attributes: true, attributeFilter: ["class"] });
   // the bass decides how much traffic there is
   var info = $("#lcdinfo");
@@ -1127,7 +1202,7 @@ var Grid = (function () {
   new MutationObserver(readInfo).observe(info, { childList: true, characterData: true, subtree: true });
   readInfo();
   var cute = $("#cute");
-  new MutationObserver(function () { H.classList.toggle("cute", cute.getAttribute("aria-pressed") === "true"); })
+  new MutationObserver(function () { H.classList.toggle("cute", cute.getAttribute("aria-pressed") === "true"); drawSky(); })
     .observe(cute, { attributes: true, attributeFilter: ["aria-pressed"] });
   var sirenT = 0;
   $("#siren").addEventListener("click", function () {

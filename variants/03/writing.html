@@ -12,97 +12,124 @@
   --mono: Menlo, "DejaVu Sans Mono", Consolas, "Liberation Mono", "Courier New", monospace;
 }
 * { box-sizing: border-box; }
-html { background: var(--w); color: var(--k); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+html { background: var(--w); color: var(--k); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; overflow-y: scroll; }
 body { margin: 0; background: var(--w); color: var(--k); font: var(--fs)/var(--lh) var(--mono); }
-h1, h2, p { margin: 0 0 var(--lh); font: inherit; }
+h1, h2, p, ul { margin: 0 0 var(--lh); font: inherit; }
+ul { list-style: none; padding: 0; }
 a { color: var(--u); text-decoration: underline; text-underline-offset: 2px; }
-a:hover, a:focus-visible { background: var(--p); color: #000; }
+button { font: inherit; color: inherit; background: none; border: 0; border-radius: 0; padding: 0; margin: 0; cursor: pointer; text-align: left; -webkit-appearance: none; appearance: none; }
+a:hover, a:focus-visible, button:hover, button:focus-visible { background: var(--p); color: #000; }
 :focus-visible { outline: 2px solid var(--k); outline-offset: 0; }
-.sr { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; margin: 0; }
-.y { color: var(--y); } .p { color: var(--p); } .b { color: var(--u); } .k { color: var(--k); } .g { color: var(--g); } .l { color: var(--l); }
+[hidden] { display: none !important; }
+.sr { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; margin: 0; padding: 0; }
 i { font-style: normal; }
-html:not(.js) body { padding: 16px; max-width: 78ch; }
-html:not(.js) #grid { display: none; }
-html:not(.js) article { margin-bottom: 2em; }
+.y { color: var(--y); } .p { color: var(--p); } .b { color: var(--u); } .k { color: var(--k); } .g { color: var(--g); } .l { color: var(--l); }
 
-.js body { position: relative; overflow-x: hidden; }
-.js #grid { position: absolute; left: 0; top: 0; margin: 0; font: inherit; white-space: pre; pointer-events: none; overflow: hidden; }
+/* without js: just the words, in order */
+html:not(.js) body { padding: 16px; max-width: 78ch; }
+html:not(.js) .art, html:not(.js) .name, html:not(.js) #tracker, html:not(.js) #quiet, html:not(.js) .go .tri { display: none; }
+html:not(.js) .room { margin-bottom: calc(2 * var(--lh)); }
+
+/* with js: one scene, every character on one grid */
+.js #scene { position: relative; overflow: hidden; overflow: clip; }
+.js .art { position: absolute; left: 0; top: 0; margin: 0; font: inherit; white-space: pre; pointer-events: none; overflow: hidden; }
 .js .at { position: absolute; z-index: 1; }
-.at > :last-child { margin-bottom: 0; }
-#head h2 { font-size: calc(2 * var(--fs)); line-height: calc(2 * var(--lh)); font-weight: bold; }
-#head .by { font-weight: bold; margin-bottom: 0; }
-article .no { color: var(--g); margin-bottom: 0; }
-article h2 { font-weight: bold; }
+
+/* the flats */
+.room:focus { outline: none; }
+.room > :last-child, .room li:last-child { margin-bottom: 0; }
+.room h2 { font-weight: bold; }
+.room h2.big { font-size: calc(2 * var(--fs)); line-height: calc(2 * var(--lh)); }
+.room .kick, .room .no { color: var(--g); margin-bottom: 0; }
+.room a { overflow-wrap: anywhere; }
+.room li { padding-left: calc(2 * var(--cw)); text-indent: calc(-2 * var(--cw)); }
+.room li::before { content: "▗ "; content: "▗ " / ""; color: var(--p); }
+.room .kv { margin: 0; padding-left: calc(10 * var(--cw)); text-indent: calc(-10 * var(--cw)); }
+.room .kv:last-child { margin: 0; }
+.room .lb { display: inline-block; width: calc(9 * var(--cw)); text-indent: 0; color: var(--g); }
+.room .by { font-weight: bold; margin-bottom: 0; }
+.pic { white-space: pre; color: var(--g); overflow: hidden; }
+.pic .h { color: var(--l); }
 </style>
 </head>
-<body>
-<pre id="grid" aria-hidden="true"></pre>
+<body data-page="writing">
+<div id="scene">
+<pre id="sky" class="art" aria-hidden="true"></pre>
+<pre id="block" class="art" aria-hidden="true"></pre>
+<pre id="garden" class="art" aria-hidden="true"></pre>
+
 <main>
 <h1 class="sr">chainmail (working title)</h1>
-<section class="at" id="head"><p><a href="index.html">&lt;- kes inkersole</a></p><h2>chainmail (working title)</h2><p>my own writing. short pieces, the kind i write in my notes app, sent here by email and collected over time into a kind of text moodboard.</p><p class="by">by email</p><p>each piece arrives as an email to (address tbc). the subject line becomes its title and the newest one lands at the top.</p></section>
-<article class="at"><p class="no">no. 011 · 18 oct 2026</p><h2>lorem ipsum</h2><p>lorem ipsum dolor sit amet.</p></article>
-<article class="at"><p class="no">no. 010 · 14 oct 2026</p><h2>consectetur adipiscing elit</h2><p>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p><p>excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.</p><p>totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p></article>
-<article class="at"><p class="no">no. 009 · 9 oct 2026</p><h2>(no subject)</h2><p>nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.</p></article>
-<article class="at"><p class="no">no. 008 · 6 oct 2026</p><h2>sed quia consequuntur</h2><p>magni dolores eos qui ratione voluptatem sequi nesciunt. neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p></article>
-<article class="at"><p class="no">no. 007 · 2 oct 2026</p><h2>ut enim ad minima</h2><p>quis autem vel eum</p><p>iure reprehenderit</p><p>qui in ea voluptate</p><p>velit esse quam nihil</p><p>molestiae consequatur</p></article>
-<article class="at"><p class="no">no. 006 · 27 sep 2026</p><h2>at vero eos et accusamus</h2><p>et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.</p><p>similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. et harum quidem rerum facilis est et expedita distinctio.</p></article>
-<article class="at"><p class="no">no. 005 · 21 sep 2026</p><h2>nam libero</h2><p>tempore, cum soluta nobis est eligendi optio.</p></article>
-<article class="at"><p class="no">no. 004 · 14 sep 2026</p><h2>re: temporibus autem quibusdam</h2><p>et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.</p></article>
-<article class="at"><p class="no">no. 003 · 3 sep 2026</p><h2>quis nostrum exercitationem</h2><p>ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur.</p><p>lorem ipsum dolor sit amet, consectetur adipiscing elit. integer nec odio. praesent libero. sed cursus ante dapibus diam. sed nisi. nulla quis sem at nibh elementum imperdiet. duis sagittis ipsum.</p><p>curabitur sodales ligula in libero.</p></article>
-<article class="at"><p class="no">no. 002 · 28 aug 2026</p><h2>sed dignissim lacinia</h2><p>nunc. curabitur tortor. pellentesque nibh. aenean quam. in scelerisque sem at dolor. maecenas mattis. sed convallis tristique sem.</p></article>
-<article class="at"><p class="no">no. 001 · 15 aug 2026</p><h2>hello, lorem</h2><p>proin ut ligula vel nunc egestas porttitor. morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. fusce ac turpis quis ligula lacinia aliquet.</p><p>mauris ipsum.</p></article>
+<section class="room at" id="head"><p><a href="index.html">&lt;- kes inkersole</a></p><h2 class="big">chainmail (working title)</h2><p>my own writing. short pieces, the kind i write in my notes app, sent here by email and collected over time into a kind of text moodboard.</p><p class="by">by email</p><p>each piece arrives as an email to (address tbc). the subject line becomes its title and the newest one lands at the top.</p></section>
+<article class="room at"><p class="no">no. 011 · 18 oct 2026</p><h2>lorem ipsum</h2><p>lorem ipsum dolor sit amet.</p></article>
+<article class="room at"><p class="no">no. 010 · 14 oct 2026</p><h2>consectetur adipiscing elit</h2><p>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p><p>excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.</p><p>totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p></article>
+<article class="room at"><p class="no">no. 009 · 9 oct 2026</p><h2>(no subject)</h2><p>nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.</p></article>
+<article class="room at"><p class="no">no. 008 · 6 oct 2026</p><h2>sed quia consequuntur</h2><p>magni dolores eos qui ratione voluptatem sequi nesciunt. neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p></article>
+<article class="room at"><p class="no">no. 007 · 2 oct 2026</p><h2>ut enim ad minima</h2><p>quis autem vel eum</p><p>iure reprehenderit</p><p>qui in ea voluptate</p><p>velit esse quam nihil</p><p>molestiae consequatur</p></article>
+<article class="room at"><p class="no">no. 006 · 27 sep 2026</p><h2>at vero eos et accusamus</h2><p>et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.</p><p>similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. et harum quidem rerum facilis est et expedita distinctio.</p></article>
+<article class="room at"><p class="no">no. 005 · 21 sep 2026</p><h2>nam libero</h2><p>tempore, cum soluta nobis est eligendi optio.</p></article>
+<article class="room at"><p class="no">no. 004 · 14 sep 2026</p><h2>re: temporibus autem quibusdam</h2><p>et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.</p></article>
+<article class="room at"><p class="no">no. 003 · 3 sep 2026</p><h2>quis nostrum exercitationem</h2><p>ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur.</p><p>lorem ipsum dolor sit amet, consectetur adipiscing elit. integer nec odio. praesent libero. sed cursus ante dapibus diam. sed nisi. nulla quis sem at nibh elementum imperdiet. duis sagittis ipsum.</p><p>curabitur sodales ligula in libero.</p></article>
+<article class="room at"><p class="no">no. 002 · 28 aug 2026</p><h2>sed dignissim lacinia</h2><p>nunc. curabitur tortor. pellentesque nibh. aenean quam. in scelerisque sem at dolor. maecenas mattis. sed convallis tristique sem.</p></article>
+<article class="room at"><p class="no">no. 001 · 15 aug 2026</p><h2>hello, lorem</h2><p>proin ut ligula vel nunc egestas porttitor. morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. fusce ac turpis quis ligula lacinia aliquet.</p><p>mauris ipsum.</p></article>
 </main>
+</div>
+
 <script>
 (function () {
 "use strict";
-/* ---- the painting: a character grid where every char is a block-element quadrant mask ---- */
-var D = document, H = D.documentElement, BD = D.body;
+/* ---- the scene: an antenna on a tower block, after Victory Boogie Woogie.
+   every character sits on one grid; each one is a block-element quadrant mask or a typed glyph ---- */
+var D = document, H = D.documentElement, BD = D.body, HOME = BD.getAttribute("data-page") === "home";
 var $ = function (s) { return D.querySelector(s); }, $$ = function (s) { return [].slice.call(D.querySelectorAll(s)); };
-var QCH = " ▘▝▀▖▌▞▛▗▚▐▜▄▙▟█", CLS = ["", "y", "p", "b", "k", "g", "l"];
-var Y = 1, P = 2, U = 3, K = 4, G = 5, L = 6, TAPE = 0x2592;
-var ratio = 0;
+var STILL = matchMedia("(prefers-reduced-motion: reduce)").matches;
+var QCH = " ▘▝▀▖▌▞▛▗▚▐▜▄▙▟█";
+var CLS = ["", "y", "p", "b", "k", "g", "l", "l f1", "l f2", "l f3", "l t1", "y py", "p pp", "b pu", "k m"];
+var Y = 1, P = 2, U = 3, K = 4, G = 5, L = 6, F1 = 7, F2 = 8, F3 = 9, T1 = 10, PY = 11, PP = 12, PU = 13, M = 14;
+var TAPE = 0x2592, GH = 8, SEED = 1944, SK = "kes-in";
+var ratio = 0, d, O;
 
 function rng(a) { return function () { a |= 0; a = a + 0x6D2B79F5 | 0; var t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
 function ri(r, a, b) { return a + Math.floor(r() * (b - a + 1)); }
 function pick(r, a) { return a[Math.floor(r() * a.length)]; }
 
-function Grid(C, R) { this.C = C; this.R = R; var n = C * R; this.m = new Uint8Array(n); this.c = new Uint8Array(n); this.o = new Uint16Array(n); }
-/* fill quadrants (half a char wide, half a row tall); a new colour takes the whole char */
+/* a grid of C columns and R rows, starting at row oy of the page */
+function Grid(C, R, oy) { this.C = C; this.R = R; this.oy = oy || 0; var n = C * R; this.m = new Uint8Array(n); this.c = new Uint8Array(n); this.o = new Uint16Array(n); }
 Grid.prototype.q = function (x0, y0, x1, y1, col) {
-  var C = this.C; x0 = Math.max(0, x0); y0 = Math.max(0, y0); x1 = Math.min(2 * C, x1); y1 = Math.min(2 * this.R, y1);
+  var C = this.C, o2 = 2 * this.oy;
+  x0 = Math.max(0, x0); x1 = Math.min(2 * C, x1); y0 = Math.max(o2, y0); y1 = Math.min(o2 + 2 * this.R, y1);
   for (var y = y0; y < y1; y++) for (var x = x0; x < x1; x++) {
-    var i = (y >> 1) * C + (x >> 1), bit = 1 << (((y & 1) << 1) | (x & 1));
+    var ly = y - o2, i = (ly >> 1) * C + (x >> 1), bit = 1 << (((ly & 1) << 1) | (x & 1));
     if (this.c[i] !== col || this.o[i]) { this.c[i] = col; this.m[i] = 0; this.o[i] = 0; }
     this.m[i] |= bit;
   }
 };
 Grid.prototype.f = function (x0, y0, x1, y1, col) { this.q(2 * x0, 2 * y0, 2 * x1, 2 * y1, col); };
 Grid.prototype.put = function (x0, y0, x1, y1, col, code, mask) {
-  for (var y = Math.max(0, y0); y < Math.min(this.R, y1); y++) for (var x = Math.max(0, x0); x < Math.min(this.C, x1); x++) {
-    var i = y * this.C + x; this.c[i] = col; this.o[i] = code || 0; this.m[i] = code ? 15 : (mask || 0);
+  for (var y = Math.max(this.oy, y0); y < Math.min(this.oy + this.R, y1); y++) for (var x = Math.max(0, x0); x < Math.min(this.C, x1); x++) {
+    var i = (y - this.oy) * this.C + x; this.c[i] = col; this.o[i] = code || 0; this.m[i] = code ? 15 : (mask || 0);
   }
 };
 Grid.prototype.clr = function (x0, y0, x1, y1) { this.put(x0, y0, x1, y1, 0, 0, 0); };
-/* the canvas turned 45 degrees: keep only the quadrants inside the lozenge */
-Grid.prototype.diamond = function (cx, cy, A, B) {
-  for (var y = 0; y < this.R; y++) for (var x = 0; x < this.C; x++) {
-    var i = y * this.C + x; if (!this.m[i] && !this.o[i]) continue;
-    var bits = 0;
-    for (var k = 0; k < 4; k++) if (Math.abs(x + .25 + .5 * (k & 1) - cx) / A + Math.abs(y + .25 + .5 * (k >> 1) - cy) / B <= 1) bits |= 1 << k;
-    if (this.o[i]) { if (bits !== 15) { this.o[i] = 0; this.m[i] = 0; } } else this.m[i] &= bits;
-  }
+Grid.prototype.empty = function (x, y) {
+  if (x < 0 || x >= this.C || y < this.oy || y >= this.oy + this.R) return false;
+  var i = (y - this.oy) * this.C + x; return !this.m[i] && !this.o[i];
 };
-Grid.prototype.html = function () {
-  var C = this.C, out = [], i = 0;
+var ESC = { "<": "&lt;", ">": "&gt;", "&": "&amp;" };
+Grid.prototype.html = function (wraps) {
+  var C = this.C, out = [], i = 0, w = 0;
+  wraps = wraps || [];
   for (var y = 0; y < this.R; y++) {
-    var s = "", cur = 0, buf = "";
+    var ay = y + this.oy, s = "", cur = 0, buf = "";
+    if (w < wraps.length && wraps[w].a === ay) s += '<span class="' + wraps[w].cls + '">';
     for (var x = 0; x < C; x++, i++) {
       var k, ch;
-      if (this.o[i]) { ch = String.fromCharCode(this.o[i]); k = this.c[i]; } else if (this.m[i]) { ch = QCH[this.m[i]]; k = this.c[i]; } else { ch = " "; k = 0; }
-      if (k !== cur) { if (buf) s += cur ? "<i class=" + CLS[cur] + ">" + buf + "</i>" : buf; buf = ""; cur = k; }
+      if (this.o[i]) { ch = String.fromCharCode(this.o[i]); ch = ESC[ch] || ch; k = this.c[i]; } else if (this.m[i]) { ch = QCH[this.m[i]]; k = this.c[i]; } else { ch = " "; k = 0; }
+      if (k !== cur) { if (buf) s += cur ? '<i class="' + CLS[cur] + '">' + buf + "</i>" : buf; buf = ""; cur = k; }
       buf += ch;
     }
-    if (buf) s += cur ? "<i class=" + CLS[cur] + ">" + buf + "</i>" : buf;
+    if (buf) s += cur ? '<i class="' + CLS[cur] + '">' + buf + "</i>" : buf;
+    if (w < wraps.length && wraps[w].b - 1 === ay) { s += "</span>"; w++; }
     out.push(s);
   }
   return out.join("\n");
@@ -119,89 +146,14 @@ function beads(r, n, calm) {
   }
   return s;
 }
-
-/* Victory Boogie Woogie, as a structure: bead lines, planes with planes inside, loose squares, tape */
-function paint(x0, y0, x1, y1, seed, o) {
-  o = o || {};
-  var calm = !!o.calm, force = o.force || [], w = x1 - x0, h = y1 - y0, S = { hl: [], vl: [], pl: [], bits: [], tp: [] };
-  var rh = rng(seed + 11), rv = rng(seed + 23), rp = rng(seed + 37), rb = rng(seed + 41), rt = rng(seed + 53);
-  function span(r, a, b, min) { if (r() < .7) return [a, b]; var s = a + Math.floor(r() * (b - a) * .55), e = s + Math.max(min, Math.floor((b - a) * (.3 + .5 * r()))); return [s, Math.min(b, e)]; }
-  var rows = [], y = y0 + ri(rh, 1, 2);
-  while (y < y1 - 1) { rows.push(y); y += ri(rh, calm ? 3 : 2, calm ? 7 : 4); }
-  rows = rows.filter(function (q) { return !force.some(function (f) { return Math.abs(f - q) <= 1; }); }).concat(force).sort(function (a, b) { return a - b; });
-  rows.forEach(function (y) {
-    var r = rng(seed * 7 + (y - y0) * 131 + 5), f = force.indexOf(y) >= 0, thick = f || r() < (calm ? .45 : .6), half = thick ? 0 : (r() < .5 ? 1 : 2), sp = f ? [x0, x1] : span(r, x0, x1, 8), u = thick ? 2 : 1;
-    S.hl.push({ y: y, half: half, a: sp[0], b: sp[1], u: u, seq: beads(r, Math.ceil(w / u) + 4, calm), d: r() < .5 ? 1 : -1 });
-  });
-  var x = x0 + 2 * ri(rv, 1, 3);
-  while (x < x1 - 2) {
-    var r = rng(seed * 13 + (x - x0) * 71 + 9), thick = r() < (calm ? .4 : .55), sp = span(r, y0, y1, 6);
-    S.vl.push({ x: x, t: thick, off: thick ? 0 : (r() < .5 ? 0 : 1), a: sp[0], b: sp[1], seq: beads(r, h + 4, calm), d: r() < .5 ? 1 : -1 });
-    x += 2 * ri(rv, calm ? 4 : 2, calm ? 10 : 6);
-  }
-  var k, np = Math.round(w * h / (calm ? 600 : 120));
-  for (k = 0; k < np; k++) {
-    var pw = 2 * ri(rp, calm ? 2 : 1, calm ? 5 : 7), ph = ri(rp, 1, calm ? 3 : 5);
-    var hl = S.hl[Math.floor(rp() * S.hl.length)], vl = S.vl[Math.floor(rp() * S.vl.length)];
-    var px = vl ? (rp() < .5 ? vl.x + (vl.t ? 2 : 1) : vl.x - pw) : x0 + ri(rp, 0, w - pw);
-    var py = hl ? (rp() < .5 ? hl.y + 1 : hl.y - ph) : y0 + ri(rp, 0, h - ph);
-    var col = calm ? pick(rp, [Y, G, Y, U, P, G]) : pick(rp, [Y, P, U, G, Y, P, U, K, 0, Y]), nest = [];
-    if (rp() < (calm ? .5 : .8) && pw >= 4) {
-      var nw = 2 * ri(rp, 1, pw / 2 - 1), nh = ri(rp, 1, ph), nx = px + 2 * ri(rp, 0, (pw - nw) / 2), ny = py + ri(rp, 0, ph - nh);
-      var nc = pick(rp, [P, U, Y, K, G, 0, P, U].filter(function (c) { return c !== col; }));
-      nest.push({ x: nx, y: ny, w: nw, h: nh, c: nc });
-      if (!calm && rp() < .5) nest.push({ x: nx + (rp() < .5 ? 0 : nw - 1), y: ny + (rp() < .5 ? 0 : nh - 1), w: 1, h: 1, c: pick(rp, [K, P, U, Y, 0].filter(function (c) { return c !== nc; })) });
-    }
-    S.pl.push({ x: px, y: py, w: pw, h: ph, c: col, n: nest });
-  }
-  var nb = Math.round(w * h / (calm ? 420 : 30));
-  for (k = 0; k < nb; k++) {
-    var big = rb() < .5;
-    if (rb() < .55 && S.hl.length) {
-      var l = S.hl[Math.floor(rb() * S.hl.length)], bx = l.a + Math.floor(rb() * (l.b - l.a)), above = rb() < .5;
-      S.bits.push({ qx: 2 * bx, qy: above ? 2 * l.y - (big ? 2 : 1) : 2 * l.y + 2, qw: big ? 4 : (rb() < .5 ? 1 : 2), qh: big ? 2 : 1, c: pick(rb, [P, U, K, G, Y, P, U]) });
-    } else if (S.vl.length) {
-      var v = S.vl[Math.floor(rb() * S.vl.length)], by = v.a + Math.floor(rb() * (v.b - v.a)), left = rb() < .5, vw = v.t ? 4 : 2, vx = 2 * v.x + (v.t ? 0 : v.off);
-      S.bits.push({ qx: left ? vx - (big ? 4 : 1) : vx + vw, qy: 2 * by + (big ? 0 : (rb() < .5 ? 0 : 1)), qw: big ? 4 : 1, qh: big ? 2 : 1, c: pick(rb, [P, U, K, G, Y]) });
-    }
-  }
-  var nt = Math.round(w * h / (calm ? 1400 : 520));
-  for (k = 0; k < nt; k++) {
-    if (rt() < .6 && S.hl.length) { var tl = S.hl[Math.floor(rt() * S.hl.length)]; S.tp.push({ x: tl.a + Math.floor(rt() * Math.max(1, tl.b - tl.a - 6)), y: tl.y, w: ri(rt, 3, 8), h: 1, c: rt() < .7 ? L : Y }); }
-    else if (S.vl.length) { var tv = S.vl[Math.floor(rt() * S.vl.length)]; S.tp.push({ x: tv.x, y: tv.a + Math.floor(rt() * Math.max(1, tv.b - tv.a - 3)), w: tv.t ? 2 : 1, h: ri(rt, 2, 4), c: rt() < .7 ? L : Y }); }
-  }
-  return S;
+function bead(seq, j) { var n = seq.length; return seq[((j % n) + n) % n]; }
+/* half: 0 the whole row, 1 its top half, 2 its bottom half; u: bead length in columns */
+function hline(g, xa, xb, y, seq, ph, half, u) {
+  var qa = 2 * y + (half === 2 ? 1 : 0), qb = 2 * y + (half === 1 ? 1 : 2);
+  for (var j = 0, x = xa; x < xb; j++, x += u) { var c = bead(seq, j + ph); if (c) g.q(2 * x, qa, 2 * Math.min(x + u, xb), qb, c); }
 }
-
-/* put the structure on the grid. ph slides the beads along their lines; md is the mood */
-function draw(g, S, ph, md) {
-  md = md || {};
-  S.hl.forEach(function (l, li) {
-    var n = l.seq.length, d = l.d * (md.flip && li % 2 ? -1 : 1), qa = 2 * l.y + (l.half === 2 ? 1 : 0), qb = 2 * l.y + (l.half === 1 ? 1 : 2);
-    for (var j = 0, x = l.a; x < l.b; j++, x += l.u) { var c = l.seq[((j + d * ph) % n + n) % n]; if (c) g.q(2 * x, qa, 2 * Math.min(x + l.u, l.b), qb, c); }
-  });
-  S.vl.forEach(function (l, li) {
-    var n = l.seq.length, d = l.d * (md.flip && li % 2 ? -1 : 1), qa = 2 * l.x + (l.t ? 0 : l.off), qb = qa + (l.t ? 4 : 2);
-    for (var j = 0, y = l.a; y < l.b; j++, y++) { var c = l.seq[((j + d * ph) % n + n) % n]; if (c) g.q(qa, 2 * y, qb, 2 * y + 2, c); }
-  });
-  S.hl.forEach(function (h, i) {
-    if (h.half) return;
-    S.vl.forEach(function (v, j) {
-      if (v.x < h.a || v.x >= h.b || h.y < v.a || h.y >= v.b || (i * 5 + j * 3) % 3) return;
-      var qa = 2 * v.x + (v.t ? 0 : v.off);
-      g.q(qa, 2 * h.y, qa + (v.t ? 4 : 2), 2 * h.y + 2, [P, U, K, G][(i + j + (md.swap ? 1 : 0)) % 4]);
-    });
-  });
-  S.pl.forEach(function (p) {
-    var a = p.c, b = p.n.length ? p.n[0].c : a;
-    if (md.swap && p.n.length) { var t = a; a = b; b = t; }
-    if (!a) g.clr(p.x, p.y, p.x + p.w, p.y + p.h);
-    else if (md.sub) { for (var y = p.y; y < p.y + p.h; y++) for (var x = p.x; x < p.x + p.w; x++) g.put(x, y, x + 1, y + 1, a, 0, ((x + y + ph) & 1) ? 9 : 6); }
-    else g.f(p.x, p.y, p.x + p.w, p.y + p.h, a);
-    p.n.forEach(function (n, k) { if (md.sparse && k) return; var c = k ? n.c : b; if (c) g.f(n.x, n.y, n.x + n.w, n.y + n.h, c); else g.clr(n.x, n.y, n.x + n.w, n.y + n.h); });
-  });
-  if (!md.sparse) S.bits.forEach(function (b) { g.q(b.qx, b.qy, b.qx + b.qw, b.qy + b.qh, b.c); });
-  S.tp.forEach(function (t) { g.put(t.x, t.y, t.x + t.w, t.y + t.h, t.c, TAPE); });
+function vline(g, x, ya, yb, seq, ph, w) {
+  for (var j = 0, y = ya; y < yb; j++, y++) { var c = bead(seq, j + ph); if (c) g.q(2 * x, 2 * y, 2 * x + w, 2 * y + 2, c); }
 }
 
 /* fit the grid to the viewport: whole columns that fill the width exactly, rows that let blocks touch */
@@ -223,81 +175,368 @@ function dims() {
   H.style.setProperty("--fs", best.fs + "px"); H.style.setProperty("--lh", best.lh + "px"); H.style.setProperty("--cw", best.cw + "px");
   return best;
 }
-function at(el, d, x, y, w) { el.style.left = x * d.cw + "px"; el.style.top = y * d.lh + "px"; if (w != null) el.style.width = w * d.cw + "px"; }
-function rowsOf(el, d) { return Math.ceil(el.offsetHeight / d.lh - 0.02); }
+function at(el, x, y, w) { el.style.left = x * d.cw + "px"; el.style.top = y * d.lh + "px"; if (w != null) el.style.width = w * d.cw + "px"; }
+function rowsOf(el) { return Math.max(1, Math.ceil(el.offsetHeight / d.lh - 0.02)); }
 
+/* ---- her name, a dot-matrix sign on the block ---- */
+var NAME = ["..#.....................#........#.............................##.................", "..#..............................#..............................#.........hh.hh...", "..#..#...###...####....##..#.##..#..#...###..#.##...####..###...#...###..hhhhhhh..", "..#.#...#...#.#.........#..##..#.#.#...#...#.##..#.#.....#...#..#..#...#.hhhhhhh..", "..##....#####..###......#..#...#.##....#####.#......###..#...#..#..#####..hhhhh...", "..#.#...#.........#.....#..#...#.#.#...#.....#.........#.#...#..#..#.......hhh....", "..#..#...###..####.....###.#...#.#..#...###..#.....####...###..###..###.....h....."];
+var VARS = [[[1, 81]], [[1, 20], [22, 81]], [[1, 20], [22, 50], [50, 81]]];
+var NR = VARS.map(function (v, vi) {
+  var wmax = 0; v.forEach(function (s) { wmax = Math.max(wmax, s[1] - s[0]); });
+  var blank = new Array(wmax + 1).join("."), rows = [blank];
+  v.forEach(function (s, k) { if (k) rows.push(blank); NAME.forEach(function (row) { var t = row.slice(s[0], s[1]); rows.push(t + blank.slice(t.length)); }); });
+  rows.push(blank);
+  return { vi: vi, w: wmax, rows: rows, html: rows.map(function (row) {
+    return row.replace(/\.+|#+|h+/g, function (m) { var n = m.length + 1; return m[0] === "." ? new Array(n).join(" .") : "<b" + (m[0] === "h" ? ' class="h"' : "") + ">" + new Array(n).join("&lt;3") + "</b>"; });
+  }).join("\n") };
+});
+function fitName(o) {
+  var best = null, lim = o.x1 - o.x0 - 8;
+  NR.forEach(function (nr) {
+    var p = Math.min(1, lim / nr.w), wch = Math.ceil(nr.w * p), hr = Math.ceil(nr.rows.length * p * d.cw / d.lh);
+    if (!best || (best.p < .65 && p > best.p)) best = { p: p, nr: nr, wch: wch, hr: hr };
+  });
+  best.x = o.x0 + ((o.x1 - o.x0 - best.wch) >> 1);
+  return best;
+}
 
-/* ---- chainmail: the same painting, calmer, with the pieces woven into its rooms ---- */
-var grid = $("#grid"), head = $("#head"), arts = $$("article"), d, lay;
+/* ---- the garden at the foot of the block (kes' flowers, in the painting's colours) ---- */
+var PLANTS = [
+  { t: ["   _   ", " _(_)_ ", "(_)@(_)", "  (_)  ", "   |\\  ", "   |   "], c: ["   p   ", " ppppp ", "pppyppp", "  ppp  ", "   kk  ", "   k   "], st: 4 },
+  { t: [" _   _ ", "( `v' )", " \\   / ", "  `.'  ", "   |   ", "  /|   ", "   |   "], c: [" p   p ", "ppppppp", " p   p ", "  ppp  ", "   k   ", "  kk   ", "   k   "], st: 4 },
+  { t: [" \\ | / ", "-- o --", " / | \\ ", "   |   ", "   |/  ", "   |   "], c: [" y y y ", "yy p yy", " y y y ", "   k   ", "   kk  ", "   k   "], st: 3 },
+  { t: [" @@@ ", "@@@@@", " @@@ ", "  |  ", " \\|  "], c: [" bbb ", "bbbbb", " bbb ", "  k  ", " kk  "], st: 3 },
+  { t: ["vVv", " | ", "\\| ", " | "], c: ["ppp", " k ", "kk ", " k "], st: 1 },
+  { t: ["@ ", "|/", "| "], c: ["p ", "kk", "k "], st: 1 },
+  { t: ["\\|/"], c: ["ggg"], st: 9 }
+];
+var GROUND = ",.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,";
+var CMAP = { p: P, b: U, y: Y, k: K, g: G };
+function plantList(r) {
+  var list = [], x = 1 + ri(r, 0, 3), k = 0;
+  for (;;) {
+    var idx = pick(r, [0, 0, 1, 2, 3, 4, 4, 5, 0, 1]), p = PLANTS[idx], w = 0;
+    p.t.forEach(function (s) { w = Math.max(w, s.length); });
+    if (x + w + 1 >= d.C) break;
+    var swap = idx === 0 ? pick(r, [null, "b", "b", "y"]) : idx === 4 ? pick(r, [null, "b", "y"]) : idx === 5 ? pick(r, [null, "b"]) : null;
+    list.push({ p: p, x: x, swap: swap, k: k++ });
+    var gap = ri(r, 2, 7);
+    if (gap >= 6 && x + w + 5 < d.C) list.push({ p: PLANTS[6], x: x + w + 1 + ri(r, 0, gap - 5), swap: null, k: k++ });
+    x += w + gap;
+  }
+  return list;
+}
+
+/* ---- windows: the facade between the flats ---- */
+function winCol(r, calm) {
+  var t = r();
+  if (calm) return t < .46 ? L : t < .76 ? 0 : t < .88 ? Y : G;
+  return t < .12 ? F1 : t < .21 ? F2 : t < .3 ? F3 : t < .4 ? T1 : t < .52 ? L : t < .62 ? 0 : t < .76 ? PY : t < .84 ? PP : t < .92 ? PU : t < .97 ? G : K;
+}
+function tile(g, R) {
+  var r = rng(R.seed), ww = R.slot ? 4 : 6, wh = R.slot ? 1 : 2, gx = 2, gy = 1;
+  if (R.w < 12) ww = R.slot ? 2 : 4;
+  var nx = Math.floor((R.w - 2 + gx) / (ww + gx)), ny = Math.floor((R.h - 2 + gy) / (wh + gy));
+  if (nx < 1 || ny < 1) return;
+  var sx = R.x + ((R.w - (nx * ww + (nx - 1) * gx)) >> 1), sy = R.y + ((R.h - (ny * wh + (ny - 1) * gy)) >> 1);
+  for (var j = 0; j < ny; j++) for (var i = 0; i < nx; i++) {
+    var x = sx + i * (ww + gx), y = sy + j * (wh + gy), c = winCol(r, R.calm);
+    if (!c) continue;
+    if (R.slot) { g.q(2 * x, 2 * y + 1, 2 * (x + ww), 2 * y + 2, c); continue; }
+    g.f(x, y, x + ww, y + wh, c);
+    if (!R.calm && ww >= 4 && c !== L && r() < .4) {
+      var base = c === PY ? Y : c === PP ? P : c === PU ? U : c;
+      var nc = pick(r, [P, U, K, Y, 0, P, U].filter(function (q) { return q !== base; })), ix = x + (r() < .5 ? 0 : ww - 2), iy = y + (r() < .5 ? 0 : wh - 1);
+      if (nc) g.f(ix, iy, ix + 2, iy + 1, nc); else g.clr(ix, iy, ix + 2, iy + 1);
+    }
+  }
+}
+
+/* the picture-to-come windows inside the project flats */
+function hatch(n, off) { var s = ""; for (var i = 0; i < n; i++) s += ((i + off) & 1) ? "▞" : "▚"; return s; }
+function picArt(p, w) {
+  var t = "(picture to come)", a = (w - t.length - 2) >> 1, b = w - t.length - 2 - a, full = hatch(w, 0);
+  if (a < 2) { p.textContent = t; return; }
+  p.innerHTML = '<span class="h" aria-hidden="true">' + full + "\n" + full + "\n" + hatch(a, 0) + " </span>" + t + '<span class="h" aria-hidden="true"> ' + hatch(b, a + t.length + 2) + "\n" + full + "\n" + full + "</span>";
+}
+
+/* ---- the plan: everything measured in columns and rows ---- */
+var sky = $("#sky"), block = $("#block"), gardenEl = $("#garden"), scene = $("#scene"), nameEl = $("#name");
+var rooms = $$(".room");
+var goBtn = $("#go"), quiet = $("#quiet"), ctl = $("#ctl"), tracker = $("#tracker"), info = $("#lcdinfo");
+var entered = !HOME, ph = 0, rings = [], litF = -1, sway = 0, swapped = false, rw = 0, flEls = [];
+
+function groups(wide) {
+  var g = [], i;
+  if (!wide) return rooms.map(function (r) { return [r]; });
+  if (HOME) {
+    for (i = 0; i < rooms.length; i++) { if (rooms[i].id === "more" && rooms[i + 1]) { g.push([rooms[i], rooms[i + 1]]); i++; } else g.push([rooms[i]]); }
+    return g;
+  }
+  g.push([rooms[0]]);
+  for (i = 1; i < rooms.length; i += 2) g.push(rooms[i + 1] ? [rooms[i], rooms[i + 1]] : [rooms[i]]);
+  return g;
+}
 
 function plan() {
-  var C = d.C, narrow = C < 100, lz, hx, hy, hw, o = { calm: [] };
-  if (!narrow) {
-    hw = Math.min(64, Math.floor(C * .42)); hx = 4; hy = 3;
-    var B = 13, A = Math.min(Math.round(B * d.lh / d.cw), Math.floor((C - hw - hx - 10) / 2));
-    lz = { cx: C - A - 4, cy: B + 2, A: A, B: B };
+  var C = d.C, Rv = d.Rv, wide = C >= 120, calm = !HOME, o = { wide: wide, tipY: 3 };
+  if (wide) { var TW = Math.max(94, Math.min(C - 6, Math.round(C * .74))); TW -= TW % 2; o.x0 = (C - TW) >> 1; o.x1 = o.x0 + TW; o.mx = o.x0 + TW / 2 - 1; }
+  else { o.x0 = 1; o.x1 = C - 1; o.mx = HOME ? Math.max(6, Math.min((C >> 1) - 1, C - 30)) : (C >> 1) - 1; }
+  var attic = 0;
+  if (HOME) {
+    o.name = fitName(o); attic = o.name.hr + 2;
+    o.bx = o.mx + 3; o.bw = wide ? Math.min(58, C - o.bx - 3) : C - o.bx - 2;
+    ctl.classList.toggle("nw", o.bw >= 56);
+    at(ctl, o.bx, 0, o.bw); o.ch = rowsOf(ctl);
+    o.roofY = Math.max(o.tipY + 16 + 8 + o.ch, Rv - 2 - attic);
+    o.plateTop = o.roofY - o.ch - 8;
+    o.trY = Math.max(o.tipY + 3, o.plateTop + 6 - 16);
+    o.gateR = Math.max(Rv, o.roofY + attic + 2);
   } else {
-    var A2 = Math.floor(C / 2) - 1, B2 = Math.max(9, Math.round(A2 * d.cw / d.lh * 1.3));
-    lz = { cx: Math.floor(C / 2), cy: B2 + 1, A: A2, B: B2 };
-    hw = C - 6; hx = 3; hy = lz.cy + lz.B + 2;
+    o.roofY = Math.max(16, Math.min(28, Math.round(Rv * .36)));
   }
-  at(head, d, hx, hy, hw);
-  var y0 = Math.max(hy + rowsOf(head, d), lz.cy + lz.B) + 2;
-  var K = C >= 165 ? 3 : C >= 100 ? 2 : 1, lw = K > 1 ? 2 : 1, pad = K > 1 ? 3 : 2;
-  var colW = Math.floor((C - lw) / K), tw = colW - lw - 2 * pad, off = Math.floor((C - lw - K * colW) / 2), cols = [], hl = [], tp = [];
-  for (var k = 0; k < K; k++) cols.push({ x: off + k * colW, y: y0, n: 0 });
-  arts.forEach(function (a, i) {
-    var c = cols.reduce(function (m, q) { return q.y < m.y ? q : m; }, cols[0]);
-    at(a, d, c.x + lw + pad, c.y + 2, tw);
-    var h = rowsOf(a, d);
-    if (c.y > y0) hl.push({ y: c.y, half: (i % 2) ? 2 : 1, a: c.x + lw, b: c.x + colW, u: 1, seq: beads(rng(i * 97 + 3), colW + 4, true), d: 1, over: i % 3 });
-    if (i % 3 === 1) tp.push({ x: c.x + lw + pad - 3, y: c.y + 1, w: 6, h: 1, c: L });
-    c.y += h + 3; c.n++;
+  /* the antenna: a lozenge stood on the roof. its top edges are the guys, its bottom edges a dotted field */
+  o.cy = (o.tipY + o.roofY) / 2; o.B = (o.roofY - o.tipY) / 2;
+  o.A = Math.min(o.B * d.lh / d.cw, o.mx - 1, C - o.mx - 3);
+  var s0 = o.tipY + 2, s1 = HOME ? o.plateTop - 2 : o.roofY - 3, S = s1 - s0;
+  o.bars = (HOME ? [.08, .5, .94] : [.3, .78]).map(function (f, k) {
+    return { y: s0 + Math.round(f * S), half: HOME ? [1, 0, 2][k] : 1, d: k % 2 ? 1 : -1, seq: beads(rng(SEED + 100 + k), 2 * C, calm) };
   });
-  var yEnd = Math.max.apply(null, cols.map(function (c) { return c.y; }));
-  o.planes = [];
-  cols.forEach(function (c, k) {
-    if (yEnd - c.y >= 4) {
-      hl.push({ y: c.y, half: 1, a: c.x + lw, b: c.x + colW, u: 1, seq: beads(rng(k * 31 + 7), colW + 4, true), d: 1, over: 1 });
-      var r = rng(k * 53 + 11), col = pick(r, [Y, Y, G, U, P]), px = c.x + lw + pad, pw = colW - lw - 2 * pad, py = c.y + 2, ph = yEnd - c.y - 3;
-      if (ph > 0) o.planes.push({ x: px, y: py, w: pw, h: ph, c: col, n: [{ x: px + 2 * ri(r, 0, Math.max(0, Math.floor(pw / 2) - 3)), y: py + ri(r, 0, Math.max(0, ph - 2)), w: 4, h: Math.min(2, ph), c: col === Y ? pick(r, [U, P, K]) : Y }] });
+  o.gseq = [beads(rng(SEED + 201), 600, calm), beads(rng(SEED + 202), 600, calm)];
+  o.bits = []; o.tapes = [];
+  o.bars.forEach(function (b, k) {
+    var r = rng(SEED + 300 + k), X = o.A * (1 - Math.abs(b.y + .5 - o.cy) / o.B);
+    for (var n = 0; n < (HOME ? 2 + k % 2 : 1); n++) {
+      var off = Math.round((.3 + .65 * r()) * X) * (r() < .5 ? -1 : 1), x = o.mx + 1 + off, big = r() < .45, above = r() < .5;
+      if (Math.abs(off) < 4) continue;
+      o.bits.push({ qx: 2 * x, qy: above ? 2 * b.y - (big ? 2 : 1) : 2 * b.y + 2, qw: big ? 4 : 2, qh: big ? 2 : 1, c: pick(r, calm ? [G, Y, G] : [P, U, K, G, P, U]) });
     }
+    if (HOME && k === 1 && X > 14) o.tapes.push({ x: o.mx - Math.round(X * .7), y: b.y, w: 5 });
   });
-  hl.push({ y: y0, half: 0, a: off, b: off + K * colW + lw, u: 2, seq: beads(rng(5), C + 4, true), d: 1 });
-  hl.push({ y: yEnd, half: 0, a: off, b: off + K * colW + lw, u: 2, seq: beads(rng(6), C + 4, true), d: 1 });
-  var vl = [];
-  for (k = 0; k <= K; k++) vl.push({ x: off + k * colW, t: lw === 2, off: 0, a: y0, b: yEnd + 1, seq: beads(rng(k * 17 + 2), yEnd - y0 + 8, true), d: 1 });
-  o.weave = { hl: hl, vl: vl, pl: o.planes, bits: [], tp: tp };
-  o.lz = lz; o.R = yEnd + 3;
+
+  /* the block: floors of flats down from the roof */
+  var y = HOME ? o.roofY + 1 + attic : o.roofY, sides = wide ? [[o.x0 + 2, o.mx], [o.mx + 2, o.x1 - 2]] : [[o.x0 + 2, o.x1 - 2]];
+  var core = [o.mx - 1, o.mx + 3];
+  o.floors = []; o.free = []; o.wraps = [];
+  function region(x, yy, w, h, rc, seed) {
+    if (w < 6 || h < 2) return;
+    if (!wide && x < core[1] && core[0] < x + w) { region(x, yy, core[0] - x, h, rc, seed); region(core[1], yy, x + w - core[1], h, rc, seed + 17); return; }
+    o.free.push({ x: x, y: yy, w: w, h: h, calm: rc, slot: !HOME, seed: seed });
+  }
+  if (o.name) {
+    o.name.y = o.roofY + 2;
+    region(o.x0 + 2, o.roofY + 1, o.name.x - 2 - (o.x0 + 2), attic, true, SEED + 7);
+    region(o.name.x + o.name.wch + 2, o.roofY + 1, o.x1 - 2 - (o.name.x + o.name.wch + 2), attic, true, SEED + 8);
+  }
+  groups(wide).forEach(function (grp, fi) {
+    var f = { y0: y, rooms: [] }, rc = calm || fi === 0, pad = HOME && fi === 0 ? 2 : 1, top = y + 1 + pad, hmax = 0;
+    f.pad = pad;
+    grp.forEach(function (el, k) {
+      var si = wide ? (grp.length > 1 ? k : fi % 2) : 0, s = sides[si], rw = Math.min(wide ? 62 : 66, s[1] - s[0] - 4), x = s[0] + 2;
+      var pic = el.querySelector(".pic"); if (pic) picArt(pic, rw);
+      at(el, x, top, rw); var h = rowsOf(el);
+      f.rooms.push({ el: el, x: x, y: top, w: rw, h: h, si: si }); hmax = Math.max(hmax, h);
+    });
+    var bay = wide && grp.length === 1, strip = f.rooms.some(function (rm) { return sides[rm.si][1] - (rm.x + rm.w + 2) >= 10; });
+    f.y1 = top + hmax + pad + (bay || strip ? 0 : 4);
+    sides.forEach(function (s, si) {
+      var rm = f.rooms.filter(function (q) { return q.si === si; })[0], seed = SEED + fi * 97 + si * 13;
+      if (!rm) { region(s[0], y + 1, s[1] - s[0], f.y1 - y - 1, rc, seed); return; }
+      var xr = rm.x + rm.w + 2, yb = rm.y + rm.h + pad;
+      region(xr, y + 1, s[1] - xr, f.y1 - y - 1, rc, seed + 1);
+      region(s[0], yb, xr - s[0], f.y1 - yb, rc, seed + 2);
+    });
+    o.floors.push(f); o.wraps.push({ a: f.y0, b: f.y1, cls: "fl" });
+    y = f.y1;
+  });
+  o.yEnd = y; o.gTop = y + 1; o.R = o.gTop + GH;
+  o.eseq = [beads(rng(SEED + 401), o.R + 8, calm), beads(rng(SEED + 402), o.R + 8, calm)];
+  o.plants = plantList(rng(SEED + 600));
   return o;
 }
 
-/* lines cross like a weave: at each meeting, one passes over and the other under */
-function weave(g, W) {
-  W.vl.forEach(function (l) { var qa = 2 * l.x, qb = qa + (l.t ? 4 : 2); for (var j = 0, y = l.a; y < l.b; j++, y++) { var c = l.seq[j % l.seq.length]; if (c) g.q(qa, 2 * y, qb, 2 * y + 2, c); } });
-  W.hl.forEach(function (l, i) {
-    var lw = W.vl[0].t ? 2 : 1, a = l.over ? l.a - lw : l.a, b = l.over === 1 ? l.b + lw : l.b;
-    var qa = 2 * l.y + (l.half === 2 ? 1 : 0), qb = 2 * l.y + (l.half === 1 ? 1 : 2);
-    for (var j = 0, x = a; x < b; j++, x += l.u) { var c = l.seq[j % l.seq.length]; if (c) g.q(2 * x, qa, 2 * Math.min(x + l.u, b), qb, c); }
-    if (!l.over && l.half !== 0) [l.a - lw, l.b].forEach(function (x, s) { g.q(2 * x, 2 * l.y, 2 * (x + lw), 2 * l.y + 2, [P, U, K, G][(i + s) % 4]); });
+/* ---- drawing ---- */
+function inRig(x, y) { var o = O; return HOME && x >= o.mx + 2 && x < o.bx + o.bw + 1 && y >= o.plateTop - 1 && y < o.roofY; }
+function dot(g, qx, qy, col) {
+  var x0 = qx >> 1, x1 = (qx + 1) >> 1, y = qy >> 1;
+  if (qx < 0 || x1 >= g.C || !g.empty(x0, y) || !g.empty(x1, y) || inRig(x0, y) || inRig(x1, y)) return;
+  g.q(qx, qy, qx + 2, qy + 1, col);
+}
+/* the signal: lozenges going out from the tip of the mast, one a beat */
+function ring(g, o, rr, col) {
+  var cx2 = 2 * o.mx + 2, Ar = rr * o.A / o.B, y0 = Math.max(0, Math.floor(2 * (o.tipY - rr))), y1 = Math.min(2 * o.roofY, Math.ceil(2 * (o.tipY + rr)));
+  y0 += y0 & 1;
+  for (var qy = y0; qy < y1; qy += 2) {
+    var dy = Math.abs((qy + 1) / 2 - o.tipY), X = Ar * (1 - dy / rr); if (X < 0) continue;
+    var qx = Math.round(2 * X);
+    dot(g, cx2 + qx, qy, col); dot(g, cx2 - qx - 2, qy, col);
+  }
+}
+function guy(g, o, side, seq, ph) {
+  var cx2 = 2 * o.mx + 2, prev = 0;
+  for (var qy = 2 * o.tipY, j = 0; qy < 2 * o.cy; qy++, j++) {
+    var X = o.A * (1 - (o.cy - (qy + 1) / 2) / o.B), qx = Math.round(2 * X), a = Math.min(prev, qx), b = Math.max(prev, qx) + 1, c = bead(seq, j + ph);
+    if (c) { if (side > 0) g.q(cx2 + a, qy, cx2 + b, qy + 1, c); else g.q(cx2 - b, qy, cx2 - a, qy + 1, c); }
+    prev = qx;
+  }
+}
+function skyGrid() {
+  var o = O, g = new Grid(d.C, o.roofY, 0), cx2 = 2 * o.mx + 2;
+  for (var qy = Math.ceil(2 * o.cy); qy < 2 * o.roofY; qy++) {
+    if (qy % 3) continue;
+    var X = o.A * (1 - ((qy + 1) / 2 - o.cy) / o.B), qx = Math.round(2 * X);
+    if (qx < 5) continue;
+    g.q(cx2 + qx, qy, cx2 + qx + 1, qy + 1, G); g.q(cx2 - qx - 1, qy, cx2 - qx, qy + 1, G);
+  }
+  guy(g, o, -1, o.gseq[0], -ph); guy(g, o, 1, o.gseq[1], ph);
+  o.bars.forEach(function (b) { var X = o.A * (1 - Math.abs(b.y + .5 - o.cy) / o.B); hline(g, Math.round(o.mx + 1 - X), Math.round(o.mx + 1 + X), b.y, b.seq, ph * b.d, b.half, 2); });
+  o.bits.forEach(function (b) { g.q(b.qx, b.qy, b.qx + b.qw, b.qy + b.qh, b.c); });
+  o.tapes.forEach(function (t) { g.put(t.x, t.y, t.x + t.w, t.y + 1, L, TAPE); });
+  g.q(2 * o.mx + 1, 2 * o.tipY, 2 * o.mx + 3, 2 * o.tipY + 4, M);
+  g.q(2 * o.mx, 2 * o.tipY + 4, 2 * o.mx + 4, 2 * o.roofY, M);
+  g.q(2 * o.mx + 1, 2 * o.tipY - 1, 2 * o.mx + 3, 2 * o.tipY, swapped ? U : P);
+  o.bars.forEach(function (b, k) { if (!b.half) g.f(o.mx, b.y, o.mx + 2, b.y + 1, [P, U, Y][(k + (swapped ? 1 : 0)) % 3]); });
+  if (HOME) g.clr(o.mx + 2, o.plateTop - 1, o.bx + o.bw + 1, o.roofY);
+  rings.forEach(function (q) { var rr = (q.a + .7) * (o.roofY - o.tipY) / 3.7; if (rr > .5) ring(g, o, rr, q.a < 1.5 ? q.c : q.a < 2.5 ? G : L); });
+  return g;
+}
+function blockGrid() {
+  var o = O, g = new Grid(d.C, o.gTop - o.roofY, o.roofY), calm = !HOME, ya = o.roofY + 1, yb = o.gTop;
+  o.free.forEach(function (R) { tile(g, R); });
+  vline(g, o.x0, ya, yb, o.eseq[0], 0, 4); vline(g, o.x1 - 2, ya, yb, o.eseq[1], 0, 4);
+  g.q(2 * o.mx, 2 * ya, 2 * o.mx + 4, 2 * yb, M);
+  var cc = calm ? [G, Y, G, Y] : [P, U, K, G, P, U, Y];
+  o.floors.map(function (f) { return f.y0; }).concat([o.yEnd]).forEach(function (sy, k) {
+    var r = rng(SEED + 500 + k);
+    hline(g, o.x0, o.x1, sy, beads(r, o.x1 - o.x0 + 8, calm), 0, 0, 2);
+    g.f(o.x0, sy, o.x0 + 2, sy + 1, cc[k % cc.length]); g.f(o.x1 - 2, sy, o.x1, sy + 1, cc[(k + 3) % cc.length]); g.f(o.mx, sy, o.mx + 2, sy + 1, cc[(k + 1) % cc.length]);
+    if (k % 3 === 1) { var tx = ri(r, o.x0 + 4, o.x1 - 10); if (tx > o.mx + 3 || tx + 6 < o.mx) g.put(tx, sy, tx + ri(r, 3, 6), sy + 1, L, TAPE); }
   });
-  W.pl.forEach(function (p) { g.f(p.x, p.y, p.x + p.w, p.y + p.h, p.c); p.n.forEach(function (n) { g.f(n.x, n.y, n.x + n.w, n.y + n.h, n.c); }); });
-  W.tp.forEach(function (t) { g.put(t.x, t.y, t.x + t.w, t.y + t.h, t.c, TAPE); });
+  g.f(o.x0 - 1, o.roofY, o.x1 + 1, o.roofY + 1, K);
+  o.floors.forEach(function (f) { f.rooms.forEach(function (rm) { g.clr(rm.x - 2, rm.y - f.pad, rm.x + rm.w + 2, rm.y + rm.h + f.pad); }); });
+  if (o.name) g.clr(o.name.x - 2, o.roofY + 1, o.name.x + o.name.wch + 2, o.roofY + 1 + o.name.hr + 2);
+  return g;
+}
+function gardenGrid(sw) {
+  var o = O, g = new Grid(d.C, GH, o.gTop), yb = o.gTop + GH - 1;
+  vline(g, o.x0, o.gTop, yb, o.eseq[0], o.gTop - o.roofY - 1, 4); vline(g, o.x1 - 2, o.gTop, yb, o.eseq[1], o.gTop - o.roofY - 1, 4);
+  g.q(2 * o.mx, 2 * o.gTop, 2 * o.mx + 4, 2 * yb, M);
+  o.plants.forEach(function (pl) {
+    var p = pl.p, h = p.t.length, top = yb - h;
+    for (var k = 0; k < h; k++) {
+      var s = sw && k < p.st ? 1 : 0, row = p.t[k], cr = p.c[k];
+      for (var i = 0; i < row.length; i++) {
+        var ch = row[i]; if (ch === " ") continue;
+        if (sw && k === p.st && ch === "|") ch = "/";
+        var x = pl.x + i + s, cl = cr[i];
+        if (pl.swap && cl === "p") cl = pl.swap;
+        if (x >= 0 && x < d.C) g.put(x, top + k, x + 1, top + k + 1, CMAP[cl] || K, ch.charCodeAt(0));
+      }
+    }
+  });
+  for (var x = 0; x < d.C; x++) g.put(x, yb, x + 1, yb + 1, G, GROUND.charCodeAt(x % GROUND.length));
+  return g;
+}
+function paintSky() { if (O) sky.innerHTML = skyGrid().html(); }
+function setLit(i) { flEls.forEach(function (e, k) { e.classList.toggle("on", k === i); }); }
+
+function position() {
+  var o = O, px = function (n) { return n * d.lh + "px"; };
+  [sky, block, gardenEl].forEach(function (e) { e.style.width = d.C * d.cw + "px"; });
+  block.style.top = px(o.roofY); gardenEl.style.top = px(o.gTop);
+  scene.style.height = px(entered ? o.R : o.gateR);
+  if (!HOME) return;
+  at(goBtn, o.mx + 2, o.plateTop); at(quiet, o.bx, o.plateTop + 7); at(ctl, o.bx, o.plateTop + 7, o.bw); at(tracker, o.mx, o.trY);
+  var n = o.name, wpx = n.nr.w * n.p * d.cw, hpx = n.nr.rows.length * n.p * d.cw;
+  if (nameEl.vi !== n.nr.vi) { nameEl.innerHTML = n.nr.html; nameEl.vi = n.nr.vi; }
+  nameEl.style.fontSize = n.p * d.fs / 2 + "px"; nameEl.style.lineHeight = n.p * d.cw + "px";
+  nameEl.style.left = n.x * d.cw + (n.wch * d.cw - wpx) / 2 + "px"; nameEl.style.top = n.y * d.lh + (n.hr * d.lh - hpx) / 2 + "px";
+}
+function relayout() {
+  d = dims(); O = plan();
+  paintSky();
+  block.innerHTML = blockGrid().html(O.wraps); flEls = $$("#block .fl");
+  O.gh = [gardenGrid(0).html(), gardenGrid(1).html()]; gardenEl.innerHTML = O.gh[sway];
+  position();
+  if (litF >= 0) setLit(litF % flEls.length);
 }
 
-function render() {
-  d = dims(); lay = plan();
-  var lz = lay.lz, g = new Grid(d.C, lay.R);
-  draw(g, paint(lz.cx - lz.A, lz.cy - lz.B, lz.cx + lz.A, lz.cy + lz.B, 1944, {}), 0, {});
-  g.diamond(lz.cx, lz.cy, lz.A, lz.B);
-  weave(g, lay.weave);
-  BD.style.height = lay.R * d.lh + "px";
-  grid.style.width = d.C * d.cw + "px";
-  grid.innerHTML = g.html();
+/* ---- on air: the antenna sends a lozenge out on every beat, the windows light floor by floor,
+   the planes trade places every other beat, the garden sways, and a pull up rewinds it all ---- */
+if (HOME) window.kesLook = function (mark) {
+  if (STILL || !O) return;
+  if (mark === undefined) {
+    clearInterval(rw); rw = 0; BD.classList.remove("pull");
+    if (!window.onAir) { ph = 0; rings = []; litF = -1; setLit(-1); swapped = false; BD.classList.remove("swap"); sway = 0; gardenEl.innerHTML = O.gh[0]; }
+    paintSky(); return;
+  }
+  if (mark === "@") {
+    BD.classList.add("pull"); clearInterval(rw);
+    var n = 0;
+    rw = setInterval(function () {
+      ph -= 2; rings = rings.map(function (q) { return { a: q.a - .3, c: q.c }; }).filter(function (q) { return q.a > -.6; });
+      paintSky(); if (++n > 19) { clearInterval(rw); rw = 0; }
+    }, 50);
+    return;
+  }
+  if (rw) return;
+  var t = info ? info.textContent : "";
+  ph += /rollin/.test(t) ? 2 : 1;
+  rings = rings.map(function (q) { return { a: q.a + 1, c: q.c }; }).filter(function (q) { return q.a < 4; });
+  rings.unshift({ a: 0, c: mark === "^" ? P : /bass: reese/.test(t) ? Y : U });
+  if (mark === "^") { swapped = !swapped; BD.classList.toggle("swap", swapped); }
+  litF = (litF + 1) % flEls.length; setLit(litF);
+  sway ^= 1; gardenEl.innerHTML = O.gh[sway];
+  paintSky();
+};
+
+/* ---- the gate: play, or come in quietly. either way the block opens below the roof ---- */
+function enter() {
+  if (entered) return;
+  entered = true;
+  try { sessionStorage.setItem(SK, "1"); } catch (e) {}
+  BD.classList.remove("gate"); quiet.hidden = true;
+  if (O) scene.style.height = O.R * d.lh + "px";
 }
-var tmr = 0;
-window.addEventListener("resize", function () { clearTimeout(tmr); tmr = setTimeout(render, 120); });
-try { render(); } catch (err) { H.classList.remove("js"); if (window.console) console.warn(err); }
+if (HOME) {
+  goBtn.addEventListener("click", enter);
+  quiet.addEventListener("click", function () {
+    enter();
+    var h = $("#hello"); h.focus({ preventScroll: true });
+    window.scrollTo({ top: Math.max(0, (O.floors[0].y0 - 2) * d.lh), behavior: STILL ? "auto" : "smooth" });
+  });
+  D.addEventListener("focusin", function (e) {
+    var t = e.target;
+    if (entered || t === goBtn || t === quiet || t === BD || t === H) return;
+    enter(); if (t.scrollIntoView) t.scrollIntoView({ block: "nearest" });
+  });
+  var vol = $("#vol"), bar = $("#volbar");
+  var volBar = function () { var n = Math.round(+vol.value * 10); bar.innerHTML = '<i class="y">' + new Array(n + 1).join("█") + '</i><i class="l">' + new Array(11 - n).join("░") + "</i>"; };
+  vol.addEventListener("input", volBar);
+  volBar();
+  var tk = $(".ticker span"); if (tk) $(".ticker > div").style.animationTimingFunction = "steps(" + (tk.textContent.length + 1) + ")";
+}
+
+var lastW = 0, lastH = 0, tmr = 0;
+window.addEventListener("resize", function () {
+  clearTimeout(tmr);
+  tmr = setTimeout(function () {
+    var w = H.clientWidth, h = window.innerHeight;
+    if (w === lastW && (entered || h === lastH)) return;
+    lastW = w; lastH = h; relayout();
+  }, 150);
+});
+
+try {
+  if (HOME) {
+    try { entered = sessionStorage.getItem(SK) === "1"; } catch (e) {}
+    if (entered) { BD.classList.remove("gate"); quiet.hidden = true; }
+  }
+  lastW = H.clientWidth; lastH = window.innerHeight;
+  relayout();
+} catch (err) {
+  H.classList.remove("js"); if (window.console) console.warn(err);
+}
 })();
 </script>
 </body>

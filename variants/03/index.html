@@ -1,274 +1,201 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en-GB">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>kes inkersole</title>
-<meta name="description" content="kes inkersole (kesia on paper): freelance creative strategist &amp; internet equalities researcher, based in london.">
+<script>document.documentElement.className = "js";</script>
 <style>
-/* ---------------------------------------------------------------
-   kes inkersole. one html file, system fonts, no trackers.
-   the page is a mondrian made of characters, on one monospace grid:
-   - the script counts how many columns fit the screen, sizes the type
-     so they fill it exactly, then cuts the grid into rectangles.
-   - black lines are runs of █ along whole rows and columns.
-   - white rectangles are fields of quiet characters, each its own
-     texture: the binary dump, hex, dots, <3s, the drawings.
-   - colour planes are rectangles of characters in pink, blue, yellow.
-   - everything you read is written into the grid at the same size,
-     one character clear of the texture. move your pointer (or tab)
-     and the texture near it falls quiet.
-   - links are blue, pink under your mouse.
-   without the script it's just the words, top to bottom.
-   --------------------------------------------------------------- */
 :root {
-  --ink: #000;
-  --paper: #fff;
-  --blue: #0038ff;   /* links, and the blue planes */
-  --pink: #ff3399;   /* the highlight under your mouse, and the pink planes */
-  --yellow: #ffd21f;
-  --amber: #d99a00;  /* yellow, when it has to be read */
-  --text: #2e2e2e;
-  --soft: #5c5c5c;
-  --fs: 13px;
-  --rh: 18px;
-  --cw: 7.8px;
-  --mono: ui-monospace, "SF Mono", Menlo, Monaco, Consolas, "DejaVu Sans Mono", "Liberation Mono", "Courier New", monospace;
-  color-scheme: light;
+  --w: #fff; --k: #111; --p: #ff2d95; --u: #1a3cff; --y: #ffd400; --g: #8c8c8c; --l: #cdcdcd;
+  --fs: 13px; --lh: 15px; --cw: 8px;
+  --mono: Menlo, "DejaVu Sans Mono", Consolas, "Liberation Mono", "Courier New", monospace;
 }
-html { background: var(--paper); color: var(--ink); overflow-y: scroll; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
-body { margin: 0; background: var(--paper); font: 400 var(--fs)/var(--rh) var(--mono); }
-h1, h2, h3, p, ul, dl, dd, figure { margin: 0; }
-h1, h2, h3 { font: inherit; font-weight: 700; color: var(--ink); }
-ul { padding: 0; list-style: none; }
-::selection { background: var(--pink); color: var(--ink); }
+* { box-sizing: border-box; }
+html { background: var(--w); color: var(--k); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { margin: 0; background: var(--w); color: var(--k); font: var(--fs)/var(--lh) var(--mono); }
+h1, h2, p, ul { margin: 0 0 var(--lh); font: inherit; }
+ul { list-style: none; padding: 0; }
+a { color: var(--u); }
+button { font: inherit; color: inherit; background: none; border: 0; border-radius: 0; padding: 0; margin: 0; cursor: pointer; text-align: left; -webkit-appearance: none; appearance: none; }
+a:hover, a:focus-visible, button:hover, button:focus-visible { background: var(--p); color: #000; }
+:focus-visible { outline: 2px solid var(--k); outline-offset: 0; }
+[hidden] { display: none !important; }
+.sr { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; margin: 0; padding: 0; }
+.y { color: var(--y); } .p { color: var(--p); } .b { color: var(--u); } .k { color: var(--k); } .g { color: var(--g); } .l { color: var(--l); }
+i { font-style: normal; }
 
-a { color: var(--blue); text-decoration: none; }
-a:visited { color: var(--blue); }
-a:hover, a:focus-visible { background: var(--pink); color: var(--ink); outline: none; }
-.m { color: var(--soft); }
-.pk, .heart { color: var(--pink); }
-.g1 { display: inline-block; width: 1ch; text-align: center; text-indent: 0; }   /* symbols keep to one cell */
-.nb { white-space: nowrap; }
+/* without js: just the words, in order */
+html:not(.js) body { padding: 16px; max-width: 78ch; }
+html:not(.js) #grid, html:not(.js) .name, html:not(.js) .tri, html:not(.js) #tracker, html:not(.js) .spk { display: none; }
+html:not(.js) .key { display: block; }
+html:not(.js) #quiet { display: none; }
 
-/* ---------- without the script: the words, in one column ---------- */
-.page { position: relative; overflow-x: clip; }
-.cb { max-width: 72ch; margin: 0 auto; padding: var(--rh) 2ch; color: var(--text); scroll-margin-top: calc(var(--rh) * 2); }
-.cb > * + * { margin-top: var(--rh); }
-#g, [data-fill] { display: none; }
+/* with js: everything is set on one character grid */
+.js body { position: relative; overflow-x: hidden; }
+.js #grid { position: absolute; left: 0; top: 0; margin: 0; font: inherit; white-space: pre; pointer-events: none; overflow: hidden; }
+.js .at { position: absolute; z-index: 1; }
+.js body.gate .later, .js body.moving .at { opacity: 0; pointer-events: none; }
 
-/* ---------- the grid ---------- */
-#g { font-family: var(--mono); }
-.g #g { display: block; position: absolute; inset: 0; overflow: hidden; pointer-events: none; user-select: none; -webkit-user-select: none; }
-.g .L { position: absolute; left: 0; top: 0; width: 100%; }
-.g .L > div { height: var(--rh); white-space: pre; overflow: hidden; }
-.L i { font-style: normal; }
-.g [data-fill] { display: block; position: absolute; pointer-events: none; }
-.g .cb { position: absolute; z-index: 1; margin: 0; padding: 0; max-width: none; overflow-wrap: anywhere; }
+/* the play key: a triangle drawn in blocks, sitting in a white room at the centre of the lozenge */
+.go { width: calc(27 * var(--cw)); height: calc(6 * var(--lh)); }
+.go .tri { position: absolute; left: 0; top: 0; white-space: pre; color: var(--p); }
+.go .big { position: absolute; left: calc(13 * var(--cw)); top: var(--lh); font-size: calc(2 * var(--fs)); line-height: calc(2 * var(--lh)); font-weight: bold; }
+.go .sub { position: absolute; left: calc(13 * var(--cw)); top: calc(4 * var(--lh)); white-space: nowrap; }
+.go:hover .tri, .go:focus-visible .tri { color: #000; }
+body.on-air .go .tri { color: var(--u); }
+.go .tri.thump, .spk.thump .cone { animation: th .2s steps(1); }
+@keyframes th { 0%, 100% { color: var(--k); } }
+#quiet { color: var(--u); text-decoration: underline; text-underline-offset: 2px; white-space: nowrap; }
 
-/* what the characters are made of */
-.L .k { color: var(--ink); }
-.L .K { color: var(--ink); font-weight: 700; }
-.L .p { color: var(--pink); }
-.L .pB { color: var(--pink); font-weight: 700; }
-.L .b, .L .w { color: var(--blue); }
-.L .bB { color: var(--blue); font-weight: 700; }
-.L .y { color: var(--yellow); }
-.L .gr { color: #c4c4c4; }
-.L .q1 { color: #9c9c9c; }   /* dense patterns: the dump, binary */
-.L .q2 { color: #848484; }   /* hex, colons, noise, <3s */
-.L .q3 { color: #686868; }   /* sparse dots */
-.L .q4 { color: #bababa; }   /* the lightest fields */
+/* kes' name: her dot-matrix sign, every lit dot a <3, set on a finer grid */
+.name { margin: 0; white-space: pre; color: var(--l); font-weight: bold; font-family: var(--mono); }
+.name b { color: var(--p); }
+.name b.h { color: var(--y); }
+.name.lit b.h { color: var(--u); }
 
-/* the reveal: near your pointer (or whatever has focus) the quiet texture drops away */
-.g .L.q {
-  --mx: -10000px; --my: -10000px;
-  -webkit-mask-image: radial-gradient(ellipse calc(var(--cw) * 24) calc(var(--rh) * 6) at var(--mx) var(--my), rgba(0, 0, 0, .07) 0, rgba(0, 0, 0, .07) 45%, #000 100%);
-  mask-image: radial-gradient(ellipse calc(var(--cw) * 24) calc(var(--rh) * 6) at var(--mx) var(--my), rgba(0, 0, 0, .07) 0, rgba(0, 0, 0, .07) 45%, #000 100%);
-}
+/* the break is one of the painting's lines: one square per 16th */
+#tracker { display: flex; height: var(--lh); line-height: var(--lh); --tu: 2; }
+#tracker span { display: block; position: relative; width: calc(var(--tu) * var(--cw)); overflow: hidden; color: transparent; white-space: pre; }
+#tracker span::before { content: "██"; position: absolute; left: 0; top: 0; color: var(--y); }
+#tracker .rest::before { color: var(--l); }
+#tracker .rev::before { color: var(--p); }
+#tracker .up::before { color: var(--u); }
+#tracker .roll::before { content: "▚▚"; }
+#tracker .on::before { content: "██"; color: var(--k); }
 
-/* ---------- KES FM, in characters ---------- */
-.deck > * + * { margin-top: var(--rh); }
-.lcd { color: #828282; }
-.lcd-top { display: flex; flex-wrap: wrap; justify-content: space-between; column-gap: 2ch; }
-.nw .lcd-top { min-height: calc(var(--rh) * 2); }
-.status { color: var(--ink); font-weight: 700; }
-body.on-air .status { background: var(--pink); }
-.ticker { overflow: hidden; white-space: nowrap; }
+/* keys into the painting */
+.key { white-space: nowrap; text-decoration: none; }
+.js .under { opacity: 0; pointer-events: none; }
+.js .under:focus, .js .under:focus-within { opacity: 1; }
+
+/* papers: kes' notes, taped over the painting when you open a key */
+.js .paper { padding: var(--lh) calc(2 * var(--cw)); }
+.js .paper:not(.open) { width: 1px !important; height: 1px; overflow: hidden; clip-path: inset(50%); left: 0 !important; top: 0 !important; padding: 0; }
+.js .paper:focus { outline: none; }
+.paper > :last-child, .paper li:last-child { margin-bottom: 0; }
+.paper h2 { font-size: calc(2 * var(--fs)); line-height: calc(2 * var(--lh)); font-weight: bold; }
+.paper a { text-decoration: underline; text-underline-offset: 2px; overflow-wrap: anywhere; }
+.paper .kick { color: var(--g); }
+.paper li { padding-left: calc(2 * var(--cw)); text-indent: calc(-2 * var(--cw)); }
+.paper li::before { content: "▗ "; content: "▗ " / ""; color: var(--p); }
+.paper .pic { white-space: pre; color: var(--k); }
+.paper .pic::before { content: "▚▞▚▞▚▞▚▞▚▞▚▞▚▞▚▞▚▞▚▞▚▞\A▚▞▚ "; content: "▚▞▚▞▚▞▚▞▚▞▚▞▚▞▚▞▚▞▚▞▚▞\A▚▞▚ " / ""; color: var(--l); }
+.paper .pic::after { content: " ▚▞\A▚▞▚▞▚▞▚▞▚▞▚▞▚▞▚▞▚▞▚▞▚▞"; content: " ▚▞\A▚▞▚▞▚▞▚▞▚▞▚▞▚▞▚▞▚▞▚▞▚▞" / ""; color: var(--l); }
+.fold { position: absolute; top: 0; right: calc(2 * var(--cw)); color: var(--g); white-space: nowrap; }
+html:not(.js) .fold { display: none; }
+
+/* KES FM, set as words */
+.deck h2 { font-weight: bold; }
+.deck .lbl { display: inline-block; width: calc(6 * var(--cw)); color: var(--g); }
+.deck .ctl p { margin: 0; }
+.deck .ctl { margin-bottom: var(--lh); }
+.ctl button::before { content: "["; content: "[" / ""; color: var(--g); }
+.ctl button::after { content: "]"; content: "]" / ""; color: var(--g); }
+.ctl button[aria-pressed="true"] { background: var(--y); color: #000; }
+.ctl button[aria-pressed="true"]::before, .ctl button[aria-pressed="true"]::after, .ctl button:hover::before, .ctl button:hover::after { color: #000; }
+.stop { font-weight: bold; }
+.status, .info { white-space: nowrap; overflow: hidden; }
+.status { font-weight: bold; }
+.ticker { white-space: nowrap; overflow: hidden; margin-bottom: var(--lh); }
 .ticker > div { display: inline-block; }
-.ticker span { padding-right: 1ch; }
-@keyframes run { to { translate: -50% 0; } }
+.ticker span { padding-right: var(--cw); }
+@keyframes run { to { transform: translateX(-50%); } }
 @media (prefers-reduced-motion: no-preference) { body.on-air .ticker > div { animation: run 70s linear infinite; } }
-.tracker { display: grid; grid-template-columns: repeat(16, 3ch); }
-.nw .tracker { grid-template-columns: repeat(8, 3ch); }
-.tracker .rest { opacity: .5; }
-.tracker .rev, .lcd-info .rev { color: var(--pink); }
-.tracker .up, .lcd-info .up { color: var(--amber); }
-.tracker .roll { text-decoration: underline; }
-.tracker .on { background: var(--pink); color: var(--ink); }
-.lcd-info > span { display: block; }
-.nw #lcdinfo { min-height: calc(var(--rh) * 2); }
+.vol { position: relative; display: inline-block; white-space: nowrap; }
+.vol input { position: absolute; left: calc(7 * var(--cw)); top: 0; width: calc(20 * var(--cw)); height: var(--lh); margin: 0; opacity: 0; cursor: pointer; }
+.vol:focus-within .bar { outline: 2px solid var(--k); }
+.legend { color: var(--k); }
+.legend .sw { font-style: normal; }
+.floatstop { position: fixed; right: calc(2 * var(--cw)); bottom: var(--lh); z-index: 9; background: var(--y); color: #000; font-weight: bold; padding: 0 var(--cw); }
+.floatstop:hover, .floatstop:focus-visible { background: var(--p); }
 
-.keys > div, .keys > label { display: block; padding-left: 6ch; text-indent: -6ch; }
-.keys > div:first-child { padding-left: 0; text-indent: 0; margin-bottom: var(--rh); }
-.keys .lbl { display: inline-block; width: 6ch; text-indent: 0; color: var(--soft); }
-.keys button { font: inherit; line-height: var(--rh); color: var(--ink); background: none; border: 0; border-radius: 0; padding: 0; margin: 0 1ch 0 0; cursor: pointer; text-indent: 0; vertical-align: top; }
-.keys button::before { content: "["; }
-.keys button::after { content: "]"; }
-.keys .go, .keys .stop { font-weight: 700; padding: 6px 0; margin-top: -6px; margin-bottom: -6px; }   /* a bigger target, same cells */
-.keys .go::before, .keys .go::after { color: var(--pink); }
-.keys button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
-.keys .go[aria-pressed="true"] { background: var(--pink); color: var(--ink); }
-.keys .go[aria-pressed="true"]::before, .keys .go[aria-pressed="true"]::after { color: var(--ink); }
-.keys button:hover, .keys button:focus-visible { background: var(--pink); color: var(--ink); outline: none; }
-.vol { position: relative; color: var(--soft); }
-.vol input { position: absolute; left: 6ch; top: 0; width: 19ch; height: var(--rh); margin: 0; padding: 0; opacity: 0; cursor: pointer; }
-.volbar { margin-left: 2ch; color: var(--ink); }
-.vol:focus-within .volbar, .vol:hover .volbar { background: var(--pink); }
-.floatstop { position: fixed; right: 2ch; bottom: var(--rh); z-index: 5; font: 700 var(--fs)/var(--rh) var(--mono); background: var(--pink); color: var(--ink); border: 0; border-radius: 0; padding: 4px 1ch; cursor: pointer; }
-.floatstop::before { content: "["; }
-.floatstop::after { content: "]"; }
-.floatstop:hover, .floatstop:focus-visible { background: var(--yellow); outline: none; }
-.floatstop[hidden] { display: none; }
-
-/* ---------- the card, the projects, the lists ---------- */
-.card dt { color: var(--soft); }
-.card dd + dt { margin-top: var(--rh); }
-.proj .n { color: var(--soft); }
-.proj h3 { display: inline; }
-.stars li { padding-left: 2ch; text-indent: -2ch; }
-.stars li:hover .st { color: var(--pink); }
-@media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
+/* the speaker stack, taped on */
+.spk { margin: 0; white-space: pre; color: var(--k); }
+.spk .p { color: var(--p); } .spk .b { color: var(--u); } .spk .fl { color: var(--y); } .spk .kf { font-weight: bold; }
 </style>
 </head>
-<body>
-<div class="page">
-<div id="g" aria-hidden="true"><div class="L q"></div><div class="L s"></div></div>
-
-<div class="sign" data-fill="name" role="img" aria-label="kes inkersole, spelled out in tiny &lt;3 hearts"></div>
+<body class="gate">
+<pre id="grid" aria-hidden="true"></pre>
 
 <main>
-<section class="cb hello" data-r="hello" aria-labelledby="hello-h">
-<h1 id="hello-h">hello, i'm kes <span class="g1 heart">♡</span></h1>
-<p class="welcome">welcome to kes's little corner of the internet <span class="pk">&lt;3</span></p>
-<p>my practice focuses on understanding and critiquing the impacts of emerging technologies on people, culture, and the planet. i work collectively to rethink the narratives and behaviours surrounding technologies — prioritising collaborative research as a process for testing, imagining and prototyping more equitable, alternative futures.</p>
-</section>
+<h1 class="sr">kes inkersole</h1>
+<pre id="name" class="name tower at" aria-hidden="true"></pre>
 
-<section class="cb chain" data-r="chain" aria-label="chainmail">
-<p><span class="g1 pk" aria-hidden="true">✉&#xFE0E;</span> <a href="writing.html">chainmail</a>, my own writing: short pieces from my notes app, sent in by email.</p>
-</section>
+<section class="fm" id="fm" aria-labelledby="fm-h">
+<button class="go at" id="go" type="button" aria-pressed="false"><span class="tri sound" aria-hidden="true">█▄▄
+████▄▄
+████████▄▄
+████████▀▀
+████▀▀
+█▀▀</span><span class="big">play</span><span class="sub">KES FM 170.0</span></button>
+<button class="at" id="quiet" type="button">enter without sound</button>
+<div class="tracker at" id="tracker" aria-hidden="true"></div>
 
-<div class="sound" data-fill="spk" aria-hidden="true"></div>
-
-<!-- KES FM: a jungle machine. silent until you press on air -->
-<section class="fm cb" id="fm" data-r="fm" aria-labelledby="fm-h">
+<div class="deck at later" id="deck">
 <h2 id="fm-h">KES FM 170.0</h2>
-<p class="ident">you're locked to KES FM. it's not a real station, it's this website: a little jungle machine running in your browser, every drum and bassline synthesised live, no samples, no files. nothing plays until you press on air, and stop always stops it <span class="g1">✧</span></p>
-<div class="deck">
-<div class="lcd">
-<div class="lcd-top"><span>KES FM ((( 170.0 )))</span><span class="status" id="status" role="status">off air</span></div>
+<p class="ident">you're locked to KES FM. it's not a real station, it's this website: a little jungle machine running in your browser, every drum and bassline synthesised live, no samples, no files. nothing plays until you press on air, and stop always stops it ✧</p>
+<p class="lcd-top"><span class="status" id="status" role="status">off air</span></p>
 <div class="ticker" aria-hidden="true"><div><span>big up all the junglists ✦ big up everyone reading the source code ✦ big up the UAL lot, LCF + CCI ✦ big up Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges ✦ text in: inkersolekesia@gmail.com ✦ respect to the sound systems, pirates and producers who built all this ✦ lorem ipsum dolor sit amet ✦</span><span>big up all the junglists ✦ big up everyone reading the source code ✦ big up the UAL lot, LCF + CCI ✦ big up Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges ✦ text in: inkersolekesia@gmail.com ✦ respect to the sound systems, pirates and producers who built all this ✦ lorem ipsum dolor sit amet ✦</span></div></div>
-<div class="tracker" id="tracker" aria-hidden="true"></div>
-<div class="lcd-info" aria-hidden="true"><span id="lcdinfo">break: straight · bass: sub · cute: off</span><span><span class="rev">pink</span> = reversed · <span class="up">yellow</span> = pitched up · underline = roll</span></div>
+<div class="ctl">
+<p><span class="lbl" aria-hidden="true"></span><button class="stop" id="stop" type="button">■ stop</button></p>
+<p role="group" aria-label="break"><span class="lbl">break</span><button type="button" data-break="straight" aria-pressed="true">straight</button> <button type="button" data-break="chopped" aria-pressed="false">chopped</button> <button type="button" data-break="rollin" aria-pressed="false">rollin'</button> <button type="button" id="chop" aria-pressed="false">✂ chop it</button></p>
+<p role="group" aria-label="bass"><span class="lbl">bass</span><button type="button" data-bass="sub" aria-pressed="true">sub</button> <button type="button" data-bass="reese" aria-pressed="false">reese</button> <button type="button" data-bass="off" aria-pressed="false">off</button></p>
+<p><span class="lbl" aria-hidden="true"></span><button type="button" id="cute" aria-pressed="false">✿ cute</button> <button type="button" id="pullup">⟲ pull up</button> <button type="button" id="siren">siren</button></p>
+<p><label class="vol"><span class="lbl">vol</span> <span class="bar" id="volbar" aria-hidden="true">██████████░░░░░░░░░░</span><input type="range" id="vol" min="0" max="1" step="0.05" value="0.5"></label></p>
 </div>
-
-<div class="keys">
-<div><button class="go" id="go" type="button" aria-pressed="false">▶ on air</button><button class="stop" id="stop" type="button">■ stop</button></div>
-<div role="group" aria-label="break"><span class="lbl">break</span><button type="button" data-break="straight" aria-pressed="true">straight</button><button type="button" data-break="chopped" aria-pressed="false">chopped</button><button type="button" data-break="rollin" aria-pressed="false">rollin'</button><button type="button" id="chop" aria-pressed="false">✂ chop it</button></div>
-<div role="group" aria-label="bass"><span class="lbl">bass</span><button type="button" data-bass="sub" aria-pressed="true">sub</button><button type="button" data-bass="reese" aria-pressed="false">reese</button><button type="button" data-bass="off" aria-pressed="false">off</button></div>
-<div><button type="button" id="cute" aria-pressed="false">✿ cute</button><button type="button" id="pullup">⟲ pull up</button><button type="button" id="siren">siren</button></div>
-<label class="vol">vol <input type="range" id="vol" min="0" max="1" step="0.05" value="0.5"><span class="volbar" aria-hidden="true">[========o--------]</span></label>
-</div>
+<p class="info" aria-hidden="true"><span id="lcdinfo">break: straight · bass: sub · cute: off</span></p>
+<p class="legend" aria-hidden="true">the break runs through the painting as a line of squares, one per 16th: <i class="p">█</i> reversed · <i class="b">█</i> pitched up · <i class="y">▚</i> roll · <i class="k">█</i> now</p>
 <p class="textin">text in your shout-outs: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
 </div>
-</section>
-<button class="floatstop" id="floatstop" type="button" hidden>■ stop KES FM</button>
 
-<aside class="cb card" data-r="card" aria-labelledby="card-h">
-<h2 id="card-h">kes inkersole <span class="m">(kesia on paper)</span></h2>
-<dl>
-<dt>bio</dt>
-<dd>freelance creative strategist &amp; internet equalities researcher, based in london.</dd>
-<dt>portfolio</dt>
-<dd><a href="#p1">latent space</a>, <a href="#p2">MØRNING Ø</a> and <a href="#p3">networked worlds</a>, then <a href="#more">everything else</a>.</dd>
-<dt>cv</dt>
-<dd><p>associate lecturer at UAL (LCF + CCI).</p><p>clients: Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges.</p><p>MA internet equalities, BA creative direction, <span class="nb">PhD [ ? ]</span>.</p></dd>
-</dl>
-<p class="contact"><a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a><br><span class="m">cv &amp; portfolio on request</span><br><span class="m">i'm available for work !! <span class="pk">&lt;3</span></span></p>
-</aside>
-
-<section class="projects" aria-labelledby="projects-h">
-<h2 class="cb ph" id="projects-h" data-r="ph">three projects <span class="g1">✧</span></h2>
-
-<article class="cb proj" id="p1" data-r="p1">
-<div class="what"><span class="n">01</span> <h3><a href="https://latent-space.vercel.app/">latent space</a></h3>
-<p class="m">for fun<br>latent-space.vercel.app</p></div>
-<div class="note"><p>lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam.</p></div>
-</article>
-
-<article class="cb proj" id="p2" data-r="p2">
-<div class="what"><span class="n">02</span> <h3><a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1">MØRNING Ø</a></h3>
-<p class="m">for funds<br>instagram.com</p></div>
-<div class="note"><p>duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. excepteur sint occaecat cupidatat non proident.</p></div>
-</article>
-
-<article class="cb proj" id="p3" data-r="p3">
-<div class="what"><span class="n">03</span> <h3><a href="https://co-matter.com/project/networked-worlds">networked worlds</a></h3>
-<p class="m">for funds, with co—matter<br>co-matter.com</p></div>
-<div class="note"><p>ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. sunt in culpa qui officia deserunt.</p></div>
-</article>
+<pre class="spk sound at later" id="spk" aria-hidden="true">        <i class="p">\(^o^)/</i>       <i class="p">&lt;3</i>
+.--------------..--------------.
+| .----.  .--. || .----.  .--. |
+| |====|  <i class="b">(())</i> || |====|  <i class="b">(())</i> |
+| '----'  '--' || '----'  '--' |
+'--------------''--------------'
+.--------------..--------------.
+|   .------.   ||   .------.   |
+|  /  .--.  \  ||  /  .--.  \  |  <i class="b">)</i>
+| |  <i class="b">( </i><i class="p cone">&lt;3</i><i class="b"> )</i>  | || |  <i class="b">( </i><i class="p cone">&lt;3</i><i class="b"> )</i>  | |  <i class="b">))</i>
+|  \  '--'  /  ||  \  '--'  /  |  <i class="b">)))</i>
+|   '------'   ||   '------'   |  <i class="b">))</i>
+|--------------||--------------|  <i class="b">)</i>
+|    <i class="kf">KES FM</i>    ||   <i class="b">170.0 FM</i>   |
+'--------------''--------------'
+<i class="fl">""""""""""""""""""""""""""""""""</i></pre>
 </section>
 
-<section class="more" aria-label="everything else">
-<div class="cb" id="more" data-r="m1">
-<h2>more projects <span class="g1">✿</span></h2>
-<ul class="stars">
-<li><span class="st g1" aria-hidden="true">☆</span> <a href="https://protecht.vercel.app/">pro(tech)t</a> <span class="m">for fun</span></li>
-<li><span class="st g1" aria-hidden="true">☆</span> <a href="https://www.protein.xyz/dirty-words-4-community/">protein dirty words #4: community report</a> <span class="m">for funds</span></li>
-</ul>
-<h2>elsewhere <span class="g1">☂&#xFE0E;</span></h2>
-<ul class="stars">
-<li><span class="st g1" aria-hidden="true">☆</span> <a href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1">olden residency</a></li>
-<li><span class="st g1" aria-hidden="true">☆</span> <a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1">softer london</a> <span class="m">talk + workshop</span></li>
-<li><span class="st g1" aria-hidden="true">☆</span> <a href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard">tech yard</a> <span class="m">workshop</span></li>
-<li><span class="st g1" aria-hidden="true">☆</span> <a href="https://www.instagram.com/p/BslwSSPH5Rc/?img_index=2">ovar it</a></li>
-</ul>
-</div>
+<nav class="keysnav" aria-label="the painting's keys">
+<a class="key at later" href="#hello">hello, i'm kes &lt;3</a>
+<a class="key at later" href="#kes">kes inkersole</a>
+<a class="key at later" href="#p01">01 latent space</a>
+<a class="key at later" href="#p02">02 networked worlds</a>
+<a class="key at later" href="#p03">03 protein dirty words #4</a>
+<a class="key at later" href="#more">more projects</a>
+<a class="key at later" href="#writing">my writing</a>
+<a class="key at later" href="#written">things i've written</a>
+<a class="key at later" href="#podcasts">podcasts, for the bus</a>
+<a class="key at later" href="#irl">irl (mostly)</a>
+<a class="key at later" href="#hi">say hello</a>
+</nav>
 
-<div class="cb" data-r="m2">
-<h2>writing <span class="g1">✎</span></h2>
-<ul class="stars">
-<li><span class="st g1" aria-hidden="true">☆</span> <a href="writing.html">chainmail</a> <span class="m">mine, on this site</span></li>
-<li><span class="st g1" aria-hidden="true">☆</span> <a href="https://www.protein.xyz/sex-and-the-internet/">mindy seu on sex and the internet</a> <span class="m">Protein</span></li>
-<li><span class="st g1" aria-hidden="true">☆</span> <a href="https://midnight.agency/thoughts/dreaming-and-designing-more-accessible-web">dreaming and designing a more accessible web</a> <span class="m">Midnight Agency</span></li>
-<li><span class="st g1" aria-hidden="true">☆</span> <a href="https://midnight.agency/thoughts/coding-a-more-creative-and-playful-web">coding a more creative and playful web</a> <span class="m">Midnight Agency</span></li>
-<li><span class="st g1" aria-hidden="true">☆</span> <a href="https://midnight.agency/thoughts/composing-a-flexible-and-modular-web">composing a flexible and modular web</a> <span class="m">Midnight Agency</span></li>
-<li><span class="st g1" aria-hidden="true">☆</span> <a href="https://morningfyi.substack.com/p/020-uh-oh-meet">burn after reading: uh oh, meet o</a> <span class="m">morningfyi</span></li>
-<li><span class="st g1" aria-hidden="true">☆</span> <a href="https://morningfyi.substack.com/p/024-entering-limb-with">burn after reading: entering limbo</a> <span class="m">morningfyi</span></li>
-</ul>
-</div>
-
-<div class="cb" data-r="m3">
-<h2>podcasts, for the bus <span class="g1">♫</span></h2>
-<ul class="stars">
-<li><span class="st g1" aria-hidden="true">☆</span> <a href="https://podcasts.apple.com/gb/podcast/mindy-seu-on-collaboration-community-and/id1449302502?i=1000597869409">mindy seu on collaboration, community and the cyberfeminism index</a></li>
-<li><span class="st g1" aria-hidden="true">☆</span> <a href="https://soundcloud.com/proteincommunity/protein-forum-what-can-web2-organisations-learn-from-web3-communities">what can web2 organisations learn from web3 communities?</a> <span class="m">Protein</span></li>
-<li><span class="st g1" aria-hidden="true">☆</span> <a href="https://podcasts.apple.com/gb/podcast/cherie-hu-on-water-musics-journey-through-web3/id1449302502?i=1000581859804">cherie hu on water &amp; music's journey through web3</a></li>
-<li><span class="st g1" aria-hidden="true">☆</span> <a href="https://podcasts.apple.com/gb/podcast/molly-dickson-on-dao-activism-and-fighting-for/id1449302502?i=1000578164761">molly dickson on dao activism</a></li>
-<li><span class="st g1" aria-hidden="true">☆</span> <a href="https://podcasts.apple.com/gb/podcast/dame-on-the-need-for-education-accessibility/id1449302502?i=1000559829008">dame on education, accessibility and inclusivity in web3</a></li>
-<li><span class="st g1" aria-hidden="true">☆</span> <a href="https://podcasts.apple.com/gb/podcast/nadia-piet-on-creative-ai-and-protopian-futures/id1449302502?i=1000559822732">nadia piet on creative ai and protopian futures</a></li>
-<li><span class="st g1" aria-hidden="true">☆</span> <a href="https://podcasts.apple.com/gb/podcast/cyn-bahati-on-her-journey-into-web3-with-her-family/id1449302502?i=1000559818509">cyn bahati on her journey into web3 with her family</a></li>
-<li><span class="st g1" aria-hidden="true">☆</span> <a href="https://podcasts.apple.com/gb/podcast/latash%C3%A1-on-the-potential-of-web3-for-music-artists/id1449302502?i=1000552812458">latasha on the potential of web3 for music artists</a></li>
-</ul>
-</div>
-</section>
+<section class="paper at" id="hello" tabindex="-1"><h2>hello, i'm kes &lt;3</h2><p>i'm kes inkersole (kesia on paper), a freelance creative strategist and internet equalities researcher based in london. welcome to kes' little corner of the internet.</p><p>my practice focuses on understanding and critiquing the impacts of emerging technologies on people, culture, and the planet. i work collectively to rethink the narratives and behaviours surrounding technologies — prioritising collaborative research as a process for testing, imagining and prototyping more equitable, alternative futures.</p></section>
+<section class="paper at" id="kes" tabindex="-1"><p class="kick">this website presents</p><h2>kes inkersole</h2><p>creative strategist, internet equalities researcher, london. available for work.</p><p>does: creative strategy, research, workshops, writing and teaching</p><p>teaches: associate lecturer at UAL (LCF + CCI)</p><p>clients: Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges</p><p>school: MA internet equalities, BA creative direction, PhD [ ? ]</p><p>cv: cv &amp; portfolio on request</p><p>email: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p></section>
+<section class="paper at" id="p01" tabindex="-1"><p class="kick">01 · for fun</p><h2><a href="https://latent-space.vercel.app/">latent space</a></h2><p class="pic">(picture to come)</p><p>lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam.</p></section>
+<section class="paper at" id="p02" tabindex="-1"><p class="kick">02 · for funds</p><h2><a href="https://co-matter.com/project/networked-worlds">networked worlds</a> with co—matter</h2><p class="pic">(picture to come)</p><p>duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. excepteur sint occaecat cupidatat non proident.</p></section>
+<section class="paper at" id="p03" tabindex="-1"><p class="kick">03 · for funds</p><h2><a href="https://www.protein.xyz/dirty-words-4-community/">protein dirty words #4: community report</a></h2><p class="pic">(picture to come)</p><p>sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo.</p></section>
+<section class="paper at" id="more" tabindex="-1"><h2>more projects</h2><ul><li><a href="https://protecht.vercel.app/">pro(tech)t</a> (for fun)</li><li><a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1">MØRNING Ø</a> (for funds)</li></ul></section>
+<section class="paper at" id="writing" tabindex="-1"><h2>my writing</h2><p>new: short pieces from my notes app, sent in by email. it's called <a href="writing.html">chainmail</a>.</p></section>
+<section class="paper at" id="written" tabindex="-1"><h2>things i've written</h2><ul><li><a href="https://www.protein.xyz/sex-and-the-internet/">mindy seu on sex and the internet</a> (Protein)</li><li><a href="https://midnight.agency/thoughts/dreaming-and-designing-more-accessible-web">dreaming and designing a more accessible web</a> (Midnight Agency)</li><li><a href="https://midnight.agency/thoughts/coding-a-more-creative-and-playful-web">coding a more creative and playful web</a> (Midnight Agency)</li><li><a href="https://midnight.agency/thoughts/composing-a-flexible-and-modular-web">composing a flexible and modular web</a> (Midnight Agency)</li><li><a href="https://morningfyi.substack.com/p/020-uh-oh-meet">burn after reading: uh oh, meet o</a> (morningfyi)</li><li><a href="https://morningfyi.substack.com/p/024-entering-limb-with">burn after reading: entering limbo</a> (morningfyi)</li></ul></section>
+<section class="paper at" id="podcasts" tabindex="-1"><h2>podcasts, for the bus</h2><ul><li><a href="https://podcasts.apple.com/gb/podcast/mindy-seu-on-collaboration-community-and/id1449302502?i=1000597869409">mindy seu on collaboration, community and the cyberfeminism index</a></li><li><a href="https://soundcloud.com/proteincommunity/protein-forum-what-can-web2-organisations-learn-from-web3-communities">what can web2 organisations learn from web3 communities?</a> (Protein)</li><li><a href="https://podcasts.apple.com/gb/podcast/cherie-hu-on-water-musics-journey-through-web3/id1449302502?i=1000581859804">cherie hu on water &amp; music's journey through web3</a></li><li><a href="https://podcasts.apple.com/gb/podcast/molly-dickson-on-dao-activism-and-fighting-for/id1449302502?i=1000578164761">molly dickson on dao activism</a></li><li><a href="https://podcasts.apple.com/gb/podcast/dame-on-the-need-for-education-accessibility/id1449302502?i=1000559829008">dame on education, accessibility and inclusivity in web3</a></li><li><a href="https://podcasts.apple.com/gb/podcast/nadia-piet-on-creative-ai-and-protopian-futures/id1449302502?i=1000559822732">nadia piet on creative ai and protopian futures</a></li><li><a href="https://podcasts.apple.com/gb/podcast/cyn-bahati-on-her-journey-into-web3-with-her-family/id1449302502?i=1000559818509">cyn bahati on her journey into web3 with her family</a></li><li><a href="https://podcasts.apple.com/gb/podcast/latash%C3%A1-on-the-potential-of-web3-for-music-artists/id1449302502?i=1000552812458">latasha on the potential of web3 for music artists</a></li></ul></section>
+<section class="paper at" id="irl" tabindex="-1"><h2>irl (mostly)</h2><ul><li><a href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1">olden residency</a></li><li><a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1">softer london</a> (talk + workshop)</li><li><a href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard">tech yard</a> (workshop)</li><li><a href="https://www.instagram.com/p/BslwSSPH5Rc/?img_index=2">ovar it</a></li></ul></section>
+<section class="paper at" id="hi" tabindex="-1"><p>this website is mostly plain text: system fonts, no trackers, no photos, one radio that stays quiet until you ask. it's easy for me to update and it loads fine on bad wifi.</p><p>thanks for stopping by &lt;3</p><p>say hello: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p></section>
+<button class="fold" id="fold" type="button" hidden>fold away ×</button>
 </main>
 
-<footer>
-<p class="cb low" data-r="low">this page is still mostly plain html (it started out in <a href="http://contemporary-home-computing.org/prof-dr-style/">olia lialina's prof. dr. style</a>, then i planted some flowers), so it's easy for me to update and it loads fine on bad wifi.</p>
-<p class="cb bye" data-r="bye">thanks for stopping by <span class="g1 heart">♡</span></p>
-</footer>
-</div>
+<button class="floatstop" id="floatstop" type="button" hidden>■ stop KES FM</button>
 
 <script>
 /* ===== KES FM engine: paste VERBATIM, do not edit =====
@@ -277,7 +204,7 @@ body.on-air .status { background: var(--pink); }
 var onAir = false;
 var happy = false;
 var still = matchMedia("(prefers-reduced-motion: reduce)").matches;
-function look() {}
+function look(mark) { if (window.kesLook) window.kesLook(mark); }
 /* ---------------------------------------------------------------
    KES FM 170.0
    a jungle machine. there are no samples in here: the break is
@@ -648,397 +575,438 @@ function look() {}
 
 </script>
 <script>
-/* ---------------------------------------------------------------
-   the composition, for this page. the grid script below calls this
-   with the number of columns that fit the screen. H stacks rectangles
-   with a black row between them, V sets them side by side with two
-   black columns between them. E is a rectangle that holds some of the
-   page's words (by data-r); L is one that's only texture or colour.
-   widths are whole columns: w fixes one, f shares out the rest.
-   heights come from the words; h fixes one, g says who takes the slack.
-   --------------------------------------------------------------- */
-window.KART = {"big":{"t":["<3                                          <3                <3                                                          <3<3","<3                                                            <3                                                            <3                  <3<3  <3<3","<3    <3      <3<3<3      <3<3<3<3        <3<3    <3  <3<3    <3    <3      <3<3<3    <3  <3<3      <3<3<3<3    <3<3<3      <3      <3<3<3    <3<3<3<3<3<3<3","<3  <3      <3      <3  <3                  <3    <3<3    <3  <3  <3      <3      <3  <3<3    <3  <3          <3      <3    <3    <3      <3  <3<3<3<3<3<3<3","<3<3        <3<3<3<3<3    <3<3<3            <3    <3      <3  <3<3        <3<3<3<3<3  <3            <3<3<3    <3      <3    <3    <3<3<3<3<3    <3<3<3<3<3","<3  <3      <3                  <3          <3    <3      <3  <3  <3      <3          <3                  <3  <3      <3    <3    <3              <3<3<3","<3    <3      <3<3<3    <3<3<3<3          <3<3<3  <3      <3  <3    <3      <3<3<3    <3          <3<3<3<3      <3<3<3    <3<3<3    <3<3<3          <3"],"m":["kk..........................................kk................kk..........................................................kkkk","kk............................................................kk............................................................kk..................pppp..pppp","kk....kk......kkkkkk......kkkkkkkk........kkkk....kk..kkkk....kk....kk......kkkkkk....kk..kkkk......kkkkkkkk....kkkkkk......kk......kkkkkk....pppppppppppppp","kk..kk......kk......kk..kk..................kk....kkkk....kk..kk..kk......kk......kk..kkkk....kk..kk..........kk......kk....kk....kk......kk..pppppppppppppp","kkkk........kkkkkkkkkk....kkkkkk............kk....kk......kk..kkkk........kkkkkkkkkk..kk............kkkkkk....kk......kk....kk....kkkkkkkkkk....pppppppppp","kk..kk......kk..................kk..........kk....kk......kk..kk..kk......kk..........kk..................kk..kk......kk....kk....kk..............pppppp","kk....kk......kkkkkk....kkkkkkkk..........kkkkkk..kk......kk..kk....kk......kkkkkk....kk..........kkkkkkkk......kkkkkk....kkkkkk....kkkkkk..........pp"],"bold":1,"blink":1,"live":1},"small":{"t":["<3","<3","<3    <3      <3<3<3      <3<3<3<3","<3  <3      <3      <3  <3","<3<3        <3<3<3<3<3    <3<3<3","<3  <3      <3                  <3","<3    <3      <3<3<3    <3<3<3<3"],"m":["kk","kk","kk....kk......kkkkkk......kkkkkkkk","kk..kk......kk......kk..kk","kkkk........kkkkkkkkkk....kkkkkk","kk..kk......kk..................kk","kk....kk......kkkkkk....kkkkkkkk"],"bold":1,"blink":1,"live":1},"spk":{"t":["        \\(^o^)/       <3",".--------------..--------------.","| .----.  .--. || .----.  .--. |","| |====|  (()) || |====|  (()) |","| '----'  '--' || '----'  '--' |","'--------------''--------------'",".--------------..--------------.","|   .------.   ||   .------.   |","|  /  .--.  \\  ||  /  .--.  \\  |  )","| |  ( <3 )  | || |  ( <3 )  | |  ))","|  \\  '--'  /  ||  \\  '--'  /  |  )))","|   '------'   ||   '------'   |  ))","|--------------||--------------|  )","|    KES FM    ||   170.0 FM   |","'--------------''--------------'","\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\""],"m":["........ppppppp.......pp","kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk","k.kkkkkk..kkkk.kk.kkkkkk..kkkk.k","k.kkkkkk..bbbb.kk.kkkkkk..bbbb.k","k.kkkkkk..kkkk.kk.kkkkkk..kkkk.k","kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk","kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk","k...kkkkkkkk...kk...kkkkkkkk...k","k..k..kkkk..k..kk..k..kkkk..k..k..w","k.k..b.pp.b..k.kk.k..b.pp.b..k.k..ww","k..k..kkkk..k..kk..k..kkkk..k..k..www","k...kkkkkkkk...kk...kkkkkkkk...k..ww","kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk..w","k....KKK.KK....kk...bbbbb.bb...k","kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk","kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk"],"solid":1,"live":1},"garden":{"t":["    _                             _                          _                        _                            _                        _                             _","  _(_)_         @               _(_)_         @            _(_)_              @     _(_)_         @              _(_)_    @               _(_)_         @               _(_)_    @"," (_)@(_)        |/  vVv        (_)@(_)        |/    vVv   (_)@(_)             |/   (_)@(_)  vVv   |/            (_)@(_)   |/  vVv        (_)@(_)        |/  vVv        (_)@(_)   |/  vVv","   (_)    vVv  \\|   (_)    *     (_)    vVv  \\|     (_)     (_)     *   vVv  \\|      (_)    (_)  \\|   vVv   *     (_)    \\|   (_)  vVv     (_)     *   \\|   (_)   vVv    (_)    \\|   (_)  vVv","    |/    (_)   |   \\|     |/     |/    (_)   |     \\|       |/     |/  (_)   |       |/    \\|    |   (_)   |/     |/     |   \\|   (_)      |/     |/   |   \\|    (_)     |/     |   \\|   (_)","   \\|      |    |    |    \\|     \\|      |    |      |      \\|     \\|    |    |      \\|      |    |    |   \\|     \\|      |    |    |      \\|     \\|    |    |     |     \\|      |    |    |"],"m":["....p.............................b..........................p........................b............................p........................b.............................b","..ppppp.........p...............bbbbb.........b............ppppp..............p.....bbbbb.........p..............ppppp....b...............bbbbb.........b...............bbbbb....p",".ppppppp........kk..bbb........bbbbbbb........kk....ppp...ppppppp.............kk...bbbbbbb..bbb...kk............ppppppp...kk..ppp........bbbbbbb........kk..bbb........bbbbbbb...kk..bbb","...ppp....bbb..kk...bbb....b.....bbb....ppp..kk.....ppp.....ppp.....b...bbb..kk......bbb....bbb..kk...ppp...b.....ppp....kk...ppp..bbb.....bbb.....p...kk...bbb...ppp....bbb....kk...bbb..ppp","....kk....bbb...k...kk.....kk.....kk....ppp...k.....kk.......kk.....kk..bbb...k.......kk....kk....k...ppp...kk.....kk.....k...kk...bbb......kk.....kk...k...kk....ppp.....kk.....k...kk...ppp","...kk......k....k....k....kk.....kk......k....k......k......kk.....kk....k....k......kk......k....k....k...kk.....kk......k....k....k......kk.....kk....k....k.....k.....kk......k....k....k"],"tile":1,"pad":1}};
-window.KTREE = function (c, K) {
-  var L = K.L, V = K.V, H = K.H, E = K.E;
-  if (c >= 172) {
-    // a big screen: the whole name along the top, KES FM in the middle of the first screen
-    var endA = c >= 200
-      ? V({ f: 1 }, H({ w: 12 }, L("P", { g: 3 }), L("sh", { h: 1 }), L("Ka", { h: 2 })), L("colon", { f: 1 }))
-      : H({ f: 1 }, L("P", { g: 3 }), L("sh", { h: 1 }), L("Ka", { h: 2 }));
-    return H({},
-      V({}, L("dotsname", { art: "big", name: "name", w: 160 }), endA, L("sv", { w: 3 }), L("Bd", { w: 5 })),
-      V({},
-        H({ f: 40 }, E("hello", "dump"), E("chain", "hearts"), L("B", { h: 2, g: 1 })),
-        L("Ph", { w: 3 }),
-        H({ w: 41 }, L("dots", { art: "spk", name: "spk", h: 18 }), L("sh", { h: 1 }), L("slash")),
-        E("fm", "hex", { f: 62 }),
-        H({ f: 38 }, E("card", "bin"), L("Y", { h: 3, g: 1 }))),
-      V({},
-        H({ w: 24 }, E("ph", "slash"), L("Y", { h: 4 }), L("plus")),
-        H({ f: 1 }, L("ramp", { h: 9, s: 0, label: 1 }), E("p1", "colon")),
-        L("sv", { w: 3 }),
-        H({ f: 1.25 }, E("p2", "noise"), L("ramp", { h: 9, s: 1, label: 1, g: 1 })),
-        H({ f: 1 }, L("ramp", { h: 6, s: 2, label: 1 }), L("B", { h: 2 }), E("p3", "eq"))),
-      V({},
-        E("m1", "dumpn", { f: 34 }),
-        H({ f: 44 }, E("m2", "hex"), L("Ph", { h: 3, g: 1 })),
-        E("m3", "colon", { f: 48 }),
-        H({ w: 10 }, L("Ys", { g: 3 }), L("K", { h: 2 }), L("noise", { g: 2 }))),
-      V({}, E("low", "tilde", { f: 50 }), L("sv", { w: 3 }), E("bye", "hearts", { f: 34 }), H({ f: 30 }, L("B", { g: 1 }), L("sh", { h: 1 }))),
-      V({}, L("dots", { art: "garden", f: 1, h: 8 }), L("P", { w: 8 }))
-    );
+(function () {
+"use strict";
+/* ---- the painting: a character grid where every char is a block-element quadrant mask ---- */
+var D = document, H = D.documentElement, BD = D.body;
+var $ = function (s) { return D.querySelector(s); }, $$ = function (s) { return [].slice.call(D.querySelectorAll(s)); };
+var QCH = " ▘▝▀▖▌▞▛▗▚▐▜▄▙▟█", CLS = ["", "y", "p", "b", "k", "g", "l"];
+var Y = 1, P = 2, U = 3, K = 4, G = 5, L = 6, TAPE = 0x2592;
+var ratio = 0;
+
+function rng(a) { return function () { a |= 0; a = a + 0x6D2B79F5 | 0; var t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+function ri(r, a, b) { return a + Math.floor(r() * (b - a + 1)); }
+function pick(r, a) { return a[Math.floor(r() * a.length)]; }
+
+function Grid(C, R) { this.C = C; this.R = R; var n = C * R; this.m = new Uint8Array(n); this.c = new Uint8Array(n); this.o = new Uint16Array(n); }
+/* fill quadrants (half a char wide, half a row tall); a new colour takes the whole char */
+Grid.prototype.q = function (x0, y0, x1, y1, col) {
+  var C = this.C; x0 = Math.max(0, x0); y0 = Math.max(0, y0); x1 = Math.min(2 * C, x1); y1 = Math.min(2 * this.R, y1);
+  for (var y = y0; y < y1; y++) for (var x = x0; x < x1; x++) {
+    var i = (y >> 1) * C + (x >> 1), bit = 1 << (((y & 1) << 1) | (x & 1));
+    if (this.c[i] !== col || this.o[i]) { this.c[i] = col; this.m[i] = 0; this.o[i] = 0; }
+    this.m[i] |= bit;
   }
-  if (c >= 90) {
-    // a laptop or a tablet: the name shortens to kes, the card joins KES FM when there's room
-    var big = c >= 140;
-    return H({},
-      V({}, L("dotsname", { art: "small", name: "name", w: 38 }), E("hello", "dump", { f: 1 }), big ? L("slash", { f: .45 }) : null,
-        H({ w: big ? 12 : 6 }, L("P", { g: 2 }), L("sh", { h: 1 }), L("Ka", { h: 2 }))),
-      V({}, H({ w: 41 }, L("dots", { art: "spk", name: "spk", h: 18 }), L("sh", { h: 1 }), E("chain", "hearts")), L("Ph", { w: 3 }),
-        E("fm", "hex", { f: 1.5 }), big ? H({ f: 1 }, E("card", "bin"), L("Y", { h: 3, g: 1 })) : null),
-      big ? null : V({}, E("card", "bin", { f: 1 }), L("sv", { w: 3 }), H({ w: 16 }, L("Y", { h: 4 }), L("plus"))),
-      V({}, H({ w: 22 }, E("ph", "slash"), L("B", { h: 3 }), L("plus")), H({ f: 1 }, L("ramp", { h: 7, s: 0, label: 1 }), E("p1", "colon")),
-        H({ f: 1 }, E("p2", "noise"), L("ramp", { h: 7, s: 1, label: 1, g: 1 }))),
-      V({}, H({ f: 1 }, L("ramp", { h: 5, s: 2, label: 1 }), L("Y", { h: 2 }), E("p3", "eq")), L("sv", { w: 3 }), E("m1", "dumpn", { f: 1 })),
-      V({}, E("m2", "hex", { f: 1 }), E("m3", "colon", { f: 1.2 }), H({ w: 8 }, L("Ys", { g: 2 }), L("K", { h: 2 }), L("noise", { g: 1 }))),
-      V({}, E("low", "tilde", { f: 2 }), L("sv", { w: 3 }), E("bye", "hearts", { f: 1.3 }), L("B", { w: 6 })),
-      V({}, L("dots", { art: "garden", f: 1, h: 8 }), L("P", { w: 8 }))
-    );
+};
+Grid.prototype.f = function (x0, y0, x1, y1, col) { this.q(2 * x0, 2 * y0, 2 * x1, 2 * y1, col); };
+Grid.prototype.put = function (x0, y0, x1, y1, col, code, mask) {
+  for (var y = Math.max(0, y0); y < Math.min(this.R, y1); y++) for (var x = Math.max(0, x0); x < Math.min(this.C, x1); x++) {
+    var i = y * this.C + x; this.c[i] = col; this.o[i] = code || 0; this.m[i] = code ? 15 : (mask || 0);
   }
-  // a phone: one tall, narrow composition, the colour kept to the edges
-  var nw = Math.min(38, c - 8), sw = Math.min(41, c - 8);
-  return H({},
-    V({}, L("dotsname", { art: "small", name: "name", w: nw }), H({ f: 1 }, L("P", { g: 2 }), L("sh", { h: 1 }), L("Y", { g: 1 }))),
-    V({}, E("hello", "dump", { f: 1 }), L("B", { w: 4 })),
-    V({}, L("sv", { w: 2 }), E("chain", "hearts", { f: 1 })),
-    V({}, L("dots", { art: "spk", name: "spk", w: sw, h: 18 }), H({ f: 1 }, L("Ka", { h: 3 }), L("Ph"))),
-    E("fm", "hex"),
-    L("sh", { h: 1 }),
-    V({}, E("card", "bin", { f: 1 }), L("Y", { w: 4 })),
-    V({}, E("ph", "slash", { f: 1 }), L("B", { w: 10 })),
-    V({}, H({ f: 1 }, L("ramp", { h: 6, s: 0, label: 1 }), E("p1", "colon")), L("sv", { w: 2 })),
-    V({}, L("P", { w: 4 }), H({ f: 1 }, E("p2", "noise"), L("ramp", { h: 5, s: 1, label: 1 }))),
-    H({}, L("ramp", { h: 5, s: 2, label: 1 }), E("p3", "eq")),
-    E("m1", "dumpn"),
-    V({}, E("m2", "hex", { f: 1 }), L("Ys", { w: 4 })),
-    E("m3", "colon"),
-    V({}, E("low", "tilde", { f: 1 }), L("K", { w: 4 })),
-    V({}, L("B", { w: 8 }), E("bye", "hearts", { f: 1 })),
-    L("dots", { art: "garden", h: 8 })
-  );
+};
+Grid.prototype.clr = function (x0, y0, x1, y1) { this.put(x0, y0, x1, y1, 0, 0, 0); };
+/* the canvas turned 45 degrees: keep only the quadrants inside the lozenge */
+Grid.prototype.diamond = function (cx, cy, A, B) {
+  for (var y = 0; y < this.R; y++) for (var x = 0; x < this.C; x++) {
+    var i = y * this.C + x; if (!this.m[i] && !this.o[i]) continue;
+    var bits = 0;
+    for (var k = 0; k < 4; k++) if (Math.abs(x + .25 + .5 * (k & 1) - cx) / A + Math.abs(y + .25 + .5 * (k >> 1) - cy) / B <= 1) bits |= 1 << k;
+    if (this.o[i]) { if (bits !== 15) { this.o[i] = 0; this.m[i] = 0; } } else this.m[i] &= bits;
+  }
+};
+Grid.prototype.html = function () {
+  var C = this.C, out = [], i = 0;
+  for (var y = 0; y < this.R; y++) {
+    var s = "", cur = 0, buf = "";
+    for (var x = 0; x < C; x++, i++) {
+      var k, ch;
+      if (this.o[i]) { ch = String.fromCharCode(this.o[i]); k = this.c[i]; } else if (this.m[i]) { ch = QCH[this.m[i]]; k = this.c[i]; } else { ch = " "; k = 0; }
+      if (k !== cur) { if (buf) s += cur ? "<i class=" + CLS[cur] + ">" + buf + "</i>" : buf; buf = ""; cur = k; }
+      buf += ch;
+    }
+    if (buf) s += cur ? "<i class=" + CLS[cur] + ">" + buf + "</i>" : buf;
+    out.push(s);
+  }
+  return out.join("\n");
 };
 
-/*<grid>*/
-/* ---------------------------------------------------------------
-   the grid. measures one character, fits a whole number of columns
-   to the screen, lays the rectangles out in columns and rows, fills
-   each with its texture, then clears one cell around every word.
-   seeded, so it's the same picture every time at the same width.
-   --------------------------------------------------------------- */
-(function () {
-  "use strict";
-  var d = document, root = d.documentElement, G = d.getElementById("g");
-  if (!G || !d.createRange || !d.createTreeWalker || !window.requestAnimationFrame || typeof window.KTREE !== "function") return;
-  var page = G.parentNode, LQ = G.children[0], LS = G.children[1], ART = window.KART || {};
-  var MOTIF = "Q±0ðLDDDDDDDDDDDDDDÅÂÀ3ÏDDDDDDDDDDDDDDT,<", MP = MOTIF.length, HEX = "0123456789ABCDEF", ABC = "", k;
-  for (k = 33; k < 256; k++) if (k < 127 || (k > 160 && k !== 173)) ABC += String.fromCharCode(k);
-  var RAMP = " .'`^\",:;Il!i><~+_-?][}{1)(|/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$", RN = RAMP.length;
-  var BOOGIE = "YYYPYY.YYYBBYYgYYYKYYPPYY.YYBYYYYgYPYY", BN = BOOGIE.length;   // a yellow line with little squares on it
-  var CN = ["", "k", "K", "p", "pB", "b", "bB", "w", "y", "gr", "q1", "q2", "q3", "q4"], QUIET = 10, C = {};
-  CN.forEach(function (n, i) { C[n] = i; });
-  var SQ = { Y: C.y, P: C.p, B: C.b, K: C.k, g: C.gr, ".": 0 };
-  var BLK = "█", SHD = "▓", cw = 7.8, rh = 18, fs = 13, cols = 0, rows = 0;
-  var CH = null, CL = null, BL = null, rects = [], byName = {}, beat = 0, air = false, lastW = -1, queued = 0, oc = " ", ok = 0;
+/* the lines are chains of beads: runs of yellow broken by pink, blue, grey, black and gaps */
+function beads(r, n, calm) {
+  var s = [];
+  while (s.length < n) {
+    var run = ri(r, calm ? 3 : 1, calm ? 9 : 4); for (var k = 0; k < run; k++) s.push(Y);
+    var t = r();
+    s.push(calm ? (t < .5 ? G : t < .68 ? 0 : t < .8 ? P : t < .92 ? U : K) : (t < .27 ? P : t < .5 ? U : t < .66 ? G : t < .78 ? K : t < .9 ? 0 : L));
+    if (!calm && r() < .18) s.push(pick(r, [P, U, G, K, 0]));
+  }
+  return s;
+}
 
-  Object.keys(ART).forEach(function (n) {
-    var A = ART[n], w = 0;
-    A.t.forEach(function (l) { w = Math.max(w, l.length); });
-    w += A.pad || 0; A.w = w;
-    A.t = A.t.map(function (l) { while (l.length < w) l += " "; return l; });
-    A.m = A.m.map(function (l) { while (l.length < w) l += "."; return l; });
+/* Victory Boogie Woogie, as a structure: bead lines, planes with planes inside, loose squares, tape */
+function paint(x0, y0, x1, y1, seed, o) {
+  o = o || {};
+  var calm = !!o.calm, force = o.force || [], w = x1 - x0, h = y1 - y0, S = { hl: [], vl: [], pl: [], bits: [], tp: [] };
+  var rh = rng(seed + 11), rv = rng(seed + 23), rp = rng(seed + 37), rb = rng(seed + 41), rt = rng(seed + 53);
+  function span(r, a, b, min) { if (r() < .7) return [a, b]; var s = a + Math.floor(r() * (b - a) * .55), e = s + Math.max(min, Math.floor((b - a) * (.3 + .5 * r()))); return [s, Math.min(b, e)]; }
+  var rows = [], y = y0 + ri(rh, 1, 2);
+  while (y < y1 - 1) { rows.push(y); y += ri(rh, calm ? 3 : 2, calm ? 7 : 4); }
+  rows = rows.filter(function (q) { return !force.some(function (f) { return Math.abs(f - q) <= 1; }); }).concat(force).sort(function (a, b) { return a - b; });
+  rows.forEach(function (y) {
+    var r = rng(seed * 7 + (y - y0) * 131 + 5), f = force.indexOf(y) >= 0, thick = f || r() < (calm ? .45 : .6), half = thick ? 0 : (r() < .5 ? 1 : 2), sp = f ? [x0, x1] : span(r, x0, x1, 8), u = thick ? 2 : 1;
+    S.hl.push({ y: y, half: half, a: sp[0], b: sp[1], u: u, seq: beads(r, Math.ceil(w / u) + 4, calm), d: r() < .5 ? 1 : -1 });
   });
-
-  // ---------- one character, measured ----------
-  var probe = d.createElement("span");
-  probe.style.cssText = "position:absolute;left:0;top:0;visibility:hidden;white-space:pre;line-height:1;font-weight:400";
-  G.appendChild(probe);
-  function rep(s, n) { return n > 0 ? new Array(n + 1).join(s) : ""; }
-  function wOf(s, size) { probe.style.fontSize = size + "px"; probe.textContent = s; return probe.getBoundingClientRect().width; }
-  function fits(ch) { return Math.abs(wOf(rep(ch, 40), fs) - 40 * cw) < .8; }
-  function metrics() {
-    var vw = root.clientWidth || innerWidth, z = rep("0", 100), w13 = wOf(z, 13) / 100 || 7.8;
-    cols = Math.max(30, Math.round(vw / w13));
-    fs = 13 * vw / (cols * w13) * .9995;                 // the type is sized so the columns fill the width
-    cw = wOf(z, fs) / 100 || w13;
-    if (cw * cols > vw) cols = Math.floor(vw / cw);
-    rh = Math.round(fs * 1.25);
-    BLK = fits("█") ? "█" : "#"; SHD = fits("▓") ? "▓" : "%";
-    var s = root.style;
-    s.setProperty("--fs", fs + "px"); s.setProperty("--rh", rh + "px"); s.setProperty("--cw", cw + "px");
+  var x = x0 + 2 * ri(rv, 1, 3);
+  while (x < x1 - 2) {
+    var r = rng(seed * 13 + (x - x0) * 71 + 9), thick = r() < (calm ? .4 : .55), sp = span(r, y0, y1, 6);
+    S.vl.push({ x: x, t: thick, off: thick ? 0 : (r() < .5 ? 0 : 1), a: sp[0], b: sp[1], seq: beads(r, h + 4, calm), d: r() < .5 ? 1 : -1 });
+    x += 2 * ri(rv, calm ? 4 : 2, calm ? 10 : 6);
   }
-  function hs(x, y, s) {                                   // a seeded hash: the same cell, the same character
-    var h = (Math.imul(x, 374761393) + Math.imul(y, 668265263) + Math.imul(s + 7, -1640531535)) | 0;
-    h = Math.imul(h ^ (h >>> 13), 1274126177); h ^= h >>> 16;
-    return (h >>> 0) / 4294967296;
+  var k, np = Math.round(w * h / (calm ? 600 : 120));
+  for (k = 0; k < np; k++) {
+    var pw = 2 * ri(rp, calm ? 2 : 1, calm ? 5 : 7), ph = ri(rp, 1, calm ? 3 : 5);
+    var hl = S.hl[Math.floor(rp() * S.hl.length)], vl = S.vl[Math.floor(rp() * S.vl.length)];
+    var px = vl ? (rp() < .5 ? vl.x + (vl.t ? 2 : 1) : vl.x - pw) : x0 + ri(rp, 0, w - pw);
+    var py = hl ? (rp() < .5 ? hl.y + 1 : hl.y - ph) : y0 + ri(rp, 0, h - ph);
+    var col = calm ? pick(rp, [Y, G, Y, U, P, G]) : pick(rp, [Y, P, U, G, Y, P, U, K, 0, Y]), nest = [];
+    if (rp() < (calm ? .5 : .8) && pw >= 4) {
+      var nw = 2 * ri(rp, 1, pw / 2 - 1), nh = ri(rp, 1, ph), nx = px + 2 * ri(rp, 0, (pw - nw) / 2), ny = py + ri(rp, 0, ph - nh);
+      var nc = pick(rp, [P, U, Y, K, G, 0, P, U].filter(function (c) { return c !== col; }));
+      nest.push({ x: nx, y: ny, w: nw, h: nh, c: nc });
+      if (!calm && rp() < .5) nest.push({ x: nx + (rp() < .5 ? 0 : nw - 1), y: ny + (rp() < .5 ? 0 : nh - 1), w: 1, h: 1, c: pick(rp, [K, P, U, Y, 0].filter(function (c) { return c !== nc; })) });
+    }
+    S.pl.push({ x: px, y: py, w: pw, h: ph, c: col, n: nest });
   }
+  var nb = Math.round(w * h / (calm ? 420 : 30));
+  for (k = 0; k < nb; k++) {
+    var big = rb() < .5;
+    if (rb() < .55 && S.hl.length) {
+      var l = S.hl[Math.floor(rb() * S.hl.length)], bx = l.a + Math.floor(rb() * (l.b - l.a)), above = rb() < .5;
+      S.bits.push({ qx: 2 * bx, qy: above ? 2 * l.y - (big ? 2 : 1) : 2 * l.y + 2, qw: big ? 4 : (rb() < .5 ? 1 : 2), qh: big ? 2 : 1, c: pick(rb, [P, U, K, G, Y, P, U]) });
+    } else if (S.vl.length) {
+      var v = S.vl[Math.floor(rb() * S.vl.length)], by = v.a + Math.floor(rb() * (v.b - v.a)), left = rb() < .5, vw = v.t ? 4 : 2, vx = 2 * v.x + (v.t ? 0 : v.off);
+      S.bits.push({ qx: left ? vx - (big ? 4 : 1) : vx + vw, qy: 2 * by + (big ? 0 : (rb() < .5 ? 0 : 1)), qw: big ? 4 : 1, qh: big ? 2 : 1, c: pick(rb, [P, U, K, G, Y]) });
+    }
+  }
+  var nt = Math.round(w * h / (calm ? 1400 : 520));
+  for (k = 0; k < nt; k++) {
+    if (rt() < .6 && S.hl.length) { var tl = S.hl[Math.floor(rt() * S.hl.length)]; S.tp.push({ x: tl.a + Math.floor(rt() * Math.max(1, tl.b - tl.a - 6)), y: tl.y, w: ri(rt, 3, 8), h: 1, c: rt() < .7 ? L : Y }); }
+    else if (S.vl.length) { var tv = S.vl[Math.floor(rt() * S.vl.length)]; S.tp.push({ x: tv.x, y: tv.a + Math.floor(rt() * Math.max(1, tv.b - tv.a - 3)), w: tv.t ? 2 : 1, h: ri(rt, 2, 4), c: rt() < .7 ? L : Y }); }
+  }
+  return S;
+}
 
-  // ---------- the composition: rectangles in columns and rows ----------
-  function mk(kind, o) { o = o || {}; o.k = kind; return o; }
-  var K = {
-    L: function (t, o) { o = mk("L", o); o.t = t; return o; },
-    E: function (x, t, o) {
-      o = mk("L", o); o.t = t;
-      o.el = typeof x === "string" ? d.querySelector('[data-r="' + x + '"]') : x;
-      if (o.el) o.name = o.el.getAttribute("data-r");
-      return o;
-    },
-    V: function (o) { o = mk("V", o); o.kids = [].slice.call(arguments, 1).filter(Boolean); return o; },
-    H: function (o) { o = mk("H", o); o.kids = [].slice.call(arguments, 1).filter(Boolean); return o; }
-  };
-  function split(n, w) {
-    var kids = n.kids, avail = w - 2 * (kids.length - 1), fixed = 0, tf = 0, out = [], acc = 0, af = 0;
-    kids.forEach(function (c) { if (c.w) fixed += c.w; else tf += c.f || 1; });
-    var rest = Math.max(0, avail - fixed);
-    kids.forEach(function (c) {
-      if (c.w) { out.push(c.w); return; }
-      af += c.f || 1;
-      var t = Math.round(rest * af / tf);
-      out.push(Math.max(1, t - acc)); acc = t;
+/* put the structure on the grid. ph slides the beads along their lines; md is the mood */
+function draw(g, S, ph, md) {
+  md = md || {};
+  S.hl.forEach(function (l, li) {
+    var n = l.seq.length, d = l.d * (md.flip && li % 2 ? -1 : 1), qa = 2 * l.y + (l.half === 2 ? 1 : 0), qb = 2 * l.y + (l.half === 1 ? 1 : 2);
+    for (var j = 0, x = l.a; x < l.b; j++, x += l.u) { var c = l.seq[((j + d * ph) % n + n) % n]; if (c) g.q(2 * x, qa, 2 * Math.min(x + l.u, l.b), qb, c); }
+  });
+  S.vl.forEach(function (l, li) {
+    var n = l.seq.length, d = l.d * (md.flip && li % 2 ? -1 : 1), qa = 2 * l.x + (l.t ? 0 : l.off), qb = qa + (l.t ? 4 : 2);
+    for (var j = 0, y = l.a; y < l.b; j++, y++) { var c = l.seq[((j + d * ph) % n + n) % n]; if (c) g.q(qa, 2 * y, qb, 2 * y + 2, c); }
+  });
+  S.hl.forEach(function (h, i) {
+    if (h.half) return;
+    S.vl.forEach(function (v, j) {
+      if (v.x < h.a || v.x >= h.b || h.y < v.a || h.y >= v.b || (i * 5 + j * 3) % 3) return;
+      var qa = 2 * v.x + (v.t ? 0 : v.off);
+      g.q(qa, 2 * h.y, qa + (v.t ? 4 : 2), 2 * h.y + 2, [P, U, K, G][(i + j + (md.swap ? 1 : 0)) % 4]);
     });
-    return out;
-  }
-  function measure(n, w) {
-    var h = n.h || 0;
-    if (n.k === "L") {
-      h = h || 1;
-      if (n.el) {
-        var iw = Math.max(4, w - 4);
-        n.el.classList.toggle("nw", iw < 54);
-        n.el.style.width = iw * cw + "px";
-        h = Math.max(h, Math.ceil(n.el.offsetHeight / rh - .05) + 2);
-      }
-      if (n.art && ART[n.art]) h = Math.max(h, ART[n.art].t.length + 2);
-    } else if (n.k === "V") {
-      n.ws = split(n, w);
-      n.kids.forEach(function (c, i) { h = Math.max(h, measure(c, n.ws[i])); });
-    } else {
-      var s = n.kids.length - 1;
-      n.kids.forEach(function (c) { s += measure(c, w); });
-      h = Math.max(h, s);
-    }
-    return (n.nat = h);
-  }
-  function place(n, x, y, w, h) {
-    if (n.k === "L") {
-      var R = { n: n, x: x, y: y, w: w, h: h, s: n.s != null ? n.s : rects.length * 7 + 3 };
-      rects.push(R); if (n.name) byName[n.name] = R;
-      return;
-    }
-    if (n.k === "V") { n.kids.forEach(function (c, i) { place(c, x, y, n.ws[i], h); x += n.ws[i] + 2; }); return; }
-    var gs = n.kids.map(function (c) { return c.g != null ? c.g : c.k === "L" && !c.el && !c.h ? 1 : 0; }), tg = 0, sum = n.kids.length - 1;
-    n.kids.forEach(function (c, i) { tg += gs[i]; sum += c.nat; });
-    if (!tg) { gs[gs.length - 1] = 1; tg = 1; }
-    var extra = h - sum, acc = 0, ag = 0;
-    n.kids.forEach(function (c, i) {
-      ag += gs[i];
-      var t = Math.round(extra * ag / tg), hh = c.nat + t - acc;
-      acc = t; place(c, x, y, w, hh); y += hh + 1;
-    });
-  }
+  });
+  S.pl.forEach(function (p) {
+    var a = p.c, b = p.n.length ? p.n[0].c : a;
+    if (md.swap && p.n.length) { var t = a; a = b; b = t; }
+    if (!a) g.clr(p.x, p.y, p.x + p.w, p.y + p.h);
+    else if (md.sub) { for (var y = p.y; y < p.y + p.h; y++) for (var x = p.x; x < p.x + p.w; x++) g.put(x, y, x + 1, y + 1, a, 0, ((x + y + ph) & 1) ? 9 : 6); }
+    else g.f(p.x, p.y, p.x + p.w, p.y + p.h, a);
+    p.n.forEach(function (n, k) { if (md.sparse && k) return; var c = k ? n.c : b; if (c) g.f(n.x, n.y, n.x + n.w, n.y + n.h, c); else g.clr(n.x, n.y, n.x + n.w, n.y + n.h); });
+  });
+  if (!md.sparse) S.bits.forEach(function (b) { g.q(b.qx, b.qy, b.qx + b.qw, b.qy + b.qh, b.c); });
+  S.tp.forEach(function (t) { g.put(t.x, t.y, t.x + t.w, t.y + t.h, t.c, TAPE); });
+}
 
-  // ---------- textures: each rectangle its own ----------
-  function o(ch, cl) { oc = ch; ok = cl; }
-  function tex(t, X, Y, x, y, w, h, s) {
-    var r, i, b = air ? beat : 0;
-    switch (t) {
-      case "dump": o(MOTIF.charAt(((X - 2 * Y + s) % MP + MP) % MP), C.q1); break;                 // the binary dump
-      case "dumpn": r = hs(X, Y, s);                                                                 // the dump coming apart
-        if (r < .3) o(ABC.charAt(hs(Y, X, s) * ABC.length | 0), C.q2); else o(MOTIF.charAt(((X + 3 * Y) % MP + MP) % MP), C.q1); break;
-      case "noise": o(hs(X, Y, s) < .6 ? ABC.charAt(hs(Y, X, s + 1) * ABC.length | 0) : " ", C.q2); break;
-      case "hex": i = x % 3; r = hs(x - i, Y, s); o(i === 2 ? " " : r < .35 ? "0" : HEX.charAt(hs(X, Y, s + 2) * 16 | 0), C.q2); break;
-      case "bin": o(x % 9 === 8 ? " " : hs(X, Y, s) < .5 ? "0" : "1", C.q1); break;
-      case "dots": o(y % 2 === 0 && (x + y) % 4 === 0 ? "." : " ", C.q3); break;
-      case "dotsname": o(x % 2 === 0 ? "." : " ", C.q4); break;
-      case "colon": o(x % 2 ? " " : hs(X, Y, s) < .7 ? ":" : ".", C.q2); break;
-      case "plus": o(y % 2 ? (x % 4 ? " " : "|") : (x % 4 ? "-" : "+"), C.q4); break;
-      case "slash": i = (x + y) % 4; o(i === 0 ? "/" : i === 2 && hs(X, Y, s) < .35 ? "." : " ", C.q2); break;
-      case "tilde": o(y % 2 ? " " : (x + y) % 3 ? "~" : "-", C.q2); break;
-      case "eq": o(y % 2 ? (x % 2 ? " " : ".") : "=", C.q1); break;
-      case "hearts": i = (x + 3 * (y % 2)) % 6; o(i === 0 ? "<" : i === 1 ? "3" : " ", C.q2); break;
-      case "ramp":                                                                                   // a placeholder photo, in characters
-        var u = x / Math.max(1, w - 1), v = y / Math.max(1, h - 1), lum, dx, dy;
-        if (s % 3 === 0) lum = 1 - .75 * Math.pow((u + v) / 2, 1.2);
-        else if (s % 3 === 1) { dx = u - .62; dy = (v - .4) * .7; lum = .2 + 1.6 * Math.sqrt(dx * dx + dy * dy); }
-        else lum = .55 + .4 * Math.sin(v * 5 + u * 2);
-        lum += (hs(X, Y, s) - .5) * .15;
-        o(RAMP.charAt(Math.round((1 - Math.max(0, Math.min(1, lum))) * (RN - 1))), C.q2); break;
-      case "P": o(BLK, C.p); break;
-      case "Ph": o((x + y + b) % 2 ? "3" : "<", C.pB); break;                                      // a plane of <3s
-      case "B": o(BLK, C.b); break;
-      case "Bd": o(MOTIF.charAt(((X - 2 * Y) % MP + MP) % MP), C.bB); break;                        // the dump, set in blue
-      case "Y": o(BLK, C.y); break;
-      case "Ys": o(SHD, C.y); break;
-      case "K": o(BLK, C.k); break;
-      case "Ka": o(SHD, C.k); break;
-      case "sv": i = SQ[BOOGIE.charAt(((y - b) % BN + BN) % BN)]; o(i ? BLK : " ", i); break;
-      case "sh": i = SQ[BOOGIE.charAt((((x >> 1) - b) % BN + BN) % BN)]; o(i ? BLK : " ", i); break;
-      default: o(" ", 0);
-    }
+/* fit the grid to the viewport: whole columns that fill the width exactly, rows that let blocks touch */
+function measure() {
+  var s = D.createElement("span");
+  s.style.cssText = "position:absolute;left:-9999px;top:0;white-space:pre;font:100px/1 var(--mono)";
+  s.textContent = "0000000000"; BD.appendChild(s);
+  ratio = s.getBoundingClientRect().width / 1000; BD.removeChild(s);
+}
+function dims() {
+  if (!ratio) measure();
+  var vw = H.clientWidth, vh = window.innerHeight, tc = vw < 520 ? 7.4 : vw < 1100 ? 7.8 : vw < 1800 ? 8.1 : 8.8;
+  var C0 = Math.max(36, Math.floor(vw / tc)), best = null;
+  for (var C = C0 - 3; C <= C0 + 3; C++) {
+    var cw = vw / C, fs = cw / ratio, e = fs * 1.164, fr = e - Math.floor(e);
+    if (!best || fr < best.fr) best = { C: C, cw: cw, fs: fs, lh: Math.floor(e), fr: fr };
   }
-  function put(X, Y, ch, cl) { var i = Y * cols + X; CH[i] = ch; CL[i] = cl; }
-  function fill(R) {
-    var n = R.n, x, y;
-    for (y = 0; y < R.h; y++) for (x = 0; x < R.w; x++) { tex(n.t, R.x + x, R.y + y, x, y, R.w, R.h, R.s); put(R.x + x, R.y + y, oc, ok); }
-    if (n.label && R.w >= 22 && R.h >= 3) {
-      var lab = " placeholder photo ", ly = R.y + (R.h >> 1), lx = R.x + ((R.w - lab.length) >> 1);
-      for (x = 0; x < lab.length; x++) put(lx + x, ly, lab.charAt(x), lab.charAt(x) === " " ? 0 : C.q3);
-    }
-    if (n.art && ART[n.art]) art(R, ART[n.art]);
+  best.vw = vw; best.vh = vh; best.Rv = Math.max(20, Math.floor(vh / best.lh));
+  H.style.setProperty("--fs", best.fs + "px"); H.style.setProperty("--lh", best.lh + "px"); H.style.setProperty("--cw", best.cw + "px");
+  return best;
+}
+function at(el, d, x, y, w) { el.style.left = x * d.cw + "px"; el.style.top = y * d.lh + "px"; if (w != null) el.style.width = w * d.cw + "px"; }
+function rowsOf(el, d) { return Math.ceil(el.offsetHeight / d.lh - 0.02); }
+
+
+/* ---- the home page ---- */
+var NAME = ["..#.....................#........#.............................##.................", "..#..............................#..............................#.........hh.hh...", "..#..#...###...####....##..#.##..#..#...###..#.##...####..###...#...###..hhhhhhh..", "..#.#...#...#.#.........#..##..#.#.#...#...#.##..#.#.....#...#..#..#...#.hhhhhhh..", "..##....#####..###......#..#...#.##....#####.#......###..#...#..#..#####..hhhhh...", "..#.#...#.........#.....#..#...#.#.#...#.....#.........#.#...#..#..#.......hhh....", "..#..#...###..####.....###.#...#.#..#...###..#.....####...###..###..###.....h....."];
+var VARS = [[[1, 81]], [[1, 20], [22, 81]], [[1, 20], [22, 50], [50, 81]]];
+var SEED = 1944, SK = "kes-in";
+var grid = $("#grid"), goBtn = $("#go"), quiet = $("#quiet"), deck = $("#deck"), spk = $("#spk"), nameEl = $("#name"), tracker = $("#tracker"), info = $("#lcdinfo"), foldBtn = $("#fold");
+var keys = $$(".key"), papers = keys.map(function (a) { return D.getElementById(a.getAttribute("href").slice(1)); });
+var d, O, S, entered = false, openSec = null, anim = false, phase = 0, md = { swap: false, sub: false, sparse: false, flip: false }, rw = 0, NR = [];
+
+VARS.forEach(function (v, vi) {
+  var wmax = 0; v.forEach(function (s) { wmax = Math.max(wmax, s[1] - s[0]); });
+  var blank = new Array(wmax + 1).join("."), rows = [blank];
+  v.forEach(function (s, k) { if (k) rows.push(blank); NAME.forEach(function (row) { var t = row.slice(s[0], s[1]); rows.push(t + blank.slice(t.length)); }); });
+  rows.push(blank);
+  NR.push({ vi: vi, w: wmax, rows: rows, html: rows.map(function (row) {
+    return row.replace(/\.+|#+|h+/g, function (m) { var n = m.length + 1; return m[0] === "." ? new Array(n).join(" .") : "<b" + (m[0] === "h" ? ' class="h"' : "") + ">" + new Array(n).join("&lt;3") + "</b>"; });
+  }).join("\n") });
+});
+
+function inside(lz, X, Y) { return Math.abs(X - lz.cx) / lz.A + Math.abs(Y - lz.cy) / lz.B <= 1; }
+function fitName(lz, top) {
+  /* her sign is taped across the lozenge: it may overhang the edges, like the paper strips on the painting */
+  var best = null, lim = Math.min(d.C - 6, Math.floor(2 * lz.A * .92));
+  NR.forEach(function (nr) {
+    var p = Math.min(1, lim / nr.w), wch = Math.ceil(nr.w * p), hr = Math.ceil(nr.rows.length * p * d.cw / d.lh);
+    if (!best || (best.p < .75 && p > best.p)) best = { p: p, nr: nr, wch: wch, hr: hr, x: Math.round(lz.cx - wch / 2), y: top - 2 - hr };
+  });
+  return best;
+}
+function cut(iv, a, b) { var out = []; iv.forEach(function (s) { if (b <= s[0] || a >= s[1]) { out.push(s); return; } if (a > s[0]) out.push([s[0], a]); if (b < s[1]) out.push([b, s[1]]); }); return out; }
+function placeKeys(lz, o) {
+  var blocks = [[o.slot.x - 2, o.slot.y - 1, o.slot.x + o.slot.w + 2, o.slot.y + o.slot.h + 1], [o.tr.x - 2, o.tr.y - 1, o.tr.x + o.tr.w + 2, o.tr.y + 2]], cand = [], placed = [];
+  if (o.name) blocks.push([o.name.x - 3, o.name.y - 2, o.name.x + o.name.wch + 3, o.name.y + o.name.hr + 2]);
+  for (var y = lz.cy - lz.B + 1; y < lz.cy + lz.B - 1; y++) {
+    var dy = Math.max(Math.abs(y - lz.cy), Math.abs(y + 1 - lz.cy)), half = lz.A * (1 - dy / lz.B), iv = [[Math.ceil(lz.cx - half) + 2, Math.floor(lz.cx + half) - 2]];
+    blocks.forEach(function (b) { if (y >= b[1] && y < b[3]) iv = cut(iv, b[0], b[2]); });
+    iv = iv.filter(function (s) { return s[1] - s[0] >= 12; });
+    if (iv.length) cand.push({ y: y, iv: iv });
   }
-  // the drawings: the <3 name, the speakers, the garden
-  function art(R, A) {
-    var ax = R.x + 2, ay = R.y + 1, maxX = R.x + R.w - 1, j, i, X, Y;
-    for (j = 0; j < A.t.length; j++) {
-      Y = ay + j; if (Y >= R.y + R.h - 1) break;
-      var ln = A.t[j], mk2 = A.m[j], first = -1, last = -1;
-      for (i = 0; i < ln.length; i++) if (ln.charAt(i) !== " " && mk2.charAt(i) !== "w") { if (first < 0) first = i; last = i; }
-      var span = A.tile ? maxX - ax : Math.min(ln.length, maxX - ax);
-      for (i = 0; i < span; i++) {
-        var li = i % ln.length, ch = ln.charAt(li), m = mk2.charAt(li);
-        X = ax + i;
-        if (m === "w") { if (air) { X += beat % 2; if (X < maxX) put(X, Y, ch, C.w); } continue; }   // the sound waves only come out on air
-        if (ch === " ") { if (A.solid && li > first && li < last) put(X, Y, " ", 0); continue; }
-        put(X, Y, ch, m === "p" ? (A.blink && air && beat % 2 ? C.b : C.p) : m === "b" ? C.b : m === "K" || A.bold ? C.K : C.k);
+  if (!cand.length) return null;
+  function clash(x, y, w) { return placed.some(function (p) { return Math.abs(p.y - y) <= 1 && x < p.x + p.w + 3 && p.x < x + w + 3; }); }
+  for (var i = 0, lastK = 0; i < keys.length; i++) {
+    var w = keys[i].textContent.length + 2, t = Math.max(lastK, Math.round((i + .5) * cand.length / keys.length - .5)), ok = null;
+    for (var s = 0; s < 2 * cand.length && !ok; s++) {
+      var k = t + (s % 2 ? -(s + 1) / 2 : s / 2); if (k < lastK || k >= cand.length) continue;
+      var c = cand[k];
+      for (var j = 0; j < c.iv.length && !ok; j++) {
+        var room = c.iv[j][1] - c.iv[j][0] - w; if (room < 0) continue;
+        var f = (i * .618 + .21) % 1, x = c.iv[j][0] + Math.round(room * f);
+        if (clash(x, c.y, w)) { x = c.iv[j][0] + Math.round(room * (1 - f)); if (clash(x, c.y, w)) continue; }
+        ok = { x: x, y: c.y, w: w }; lastK = k;
       }
     }
+    if (!ok) return null;
+    placed.push(ok);
   }
+  return placed;
+}
+function build(lz) {
+  var o = { lz: lz };
+  o.slot = { x: lz.cx - 15, y: lz.cy - 4, w: 30, h: entered ? 8 : 10 };
+  var u = 2 * lz.A * (1 - 9 / lz.B) >= 66 ? 2 : 1;
+  o.tr = { u: u, x: lz.cx - 16 * u, y: lz.cy + 8, w: 32 * u };
+  o.name = fitName(lz, o.slot.y);
+  o.keys = placeKeys(lz, o);
+  return o;
+}
+function plan() {
+  var C = d.C, narrow = C < 90, B = Math.max(20, Math.floor(d.Rv / 2) - 1);
+  var A = narrow ? Math.floor(C / 2) : Math.min(Math.round(B * d.lh / d.cw), Math.floor(C / 2) - 2);
+  var wide = !narrow && C - 2 * A - 6 >= 48, lz = { cx: Math.floor(C / 2), cy: B + 1, A: A, B: B };
+  if (entered && wide) lz.cx = C - A - 3;
+  var o = build(lz);
+  if (entered) for (var n = 0; !o.keys && n < 40; n++) { lz.B += 2; lz.cy = lz.B + 1; o = build(lz); }
+  o.wide = wide; o.narrow = narrow;
+  o.force = (o.keys || []).map(function (k) { return k.y; }).concat([o.tr.y]);
+  if (wide) o.deck = { x: 3, w: Math.min(66, lz.cx - lz.A - 7) };
+  else { var dw = Math.min(C - 4, 72); o.deck = { x: Math.floor((C - dw) / 2), w: dw }; }
+  at(deck, d, o.deck.x, 0, o.deck.w); o.deck.h = rowsOf(deck, d);
+  o.deck.y = wide ? 2 : lz.cy + lz.B + 3;
+  o.spk = { w: 37, h: 16 };
+  if (wide) { o.spk.x = 4; o.spk.y = Math.max(o.deck.y + o.deck.h + 3, d.Rv - o.spk.h - 3); }
+  else { o.spk.x = Math.floor((C - 37) / 2); o.spk.y = o.deck.y + o.deck.h + 3; }
+  var bottom = lz.cy + lz.B + 1;
+  if (entered) bottom = Math.max(bottom, o.deck.y + o.deck.h + 1, o.spk.y + o.spk.h + 2);
+  o.R0 = o.R = Math.max(d.Rv, bottom);
+  return o;
+}
+function makeStruct() { var lz = O.lz; S = paint(lz.cx - lz.A, lz.cy - lz.B, lz.cx + lz.A, lz.cy + lz.B, SEED, { force: O.force }); }
+function frame(o) {
+  var lz = o.lz, xl = Math.max(0, lz.cx - lz.A), xr = Math.min(d.C - 1, lz.cx + lz.A - 1), y1 = o.R - 1, r = rng(77);
+  return { hl: [{ y: y1 - 1, half: 2, a: xl, b: xr + 1, u: 1, seq: beads(r, d.C + 4), d: 1 }],
+    vl: [{ x: xl, t: false, off: 0, a: lz.cy, b: y1, seq: beads(r, o.R + 4), d: 1 }, { x: xr, t: false, off: 0, a: lz.cy, b: y1, seq: beads(r, o.R + 4), d: -1 }], pl: [], bits: [], tp: [] };
+}
+function band(o) {
+  var xr = o.deck.x + o.deck.w + 2, yb = o.deck.y + o.deck.h + 1, r = rng(91);
+  return { hl: [{ y: yb, half: 0, a: 0, b: xr + 1, u: 2, seq: beads(r, xr + 8), d: 1 }], vl: [{ x: xr, t: false, off: 0, a: 0, b: yb, seq: beads(r, yb + 8), d: -1 }], pl: [], bits: [], tp: [] };
+}
+function placePaper() {
+  O.paper = null; O.R = O.R0;
+  if (!openSec || !entered) return;
+  var lz = O.lz, C = d.C, i = papers.indexOf(openSec), wp, x, y;
+  if (O.narrow) { wp = C - 4; x = 2; }
+  else { wp = Math.min(68, 2 * lz.A - 8, C - 8); x = Math.round(lz.cx - wp / 2) + [-5, 4, -2, 6, -6, 2, 0, -4, 5, -1, 3][i % 11]; x = Math.max(3, Math.min(C - wp - 3, x)); }
+  at(openSec, d, x, 0, wp);
+  var h = rowsOf(openSec, d), k = O.keys && O.keys[i];
+  if (O.narrow) y = k ? k.y + 2 : 2;
+  else y = Math.max(1, Math.min(k ? k.y - Math.floor(h / 3) : 2, d.Rv - h - 2));
+  O.paper = { x: x, y: y, w: wp, h: h };
+  O.R = Math.max(O.R0, y + h + 3);
+}
+function tape(g, x, y, w, h) { g.put(x - 2, y, x + 4, y + 1, L, TAPE); g.put(x + w - 4, y + h - 1, x + w + 2, y + h, L, TAPE); }
+function compose() {
+  var o = O, lz = o.lz, g = new Grid(d.C, o.R);
+  draw(g, S, phase, md);
+  g.diamond(lz.cx, lz.cy, lz.A, lz.B);
+  if (entered) draw(g, o.wide ? band(o) : frame(o), phase, md);
+  var s = o.slot; g.clr(s.x, s.y, s.x + s.w, s.y + s.h);
+  if (o.name) { var n = o.name; g.clr(n.x - 2, n.y - 1, n.x + n.wch + 2, n.y + n.hr + 1); tape(g, n.x - 2, n.y - 1, n.wch + 4, n.hr + 2); }
+  var t = o.tr; g.clr(t.x - 1, t.y, t.x + t.w + 1, t.y + 1);
+  if (entered) {
+    if (o.keys) o.keys.forEach(function (k) { g.clr(k.x, k.y, k.x + k.w, k.y + 1); });
+    var sp = o.spk; g.clr(sp.x - 2, sp.y - 1, sp.x + sp.w + 2, sp.y + sp.h + 1); tape(g, sp.x - 2, sp.y - 1, sp.w + 4, sp.h + 2);
+  }
+  if (o.paper) {
+    var p = o.paper; g.clr(p.x, p.y, p.x + p.w, p.y + p.h);
+    g.put(p.x + 1, p.y + p.h, p.x + p.w + 1, p.y + p.h + 1, G, 0, 3); g.put(p.x + p.w, p.y + 1, p.x + p.w + 1, p.y + p.h, G, 0, 5);
+    tape(g, p.x, p.y, p.w, p.h);
+  }
+  grid.innerHTML = g.html();
+}
+function position() {
+  var o = O;
+  BD.style.height = o.R * d.lh + "px";
+  grid.style.width = d.C * d.cw + "px";
+  at(goBtn, d, o.slot.x + 2, o.slot.y + 1);
+  at(quiet, d, o.slot.x + 2, o.slot.y + 8);
+  if (o.name) {
+    var n = o.name, wpx = n.nr.w * n.p * d.cw, hpx = n.nr.rows.length * n.p * d.cw;
+    if (nameEl.vi !== n.nr.vi) { nameEl.innerHTML = n.nr.html; nameEl.vi = n.nr.vi; }
+    nameEl.style.fontSize = n.p * d.fs / 2 + "px"; nameEl.style.lineHeight = n.p * d.cw + "px";
+    nameEl.style.left = n.x * d.cw + (n.wch * d.cw - wpx) / 2 + "px"; nameEl.style.top = n.y * d.lh + (n.hr * d.lh - hpx) / 2 + "px";
+    nameEl.hidden = false;
+  } else nameEl.hidden = true;
+  at(tracker, d, o.tr.x, o.tr.y, o.tr.w); tracker.style.setProperty("--tu", o.tr.u);
+  keys.forEach(function (a, i) { var k = o.keys && o.keys[i]; if (k) at(a, d, k.x + 1, k.y); else at(a, d, 0, 0); });
+  if (entered) { at(deck, d, o.deck.x, o.deck.y, o.deck.w); at(spk, d, o.spk.x, o.spk.y); }
+  else { at(deck, d, o.deck.x, 0, o.deck.w); at(spk, d, 0, 0); }
+  papers.forEach(function (s) { if (s !== openSec) { s.style.left = s.style.top = s.style.width = ""; } });
+  if (o.paper) at(openSec, d, o.paper.x, o.paper.y, o.paper.w);
+  var pp = o.paper;
+  function under(el, x, y, w, h) { el.classList.toggle("under", !!pp && x < pp.x + pp.w + 1 && pp.x < x + w && y < pp.y + pp.h + 1 && pp.y < y + h); }
+  keys.forEach(function (a, i) { var k = o.keys && o.keys[i]; if (k) under(a, k.x, k.y, k.w, 1); });
+  if (o.name) under(nameEl, o.name.x - 2, o.name.y - 1, o.name.wch + 4, o.name.hr + 2);
+  under(goBtn, o.slot.x, o.slot.y, o.slot.w, o.slot.h); under(quiet, o.slot.x, o.slot.y, o.slot.w, o.slot.h);
+  under(tracker, o.tr.x, o.tr.y, o.tr.w, 1);
+  under(spk, o.spk.x, o.spk.y, o.spk.w, o.spk.h); under(deck, o.deck.x, o.deck.y, o.deck.w, o.deck.h);
+}
+function refresh() { placePaper(); position(); compose(); }
+function relayout() { d = dims(); O = plan(); makeStruct(); refresh(); }
 
-  // ---------- clearing one cell around every word ----------
-  function blank(R) {
-    var e = R.n.el, gb = G.getBoundingClientRect(), list = [], rng = d.createRange(), a, j, t;
-    var tw = d.createTreeWalker(e, NodeFilter.SHOW_TEXT, null, false);
-    while ((t = tw.nextNode())) if (/\S/.test(t.data)) { rng.selectNodeContents(t); a = rng.getClientRects(); for (j = 0; j < a.length; j++) list.push(a[j]); }
-    [].forEach.call(e.querySelectorAll("button, .volbar"), function (b) { a = b.getClientRects(); for (j = 0; j < a.length; j++) list.push(a[j]); });
-    var x0 = R.x + 1, x1 = R.x + R.w - 1, y1 = R.y + R.h;
-    list.forEach(function (r) {
-      if (r.width < .5) return;
-      var row = Math.floor(((r.top + r.bottom) / 2 - gb.top) / rh);
-      if (row < R.y || row >= y1) return;
-      var c0 = Math.max(x0, Math.floor((r.left - gb.left) / cw + .05) - 1), c1 = Math.min(x1, Math.ceil((r.right - gb.left) / cw - .05) + 1);
-      for (var c = c0; c < c1; c++) BL[row * cols + c] = 1;
-    });
-  }
-
-  // ---------- drawing it: two layers, the quiet one under the reveal ----------
-  function line(r, q) {
-    var out = "", run = "", cur = 0, i = r * cols, end = i + cols, kk, ch;
-    for (; i < end; i++) {
-      kk = BL[i] ? 0 : CL[i];
-      if (kk && (kk >= QUIET) !== q) kk = 0;
-      ch = kk ? CH[i] : " ";
-      if (kk !== cur) { if (run) out += cur ? '<i class="' + CN[cur] + '">' + run + "</i>" : run; run = ""; cur = kk; }
-      run += ch === "<" ? "&lt;" : ch === ">" ? "&gt;" : ch === "&" ? "&amp;" : ch;
-    }
-    if (run) out += cur ? '<i class="' + CN[cur] + '">' + run + "</i>" : run;
-    return out;
-  }
-  function renderAll() {
-    var a = [], b = [];
-    for (var r = 0; r < rows; r++) { a.push("<div>" + line(r, true) + "</div>"); b.push("<div>" + line(r, false) + "</div>"); }
-    LQ.innerHTML = a.join(""); LS.innerHTML = b.join("");
-  }
-  function renderRow(r) { if (LQ.children[r]) { LQ.children[r].innerHTML = line(r, true); LS.children[r].innerHTML = line(r, false); } }
-
-  function layout() {
-    queued = 0;
-    root.classList.add("g");
-    metrics();
-    var tree = window.KTREE(cols, K), n, i;
-    rects = []; byName = {};
-    rows = measure(tree, cols);
-    place(tree, 0, 0, cols, rows);
-    n = rows * cols;
-    CH = new Array(n); CL = new Uint8Array(n); BL = new Uint8Array(n);
-    for (i = 0; i < n; i++) { CH[i] = BLK; CL[i] = C.k; }               // what isn't a rectangle is a black line
-    rects.forEach(function (R) {
-      var t = R.n;
-      R.live = /^(sv|sh|Ph)$/.test(t.t) || !!(t.art && ART[t.art] && ART[t.art].live);
-      fill(R);
-      if (t.el) { var s = t.el.style; s.left = (R.x + 2) * cw + "px"; s.top = (R.y + 1) * rh + "px"; s.width = (R.w - 4) * cw + "px"; }
-    });
-    page.style.height = rows * rh + "px";
-    [].forEach.call(d.querySelectorAll("[data-fill]"), function (e) {
-      var R = byName[e.getAttribute("data-fill")], s = e.style;
-      if (!R) { s.display = "none"; return; }
-      s.display = ""; s.left = R.x * cw + "px"; s.top = R.y * rh + "px"; s.width = R.w * cw + "px"; s.height = R.h * rh + "px";
-    });
-    rects.forEach(function (R) { if (R.n.el) blank(R); });
-    renderAll();
-    lastW = root.clientWidth;
-  }
-  function safe() {
-    try { layout(); } catch (err) { root.classList.remove("g"); page.style.height = ""; if (window.console) console.warn(err); }
-  }
-  function later() { if (!queued) queued = requestAnimationFrame(function () { queued = 0; if (root.clientWidth !== lastW) safe(); }); }
-
-  // the composition answers the radio: squares travel the yellow lines, the heart and the waves keep time
-  function live() {
-    if (!CL) return;
-    var set = {};
-    rects.forEach(function (R) { if (!R.live) return; fill(R); for (var r = R.y; r < R.y + R.h; r++) set[r] = 1; });
-    Object.keys(set).forEach(function (r) { renderRow(+r); });
-  }
-  // when a block's words change (the radio's readout), clear around them again
-  function refresh(e) {
-    var R = null;
-    rects.forEach(function (x) { if (x.n.el === e) R = x; });
-    if (!R || !CL) return;
-    if (Math.ceil(e.offsetHeight / rh - .05) + 2 > R.h) { safe(); return; }
-    for (var y = R.y; y < R.y + R.h; y++) for (var x = R.x; x < R.x + R.w; x++) BL[y * cols + x] = 0;
-    blank(R);
-    for (y = R.y; y < R.y + R.h; y++) renderRow(y);
-  }
-
-  // KES FM's volume, as a row of characters over the real slider
-  var vol = d.getElementById("vol"), bar = d.querySelector(".volbar");
-  function volbar() { var n = 16, on = Math.round(+vol.value * n); bar.textContent = "[" + rep("=", on) + "o" + rep("-", n - on) + "]"; }
-  if (vol && bar) { vol.addEventListener("input", volbar); volbar(); }
-
-  safe();
-  addEventListener("resize", later);
-  addEventListener("load", function () { lastW = -1; later(); });
-
-  if (window.MutationObserver) {
-    var fm = d.getElementById("fm"), fq = 0, snd = d.querySelector(".sound");
-    if (fm) new MutationObserver(function () {
-      if (!fq) fq = requestAnimationFrame(function () { fq = 0; if (root.classList.contains("g")) refresh(fm); });
-    }).observe(fm, { childList: true, characterData: true, subtree: true });
-    new MutationObserver(function () {
-      var a = d.body.classList.contains("on-air");
-      if (a !== air) { air = a; beat = 0; live(); }
-    }).observe(d.body, { attributes: true, attributeFilter: ["class"] });
-    if (snd) new MutationObserver(function () {                         // KES FM marks the beat here (never with reduced motion)
-      if (air && /\bthump\b/.test(snd.className)) { beat++; live(); }
-    }).observe(snd, { attributes: true, attributeFilter: ["class"] });
-  }
-
-  // the reveal: the quiet texture falls away around your pointer, or around whatever has focus
-  var cx = null, cy = null;
-  function aim(x, y) { LQ.style.setProperty("--mx", x + "px"); LQ.style.setProperty("--my", y + "px"); }
-  function follow() { if (cx === null) return; var b = G.getBoundingClientRect(); aim(cx - b.left, cy - b.top); }
-  function pointer(e) { cx = e.clientX; cy = e.clientY; follow(); }
-  d.addEventListener("pointermove", pointer, { passive: true });
-  d.addEventListener("pointerdown", pointer, { passive: true });
-  addEventListener("scroll", follow, { passive: true });
-  root.addEventListener("mouseleave", function () { cx = null; aim(-10000, -10000); });
-  d.addEventListener("focusin", function (e) {
-    var t = e.target;
-    if (!t || t === d.body || !t.getBoundingClientRect) return;
-    var r = t.getBoundingClientRect(), b = G.getBoundingClientRect();
-    cx = null; aim((r.left + r.right) / 2 - b.left, (r.top + r.bottom) / 2 - b.top);
+/* entering: the lozenge steps aside (or stretches, on a phone) and its keys open up */
+function enter() {
+  if (entered) return;
+  entered = true;
+  try { sessionStorage.setItem(SK, "1"); } catch (e) {}
+  var prev = O.lz;
+  BD.classList.remove("gate"); quiet.hidden = true;
+  O = plan(); makeStruct();
+  if (still) { refresh(); return; }
+  anim = true; BD.classList.add("moving"); BD.style.height = O.R0 * d.lh + "px";
+  var to = O.lz, t0 = performance.now(), force = O.wide ? O.force : [];
+  requestAnimationFrame(function step(now) {
+    var t = Math.min(1, (now - t0) / 560), e = t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+    var cx = Math.round(prev.cx + (to.cx - prev.cx) * e), B = Math.round(prev.B + (to.B - prev.B) * e), cy = B + 1;
+    var g = new Grid(d.C, Math.max(O.R0, 2 * B + 3));
+    draw(g, paint(cx - to.A, cy - B, cx + to.A, cy + B, SEED, { force: force }), phase, md);
+    g.diamond(cx, cy, to.A, B);
+    grid.innerHTML = g.html();
+    if (t < 1) requestAnimationFrame(step); else { anim = false; BD.classList.remove("moving"); refresh(); }
   });
+}
+
+/* the papers */
+function open(s, focus) {
+  if (openSec && openSec !== s) openSec.classList.remove("open");
+  openSec = s; s.classList.add("open"); s.insertBefore(foldBtn, s.firstChild); foldBtn.hidden = false;
+  refresh();
+  if (focus) s.focus({ preventScroll: true });
+  var r = s.getBoundingClientRect();
+  if (r.top < 0 || r.bottom > window.innerHeight) window.scrollBy({ top: r.top - 2 * d.lh, behavior: still ? "auto" : "smooth" });
+  try { history.replaceState(null, "", "#" + s.id); } catch (e) {}
+}
+function fold() {
+  if (!openSec) return;
+  var s = openSec, had = s.contains(D.activeElement);
+  s.classList.remove("open"); openSec = null; foldBtn.hidden = true;
+  refresh();
+  if (had) keys[papers.indexOf(s)].focus({ preventScroll: true });
+  try { history.replaceState(null, "", location.pathname + location.search); } catch (e) {}
+}
+keys.forEach(function (a, i) {
+  a.addEventListener("click", function (e) { e.preventDefault(); if (openSec === papers[i]) fold(); else open(papers[i], true); });
+});
+foldBtn.addEventListener("click", fold);
+D.addEventListener("keydown", function (e) { if (e.key === "Escape") fold(); });
+D.addEventListener("click", function (e) {
+  if (openSec && !e.target.closest(".paper, .key, .deck, .go, .floatstop, #quiet")) fold();
+});
+D.addEventListener("focusin", function (e) {
+  var t = e.target;
+  if (!entered && t !== goBtn && t !== quiet && t !== BD) enter();
+  var s = t.closest && t.closest(".paper");
+  if (s && s !== openSec) open(s, false);
+});
+goBtn.addEventListener("click", enter);
+quiet.addEventListener("click", function () { enter(); keys[0].focus({ preventScroll: true }); });
+
+/* volume, drawn in blocks over the real slider */
+var vol = $("#vol"), bar = $("#volbar");
+function volBar() { var n = Math.round(+vol.value * 20); bar.innerHTML = '<i class="y">' + new Array(n + 1).join("█") + '</i><i class="l">' + new Array(21 - n).join("░") + "</i>"; }
+vol.addEventListener("input", volBar);
+
+/* the composition plays along: beads travel the lines on the beat, planes trade colours on the bar,
+   reese splits the planes into quadrants, no bass thins it out, chopped breaks jolt, pull up rewinds */
+window.kesLook = function (mark) {
+  if (still || !O) return;
+  if (mark === undefined) { clearInterval(rw); rw = 0; phase = 0; md.swap = md.flip = false; if (!anim) compose(); return; }
+  if (mark === "@") {
+    clearInterval(rw); var n = 0;
+    rw = setInterval(function () { phase -= 2; if (!anim) compose(); if (++n > 20) { clearInterval(rw); rw = 0; } }, 50);
+    return;
+  }
+  if (rw) return;
+  var t = info.textContent;
+  md.sub = /bass: reese/.test(t); md.sparse = /bass: off/.test(t);
+  phase += /rollin/.test(t) ? 2 : 1;
+  md.flip = /chopped|your chop/.test(t) ? !md.flip : false;
+  if (mark === "^") md.swap = !md.swap;
+  if (!anim) compose();
+};
+
+var tmr = 0;
+window.addEventListener("resize", function () { clearTimeout(tmr); tmr = setTimeout(function () { if (!anim) relayout(); }, 120); });
+
+try {
+  var hash = location.hash.slice(1), target = hash && D.getElementById(hash);
+  if (target && papers.indexOf(target) < 0) target = null;
+  try { entered = sessionStorage.getItem(SK) === "1"; } catch (e) {}
+  if (target) entered = true;
+  if (entered) { BD.classList.remove("gate"); quiet.hidden = true; }
+  volBar();
+  var tk = $(".ticker span"); if (tk) $(".ticker > div").style.animationTimingFunction = "steps(" + (tk.textContent.length + 1) + ")";
+  relayout();
+  if (target) open(target, false);
+} catch (err) {
+  H.classList.remove("js"); if (window.console) console.warn(err);
+}
 })();
-/*</grid>*/
 </script>
 </body>
 </html>

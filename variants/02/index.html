@@ -1,570 +1,259 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="gated">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>kes inkersole</title>
-<meta name="description" content="kes inkersole (kesia on paper): freelance creative strategist &amp; internet equalities researcher, based in london.">
-<link rel="icon" href="data:,">
+<meta name="description" content="kes inkersole (kesia on paper): freelance creative strategist and internet equalities researcher, london.">
+<script>
+/* the gate: shown once per visit. coming back from chainmail in the same visit skips it (sound still waits for a click) */
+(function () { var d = document.documentElement, c = "js gated"; try { if (sessionStorage.getItem("kes-in") === "1") c = "js in"; } catch (e) {} d.className = c; })();
+</script>
 <style>
-/* one grid of characters, one font, one size. the script sizes the letters so a whole number of
-   columns fills the window, and every rectangle, line and word lands on a cell of that grid.
-   lines are dense black characters; white rectangles are light textures; colour rectangles are
-   characters in hot pink, electric blue and yellow. kes's words are only a shade darker than the
-   texture around them: links are the way in. */
+/* one painting, set in type: Mondrian, Lozenge Composition with Two Lines (1931).
+   a white square hung on its corner, two black lines of different weights.
+   everything below is characters on one monospace grid; js sizes the grid so it fills the width exactly. */
 :root {
-  --ink: #000;
-  --paper: #fff;
-  --text: #555;      /* kes's words */
-  --soft: #777;      /* labels */
-  --tc: #a6a6a6;     /* texture under the words */
-  --tx: #bdbdbd;     /* texture in the empty rectangles */
-  --tg: #818181;     /* readouts and the photo stand-ins */
-  --ink2: #3c3c3c;   /* the drawings */
-  --blue: #0a33ff;
-  --hot: #ff2e93;
-  --yellow: #ffd100;
-  --mono: ui-monospace, Menlo, Consolas, "DejaVu Sans Mono", "Liberation Mono", "Courier New", monospace;
-  --fs: 13px;
-  --r: 16px;
+  --paper: #fff; --ink: #0a0a0a; --grey: #8c8c8c; --pale: #d9d9d9;
+  --blue: #1436ff; --pink: #ff2a8c; --yellow: #ffd000; --ochre: #b98a00;
+  --mono: Menlo, "DejaVu Sans Mono", Consolas, "Liberation Mono", "Courier New", ui-monospace, monospace;
+  --fs: 14px; --lh: 17px; --cw: 8.4px;
 }
-* { box-sizing: border-box; }
-html { background: var(--paper); color: var(--text); overflow-x: hidden; overflow-y: scroll; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
-body { margin: 0; background: var(--paper); font: var(--fs)/var(--r) var(--mono); font-variant-ligatures: none; font-kerning: none; }
-h1, h2, p, ul, dl, dd, figure, pre, small { margin: 0; padding: 0; font: inherit; }
-h1, h2 { font-weight: 700; }
-ul { list-style: none; }
-a { color: var(--blue); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; overflow-wrap: anywhere; }
-a:hover { background: var(--hot); color: var(--ink); }
-a:focus-visible, button:focus-visible { outline: none; background: var(--blue); color: var(--paper); }
-::selection { background: var(--hot); color: var(--ink); }
-.soft { color: var(--soft); }
-.heart { color: var(--hot); }
-
-/* ---------- the sheet ---------- */
-#comp { position: relative; width: 100%; overflow: hidden; }
-.art { position: absolute; inset: 0; z-index: 1; pointer-events: none; user-select: none; -webkit-user-select: none; }
-.art pre { position: absolute; margin: 0; overflow: hidden; white-space: pre; font: inherit; transition: opacity .25s; }
-.art b { font-weight: inherit; }
-.ln { color: var(--ink); font-weight: 700; }
-.tx { color: var(--tx); } .tc { color: var(--tc); } .tg { color: var(--tg); } .ink { color: var(--ink2); }
-.pk { color: var(--hot); } .bl { color: var(--blue); } .yl { color: var(--yellow); } .k { color: var(--ink); font-weight: 700; }
-.b { font-weight: 700; }
-.q1 { color: var(--yellow); } .q2 { color: var(--hot); } .q3 { color: var(--blue); }
-.hb { color: var(--blue); animation: blink 1.6s steps(1) infinite; }
-@keyframes blink { 50% { color: var(--hot); } }
-
-/* the reveal: the rectangle you're in thins out and its words come forward */
-.art pre.near { opacity: .18; }
-.blk.near { color: var(--ink); }
-.blk.near .soft { color: var(--text); }
-
-/* ---------- the words, set in rows ---------- */
-.blk { color: var(--text); transition: color .25s; }
-.js .blk { position: absolute; left: 0; top: 0; z-index: 2; margin: 0; }
-html:not(.js) .blk { max-width: 72ch; margin: 2rem auto; padding: 0 1rem; }
+html { background: var(--paper); color: var(--ink); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; scrollbar-gutter: stable; }
+body { margin: 0; background: var(--paper); font-family: var(--mono); font-size: var(--fs); line-height: var(--lh); font-kerning: none; font-variant-ligatures: none; }
+h1, h2, p, ul, pre { margin: 0; font: inherit; }
+h1, h2, b { font-weight: 700; }
+ul { list-style: none; padding: 0; }
 li { padding-left: 2ch; text-indent: -2ch; }
-.list ul { margin-top: var(--r); }
-.list h2 span { color: var(--hot); font-weight: 400; }
+li::before { content: "· "; content: "· " / ""; color: var(--grey); }
+i { font-style: normal; }
+::selection { background: var(--yellow); color: var(--ink); }
 
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+a { color: var(--blue); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .18em; }
+a:hover, a:focus-visible { color: var(--ink); background: var(--pink); text-decoration-color: var(--ink); }
+button { font: inherit; line-height: inherit; color: var(--blue); background: none; border: 0; border-radius: 0; padding: 0; margin: 0; cursor: pointer; -webkit-appearance: none; appearance: none; }
+button:hover, button:focus-visible { color: var(--ink); background: var(--pink); }
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 1px; }
 
-/* ---------- hello, the card, the projects ---------- */
-.hello p:not(.soft) { margin-top: var(--r); }
-.card h2 { margin-top: var(--r); }
-.card dl { margin-top: var(--r); }
-.card dt { display: inline; color: var(--soft); }
-.card dd { display: inline; }
-.card .mail { margin-top: var(--r); }
-.proj h2 { margin-top: var(--r); }
-.proj p:last-child { margin-top: var(--r); }
-.note p + p { margin-top: var(--r); }
+/* the art layers: the painting on the first screen, and the long line that runs out of it */
+.art { position: absolute; left: 0; top: 0; white-space: pre; pointer-events: none; overflow: hidden; color: var(--ink); -webkit-text-stroke: .6px currentColor; }
+/* block glyphs are a hair shorter than the row; stretch each run so the lines read as solid */
+.art i { display: inline-block; transform: scaleY(1.12); }
+#spine { line-height: var(--sl, 1em); }
+.art i.p, .p { color: var(--pink); } .art i.u, .u { color: var(--blue); } .art i.y { color: var(--yellow); } .art i.g, .g { color: var(--grey); } .art i.q { color: var(--pale); }
+#spine { visibility: hidden; }
+#spine.up { visibility: visible; }
 
-/* ---------- KES FM: readouts are texture, keys are bracketed words ---------- */
-.fm .ident, .fm .lcd, .fm .keys, .fm .textin { margin-top: var(--r); }
-.lcd { color: var(--tg); }
-.lcd-top, .lcd-info { display: flex; flex-wrap: wrap; column-gap: 2ch; }
-.status { display: inline-block; min-width: 24ch; color: var(--text); }
-body.on-air .status { color: var(--hot); font-weight: 700; }
-.ticker { overflow: hidden; white-space: nowrap; }
+/* blocks: laid on the grid by js (no js: they just stack) */
+#page { position: relative; }
+.blk { overflow-wrap: anywhere; }
+.blk > * + *, .lcd > * + * { margin-top: var(--lh); }
+.js .blk { position: absolute; left: 0; top: 0; }
+html:not(.js) .blk { margin: 0 16px 2.4em; max-width: 72ch; }
+html:not(.js) #b-go, html:not(.js) #b-quiet { display: none; }
+
+/* the gate: the painting at rest. content stays in the page for screen readers, it is only out of sight */
+.gated, .gated body { height: 100%; overflow: hidden; }
+.gated .blk { opacity: 0; }
+.gated #b-title, .gated #b-go, .gated #b-quiet { opacity: 1; }
+.in #b-quiet { display: none; }
+@media (prefers-reduced-motion: no-preference) { .blk { transition: opacity .9s ease .25s; } }
+
+#b-title h1 { white-space: nowrap; }
+#b-title p { color: var(--grey); }
+#go { color: var(--pink); font-weight: 700; white-space: pre; }
+#go:hover, #go:focus-visible { color: var(--ink); background: var(--pink); }
+.on-air #go { color: var(--ink); }
+.on-air #go.lit { color: var(--blue); }
+#quiet { color: var(--blue); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .18em; }
+
+/* KES FM, set as plain characters */
+.fm .hd { display: flex; flex-wrap: wrap; column-gap: 2ch; }
+.status { color: var(--pink); }
+.ident { color: var(--ink); }
+.ticker { overflow: hidden; white-space: nowrap; height: var(--lh); color: var(--grey); }
 .ticker > div { display: inline-block; }
 .ticker span { padding-right: 1ch; }
-.tracker { display: flex; flex-wrap: wrap; max-width: 49ch; }
-.tracker span { margin-right: 1ch; }
-.tracker .rev, .lcd-info .rev { color: var(--hot); }
-.tracker .up, .lcd-info .up { color: var(--blue); }
-.tracker .roll { text-decoration: underline; }
-.tracker .on { color: var(--ink); font-weight: 700; }
 @keyframes run { to { transform: translateX(-50%); } }
-@media (prefers-reduced-motion: no-preference) {
-  .ticker > div { animation: run 70s linear infinite paused; }
-  body.on-air .ticker > div { animation-play-state: running; }
-}
-.keys { display: flex; flex-wrap: wrap; column-gap: 2ch; }
-.keys > div, .vol { display: flex; flex-wrap: wrap; column-gap: 1ch; }
-.keys .lbl, .vol { color: var(--soft); }
-.keys button, .floatstop { font: inherit; line-height: var(--r); color: var(--text); background: none; border: 0; border-radius: 0; margin: 0; padding: 0; cursor: pointer; -webkit-appearance: none; appearance: none; }
-.keys button::before, .floatstop::before { content: "["; }
-.keys button::after, .floatstop::after { content: "]"; }
+@media (prefers-reduced-motion: no-preference) { .on-air .ticker > div { animation: run 80s linear infinite; } }
+#tracker { display: grid; grid-template-columns: repeat(8, 3ch); color: var(--grey); }
+#tracker .rest { color: var(--pale); }
+#tracker .rev { color: var(--pink); }
+#tracker .up { color: var(--ochre); }
+#tracker .roll { text-decoration: underline; }
+#tracker .on { color: var(--ink); font-weight: 700; }
+.lcd-info { color: var(--grey); }
+.lcd-info .rev { color: var(--pink); } .lcd-info .up { color: var(--ochre); }
+.keys p + p { margin-top: 0; }
+.keys .lbl { color: var(--grey); display: inline-block; width: 6ch; }
+.keys button::before { content: "["; content: "[" / ""; color: var(--ink); }
+.keys button::after { content: "]"; content: "]" / ""; color: var(--ink); }
 .keys button[aria-pressed="true"] { color: var(--ink); font-weight: 700; }
-.keys button[aria-pressed="true"]::before, .keys button[aria-pressed="true"]::after { color: var(--hot); }
-/* on air: hot pink, bold, and a hit area a row taller and a character wider than it looks */
-.keys .go { position: relative; z-index: 1; color: var(--hot); font-weight: 700; padding: calc(var(--r) / 2) 1ch; margin: calc(var(--r) / -2) -1ch; background-clip: content-box; }
-.keys button:hover, .floatstop:hover { background-color: var(--hot); color: var(--ink); }
-.keys button:focus-visible { background-color: var(--blue); color: var(--paper); }
-.vol { position: relative; }
-.vol .bar { color: var(--text); }
-.vol input { position: absolute; left: 4ch; top: 0; width: 12ch; height: var(--r); margin: 0; opacity: 0; cursor: pointer; }
-.vol:hover .bar { background: var(--hot); color: var(--ink); }
-.vol:focus-within .bar { background: var(--blue); color: var(--paper); }
-.floatstop { position: fixed; right: 2ch; bottom: var(--r); z-index: 5; background: var(--ink); color: var(--paper); font-weight: 700; padding: 0 1ch; }
+.keys button[aria-pressed="true"]::before, .keys button[aria-pressed="true"]::after { color: var(--pink); }
+.keys button:hover::before, .keys button:hover::after, .keys button:focus-visible::before, .keys button:focus-visible::after { color: var(--ink); }
+#stop { color: var(--pink); font-weight: 700; }
+.vol { position: relative; white-space: nowrap; color: var(--grey); }
+.vol .bar { color: var(--ink); }
+.vol input { position: absolute; right: 0; top: 0; width: 13ch; height: var(--lh); margin: 0; opacity: .001; cursor: pointer; }
+.vol:focus-within .bar, .vol:hover .bar { background: var(--pink); }
+.textin { color: var(--ink); }
+
+/* Kes's pieces */
+.speaker .w { color: var(--blue); }
+@keyframes thump { from { color: var(--pink); } }
+.speaker.thump .w, .speaker.thump .cone { animation: thump .32s steps(2, end); }
+.hearts { line-height: var(--lh); overflow: hidden; }
+#b-speaker { overflow: hidden; }
+
+.kv { padding-left: 9ch; text-indent: -9ch; }
+.kv > span:first-child { display: inline-block; width: 9ch; text-indent: 0; color: var(--grey); }
+.label { color: var(--grey); }
+.ph { color: var(--grey); }
+.lede { color: var(--grey); }
+
+/* the stop that is always there while KES FM plays: a slab of █ with the word knocked out of it */
+.floatstop { position: fixed; right: calc(var(--cw) * 2); bottom: var(--lh); z-index: 5; color: var(--paper); font-weight: 700; white-space: pre; isolation: isolate; }
+.floatstop .slab { position: absolute; left: 0; top: 0; z-index: -1; color: var(--ink); font-weight: 400; }
+.floatstop:hover, .floatstop:focus-visible { background: none; color: var(--ink); }
+.floatstop:hover .slab, .floatstop:focus-visible .slab { color: var(--pink); }
 .floatstop[hidden] { display: none; }
 
-/* while it plays: the hearts blink on the beat, the speakers' waves and the little squares swap colour */
-body.on-air .hb { animation-duration: .706s; }
-.lit .q1 { color: var(--hot); } .lit .q2 { color: var(--blue); } .lit .q3 { color: var(--yellow); }
-.lit .sound, .sound.thump { color: var(--hot); }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
 </style>
 </head>
 <body>
+<pre id="art" class="art" aria-hidden="true"></pre>
+<pre id="spine" class="art" aria-hidden="true"></pre>
 
-<div id="comp">
-<div class="art tower" id="art" aria-hidden="true"></div>
+<main id="page">
 
-<main>
+<header class="blk" id="b-title">
+<h1>kes inkersole</h1>
+</header>
 
-  <section class="blk hello" id="hello" aria-labelledby="hello-h">
-    <h1 id="hello-h">hello, i'm kes&nbsp;<span class="heart">♡</span></h1>
-    <p class="soft">welcome to kes's little corner of the internet <span class="heart">&lt;3</span></p>
-    <p>i'm kes inkersole (kesia on paper), a freelance creative strategist &amp; internet equalities researcher, based in london.</p>
-    <p>my practice focuses on understanding and critiquing the impacts of emerging technologies on people, culture, and the planet. i work collectively to rethink the narratives and behaviours surrounding technologies — prioritising collaborative research as a process for testing, imagining and prototyping more equitable, alternative futures.</p>
-  </section>
+<div class="blk" id="b-go"><button class="go tower" id="go" type="button" aria-pressed="false">▶ play KES FM</button></div>
+<div class="blk" id="b-quiet"><p><button type="button" id="quiet">or enter without sound</button></p></div>
 
-  <p class="blk write" id="write">i'm starting to publish my own writing too, short pieces, over in <a href="writing.html">chainmail</a>.</p>
+<section class="blk fm" id="fm" aria-labelledby="fm-h">
+<div class="hd"><h2 id="fm-h">KES FM 170.0</h2><span class="status" id="status" role="status">off air</span></div>
+<p class="ident">you're locked to KES FM. it's not a real station, it's this website: a little jungle machine running in your browser, every drum and bassline synthesised live, no samples, no files. nothing plays until you press on air, and stop always stops it ✧</p>
+<div class="lcd">
+<div class="ticker" aria-hidden="true"><div><span>big up all the junglists ✦ big up everyone reading the source code ✦ big up the UAL lot, LCF + CCI ✦ big up Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges ✦ text in: inkersolekesia@gmail.com ✦ respect to the sound systems, pirates and producers who built all this ✦ lorem ipsum dolor sit amet ✦</span><span>big up all the junglists ✦ big up everyone reading the source code ✦ big up the UAL lot, LCF + CCI ✦ big up Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges ✦ text in: inkersolekesia@gmail.com ✦ respect to the sound systems, pirates and producers who built all this ✦ lorem ipsum dolor sit amet ✦</span></div></div>
+<div class="tracker" id="tracker" aria-hidden="true"></div>
+<div class="lcd-info" aria-hidden="true"><p id="lcdinfo">break: straight · bass: sub · cute: off</p><p><span class="rev">pink</span> = reversed · <span class="up">yellow</span> = pitched up · underline = roll</p></div>
+</div>
+<div class="keys">
+<p><button class="stop" id="stop" type="button">■ stop</button> <label class="vol">vol <span class="bar" aria-hidden="true">[=====|-----]</span><input type="range" id="vol" min="0" max="1" step="0.05" value="0.5"></label></p>
+<p role="group" aria-label="break"><span class="lbl" aria-hidden="true">break</span><button type="button" data-break="straight" aria-pressed="true">straight</button> <button type="button" data-break="chopped" aria-pressed="false">chopped</button> <button type="button" data-break="rollin" aria-pressed="false">rollin'</button> <button type="button" id="chop" aria-pressed="false">chop it</button></p>
+<p role="group" aria-label="bass"><span class="lbl" aria-hidden="true">bass</span><button type="button" data-bass="sub" aria-pressed="true">sub</button> <button type="button" data-bass="reese" aria-pressed="false">reese</button> <button type="button" data-bass="off" aria-pressed="false">off</button></p>
+<p><span class="lbl" aria-hidden="true">dj</span><button type="button" id="cute" aria-pressed="false">cute</button> <button type="button" id="pullup">pull up</button> <button type="button" id="siren">siren</button></p>
+</div>
+<p class="textin">text in your shout-outs: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
+</section>
 
-  <!-- ===== KES FM: every id, class, data attribute and button from the reference ===== -->
-  <section class="blk fm" id="fm" aria-labelledby="fm-h">
-  <h2 id="fm-h">KES FM 170.0</h2>
-  <p class="ident">you're locked to KES FM. it's not a real station, it's this website: a little jungle machine running in your browser, every drum and bassline synthesised live, no samples, no files. nothing plays until you press on air, and stop always stops it ✧</p>
-  <div class="deck">
-  <div class="lcd">
-  <div class="lcd-top"><span>KES FM ((( 170.0 )))</span><span class="status" id="status" role="status">off air</span></div>
-  <div class="ticker" aria-hidden="true"><div><span>big up all the junglists ✦ big up everyone reading the source code ✦ big up the UAL lot, LCF + CCI ✦ big up Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges ✦ text in: inkersolekesia@gmail.com ✦ respect to the sound systems, pirates and producers who built all this ✦ lorem ipsum dolor sit amet ✦</span><span>big up all the junglists ✦ big up everyone reading the source code ✦ big up the UAL lot, LCF + CCI ✦ big up Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges ✦ text in: inkersolekesia@gmail.com ✦ respect to the sound systems, pirates and producers who built all this ✦ lorem ipsum dolor sit amet ✦</span></div></div>
-  <div class="tracker" id="tracker" aria-hidden="true"><span class="">00</span><span class="">01</span><span class="">02</span><span class="">03</span><span class="">04</span><span class="">05</span><span class="">06</span><span class="">07</span><span class="">08</span><span class="">09</span><span class="">0A</span><span class="">0B</span><span class="">0C</span><span class="">0D</span><span class="">0E</span><span class="">0F</span><span class="">10</span><span class="">11</span><span class="">12</span><span class="">13</span><span class="">14</span><span class="">15</span><span class="">16</span><span class="">17</span><span class="">18</span><span class="">19</span><span class="">1A</span><span class="">1B</span><span class="">1C</span><span class="">1D</span><span class="">1E</span><span class="">1F</span></div>
-  <div class="lcd-info" aria-hidden="true"><span id="lcdinfo">break: straight · bass: sub · cute: off</span><span><span class="rev">pink</span> = reversed · <span class="up">blue</span> = pitched up · underline = roll</span></div>
-  </div>
+<div class="blk" id="b-speaker" aria-hidden="true"><pre class="speaker sound">        <i class=p>\(^o^)/</i>       <i class=p>&lt;3</i>
+.--------------..--------------.
+| .----.  .--. || .----.  .--. |
+| |====|  <i class=u>(())</i> || |====|  <i class=u>(())</i> |
+| '----'  '--' || '----'  '--' |
+'--------------''--------------'
+.--------------..--------------.
+|   .------.   ||   .------.   |
+|  /  .--.  \  ||  /  .--.  \  |  <i class=w>)</i>
+| |  ( <i class="p cone">&lt;3</i> )  | || |  ( <i class="p cone">&lt;3</i> )  | |  <i class=w>))</i>
+|  \  '--'  /  ||  \  '--'  /  |  <i class=w>)))</i>
+|   '------'   ||   '------'   |  <i class=w>))</i>
+|--------------||--------------|  <i class=w>)</i>
+|    <b>KES FM</b>    ||   <i class=u>170.0 FM</i>   |
+'--------------''--------------'
+<i class=g>""""""""""""""""""""""""""""""""</i></pre></div>
 
-  <div class="keys">
-  <div><button class="go" id="go" type="button" aria-pressed="false">▶ on air</button><button class="stop" id="stop" type="button">■ stop</button></div>
-  <div role="group" aria-label="break"><span class="lbl">break</span><button type="button" data-break="straight" aria-pressed="true">straight</button><button type="button" data-break="chopped" aria-pressed="false">chopped</button><button type="button" data-break="rollin" aria-pressed="false">rollin'</button><button type="button" id="chop" aria-pressed="false">✂ chop it</button></div>
-  <div role="group" aria-label="bass"><span class="lbl">bass</span><button type="button" data-bass="sub" aria-pressed="true">sub</button><button type="button" data-bass="reese" aria-pressed="false">reese</button><button type="button" data-bass="off" aria-pressed="false">off</button></div>
-  <div><button type="button" id="cute" aria-pressed="false">✿ cute</button><button type="button" id="pullup">⟲ pull up</button><button type="button" id="siren">siren</button></div>
-  <label class="vol">vol <span class="bar" aria-hidden="true">[=====·····]</span><input type="range" id="vol" min="0" max="1" step="0.05" value="0.5"></label>
-  </div>
-  <p class="textin">text in your shout-outs: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
-  </div>
-  </section>
+<section class="blk" id="b-hello">
+<h2>hello, i'm kes &lt;3</h2>
+<p>i'm kes inkersole (kesia on paper), a freelance creative strategist and internet equalities researcher based in london. welcome to kes' little corner of the internet.</p>
+<p>my practice focuses on understanding and critiquing the impacts of emerging technologies on people, culture, and the planet. i work collectively to rethink the narratives and behaviours surrounding technologies — prioritising collaborative research as a process for testing, imagining and prototyping more equitable, alternative futures.</p>
+</section>
 
-  <aside class="blk card" id="card" aria-labelledby="card-h">
-    <p class="soft">bio / portfolio / cv</p>
-    <h2 id="card-h">kes inkersole</h2>
-    <p>freelance creative strategist &amp; internet equalities researcher, london.</p>
-    <dl>
-      <div><dt>does</dt> <dd>creative strategy, internet equalities research, workshops, writing, teaching</dd></div>
-      <div><dt>teaches</dt> <dd>associate lecturer at UAL (LCF + CCI)</dd></div>
-      <div><dt>worked with</dt> <dd>Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges</dd></div>
-      <div><dt>school</dt> <dd>MA internet equalities, BA creative direction, PhD [ ? ]</dd></div>
-      <div><dt>cv + portfolio</dt> <dd>on request</dd></div>
-    </dl>
-    <p class="mail"><a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
-  </aside>
+<section class="blk" id="b-presents">
+<p class="lede">this website presents</p>
+<pre class="hearts" aria-hidden="true"><i class=p>&lt;3</i>
+<i class=p>&lt;3</i>
+<i class=p>&lt;3</i>    <i class=p>&lt;3</i>      <i class=p>&lt;3&lt;3&lt;3</i>      <i class=p>&lt;3&lt;3&lt;3&lt;3</i>
+<i class=p>&lt;3</i>  <i class=p>&lt;3</i>      <i class=p>&lt;3</i>      <i class=p>&lt;3</i>  <i class=p>&lt;3</i>
+<i class=p>&lt;3&lt;3</i>        <i class=p>&lt;3&lt;3&lt;3&lt;3&lt;3</i>    <i class=p>&lt;3&lt;3&lt;3</i>
+<i class=p>&lt;3</i>  <i class=p>&lt;3</i>      <i class=p>&lt;3</i>                  <i class=p>&lt;3</i>
+<i class=p>&lt;3</i>    <i class=p>&lt;3</i>      <i class=p>&lt;3&lt;3&lt;3</i>    <i class=p>&lt;3&lt;3&lt;3&lt;3</i></pre>
+<h2>kes inkersole</h2>
+<p>creative strategist, internet equalities researcher, london. available for work.</p>
+<div>
+<p class="kv"><span>does:</span>creative strategy, research, workshops, writing and teaching</p>
+<p class="kv"><span>teaches:</span>associate lecturer at UAL (LCF + CCI)</p>
+<p class="kv"><span>clients:</span>Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges</p>
+<p class="kv"><span>school:</span>MA internet equalities, BA creative direction, PhD [ ? ]</p>
+<p class="kv"><span>cv:</span>cv &amp; portfolio on request</p>
+<p class="kv"><span>email:</span><a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
+</div>
+</section>
 
-  <article class="blk proj" id="p1" aria-labelledby="p1-h">
-    <p class="meta soft">01 · for fun · latent-space.vercel.app</p>
-    <h2 id="p1-h"><a href="https://latent-space.vercel.app/">latent space</a></h2>
-    <p>lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam, quis nostrud exercitation.</p>
-  </article>
+<section class="blk proj" id="b-p1">
+<p class="label">01 · for fun</p>
+<h2><a href="https://latent-space.vercel.app/">latent space</a></h2>
+<pre class="mini" aria-hidden="true" data-v="0.42" data-h="-0.5"></pre>
+<p class="ph">(picture to come)</p>
+<p>lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam.</p>
+</section>
 
-  <article class="blk proj" id="p2" aria-labelledby="p2-h">
-    <p class="meta soft">02 · for funds, with co—matter · co-matter.com</p>
-    <h2 id="p2-h"><a href="https://co-matter.com/project/networked-worlds">networked worlds</a></h2>
-    <p>duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. excepteur sint occaecat cupidatat non proident, sunt in culpa.</p>
-  </article>
+<section class="blk proj" id="b-p2">
+<p class="label">02 · for funds</p>
+<h2><a href="https://co-matter.com/project/networked-worlds">networked worlds</a> with co—matter</h2>
+<pre class="mini" aria-hidden="true" data-v="-0.62 0.62" data-h="0.6"></pre>
+<p class="ph">(picture to come)</p>
+<p>duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. excepteur sint occaecat cupidatat non proident.</p>
+</section>
 
-  <article class="blk proj" id="p3" aria-labelledby="p3-h">
-    <p class="meta soft">03 · for funds · instagram.com</p>
-    <h2 id="p3-h"><a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1">MØRNING Ø</a></h2>
-    <p>sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis.</p>
-  </article>
+<section class="blk proj" id="b-p3">
+<p class="label">03 · for funds</p>
+<h2><a href="https://www.protein.xyz/dirty-words-4-community/">protein dirty words #4: community report</a></h2>
+<pre class="mini" aria-hidden="true" data-v="0.1" data-h="-0.2 0.45"></pre>
+<p class="ph">(picture to come)</p>
+<p>sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo.</p>
+</section>
 
-  <section class="blk list" id="mp" aria-labelledby="mp-h">
-    <h2 id="mp-h">more projects <span>✿</span></h2>
-    <ul>
-      <li><span aria-hidden="true">☆</span> <a href="https://protecht.vercel.app/">pro(tech)t</a> <span class="soft">for fun</span></li>
-      <li><span aria-hidden="true">☆</span> <a href="https://www.protein.xyz/dirty-words-4-community/">protein dirty words #4: community report</a> <span class="soft">for funds</span></li>
-    </ul>
-  </section>
+<section class="blk" id="b-more">
+<h2>more projects</h2>
+<ul><li><a href="https://protecht.vercel.app/">pro(tech)t</a> (for fun)</li><li><a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1">MØRNING Ø</a> (for funds)</li></ul>
+</section>
 
-  <section class="blk list" id="pod" aria-labelledby="pod-h">
-    <h2 id="pod-h">podcasts, for the bus <span>♫</span></h2>
-    <ul>
-      <li><span aria-hidden="true">☆</span> <a href="https://podcasts.apple.com/gb/podcast/mindy-seu-on-collaboration-community-and/id1449302502?i=1000597869409">mindy seu on collaboration, community and the cyberfeminism index</a></li>
-      <li><span aria-hidden="true">☆</span> <a href="https://soundcloud.com/proteincommunity/protein-forum-what-can-web2-organisations-learn-from-web3-communities">what can web2 organisations learn from web3 communities?</a> <span class="soft">Protein</span></li>
-      <li><span aria-hidden="true">☆</span> <a href="https://podcasts.apple.com/gb/podcast/cherie-hu-on-water-musics-journey-through-web3/id1449302502?i=1000581859804">cherie hu on water &amp; music's journey through web3</a></li>
-      <li><span aria-hidden="true">☆</span> <a href="https://podcasts.apple.com/gb/podcast/molly-dickson-on-dao-activism-and-fighting-for/id1449302502?i=1000578164761">molly dickson on dao activism</a></li>
-      <li><span aria-hidden="true">☆</span> <a href="https://podcasts.apple.com/gb/podcast/dame-on-the-need-for-education-accessibility/id1449302502?i=1000559829008">dame on education, accessibility and inclusivity in web3</a></li>
-      <li><span aria-hidden="true">☆</span> <a href="https://podcasts.apple.com/gb/podcast/nadia-piet-on-creative-ai-and-protopian-futures/id1449302502?i=1000559822732">nadia piet on creative ai and protopian futures</a></li>
-      <li><span aria-hidden="true">☆</span> <a href="https://podcasts.apple.com/gb/podcast/cyn-bahati-on-her-journey-into-web3-with-her-family/id1449302502?i=1000559818509">cyn bahati on her journey into web3 with her family</a></li>
-      <li><span aria-hidden="true">☆</span> <a href="https://podcasts.apple.com/gb/podcast/latash%C3%A1-on-the-potential-of-web3-for-music-artists/id1449302502?i=1000552812458">latasha on the potential of web3 for music artists</a></li>
-    </ul>
-  </section>
+<section class="blk" id="b-writing">
+<h2>my writing</h2>
+<p>new: short pieces from my notes app, sent in by email. it's called <a href="writing.html">chainmail</a>.</p>
+</section>
 
-  <section class="blk list" id="wr" aria-labelledby="wr-h">
-    <h2 id="wr-h">things i've written <span>✎</span></h2>
-    <ul>
-      <li><span aria-hidden="true">☆</span> <a href="https://www.protein.xyz/sex-and-the-internet/">mindy seu on sex and the internet</a> <span class="soft">Protein</span></li>
-      <li><span aria-hidden="true">☆</span> <a href="https://midnight.agency/thoughts/dreaming-and-designing-more-accessible-web">dreaming and designing a more accessible web</a> <span class="soft">Midnight Agency</span></li>
-      <li><span aria-hidden="true">☆</span> <a href="https://midnight.agency/thoughts/coding-a-more-creative-and-playful-web">coding a more creative and playful web</a> <span class="soft">Midnight Agency</span></li>
-      <li><span aria-hidden="true">☆</span> <a href="https://midnight.agency/thoughts/composing-a-flexible-and-modular-web">composing a flexible and modular web</a> <span class="soft">Midnight Agency</span></li>
-      <li><span aria-hidden="true">☆</span> <a href="https://morningfyi.substack.com/p/020-uh-oh-meet">burn after reading: uh oh, meet o</a> <span class="soft">MØRNING</span></li>
-      <li><span aria-hidden="true">☆</span> <a href="https://morningfyi.substack.com/p/024-entering-limb-with">burn after reading: entering limbo, with o</a> <span class="soft">MØRNING</span></li>
-    </ul>
-  </section>
+<section class="blk" id="b-written">
+<h2>things i've written</h2>
+<ul><li><a href="https://www.protein.xyz/sex-and-the-internet/">mindy seu on sex and the internet</a> (Protein)</li><li><a href="https://midnight.agency/thoughts/dreaming-and-designing-more-accessible-web">dreaming and designing a more accessible web</a> (Midnight Agency)</li><li><a href="https://midnight.agency/thoughts/coding-a-more-creative-and-playful-web">coding a more creative and playful web</a> (Midnight Agency)</li><li><a href="https://midnight.agency/thoughts/composing-a-flexible-and-modular-web">composing a flexible and modular web</a> (Midnight Agency)</li><li><a href="https://morningfyi.substack.com/p/020-uh-oh-meet">burn after reading: uh oh, meet o</a> (morningfyi)</li><li><a href="https://morningfyi.substack.com/p/024-entering-limb-with">burn after reading: entering limbo</a> (morningfyi)</li></ul>
+</section>
 
-  <section class="blk list" id="irl" aria-labelledby="irl-h">
-    <h2 id="irl-h">irl (mostly) <span>☂&#xFE0E;</span></h2>
-    <ul>
-      <li><span aria-hidden="true">☆</span> <a href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1">olden residency</a></li>
-      <li><span aria-hidden="true">☆</span> <a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1">softer london</a> <span class="soft">talk + workshop</span></li>
-      <li><span aria-hidden="true">☆</span> <a href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard">tech yard</a> <span class="soft">workshop</span></li>
-      <li><span aria-hidden="true">☆</span> <a href="https://www.instagram.com/p/BslwSSPH5Rc/?img_index=2">ovar it</a></li>
-    </ul>
-  </section>
+<section class="blk" id="b-pods">
+<h2>podcasts, for the bus</h2>
+<ul><li><a href="https://podcasts.apple.com/gb/podcast/mindy-seu-on-collaboration-community-and/id1449302502?i=1000597869409">mindy seu on collaboration, community and the cyberfeminism index</a></li><li><a href="https://soundcloud.com/proteincommunity/protein-forum-what-can-web2-organisations-learn-from-web3-communities">what can web2 organisations learn from web3 communities?</a> (Protein)</li><li><a href="https://podcasts.apple.com/gb/podcast/cherie-hu-on-water-musics-journey-through-web3/id1449302502?i=1000581859804">cherie hu on water &amp; music's journey through web3</a></li><li><a href="https://podcasts.apple.com/gb/podcast/molly-dickson-on-dao-activism-and-fighting-for/id1449302502?i=1000578164761">molly dickson on dao activism</a></li><li><a href="https://podcasts.apple.com/gb/podcast/dame-on-the-need-for-education-accessibility/id1449302502?i=1000559829008">dame on education, accessibility and inclusivity in web3</a></li><li><a href="https://podcasts.apple.com/gb/podcast/nadia-piet-on-creative-ai-and-protopian-futures/id1449302502?i=1000559822732">nadia piet on creative ai and protopian futures</a></li><li><a href="https://podcasts.apple.com/gb/podcast/cyn-bahati-on-her-journey-into-web3-with-her-family/id1449302502?i=1000559818509">cyn bahati on her journey into web3 with her family</a></li><li><a href="https://podcasts.apple.com/gb/podcast/latash%C3%A1-on-the-potential-of-web3-for-music-artists/id1449302502?i=1000552812458">latasha on the potential of web3 for music artists</a></li></ul>
+</section>
+
+<section class="blk" id="b-irl">
+<h2>irl (mostly)</h2>
+<ul><li><a href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1">olden residency</a></li><li><a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1">softer london</a> (talk + workshop)</li><li><a href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard">tech yard</a> (workshop)</li><li><a href="https://www.instagram.com/p/BslwSSPH5Rc/?img_index=2">ovar it</a></li></ul>
+</section>
+
+<footer class="blk" id="b-foot">
+<p>this website is mostly plain text: system fonts, no trackers, no photos, one radio that stays quiet until you ask. it's easy for me to update and it loads fine on bad wifi.</p>
+<p>thanks for stopping by &lt;3</p>
+<p>say hello: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
+</footer>
 
 </main>
 
-<!-- change the date when you change something! -->
-<footer class="blk note" id="note">
-  <p><b>thanks for stopping by&nbsp;<span class="heart">♡</span></b></p>
-  <p>this page was last updated on 1 october 2026. it's still mostly plain html (it started out in <a href="http://contemporary-home-computing.org/prof-dr-style/">olia lialina's prof. dr. style</a>, then i planted some flowers), so it's easy for me to update and it loads fine on bad wifi.</p>
-</footer>
+<button class="floatstop" id="floatstop" type="button" hidden><span class="slab" aria-hidden="true">███████████████</span> ■ stop KES FM </button>
 
-</div>
-
-<button class="floatstop" id="floatstop" type="button" hidden>■ stop KES FM</button>
-
-<script>
-/* ---------------------------------------------------------------
-   the composition, in character columns. wide windows get a
-   mondrian across the screen: the heart-letter name along the top,
-   then hello, KES FM, the speakers and the card, then the projects,
-   the lists and the garden. narrow windows stack the same
-   rectangles into a tall strip, with thin coloured columns beside.
-   --------------------------------------------------------------- */
-var COMPOSE = function (C, X, V, S) {
-  var spk = function () { return X("wave", { art: "spk", op: 1, ax: 1, ay: 1, h: 18, cls: "tx" }); };
-  var garden = X("ground", { art: "gdn", ax: 0, ay: 1, tile: 4, h: 8, cls: "tx" });
-  if (C >= 128) {
-    var big = C >= 181, roomy = C >= 176,
-        side = big ? Math.min(C - 169, Math.max(12, Math.round(C * .1))) : Math.max(12, Math.round(C * .12)),
-        speakers = S([spk(), X("med", { cls: "bl", g: 1 }), X("dotgrid", { h: 3 })]);
-    return S([
-      V(big ? [0, 0, side] : [43, 0, side], [
-        X("dots", { art: big ? "big" : "small", h: 11 }),
-        !big && X("lite"),
-        S([X("shade", { cls: "pk", g: 1 }), X("boogie", { h: 2, s: 5 }), X("solid", { cls: "bl", h: 3 })])
-      ]),
-      V(roomy ? [4, .23, .33, 40, 0] : [4, .29, .4, 0, 0], [
-        S([X("solid", { cls: "yl", h: 6 }), X("shade", { cls: "k", h: 2 }), X("rain", { g: 1 })]),
-        S([X("noise", { c: "hello", cls: "tc", g: 1 }), X("dump", { c: "write", cls: "pk b" })]),
-        S([X("hex", { c: "fm", cls: "tc", g: 1 }), X("boogie", { h: 2, s: 9 })]),
-        roomy && speakers,
-        X("bin", { c: "card", cls: "tc" })
-      ]),
-      V([!roomy && 40, .26, 5, .2, 0, .13], [
-        !roomy && speakers,
-        S([X("ramp", { h: 9, s: 11, cls: "tg" }), X("dots", { c: "p1", cls: "tc" }), X("solid", { cls: "yl", h: 0, g: 1 })]),
-        S([X("shade", { cls: "pk", h: 4 }), X("colon", { g: 1 }), X("solid", { cls: "k", h: 2 })]),
-        S([X("slash", { c: "p2", cls: "tc" }), X("ramp", { h: 6, s: 23, g: 1, cls: "tg" })]),
-        V([0, .42], [X("tilde", { c: "p3", cls: "tc" }), S([X("ramp", { s: 37, g: 1, cls: "tg" }), X("med", { cls: "bl", h: 3 })])]),
-        S([X("boogie", { s: 13, g: 1 }), X("dotgrid", { h: 4 })])
-      ]),
-      V([.2, .31, 5, .27, 0], [
-        S([X("plus", { c: "mp", cls: "tc" }), X("solid", { cls: "bl", h: 3 }), X("colon", { c: "irl", cls: "tc", g: 1 })]),
-        X("hearts", { c: "pod", cls: "tc" }),
-        S([X("solid", { cls: "yl", g: 1 }), X("lite", { h: 5 }), X("shade", { cls: "pk", h: 2 })]),
-        S([X("under", { c: "wr", cls: "tc" }), X("dump", { cls: "pk b", h: 0, g: 1 })]),
-        S([V([.5, 0], [X("shade", { cls: "yl", h: 3 }), X("dots", { h: 3 })]), X("rain", { g: 1 }), V([0, .4], [X("solid", { cls: "k", h: 2 }), X("hash", { cls: "bl b", h: 2 })])])
-      ]),
-      V([.13, 0, .09], [X("blocks", { cls: "bl" }), X("dotgrid", { c: "note", cls: "tc" }), S([X("solid", { cls: "yl", g: 1 }), X("dots", { h: 2 })])]),
-      garden
-    ]);
-  }
-  return S([
-    C >= 49 ? V([43, 0], [X("dots", { art: "small", h: 11 }), S([X("shade", { cls: "pk", g: 1 }), X("solid", { cls: "bl", h: 2 })])]) : X("dots", { art: "small", h: 11 }),
-    V([0, 4], [X("noise", { c: "hello", cls: "tc" }), S([X("solid", { cls: "yl", h: 5 }), X("shade", { cls: "k", h: 2 }), X("rain", { g: 1 })])]),
-    X("dump", { c: "write", cls: "pk b" }),
-    C >= 46 ? V([40, 0], [spk(), S([X("med", { cls: "bl", g: 1 }), X("boogie", { h: 8, s: 3 })])]) : spk(),
-    X("hex", { c: "fm", cls: "tc" }),
-    X("boogie", { h: 2, s: 9 }),
-    V([5, 0], [S([X("solid", { cls: "yl", g: 1 }), X("dotgrid", { h: 3 })]), X("bin", { c: "card", cls: "tc" })]),
-    X("ramp", { h: 7, s: 11, cls: "tg" }),
-    V([0, 4], [X("dots", { c: "p1", cls: "tc" }), X("shade", { cls: "pk" })]),
-    V([.3, 0], [S([X("ramp", { s: 23, g: 1, cls: "tg" }), X("solid", { cls: "k", h: 2 })]), X("slash", { c: "p2", cls: "tc" })]),
-    V([0, 6], [X("tilde", { c: "p3", cls: "tc" }), S([X("med", { cls: "bl", h: 3 }), X("ramp", { s: 37, g: 1, cls: "tg" })])]),
-    V([0, .28], [X("plus", { c: "mp", cls: "tc" }), S([X("solid", { cls: "yl", h: 2 }), X("dots", { g: 1 })])]),
-    X("hearts", { c: "pod", cls: "tc" }),
-    V([4, 0], [X("boogie", { s: 13 }), X("under", { c: "wr", cls: "tc" })]),
-    V([0, .3], [X("colon", { c: "irl", cls: "tc" }), S([X("shade", { cls: "pk", g: 1 }), X("hash", { cls: "bl b", h: 2 })])]),
-    X("blocks", { cls: "bl", h: 2 }),
-    X("dotgrid", { c: "note", cls: "tc" }),
-    garden
-  ]);
-};
-</script>
-<script>
-/* ---------------------------------------------------------------
-   the grid. the whole page is one sheet of characters. the column
-   count is picked for the window and the letters are sized so those
-   columns fill it exactly; a row is one line of text. COMPOSE (above)
-   cuts the sheet into rectangles with lines of dense black characters,
-   every rectangle gets its own texture, and kes's text is set into the
-   rectangles in the same letters, the texture stopping one character
-   short of each word. nothing is random: the same window always draws
-   the same page.
-   --------------------------------------------------------------- */
-(function () {
-  var D = document, root = D.documentElement, comp = D.getElementById("comp"), art = D.getElementById("art");
-  if (!comp || !art || !D.createRange || typeof COMPOSE !== "function") return;
-  root.classList.add("js");
-  var ART = {"big":[[" . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . "," . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . "],[" . .<3 . . . . . . . . . . . . . . . . . . . . .<3 . . . . . . . .<3 . . . . . . . . . . . . . . . . . . . . . . . . . . . . .<3<3 . . . . . . . . . . . . . . . . . "," . .pp . . . . . . . . . . . . . . . . . . . . .pp . . . . . . . .pp . . . . . . . . . . . . . . . . . . . . . . . . . . . . .pppp . . . . . . . . . . . . . . . . . "],[" . .<3 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .<3 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .<3 . . . . . . . . .<3<3 .<3<3 . . . "," . .pp . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .pp . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .pp . . . . . . . . .hhhh .hhhh . . . "],[" . .<3 . .<3 . . .<3<3<3 . . .<3<3<3<3 . . . .<3<3 . .<3 .<3<3 . .<3 . .<3 . . .<3<3<3 . .<3 .<3<3 . . .<3<3<3<3 . .<3<3<3 . . .<3 . . .<3<3<3 . .<3<3<3<3<3<3<3 . . "," . .pp . .pp . . .pppppp . . .pppppppp . . . .pppp . .pp .pppp . .pp . .pp . . .pppppp . .pp .pppp . . .pppppppp . .pppppp . . .pp . . .pppppp . .hhhhhhhhhhhhhh . . "],[" . .<3 .<3 . . .<3 . . .<3 .<3 . . . . . . . . .<3 . .<3<3 . .<3 .<3 .<3 . . .<3 . . .<3 .<3<3 . .<3 .<3 . . . . .<3 . . .<3 . .<3 . .<3 . . .<3 .<3<3<3<3<3<3<3 . . "," . .pp .pp . . .pp . . .pp .pp . . . . . . . . .pp . .pppp . .pp .pp .pp . . .pp . . .pp .pppp . .pp .pp . . . . .pp . . .pp . .pp . .pp . . .pp .hhhhhhhhhhhhhh . . "],[" . .<3<3 . . . .<3<3<3<3<3 . .<3<3<3 . . . . . .<3 . .<3 . . .<3 .<3<3 . . . .<3<3<3<3<3 .<3 . . . . . .<3<3<3 . .<3 . . .<3 . .<3 . .<3<3<3<3<3 . .<3<3<3<3<3 . . . "," . .pppp . . . .pppppppppp . .pppppp . . . . . .pp . .pp . . .pp .pppp . . . .pppppppppp .pp . . . . . .pppppp . .pp . . .pp . .pp . .pppppppppp . .hhhhhhhhhh . . . "],[" . .<3 .<3 . . .<3 . . . . . . . . .<3 . . . . .<3 . .<3 . . .<3 .<3 .<3 . . .<3 . . . . .<3 . . . . . . . . .<3 .<3 . . .<3 . .<3 . .<3 . . . . . . .<3<3<3 . . . . "," . .pp .pp . . .pp . . . . . . . . .pp . . . . .pp . .pp . . .pp .pp .pp . . .pp . . . . .pp . . . . . . . . .pp .pp . . .pp . .pp . .pp . . . . . . .hhhhhh . . . . "],[" . .<3 . .<3 . . .<3<3<3 . .<3<3<3<3 . . . . .<3<3<3 .<3 . . .<3 .<3 . .<3 . . .<3<3<3 . .<3 . . . . .<3<3<3<3 . . .<3<3<3 . .<3<3<3 . .<3<3<3 . . . . .<3 . . . . . "," . .pp . .pp . . .pppppp . .pppppppp . . . . .pppppp .pp . . .pp .pp . .pp . . .pppppp . .pp . . . . .pppppppp . . .pppppp . .pppppp . .pppppp . . . . .hh . . . . . "],[" . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . "," . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . "]],"small":[[" . . . . . . . . . . . . . . . . . . . "," . . . . . . . . . . . . . . . . . . . "],[" .<3 . . . . . . . . . . . . . . . . . "," .pp . . . . . . . . . . . . . . . . . "],[" .<3 . . . . . . . . . . . . . . . . . "," .pp . . . . . . . . . . . . . . . . . "],[" .<3 . .<3 . . .<3<3<3 . . .<3<3<3<3 . "," .pp . .pp . . .pppppp . . .pppppppp . "],[" .<3 .<3 . . .<3 . . .<3 .<3 . . . . . "," .pp .pp . . .pp . . .pp .pp . . . . . "],[" .<3<3 . . . .<3<3<3<3<3 . .<3<3<3 . . "," .pppp . . . .pppppppppp . .pppppp . . "],[" .<3 .<3 . . .<3 . . . . . . . . .<3 . "," .pp .pp . . .pp . . . . . . . . .pp . "],[" .<3 . .<3 . . .<3<3<3 . .<3<3<3<3 . . "," .pp . .pp . . .pppppp . .pppppppp . . "],[" . . . . . . . . . . . . . . . . . . . "," . . . . . . . . . . . . . . . . . . . "]],"spk":[["        \\(^o^)/       <3","        ppppppp       pp"],[".--------------..--------------.","cccccccccccccccccccccccccccccccc"],["| .----.  .--. || .----.  .--. |","c cccccc  cccc cc cccccc  cccc c"],["| |====|  (()) || |====|  (()) |","c cccccc  gggg cc cccccc  gggg c"],["| '----'  '--' || '----'  '--' |","c cccccc  cccc cc cccccc  cccc c"],["'--------------''--------------'","cccccccccccccccccccccccccccccccc"],[".--------------..--------------.","cccccccccccccccccccccccccccccccc"],["|   .------.   ||   .------.   |","c   cccccccc   cc   cccccccc   c"],["|  /  .--.  \\  ||  /  .--.  \\  |  )","c  c  cccc  c  cc  c  cccc  c  c  s"],["| |  ( <3 )  | || |  ( <3 )  | |  ))","c c  g pp g  c cc c  g pp g  c c  ss"],["|  \\  '--'  /  ||  \\  '--'  /  |  )))","c  c  cccc  c  cc  c  cccc  c  c  sss"],["|   '------'   ||   '------'   |  ))","c   cccccccc   cc   cccccccc   c  ss"],["|--------------||--------------|  )","cccccccccccccccccccccccccccccccc  s"],["|    KES FM    ||   170.0 FM   |","c    ppp pp    cc   ggggg gg   c"],["'--------------''--------------'","cccccccccccccccccccccccccccccccc"],["\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"","cccccccccccccccccccccccccccccccc"]],"gdn":[["    _                             _                          _                        _                            _                        _                             _","    p                             g                          p                        g                            p                        g                             g"],["  _(_)_         @               _(_)_         @            _(_)_              @     _(_)_         @              _(_)_    @               _(_)_         @               _(_)_    @","  ppppp         p               ggggg         g            ppppp              p     ggggg         p              ppppp    g               ggggg         g               ggggg    p"],[" (_)@(_)        |/  vVv        (_)@(_)        |/    vVv   (_)@(_)             |/   (_)@(_)  vVv   |/            (_)@(_)   |/  vVv        (_)@(_)        |/  vVv        (_)@(_)   |/  vVv"," ppppppp        cc  ggg        ggggggg        cc    ppp   ppppppp             cc   ggggggg  ggg   cc            ppppppp   cc  ppp        ggggggg        cc  ggg        ggggggg   cc  ggg"],["   (_)    vVv  \\|   (_)    *     (_)    vVv  \\|     (_)     (_)     *   vVv  \\|      (_)    (_)  \\|   vVv   *     (_)    \\|   (_)  vVv     (_)     *   \\|   (_)   vVv    (_)    \\|   (_)  vVv","   ppp    ggg  cc   ggg    g     ggg    ppp  cc     ppp     ppp     g   ggg  cc      ggg    ggg  cc   ppp   g     ppp    cc   ppp  ggg     ggg     p   cc   ggg   ppp    ggg    cc   ggg  ppp"],["    |/    (_)   |   \\|     |/     |/    (_)   |     \\|       |/     |/  (_)   |       |/    \\|    |   (_)   |/     |/     |   \\|   (_)      |/     |/   |   \\|    (_)     |/     |   \\|   (_)","    cc    ggg   c   cc     cc     cc    ppp   c     cc       cc     cc  ggg   c       cc    cc    c   ppp   cc     cc     c   cc   ggg      cc     cc   c   cc    ppp     cc     c   cc   ppp"],["   \\|      |    |    |    \\|     \\|      |    |      |      \\|     \\|    |    |      \\|      |    |    |   \\|     \\|      |    |    |      \\|     \\|    |    |     |     \\|      |    |    |","   cc      c    c    c    cc     cc      c    c      c      cc     cc    c    c      cc      c    c    c   cc     cc      c    c    c      cc     cc    c    c     c     cc      c    c    c"]]};
-  for (var a in ART) ART[a] = { r: ART[a], w: Math.max.apply(0, ART[a].map(function (q) { return q[0].length; })) };
-  var M = "Q\xb10\xf0LDDDDDDDDDDDDDD\xc5\xc2\xc03\xcfDDDDDDDDDDDDDDT,<", P = M.length, N = "";
-  var LN = "Q\xb10\xf0L" + Array(29).join("█") + "\xc5\xc2\xc03\xcf" + Array(29).join("█") + "T,<", PL = LN.length;   // the dump's DDDD, set in black
-  for (var i = 33; i < 256; i++) if (i < 127 || (i > 160 && i !== 173)) N += String.fromCharCode(i);
-  var CL = { p: "pk", g: "bl", h: "hb", c: "ink", s: "bl sound", y: "yl", k: "k", 1: "q1", 2: "q2", 3: "q3" };
-  var IX = 2, IY = 1, CW = 7.7, R = 16, C = 0, ADV = 0, W0 = -1, rects = [], queued = 0, near = null, focus = null;
-  function hash(a, b) { var h = Math.imul(a, 374761393) + Math.imul(b, 668265263) | 0; h = Math.imul(h ^ h >>> 13, 1274126177); return ((h ^ h >>> 16) >>> 0) / 4294967296; }
-  function esc(s) { return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
-
-  // ---------- textures: (row, col, seed, rect) -> one character ----------
-  var TX = {
-    dots: function (y, x) { return x & 1 ? "." : " "; },
-    dotgrid: function (y, x) { return x % 3 === 1 && !(y & 1) ? "\xb7" : " "; },
-    noise: function (y, x, s) { return hash(y + s * 97, x) < .5 ? N[hash(x + s, y * 3 + 1) * N.length | 0] : " "; },
-    fleck: function (y, x, s) { return hash(y + s * 97, x) < .16 ? N[hash(x + s, y * 3 + 1) * N.length | 0] : " "; },
-    hex: function (y, x, s) { var k = x % 3; return k === 2 ? " " : "0123456789ABCDEF"[hash(y + s, x * 5 + 1) * 16 | 0]; },
-    bin: function (y, x, s) { return x & 1 ? " " : hash(y + s, x) < .5 ? "0" : "1"; },
-    slash: function (y, x) { return (x + y) % 4 ? " " : "/"; },
-    tilde: function (y, x) { return (x + (y & 1) * 3) % 6 < 2 ? "~" : " "; },
-    colon: function (y, x) { return x % 3 ? " " : ":"; },
-    plus: function (y, x) { return y & 1 ? (x % 6 === 3 ? "\xb7" : " ") : (x % 6 ? " " : "+"); },
-    hearts: function (y, x, s) { var k = x % 5; return hash(y + s, x / 5 | 0) < .3 ? (k === 1 ? "<" : k === 2 ? "3" : " ") : (k === 3 && y & 1 ? "." : " "); },
-    under: function (y, x, s) { return y & 1 && hash(y + s, x >> 2) < .6 ? "_" : " "; },
-    rain: function (y, x, s) { return x & 1 ? " " : hash(x + s, y >> 1) < .5 ? "'" : " "; },
-    wave: function (y, x) { return (x + y * 2) % 7 ? " " : ")"; },
-    ground: function (y, x, s, r) { return y === r.h - 1 ? (hash(x, s) < .7 ? "," : ".") : " "; },
-    dump: function (y, x, s) { return M[(x + y * 11 + s) % P]; },
-    blocks: function (y, x, s) { return LN[(x + y * 11 + s) % PL]; },
-    solid: function () { return "█"; },
-    shade: function () { return "▓"; },
-    med: function () { return "▒"; },
-    lite: function () { return "░"; },
-    hash: function () { return "#"; }
-  };
-  // a photo stand-in: soft light, set in a character ramp, dithered
-  var RAMP = " .:-=+*o%#&8@", BAY = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5];
-  function ramp(w, h, s) {
-    var t = hash(s, 1) * 6.283, B = [[hash(s, 2), hash(s, 3), .25 + hash(s, 4) * .2], [hash(s, 5), hash(s, 6), .15 + hash(s, 7) * .15]], L = [], lo = 1e9, hi = -1e9, x, y, j, rows = [];
-    for (y = 0; y < h; y++) for (x = 0; x < w; x++) {
-      var u = x / (w - 1 || 1), v = y / (h - 1 || 1), g = .35 * ((u - .5) * Math.cos(t) + (v - .5) * Math.sin(t));
-      for (j = 0; j < 2; j++) { var dx = (u - B[j][0]) * w / h * .48, dy = v - B[j][1]; g += Math.exp(-(dx * dx + dy * dy) / (B[j][2] * B[j][2])); }
-      L.push(g); lo = Math.min(lo, g); hi = Math.max(hi, g);
-    }
-    for (y = 0; y < h; y++) {
-      var row = "";
-      for (x = 0; x < w; x++) row += RAMP[Math.min(12, Math.floor(Math.pow(1 - (L[y * w + x] - lo) / (hi - lo || 1), 1.4) * 12 + BAY[(y & 3) * 4 + (x & 3)] / 16))];
-      rows.push(row);
-    }
-    return [rows, null];
-  }
-  // boogie woogie: a run of small squares, cut by short black bars
-  function boogie(w, h, s) {
-    var hor = w >= h * 2, n = hor ? w : h, seg = [], i = 0, k = 0, j, rows = [], codes = [];
-    while (i < n) {
-      var len = hor ? 2 + (hash(s, k) * 4 | 0) : 1 + (hash(s, k) * 2 | 0), q = "11123w"[hash(s + 7, k) * 6 | 0];
-      for (j = 0; j < len && i < n; j++) seg[i++] = q;
-      for (j = 0; j < (hor ? 2 : 1) && i < n; j++) seg[i++] = "k";
-      k++;
-    }
-    for (var y = 0; y < h; y++) {
-      var t = "", c = "";
-      for (var x = 0; x < w; x++) { var z = seg[hor ? x : y]; t += z === "k" ? LN[(x + y * 13 + s) % PL] : z === "w" ? "\xb7" : "█"; c += z === "w" ? " " : z; }
-      rows.push(t); codes.push(c);
-    }
-    return [rows, codes];
-  }
-
-  // ---------- the tree: X is a rectangle, V puts things side by side, S stacks them ----------
-  function X(t, o) { o = o || {}; o.t = t; return o; }
-  function V(w, k) { var ws = [], ks = []; k.forEach(function (n, i) { if (n) { ks.push(n); ws.push(w[i]); } }); return ks.length === 1 ? ks[0] : { d: "v", w: ws, k: ks }; }
-  function S(k) { k = k.filter(Boolean); return k.length === 1 ? k[0] : { d: "h", k: k }; }
-  function split(n, w) {
-    var k = n.k.length, av = w - 2 * (k - 1), out = [], sum = 0, rest = k - 1;
-    n.w.forEach(function (s, i) { var v = !s ? 0 : s < 1 ? Math.round(s * av) : s; if (!s) rest = i; out.push(v); });
-    out[rest] = 0; out.forEach(function (v) { sum += v; }); out[rest] = av - sum;
-    while (out[rest] < 4) { var big = out.indexOf(Math.max.apply(0, out)); if (big === rest || out[big] <= 4) break; out[big]--; out[rest]++; }
-    return out;
-  }
-  function nat(n, w) {
-    if (n._w === w) return n._h;
-    var h = 0;
-    if (n.d === "v") { var ws = split(n, w); n.k.forEach(function (k, i) { h = Math.max(h, nat(k, ws[i])); }); }
-    else if (n.d) { h = -1; n.k.forEach(function (k) { var v = nat(k, w); if (v) h += v + 1; }); h = Math.max(h, 0); }
-    else {
-      h = n.h != null ? n.h : 1;
-      if (n.c) { var el = D.getElementById(n.c); el.style.width = (w - 2 * IX) * CW + "px"; h = Math.max(h, Math.ceil(el.offsetHeight / R - .05) + 2 * IY); }
-    }
-    n._w = w; n._h = h;
-    return h;
-  }
-  function place(n, x, y, w, h, lines) {
-    if (!n.d) { if (w > 0 && h > 0) rects.push({ n: n, x: x, y: y, w: w, h: h }); return; }
-    if (n.d === "v") {
-      var ws = split(n, w);
-      n.k.forEach(function (k, i) { place(k, x, y, ws[i], h, lines); x += ws[i]; if (i < ws.length - 1) { lines.push([x, y, 2, h]); x += 2; } });
-      return;
-    }
-    var hs = n.k.map(function (k) { return nat(k, w); }), extra = h - nat(n, w), g = 0, last = -1, lg = -1, left;
-    n.k.forEach(function (k, i) { if (!hs[i] && k.g && extra >= 3) { hs[i] = extra - 1; extra = 0; } });   // a plane that only shows when there's room
-    n.k.forEach(function (k, i) { if (hs[i]) { last = i; if (k.g) { g += k.g; lg = i; } } });
-    if (extra > 0) {
-      if (!g) hs[last] += extra;
-      else { left = extra; n.k.forEach(function (k, i) { if (hs[i] && k.g) { var e = Math.floor(extra * k.g / g); hs[i] += e; left -= e; } }); hs[lg] += left; }
-    }
-    var first = true;
-    n.k.forEach(function (k, i) { if (!hs[i]) return; if (!first) { lines.push([x, y, w, 1]); y++; } first = false; place(k, x, y, w, hs[i], lines); y += hs[i]; });
-  }
-
-  // ---------- where kes's letters are, so the texture can stop short of them ----------
-  function mask(el, r, cb) {
-    var m = {}, eb = el.getBoundingClientRect(), rg = D.createRange(), tw = D.createTreeWalker(el, 4), t;
-    function add(b) {
-      var l = Math.max(b.left, eb.left), rt = Math.min(b.right, eb.right);
-      if (rt - l < .5 || b.bottom - b.top < .5) return;
-      var r0 = Math.floor((b.top - cb.top) / R + .3), r1 = Math.ceil((b.bottom - cb.top) / R - .3),
-          c0 = Math.round((l - cb.left) / CW) - 1, c1 = Math.round((rt - cb.left) / CW) + 1;
-      for (var y = Math.max(r0, r.y); y < Math.min(r1, r.y + r.h); y++)
-        for (var x = Math.max(c0, r.x); x < Math.min(c1, r.x + r.w); x++) m[(y - r.y) * r.w + x - r.x] = 1;
-    }
-    while ((t = tw.nextNode())) {
-      if (t.parentNode.closest("button")) continue;
-      rg.selectNodeContents(t);
-      [].forEach.call(rg.getClientRects(), add);
-    }
-    [].forEach.call(el.querySelectorAll("button, #status, #lcdinfo"), function (b) {
-      var q = b.getBoundingClientRect(), cs = getComputedStyle(b), pl = parseFloat(cs.paddingLeft) || 0, pr = parseFloat(cs.paddingRight) || 0, pt = parseFloat(cs.paddingTop) || 0, pb = parseFloat(cs.paddingBottom) || 0;
-      add({ left: q.left + pl, right: q.right - pr, top: q.top + pt, bottom: q.bottom - pb });
-    });
-    return m;
-  }
-
-  // ---------- drawing ----------
-  function draw(r, cb) {
-    var n = r.n, f = TX[n.t] || TX.dots, s = n.s || (r.x * 31 + r.y * 7 + 3), sp = n.t === "ramp" ? ramp(r.w, r.h, s) : n.t === "boogie" ? boogie(r.w, r.h, s) : null;
-    var mk = n.c ? mask(D.getElementById(n.c), r, cb) : null, ov = n.art && ART[n.art], ax = n.ax == null ? 2 : n.ax, ay = n.ay == null ? 1 : n.ay, per = ov ? ov.w + (n.tile || 0) : 0, out = "";
-    for (var y = 0; y < r.h; y++) {
-      var cur = "", row = ov && ov.r[y - ay];
-      for (var x = 0; x < r.w; x++) {
-        var ch = sp ? sp[0][y][x] : f(y, x, s, r), cd = sp && sp[1] ? sp[1][y][x].trim() : "";
-        if (row) {
-          var ox = x - ax; if (n.tile) ox = (ox % per + per) % per;
-          var oc = row[1][ox];
-          if (oc && (n.op || (oc !== " " && oc !== "."))) { ch = row[0][ox]; cd = oc === " " || oc === "." ? "" : oc; }
-        }
-        if (mk && mk[y * r.w + x]) { ch = " "; cd = ""; }
-        if (cd !== cur) { out += (cur ? "</b>" : "") + (cd ? '<b class="' + CL[cd] + '">' : ""); cur = cd; }
-        out += ch === "<" ? "&lt;" : ch === "&" ? "&amp;" : ch === ">" ? "&gt;" : ch;
-      }
-      out += (cur ? "</b>" : "") + "\n";
-    }
-    return '<pre class="' + (n.cls || "tx") + '"' + (n.c ? ' data-c="' + n.c + '"' : "") + ' style="left:' + r.x * CW + "px;top:" + r.y * R + "px;width:" + r.w * CW + "px;height:" + r.h * R + 'px">' + out + "</pre>";
-  }
-  function rules(lines, H) {
-    var g = [], y, x;
-    for (y = 0; y < H; y++) g.push([]);
-    lines.forEach(function (l) {
-      for (y = l[1]; y < l[1] + l[3]; y++) for (x = l[0]; x < l[0] + l[2]; x++) if (g[y]) g[y][x] = l[2] === 2 ? LN[(y + x * 3 + 5) % PL] : LN[(x + y * 13) % PL];
-    });
-    return '<pre class="ln" style="left:0;top:0;width:' + C * CW + "px;height:" + H * R + 'px">' + g.map(function (row) { var s = ""; for (x = 0; x < C; x++) s += row[x] || " "; return esc(s); }).join("\n") + "</pre>";
-  }
-
-  // ---------- size the letters to the window, then build ----------
-  var probe = D.createElement("span");
-  probe.setAttribute("aria-hidden", "true");
-  probe.style.cssText = "position:absolute;left:0;top:0;visibility:hidden;white-space:pre;font-weight:400;letter-spacing:0";
-  function adv(px, n) { probe.style.fontSize = px; probe.textContent = Array(n + 1).join("D"); return probe.getBoundingClientRect().width / n; }
-  function layout(force) {
-    queued = 0;
-    var W = root.clientWidth;
-    if (W === W0 && !force) return;
-    W0 = W;
-    D.body.appendChild(probe);
-    if (!ADV) ADV = adv("100px", 40) / 100 || .6;
-    C = Math.max(30, Math.round(W / 7.7));
-    var fs = (W / C / ADV).toFixed(3) + "px";
-    root.style.setProperty("--fs", fs);
-    CW = adv(fs, 200) || W / C;
-    R = Math.max(12, Math.round(CW * 2.08));
-    root.style.setProperty("--r", R + "px");
-    C = Math.ceil(W / CW - .02);
-    probe.remove();
-
-    var tree = COMPOSE(C, X, V, S), lines = [];
-    rects = [];
-    var H = nat(tree, C);
-    place(tree, 0, 0, C, H, lines);
-    comp.style.height = H * R + "px";
-    rects.forEach(function (r) {
-      if (!r.n.c) return;
-      var st = D.getElementById(r.n.c).style;
-      st.left = (r.x + IX) * CW + "px"; st.top = (r.y + IY) * R + "px"; st.width = (r.w - 2 * IX) * CW + "px";
-    });
-    var cb = comp.getBoundingClientRect(), html = "";
-    rects.forEach(function (r) { html += draw(r, cb); });
-    art.innerHTML = html + rules(lines, H);
-    mark();
-  }
-
-  // ---------- the one reveal: the rectangle under the cursor (or holding focus) lets its text come forward ----------
-  function mark() {
-    var el = focus || near;
-    [].forEach.call(D.querySelectorAll(".near"), function (e) { e.classList.remove("near"); });
-    if (!el) return;
-    el.classList.add("near");
-    var p = art.querySelector('pre[data-c="' + el.id + '"]');
-    if (p) p.classList.add("near");
-  }
-  comp.addEventListener("pointermove", function (e) {
-    var b = comp.getBoundingClientRect(), x = (e.clientX - b.left) / CW, y = (e.clientY - b.top) / R, hit = null;
-    for (var i = 0; i < rects.length; i++) { var r = rects[i]; if (r.n.c && x >= r.x && x < r.x + r.w && y >= r.y && y < r.y + r.h) { hit = D.getElementById(r.n.c); break; } }
-    if (hit !== near) { near = hit; mark(); }
-  });
-  comp.addEventListener("pointerleave", function () { near = null; mark(); });
-  D.addEventListener("focusin", function (e) { focus = e.target.closest ? e.target.closest(".blk") : null; mark(); });
-  D.addEventListener("focusout", function () { focus = null; mark(); });
-
-  var again = false;
-  function later(force) { again = again || force; if (!queued) queued = requestAnimationFrame(function () { var f = again; again = false; layout(f); }); }
-  addEventListener("resize", function () { later(false); });
-  var fm = D.getElementById("fm");
-  if (fm && window.MutationObserver) new MutationObserver(function () { later(true); }).observe(fm, { childList: true, characterData: true, subtree: true });
-  var tk = D.querySelector(".ticker > div > span");
-  if (tk) tk.parentNode.style.animationTimingFunction = "steps(" + (tk.textContent.length + 1) + ")";
-  layout(true);
-})();
-
-</script>
 <script>
 /* ===== KES FM engine: paste VERBATIM, do not edit =====
    it expects: var onAir, var happy, var still, function look() (no-ops are fine),
@@ -572,7 +261,7 @@ var COMPOSE = function (C, X, V, S) {
 var onAir = false;
 var happy = false;
 var still = matchMedia("(prefers-reduced-motion: reduce)").matches;
-function look() {}
+function look(mark) { if (window.kesLook) window.kesLook(mark); }
 /* ---------------------------------------------------------------
    KES FM 170.0
    a jungle machine. there are no samples in here: the break is
@@ -942,12 +631,263 @@ function look() {}
 })();
 
 </script>
+
 <script>
-/* the volume, as a bar of characters over the real slider */
+/* the composition: one lozenge rasterised into characters, two lines, and a grid that fits the window */
 (function () {
-  var v = document.getElementById("vol"), bar = document.querySelector(".vol .bar");
-  function show() { var n = Math.round(v.value * 10); bar.textContent = "[" + "==========".slice(0, n) + "··········".slice(0, 10 - n) + "]"; }
-  v.addEventListener("input", show); show();
+  var D = document, H = D.documentElement, $ = function (s) { return D.querySelector(s); };
+  var art = $("#art"), spine = $("#spine"), page = $("#page");
+  var RM = window.matchMedia ? matchMedia("(prefers-reduced-motion: reduce)") : { matches: false };
+  function calm() { return still || RM.matches; }
+  var S = { inn: !H.classList.contains("gated"), ext: 0, ext0: 0, phi: 0, spin0: 0, pulse0: 0, pulse: 0, plane: -1, rip: [], step: -1, beat: 0, drawn: 0 };
+  if (S.inn) S.ext = 1;
+  var G = null, COL = ["p", "u", "y"];
+
+  // how wide is one character of this machine's monospace, per px of font size
+  var ratio = (function () {
+    var s = D.createElement("span");
+    s.style.cssText = "position:absolute;left:-999em;top:0;white-space:pre;font-size:100px;line-height:1";
+    s.textContent = "MMMMMMMMMM"; D.body.appendChild(s);
+    var w = s.getBoundingClientRect().width / 1000; D.body.removeChild(s);
+    return w > .3 && w < 1 ? w : .6;
+  })();
+
+  // 2x2 samples per character cell -> full and half blocks
+  var HALF = { 3: "▀", 12: "▄", 5: "▌", 10: "▐" };
+  function bits(p) { return (p & 1) + (p >> 1 & 1) + (p >> 2 & 1) + (p >> 3 & 1); }
+  function blk(p) { var n = bits(p); return n >= 3 || p === 6 || p === 9 ? "█" : n === 2 ? HALF[p] : ""; }
+
+  // rasterise one lozenge. L: cx, cy (cells), d (half-width in columns; the height is d rows),
+  // v: vertical lines [x0, x1] in columns from cx, h: horizontal lines [y0, y1] in rows from cy. fx: the live bits (main painting only)
+  function raster(L, C, R, fx) {
+    var cw = G.cw, lh = G.lh, dp = L.d * cw, ph = fx ? fx.phi : 0, co = Math.cos(ph), si = Math.sin(ph), pw = fx ? fx.pw : 0;
+    var V = L.v.map(function (a) { return [a[0] * cw - pw, a[1] * cw + pw]; }), Hh = L.h.map(function (a) { return [a[0] * lh, a[1] * lh]; });
+    var out = [];
+    for (var r = 0; r < R; r++) {
+      var line = "", run = "", rk = null;
+      for (var c = 0; c < C; c++) {
+        var pb = 0, pi = 0, hot = 0, ch = " ", k = "";
+        if (!(fx && fx.gap(c, r))) {
+          for (var s = 0; s < 4; s++) {
+            var X = (c + (s & 1 ? .75 : .25) - L.cx) * cw, Y = (r + (s & 2 ? .75 : .25) - L.cy) * lh;
+            var u = X * co + Y * si, v = Y * co - X * si;
+            if (Math.abs(u) + Math.abs(v) <= dp) {
+              pi |= 1 << s;
+              var onv = false, onh = false, i;
+              for (i = 0; i < V.length; i++) if (u >= V[i][0] && u < V[i][1]) onv = true;
+              for (i = 0; i < Hh.length; i++) if (v >= Hh[i][0] && v < Hh[i][1]) onh = true;
+              if (onv || onh) { pb |= 1 << s; if (fx && onh && !onv && fx.hot(u)) hot++; }
+            } else if (fx && fx.ext(X, Y)) pb |= 1 << s;
+          }
+          var b = blk(pb);
+          if (b) { ch = b; k = hot > 1 ? "p" : "k"; }
+          else if (bits(pi) >= 2) {
+            var e = fx && fx.paint((c + .5 - L.cx) * cw * co + (r + .5 - L.cy) * lh * si, (r + .5 - L.cy) * lh * co - (c + .5 - L.cx) * cw * si);
+            if (e) { ch = e[0]; k = e[1]; }
+            else if (pi !== 15) { ch = "·"; k = "g"; }   // the canvas edge, a dotted hairline
+          }
+        }
+        if (k !== rk) { if (run) line += rk ? '<i class="' + rk + '">' + run + "</i>" : run; run = ""; rk = k; }
+        run += ch;
+      }
+      if (run) line += rk ? '<i class="' + rk + '">' + run + "</i>" : run;
+      out.push(line.replace(/\s+$/, ""));
+    }
+    return out.join("\n");
+  }
+
+  // ---------- layout: columns and rows for this window ----------
+  var B = {};
+  ["title", "go", "quiet", "speaker", "hello", "presents", "p1", "p2", "p3", "more", "writing", "written", "pods", "irl", "foot"].forEach(function (n) { B[n] = $("#b-" + n); });
+  B.fm = $("#fm");
+
+  function layout() {
+    var W = H.clientWidth, VH = window.innerHeight;
+    var t = W < 640 ? 7.6 : Math.max(7.8, Math.min(10.5, W / 168));
+    var C = Math.max(36, Math.round(W / t)), cw = W / C, lh = 2 * cw;
+    H.style.setProperty("--cw", cw + "px"); H.style.setProperty("--lh", lh + "px"); H.style.setProperty("--fs", (cw / ratio) + "px");
+    var R = Math.max(30, Math.floor(VH / lh));
+    var g = G = { W: W, C: C, R: R, cw: cw, lh: lh };
+    var wide = C >= 140, d, cx, cy, wv, hh;
+    if (wide) {
+      wv = 4; hh = 2;
+      d = Math.min(R - 6, Math.floor(C / 2) - 38); d -= d % 2;
+      cx = Math.floor(C / 2); cy = Math.floor((R - d) / 2) + d / 2;
+    } else {
+      wv = 2; hh = 1;
+      var colW = Math.min(76, C - 10), vmax = C - 4 - colW - wv;
+      d = Math.min(R - 14, Math.floor((C - 2 - vmax) / 1.3)); d -= d % 2;
+      cx = Math.floor(C / 2);
+      if (cx - Math.round(.3 * d) - wv / 2 > vmax) cx = vmax + wv / 2 + Math.round(.3 * d);
+      cy = 2 + d / 2;
+    }
+    var vx = cx - Math.round(.3 * d) - wv / 2;                 // first column of the heavy vertical
+    var h0 = 2 * cy + Math.round(d / 2) - Math.floor(hh / 2);  // first half-row of the light horizontal
+    if (hh === 2) h0 -= h0 % 2;                                // a whole row, so the play button sits inside it
+    g.wide = wide; g.d = d; g.cx = cx; g.cy = cy; g.vx = vx; g.wv = wv; g.h0 = h0; g.hh = hh;
+    g.L = { cx: cx, cy: cy, d: d, v: [[vx - cx, vx + wv - cx]], h: [[h0 / 2 - cy, (h0 + hh) / 2 - cy]] };
+    g.goRow = Math.floor(h0 / 2); g.goC0 = vx + wv; g.goC1 = vx + wv + 15;
+    g.exitY = ((d - (cx - vx)) / 2) * lh;                       // where the heavy line leaves the canvas, px below centre
+
+    art.style.width = W + "px";
+    function put(el, col, row, w) {
+      el.style.left = col * cw + "px"; el.style.top = row * lh + "px"; el.style.width = w * cw + "px";
+      return row + Math.max(1, Math.round(el.offsetHeight / lh));
+    }
+    put(B.go, vx + wv + 1, g.goRow, g.goC1 - g.goC0 - 1);
+
+    var top = cy - d / 2, bot = cy + d / 2, wl = cx - d - 4, wr = C - 4 - (cx + d), walls = wide && wl >= 32 && wr >= 30;
+    var lx = 2, lw = vx - 5, rx = vx + wv + 3, rw = Math.min(76, C - 2 - rx), twoCol = lw >= 30;
+    var gated = H.classList.contains("gated");
+    var L = [], Rr = [], lrow, rrow;
+    if (walls) {
+      var r1 = put(B.title, cx + d + 2, top, wr);
+      put(B.quiet, cx + d + 2, g.goRow, wr);
+      var r2 = put(B.hello, cx + d + 2, r1 + 1, wr);
+      var r3 = put(B.fm, 2, top, wl), sp = r3 + 1, fits = sp + 16 <= R;
+      for (var q = sp; fits && q < sp + 16; q++) if (cx - d + 2 * Math.abs(q + .5 - cy) < 2 + (q - sp >= 7 && q - sp <= 12 ? 39 : 34)) fits = false;
+      if (fits) r3 = put(B.speaker, 2, sp, 40);
+      lrow = Math.max(R + 1, r3 + 2); rrow = Math.max(R + 1, r2 + 2);
+      L = fits ? [B.written, B.pods, B.irl] : [B.speaker, B.written, B.pods, B.irl];
+      Rr = [B.presents, B.p1, B.p2, B.p3, B.more, B.writing, B.foot];
+    } else {
+      var rt = put(B.title, rx, bot + 2, rw);
+      if (gated) put(B.quiet, rx, rt + 1, rw);
+      rrow = lrow = rt + 2;
+      if (twoCol) { L = [B.fm, B.speaker, B.written, B.pods, B.irl]; Rr = [B.hello, B.presents, B.p1, B.p2, B.p3, B.more, B.writing, B.foot]; lrow = Math.max(lrow, bot + 2); }
+      else Rr = [B.fm, B.speaker, B.hello, B.presents, B.p1, B.p2, B.p3, B.more, B.writing, B.written, B.pods, B.irl, B.foot];
+    }
+    minis();
+    L.forEach(function (el) { lrow = put(el, lx, lrow, lw) + 3; });
+    Rr.forEach(function (el) { rrow = put(el, rx, rrow, rw) + 3; });
+    var rows = Math.max(R, lrow, rrow) + 1;
+    g.rows = rows;
+    page.style.height = rows * lh + "px";
+    // the long line: a solid run of █, set tighter than the text rows so no gaps show
+    var fs = cw / ratio, sh = Math.max(0, rows - R) * lh;
+    spine.style.left = vx * cw + "px"; spine.style.top = R * lh + "px"; spine.style.height = sh + "px";
+    spine.style.setProperty("--sl", fs + "px");
+    spine.textContent = new Array(Math.ceil(sh / fs) + 2).join(new Array(wv + 1).join("█") + "\n");
+    spine.classList.toggle("up", S.ext >= 1);
+    draw(performance.now(), true);
+  }
+
+  // the three "(picture to come)" placeholders: little lozenges from the same family
+  function minis() {
+    [].forEach.call(D.querySelectorAll(".mini"), function (el) {
+      var d = 12, C = 2 * d + 2, R = d + 2;
+      var L = { cx: d + 1, cy: R / 2, d: d,
+        v: el.dataset.v.split(" ").map(function (a) { var x = Math.round(+a * d); return [x - .5, x + .5]; }),
+        h: el.dataset.h.split(" ").map(function (a) { var y = Math.round(+a * d) / 2; return [y - .25, y + .25]; }) };
+      el.innerHTML = raster(L, C, R, null);
+    });
+  }
+
+  // ---------- the live painting ----------
+  function bass() { var m = /bass: (\w+)/.exec(($("#lcdinfo") || {}).textContent || ""); return m ? m[1] : "sub"; }
+  var FX = {
+    phi: 0, pw: 0,
+    gap: function (c, r) { return r === G.goRow && c >= G.goC0 && c < G.goC1; },
+    hot: function (u) {
+      if (S.step < 0) return false;
+      var y = (G.h0 + G.hh / 2) / 2 - G.cy, half = (G.d - 2 * y) * G.cw;   // the light line's half-length, px
+      return Math.floor((u + half) / (2 * half) * 32) === S.step;
+    },
+    ext: function (X, Y) {
+      if (S.ext <= 0 || Y <= 0) return false;
+      var x0 = (G.vx - G.cx) * G.cw, x1 = x0 + G.wv * G.cw;
+      return X >= x0 && X < x1 && Y < G.exitY + S.ext * (G.R * G.lh);
+    },
+    paint: function (u, v) {
+      var cw = G.cw, lh = G.lh, x0 = (G.vx - G.cx) * cw, y1 = ((G.h0 + G.hh) / 2 - G.cy) * lh;
+      if (S.plane >= 0 && u < x0 && v > y1) return ["█", COL[S.plane]];
+      if (!S.rip.length) return null;
+      var xc = x0 + G.wv * cw / 2, yc = ((G.h0 + G.hh / 2) / 2 - G.cy) * lh, m = Math.abs(u - xc) + Math.abs(v - yc), dp = G.d * cw, now = FX.now;
+      for (var i = S.rip.length - 1; i >= 0; i--) {
+        var q = S.rip[i], rho = (now - q.t) / 1000 * 3.4 * dp * (q.small ? .7 : 1), band = dp * (q.small ? .03 : .075);
+        var x = rho - m;
+        if (x >= 0 && x < band) return [x < band * .4 ? q.lead : q.trail, q.c];
+      }
+      return null;
+    }
+  };
+  function draw(now, force) {
+    if (!G) return;
+    if (!force && now - S.drawn < 33) return;
+    if (!force && window.scrollY > G.R * G.lh) return;
+    S.drawn = now; FX.now = now; FX.phi = S.phi; FX.pw = S.pulse * G.cw;
+    art.innerHTML = raster(G.L, G.C, G.R, FX);
+  }
+
+  var raf = 0;
+  function kick() { if (!raf) raf = requestAnimationFrame(frame); }
+  function ease(k) { return k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2; }
+  function frame(now) {
+    raf = 0;
+    var more = false;
+    if (S.ext < 1) {
+      S.ext = calm() ? 1 : Math.min(1, (now - S.ext0) / 1100);
+      if (S.ext >= 1) spine.classList.add("up"); else more = true;
+    }
+    if (S.spin0) { var k = (now - S.spin0) / 1050; if (k >= 1 || calm()) { S.spin0 = 0; S.phi = 0; } else { S.phi = -2 * Math.PI * ease(k); more = true; } }
+    S.pulse = S.pulse0 ? Math.max(0, 1 - (now - S.pulse0) / 170) : 0;
+    if (S.pulse) more = true;
+    S.rip = S.rip.filter(function (q) { return now - q.t < 700; });
+    if (S.rip.length) more = true;
+    if (onAir && !calm()) {
+      var tr = $("#tracker"), on = tr && tr.querySelector(".on"), i = on ? [].indexOf.call(tr.children, on) : -1;
+      if (i !== S.step) {
+        S.step = i;
+        if (on && /rev|up|roll/.test(on.className)) {
+          var c = /rev/.test(on.className) ? "p" : /up/.test(on.className) ? "y" : "u";
+          S.rip.push({ t: now, c: c, lead: "·", trail: "·", small: 1 });
+        }
+      }
+      more = true;
+    }
+    draw(now, !more);
+    if (more) kick();
+  }
+
+  // look(): the engine calls it every beat ("^" every other beat, "@" on pull up, nothing on stop/resume)
+  window.kesLook = function (mark) {
+    var go = $("#go");
+    go.textContent = onAir ? "● on air     " : "▶ play KES FM";
+    if (!onAir) { S.step = -1; S.plane = -1; S.rip = []; S.pulse0 = 0; S.spin0 = 0; S.phi = 0; draw(performance.now(), true); return; }
+    if (calm() || mark === undefined) { kick(); return; }
+    var now = performance.now(), md = bass();
+    S.beat++; S.pulse0 = now;
+    S.rip.push({ t: now, c: COL[S.beat % 3], lead: md === "reese" ? "▓" : md === "off" ? "·" : "▒", trail: md === "off" ? " " : "░" });
+    if (S.rip.length > 5) S.rip.shift();
+    if (mark === "^") S.plane = (S.plane + 1) % 3;
+    if (mark === "@") { S.spin0 = now; S.plane = -1; }
+    kick();
+  };
+
+  // ---------- the gate ----------
+  function enter(how) {
+    if (S.inn) return;
+    S.inn = true;
+    H.classList.remove("gated"); H.classList.add("in");
+    try { sessionStorage.setItem("kes-in", "1"); } catch (e) {}
+    S.ext0 = performance.now(); S.ext = calm() ? 1 : 0.0001;
+    layout(); kick();
+    if (how === "quiet") { var h = $("#fm-h"); h.setAttribute("tabindex", "-1"); h.focus({ preventScroll: true }); }
+  }
+  $("#go").addEventListener("click", function () { enter("play"); kick(); });
+  $("#quiet").addEventListener("click", function () { enter("quiet"); });
+  D.addEventListener("focusin", function (e) { if (!S.inn && e.target.id !== "go" && e.target.id !== "quiet") enter("tab"); });
+
+  // the volume as characters: [=====|-----]
+  var vol = $("#vol"), bar = $(".vol .bar");
+  function vbar() { var n = Math.round(+vol.value * 10); bar.textContent = "[" + new Array(n + 1).join("=") + "|" + new Array(11 - n).join("-") + "]"; }
+  vol.addEventListener("input", vbar); vbar();
+
+  var rt = 0, lastW = 0;
+  window.addEventListener("resize", function () { clearTimeout(rt); rt = setTimeout(function () { if (H.clientWidth !== lastW || !G || Math.floor(window.innerHeight / G.lh) !== G.R) { lastW = H.clientWidth; layout(); } }, 120); });
+  window.addEventListener("scroll", function () { if (onAir || S.rip.length) kick(); }, { passive: true });
+  lastW = H.clientWidth;
+  layout();
 })();
 </script>
 </body>

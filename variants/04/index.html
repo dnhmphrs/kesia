@@ -3,298 +3,176 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="color-scheme" content="light">
 <title>kes inkersole</title>
-<meta name="description" content="kes inkersole (kesia on paper): freelance creative strategist and internet equalities researcher, based in london.">
+<script>(function(d){d.classList.add("js");var g=true;try{g=sessionStorage.getItem("kes-in")!=="1"}catch(e){}if(g)d.classList.add("gated")})(document.documentElement);</script>
 <style>
-/* kes inkersole: a mondrian made of characters.
-   one monospace grid, as many columns as fit the window exactly. the lines are runs of black blocks,
-   the white rectangles are fields of quiet characters, the planes are pink, blue and yellow characters.
-   her words are written into the rectangles in the same font and size, one shade darker than the field.
-   links are electric blue; her hot pink is under your mouse. no borders, boxes or panels anywhere. */
+/* white ground, black type, electric-blue links, hot-pink highlight. hot pink stands in for mondrian's red */
 :root {
-  --ink: #000;
-  --paper: #fff;
-  --blue: #0038ff;
-  --pink: #ff2d87;
-  --yellow: #ffd200;
-  --tx: #a3a3a3;    /* quiet texture */
-  --tx2: #c6c6c6;   /* dense texture */
-  --hush: #ececec;  /* texture under your mouse */
-  --txt: #4a4a4a;   /* her words */
-  --soft: #8a8a8a;  /* labels and readouts */
-  --mono: ui-monospace, Menlo, Consolas, "DejaVu Sans Mono", "Liberation Mono", "Courier New", monospace;
-  --fs: 13px;
-  --rh: 16px;
+  --paper: #ffffff; --ink: #000000; --pink: #ff1f8f; --blue: #1a36ff; --yellow: #ffd200; --grey: #8a8a8a; --pale: #c4c4c4;
+  --mono: ui-monospace, "SF Mono", Menlo, Monaco, Consolas, "DejaVu Sans Mono", "Liberation Mono", "Courier New", monospace;
+  --fs: 15px; --lh: 17.5px; --cw: 9px;
 }
-* { box-sizing: border-box; }
-html { background: var(--paper); color: var(--txt); font: var(--fs)/var(--rh) var(--mono); overflow-y: scroll; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
-body { margin: 0; overflow-x: clip; }
-h1, h2, h3, p, ul, dl, dt, dd, pre { margin: 0; padding: 0; font: inherit; }
-ul { list-style: none; }
-::selection { background: var(--pink); color: var(--ink); }
-.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-
-/* ---------- the field ---------- */
+html { background: var(--paper); color: var(--ink); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 400 var(--fs)/var(--lh) var(--mono);
+  font-variant-ligatures: none; font-kerning: none; letter-spacing: 0; }
 #page { position: relative; overflow: hidden; }
-#grid { position: absolute; left: 0; top: 0; pointer-events: none; -webkit-user-select: none; user-select: none; }
-#grid pre { display: block; white-space: pre; }
-#grid i { font-style: normal; }
-#grid .a { color: var(--tx); }
-#grid .b { color: var(--tx2); }
-#grid .h { color: var(--hush); }
-#grid .l { color: var(--ink); }
-#grid .m { color: var(--ink); font-weight: 700; }
-#grid .p, #grid .n { color: var(--pink); }
-#grid .u, #grid .e { color: var(--blue); }
-#grid .y { color: var(--yellow); }
-#grid .d { color: var(--ink); font-weight: 700; }
-#grid .q { color: var(--pink); font-weight: 700; }
-#grid .f { color: #8f8f8f; }
-#grid .o { color: var(--ink); }
+.vh { position: absolute !important; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 
-/* ---------- her words, on the same grid ---------- */
-.js .cell { position: absolute; }
-.js .band { position: absolute; left: 0; width: 100%; height: 0; }
-html:not(.js) #page { padding: var(--rh) 2ch; max-width: 84ch; }
-html:not(.js) .cell { margin-bottom: calc(2 * var(--rh)); }
-.cell > * + * { margin-top: var(--rh); }
-.cell > .lbl + *, .cell > .tight { margin-top: 0; }
-h2, h3, .hi b, .bye b { font-weight: 700; color: #111; }
-.lbl, .soft, .card dt { color: var(--soft); }
-.lbl { font-weight: 400; }
-.sy { display: inline-block; width: 1ch; height: var(--rh); vertical-align: top; overflow: hidden; text-align: center; text-indent: 0; font-style: normal; }
-.heart { color: var(--pink); }
+/* the composition: positioned runs of characters, all aria-hidden */
+#art { position: absolute; inset: 0; pointer-events: none; }
+#art pre, .redpre { position: absolute; margin: 0; overflow: hidden; font: inherit; line-height: var(--lh); white-space: pre; }
+.ln, .pl .k { color: var(--ink); text-shadow: 0 .6px 0 currentColor, 0 -.6px 0 currentColor; } /* closes the hairline between rows of █ in some fonts */
+.pl { font-weight: 700; }
+.c-pink { color: var(--pink); } .c-blue { color: var(--blue); } .c-yellow { color: var(--yellow); }
+.pl .k { color: var(--ink); font-weight: 400; } .pl .y { color: var(--yellow); }
 
-a { color: var(--blue); text-decoration: none; }
-a:hover { background: var(--pink); color: var(--ink); }
-a:focus-visible, button:focus-visible { outline: 0; background: var(--blue); color: var(--paper); }
+/* kes's words, set on the same grid */
+h1, h2, h3, p, ul, li { font: inherit; }
+.cell h2 { font-weight: 700; margin: 0 0 var(--lh); }
+.cell p { margin: 0 0 var(--lh); }
+.cell ul { list-style: none; margin: 0 0 var(--lh); padding: 0; }
+.cell li { padding-left: 2ch; text-indent: -2ch; }
+.cell li::before { content: "· "; color: var(--grey); }
+.cell > :last-child { margin-bottom: 0; }
+.cell .k { color: var(--grey); }
+.cell .t { margin: 0; }
+.js .cell { position: absolute; top: 0; left: 0; margin: 0; }
+.no-js .cell, html:not(.js) .cell { margin: 2em 1ch; max-width: 72ch; }
 
-.ls li { padding-left: 2ch; text-indent: -2ch; }
-.ls .sy { color: var(--soft); }
-.ls li:hover .sy { color: var(--pink); }
-.card dl { display: grid; grid-template-columns: 10ch minmax(0, 1fr); }
-.meta { display: flex; justify-content: space-between; column-gap: 2ch; }
+a { color: var(--blue); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; }
+a:visited { color: var(--blue); }
+a:hover, a:focus-visible { background: var(--pink); color: var(--ink); text-decoration-thickness: 2px; outline: none; }
+[tabindex="-1"]:focus { outline: none; }
 
-/* ---------- KES FM: the speaker is a drawing, the deck is a readout in the dump, the keys are [bracketed] words ---------- */
-#fm-h { color: var(--ink); }
-.speaker { color: var(--ink); width: fit-content; }
-.speaker .c, .speaker .b, .speaker .i { color: var(--ink); }
-.speaker .p, .speaker .y { color: var(--pink); }
-.speaker .g { color: var(--blue); }
-.speaker.lit .p { color: var(--blue); }
-.speaker .sound.thump { animation: thump .3s steps(1); }
-@keyframes thump { 0% { color: var(--pink); } }
+/* ---- the gate: the painting at rest, one thing to do ---- */
+html.gated, html.gated body { overflow: hidden; height: 100%; }
+.gated .deck { opacity: 0; }
+html:not(.gated) .quietp { display: none; }
 
-.lcd { color: var(--soft); }
-.lcd-top { display: flex; justify-content: space-between; column-gap: 2ch; height: var(--rh); overflow: hidden; white-space: nowrap; }
-.lcd-top > span:first-child { color: #111; font-weight: 700; }
-.status { color: #111; }
-body.on-air .status { color: var(--pink); }
-.ticker { overflow: hidden; white-space: nowrap; color: var(--tx); }
-.ticker > div { display: inline-block; }
-.ticker span { padding-right: 1ch; }
-@keyframes run { to { translate: -50% 0; } }
-@media (prefers-reduced-motion: no-preference) { .ticker > div { animation: run 86s steps(343) infinite; } }
-.tracker { display: grid; grid-template-columns: repeat(16, 3ch); }
-.deck.narrow .tracker { grid-template-columns: repeat(8, 3ch); }
-.tracker span { justify-self: start; }
-.tracker .rest { color: var(--tx2); }
-.tracker .roll { text-decoration: underline; text-underline-offset: 2px; }
-.tracker .on { background: var(--yellow); color: var(--ink); }
-.deck .rev { color: var(--pink); }
-.deck .up { color: var(--blue); }
-.tracker .on.rev, .tracker .on.up { color: var(--ink); }
-.lcd-info { display: flex; flex-direction: column; min-height: calc(4 * var(--rh)); }
+/* the red square is the button */
+.go { font: inherit; color: var(--pink); background: none; border: 0; padding: 0; margin: 0; border-radius: 0; text-align: left; cursor: pointer; display: block; }
+.js .go { position: absolute; overflow: hidden; }
+.go:focus { outline: none; }
+.redpre { left: 0; top: 0; font-weight: 700; color: var(--pink); }
+.tri { color: transparent; }
+.ry { color: var(--yellow); } .rb { color: var(--blue); }
+.go:hover .tri, .go:focus-visible .tri { color: var(--blue); }
+.golabel { white-space: pre; color: var(--ink); font-weight: 700; }
+.js .golabel { position: absolute; }
+.go:hover .golabel, .go:focus-visible .golabel { color: var(--blue); text-decoration: underline; text-underline-offset: 2px; }
+.g-on { display: none; }
+.on-air .g-on { display: inline; } .on-air .g-off { display: none; }
+.on-air .go { cursor: default; }
+.on-air .go:hover .tri { color: transparent; }
+.rewind .redpre { color: var(--blue); } .rewind #pl-blue { color: var(--pink); }
 
-button { font: inherit; height: var(--rh); line-height: var(--rh); margin: 0; padding: 0; border: 0; border-radius: 0; background: none; color: #111; cursor: pointer; }
-button::before { content: "["; }
-button::after { content: "]"; }
-button:hover, button[aria-pressed="true"]:hover { background: var(--pink); color: var(--ink); }
-.keys { margin-top: var(--rh); }
-.keys > div { display: flex; flex-wrap: wrap; column-gap: 1ch; padding-left: 7ch; }
-.keys .lbl { width: 6ch; margin-left: -7ch; }
+/* ---- KES FM, set as words in brackets ---- */
+.fm button, .quiet { font: inherit; color: var(--blue); background: none; border: 0; padding: 0; margin: 0; border-radius: 0; cursor: pointer; line-height: inherit; }
+.quiet::before, .keys button::before { content: "["; color: var(--ink); }
+.quiet::after { content: " ->]"; color: var(--ink); }
+.keys button::after { content: "]"; color: var(--ink); }
+.fm button:hover, .fm button:focus-visible { background: var(--pink); color: var(--ink); outline: none; }
 .keys button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
-/* on air: bold, blue, and a hit area a character wider and taller than it looks */
-.keys .go { color: var(--blue); font-weight: 700; height: auto; padding: 6px 1ch; margin: -6px -1ch; background-clip: content-box; }
-.keys .stop { font-weight: 700; margin-left: 2ch; }
-.keys .go[aria-pressed="true"] { background: var(--pink); color: var(--ink); }
-.vol { display: grid; grid-template-columns: 7ch max-content; justify-content: start; }
-.vol .vl { color: var(--soft); }
-.vol input, .vol .track { grid-area: 1 / 2; }
-.vol input { width: 19ch; height: var(--rh); margin: 0; opacity: 0; cursor: pointer; }
-.vol input:hover + .track { color: var(--pink); }
-.vol input:focus-visible + .track { background: var(--blue); color: var(--paper); }
-.floatstop { position: fixed; right: 2ch; bottom: var(--rh); z-index: 5; padding: 0 1ch; background: var(--pink); color: var(--ink); font-weight: 700; }
-.floatstop:hover { background: var(--ink); color: var(--paper); }
+.keys button[aria-pressed="true"]::before, .keys button[aria-pressed="true"]::after { color: var(--paper); }
+.keys .stop { font-weight: 700; color: var(--ink); }
+.ident { color: var(--ink); }
+.deck p, .deck div { margin: 0; }
+.lcd { margin: 0 0 var(--lh); }
+.status { color: var(--pink); font-weight: 700; }
+.ticker { overflow: hidden; white-space: nowrap; color: var(--grey); }
+.ticker > div { display: inline-block; }
+#tracker { color: var(--ink); }
+#tracker span { font-size: 0; }
+#tracker span::before { content: "<3"; font-size: var(--fs); }
+#tracker span:nth-child(4n)::after { content: " "; font-size: var(--fs); }
+#tracker .rest::before { content: "--"; color: var(--pale); }
+#tracker .rev::before { color: var(--pink); }
+#tracker .up::before { color: var(--blue); }
+#tracker .roll::before { text-decoration: underline; }
+#tracker .on::before { content: "██"; color: var(--yellow); }
+.lcd-info { color: var(--grey); }
+.lcd-info .rev { color: var(--pink); } .lcd-info .up { color: var(--blue); }
+.keys { margin: 0 0 var(--lh); }
+.keys > div, .keys > label { display: inline-block; vertical-align: top; margin-right: 2ch; }
+.keys .lbl { color: var(--grey); }
+.volwrap { position: relative; display: inline-block; }
+.vol input { position: absolute; left: 0; top: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.volbar { color: var(--blue); }
+.vol input:focus-visible + .volbar, .vol input:hover + .volbar { background: var(--pink); color: var(--ink); }
+
+@keyframes run { to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: no-preference) { .on-air .ticker > div { animation: run 70s linear infinite; } }
+
+/* the yellow sliver comes loose and floats: stop is always there */
+.floatstop { position: fixed; right: var(--cw); bottom: var(--lh); z-index: 5; padding: 0; margin: 0; border: 0; background: none; font: inherit; font-weight: 700; color: var(--ink); cursor: pointer; line-height: var(--lh); }
 .floatstop[hidden] { display: none; }
+.fs-fill { display: block; white-space: pre; color: var(--yellow); }
+.fs-txt { position: absolute; left: 0; right: 0; top: var(--lh); text-align: center; white-space: pre; }
+.floatstop:hover .fs-fill, .floatstop:focus-visible .fs-fill { color: var(--pink); }
+.floatstop:focus { outline: none; }
+
+/* placeholders for the project pictures, cut into their planes */
+.js .proj .pic { position: absolute; margin: 0; white-space: nowrap; color: var(--ink); }
+.js:not(.ready) #page { visibility: hidden; }
+#art .ph { color: var(--yellow); }
+.spk { color: var(--ink); } .spk .p { color: var(--pink); } .spk .b { color: var(--blue); } .spk .g { color: var(--pale); }
 </style>
 </head>
 <body>
 <div id="page">
-<div id="grid" aria-hidden="true"></div>
+<div id="art" aria-hidden="true"></div>
+<main id="main">
+<h1 class="vh">kes inkersole</h1>
 
-<h1 class="vh">Kes Inkersole</h1>
+<!-- the big pink square is the play button. KES FM never starts on its own -->
+<button id="go" class="go" type="button" aria-pressed="false"><span class="redpre" aria-hidden="true"></span><span class="golabel"><span class="g-off">press play · KES FM 170.0</span><span class="g-on">● on air · KES FM 170.0</span></span></button>
 
-<div class="cell" id="c-hello">
-<p class="hi"><b>hello, i'm kes</b> <i class="sy heart" aria-hidden="true">♡</i></p>
-<p>i'm kes inkersole (kesia on paper), a freelance creative strategist and internet equalities researcher based in london. welcome to kes' little corner of the internet.</p>
-<p>my practice focuses on understanding and critiquing the impacts of emerging technologies on people, culture, and the planet. i work collectively to rethink the narratives and behaviours surrounding technologies — prioritising collaborative research as a process for testing, imagining and prototyping more equitable, alternative futures.</p>
-</div>
-
-<!-- KES FM 170.0. the engine at the bottom of the page is pasted in verbatim; this is only its skin,
-     spread over three rectangles: the ident, the speaker and the deck -->
-<section class="fm" id="fm" aria-labelledby="fm-h">
-<div class="cell" id="c-fmh">
+<section class="fm cell" id="fm" aria-labelledby="fm-h">
 <h2 id="fm-h">KES FM 170.0</h2>
-<p class="ident tight">you're locked to KES FM. it's not a real station, it's this website: a little jungle machine running in your browser, every drum and bassline synthesised live, no samples, no files. nothing plays until you press on air, and stop always stops it <i class="sy" aria-hidden="true">✧</i></p>
-</div>
-<div class="cell" id="c-spk">
-<pre class="speaker tower" aria-hidden="true">        <span class=p>\(^o^)/</span>       <span class=p>&lt;3</span>
-<span class=c>.--------------..--------------.</span>
-<span class=c>| .----.  .--. || .----.  .--. |</span>
-<span class=c>| |====|  </span><span class=g>(())</span><span class=c> || |====|  </span><span class=g>(())</span><span class=c> |</span>
-<span class=c>| '----'  '--' || '----'  '--' |</span>
-<span class=c>'--------------''--------------'</span>
-<span class=c>.--------------..--------------.</span>
-<span class=c>|   .------.   ||   .------.   |</span>
-<span class=c>|  /  .--.  \  ||  /  .--.  \  | </span> <span class="g sound">)</span>
-<span class=c>| |  </span><span class=b>( </span><span class=p>&lt;3</span><span class=b> )</span><span class=c>  | || |  </span><span class=b>( </span><span class=p>&lt;3</span><span class=b> )</span><span class=c>  | | </span> <span class="g sound">))</span>
-<span class=c>|  \  '--'  /  ||  \  '--'  /  | </span> <span class="g sound">)))</span>
-<span class=c>|   '------'   ||   '------'   | </span> <span class="g sound">))</span>
-<span class=c>|--------------||--------------| </span> <span class="g sound">)</span>
-<span class=c>|    </span><span class=y>KES FM</span><span class=c>    ||   </span><span class=g>170.0 FM</span><span class=c>   |</span>
-<span class=c>'--------------''--------------'</span>
-<span class=i>""""""""""""""""""""""""""""""""</span></pre>
-</div>
-<div class="deck cell" id="deck">
+<p class="quietp" id="quietp"><button type="button" id="quiet" class="quiet">enter without sound</button></p>
+<p class="ident">you're locked to KES FM. it's not a real station, it's this website: a little jungle machine running in your browser, every drum and bassline synthesised live, no samples, no files. nothing plays until you press on air, and stop always stops it.</p>
+<div class="deck" id="deck">
 <div class="lcd">
-<div class="lcd-top"><span>KES FM ((( 170.0 )))</span><span class="status" id="status" role="status">off air</span></div>
-<div class="ticker" aria-hidden="true"><div><span>big up all the junglists ✦ big up everyone reading the source code ✦ big up the UAL lot, LCF + CCI ✦ big up Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges ✦ text in: inkersolekesia@gmail.com ✦ respect to the sound systems, pirates and producers who built all this ✦ lorem ipsum dolor sit amet ✦</span><span>big up all the junglists ✦ big up everyone reading the source code ✦ big up the UAL lot, LCF + CCI ✦ big up Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges ✦ text in: inkersolekesia@gmail.com ✦ respect to the sound systems, pirates and producers who built all this ✦ lorem ipsum dolor sit amet ✦</span></div></div>
+<p class="lcd-top"><span>KES FM ((( 170.0 )))</span>  <span class="status" id="status" role="status">off air</span></p>
+<div class="ticker" aria-hidden="true"><div><span>big up all the junglists &lt;3 big up everyone reading the source code &lt;3 big up the UAL lot, LCF + CCI &lt;3 big up Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges &lt;3 text in: inkersolekesia@gmail.com &lt;3 respect to the sound systems, pirates and producers who built all this &lt;3 lorem ipsum dolor sit amet &lt;3 </span><span>big up all the junglists &lt;3 big up everyone reading the source code &lt;3 big up the UAL lot, LCF + CCI &lt;3 big up Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges &lt;3 text in: inkersolekesia@gmail.com &lt;3 respect to the sound systems, pirates and producers who built all this &lt;3 lorem ipsum dolor sit amet &lt;3 </span></div></div>
 <div class="tracker" id="tracker" aria-hidden="true"></div>
-<div class="lcd-info" aria-hidden="true"><span id="lcdinfo">break: straight · bass: sub · cute: off</span><span><span class="rev">pink</span> = reversed · <span class="up">blue</span> = pitched up · underline = roll</span></div>
+<div class="lcd-info" aria-hidden="true"><span id="lcdinfo">break: straight · bass: sub · cute: off</span>  <span><span class="rev">pink</span> = reversed · <span class="up">blue</span> = pitched up · underline = roll</span></div>
 </div>
-
 <div class="keys">
-<div><button class="go" id="go" type="button" aria-pressed="false">on air</button><button class="stop" id="stop" type="button">stop</button></div>
-<div role="group" aria-label="break"><span class="lbl">break</span><button type="button" data-break="straight" aria-pressed="true">straight</button><button type="button" data-break="chopped" aria-pressed="false">chopped</button><button type="button" data-break="rollin" aria-pressed="false">rollin'</button><button type="button" id="chop" aria-pressed="false">chop it</button></div>
-<div role="group" aria-label="bass"><span class="lbl">bass</span><button type="button" data-bass="sub" aria-pressed="true">sub</button><button type="button" data-bass="reese" aria-pressed="false">reese</button><button type="button" data-bass="off" aria-pressed="false">off</button></div>
-<div><button type="button" id="cute" aria-pressed="false">cute</button><button type="button" id="pullup">pull up</button><button type="button" id="siren">siren</button></div>
-<label class="vol"><span class="vl">vol</span><input type="range" id="vol" min="0" max="1" step="0.05" value="0.5"><span class="track" aria-hidden="true">[========|--------]</span></label>
+<div><button class="stop" id="stop" type="button">■ stop</button></div>
+<div role="group" aria-label="break"><span class="lbl">break</span> <button type="button" data-break="straight" aria-pressed="true">straight</button> <button type="button" data-break="chopped" aria-pressed="false">chopped</button> <button type="button" data-break="rollin" aria-pressed="false">rollin'</button> <button type="button" id="chop" aria-pressed="false">8&lt; chop it</button></div>
+<div role="group" aria-label="bass"><span class="lbl">bass</span> <button type="button" data-bass="sub" aria-pressed="true">sub</button> <button type="button" data-bass="reese" aria-pressed="false">reese</button> <button type="button" data-bass="off" aria-pressed="false">off</button></div>
+<div><button type="button" id="cute" aria-pressed="false">&lt;3 cute</button> <button type="button" id="pullup">&lt;&lt; pull up</button> <button type="button" id="siren">siren</button></div>
+<label class="vol">vol <span class="volwrap"><input type="range" id="vol" min="0" max="1" step="0.05" value="0.5"><span class="volbar" aria-hidden="true">[=====o-----]</span></span></label>
 </div>
 <p class="textin">text in your shout-outs: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
 </div>
 </section>
 
-<!-- the card: bio, portfolio and cv at a glance -->
-<aside class="cell card" id="c-card" aria-labelledby="card-h">
-<p class="lbl">this website presents <i class="sy" aria-hidden="true">✦</i></p>
-<h2 id="card-h">kes inkersole</h2>
-<p class="tight">creative strategist<br>internet equalities researcher<br>london</p>
-<dl>
-<dt>does</dt><dd>creative strategy, research, workshops, writing and teaching</dd>
-<dt>teaches</dt><dd>associate lecturer at UAL (LCF + CCI)</dd>
-<dt>clients</dt><dd>Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges</dd>
-<dt>school</dt><dd>MA internet equalities<br>BA creative direction<br>PhD [ ? ]</dd>
-<dt>portfolio</dt><dd><a href="#projects">three projects</a>, then <a href="#more">everything else</a></dd>
-<dt>cv</dt><dd>cv &amp; portfolio on request</dd>
-</dl>
-<p class="lbl">info line <i class="sy" aria-hidden="true">☎</i></p>
-<p class="mail"><a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
-</aside>
+<section class="cell" id="s-hello"><h2>hello, i&#x27;m kes &lt;3</h2><p>i&#x27;m kes inkersole (kesia on paper), a freelance creative strategist and internet equalities researcher based in london. welcome to kes&#x27; little corner of the internet.</p><p>my practice focuses on understanding and critiquing the impacts of emerging technologies on people, culture, and the planet. i work collectively to rethink the narratives and behaviours surrounding technologies — prioritising collaborative research as a process for testing, imagining and prototyping more equitable, alternative futures.</p></section>
 
-<section class="cell" id="c-new" aria-labelledby="new-h">
-<h2 class="lbl" id="new-h">my writing <i class="sy" aria-hidden="true">✉</i></h2>
-<p>new: i've started publishing my own writing. it's called <a href="writing.html">chainmail</a> <i class="sy" aria-hidden="true">→</i></p>
-<p class="soft tight">short pieces from my notes app, sent in by email</p>
-</section>
+<section class="cell" id="s-presents"><p class="t k">this website presents</p><h2>kes inkersole</h2><p>creative strategist, internet equalities researcher, london. available for work.</p><p class="t"><span class="k">does:</span> creative strategy, research, workshops, writing and teaching</p><p class="t"><span class="k">teaches:</span> associate lecturer at UAL (LCF + CCI)</p><p class="t"><span class="k">clients:</span> Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges</p><p class="t"><span class="k">school:</span> MA internet equalities, BA creative direction, PhD [ ? ]</p><p class="t"><span class="k">cv:</span> cv &amp; portfolio on request</p><p class="t"><span class="k">email:</span> <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p></section>
 
-<!-- three projects. each photo is a small grey placeholder, drawn in characters into the rectangle above it -->
-<section class="band" id="projects" aria-labelledby="projects-h">
-<h2 class="vh" id="projects-h">three projects</h2>
+<section class="cell proj" id="s-p1"><p class="t k">01 · for fun</p><h2><a href="https://latent-space.vercel.app/">latent space</a></h2><p class="pic">(picture to come)</p><p>lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam.</p></section>
 
-<article class="cell slice" id="c-p1">
-<p class="lbl meta"><span>01</span><span>for fun <i class="sy" aria-hidden="true">✿</i></span></p>
-<h3 class="tight"><a href="https://latent-space.vercel.app/">latent space</a></h3>
-<p>lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam.</p>
-</article>
+<section class="cell proj" id="s-p2"><p class="t k">02 · for funds</p><h2><a href="https://co-matter.com/project/networked-worlds">networked worlds</a> with co—matter</h2><p class="pic">(picture to come)</p><p>duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. excepteur sint occaecat cupidatat non proident.</p></section>
 
-<article class="cell slice" id="c-p2">
-<p class="lbl meta"><span>02</span><span>for funds <i class="sy" aria-hidden="true">✧</i></span></p>
-<h3 class="tight"><a href="https://co-matter.com/project/networked-worlds">networked worlds</a> <span class="soft">with co—matter</span></h3>
-<p>duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. excepteur sint occaecat cupidatat non proident.</p>
-</article>
+<section class="cell proj" id="s-p3"><p class="t k">03 · for funds</p><h2><a href="https://www.protein.xyz/dirty-words-4-community/">protein dirty words #4: community report</a></h2><p class="pic">(picture to come)</p><p>sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo.</p></section>
 
-<article class="cell slice" id="c-p3">
-<p class="lbl meta"><span>03</span><span>for funds <i class="sy" aria-hidden="true">✧</i></span></p>
-<h3 class="tight"><a href="https://www.protein.xyz/dirty-words-4-community/">protein dirty words #4: community report</a></h3>
-<p>sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo.</p>
-</article>
-</section>
+<section class="cell" id="s-more"><h2>more projects</h2><ul><li><a href="https://protecht.vercel.app/">pro(tech)t</a> (for fun)</li><li><a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1">MØRNING Ø</a> (for funds)</li></ul></section>
 
-<!-- everything else, as starred links -->
-<section class="band" id="more" aria-labelledby="more-h">
-<h2 class="vh" id="more-h">everything else</h2>
+<section class="cell" id="s-writing"><h2>my writing</h2><p>new: short pieces from my notes app, sent in by email. it&#x27;s called <a href="writing.html">chainmail</a>.</p></section>
 
-<section class="cell" id="c-mp" aria-labelledby="mp-h">
-<h3 class="lbl" id="mp-h">more projects <i class="sy" aria-hidden="true">✧</i></h3>
-<ul class="ls">
-<li><i class="sy" aria-hidden="true">☆</i> <a href="https://protecht.vercel.app/">pro(tech)t</a> <span class="soft">for fun</span></li>
-<li><i class="sy" aria-hidden="true">☆</i> <a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1">MØRNING Ø</a> <span class="soft">for funds</span></li>
-</ul>
-</section>
+<section class="cell" id="s-written"><h2>things i&#x27;ve written</h2><ul><li><a href="https://www.protein.xyz/sex-and-the-internet/">mindy seu on sex and the internet</a> (Protein)</li><li><a href="https://midnight.agency/thoughts/dreaming-and-designing-more-accessible-web">dreaming and designing a more accessible web</a> (Midnight Agency)</li><li><a href="https://midnight.agency/thoughts/coding-a-more-creative-and-playful-web">coding a more creative and playful web</a> (Midnight Agency)</li><li><a href="https://midnight.agency/thoughts/composing-a-flexible-and-modular-web">composing a flexible and modular web</a> (Midnight Agency)</li><li><a href="https://morningfyi.substack.com/p/020-uh-oh-meet">burn after reading: uh oh, meet o</a> (morningfyi)</li><li><a href="https://morningfyi.substack.com/p/024-entering-limb-with">burn after reading: entering limbo</a> (morningfyi)</li></ul></section>
 
-<section class="cell" id="c-tw" aria-labelledby="tw-h">
-<h3 class="lbl" id="tw-h">things i've written <i class="sy" aria-hidden="true">✎</i></h3>
-<ul class="ls">
-<li><i class="sy" aria-hidden="true">☆</i> <a href="https://www.protein.xyz/sex-and-the-internet/">mindy seu on sex and the internet</a> <span class="soft">Protein</span></li>
-<li><i class="sy" aria-hidden="true">☆</i> <a href="https://midnight.agency/thoughts/dreaming-and-designing-more-accessible-web">dreaming and designing a more accessible web</a> <span class="soft">Midnight Agency</span></li>
-<li><i class="sy" aria-hidden="true">☆</i> <a href="https://midnight.agency/thoughts/coding-a-more-creative-and-playful-web">coding a more creative and playful web</a> <span class="soft">Midnight Agency</span></li>
-<li><i class="sy" aria-hidden="true">☆</i> <a href="https://midnight.agency/thoughts/composing-a-flexible-and-modular-web">composing a flexible and modular web</a> <span class="soft">Midnight Agency</span></li>
-<li><i class="sy" aria-hidden="true">☆</i> <a href="https://morningfyi.substack.com/p/020-uh-oh-meet">burn after reading: uh oh, meet o</a> <span class="soft">morningfyi</span></li>
-<li><i class="sy" aria-hidden="true">☆</i> <a href="https://morningfyi.substack.com/p/024-entering-limb-with">burn after reading: entering limbo</a> <span class="soft">morningfyi</span></li>
-</ul>
-</section>
+<section class="cell" id="s-pods"><h2>podcasts, for the bus</h2><ul><li><a href="https://podcasts.apple.com/gb/podcast/mindy-seu-on-collaboration-community-and/id1449302502?i=1000597869409">mindy seu on collaboration, community and the cyberfeminism index</a></li><li><a href="https://soundcloud.com/proteincommunity/protein-forum-what-can-web2-organisations-learn-from-web3-communities">what can web2 organisations learn from web3 communities?</a> (Protein)</li><li><a href="https://podcasts.apple.com/gb/podcast/cherie-hu-on-water-musics-journey-through-web3/id1449302502?i=1000581859804">cherie hu on water &amp; music&#x27;s journey through web3</a></li><li><a href="https://podcasts.apple.com/gb/podcast/molly-dickson-on-dao-activism-and-fighting-for/id1449302502?i=1000578164761">molly dickson on dao activism</a></li><li><a href="https://podcasts.apple.com/gb/podcast/dame-on-the-need-for-education-accessibility/id1449302502?i=1000559829008">dame on education, accessibility and inclusivity in web3</a></li><li><a href="https://podcasts.apple.com/gb/podcast/nadia-piet-on-creative-ai-and-protopian-futures/id1449302502?i=1000559822732">nadia piet on creative ai and protopian futures</a></li><li><a href="https://podcasts.apple.com/gb/podcast/cyn-bahati-on-her-journey-into-web3-with-her-family/id1449302502?i=1000559818509">cyn bahati on her journey into web3 with her family</a></li><li><a href="https://podcasts.apple.com/gb/podcast/latash%C3%A1-on-the-potential-of-web3-for-music-artists/id1449302502?i=1000552812458">latasha on the potential of web3 for music artists</a></li></ul></section>
 
-<section class="cell" id="c-pod" aria-labelledby="pod-h">
-<h3 class="lbl" id="pod-h">podcasts, for the bus <i class="sy" aria-hidden="true">♫</i></h3>
-<ul class="ls">
-<li><i class="sy" aria-hidden="true">☆</i> <a href="https://podcasts.apple.com/gb/podcast/mindy-seu-on-collaboration-community-and/id1449302502?i=1000597869409">mindy seu on collaboration, community and the cyberfeminism index</a></li>
-<li><i class="sy" aria-hidden="true">☆</i> <a href="https://soundcloud.com/proteincommunity/protein-forum-what-can-web2-organisations-learn-from-web3-communities">what can web2 organisations learn from web3 communities?</a> <span class="soft">Protein</span></li>
-<li><i class="sy" aria-hidden="true">☆</i> <a href="https://podcasts.apple.com/gb/podcast/cherie-hu-on-water-musics-journey-through-web3/id1449302502?i=1000581859804">cherie hu on water &amp; music's journey through web3</a></li>
-<li><i class="sy" aria-hidden="true">☆</i> <a href="https://podcasts.apple.com/gb/podcast/molly-dickson-on-dao-activism-and-fighting-for/id1449302502?i=1000578164761">molly dickson on dao activism</a></li>
-<li><i class="sy" aria-hidden="true">☆</i> <a href="https://podcasts.apple.com/gb/podcast/dame-on-the-need-for-education-accessibility/id1449302502?i=1000559829008">dame on education, accessibility and inclusivity in web3</a></li>
-<li><i class="sy" aria-hidden="true">☆</i> <a href="https://podcasts.apple.com/gb/podcast/nadia-piet-on-creative-ai-and-protopian-futures/id1449302502?i=1000559822732">nadia piet on creative ai and protopian futures</a></li>
-<li><i class="sy" aria-hidden="true">☆</i> <a href="https://podcasts.apple.com/gb/podcast/cyn-bahati-on-her-journey-into-web3-with-her-family/id1449302502?i=1000559818509">cyn bahati on her journey into web3 with her family</a></li>
-<li><i class="sy" aria-hidden="true">☆</i> <a href="https://podcasts.apple.com/gb/podcast/latash%C3%A1-on-the-potential-of-web3-for-music-artists/id1449302502?i=1000552812458">latasha on the potential of web3 for music artists</a></li>
-</ul>
-</section>
+<section class="cell" id="s-irl"><h2>irl (mostly)</h2><ul><li><a href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1">olden residency</a></li><li><a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1">softer london</a> (talk + workshop)</li><li><a href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard">tech yard</a> (workshop)</li><li><a href="https://www.instagram.com/p/BslwSSPH5Rc/?img_index=2">ovar it</a></li></ul></section>
 
-<section class="cell" id="c-irl" aria-labelledby="irl-h">
-<h3 class="lbl" id="irl-h">irl (mostly) <i class="sy" aria-hidden="true">☂</i></h3>
-<ul class="ls">
-<li><i class="sy" aria-hidden="true">☆</i> <a href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1">olden residency</a></li>
-<li><i class="sy" aria-hidden="true">☆</i> <a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1">softer london</a> <span class="soft">talk + workshop</span></li>
-<li><i class="sy" aria-hidden="true">☆</i> <a href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard">tech yard</a> <span class="soft">workshop</span></li>
-<li><i class="sy" aria-hidden="true">☆</i> <a href="https://www.instagram.com/p/BslwSSPH5Rc/?img_index=2">ovar it</a></li>
-</ul>
-</section>
-</section>
-
-<!-- the end: a thank you, the low-tech note, and where to find me -->
-<footer>
-<div class="cell" id="c-bye"><p class="bye"><b>thanks for stopping by</b> <i class="sy heart" aria-hidden="true">♡</i></p></div>
-<div class="cell" id="c-note"><p>this website is mostly plain html: system fonts, no trackers, a few small grey photos and one radio that stays quiet until you ask. it's easy for me to update and it loads fine on bad wifi.</p></div>
-<div class="cell" id="c-hi">
-<p class="lbl">say hello</p>
-<p class="mail"><a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a><br>available for work. cv &amp; portfolio on request.<br>my writing lives on <a href="writing.html">chainmail</a>.</p>
+<section class="cell" id="s-foot"><p>this website is mostly plain text: system fonts, no trackers, no photos, one radio that stays quiet until you ask. it&#x27;s easy for me to update and it loads fine on bad wifi.</p><p>thanks for stopping by &lt;3</p><p>say hello: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p></section>
+</main>
 </div>
-</footer>
-
-</div>
-
-<button class="floatstop" id="floatstop" type="button" hidden>stop KES FM</button>
-
+<button class="floatstop" id="floatstop" type="button" hidden><span class="fs-fill" aria-hidden="true"></span><span class="fs-txt">■ stop KES FM</span></button>
 <script>
 /* ===== KES FM engine: paste VERBATIM, do not edit =====
    it expects: var onAir, var happy, var still, function look() (no-ops are fine),
@@ -302,7 +180,7 @@ button:hover, button[aria-pressed="true"]:hover { background: var(--pink); color
 var onAir = false;
 var happy = false;
 var still = matchMedia("(prefers-reduced-motion: reduce)").matches;
-function look() {}
+function look(mark) { if (window.KES) KES.look(mark); }
 /* ---------------------------------------------------------------
    KES FM 170.0
    a jungle machine. there are no samples in here: the break is
@@ -672,439 +550,531 @@ function look() {}
 })();
 
 </script>
-
 <script>
-/* the grid. not part of KES FM.
-   the whole page is one field of monospace characters, as many columns as fit the window exactly.
-   a composition is cut into it with thick lines of dark characters (2 columns, 1 row), and every
-   rectangle gets its own texture: dump, noise, dots, drawings, or a plane of pink, blue or yellow.
-   kes's words sit in the rectangles on the same grid, in the same font and size; the texture is cleared
-   only under her letters, plus one character either side. same window, same picture, every time. */
-function kesGrid(tree) {
-  var de = document.documentElement, page = document.getElementById("page"), field = document.getElementById("grid");
-  var calm = matchMedia("(prefers-reduced-motion: reduce)");
-  de.classList.add("js");
-
-  var PAT = "Q±0ðLDDDDDDDDDDDDDDÅÂÀ3ÏDDDDDDDDDDDDDDT,<", P = PAT.length;
-  var NOISE = "ýküúë¯˜9sæ³®àã?ÆÊ•+Ÿu5ˆˆˆè)¸{÷.Æ³gÏ>ëªQ!mÛ¶o½õ²³³Ÿêqx¦\"ËÎÎFpp0²²²Š\\6##AAAxøða)ÔìßcÃ†hÚ´)âââžuUŒÄÄÄàîÝ»ÅÚGzz:RSS‘““c´íÑ£GHMM5ú{ôèQ¾ûÔëõ…Ê÷´eff\"55z½À?çnøw^ÙÙÙùnÿ/0œsQ¾ã6ù™0µÿ«W¯\"%%Åh›££#¾üòKlß¾½Hu&¢’£×ëqýúõ'ú=NHHÀ•+W––V5û÷øðÃÑ«W¯g]#\"‚ÐÐP“¿¯æÚŒŒ³yÂÂÂuípóæMÜ¸q£ÐÇ~šçièledd˜½–€œœœ|·ÿ[æý40u½f®¬áõHOOWÒ’’’0yòäåõ.Ñÿª°°0$''¹\\JJ®\\¹‚ÄÄD³yŠò›ð_‡æÍ›ã÷ßÖU1’’’‚ÐÐPˆH‘Ë>|ø°PípNNBBBpóæÍBÕ'((Hõûÿo’{Á0¦_]ÓÒÒþµçR[·n!66¶Èå²²²píÚ5Ü¹s§À¼ù÷yxx`ÿþý¼Qœ¨„=éw;·üú6O:Nû_”.]º`Þ¼yÏº*FŠ2nšWZZBBB¼60¼×¦Æ¤E‘‘‘ÿWŽYgee©>Ã†Ï´¹ºþWûëÀ“ÅÖ«ÏÎÎÆÕ«W‘””d´", N = NOISE.length;
-  var HEX = "kes fm 170.0 <3 ".split("").map(function (c) { return c.charCodeAt(0); });
-  var RAMP = " .,:;=+*xX#%@";
-  /* colour of each cell: a quiet texture, b light dense texture, l line, p/u/y pink/blue/yellow plane,
-     h texture under your mouse, d/q bold ink and pink for drawings, e blue, f photo, m bold line, n pink, o ink */
-  var CN = ["", "a", "b", "l", "p", "u", "y", "l", "h", "d", "q", "e", "f", "m", "n", "o"];
-  var PLK = { p: 4, u: 5, y: 6, k: 7 }, KL = { k: 9, h: 10, r: 14, p: 11, l: 15, s: 15, o: 15 };
-  var DRAW = {
-  big: { t: ["<3                                          <3                <3                                                          <3<3", "<3                                                            <3                                                            <3                  <3<3  <3<3", "<3    <3      <3<3<3      <3<3<3<3        <3<3    <3  <3<3    <3    <3      <3<3<3    <3  <3<3      <3<3<3<3    <3<3<3      <3      <3<3<3    <3<3<3<3<3<3<3", "<3  <3      <3      <3  <3                  <3    <3<3    <3  <3  <3      <3      <3  <3<3    <3  <3          <3      <3    <3    <3      <3  <3<3<3<3<3<3<3", "<3<3        <3<3<3<3<3    <3<3<3            <3    <3      <3  <3<3        <3<3<3<3<3  <3            <3<3<3    <3      <3    <3    <3<3<3<3<3    <3<3<3<3<3", "<3  <3      <3                  <3          <3    <3      <3  <3  <3      <3          <3                  <3  <3      <3    <3    <3              <3<3<3", "<3    <3      <3<3<3    <3<3<3<3          <3<3<3  <3      <3  <3    <3      <3<3<3    <3          <3<3<3<3      <3<3<3    <3<3<3    <3<3<3          <3"],
-    c: ["kk                                          kk                kk                                                          kkkk", "kk                                                            kk                                                            kk                  hhhh  hhhh", "kk    kk      kkkkkk      kkkkkkkk        kkkk    kk  kkkk    kk    kk      kkkkkk    kk  kkkk      kkkkkkkk    kkkkkk      kk      kkkkkk    hhhhhhhhhhhhhh", "kk  kk      kk      kk  kk                  kk    kkkk    kk  kk  kk      kk      kk  kkkk    kk  kk          kk      kk    kk    kk      kk  hhhhhhhhhhhhhh", "kkkk        kkkkkkkkkk    kkkkkk            kk    kk      kk  kkkk        kkkkkkkkkk  kk            kkkkkk    kk      kk    kk    kkkkkkkkkk    hhhhhhhhhh", "kk  kk      kk                  kk          kk    kk      kk  kk  kk      kk          kk                  kk  kk      kk    kk    kk              hhhhhh", "kk    kk      kkkkkk    kkkkkkkk          kkkkkk  kk      kk  kk    kk      kkkkkk    kk          kkkkkkkk      kkkkkk    kkkkkk    kkkkkk          hh"] },
-  small: { t: ["<3", "<3", "<3    <3      <3<3<3      <3<3<3<3", "<3  <3      <3      <3  <3", "<3<3        <3<3<3<3<3    <3<3<3", "<3  <3      <3                  <3", "<3    <3      <3<3<3    <3<3<3<3"],
-    c: ["kk", "kk", "kk    kk      kkkkkk      kkkkkkkk", "kk  kk      kk      kk  kk", "kkkk        kkkkkkkkkk    kkkkkk", "kk  kk      kk                  kk", "kk    kk      kkkkkk    kkkkkkkk"] },
-  garden: { t: ["    _                             _                          _                        _                            _                        _                             _", "  _(_)_         @               _(_)_         @            _(_)_              @     _(_)_         @              _(_)_    @               _(_)_         @               _(_)_    @", " (_)@(_)        |/  vVv        (_)@(_)        |/    vVv   (_)@(_)             |/   (_)@(_)  vVv   |/            (_)@(_)   |/  vVv        (_)@(_)        |/  vVv        (_)@(_)   |/  vVv", "   (_)    vVv  \\|   (_)    *     (_)    vVv  \\|     (_)     (_)     *   vVv  \\|      (_)    (_)  \\|   vVv   *     (_)    \\|   (_)  vVv     (_)     *   \\|   (_)   vVv    (_)    \\|   (_)  vVv", "    |/    (_)   |   \\|     |/     |/    (_)   |     \\|       |/     |/  (_)   |       |/    \\|    |   (_)   |/     |/     |   \\|   (_)      |/     |/   |   \\|    (_)     |/     |   \\|   (_)", "   \\|      |    |    |    \\|     \\|      |    |      |      \\|     \\|    |    |      \\|      |    |    |   \\|     \\|      |    |    |      \\|     \\|    |    |     |     \\|      |    |    |"],
-    c: ["    r                             l                          r                        p                            r                        l                             p", "  rrrrr         r               lllll         p            rrrrr              r     ppppp         r              rrrrr    l               lllll         p               ppppp    r", " rrrrrrr        ss  ppp        lllllll        ss    rrr   rrrrrrr             ss   ppppppp  lll   ss            rrrrrrr   ss  rrr        lllllll        ss  lll        ppppppp   ss  lll", "   rrr    lll  ss   ppp    l     lll    rrr  ss     rrr     rrr     p   lll  ss      ppp    lll  ss   rrr   l     rrr    ss   rrr  ppp     lll     r   ss   lll   rrr    ppp    ss   lll  rrr", "    ss    lll   s   ss     ss     ss    rrr   s     ss       ss     ss  lll   s       ss    ss    s   rrr   ss     ss     s   ss   ppp      ss     ss   s   ss    rrr     ss     s   ss   rrr", "   ss      s    s    s    ss     ss      s    s      s      ss     ss    s    s      ss      s    s    s   ss     ss      s    s    s      ss     ss    s    s     s     ss      s    s    s"] },
-  pc: { t: ["  ______________________", " |  __________________  |", " | |                  | |", " | |   <3<3    <3<3   | |", " | | <3<3<3<3<3<3<3<3 | |", " | | <3<3<3<3<3<3<3<3 | |", " | |   <3<3<3<3<3<3   | |", " | |     <3<3<3<3     | |", " | |       <3<3       | |", " | |        <3        | |", " | |__________________| |", " |                      |", " |  o          ______   |", " |______________________|\\", "   |__________________|   \\"],
-    c: ["  kkkkkkkkkkkkkkkkkkkkkk", " k  kkkkkkkkkkkkkkkkkk  k", " k k                  k k", " k k   hhhh    hhhh   k k", " k k hhhhhhhhhhhhhhhh k k", " k k hhhhhhhhhhhhhhhh k k", " k k   hhhhhhhhhhhh   k k", " k k     hhhhhhhh     k k", " k k       hhhh       k k", " k k        hh        k k", " k kkkkkkkkkkkkkkkkkkkk k", " k                      k", " k  h          kkkkkk   k", " kkkkkkkkkkkkkkkkkkkkkkkkk", "   kkkkkkkkkkkkkkkkkkkk   k"] }
-  };
-  DRAW.pc.c = DRAW.pc.c.map(function (s) { return s.replace(/k/g, "o"); });
-  var PX = 2, PY = 1, CHUNK = 8;
-  var cw = 8, rh = 16, W = 0, R = 0, VR = 0, RECTS = [], LEAVES = [], OWN, MASK, pres = [], B = 0, TX = -99, TY = -99;
-  var raf = 0, lastW = 0, adv0 = 0, IMG = {}, LOAD = {};
-
-  function C(c, k) { return k * 65536 + c.charCodeAt(0); }
-  function hs(x, y, s) {
-    var t = Math.imul(x + 1, 374761393) ^ Math.imul(y + 1, 668265263) ^ Math.imul(s + 7, 1274126177);
-    t = Math.imul(t ^ t >>> 13, 1103515245);
-    return ((t ^ t >>> 16) >>> 0) / 4294967296;
+/* ---------------------------------------------------------------
+   the grid. one monospace grid, worked out from the window width:
+   C columns that fill it exactly, rows as tall as the font's own
+   ink (so a column of █ reads as one unbroken black line).
+   lines are █, planes are fields of <3, white is just space.
+   --------------------------------------------------------------- */
+var KG = (function () {
+  var doc = document.documentElement, body = document.body;
+  var M = null, G = {}, parts = [];
+  function rep(c, n) { return n > 0 ? new Array(n + 1).join(c) : ""; }
+  function metrics() {
+    var d = document.createElement("div"), s = document.createElement("span");
+    d.style.cssText = "position:absolute;left:-99999px;top:0;white-space:pre;font-family:var(--mono);font-size:100px;line-height:normal;font-weight:400;letter-spacing:0";
+    s.textContent = rep("x", 20);
+    d.appendChild(s); body.appendChild(d);
+    var b = s.getBoundingClientRect();
+    body.removeChild(d);
+    return { r: b.width / 2000 || 0.6, h: b.height / 100 || 1.17 };
   }
-
-  // ---------- textures: (rect, column and row inside it, column and row on the page) -> character + colour ----------
-  var TEX = {
-    none: function () { return 0; },
-    dots: function (r, i, j) { return (i + (j & 1) * 2) % 4 ? 0 : C(".", 1); },
-    colon: function (r, i, j) { return i % 3 ? 0 : C(j & 1 ? "." : ":", 1); },
-    quote: function (r, i, j) { return (i + j * 3) % 5 ? 0 : C("'", 1); },
-    dash: function (r, i, j) { return j & 1 || i & 1 ? 0 : C("-", 1); },
-    tilde: function (r, i, j) { return (i + 2 * j) % 4 ? 0 : C("~", 1); },
-    eq: function (r, i, j) { return j & 1 || (i + j) % 4 > 1 ? 0 : C("=", 1); },
-    slash: function (r, i, j) { return (i + j) % 4 ? 0 : C("/", 1); },
-    back: function (r, i, j) { return (i - j + 4000) % 4 ? 0 : C("\\", 1); },
-    vbar: function (r, i) { return i % 3 ? 0 : C("|", 2); },
-    plus: function (r, i, j) { return j % 3 ? (i % 6 ? 0 : C(":", 2)) : i % 6 ? (i & 1 ? 0 : C("-", 2)) : C("+", 2); },
-    x: function (r, i, j, x, y) { var h = hs(x, y, r.s); return h < .07 ? C("x", 1) : h < .13 ? C(".", 1) : 0; },
-    star: function (r, i, j, x, y) { var h = hs(x, y, r.s); return h < .04 ? C("*", 1) : h < .1 ? C(".", 1) : h < .12 ? C("+", 1) : 0; },
-    hearts: function (r, i, j) { if (j & 1) return 0; var k = (i + (j >> 1) * 4) % 8; return k === 0 ? C("<", 1) : k === 1 ? C("3", 1) : 0; },
-    bin: function (r, i, j, x, y) { return i % 9 === 8 ? 0 : C(hs(x, y, r.s) < .5 ? "0" : "1", 2); },
-    hex: function (r, i, j) { var k = i % 3; if (k === 2) return 0; var b = HEX[(Math.floor(i / 3) + j * 5 + r.s) % HEX.length]; return C("0123456789abcdef".charAt(k ? b & 15 : b >> 4), 2); },
-    dump: function (r, i, j, x, y) { return C(PAT[(y * W + x + B) % P], 2); },
-    noise: function (r, i, j, x, y) { return C(NOISE[(y * 131 + x + r.s * 37 + B * 89) % N], 2); }
-  };
-  function plane(r, i, j, x, y) {
-    var k = PLK[r.pl], c = r.ch || "▓";
-    if (c === "D") return C(PAT[(y * W + x + B) % P], k);
-    if (c === "<3") return C((i + (j & 1)) & 1 ? "3" : "<", k);
-    if (r.fl && B & 1) c = c === "█" ? "▓" : "█";
-    return C(c, k);
+  function grid() {
+    if (!M) M = metrics();
+    var W = doc.clientWidth, H = window.innerHeight;
+    var ft = W < 560 ? 13 : W < 1000 ? 14 : W < 1700 ? 15 : 16;
+    var C = Math.max(32, Math.round(W / (M.r * ft)));
+    var cw = W / C, F = cw / M.r, lh = M.h * F;
+    G.W = W; G.H = H; G.C = C; G.cw = cw; G.F = F; G.lh = lh; G.R0 = Math.max(24, Math.ceil(H / lh));
+    doc.style.setProperty("--fs", F + "px");
+    doc.style.setProperty("--lh", lh + "px");
+    doc.style.setProperty("--cw", cw + "px");
+    return G;
   }
-  function gut(r, i, j, x, y) {
-    if (r.st === "w") { var h = hs((r.w > 2 ? i >> 1 : j) + B, r.s, 5); return C("█", h < .13 ? 4 : h < .24 ? 5 : h < .3 ? 7 : 6); }
-    if (r.st === "D") return C(PAT[(y * W + x) % P], 13);
-    if (r.st === "#") return C("#", 13);
-    return C(hs(x, y, 9) < .03 ? "▓" : "█", 3);
+  function begin() { parts = []; }
+  function end(el) { el.innerHTML = parts.join(""); }
+  function pre(x, y, w, h, cls, txt, id) {
+    if (w <= 0 || h <= 0) return;
+    parts.push('<pre class="' + cls + '"' + (id ? ' id="' + id + '"' : "") + ' style="left:' + x * G.cw + "px;top:" + y * G.lh + "px;width:" + w * G.cw + "px;height:" + h * G.lh + 'px">' + txt + "</pre>");
   }
-  function draw(r, i, j, x, y) {
-    var d = r.d, dj = j - d.oy, di = i - d.ox;
-    if (d.tile && di >= 0) di %= d.tile;
-    if (dj >= 0 && dj < d.t.length && di >= 0) {
-      var ln = d.t[dj], ch = ln.charAt(di);
-      if (ch && ch !== " ") { var k = KL[d.c[dj].charAt(di)] || 15; if (k === 10 && B & 1) k = 11; return C(ch, k); }
-      if (d.op && ch === " " && di > ln.search(/\S/)) return 0;
+  function hline(x, y, w, kind, id) { pre(x, y, w, 1, "ln", rep(kind === "lo" ? "▄" : kind === "hi" ? "▀" : "█", w), id); }
+  function vline(x, y, h, w) {
+    w = w || 2; var r = rep("█", w), a = [];
+    for (var i = 0; i < h; i++) a.push(r);
+    pre(x, y, w, h, "ln", a.join("\n"));
+  }
+  // a row of hearts. "<" always sits on an even column of the page, so planes line up with each other
+  function heartRow(x0, y, w, opt) {
+    var s = "", o = (opt && opt.stagger ? y : 0) + (opt && opt.off || 0);
+    for (var i = 0; i < w; i++) s += ((x0 + i + o) & 1) ? "3" : "<";
+    return s;
+  }
+  function field(x, y, w, h, holes, opt) {
+    var rows = [];
+    for (var r = 0; r < h; r++) {
+      var s = heartRow(x, y + r, w, opt);
+      (holes || []).forEach(function (hl) {
+        if (y + r >= hl.y && y + r < hl.y + hl.h) {
+          var a0 = Math.max(0, hl.x - x), a1 = Math.min(w, hl.x + hl.w - x);
+          if (a1 > a0) s = s.slice(0, a0) + rep(" ", a1 - a0) + s.slice(a1);
+        }
+      });
+      rows.push(s.replace(/</g, "&lt;"));
     }
-    return TEX[r.bg || "dots"](r, i, j, x, y);
+    return rows.join("\n");
   }
-  function photo(r, i, j) {
-    var key = r.w + "x" + r.hh + (IMG[r.src] ? "p" : "");
-    if (r.key !== key) { r.key = key; r.L = (IMG[r.src] && fromPhoto(IMG[r.src], r.w, r.hh)) || blur(r.s, r.w, r.hh); }
-    var c = RAMP.charAt(Math.round((1 - r.L[j * r.w + i]) * (RAMP.length - 1)));
-    return c === " " ? 0 : C(c, 12);
-  }
-  // the photos: tiny grey placeholders read one pixel per cell. until one arrives, a soft blur drawn the same way
-  function fromPhoto(img, cols, rows) {
-    try {
-      var c = document.createElement("canvas"), g = c.getContext("2d"), A = cols * cw / (rows * rh);
-      var iw = img.naturalWidth, ih = img.naturalHeight, sw = iw, sh = ih;
-      if (iw / ih > A) sw = ih * A; else sh = iw / A;
-      c.width = cols; c.height = rows;
-      g.drawImage(img, (iw - sw) / 2, (ih - sh) / 2, sw, sh, 0, 0, cols, rows);
-      var d = g.getImageData(0, 0, cols, rows).data, L = new Float32Array(cols * rows), lo = 1, hi = 0, i;
-      for (i = 0; i < L.length; i++) { L[i] = (.299 * d[i * 4] + .587 * d[i * 4 + 1] + .114 * d[i * 4 + 2]) / 255; lo = Math.min(lo, L[i]); hi = Math.max(hi, L[i]); }
-      for (i = 0; i < L.length; i++) L[i] = .15 + .85 * (L[i] - lo) / (hi - lo || 1);
-      return L;
-    } catch (e) { return null; }
-  }
-  function blur(seed, cols, rows) {
-    var cx = .25 + hs(seed, 1, 3) * .5, cy = .3 + hs(seed, 2, 3) * .35, s = .17 + hs(seed, 3, 3) * .07, A = cols * cw / (rows * rh), L = new Float32Array(cols * rows);
-    for (var y = 0; y < rows; y++) for (var x = 0; x < cols; x++) {
-      var dx = (x / (cols - 1) - cx) * A, dy = y / (rows - 1) - cy;
-      L[y * cols + x] = Math.min(1, Math.max(0, .95 - .25 * y / rows - .8 * Math.exp(-(dx * dx + dy * dy) / (2 * s * s))));
-    }
-    return L;
-  }
+  function plane(x, y, w, h, col, id, holes, opt) { pre(x, y, w, h, "pl c-" + col, field(x, y, w, h, holes, opt), id); }
 
-  // ---------- the composition: nested splits, sized in whole characters ----------
-  // V puts its children side by side and wraps them onto new rows when the window is too narrow; H stacks them.
-  // fr: share of the width, cw: fixed columns, mw: fewest columns, rh: fixed rows, mh: fewest rows, g: share of spare rows
-  function L(o) { o.leaf = 1; return o; }
-  function V(k, o) { o = o || {}; o.v = k; return o; }
-  function H(k, o) { o = o || {}; o.h = k; return o; }
-  function each(n, f) { f(n); (n.h || n.v || []).forEach(function (c) { each(c, f); }); }
-  function minW(n) {
-    if (n._w == null) n._w = n.leaf ? n.cw || n.mw || 4 : n.h ? Math.max(n.mw || 0, Math.max.apply(0, n.h.map(minW)))
-      : n.v.reduce(function (s, c, i) { return s + minW(c) + (i ? 2 : 0); }, 0);
-    return n._w;
-  }
-  function assignW(n, w) {
-    n.w = w;
-    if (n.leaf) return;
-    if (n.h) { n.h.forEach(function (c) { assignW(c, w); }); return; }
-    var rows = [], row = [], used = 0;
-    n.v.forEach(function (c) {
-      var m = minW(c);
-      if (row.length && used + 2 + m > w) { rows.push(row); row = []; used = 0; }
-      used += (row.length ? 2 : 0) + m; row.push(c);
+  // kes's heart-letter name, lifted pixel for pixel from her sign (every # was a <3)
+  var BM = [
+    "..#.....................#........#.............................##..................",
+    "..#..............................#..............................#.........##.##....",
+    "..#..#...###...####....##..#.##..#..#...###..#.##...####..###...#...###..#######...",
+    "..#.#...#...#.#.........#..##..#.#.#...#...#.##..#.#.....#...#..#..#...#.#######...",
+    "..##....#####..###......#..#...#.##....#####.#......###..#...#..#..#####..#####....",
+    "..#.#...#.........#.....#..#...#.#.#...#.....#.........#.#...#..#..#.......###.....",
+    "..#..#...###..####.....###.#...#.#..#...###..#.....####...###..###..###.....#......"
+  ];
+  function seg(a, b) { return BM.map(function (r) { return r.slice(a, b + 1); }); }
+  function cat() {
+    var args = arguments;
+    return BM.map(function (_, i) {
+      var s = "";
+      for (var k = 0; k < args.length; k++) s += typeof args[k] === "number" ? rep(".", args[k]) : args[k][i];
+      return s;
     });
-    if (row.length) rows.push(row);
-    n.rows = rows;
-    rows.forEach(function (r) {
-      if (r.length === 1) { assignW(r[0], w); return; }
-      var avail = w - 2 * (r.length - 1), ws = [], idx = [];
-      r.forEach(function (c, i) { if (c.cw) { ws[i] = c.cw; avail -= c.cw; } else idx.push(i); });
-      for (var pass = 0; pass < 4 && idx.length; pass++) {
-        var tot = idx.reduce(function (s, i) { return s + (r[i].fr || 1); }, 0);
-        var bad = idx.filter(function (i) { return avail * (r[i].fr || 1) / tot < minW(r[i]); });
-        if (!bad.length) break;
-        bad.forEach(function (i) { ws[i] = minW(r[i]); avail -= ws[i]; });
-        idx = idx.filter(function (i) { return bad.indexOf(i) < 0; });
+  }
+  var FONT = { kes: seg(2, 18), inkersole: seg(23, 71), inker: seg(23, 49), sole: seg(51, 71), heart: seg(73, 79), full: seg(2, 79) };
+  FONT.kesh = cat(FONT.kes, 3, FONT.heart);
+  // the same hand, for the letters her name doesn't have
+  var L = {
+    c: [".....", ".....", ".####", "#....", "#....", "#....", ".####"],
+    h: ["#....", "#....", "#.##.", "##..#", "#...#", "#...#", "#...#"],
+    a: [".....", ".....", ".###.", "....#", ".####", "#...#", ".####"],
+    m: [".....", ".....", "##.#.", "#.#.#", "#.#.#", "#.#.#", "#.#.#"],
+    i: seg(23, 25), n: seg(27, 31), l: seg(63, 65)
+  };
+  function word(s) {
+    var p = [];
+    for (var i = 0; i < s.length; i++) { if (i) p.push(1); p.push(L[s[i]]); }
+    return cat.apply(null, p);
+  }
+  function carve(mask, mw, mh, rows, x0, y0, pw, v) {
+    for (var r = 0; r < rows.length; r++) for (var c = 0; c < rows[r].length; c++) {
+      if (rows[r][c] !== "#") continue;
+      for (var k = 0; k < pw; k++) {
+        var x = x0 + c * pw + k, y = y0 + r;
+        if (x >= 0 && x < mw && y >= 0 && y < mh) mask[y * mw + x] = v || 1;
       }
-      if (!idx.length) idx = [r.length - 1], ws[r.length - 1] += avail, avail = 0;
-      var tot2 = idx.reduce(function (s, i) { return s + (r[i].fr || 1); }, 0), given = 0;
-      idx.forEach(function (i) { ws[i] = Math.floor(avail * (r[i].fr || 1) / tot2); given += ws[i]; });
-      for (var k = 0; given < avail; k++, given++) ws[idx[k % idx.length]]++;
-      r.forEach(function (c, i) { assignW(c, ws[i]); });
-    });
+    }
   }
-  function minH(n) {
-    if (n._h != null) return n._h;
-    var m;
-    if (n.leaf) m = n.rh || Math.max(n.mh || (n.c ? 1 : 2), n.need || 0);
-    else if (n.h) m = n.h.reduce(function (s, c) { return s + minH(c) + 1; }, -1);
-    else m = n.rows.reduce(function (s, r) { return s + rowH(r) + 1; }, -1);
-    if (n.vh && W >= 100) m = Math.max(m, VR);
-    return n._h = m;
+  function setX(el, x, w) { el.style.left = x * G.cw + "px"; el.style.width = w * G.cw + "px"; }
+  function setY(el, y) { el.style.top = y * G.lh + "px"; }
+  function rows(el) { return Math.max(1, Math.ceil(el.getBoundingClientRect().height / G.lh - 0.05)); }
+  // relayout when the width changes (not when a phone's address bar slides about)
+  function watch(fn) {
+    var lw = -1, lh = -1, t = 0;
+    function run() {
+      var W = doc.clientWidth, H = window.innerHeight;
+      if (W === lw && Math.abs(H - lh) < 120) return;
+      lw = W; lh = H; fn();
+    }
+    function soon() { clearTimeout(t); t = setTimeout(run, 80); }
+    if (window.ResizeObserver) new ResizeObserver(soon).observe(doc);
+    window.addEventListener("resize", soon);
+    run();
   }
-  function rowH(r) { return Math.max.apply(0, r.map(minH)); }
-  function grow(n) { return n.g != null ? n.g : n.leaf ? (n.rh || n.c ? 0 : 1) : Math.max.apply(0, (n.h || n.v).map(grow)); }
-  function share(extra, ws) {
-    var tot = ws.reduce(function (s, x) { return s + x; }, 0), out = ws.map(function () { return 0; }), given = 0;
-    if (!tot) { out[out.length - 1] = extra; return out; }
-    ws.forEach(function (x, i) { out[i] = Math.floor(extra * x / tot); given += out[i]; });
-    for (var i = 0; given < extra; i = (i + 1) % ws.length) if (ws[i]) { out[i]++; given++; }
+  return { G: G, grid: grid, begin: begin, end: end, pre: pre, hline: hline, vline: vline, plane: plane, field: field,
+    heartRow: heartRow, FONT: FONT, word: word, carve: carve, setX: setX, setY: setY, rows: rows, rep: rep, watch: watch };
+})();
+
+/* ---------------------------------------------------------------
+   composition with red, blue and yellow (1930), set in type.
+   the red square is the play button. press it and it becomes the
+   speaker cone: rings run out of the play mark on every beat, the
+   blue plane pumps like a level meter, the yellow sliver swaps
+   places every other beat and a yellow block rides the long
+   black line in 16ths. "pull up" runs it all backwards.
+   --------------------------------------------------------------- */
+(function () {
+  var doc = document.documentElement, body = document.body;
+  function $(id) { return document.getElementById(id); }
+  var G = KG.G, rep = KG.rep;
+  var art = $("art"), page = $("page"), go = $("go"), redEl = go.querySelector(".redpre"), lab = go.querySelector(".golabel");
+  var fm = $("fm"), tracker = $("tracker"), info = $("lcdinfo");
+  var S = {};
+  ["hello", "presents", "p1", "p2", "p3", "more", "writing", "written", "pods", "irl", "foot"].forEach(function (k) { S[k] = $("s-" + k); });
+  var red = null, D = {};
+  var A = { rings: [], n: 0, ph: -1, lvl: 1, spk: 0, swap: false, mode: "sub", cute: false, rwT: 0, maxR: 40, v: 3 };
+  function live() { return onAir && !still; }
+
+  // ---------- kes's speaker stack (i7-05), standing on the long line ----------
+  var SPK = [
+    "        \\(^o^)/       <3",
+    ".--------------..--------------.",
+    "| .----.  .--. || .----.  .--. |",
+    "| |====|  (()) || |====|  (()) |",
+    "| '----'  '--' || '----'  '--' |",
+    "'--------------''--------------'",
+    ".--------------..--------------.",
+    "|   .------.   ||   .------.   |",
+    "|  /  .--.  \\  ||  /  .--.  \\  |  )",
+    "| |  ( <3 )  | || |  ( <3 )  | |  ))",
+    "|  \\  '--'  /  ||  \\  '--'  /  |  )))",
+    "|   '------'   ||   '------'   |  ))",
+    "|--------------||--------------|  )",
+    "|    KES FM    ||   170.0 FM   |",
+    "'--------------''--------------'",
+    rep('"', 32)
+  ];
+  var SPKN = SPK.map(function (l, i) { return i === 0 ? "  \\(^o^)/   <3" : i === 15 ? rep('"', 16) : l.slice(0, 16) + (l.length > 32 ? l.slice(32) : ""); });
+  function esc(s) { return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+  function paint(l) {
+    var out = "", i = 0, m, rest;
+    while (i < l.length) {
+      rest = l.slice(i);
+      if ((m = /^[\\\/]\(\^o\^\)[\\\/]/.exec(rest)) || (m = /^<3/.exec(rest))) out += '<b class="p">' + esc(m[0]) + "</b>";
+      else if ((m = /^KES FM/.exec(rest))) out += "<b>" + m[0] + "</b>";
+      else if ((m = /^170\.0 FM/.exec(rest)) || (m = /^[()]+/.exec(rest))) out += '<b class="b">' + m[0] + "</b>";
+      else if ((m = /^"+/.exec(rest))) out += '<span class="g">' + m[0] + "</span>";
+      else { m = /^[^\\\/<K1()"]+|^[\s\S]/.exec(rest); out += esc(m[0]); }
+      i += m[0].length;
+    }
     return out;
   }
-  function gutter(x, y, w, h, st) { RECTS.push({ x: x, y: y, w: w, hh: h, st: st || "b", s: RECTS.length, fn: gut }); }
-  function place(n, x, y, h) {
-    n.x = x; n.y = y; n.hh = h;
-    if (n.leaf) { n.s = n.s || LEAVES.length * 7 + 3; LEAVES.push(n); RECTS.push(n); return; }
-    var gs = n.gs || "";
-    if (n.h) {
-      var hs0 = n.h.map(minH), add = share(h - hs0.reduce(function (s, v) { return s + v + 1; }, -1), n.h.map(grow)), yy = y;
-      n.h.forEach(function (c, i) {
-        if (i) { gutter(x, yy, n.w, 1, gs[i - 1]); yy++; }
-        place(c, x, yy, hs0[i] + add[i]); yy += hs0[i] + add[i];
-      });
-      return;
-    }
-    var rhs = n.rows.map(rowH), add2 = share(h - rhs.reduce(function (s, v) { return s + v + 1; }, -1), n.rows.map(function (r) { return Math.max.apply(0, r.map(grow)); })), y2 = y;
-    n.rows.forEach(function (r, ri) {
-      var hh = rhs[ri] + add2[ri], xx = x;
-      if (ri) { gutter(x, y2, n.w, 1); y2++; }
-      r.forEach(function (c, ci) {
-        if (ci) { gutter(xx, y2, 2, hh, gs[n.v.indexOf(c) - 1]); xx += 2; }
-        place(c, xx, y2, hh); xx += c.w;
-      });
-      y2 += hh;
-    });
-  }
-  var DRAWN = { name: 1, garden: 1, pc: 1 };
-  function prep(n) {
-    if (n.pl) { n.fn = plane; return; }
-    if (n.tex === "photo") { n.fn = photo; return; }
-    if (!DRAWN[n.tex]) { n.fn = TEX[n.tex] || TEX.none; return; }
-    var d = n.tex === "name" ? (n.w - 4 >= 156 ? DRAW.big : DRAW.small) : DRAW[n.tex];
-    var dw = Math.max.apply(0, d.t.map(function (s) { return s.length; })), dh = d.t.length;
-    n.d = { t: d.t, c: d.c, op: n.tex === "pc", tile: n.tex === "garden" ? 192 : 0,
-      ox: n.tex === "garden" ? 1 : Math.max(1, Math.floor((n.w - dw) / 2)), oy: Math.max(1, Math.floor((n.hh - dh) / 2)) };
-    if (n.tex === "garden") { n.d.oy = Math.max(0, n.hh - dh - 1); n.bg = "none"; }
-    n.fn = draw;
-  }
-
-  // ---------- measure, place, cut, paint ----------
-  var probe = document.createElement("span");
-  probe.setAttribute("aria-hidden", "true");
-  probe.style.cssText = "position:absolute;left:0;top:0;visibility:hidden;white-space:pre;font-size:100px;line-height:1";
-  probe.textContent = new Array(101).join("0");
-  page.appendChild(probe);
-  var api = { L: L, V: V, H: H, measure: function (id, cols) {
-    var el = document.getElementById(id); el.style.width = cols * cw + "px";
-    return Math.ceil(el.getBoundingClientRect().height / rh - .05);
-  } };
-
-  function layout() {
-    raf = 0;
-    var ww = de.clientWidth, adv = adv0 = probe.getBoundingClientRect().width / 10000 || .6;
-    W = Math.max(46, Math.round(ww / 7.8)); cw = ww / W;
-    var fs = cw / adv; rh = Math.round(fs * 1.24);
-    de.style.setProperty("--fs", fs + "px"); de.style.setProperty("--rh", rh + "px");
-    lastW = ww; VR = Math.floor(innerHeight / rh);
-    var t = tree(W, api);
-    assignW(t, W);
-    var cells = [];
-    each(t, function (n) {
-      if (!n.c) return;
-      var el = n.el = document.getElementById(n.c), inner = Math.max(4, Math.min(n.w - 2 * PX, n.maxc || 999));
-      if (el.classList.contains("deck")) el.classList.toggle("narrow", inner < 48);
-      el.style.width = n.fit ? "" : inner * cw + "px";
-      cells.push(n);
-    });
-    cells.forEach(function (n) {
-      var b = n.el.getBoundingClientRect();
-      n.rows = Math.ceil(b.height / rh - .05); n.cols = Math.ceil(b.width / cw - .05); n.need = n.rows + 2 * PY;
-    });
-    each(t, function (n) { if (n.tex === "pc") n.need = DRAW.pc.t.length + 2; });
-    RECTS = []; LEAVES = [];
-    R = minH(t);
-    place(t, 0, 0, R);
-    RECTS.forEach(function (r) { if (r.leaf) prep(r); });
-    OWN = new Int16Array(W * R).fill(-1);
-    RECTS.forEach(function (r, k) { for (var y = r.y; y < r.y + r.hh; y++) OWN.fill(k, y * W + r.x, y * W + r.x + r.w); });
-    page.style.height = R * rh + "px";
-    field.style.width = W * cw + "px";
-    [].forEach.call(page.querySelectorAll(".band"), function (b) {
-      var top = 1e9;
-      cells.forEach(function (n) { if (b.contains(n.el)) top = Math.min(top, n.y); });
-      b.top = top < 1e9 ? top * rh : 0; b.style.top = b.top + "px";
-    });
-    cells.forEach(function (n) {
-      var ox = n.al === "c" ? Math.max(0, Math.floor((n.w - 2 * PX - n.cols) / 2)) : 0;
-      var oy = n.va === "c" ? Math.max(0, Math.floor((n.hh - n.need) / 2)) : 0;
-      var band = n.el.parentNode.closest(".band");
-      n.el.style.left = (n.x + PX + ox) * cw + "px";
-      n.el.style.top = (n.y + PY + oy) * rh - (band ? band.top : 0) + "px";
-    });
-    var need = Math.ceil(R / CHUNK);
-    while (pres.length < need) pres.push(field.appendChild(document.createElement("pre")));
-    while (pres.length > need) field.removeChild(pres.pop());
-    remask(); paint(0, R);
-    RECTS.forEach(function (r) {
-      if (!r.src || LOAD[r.src]) return;
-      var src = r.src, img = LOAD[src] = new Image();
-      img.crossOrigin = "anonymous";
-      img.onload = function () { IMG[src] = img; RECTS.forEach(function (q) { if (q.src === src) paint(q.y, q.y + q.hh); }); };
-      img.src = src;
-    });
-  }
-  // clear the texture under every letter, button and drawing, plus one character either side
-  var SOLID = "button,.ticker,.sy,.track";
-  function remask() {
-    MASK = new Uint8Array(W * R);
-    var pr = page.getBoundingClientRect(), ox = pr.left, oy = pr.top, rg = document.createRange();
-    LEAVES.forEach(function (n) {
-      if (!n.el) return;
-      function add(b) {
-        if (b.width < 1 || b.height < 1) return;
-        var x0 = Math.max(n.x, Math.round((b.left - ox) / cw) - 1), x1 = Math.min(n.x + n.w, Math.round((b.right - ox) / cw) + 1);
-        var y0 = Math.max(n.y, Math.floor((b.top - oy) / rh + .45)), y1 = Math.min(n.y + n.hh, Math.ceil((b.bottom - oy) / rh - .45));
-        for (var y = y0; y < y1; y++) if (x1 > x0) MASK.fill(1, y * W + x0, y * W + x1);
+  function spkFrame(lines, beat) {
+    return lines.map(function (l) {
+      if (beat) {
+        l = l.replace("\\(^o^)/", "/(^o^)\\").replace(/\( <3 \)/g, "((<3))");
+        l = l.replace(/(\|  )(\)+)$/, function (_, p, w) { return p + " " + w + ")"; });
       }
-      (function walk(e) {
-        for (var c = e.firstChild; c; c = c.nextSibling) {
-          if (c.nodeType === 3) { rg.selectNodeContents(c); [].forEach.call(rg.getClientRects(), add); }
-          else if (c.nodeType === 1) { if (c.matches(SOLID)) add(c.getBoundingClientRect()); else walk(c); }
+      return paint(l);
+    }).join("\n");
+  }
+
+  // ---------- the red square: hearts, with her name and a play mark cut out of them ----------
+  function buildRed(x, y, w, h, wide) {
+    var mask = new Uint8Array(w * h), F = KG.FONT, mx = wide ? 4 : 2, my = 2;
+    var opts = [[2, ["full"]], [2, ["kesh", "inkersole"]], [2, ["kesh", "inker", "sole"]], [1, ["full"]], [1, ["kesh", "inkersole"]], [1, ["kesh", "inker", "sole"]]];
+    var pick = opts[opts.length - 1], i;
+    for (i = 0; i < opts.length; i++) {
+      var o = opts[i], mw = 0, st = o[0] === 2 ? 9 : 8;
+      o[1].forEach(function (k) { mw = Math.max(mw, F[k][0].length * o[0]); });
+      if (mw <= w - 2 * mx && my + o[1].length * st + 9 <= h) { pick = o; break; }
+    }
+    var pw = pick[0], step = pw === 2 ? 9 : 8, x0 = mx;
+    if (pw === 2 && ((x + x0) & 1)) x0++;
+    pick[1].forEach(function (k, li) { KG.carve(mask, w, h, F[k], x0, my + li * step, pw, 1); });
+    var nb = my + pick[1].length * step - (step - 7);
+    var LW = 27, avail = h - nb - 2 - 3, Ht = Math.min(15, avail), Wt = 0, gx, ty, ly;
+    if (Ht % 2 === 0) Ht--;
+    if (Ht >= 5) {
+      Wt = Math.max(3, Math.round(Ht * (G.lh / G.cw) * 0.866));
+      var gw = Math.max(Wt, LW), c = (Ht - 1) / 2;
+      gx = wide ? w - mx - gw : x0;
+      ty = nb + 2 + Math.floor((avail - Ht) / 2);
+      for (var r = 0; r < Ht; r++) {
+        var len = Math.max(1, Math.round(Wt * (1 - Math.abs(r - c) / (c + 1))));
+        for (var q = 0; q < len; q++) mask[(ty + r) * w + gx + q] = 2;
+      }
+      ly = ty + Ht + 1;
+    } else { Ht = 0; gx = x0; ty = nb; ly = Math.min(h - 2, nb + 1); }
+    for (i = 0; i < LW && gx + i < w; i++) mask[ly * w + gx + i] = 1;
+    var cx = Ht ? gx + Wt / 3 : w / 2, cy = Ht ? ty + c : h / 2, k = G.cw / G.lh, far = 0;
+    [[0, 0], [w, 0], [0, h], [w, h]].forEach(function (p) { var dx = (p[0] - cx) * k, dy = p[1] - cy; far = Math.max(far, Math.sqrt(dx * dx + dy * dy)); });
+    A.maxR = far; A.v = Math.max(2.5, far / 14);
+    return { x: x, y: y, w: w, h: h, mask: mask, cx: cx, cy: cy, lx: gx, ly: ly };
+  }
+  var CLS = ["", "", "tri", "", "ry", "rb"];
+  function run(c, s) { if (!s) return ""; s = s.replace(/</g, "&lt;"); return c ? '<span class="' + CLS[c] + '">' + s + "</span>" : s; }
+  function renderRed() {
+    if (!red) return;
+    var w = red.w, h = red.h, m = red.mask, rings = A.rings, k = G.cw / G.lh, on = live();
+    var wob = on && A.mode === "reese", thin = on && A.mode === "off", out = [], x, y, j;
+    for (y = 0; y < h; y++) {
+      var off = wob ? Math.round(Math.sin(y * 0.55 + A.n * 0.8) * 1.2) : 0, row = "", cur = 0, s = "", dy = y - red.cy;
+      for (x = 0; x < w; x++) {
+        var t = m[y * w + x], c = t;
+        if (!t) {
+          for (j = 0; j < rings.length; j++) {
+            var dx = (x - red.cx) * k, d = Math.sqrt(dx * dx + dy * dy);
+            if (Math.abs(d - rings[j].r) < rings[j].t) { c = rings[j].c; break; }
+          }
+          if (!c && thin && (y & 1)) c = 1;
         }
-      })(n.el);
+        var blank = c === 1 || c === 3, cc = blank ? 0 : c;
+        if (cc !== cur) { row += run(cur, s); s = ""; cur = cc; }
+        s += blank ? " " : ((red.x + x + off) & 1) ? "3" : "<";
+      }
+      out.push(row + run(cur, s));
+    }
+    redEl.innerHTML = out.join("\n");
+  }
+
+  // ---------- the moving parts ----------
+  function drawBlue() {
+    var d = D.blue, el = $("pl-blue"); if (!d || !el) return;
+    var lv = live() ? (A.mode === "off" ? 0.35 + A.lvl * 0.3 : A.lvl) : 1, empty = Math.round(d.h * (1 - lv) * 0.6), rows = [];
+    for (var r = 0; r < d.h; r++) rows.push(r < empty ? "" : KG.heartRow(d.x, d.y + r, d.w).replace(/</g, "&lt;"));
+    el.innerHTML = rows.join("\n");
+  }
+  function drawStrip() {
+    var d = D.strip, el = $("strip"); if (!d || !el) return;
+    var rows = [], ln = '<span class="k">' + rep("█", d.w) + "</span>";
+    for (var r = 0; r < d.h; r++) {
+      var yel = A.swap ? r < d.cut : r > d.cut;
+      rows.push(r === d.cut ? ln : yel ? '<span class="y">' + KG.heartRow(d.x, d.y + r, d.w).replace(/</g, "&lt;") + "</span>" : "");
+    }
+    el.innerHTML = rows.join("\n");
+  }
+  function drawH1() {
+    var el = $("ln-h1"); if (!el) return;
+    var C = G.C, i = live() ? A.ph : -1;
+    if (i < 0) { el.textContent = rep("█", C); return; }
+    var x0 = Math.round(i * C / 32), x1 = Math.round((i + 1) * C / 32);
+    el.innerHTML = rep("█", x0) + '<span class="ph">' + rep("█", x1 - x0) + "</span>" + rep("█", C - x1);
+  }
+  var spkCache = {};
+  function drawSpk() {
+    var d = D.spk, el = $("spk"); if (!d || !el) return;
+    var key = (d.narrow ? "n" : "w") + A.spk;
+    if (!spkCache[key]) spkCache[key] = spkFrame(d.narrow ? SPKN : SPK, A.spk);
+    el.innerHTML = spkCache[key];
+  }
+  function drawAll() { renderRed(); drawBlue(); drawStrip(); drawH1(); drawSpk(); }
+
+  // ---------- laying out the painting and everything under it ----------
+  function proj(el, x0, x1, y, h, P, pos, col) {
+    var w = x1 - x0, pic = el.querySelector(".pic"), py, ty;
+    if (pos === "top") { py = y; ty = y + P + 2; KG.hline(x0, y + P, w); }
+    else { py = y + h - P; ty = y + 1; KG.hline(x0, py - 1, w); }
+    var hw = 19, hy = py + Math.floor((P - 1) / 2), hx = x0 + Math.max(0, Math.floor((w - hw) / 2));
+    if (hx & 1) hx++;
+    if (hx + hw > x1) hx = Math.max(x0, x1 - hw);
+    KG.plane(x0, py, w, P, col, null, [{ x: hx, y: hy, w: hw, h: 1 }]);
+    KG.setY(el, ty);
+    var ex = parseFloat(el.style.left) / G.cw;
+    pic.style.left = (hx + 1 - ex) * G.cw + "px";
+    pic.style.top = (hy - ty) * G.lh + "px";
+  }
+  function wideSet(g) {
+    var C = g.C, xR = g.xR, p = g.pad, Lw = g.a - 2 * p;
+    g.s = xR + Math.round((C - xR) * 0.6); g.s3 = xR + Math.round((C - xR) * 0.7); g.s4 = xR + Math.round((C - xR) * 0.64);
+    KG.setX(S.hello, p, Lw);
+    KG.setX(S.presents, xR + p, Math.min(72, g.s - xR - 2 * p));
+    KG.setX(S.p1, p, Lw);
+    KG.setX(S.p2, xR + p, Math.min(72, g.s - xR - 2 * p));
+    KG.setX(S.p3, g.s + 2 + p, C - g.s - 2 - 2 * p);
+    KG.setX(S.more, p, Lw);
+    KG.setX(S.writing, p, Lw);
+    KG.setX(S.written, xR + p, Math.min(72, g.s3 - xR - 2 * p));
+    KG.setX(S.pods, xR + p, Math.min(72, g.s4 - xR - 2 * p));
+    KG.setX(S.irl, g.s4 + 2 + p, C - g.s4 - 2 - 2 * p);
+    KG.setX(S.foot, xR + p, Math.min(72, g.v2 - xR - 2 * p));
+  }
+  function wideDraw(y, H, g) {
+    var C = g.C, a = g.a, xR = g.xR, s = g.s, h, k;
+    // hello | this website presents | white over yellow
+    h = Math.max(H.hello, H.presents, 8) + 2;
+    KG.setY(S.hello, y + 1); KG.setY(S.presents, y + 1);
+    KG.vline(s, y, h);
+    k = y + Math.round(h * 0.62);
+    KG.hline(s + 2, k, C - s - 2);
+    KG.plane(s + 2, k + 1, C - s - 2, y + h - k - 1, "yellow");
+    y += h; KG.hline(0, y, C); y++;
+    // the three projects: each picture-to-come is a plane of its own colour
+    h = Math.max(8 + H.p1 + 3, H.p2 + 3 + 6, 11 + H.p3 + 3);
+    proj(S.p1, 0, a, y, h, 8, "top", "pink");
+    proj(S.p2, xR, s, y, h, h - H.p2 - 3, "bottom", "yellow");
+    proj(S.p3, s + 2, C, y, h, 11, "top", "blue");
+    KG.vline(s, y, h);
+    y += h; KG.hline(0, y, C); y++;
+    // more projects over my writing | things i've written | white over blue
+    var hm = H.more + 2;
+    h = Math.max(hm + H.writing + 3, H.written + 2);
+    KG.setY(S.more, y + 1);
+    KG.hline(0, y + hm, a, "lo");
+    KG.setY(S.writing, y + hm + 2);
+    KG.setY(S.written, y + 1);
+    KG.vline(g.s3, y, h);
+    k = y + Math.round(h * 0.45);
+    KG.hline(g.s3 + 2, k, C - g.s3 - 2);
+    KG.plane(g.s3 + 2, k + 1, C - g.s3 - 2, y + h - k - 1, "blue");
+    y += h; KG.hline(0, y, C); y++;
+    // pink over white | podcasts | irl
+    h = Math.max(H.pods, H.irl, 8) + 2;
+    k = y + Math.round(h * 0.4);
+    KG.plane(0, y, a, k - y, "pink"); KG.hline(0, k, a);
+    KG.setY(S.pods, y + 1); KG.setY(S.irl, y + 1);
+    KG.vline(g.s4, y, h);
+    y += h; KG.hline(0, y, C); y++;
+    // blue runs off the bottom left, and the yellow sliver comes back at the bottom right
+    h = H.foot + 5;
+    KG.plane(0, y, a, h, "blue");
+    KG.setY(S.foot, y + 1);
+    KG.vline(g.v2, y, h);
+    k = y + Math.round(h * 0.45);
+    KG.hline(g.v2 + 2, k, g.sw);
+    KG.plane(g.v2 + 2, k + 1, g.sw, y + h - k - 1, "yellow");
+    return y + h;
+  }
+  function narrowSet(g) {
+    var xR = g.xR, p = g.pad, tw = Math.min(72, g.C - xR - 2 * p);
+    g.sp = g.C - xR >= 30 ? Math.round((g.C - xR) * 0.3) : 0;
+    ["hello", "presents", "p1", "p2", "p3", "writing", "written", "pods", "foot"].forEach(function (k) { KG.setX(S[k], xR + p, tw); });
+    var sw2 = g.sp ? Math.min(72, g.C - xR - g.sp - 2 - 2 * p) : tw;
+    KG.setX(S.more, xR + p, sw2); KG.setX(S.irl, xR + p, sw2);
+  }
+  function narrowDraw(y, H, g) {
+    var C = g.C, a = g.a, xR = g.xR;
+    var seq = [["hello", "white"], ["presents", "yellow"], ["p1", "white", "pink"], ["p2", "white", "yellow"], ["p3", "white", "blue"],
+      ["more", "white", 0, "yellow"], ["writing", "pink"], ["written", "white"], ["pods", "white"], ["irl", "white", 0, "blue"], ["foot", "blue"]];
+    seq.forEach(function (it, i) {
+      var id = it[0], el = S[id], fill = it[1], last = i === seq.length - 1, h;
+      if (it[2]) { h = 6 + H[id] + 3; proj(el, xR, C, y, h, 6, "top", it[2]); }
+      else { h = H[id] + 2; KG.setY(el, y + 1); }
+      if (it[3] && g.sp) { KG.vline(C - g.sp - 2, y, h); KG.plane(C - g.sp, y, g.sp, h, it[3]); }
+      if (last) h += 3;
+      if (fill !== "white") KG.plane(0, y, a, h, fill);
+      if (last) { y += h; return; }
+      var merge = fill === "white" && seq[i + 1][1] === "white";
+      KG.hline(merge ? a : 0, y + h, merge ? C - a : C);
+      y += h + 1;
     });
+    return y;
   }
-  function cell(x, y, n) {
-    if (MASK[n]) return 0;
-    var r = RECTS[OWN[n]];
-    if (!r) return C("█", 3);
-    var v = r.fn(r, x - r.x, y - r.y, x, y);
-    if (v && TX > -50) {
-      var k = v >>> 16;
-      if (k === 1 || k === 2 || k === 12) { var dx = (x + .5 - TX) / 11, dy = (y + .5 - TY) / 4.5; if (dx * dx + dy * dy < 1) v = (v & 65535) + 8 * 65536; }
+  function layout() {
+    KG.grid();
+    var C = G.C, R0 = G.R0, wide = C >= 130, pad = C < 70 ? 1 : 2;
+    doc.classList.toggle("wide", wide);
+    KG.begin(); D = {};
+    var a = wide ? Math.round(C * 0.27) : Math.max(5, Math.round(C * 0.19)), xR = a + 2;
+    var sw = wide ? Math.max(8, C - Math.round(C * 0.905) - 2) : Math.max(3, Math.round(C * 0.1)), v2 = C - sw - 2;
+    var g = { C: C, a: a, xR: xR, pad: pad, sw: sw, v2: v2 };
+    KG.setX(fm, xR + pad, Math.min(104, v2 - xR - 2 * pad));
+    (wide ? wideSet : narrowSet)(g);
+    var H = {};
+    Object.keys(S).forEach(function (k) { H[k] = KG.rows(S[k]); });
+    var fmRows = KG.rows(fm), fr = fm.getBoundingClientRect(), ib = fm.querySelector(".ident").getBoundingClientRect();
+    var restRows = Math.ceil((ib.bottom - fr.top) / G.lh - 0.05);
+    // the painting: red square upper right, the long line about two thirds down
+    var h1 = Math.min(Math.round(R0 * 0.68), R0 - restRows - 3);
+    h1 = Math.max(h1, Math.min(wide ? 24 : 36, R0 - 8));
+    var bandTop = h1 + 1, bandH = Math.max(R0 - bandTop, fmRows + 2);
+    red = buildRed(xR, 0, C - xR, h1, wide);
+    var spkIn = wide && a >= 40 && h1 - 18 >= 5;
+    KG.hline(0, spkIn ? Math.min(Math.round(R0 * 0.31), h1 - 18) : Math.round(h1 * 0.42), a);
+    if (spkIn) {
+      var sx = Math.max(1, Math.floor((a - 37) / 2));
+      D.spk = { narrow: false };
+      KG.pre(sx, h1 - 16, a - sx, 16, "spk", "", "spk");
     }
-    return v;
-  }
-  function line(y) {
-    var out = "", run = "", k0 = 0, n = y * W;
-    for (var x = 0; x < W; x++, n++) {
-      var v = cell(x, y, n);
-      if (!v) { run += " "; continue; }
-      var k = v >>> 16, c = String.fromCharCode(v & 65535);
-      if (c === "<") c = "&lt;"; else if (c === "&") c = "&amp;"; else if (c === ">") c = "&gt;";
-      if (k !== k0) { out += k0 ? "<i class=" + CN[k0] + ">" + run + "</i>" : run; run = ""; k0 = k; }
-      run += c;
+    KG.hline(0, h1, C, null, "ln-h1");
+    D.blue = { x: 0, y: bandTop, w: a, h: bandH };
+    KG.pre(0, bandTop, a, bandH, "pl c-blue", "", "pl-blue");
+    KG.setY(fm, bandTop + 1);
+    KG.vline(v2, bandTop, bandH);
+    D.strip = { x: v2 + 2, y: bandTop, w: sw, h: bandH, cut: Math.max(2, Math.round(Math.max(4, R0 - bandTop) * 0.46)) };
+    KG.pre(v2 + 2, bandTop, sw, bandH, "pl", "", "strip");
+    var y = bandTop + bandH;
+    KG.hline(0, y, C); y++;
+    if (!spkIn) {
+      var px = xR + pad;
+      D.spk = { narrow: C - px < 41 };
+      KG.pre(px, y + 1, C - px, 16, "spk", "", "spk");
+      y += 18; KG.hline(0, y, C); y++;
     }
-    return out + (k0 ? "<i class=" + CN[k0] + ">" + run + "</i>" : run);
+    y = (wide ? wideDraw : narrowDraw)(y, H, g);
+    KG.vline(a, 0, y);
+    page.style.height = y * G.lh + "px";
+    KG.end(art);
+    go.style.left = red.x * G.cw + "px"; go.style.top = "0px";
+    go.style.width = red.w * G.cw + "px"; go.style.height = red.h * G.lh + "px";
+    redEl.style.width = red.w * G.cw + "px"; redEl.style.height = red.h * G.lh + "px";
+    lab.style.left = (red.lx + 1) * G.cw + "px"; lab.style.top = red.ly * G.lh + "px";
+    drawAll();
+    doc.classList.add("ready");
   }
-  function paint(a, b) {
-    a = Math.max(0, a); b = Math.min(R, b);
-    for (var c = Math.floor(a / CHUNK); c * CHUNK < b; c++) {
-      var rows = [];
-      for (var y = c * CHUNK; y < Math.min(R, (c + 1) * CHUNK); y++) rows.push(line(y));
-      pres[c].innerHTML = rows.join("\n");
+  function safe() {
+    try { layout(); }
+    catch (e) { doc.classList.remove("js", "gated"); art.innerHTML = ""; if (window.console) console.warn(e); }
+  }
+
+  // ---------- KES FM hooks ----------
+  function readInfo() {
+    var t = info.textContent, m = /bass: (\w+)/.exec(t);
+    A.mode = m ? m[1] : "sub"; A.cute = /cute: on/.test(t);
+  }
+  function spawn(c, inward, thick) { A.rings.push({ age: 0, r: inward ? A.maxR : 0, c: c, inward: inward, t: thick ? 1.6 : 0.95 }); }
+  function age() {
+    A.rings.forEach(function (r) { r.age++; r.r = r.inward ? A.maxR - r.age * A.v : r.age * A.v; });
+    A.rings = A.rings.filter(function (r) { return r.r > -1 && r.r < A.maxR + 1; });
+  }
+  function rest() {
+    clearInterval(A.rwT); body.classList.remove("rewind");
+    A.rings = []; A.ph = -1; A.lvl = 1; A.spk = 0; A.swap = false; A.n = 0; A.mode = "sub";
+    drawAll();
+  }
+  function rewind() {
+    body.classList.add("rewind");
+    clearInterval(A.rwT);
+    var n = 0;
+    A.rwT = setInterval(function () {
+      n++;
+      if (n % 2) spawn(3, true, false);
+      age(); A.ph = (A.ph + 31) % 32; A.n--;
+      drawH1(); renderRed();
+      if (n >= 13) clearInterval(A.rwT);
+    }, 85);
+  }
+  window.KES = {
+    look: function (m) {
+      if (still) return;
+      if (m === undefined) { clearInterval(A.rwT); body.classList.remove("rewind"); if (!onAir) rest(); return; }
+      if (m === "@") { rewind(); return; }
+      readInfo();
+      spawn(A.cute ? 4 : 3, false, m === "^");
+      A.spk ^= 1; drawSpk();
+      if (m === "^") { A.swap = !A.swap; drawStrip(); }
     }
+  };
+  // the 16ths: watch the tracker light up
+  new MutationObserver(function () {
+    if (!live()) return;
+    var on = tracker.querySelector(".on"); if (!on) return;
+    var i = Array.prototype.indexOf.call(tracker.children, on);
+    if (i === A.ph) return;
+    A.ph = i; A.n++;
+    var cl = on.classList;
+    if (cl.contains("rev")) spawn(3, true, false);
+    else if (cl.contains("up")) spawn(5, false, false);
+    if (cl.contains("roll")) spawn(A.cute ? 4 : 5, false, false);
+    age();
+    A.lvl = i % 4 === 0 ? 1 : A.lvl * 0.84;
+    drawBlue(); drawH1(); renderRed();
+  }).observe(tracker, { attributes: true, attributeFilter: ["class"], subtree: true, childList: true });
+
+  // ---------- the gate ----------
+  function gated() { return doc.classList.contains("gated"); }
+  function enter(how) {
+    if (!gated()) return;
+    doc.classList.remove("gated");
+    try { sessionStorage.setItem("kes-in", "1"); } catch (e) {}
+    if (how !== "quiet") return;
+    setTimeout(function () {
+      var hd = S.hello.querySelector("h2"), top = S.hello.getBoundingClientRect().top + window.pageYOffset - 2 * G.lh;
+      try { window.scrollTo({ top: top, behavior: still ? "auto" : "smooth" }); } catch (e) { window.scrollTo(0, top); }
+      hd.setAttribute("tabindex", "-1");
+      try { hd.focus({ preventScroll: true }); } catch (e) { hd.focus(); }
+    }, 180);
   }
-  function inView() { var top = -page.getBoundingClientRect().top / rh; paint(Math.floor(top) - 1, Math.ceil(top + innerHeight / rh) + 1); }
-  function later() { if (!raf) raf = requestAnimationFrame(layout); }
-
-  // ---------- the reveal: the texture goes pale around your mouse, so the words near it come forward ----------
-  var tq = 0, nx = -99, ny = -99;
-  function torch() {
-    tq = 0;
-    var oy = TY; TX = nx; TY = ny;
-    if (oy > -50) paint(Math.floor(oy - 5), Math.ceil(oy + 5));
-    if (TY > -50) paint(Math.floor(TY - 5), Math.ceil(TY + 5));
-  }
-  addEventListener("pointermove", function (e) {
-    if (e.pointerType !== "mouse") return;
-    var pr = page.getBoundingClientRect();
-    nx = (e.clientX - pr.left) / cw; ny = (e.clientY - pr.top) / rh;
-    if (!tq) tq = requestAnimationFrame(torch);
-  }, { passive: true });
-  de.addEventListener("mouseleave", function () { nx = ny = -99; if (!tq) tq = requestAnimationFrame(torch); });
-  addEventListener("scroll", function () { if (TY > -50) { nx = ny = -99; if (!tq) tq = requestAnimationFrame(torch); } }, { passive: true });
-
-  // ---------- while KES FM is on air the composition moves with it, one step per beat ----------
-  var snd = document.querySelector(".sound");
-  if (snd && window.MutationObserver) {
-    new MutationObserver(function () {
-      if (snd.classList.contains("thump") && document.body.classList.contains("on-air") && !calm.matches) { B++; inView(); }
-    }).observe(snd, { attributes: true, attributeFilter: ["class"] });
-    new MutationObserver(function () {
-      if (B && !document.body.classList.contains("on-air")) { B = 0; inView(); }
-    }).observe(document.body, { attributes: true, attributeFilter: ["class"] });
-  }
-  // when the radio's readout changes, cut the texture again around the new words
-  var mq = 0;
-  if (window.MutationObserver) new MutationObserver(function (ms) {
-    for (var i = 0; i < ms.length; i++) if (!field.contains(ms[i].target)) {
-      if (!mq) mq = requestAnimationFrame(function () { mq = 0; remask(); paint(0, R); });
-      return;
-    }
-  }).observe(page, { childList: true, characterData: true, subtree: true });
-
-
-  layout();
-  addEventListener("resize", function () {
-    if (de.clientWidth !== lastW || (W >= 100 && Math.floor(innerHeight / rh) !== VR)) later();
+  go.addEventListener("click", function () { enter("play"); });
+  $("quiet").addEventListener("click", function () { enter("quiet"); });
+  document.addEventListener("focusin", function (e) {
+    var t = e.target;
+    if (gated() && t !== go && t.id !== "quiet" && t !== body) enter("focus");
   });
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () {
-    if (Math.abs(probe.getBoundingClientRect().width / 10000 - adv0) > 1e-4) later();
-  });
-}
+  if (gated()) { if ("scrollRestoration" in history) history.scrollRestoration = "manual"; window.scrollTo(0, 0); }
 
-/* the composition of this page. widths are shares of the window (fr) or fixed columns (cw);
-   anything that can't sit side by side wraps onto its own row, so a phone gets a tall stack of the same pieces */
-kesGrid(function (cols, g) {
-  var L = g.L, V = g.V, H = g.H;
-  var pic = function (seed, n) { return L({ tex: "photo", src: "https://picsum.photos/seed/" + seed + "/160/100?grayscale", s: n, rh: cols < 100 ? 9 : 12 }); };
-  return H([
-    // the first screen: her name in little hearts, then hello, KES FM and the card
-    H([
-      V([
-        L({ tex: "name", mw: 40, rh: 9 }),
-        H([ L({ pl: "p", ch: "▓", fl: 1, g: 2 }),
-            V([ L({ pl: "y", ch: "█", cw: 4 }), L({ tex: "star", mw: 2 }), L({ pl: "k", ch: "█", cw: 4 }) ], { rh: 3 }) ], { cw: 20, mw: 12 })
-      ]),
-      V([
-        H([ L({ c: "c-hello", tex: "colon", maxc: 62 }),
-            V([ L({ pl: "p", ch: "█", cw: 4 }), L({ tex: "dots", mw: 2 }), L({ pl: "y", ch: "█", cw: 4 }), L({ pl: "u", ch: "█", cw: 4 }), L({ tex: "x", mw: 2 }) ], { rh: 2 }),
-            V([ L({ pl: "u", ch: "▓", fl: 1, mw: 8 }), L({ tex: "vbar", cw: 5 }) ], { g: 3 }),
-            L({ tex: "noise", g: 1 }) ], { fr: 44, mw: 36 }),
-        H([ L({ c: "c-fmh", tex: "hex" }),
-            V([ L({ c: "c-spk", tex: "dots", cw: 39, fit: 1, al: "c", va: "c" }), L({ c: "deck", tex: "dump", mw: 54 }) ]),
-            V([ L({ c: "c-new", tex: "quote", fr: 5, mw: 30 }), L({ pl: "y", ch: "█", cw: 6 }), L({ tex: "slash", cw: 8 }), L({ pl: "p", ch: "<3", cw: 10 }) ], { g: 0 }),
-            V([ L({ tex: "noise", fr: 3 }), L({ pl: "k", ch: "█", cw: 4 }), L({ tex: "back", fr: 2 }) ], { g: 1 }) ], { fr: 94, mw: 54 }),
-        H([ L({ c: "c-card", tex: "plus", maxc: 60 }),
-            V([ L({ pl: "k", ch: "█", cw: 4 }), L({ tex: "dots", cw: 2 }), L({ pl: "p", ch: "█", cw: 4 }), L({ tex: "quote", mw: 2 }), L({ pl: "u", ch: "█", cw: 4 }) ], { rh: 2 }),
-            V([ L({ tex: "bin", fr: 2 }), L({ pl: "y", ch: "▓", fr: 3, fl: 1 }) ], { g: 1 }) ], { fr: 44, mw: 36 })
-      ], { gs: "bD" })
-    ], { vh: 1, gs: "w" }),
-    // three projects, with tall thin planes between them
-    V([
-      H([ pic("latentspace", 1), L({ c: "c-p1", tex: "dash" }) ], { fr: 3, mw: 34 }),
-      H([ L({ pl: "p", ch: "▓", g: 1 }), L({ pl: "k", ch: "█", rh: 3 }) ], { cw: 6, mw: 4 }),
-      H([ pic("networkedworlds", 2), L({ c: "c-p2", tex: "tilde" }), L({ pl: "u", ch: "D", g: 1 }) ], { fr: 3, mw: 34 }),
-      H([ L({ tex: "vbar", g: 1 }), V([ L({ pl: "y", ch: "█", cw: 4 }), L({ pl: "p", ch: "█", cw: 4 }) ], { rh: 2 }), L({ tex: "star", g: 1 }) ], { cw: 10, mw: 8 }),
-      H([ pic("dirtywords", 3), L({ c: "c-p3", tex: "slash" }) ], { fr: 3, mw: 34 })
-    ]),
-    // everything else
-    V([
-      H([ L({ c: "c-mp", tex: "bin" }), L({ pl: "y", ch: "█", mh: 3, g: 1 }), L({ c: "c-irl", tex: "x" }) ], { fr: 3, mw: 32 }),
-      H([ L({ c: "c-tw", tex: "colon" }), V([ L({ pl: "k", ch: "█", cw: 4 }), L({ tex: "dots", mw: 2 }), L({ pl: "u", ch: "█", cw: 4 }), L({ pl: "p", ch: "█", cw: 4 }) ], { rh: 2 }), L({ tex: "dump", g: 1 }) ], { fr: 4, mw: 40 }),
-      H([ L({ c: "c-pod", tex: "noise" }), L({ tex: "eq", g: 1 }) ], { fr: 4, mw: 40 }),
-      H([ L({ pl: "u", ch: "▓", fl: 1, g: 2 }), L({ tex: "hearts", g: 1 }) ], { cw: 14, mw: 8 })
-    ], { gs: "bDb" }),
-    // the end
-    V([
-      L({ pl: "p", ch: "▓", fr: 2, mw: 6 }),
-      L({ c: "c-bye", tex: "hearts", fr: 4, mw: 30 }),
-      L({ c: "c-note", tex: "eq", fr: 5, mw: 34 }),
-      L({ c: "c-hi", tex: "dots", fr: 4, mw: 34 }),
-      H([ L({ pl: "y", ch: "█" }), L({ pl: "k", ch: "█", rh: 2 }) ], { cw: 8, mw: 6 })
-    ]),
-    // a little garden along the bottom edge
-    L({ tex: "garden", rh: 8 })
-  ], { gs: "bb#b" });
-});
+  // ---------- small things ----------
+  var vol = $("vol"), vb = document.querySelector(".volbar");
+  function volShow() { var n = Math.round(+vol.value * 10); vb.textContent = "[" + rep("=", n) + "o" + rep("-", 10 - n) + "]"; }
+  vol.addEventListener("input", volShow); volShow();
+  document.querySelector("#floatstop .fs-fill").textContent = [rep("█", 17), rep("█", 17), rep("█", 17)].join("\n");
+
+  KG.watch(safe);
+})();
 </script>
 </body>
 </html>

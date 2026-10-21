@@ -7,340 +7,213 @@
 <title>kes inkersole</title>
 <meta name="description" content="kes inkersole (kesia on paper): freelance creative strategist &amp; internet equalities researcher, based in london.">
 <style>
-/* the page is the painting. a black ground shows through the gaps of one grid as the lines;
-   the rectangles are white, a few are flat planes of colour. kes' hot pink stands in for
-   mondrian's red on purpose: it is already her heart and her hover, so the hover is a tiny pink plane.
-   three type sizes: 13 mono (labels), 16 sans (reading), 40 times italic (hello). */
+/* a mondrian made only of characters. everything sits on one monospace grid: one cell is one character
+   wide (--cw) and one row tall (--rh). no borders, no boxes, no panels: the lines are runs of █,
+   the white rectangles are fields of quiet characters, the colour planes are rectangles of coloured ones.
+   the words are written into the same grid on every other row, a shade darker than the texture.
+   without the script it's a plain page you can read top to bottom. */
 :root {
   --ink: #111;
   --paper: #fff;
-  --off: #f3f1ec;
-  --blue: #1f3dff;
   --pink: #ff2d95;
+  --blue: #1f3dff;
   --yellow: #ffd500;
-  --line: 10px;
-  --pad: 36px;
-  --cols: minmax(0, 26fr) minmax(0, 37fr) minmax(0, 25fr) minmax(0, 12fr);
-  --sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --mono: ui-monospace, Menlo, Consolas, "DejaVu Sans Mono", "Liberation Mono", "Courier New", monospace;
-  --serif: "Times New Roman", Times, serif;
+  --f1: #c6c6c6;   /* the quiet rectangles */
+  --f2: #a2a2a2;   /* the texture around the words */
+  --tx: #555;      /* the words: only a little darker */
+  --dim: #7c7c7c;  /* labels and small print */
+  --rh: 15px;
+  --cw: 7.83px;
+  --ls: 0px;
+  --mono: Menlo, "DejaVu Sans Mono", Consolas, "Liberation Mono", "Courier New", monospace;
 }
 *, *::before, *::after { box-sizing: border-box; }
-html { background: var(--paper); color: var(--ink); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
-body { margin: 0; font: 16px/24px var(--sans); overflow-wrap: break-word; }
+html { background: var(--paper); color: var(--ink); scrollbar-gutter: stable; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { margin: 0; font: 13px/15px var(--mono); overflow-wrap: break-word; }
 h1, h2, h3, p, ul, dl, dd, pre { margin: 0; }
-h2, h3 { font-size: inherit; font-weight: inherit; }
+h1, h2, h3 { font-size: inherit; }
 ul { padding: 0; list-style: none; }
-a { color: var(--blue); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a { color: var(--blue); text-decoration-thickness: 1px; text-underline-offset: 2px; }
 a:hover, a:focus-visible { background: var(--pink); color: var(--ink); }
-a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 1px; }
 ::selection { background: var(--pink); color: var(--ink); }
-
-.label, .meta { font: 13px/24px var(--mono); }
-.sym, .heart { color: var(--pink); font-style: normal; }
-h1 { font: italic 400 40px/48px var(--serif); }
-.title { font-weight: bold; }
 .vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-.art { font: 13px/16px var(--mono); white-space: pre; color: var(--ink); }
-.art b { font-weight: inherit; }
+.heart, .sym { color: var(--pink); font-style: normal; }
+.label, .meta, .lbl, dt { color: var(--dim); }
+h1, .title, .subject { font-weight: bold; }
+.aside { font-size: inherit; font-weight: normal; color: var(--dim); }
 
-/* ---------- the composition ---------- */
-.canvas, .canvas > main, .canvas > footer { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--line); }
-.canvas { background: var(--ink); }
-.band { display: grid; gap: var(--line); grid-template-columns: var(--cols); }
-.cell { background: var(--paper); padding: var(--pad); min-width: 0; }
-.flow > * + * { margin-top: 16px; }
-.stack { display: flex; flex-direction: column; gap: var(--line); min-width: 0; }
-.plane { min-width: 0; }
-.blue { background: var(--blue); }
-.pink { background: var(--pink); }
-.yellow { background: var(--yellow); }
-.paper { background: var(--off); }
+/* ---------- without the grid: a readable page ---------- */
+html:not(.grid) .page { max-width: 84ch; margin: 0 auto; padding: 30px 2ch; }
+html:not(.grid) .page :is(p, h1, h2, h3, ul, dl, .ticker, .tracker, .lcd-info, .keys > *, .sign, .pc) { margin-bottom: 15px; }
+html:not(.grid) :is(header, section, aside, article, footer, #l1, #l2, #l3) { margin-bottom: 45px; }
+html:not(.grid) .tracker { display: grid; grid-template-columns: repeat(8, 3ch); }
+html:not(.grid) dl { display: grid; grid-template-columns: 9ch 1fr; }
+.tex { display: none; }
 
-/* the first view: name across the top, KES FM beside the hello, a column of colour on the right edge */
-.hero { grid-template-areas: "name name chain side" "left fm fm side"; grid-template-rows: auto 1fr; min-height: min(100vh, 1000px); }
-.name { grid-area: name; display: flex; flex-direction: column; justify-content: space-between; gap: 24px; }
-.chain { grid-area: chain; }
-.left { grid-area: left; }
-.left .hello { flex: none; }
-.left .blue { flex: 1 1 auto; min-height: 48px; }
-.side { grid-area: side; }
-.side .pink { flex: 5 1 0; }
-.side .paper { flex: 4 1 0; }
-.side .yellow { flex: 0 0 96px; }
+/* ---------- the grid ---------- */
+.grid body { overflow-x: hidden; }
+.grid .page { position: relative; overflow: hidden; letter-spacing: var(--ls); color: var(--tx); }
+.grid .page :is(h1, h2, h3, p, ul, dl, dt, dd, li) { margin: 0; padding: 0; font-size: inherit; }
+.grid .tex { display: block; position: absolute; inset: 0; pointer-events: none; user-select: none; -webkit-user-select: none; }
+.L { position: absolute; left: 0; top: 0; margin: 0; font: inherit; line-height: var(--rh); letter-spacing: inherit; white-space: pre; }
+.L.f1 { color: var(--f1); }
+.L.f2 { color: var(--f2); }
+.L.k { color: var(--ink); font-weight: bold; }
+.L.p, .L.b1 { color: var(--pink); font-weight: bold; }
+.L.u, .L.b2 { color: var(--blue); font-weight: bold; }
+.L.y, .L.b3 { color: var(--yellow); font-weight: bold; }
+/* while KES FM plays, the beads along the lines and the speaker cones swap colours on the beat */
+[data-beat="1"] .L.b1, [data-beat="2"] .L.b3 { color: var(--blue); }
+[data-beat="1"] .L.b2, [data-beat="2"] .L.b1 { color: var(--yellow); }
+[data-beat="1"] .L.b3, [data-beat="2"] .L.b2 { color: var(--pink); }
+/* the reveal: wherever the cursor (or the focus) is, the texture goes quiet and the words come forward */
+.lens { position: absolute; left: 0; top: 0; width: 340px; height: 340px; margin: -170px 0 0 -170px; border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(255, 255, 255, .93) 52%, rgba(255, 255, 255, 0));
+  opacity: 0; transition: opacity .25s; will-change: transform; }
+.lens.on { opacity: 1; }
+.grid [data-lit], .grid :is(section, aside, article, header, footer, #l1, #l2, #l3, #top, #title):focus-within { --tx: #111; --dim: #444; }
 
-/* the name: kes inkersole in tiny <3s, letters in black, the heart in pink */
-.sign { container-type: inline-size; }
-.sign pre { font: bold min(16px, calc(100cqw / 95))/1.2 var(--mono); white-space: pre; color: var(--ink); }
-.sign b { font-weight: inherit; }
-.sign b.h { color: var(--pink); animation: blink 1.6s steps(1) infinite; }
-@keyframes blink { 50% { color: var(--ink); } }
-.sign .small { display: none; }
-
-/* ---------- KES FM: two rectangles on the grid's own columns. the display is the black plane ---------- */
-.fm { grid-area: fm; display: grid; grid-template-columns: minmax(0, 37fr) minmax(0, 25fr); grid-template-columns: subgrid; gap: var(--line); min-width: 0; }
-.fm .c1 { grid-column: 2; grid-row: 1; container-type: inline-size; display: flex; flex-direction: column; gap: 16px; }
-.fm .c1 .ident { margin-top: auto; }
-.fm .deck { grid-column: 1; grid-row: 1; background: var(--paper); display: flex; flex-direction: column; min-width: 0; }
-.speaker { width: fit-content; margin-left: -.5ch; font-size: min(13px, calc(100cqw / 22.6)); line-height: 1.24; }
-.speaker .p { color: var(--pink); }
-.speaker .g { color: var(--blue); }
-.tower.lit .cone { background: var(--pink); color: var(--ink); }
-.sound.thump { animation: thump .35s ease-out; }
-@keyframes thump { from { color: var(--pink); } }
-.lcd { background: var(--ink); color: var(--paper); padding: 24px var(--pad); font: 13px/24px var(--mono); }
-.lcd-top { display: flex; flex-wrap: wrap; justify-content: space-between; column-gap: 24px; }
-.status { padding: 0 6px; margin-right: -6px; }
-body.on-air .status { background: var(--pink); color: var(--ink); }
-.ticker { overflow: hidden; white-space: nowrap; margin: 8px 0; }
+.grid .at { position: absolute; z-index: 1; white-space: pre; line-height: calc(2 * var(--rh)); }
+.grid .at.one { line-height: var(--rh); }
+.grid .u { display: inline-block; width: var(--cw); letter-spacing: 0; text-align: center; text-indent: 0; overflow: visible; }
+.grid .page a { text-decoration-skip-ink: none; }
+.grid .stars li::before { content: "*"; content: "*" / ""; position: absolute; left: calc(-2 * var(--cw)); color: var(--dim); }
+.grid .stars li:hover::before { content: "+"; content: "+" / ""; color: var(--pink); }
+.grid .sign, .grid .pc { pointer-events: none; }
+/* ---------- KES FM: its display is a small black plane, its readouts are lines cut through it ---------- */
+.grid .fm h2 { font-weight: bold; }
+.ticker { overflow: hidden; white-space: nowrap; color: var(--dim); }
 .ticker > div { display: inline-block; }
-.ticker span { padding-right: .5em; }
-.tracker { display: grid; grid-template-columns: repeat(16, minmax(0, 1fr)); text-align: center; margin-bottom: 8px; }
-.tracker .rest { opacity: .35; }
-.tracker .rev { color: var(--pink); }
-.tracker .up { color: var(--yellow); }
-.tracker .roll { text-decoration: underline; text-underline-offset: 3px; }
-.tracker .on { background: var(--paper); color: var(--ink); }
-.lcd-info { display: flex; flex-wrap: wrap; column-gap: 24px; color: rgba(255, 255, 255, .72); }
-.lcd-info .rev { color: var(--pink); }
-.lcd-info .up { color: var(--yellow); }
-.keys { padding: var(--pad) var(--pad) 0; display: flex; flex-direction: column; align-items: flex-start; row-gap: 12px; font: 13px/24px var(--mono); }
-.keys > div { display: flex; flex-wrap: wrap; align-items: center; row-gap: 8px; padding-left: 48px; }
-.keys .lbl { width: 48px; margin-left: -48px; }
-.keys button { font: 13px/1 var(--mono); height: 28px; padding: 0 8px; margin: 0; border: 2px solid var(--ink); border-radius: 0;
-  background: var(--paper); color: var(--ink); cursor: pointer; }
-.keys > div > button + button { margin-left: -2px; }
+.grid .ticker span { padding-right: var(--cw); }
+.grid .tracker { display: grid; grid-template-columns: repeat(var(--q, 16), calc(3 * var(--cw))); row-gap: var(--rh); justify-items: start; }
+.tracker .rest { opacity: .4; }
+.tracker .rev, .lcd-info .rev { color: var(--pink); }
+.tracker .up, .lcd-info .up { background: var(--yellow); color: var(--ink); }
+.tracker .roll { text-decoration: underline; text-underline-offset: 2px; }
+.tracker .on { background: var(--ink); color: var(--paper); }
+.status { color: var(--tx); }
+body.on-air .status { background: var(--pink); color: var(--ink); }
+.grid .status { overflow: hidden; }
+.grid #lcdinfo { white-space: normal; }
+.keys button, .floatstop { font: inherit; letter-spacing: inherit; margin: 0; padding: 0; border: 0; border-radius: 0;
+  background: none; color: var(--tx); cursor: pointer; line-height: var(--rh); }
+.keys button::before, .floatstop::before { content: "["; content: "[" / ""; }
+.keys button::after, .floatstop::after { content: "]"; content: "]" / ""; }
 .keys button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
-.keys button:hover { background: var(--pink); color: var(--ink); }
-.keys button:active { translate: 0 1px; }
-.keys .go, .keys .stop { height: 40px; padding: 0 16px; font-weight: bold; }
+.keys .go { color: var(--pink); font-weight: bold; padding: 5px var(--cw); margin: -5px 0 0 calc(-1 * var(--cw)); }
+.keys .stop { color: var(--ink); font-weight: bold; }
 .keys .go[aria-pressed="true"] { background: var(--pink); color: var(--ink); }
-.vol { display: grid; grid-template-columns: 48px auto; align-items: center; }
-.vol input { width: 144px; margin: 0; accent-color: var(--ink); }
-.textin { padding: 24px var(--pad) var(--pad); margin-top: auto; font: 13px/24px var(--mono); }
-.floatstop { position: fixed; right: 16px; bottom: 16px; z-index: 5; height: 40px; padding: 0 16px;
-  font: bold 13px/40px var(--mono); background: var(--ink); color: var(--paper); border: 0; border-radius: 0; cursor: pointer; }
-.floatstop:hover { background: var(--pink); color: var(--ink); }
+.keys button:hover, .keys button:focus-visible { background: var(--pink); color: var(--ink); }
+.keys button:active { translate: 0 1px; }
+html:not(.grid) .keys .lbl { display: inline-block; width: 7ch; }
+.vol input { margin: 0; cursor: pointer; }
+.grid .vol input { opacity: 0; }
+.vol:focus-within .volbar, .vol:hover .volbar { background: var(--pink); color: var(--ink); }
+.vol:focus-within .volbar { outline: 2px solid var(--ink); outline-offset: 1px; }
+html:not(.grid) .volbar { display: none; }
+.floatstop { position: fixed; right: 16px; bottom: 16px; z-index: 5; padding: 6px var(--cw); background: var(--pink); color: var(--ink); font-weight: bold; }
+.floatstop:hover, .floatstop:focus-visible { background: var(--ink); color: var(--paper); }
 .floatstop[hidden] { display: none; }
 @keyframes run { to { translate: -50% 0; } }
-
-/* ---------- the card and three projects ---------- */
-.b2 { grid-template-areas: "cv pj pj pj"; }
-.card { grid-area: cv; }
-.card dl { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 8px 12px; }
-.card dt { font: 13px/24px var(--mono); }
-.projects { grid-area: pj; position: relative; display: grid; gap: var(--line); grid-template-columns: minmax(0, 40fr) minmax(0, 33fr) minmax(0, 27fr); min-width: 0; }
-.pic { display: block; height: 240px; background: var(--off); }
-.pic img { display: block; width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); }
-.project:hover .pic img { filter: none; }
-
-/* ---------- everything else, with stars ---------- */
-.b3 { grid-template-areas: "l1 l2 l3 l3"; }
-.l1 { grid-area: l1; } .l2 { grid-area: l2; } .l3 { grid-area: l3; }
-.flow > .gap { margin-top: 40px; }
-.stars li { position: relative; padding-left: 24px; }
-.stars li + li { margin-top: 4px; }
-.stars li::before { content: "☆"; content: "☆" / ""; position: absolute; left: 0; top: 0; font: 13px/24px var(--mono); }
-.stars li:hover::before { content: "★"; content: "★" / ""; color: var(--pink); }
-
-/* ---------- the end: the note, and the garden along the bottom edge ---------- */
-.b4 { grid-template-areas: "note note empty blue"; }
-.note { grid-area: note; }
-.note p:not(.label) { max-width: 38em; }
-.b4 .paper { grid-area: empty; }
-.b4 .blue { grid-area: blue; }
-.bed { padding: 32px 0 0 var(--pad); overflow: hidden; }
-.garden .rose, .garden .lilac { color: var(--pink); }
-.garden .peri { color: var(--blue); }
-
 @media (prefers-reduced-motion: no-preference) {
   .ticker > div { animation: run 70s linear infinite; }
-}
-@media (prefers-reduced-motion: reduce) { .sign b.h { animation: none; } }
-
-/* ---------- narrower: three columns, KES FM stacks ---------- */
-@media (max-width: 1099px) {
-  :root { --line: 8px; --pad: 32px; --cols: minmax(0, 40fr) minmax(0, 52fr) minmax(0, 8fr); }
-  .hero { grid-template-areas: "name name side" "left fm side" "chain fm side"; grid-template-rows: auto 1fr auto; min-height: 0; }
-  .fm { grid-template-columns: minmax(0, 1fr); }
-  .fm .c1 { grid-column: 1; grid-row: 1; }
-  .fm .deck { grid-column: 1; grid-row: 2; }
-  .b2 { grid-template-areas: "cv pj pj"; }
-  .projects { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .projects .project:first-of-type { grid-column: 1 / -1; }
-  .b3 { grid-template-areas: "l1 l2 l2" "l3 l3 l3"; }
-  .b4 { grid-template-areas: "note note blue"; }
-  .b4 .paper { display: none; }
-}
-/* ---------- phone: one stack of rectangles, colour kept as bands ---------- */
-@media (max-width: 699px) {
-  :root { --line: 6px; --pad: 24px; --cols: minmax(0, 1fr); }
-  .hero { grid-template-areas: "name" "left" "fm" "chain" "side"; grid-template-rows: none; }
-  .left .blue { flex: 0 0 32px; min-height: 0; }
-  .side .pink { flex: 0 0 48px; }
-  .side .paper { display: none; }
-  .side .yellow { flex: 0 0 24px; }
-  .sign .big { display: none; }
-  .sign .small { display: block; font-size: min(14px, calc(100cqw / 21)); }
-  .b2 { grid-template-areas: "cv" "pj"; }
-  .projects { grid-template-columns: minmax(0, 1fr); }
-  .projects .project:first-of-type { grid-column: auto; }
-  .pic { height: 200px; }
-  .b3 { grid-template-areas: "l1" "l2" "l3"; }
-  .b4 { grid-template-areas: "note" "blue"; }
-  .b4 .blue { min-height: 32px; }
-  .bed { padding-top: 24px; }
+  .grid .ticker > div { animation: run calc(var(--n, 300) * .21s) steps(var(--n, 300)) infinite; }
 }
 </style>
 </head>
 <body>
+<div class="page" id="page">
+<div class="tex" aria-hidden="true"><pre class="L f1"></pre><pre class="L f2"></pre><div class="lens"></div><pre class="L k"></pre><pre class="L p"></pre><pre class="L u"></pre><pre class="L y"></pre><pre class="L b1"></pre><pre class="L b2"></pre><pre class="L b3"></pre></div>
 
-<div class="canvas">
+<header id="hello">
+  <p class="label" id="welcome">welcome to kes' little corner of the internet</p>
+  <div class="sign" id="sign" role="img" aria-label="kes inkersole, spelled out in tiny <3 hearts"></div>
+</header>
+
 <main>
 
-<div class="band hero">
+<section id="about" aria-label="about kes">
+  <p class="label">about</p>
+  <h1>hello, i'm kes <span class="heart">♡</span></h1>
+  <p>i'm kes inkersole (kesia on paper), a freelance creative strategist and internet equalities researcher in london.</p>
+  <p>my practice focuses on understanding and critiquing the impacts of emerging technologies on people, culture, and the planet. i work collectively to rethink the narratives and behaviours surrounding technologies — prioritising collaborative research as a process for testing, imagining and prototyping more equitable, alternative futures.</p>
+</section>
 
-  <header class="cell name">
-    <p class="label">welcome to kes' little corner of the internet</p>
-    <!-- the name: every dot is a little <3 -->
-    <div class="sign" role="img" aria-label="kes inkersole, spelled out in tiny <3 hearts">
-<pre class="big" aria-hidden="true"><b>&lt;3</b>                                          <b>&lt;3</b>                <b>&lt;3</b>                                                          <b>&lt;3&lt;3</b>
-<b>&lt;3</b>                                                            <b>&lt;3</b>                                                            <b>&lt;3</b>                  <b class="h">&lt;3&lt;3</b>  <b class="h">&lt;3&lt;3</b>
-<b>&lt;3</b>    <b>&lt;3</b>      <b>&lt;3&lt;3&lt;3</b>      <b>&lt;3&lt;3&lt;3&lt;3</b>        <b>&lt;3&lt;3</b>    <b>&lt;3</b>  <b>&lt;3&lt;3</b>    <b>&lt;3</b>    <b>&lt;3</b>      <b>&lt;3&lt;3&lt;3</b>    <b>&lt;3</b>  <b>&lt;3&lt;3</b>      <b>&lt;3&lt;3&lt;3&lt;3</b>    <b>&lt;3&lt;3&lt;3</b>      <b>&lt;3</b>      <b>&lt;3&lt;3&lt;3</b>    <b class="h">&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3</b>
-<b>&lt;3</b>  <b>&lt;3</b>      <b>&lt;3</b>      <b>&lt;3</b>  <b>&lt;3</b>                  <b>&lt;3</b>    <b>&lt;3&lt;3</b>    <b>&lt;3</b>  <b>&lt;3</b>  <b>&lt;3</b>      <b>&lt;3</b>      <b>&lt;3</b>  <b>&lt;3&lt;3</b>    <b>&lt;3</b>  <b>&lt;3</b>          <b>&lt;3</b>      <b>&lt;3</b>    <b>&lt;3</b>    <b>&lt;3</b>      <b>&lt;3</b>  <b class="h">&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3</b>
-<b>&lt;3&lt;3</b>        <b>&lt;3&lt;3&lt;3&lt;3&lt;3</b>    <b>&lt;3&lt;3&lt;3</b>            <b>&lt;3</b>    <b>&lt;3</b>      <b>&lt;3</b>  <b>&lt;3&lt;3</b>        <b>&lt;3&lt;3&lt;3&lt;3&lt;3</b>  <b>&lt;3</b>            <b>&lt;3&lt;3&lt;3</b>    <b>&lt;3</b>      <b>&lt;3</b>    <b>&lt;3</b>    <b>&lt;3&lt;3&lt;3&lt;3&lt;3</b>    <b class="h">&lt;3&lt;3&lt;3&lt;3&lt;3</b>
-<b>&lt;3</b>  <b>&lt;3</b>      <b>&lt;3</b>                  <b>&lt;3</b>          <b>&lt;3</b>    <b>&lt;3</b>      <b>&lt;3</b>  <b>&lt;3</b>  <b>&lt;3</b>      <b>&lt;3</b>          <b>&lt;3</b>                  <b>&lt;3</b>  <b>&lt;3</b>      <b>&lt;3</b>    <b>&lt;3</b>    <b>&lt;3</b>              <b class="h">&lt;3&lt;3&lt;3</b>
-<b>&lt;3</b>    <b>&lt;3</b>      <b>&lt;3&lt;3&lt;3</b>    <b>&lt;3&lt;3&lt;3&lt;3</b>          <b>&lt;3&lt;3&lt;3</b>  <b>&lt;3</b>      <b>&lt;3</b>  <b>&lt;3</b>    <b>&lt;3</b>      <b>&lt;3&lt;3&lt;3</b>    <b>&lt;3</b>          <b>&lt;3&lt;3&lt;3&lt;3</b>      <b>&lt;3&lt;3&lt;3</b>    <b>&lt;3&lt;3&lt;3</b>    <b>&lt;3&lt;3&lt;3</b>          <b class="h">&lt;3</b></pre>
-<pre class="small" aria-hidden="true"><b>&lt;3</b>
-<b>&lt;3</b>
-<b>&lt;3</b>    <b>&lt;3</b>      <b>&lt;3&lt;3&lt;3</b>      <b>&lt;3&lt;3&lt;3&lt;3</b>
-<b>&lt;3</b>  <b>&lt;3</b>      <b>&lt;3</b>      <b>&lt;3</b>  <b>&lt;3</b>
-<b>&lt;3&lt;3</b>        <b>&lt;3&lt;3&lt;3&lt;3&lt;3</b>    <b>&lt;3&lt;3&lt;3</b>
-<b>&lt;3</b>  <b>&lt;3</b>      <b>&lt;3</b>                  <b>&lt;3</b>
-<b>&lt;3</b>    <b>&lt;3</b>      <b>&lt;3&lt;3&lt;3</b>    <b>&lt;3&lt;3&lt;3&lt;3</b></pre>
+<!-- ===== KES FM: the jungle machine. silent until you press on air ===== -->
+<section class="fm" id="fm" aria-labelledby="fm-h">
+  <h2 id="fm-h">KES FM 170.0</h2>
+  <p class="ident">not a real station, just this website: a little jungle machine running in your browser, every drum and bassline synthesised live, no samples, no files. nothing plays until you press on air, and stop always stops it.</p>
+  <div class="deck">
+    <div class="lcd">
+      <div class="lcd-top"><span>KES FM ((( 170.0 )))</span><span class="status" id="status" role="status">off air</span></div>
+      <div class="ticker" aria-hidden="true"><div><span>big up all the junglists ✦ big up everyone reading the source code ✦ big up the UAL lot, LCF + CCI ✦ big up Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges ✦ text in: inkersolekesia@gmail.com ✦ respect to the sound systems, pirates and producers who built all this ✦ lorem ipsum dolor sit amet ✦</span><span>big up all the junglists ✦ big up everyone reading the source code ✦ big up the UAL lot, LCF + CCI ✦ big up Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges ✦ text in: inkersolekesia@gmail.com ✦ respect to the sound systems, pirates and producers who built all this ✦ lorem ipsum dolor sit amet ✦</span></div></div>
+      <div class="tracker" id="tracker" aria-hidden="true"></div>
+      <div class="lcd-info" aria-hidden="true"><span id="lcdinfo">break: straight · bass: sub · cute: off</span><span><span class="rev">pink</span> = reversed · <span class="up">yellow</span> = pitched up · underline = roll</span></div>
     </div>
-  </header>
-
-  <section class="cell flow chain" aria-labelledby="chain-h">
-    <h2 class="label" id="chain-h">chainmail <span class="sym">✎</span></h2>
-    <p>a new space for my own writing: short pieces from my notes app, sent here by email and collected over time into a kind of text moodboard.</p>
-    <p><a href="writing.html">read chainmail →</a></p>
-  </section>
-
-  <div class="stack side" aria-hidden="true">
-    <div class="plane pink"></div>
-    <div class="plane paper"></div>
-    <div class="plane yellow"></div>
+    <div class="keys">
+      <div><button class="go" id="go" type="button" aria-pressed="false">▶ on air</button><button class="stop" id="stop" type="button">■ stop</button></div>
+      <div role="group" aria-label="break"><span class="lbl">break</span><button type="button" data-break="straight" aria-pressed="true">straight</button><button type="button" data-break="chopped" aria-pressed="false">chopped</button><button type="button" data-break="rollin" aria-pressed="false">rollin'</button><button type="button" id="chop" aria-pressed="false">✂ chop it</button></div>
+      <div role="group" aria-label="bass"><span class="lbl">bass</span><button type="button" data-bass="sub" aria-pressed="true">sub</button><button type="button" data-bass="reese" aria-pressed="false">reese</button><button type="button" data-bass="off" aria-pressed="false">off</button></div>
+      <div><button type="button" id="cute" aria-pressed="false">✿ cute</button><button type="button" id="pullup">⟲ pull up</button><button type="button" id="siren">siren</button></div>
+      <label class="vol"><span class="lbl">vol</span><span class="volbar" aria-hidden="true">[==========----------]</span><input type="range" id="vol" min="0" max="1" step="0.05" value="0.5"></label>
+    </div>
+    <p class="textin">text in your shout-outs: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
   </div>
+</section>
+<button class="floatstop" id="floatstop" type="button" hidden>■ stop KES FM</button>
 
-  <div class="stack left">
-    <section class="cell flow hello" aria-label="about kes">
-      <p class="label">about</p>
-      <h1>hello, i'm kes <span class="heart">♡</span></h1>
-      <p>i'm kes inkersole (kesia on paper), a freelance creative strategist and internet equalities researcher in london.</p>
-      <p>my practice focuses on understanding and critiquing the impacts of emerging technologies on people, culture, and the planet. i work collectively to rethink the narratives and behaviours surrounding technologies — prioritising collaborative research as a process for testing, imagining and prototyping more equitable, alternative futures.</p>
-    </section>
-    <div class="plane blue" aria-hidden="true"></div>
-  </div>
+<section id="chain" aria-labelledby="chain-h">
+  <h2 class="label" id="chain-h">chainmail <span class="sym">✎</span></h2>
+  <p>a new space for my own writing: short pieces from my notes app, sent here by email and collected over time into a kind of text moodboard.</p>
+  <p><a href="writing.html">read chainmail →</a></p>
+</section>
 
-  <!-- ===== KES FM: the jungle machine. silent until you press on air ===== -->
-  <section class="fm" id="fm" aria-labelledby="fm-h">
-    <div class="cell c1">
-      <h2 id="fm-h" class="label">KES FM 170.0</h2>
-      <pre class="art speaker tower" aria-hidden="true">        <span class=p>\(^o^)/</span>       <span class=p>&lt;3</span>
-<span class=c>.--------------..--------------.</span>
-<span class=c>| .----.  .--. || .----.  .--. |</span>
-<span class=c>| |====|  </span><span class=g>(())</span><span class=c> || |====|  </span><span class=g>(())</span><span class=c> |</span>
-<span class=c>| '----'  '--' || '----'  '--' |</span>
-<span class=c>'--------------''--------------'</span>
-<span class=c>.--------------..--------------.</span>
-<span class=c>|   .------.   ||   .------.   |</span>
-<span class=c>|  /  .--.  \  ||  /  .--.  \  | </span> <span class="g sound">)</span>
-<span class=c>| |  </span><span class=b>( </span><span class="p cone">&lt;3</span><span class=b> )</span><span class=c>  | || |  </span><span class=b>( </span><span class="p cone">&lt;3</span><span class=b> )</span><span class=c>  | | </span> <span class="g sound">))</span>
-<span class=c>|  \  '--'  /  ||  \  '--'  /  | </span> <span class="g sound">)))</span>
-<span class=c>|   '------'   ||   '------'   | </span> <span class="g sound">))</span>
-<span class=c>|--------------||--------------| </span> <span class="g sound">)</span>
-<span class=c>|    </span><span class=y>KES FM</span><span class=c>    ||   </span><span class=g>170.0 FM</span><span class=c>   |</span>
-<span class=c>'--------------''--------------'</span>
-<span class=i>""""""""""""""""""""""""""""""""</span></pre>
-      <p class="ident">not a real station, just this website: a little jungle machine running in your browser, every drum and bassline synthesised live, no samples, no files. nothing plays until you press on air, and stop always stops it.</p>
-    </div>
-    <div class="deck">
-      <div class="lcd">
-        <div class="lcd-top"><span>KES FM ((( 170.0 )))</span><span class="status" id="status" role="status">off air</span></div>
-        <div class="ticker" aria-hidden="true"><div><span>big up all the junglists ✦ big up everyone reading the source code ✦ big up the UAL lot, LCF + CCI ✦ big up Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges ✦ text in: inkersolekesia@gmail.com ✦ respect to the sound systems, pirates and producers who built all this ✦ lorem ipsum dolor sit amet ✦</span><span>big up all the junglists ✦ big up everyone reading the source code ✦ big up the UAL lot, LCF + CCI ✦ big up Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges ✦ text in: inkersolekesia@gmail.com ✦ respect to the sound systems, pirates and producers who built all this ✦ lorem ipsum dolor sit amet ✦</span></div></div>
-        <div class="tracker" id="tracker" aria-hidden="true"></div>
-        <div class="lcd-info" aria-hidden="true"><span id="lcdinfo">break: straight · bass: sub · cute: off</span><span><span class="rev">pink</span> = reversed · <span class="up">yellow</span> = pitched up · underline = roll</span></div>
-      </div>
-      <div class="keys">
-        <div><button class="go" id="go" type="button" aria-pressed="false">▶ on air</button><button class="stop" id="stop" type="button">■ stop</button></div>
-        <div role="group" aria-label="break"><span class="lbl">break</span><button type="button" data-break="straight" aria-pressed="true">straight</button><button type="button" data-break="chopped" aria-pressed="false">chopped</button><button type="button" data-break="rollin" aria-pressed="false">rollin'</button><button type="button" id="chop" aria-pressed="false">✂ chop it</button></div>
-        <div role="group" aria-label="bass"><span class="lbl">bass</span><button type="button" data-bass="sub" aria-pressed="true">sub</button><button type="button" data-bass="reese" aria-pressed="false">reese</button><button type="button" data-bass="off" aria-pressed="false">off</button></div>
-        <div><button type="button" id="cute" aria-pressed="false">✿ cute</button><button type="button" id="pullup">⟲ pull up</button><button type="button" id="siren">siren</button></div>
-        <label class="vol">vol <input type="range" id="vol" min="0" max="1" step="0.05" value="0.5"></label>
-      </div>
-      <p class="textin">text in your shout-outs: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
-    </div>
-  </section>
+<aside id="card" aria-labelledby="card-h">
+  <h2 class="label" id="card-h">bio / portfolio / cv</h2>
+  <dl>
+    <dt>name</dt><dd>kes inkersole (kesia on paper)</dd>
+    <dt>does</dt><dd>creative strategy &amp; internet equalities research</dd>
+    <dt>based</dt><dd>london</dd>
+    <dt>teaches</dt><dd>associate lecturer at UAL (LCF + CCI)</dd>
+    <dt>clients</dt><dd>Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges</dd>
+    <dt>degrees</dt><dd>MA internet equalities, BA creative direction, PhD [ ? ]</dd>
+    <dt>status</dt><dd>freelance, available for work</dd>
+    <dt>cv</dt><dd>cv &amp; portfolio on request</dd>
+    <dt>email</dt><dd><a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></dd>
+  </dl>
+</aside>
 
-</div>
+<section id="projects" aria-labelledby="projects-h">
+  <h2 class="vh" id="projects-h">three projects</h2>
+  <article class="project" id="p1">
+    <p class="label">01 · for fun</p>
+    <h3 class="title"><a href="https://latent-space.vercel.app/">latent space</a></h3>
+    <p>lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam, quis nostrud exercitation.</p>
+    <p class="meta">latent-space.vercel.app</p>
+  </article>
+  <article class="project" id="p2">
+    <p class="label">02 · for funds</p>
+    <h3 class="title"><a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1">MØRNING Ø</a></h3>
+    <p>duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia.</p>
+    <p class="meta">instagram.com</p>
+  </article>
+  <article class="project" id="p3">
+    <p class="label">03 · for funds</p>
+    <h3 class="title"><a href="https://co-matter.com/project/networked-worlds">networked worlds</a></h3>
+    <p>sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto.</p>
+    <p class="meta">co-matter.com</p>
+  </article>
+</section>
 
-<div class="band b2">
-
-  <aside class="cell flow card" aria-labelledby="card-h">
-    <h2 class="label" id="card-h">bio / portfolio / cv</h2>
-    <dl>
-      <dt>name</dt><dd>kes inkersole (kesia on paper)</dd>
-      <dt>does</dt><dd>creative strategy &amp; internet equalities research</dd>
-      <dt>based</dt><dd>london</dd>
-      <dt>teaches</dt><dd>associate lecturer at UAL (LCF + CCI)</dd>
-      <dt>clients</dt><dd>Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges</dd>
-      <dt>degrees</dt><dd>MA internet equalities, BA creative direction, PhD [ ? ]</dd>
-      <dt>status</dt><dd>freelance, available for work</dd>
-      <dt>cv</dt><dd>cv &amp; portfolio on request</dd>
-      <dt>email</dt><dd><a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></dd>
-    </dl>
-  </aside>
-
-  <section class="projects" aria-labelledby="projects-h">
-    <h2 class="vh" id="projects-h">three projects</h2>
-
-    <article class="cell flow project">
-      <p class="label">01 · for fun</p>
-      <a class="pic" href="https://latent-space.vercel.app/" tabindex="-1" aria-hidden="true"><img src="https://picsum.photos/seed/latentspace/480/360" width="480" height="360" alt="" loading="lazy"></a>
-      <h3 class="title"><a href="https://latent-space.vercel.app/">latent space</a></h3>
-      <p>lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam, quis nostrud exercitation.</p>
-      <p class="meta">latent-space.vercel.app</p>
-    </article>
-
-    <article class="cell flow project">
-      <p class="label">02 · for funds</p>
-      <a class="pic" href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1" tabindex="-1" aria-hidden="true"><img src="https://picsum.photos/seed/morningo/480/360" width="480" height="360" alt="" loading="lazy"></a>
-      <h3 class="title"><a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1">MØRNING Ø</a></h3>
-      <p>duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia.</p>
-      <p class="meta">instagram.com</p>
-    </article>
-
-    <article class="cell flow project">
-      <p class="label">03 · for funds</p>
-      <a class="pic" href="https://co-matter.com/project/networked-worlds" tabindex="-1" aria-hidden="true"><img src="https://picsum.photos/seed/networkedworlds/480/360" width="480" height="360" alt="" loading="lazy"></a>
-      <h3 class="title"><a href="https://co-matter.com/project/networked-worlds">networked worlds</a></h3>
-      <p>sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto.</p>
-      <p class="meta">co-matter.com</p>
-    </article>
-  </section>
-
-</div>
-
-<div class="band b3" role="region" aria-label="everything else">
-
-  <div class="cell flow l1">
+<div role="region" aria-label="everything else">
+  <div id="l1">
     <h2 class="label">more projects <span class="sym">✿</span></h2>
     <ul class="stars">
       <li><a href="https://protecht.vercel.app/">pro(tech)t</a> <span class="meta">for fun</span></li>
       <li><a href="https://www.protein.xyz/dirty-words-4-community/">protein dirty words #4: community report</a> <span class="meta">for funds</span></li>
     </ul>
-    <h2 class="label gap">irl (mostly) <span class="sym">☂&#xFE0E;</span></h2>
+    <h2 class="label">irl (mostly) <span class="sym">☂&#xFE0E;</span></h2>
     <ul class="stars">
       <li><a href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1">olden residency</a></li>
       <li><a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1">softer london</a> <span class="meta">talk + workshop</span></li>
@@ -348,8 +221,7 @@ body.on-air .status { background: var(--pink); color: var(--ink); }
       <li><a href="https://www.instagram.com/p/BslwSSPH5Rc/?img_index=2">ovar it</a></li>
     </ul>
   </div>
-
-  <div class="cell flow l2">
+  <div id="l2">
     <h2 class="label">things i've written <span class="sym">✎</span></h2>
     <ul class="stars">
       <li><a href="writing.html">chainmail</a> <span class="meta">my own writing, here</span></li>
@@ -361,8 +233,7 @@ body.on-air .status { background: var(--pink); color: var(--ink); }
       <li><a href="https://morningfyi.substack.com/p/024-entering-limb-with">burn after reading: entering limbo, with o</a> <span class="meta">morningfyi</span></li>
     </ul>
   </div>
-
-  <div class="cell flow l3">
+  <div id="l3">
     <h2 class="label">podcasts for your commute <span class="sym">♫</span></h2>
     <ul class="stars">
       <li><a href="https://podcasts.apple.com/gb/podcast/mindy-seu-on-collaboration-community-and/id1449302502?i=1000597869409">mindy seu on collaboration, community and the cyberfeminism index</a></li>
@@ -375,33 +246,18 @@ body.on-air .status { background: var(--pink); color: var(--ink); }
       <li><a href="https://podcasts.apple.com/gb/podcast/latash%C3%A1-on-the-potential-of-web3-for-music-artists/id1449302502?i=1000552812458">latasha on the potential of web3 for music artists</a></li>
     </ul>
   </div>
-
 </div>
 
 </main>
 
 <footer>
-  <div class="band b4">
-    <div class="cell flow note">
-      <p class="label">about this site</p>
-      <p>mostly plain html: system fonts, a few small pictures, no cookies and no tracking. the only script is KES FM, and it stays quiet until you ask. then i planted some flowers. it's easy for me to update and it loads fine on bad wifi.</p>
-      <p>thanks for stopping by <span class="heart">♡</span></p>
-    </div>
-    <div class="plane paper" aria-hidden="true"></div>
-    <div class="plane blue" aria-hidden="true"></div>
-  </div>
-  <div class="cell bed">
-  <pre class="art garden" aria-hidden="true">    <b class="rose">_                             </b><b class="lilac">_                          </b><b class="rose">_                        </b><b class="peri">_                            </b><b class="rose">_                        </b><b class="lilac">_                             </b><b class="peri">_</b>
-  <b class="rose">_(_)_         @               </b><b class="lilac">_(_)_         </b><b class="peri">@            </b><b class="rose">_(_)_              @     </b><b class="peri">_(_)_         </b><b class="rose">@              _(_)_    </b><b class="lilac">@               _(_)_         </b><b class="peri">@               _(_)_    </b><b class="rose">@</b>
- <b class="rose">(_)@(_)        </b><b class="stem">|/  </b><b class="peri">vVv        </b><b class="lilac">(_)@(_)        </b><b class="stem">|/    </b><b class="rose">vVv   (_)@(_)             </b><b class="stem">|/   </b><b class="peri">(_)@(_)  </b><b class="lilac">vVv   </b><b class="stem">|/            </b><b class="rose">(_)@(_)   </b><b class="stem">|/  </b><b class="rose">vVv        </b><b class="lilac">(_)@(_)        </b><b class="stem">|/  </b><b class="lilac">vVv        </b><b class="peri">(_)@(_)   </b><b class="stem">|/  </b><b class="lilac">vVv</b>
-   <b class="rose">(_)    </b><b class="lilac">vVv  </b><b class="stem">\|   </b><b class="peri">(_)    </b><b class="lilac">*     (_)    </b><b class="rose">vVv  </b><b class="stem">\|     </b><b class="rose">(_)     (_)     </b><b class="peri">*   </b><b class="lilac">vVv  </b><b class="stem">\|      </b><b class="peri">(_)    </b><b class="lilac">(_)  </b><b class="stem">\|   </b><b class="rose">vVv   </b><b class="lilac">*     </b><b class="rose">(_)    </b><b class="stem">\|   </b><b class="rose">(_)  </b><b class="peri">vVv     </b><b class="lilac">(_)     </b><b class="rose">*   </b><b class="stem">\|   </b><b class="lilac">(_)   </b><b class="rose">vVv    </b><b class="peri">(_)    </b><b class="stem">\|   </b><b class="lilac">(_)  </b><b class="rose">vVv</b>
-    <b class="stem">|/    </b><b class="lilac">(_)   </b><b class="stem">|   \|     |/     |/    </b><b class="rose">(_)   </b><b class="stem">|     \|       |/     |/  </b><b class="lilac">(_)   </b><b class="stem">|       |/    \|    |   </b><b class="rose">(_)   </b><b class="stem">|/     |/     |   \|   </b><b class="peri">(_)      </b><b class="stem">|/     |/   |   \|    </b><b class="rose">(_)     </b><b class="stem">|/     |   \|   </b><b class="rose">(_)</b>
-   <b class="stem">\|      |    |    |    \|     \|      |    |      |      \|     \|    |    |      \|      |    |    |   \|     \|      |    |    |      \|     \|    |    |     |     \|      |    |    |</b></pre>
+  <div id="note">
+    <p class="label">about this site</p>
+    <p>mostly plain html: system fonts, no cookies and no tracking. there are two little scripts: KES FM, which stays quiet until you ask, and one that lays the page out as a painting made of characters. then i planted some flowers. it's easy for me to update and it loads fine on bad wifi.</p>
+    <p>thanks for stopping by <span class="heart">♡</span></p>
   </div>
 </footer>
-
 </div>
-<button class="floatstop" id="floatstop" type="button" hidden>■ stop KES FM</button>
 
 <script>
 /* ===== KES FM engine: paste VERBATIM, do not edit =====
@@ -778,7 +634,512 @@ function look() {}
   document.querySelectorAll("[data-bass]").forEach(function (b) { b.onclick = function () { bassMode = b.dataset.bass; bassMix(); ui(); }; });
   ui();
 })();
+</script>
+<script>
+/* ===== the painting =====
+   the whole page is one grid of monospace characters, worked out in columns and rows for this window.
+   the black lines are runs of █, the white rectangles are fields of quiet characters, the colour planes
+   are rectangles of characters in pink, blue and yellow. kes' words are written into the same grid, on
+   every other row, with each rectangle's texture running between and around them.
+   nothing random: the same window always gets the same painting. */
+(function () {
+  "use strict";
+  var page = document.getElementById("page"), root = document.documentElement;
+  if (!page || !window.requestAnimationFrame || !document.createTreeWalker || !"".repeat || !window.Uint16Array || !Array.isArray) return;
+  var RH = 15, cw = 7.83, CW = 7.83, cols = 0, rows = 0, ch, cl, RECTS, LN, HOLES, ARTS, lastW = 0, lastH = 0;
+  var NAMES = ["", "f1", "f2", "k", "p", "u", "y", "b1", "b2", "b3"];
+  var CODE = { F: 1, f: 2, k: 3, p: 4, u: 5, y: 6, c: 7, w: 8, b: 9 };
+  var pres = NAMES.map(function (n) { return n ? page.querySelector(".tex ." + n) : null; });
+  var q = function (s) { return document.querySelector(s); };
+  var kids = function (s) { return [].slice.call((typeof s === "string" ? q(s) : s).children); };
 
+  /* ---------- textures: one per rectangle ---------- */
+  var LOOP = "ÐDÐDÅD0å0åÐðÅD0å0åÐðÅD0å0åÏDDDÅ,";            // KES FM's break as bytes: Ð kick, Å snare, 0 ride, D nothing
+  var DUMP = "Q±0ðLDDDDDDDDDDDDDDÅÂÀ3ÏDDDDDDDDDDDDDDT,<";      // the top of a binary dump
+  var HEX = "00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F 10 11 12 13 14 15 16 17 18 19 1A 1B 1C 1D 1E 1F ";
+  function mod(a, n) { return ((a % n) + n) % n; }
+  function hash(a, b) { var h = Math.imul(a | 0, 374761393) + Math.imul(b | 0, 668265263) | 0; h = Math.imul(h ^ h >>> 13, 1274126177); h ^= h >>> 16; return (h >>> 0) / 4294967296; }
+  function noise(h) { var n = h < .55 ? 161 + (h * 99991 | 0) % 95 : 33 + (h * 99991 | 0) % 94; return String.fromCharCode(n === 173 ? 172 : n); }
+  function stream(s) { return function (x, y, w, z) { return s.charAt(mod(y * w + x + z, s.length)); }; }
+  function one(c) { return function () { return c; }; }
+  var TEX = {
+    loop: stream(LOOP), dump: stream(DUMP), hex: stream(HEX), hearts: stream("<3"), D: stream(DUMP),
+    hiss: function (x, y, w, z) { return noise(hash(x + z * 977, y + z)); },
+    chop: function (x, y, w, z) { var h = hash(x + z * 31, y * 3 + z); return h < .32 ? noise(hash(y + z, x)) : LOOP.charAt(mod(y * w + x + z, 32)); },
+    bin: function (x, y, w, z) { var h = hash(x + z, y + 99); return h < .3 ? "0" : h < .62 ? "1" : ""; },
+    dots: function (x) { return x % 2 ? "." : ""; },
+    sparse: function (x, y, w, z) { var h = hash(x + z * 131, y + z * 17); return h < .06 ? "." : h < .09 ? "·" : h < .1 ? ":" : h < .106 ? "'" : ""; },
+    slash: function (x, y) { return mod(x + 2 * y, 6) ? "" : "/"; },
+    plus: function (x, y) { return x % 4 === 1 && y % 2 === 0 ? "+" : x % 2 && y % 2 === 0 ? "-" : ""; },
+    colon: function (x) { return x % 3 === 1 ? ":" : ""; },
+    rule: function (x, y) { return y % 2 ? "" : x % 4 === 3 ? "+" : "-"; },
+    tilde: stream("~^~-_-"),
+    solid: one("█"), shade: one("▓"), mid: one("▒"), light: one("░"), lcd: one("▓"), hash: one("#")
+  };
+
+  /* ---------- the buffer ---------- */
+  function put(x, y, c, k) { if (x < 0 || y < 0 || x >= cols || y >= rows) return; var i = y * cols + x; ch[i] = c.charCodeAt(0); cl[i] = k; }
+  function hole(x0, x1, y, R) { HOLES.push([Math.max(x0, R.x), Math.min(x1, R.x + R.w), y]); }
+
+  /* ---------- words: whitespace tidied, every wide symbol given exactly one cell ---------- */
+  var VS = /[︎️]/;
+  function nodes(el) {
+    var w = document.createTreeWalker(el, 5, null, false), out = [], n;   // elements + text
+    while ((n = w.nextNode())) if (n.nodeType === 3 || n.nodeName === "BR") out.push(n);
+    return out;
+  }
+  function prep(el) {
+    var sp = true, last = null;
+    nodes(el).forEach(function (n) {
+      if (n.nodeType !== 3) { if (last) last.nodeValue = last.nodeValue.replace(/ $/, ""); sp = true; last = null; return; }
+      var v = n.nodeValue.replace(/\s+/g, " ");
+      if (sp) v = v.replace(/^ /, "");
+      if (v) { sp = v.charAt(v.length - 1) === " "; last = n; }
+      n.nodeValue = v;
+    });
+    if (last) last.nodeValue = last.nodeValue.replace(/ $/, "");
+    nodes(el).forEach(function (n) {
+      if (n.nodeType !== 3 || !/[^\u0000-ÿ︎️]/.test(n.nodeValue) || n.parentNode.className === "u") return;
+      var v = n.nodeValue, f = document.createDocumentFragment(), buf = "";
+      for (var i = 0; i < v.length; i++) {
+        var c = v.charAt(i);
+        if (v.charCodeAt(i) > 255 && !VS.test(c)) {
+          if (buf) f.appendChild(document.createTextNode(buf));
+          buf = "";
+          while (VS.test(v.charAt(i + 1))) c += v.charAt(++i);
+          var s = document.createElement("span");
+          s.className = "u"; s.textContent = c; f.appendChild(s);
+        } else buf += c;
+      }
+      if (buf) f.appendChild(document.createTextNode(buf));
+      n.parentNode.replaceChild(f, n);
+    });
+  }
+  function cells(el) {
+    if (el._S != null) return el._S;
+    prep(el);
+    var s = "";
+    nodes(el).forEach(function (n) { s += n.nodeType === 3 ? n.nodeValue.replace(/[︎️]/g, "").replace(/\n/g, " ") : "\n"; });
+    return (el._S = s);
+  }
+  function wrap(S, W) {
+    var out = [], base = 0;
+    S.split("\n").forEach(function (P) {
+      var s = 0, n = P.length;
+      if (!n) out.push([base, base]);
+      while (s < n) {
+        if (n - s <= W) { out.push([base + s, base + n]); break; }
+        var cut = P.lastIndexOf(" ", s + W);
+        if (cut <= s) { cut = P.indexOf(" ", s + W); if (cut < 0) { out.push([base + s, base + n]); break; } }
+        out.push([base + s, base + cut]); s = cut + 1;
+      }
+      base += n + 1;
+    });
+    return out;
+  }
+  function breaks(el, L) {
+    var S = cells(el), br = {}, i = 0;
+    L.forEach(function (l) { if (S.charAt(l[1]) === " ") br[l[1]] = 1; });
+    nodes(el).forEach(function (n) {
+      if (n.nodeType !== 3) { i++; return; }
+      var v = n.nodeValue, o = "";
+      for (var j = 0; j < v.length; j++) {
+        var c = v.charAt(j);
+        if (VS.test(c)) { o += c; continue; }
+        if (c === " " || c === "\n") c = br[i] ? "\n" : " ";
+        o += c; i++;
+      }
+      if (o !== v) n.nodeValue = o;
+    });
+  }
+  function at(el, x, y, w, single) {
+    el.classList.add("at");
+    el.classList.toggle("one", !!single);
+    el.style.left = x * CW + "px";
+    el.style.top = (single ? y * RH : y * RH - RH / 2) + "px";
+    if (w != null) el.style.width = w * CW + "px";
+  }
+
+  /* ---------- blocks: each returns the rows it takes. text sits on every other row ---------- */
+  function txt(b, x, y, w, go, R) {
+    var ind = b.i || 0, L = wrap(cells(b.e), Math.max(4, w - ind));
+    if (go) {
+      breaks(b.e, L); at(b.e, x + ind, y);
+      L.forEach(function (l, k) { hole(x + ind - 1 - (k || !b.bul ? 0 : 2), x + ind + l[1] - l[0] + 1, y + 2 * k, R); });
+    }
+    return 2 * L.length - 1;
+  }
+  function list(b, x, y, w, go, R) {
+    var r = 0, h = 0;
+    kids(b.e).forEach(function (li, k) { if (k) r += h + 1; h = txt({ e: li, i: 2, bul: 1 }, x, y + r, w, go, R); });
+    return r + h;
+  }
+  function dl(b, x, y, w, go, R) {
+    var r = 0, h = 0, k = kids(b.e), dw = b.dw || 9;
+    for (var i = 0; i < k.length; i += 2) {
+      if (i) r += h + 1;
+      h = Math.max(txt({ e: k[i] }, x, y + r, dw - 1, go, R), txt({ e: k[i + 1] }, x + dw, y + r, w - dw, go, R));
+    }
+    return r + h;
+  }
+  function art(b, x, y, w, go, R) {
+    var A = b.a;
+    if (go) {
+      ARTS.push({ A: A, x: x, y: y, R: R });
+      if (b.e) { at(b.e, x, y, Math.min(A.w, w), true); b.e.style.height = A.h * RH + "px"; }
+    }
+    return A.h;
+  }
+  // KES FM: the display and the keys, as lines of the grid
+  function lcdtop(b, x, y, w, go, R) {
+    var k = kids(b.e), a = k[0], s = k[1], aw = cells(a).length, two = w < aw + 2 + 26;
+    var sx = two ? x : x + aw + 2, sy = two ? y + 2 : y, sw = Math.min(31, x + w - sx);
+    if (go) { at(a, x, y); hole(x - 1, x + aw + 1, y, R); at(s, sx, sy, null, true); s.style.maxWidth = sw * CW + "px"; hole(sx - 1, sx + sw + 1, sy, R); }
+    return two ? 3 : 1;
+  }
+  function ticker(b, x, y, w, go, R) {
+    if (go) {
+      at(b.e, x, y, w, true); b.e.style.height = RH + "px"; hole(x - 1, x + w + 1, y, R);
+      var sp = b.e.querySelectorAll("span");
+      cells(sp[0]); cells(sp[1]);
+      b.e.firstElementChild.style.setProperty("--n", cells(sp[0]).length + 1);
+    }
+    return 1;
+  }
+  function tracker(b, x, y, w, go, R) {
+    var n = w >= 48 ? 16 : 8;
+    if (go) {
+      at(b.e, x, y, 3 * n, true); b.e.style.setProperty("--q", n);
+      for (var i = 0; i < 32; i++) hole(x + 3 * (i % n), x + 3 * (i % n) + 2, y + 2 * Math.floor(i / n), R);
+    }
+    return 2 * (32 / n) - 1;
+  }
+  function lcdinfo(b, x, y, w, go, R) {
+    var n = w >= 54 ? 1 : 2;
+    if (go) { at(b.e, x, y, w); for (var k = 0; k < n; k++) hole(x - 1, x + w + 1, y + 2 * k, R); }
+    return 2 * n - 1;
+  }
+  function keys(b, x, y, w, go, R) {
+    var r = 0;
+    kids(b.e).forEach(function (g, gi) {
+      if (gi) r += 2;
+      var lbl = g.querySelector(".lbl"), x0 = lbl ? x + 7 : x, cx = x0;
+      if (lbl && go) { at(lbl, x, y + r); hole(x - 1, x + cells(lbl).length + 1, y + r, R); }
+      if (g.classList.contains("vol")) {
+        if (go) {
+          var bar = g.querySelector(".volbar"), inp = g.querySelector("input");
+          at(bar, x0, y + r); at(inp, x0, y + r, 22, true); inp.style.height = RH + "px";
+          hole(x0 - 1, x0 + 23, y + r, R);
+        }
+        return;
+      }
+      [].forEach.call(g.querySelectorAll("button"), function (bt) {
+        var bw = cells(bt).length + 2;
+        if (cx > x0 && cx + bw > x + w) { r += 2; cx = x0; }
+        if (go) { at(bt, cx, y + r, null, true); hole(cx - 1, cx + bw + 1, y + r, R); }
+        cx += bw + 1;
+      });
+    });
+    return r + 1;
+  }
+  function flow(B, x, y, w, go, R) {
+    var r = 0, h = 0;
+    B.forEach(function (b, k) { if (k) r += h + 1 + 2 * (b.g || 0); h = (b.f || txt)(b, x, y + r, w, go, R); });
+    return r + h;
+  }
+
+  /* ---------- the composition: rectangles split by lines, sized in cells ---------- */
+  function split(n, w) {
+    var lw = n.lw || 2, k = n.k, avail = w - lw * (k.length - 1), fix = 0, fr = 0, out = [], big = -1, bf = 0, got = 0;
+    k.forEach(function (c) { if (typeof c.s === "number") fix += c.s; else fr += Array.isArray(c.s) ? c.s[0] : 1; });
+    k.forEach(function (c, i) {
+      if (typeof c.s === "number") out[i] = c.s;
+      else { var f = Array.isArray(c.s) ? c.s[0] : 1; out[i] = Math.floor((avail - fix) * f / fr); if (f > bf) { bf = f; big = i; } }
+      got += out[i];
+    });
+    out[big < 0 ? k.length - 1 : big] += avail - got;
+    return out;
+  }
+  function need(n, w) {
+    if (n._w === w) return n._h;
+    var h;
+    if (n.d === "H") { var ws = split(n, w); h = 1; n.k.forEach(function (c, i) { h = Math.max(h, need(c, ws[i])); }); }
+    else if (n.d === "V") { h = n.k.length - 1; n.k.forEach(function (c) { h += typeof c.s === "number" ? c.s : need(c, w); }); }
+    else if (n.c) h = flow(n.c, 0, 0, w - 4, false) + 2;
+    else if (n.a) h = n.a.h + 2;
+    else h = n.m || 1;
+    if (n.fit) h = Math.max(h, n.fit);
+    n._w = w; n._h = h;
+    return h;
+  }
+  function beady(n, i) { return n.beads === true || (n.beads && n.beads.indexOf(i) >= 0); }
+  function place(n, x, y, w, h) {
+    var last = n.k ? n.k.length - 1 : 0;
+    if (n.d === "H") {
+      var ws = split(n, w), lw = n.lw || 2, cx = x;
+      n.k.forEach(function (c, i) {
+        place(c, cx, y, ws[i], h); cx += ws[i];
+        if (i < last) { LN.push({ x: cx, y: y, w: lw, h: h, b: beady(n, i) }); cx += lw; }
+      });
+    } else if (n.d === "V") {
+      var base = [], fr = 0, sum = last, big = -1, bf = 0, given = 0;
+      n.k.forEach(function (c, i) {
+        base[i] = typeof c.s === "number" ? c.s : need(c, w); sum += base[i];
+        if (Array.isArray(c.s)) { fr += c.s[0]; if (c.s[0] > bf) { bf = c.s[0]; big = i; } }
+      });
+      var extra = h - sum;
+      if (extra > 0) {
+        if (fr) n.k.forEach(function (c, i) { if (Array.isArray(c.s)) { var e = Math.floor(extra * c.s[0] / fr); base[i] += e; given += e; } });
+        base[big < 0 ? last : big] += extra - given;
+      }
+      var cy = y;
+      n.k.forEach(function (c, i) {
+        place(c, x, cy, w, base[i]); cy += base[i];
+        if (i < last) { LN.push({ x: x, y: cy, w: w, h: 1, b: beady(n, i) }); cy += 1; }
+      });
+    } else {
+      var R = { x: x, y: y, w: w, h: h, n: n, i: RECTS.length };
+      RECTS.push(R);
+      if (n.c) flow(n.c, x + 2, y + 1, w - 4, true, R);
+      if (n.a) ARTS.push({ A: n.a, x: x + 2 + (n.ax || 0), y: n.av === "bot" ? y + h - 1 - n.a.h : y + 1, R: R });
+    }
+  }
+
+  /* ---------- painting it ---------- */
+  function drawArt(o) {
+    var A = o.A, R = o.R;
+    for (var r = 0; r < A.h; r++) {
+      var s = A.r[r], c = A.c[r], y = o.y + r, a = s.search(/\S/), b = s.length;
+      if (y < R.y || y >= R.y + R.h) continue;
+      for (var j = 0; j < s.length; j++) {
+        var x = o.x + j;
+        if (x < R.x || x >= R.x + R.w) continue;
+        var k = c.charAt(j);
+        if (k !== " " && k) put(x, y, s.charAt(j), CODE[k]);
+        else if (A.hollow && j >= a && j < b) put(x, y, " ", 0);
+      }
+    }
+  }
+  function paint() {
+    ch = new Uint16Array(cols * rows); cl = new Uint8Array(cols * rows);
+    RECTS.forEach(function (R) {
+      var n = R.n, g = TEX[n.t] || TEX.sparse, k = CODE[n.k || "F"], z = R.i * 53 + 7;
+      for (var y = 0; y < R.h; y++) for (var x = 0; x < R.w; x++) { var c = g(x, y, R.w, z); if (c) put(R.x + x, R.y + y, c, k); }
+    });
+    LN.forEach(function (l) { for (var y = l.y; y < l.y + l.h; y++) for (var x = l.x; x < l.x + l.w; x++) put(x, y, "█", 3); });
+    // boogie woogie: small squares clustered along some lines
+    LN.forEach(function (l, i) {
+      if (!l.b) return;
+      var across = l.h === 1, n = across ? l.w : l.h, step = across ? 2 : 1;
+      for (var p = 1; p < n - 1; p += step) {
+        if (hash((p / (across ? 14 : 7)) | 0, i * 31 + 5) > .5 || hash(p, i * 131 + 3) > .6) continue;
+        var k = 7 + (hash(p + i, 11) * 3 | 0);
+        if (across) { put(l.x + p, l.y, "█", k); if (p + 1 < l.w) put(l.x + p + 1, l.y, "█", k); }
+        else for (var x = l.x; x < l.x + l.w; x++) put(x, l.y + p, "█", k);
+      }
+    });
+    ARTS.forEach(drawArt);
+    HOLES.forEach(function (s) { for (var x = s[0]; x < s[1]; x++) put(x, s[2], " ", 0); });
+    // one <pre> per colour, trailing spaces trimmed
+    var out = [], buf = [], end = [], y, x, k;
+    for (k = 1; k < NAMES.length; k++) { out[k] = []; buf[k] = new Uint16Array(cols); }
+    for (y = 0; y < rows; y++) {
+      for (k = 1; k < NAMES.length; k++) { buf[k].fill(32); end[k] = 0; }
+      for (x = 0; x < cols; x++) { var i = y * cols + x, c = cl[i]; if (c) { buf[c][x] = ch[i]; end[c] = x + 1; } }
+      for (k = 1; k < NAMES.length; k++) out[k].push(end[k] ? String.fromCharCode.apply(null, buf[k].subarray(0, end[k])) : "");
+    }
+    for (k = 1; k < NAMES.length; k++) if (pres[k]) pres[k].textContent = out[k].join("\n");
+  }
+  function measure(W) {
+    var s = document.createElement("span");
+    s.style.cssText = "position:absolute;visibility:hidden;white-space:pre;letter-spacing:0";
+    s.textContent = "0".repeat(200);
+    page.appendChild(s);
+    cw = s.getBoundingClientRect().width / 200 || cw;
+    page.removeChild(s);
+    cols = Math.max(24, Math.floor(W / cw)); CW = W / cols;
+    root.style.setProperty("--cw", CW + "px");
+    root.style.setProperty("--ls", (CW - cw) + "px");
+  }
+  function layout() {
+    var W = root.clientWidth, Hv = window.innerHeight;
+    if (W === lastW && Hv === lastH) return;
+    lastW = W; lastH = Hv;
+    try {
+      measure(W);
+      RECTS = []; LN = []; HOLES = []; ARTS = [];
+      var tree = SPEC(cols, Math.max(20, Math.floor(Hv / RH)));
+      rows = need(tree, cols);
+      place(tree, 0, 0, cols, rows);
+      paint();
+      page.style.height = rows * RH + "px";
+      root.classList.add("grid");
+    } catch (e) {
+      root.classList.remove("grid"); page.style.height = "";
+      if (window.console) console.error(e);
+    }
+  }
+
+  /* ---------- the reveal: a lens that follows the cursor (or the focus) and quiets the texture ---------- */
+  var lens = page.querySelector(".lens"), litEl = null, raf = 0, px = 0, py = 0;
+  function lit(el) { if (el === litEl) return; if (litEl) litEl.removeAttribute("data-lit"); litEl = el; if (el) el.setAttribute("data-lit", ""); }
+  function hit(x, y) {
+    var cx = x / CW | 0, cy = y / RH | 0;
+    for (var i = 0; RECTS && i < RECTS.length; i++) { var R = RECTS[i]; if (cx >= R.x && cx < R.x + R.w && cy >= R.y && cy < R.y + R.h) return R.n.el || null; }
+    return null;
+  }
+  function aim(x, y) { if (lens) { lens.style.transform = "translate(" + x + "px," + y + "px)"; lens.classList.add("on"); } }
+  function track(e) {
+    var r = page.getBoundingClientRect(); px = e.clientX - r.left; py = e.clientY - r.top;
+    if (!raf) raf = requestAnimationFrame(function () { raf = 0; aim(px, py); lit(hit(px, py)); });
+  }
+  page.addEventListener("pointermove", track);
+  page.addEventListener("pointerdown", track);
+  page.addEventListener("pointerleave", function () { if (lens) lens.classList.remove("on"); lit(null); });
+  document.addEventListener("focusin", function (e) {
+    if (!page.contains(e.target) || !root.classList.contains("grid")) return;
+    var a = e.target.getBoundingClientRect(), r = page.getBoundingClientRect();
+    aim(a.left - r.left + Math.min(a.width / 2, 120), a.top - r.top + a.height / 2);
+  });
+
+  /* ---------- KES FM: the beads on the lines change colour on the beat (not if you'd rather things kept still) ---------- */
+  if (q("#tracker")) {
+    var calm = matchMedia("(prefers-reduced-motion: reduce)"), beat = 0;
+    window.look = function (c) {
+      if (c === undefined || calm.matches) { root.removeAttribute("data-beat"); return; }
+      beat = beat % 3 + 1; root.setAttribute("data-beat", beat);
+    };
+    var vol = q("#vol"), bar = q(".volbar");
+    if (vol && bar) {
+      var show = function () { var k = Math.round(vol.value * 20); bar.textContent = "[" + "=".repeat(k) + "-".repeat(20 - k) + "]"; };
+      vol.addEventListener("input", show); show();
+    }
+  }
+
+  function mk(r, c, hollow) { return { r: r, c: c, h: r.length, w: Math.max.apply(null, r.map(function (x) { return x.length; })), hollow: hollow }; }
+  function H(k, o) { o = o || {}; o.d = "H"; o.k = k; return o; }
+  function V(k, o) { o = o || {}; o.d = "V"; o.k = k; return o; }
+  function T(e, g) { return { e: typeof e === "string" ? q(e) : e, g: g || 0 }; }
+  function UL(e, g) { return { e: typeof e === "string" ? q(e) : e, f: list, g: g || 0 }; }
+  function Ct(c, el, s, t, k) { return { c: c, el: typeof el === "string" ? q(el) : el, s: s, t: t, k: k || "f" }; }
+  function W(t, s, m) { return { t: t, k: "F", s: s, m: m }; }
+  function P(k, s, m, t) { return { t: t || "solid", k: k, s: s, m: m }; }
+  function Ar(a, s, t, o) { o = o || {}; o.a = a; o.s = s; o.t = t || "sparse"; o.k = "F"; return o; }
+
+  var ART = {
+    big: mk(["<3                                          <3                <3                                                          <3<3", "<3                                                            <3                                                            <3                  <3<3  <3<3", "<3    <3      <3<3<3      <3<3<3<3        <3<3    <3  <3<3    <3    <3      <3<3<3    <3  <3<3      <3<3<3<3    <3<3<3      <3      <3<3<3    <3<3<3<3<3<3<3", "<3  <3      <3      <3  <3                  <3    <3<3    <3  <3  <3      <3      <3  <3<3    <3  <3          <3      <3    <3    <3      <3  <3<3<3<3<3<3<3", "<3<3        <3<3<3<3<3    <3<3<3            <3    <3      <3  <3<3        <3<3<3<3<3  <3            <3<3<3    <3      <3    <3    <3<3<3<3<3    <3<3<3<3<3", "<3  <3      <3                  <3          <3    <3      <3  <3  <3      <3          <3                  <3  <3      <3    <3    <3              <3<3<3", "<3    <3      <3<3<3    <3<3<3<3          <3<3<3  <3      <3  <3    <3      <3<3<3    <3          <3<3<3<3      <3<3<3    <3<3<3    <3<3<3          <3"], ["kk                                          kk                kk                                                          kkkk", "kk                                                            kk                                                            kk                  pppp  pppp", "kk    kk      kkkkkk      kkkkkkkk        kkkk    kk  kkkk    kk    kk      kkkkkk    kk  kkkk      kkkkkkkk    kkkkkk      kk      kkkkkk    pppppppppppppp", "kk  kk      kk      kk  kk                  kk    kkkk    kk  kk  kk      kk      kk  kkkk    kk  kk          kk      kk    kk    kk      kk  pppppppppppppp", "kkkk        kkkkkkkkkk    kkkkkk            kk    kk      kk  kkkk        kkkkkkkkkk  kk            kkkkkk    kk      kk    kk    kkkkkkkkkk    pppppppppp", "kk  kk      kk                  kk          kk    kk      kk  kk  kk      kk          kk                  kk  kk      kk    kk    kk              pppppp", "kk    kk      kkkkkk    kkkkkkkk          kkkkkk  kk      kk  kk    kk      kkkkkk    kk          kkkkkkkk      kkkkkk    kkkkkk    kkkkkk          pp"], false),
+    mid: mk(["<3", "<3", "<3    <3      <3<3<3      <3<3<3<3", "<3  <3      <3      <3  <3", "<3<3        <3<3<3<3<3    <3<3<3", "<3  <3      <3                  <3", "<3    <3      <3<3<3    <3<3<3<3", "", "  <3                <3                                                          <3<3", "                    <3                                                            <3                  <3<3  <3<3", "<3<3    <3  <3<3    <3    <3      <3<3<3    <3  <3<3      <3<3<3<3    <3<3<3      <3      <3<3<3    <3<3<3<3<3<3<3", "  <3    <3<3    <3  <3  <3      <3      <3  <3<3    <3  <3          <3      <3    <3    <3      <3  <3<3<3<3<3<3<3", "  <3    <3      <3  <3<3        <3<3<3<3<3  <3            <3<3<3    <3      <3    <3    <3<3<3<3<3    <3<3<3<3<3", "  <3    <3      <3  <3  <3      <3          <3                  <3  <3      <3    <3    <3              <3<3<3", "<3<3<3  <3      <3  <3    <3      <3<3<3    <3          <3<3<3<3      <3<3<3    <3<3<3    <3<3<3          <3"], ["kk", "kk", "kk    kk      kkkkkk      kkkkkkkk", "kk  kk      kk      kk  kk", "kkkk        kkkkkkkkkk    kkkkkk", "kk  kk      kk                  kk", "kk    kk      kkkkkk    kkkkkkkk", "", "  kk                kk                                                          kkkk", "                    kk                                                            kk                  pppp  pppp", "kkkk    kk  kkkk    kk    kk      kkkkkk    kk  kkkk      kkkkkkkk    kkkkkk      kk      kkkkkk    pppppppppppppp", "  kk    kkkk    kk  kk  kk      kk      kk  kkkk    kk  kk          kk      kk    kk    kk      kk  pppppppppppppp", "  kk    kk      kk  kkkk        kkkkkkkkkk  kk            kkkkkk    kk      kk    kk    kkkkkkkkkk    pppppppppp", "  kk    kk      kk  kk  kk      kk          kk                  kk  kk      kk    kk    kk              pppppp", "kkkkkk  kk      kk  kk    kk      kkkkkk    kk          kkkkkkkk      kkkkkk    kkkkkk    kkkkkk          pp"], false),
+    small: mk(["<3", "<3", "<3    <3      <3<3<3      <3<3<3<3", "<3  <3      <3      <3  <3", "<3<3        <3<3<3<3<3    <3<3<3", "<3  <3      <3                  <3", "<3    <3      <3<3<3    <3<3<3<3"], ["kk", "kk", "kk    kk      kkkkkk      kkkkkkkk", "kk  kk      kk      kk  kk", "kkkk        kkkkkkkkkk    kkkkkk", "kk  kk      kk                  kk", "kk    kk      kkkkkk    kkkkkkkk"], false),
+    spk: mk(["        \\(^o^)/       <3", ".--------------..--------------.", "| .----.  .--. || .----.  .--. |", "| |====|  (()) || |====|  (()) |", "| '----'  '--' || '----'  '--' |", "'--------------''--------------'", ".--------------..--------------.", "|   .------.   ||   .------.   |", "|  /  .--.  \\  ||  /  .--.  \\  |  )", "| |  ( <3 )  | || |  ( <3 )  | |  ))", "|  \\  '--'  /  ||  \\  '--'  /  |  )))", "|   '------'   ||   '------'   |  ))", "|--------------||--------------|  )", "|    KES FM    ||   170.0 FM   |", "'--------------''--------------'", "\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\""], ["        ppppppp       pp", "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk", "k kkkkkk  kkkk kk kkkkkk  kkkk k", "k kkkkkk  uuuu kk kkkkkk  uuuu k", "k kkkkkk  kkkk kk kkkkkk  kkkk k", "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk", "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk", "k   kkkkkkkk   kk   kkkkkkkk   k", "k  k  kkkk  k  kk  k  kkkk  k  k  w", "k k  k cc k  k kk k  k cc k  k k  ww", "k  k  kkkk  k  kk  k  kkkk  k  k  www", "k   kkkkkkkk   kk   kkkkkkkk   k  ww", "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk  w", "k    kkk kk    kk   uuuuu uu   k", "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk", "ffffffffffffffffffffffffffffffff"], true),
+    garden: mk(["    _                             _                          _                        _                            _                        _                             _", "  _(_)_         @               _(_)_         @            _(_)_              @     _(_)_         @              _(_)_    @               _(_)_         @               _(_)_    @", " (_)@(_)        |/  vVv        (_)@(_)        |/    vVv   (_)@(_)             |/   (_)@(_)  vVv   |/            (_)@(_)   |/  vVv        (_)@(_)        |/  vVv        (_)@(_)   |/  vVv", "   (_)    vVv  \\|   (_)    *     (_)    vVv  \\|     (_)     (_)     *   vVv  \\|      (_)    (_)  \\|   vVv   *     (_)    \\|   (_)  vVv     (_)     *   \\|   (_)   vVv    (_)    \\|   (_)  vVv", "    |/    (_)   |   \\|     |/     |/    (_)   |     \\|       |/     |/  (_)   |       |/    \\|    |   (_)   |/     |/     |   \\|   (_)      |/     |/   |   \\|    (_)     |/     |   \\|   (_)", "   \\|      |    |    |    \\|     \\|      |    |      |      \\|     \\|    |    |      \\|      |    |    |   \\|     \\|      |    |    |      \\|     \\|    |    |     |     \\|      |    |    |"], ["    p                             p                          p                        u                            p                        p                             u", "  ppppp         p               ppppp         u            ppppp              p     uuuuu         p              ppppp    p               ppppp         u               uuuuu    p", " ppppppp        kk  uuu        ppppppp        kk    ppp   ppppppp             kk   uuuuuuu  ppp   kk            ppppppp   kk  ppp        ppppppp        kk  ppp        uuuuuuu   kk  ppp", "   ppp    ppp  kk   uuu    p     ppp    ppp  kk     ppp     ppp     u   ppp  kk      uuu    ppp  kk   ppp   p     ppp    kk   ppp  uuu     ppp     p   kk   ppp   ppp    uuu    kk   ppp  ppp", "    kk    ppp   k   kk     kk     kk    ppp   k     kk       kk     kk  ppp   k       kk    kk    k   ppp   kk     kk     k   kk   uuu      kk     kk   k   kk    ppp     kk     k   kk   ppp", "   kk      k    k    k    kk     kk      k    k      k      kk     kk    k    k      kk      k    k    k   kk     kk      k    k    k      kk     kk    k    k     k     kk      k    k    k"], false),
+    bunny: mk([" .--------------------.", " |  i'm available     |", " |  for work !!  <3   |", " '---------. .--------'", "           | |", "    (\\_/)  | |", "   ( ^.^ )o| |", "   (\")_(\") | |", " ,,,,,,,,,,|_|,,,,,,,,,,"], [" kkkkkkkkkkkkkkkkkkkkkk", " k  kkk kkkkkkkkk     k", " k  kkk kkkk kk  pp   k", " kkkkkkkkkkk kkkkkkkkkk", "           k k", "    kkkkk  k k", "   k kkk kkk k", "   kkkkkkk k k", " ffffffffffkkkffffffffff"], true)
+  };
+  /* ---------- the home page: what goes where, for a wide, a middling and a narrow window ---------- */
+  function SPEC(C, Rv) {
+    var ab = kids("#about"), ch = kids("#chain"), nt = kids("#note"), l1 = kids("#l1");
+    var NAME = function (a) { return [T("#welcome"), { f: art, a: a, e: q("#sign") }]; };
+    var ABOUT = [T(ab[0]), T(ab[1]), T(ab[2], 1), T(ab[3], 1)];
+    var FMA = [T("#fm-h"), T("#fm .ident")];
+    var LCD = [{ f: lcdtop, e: q(".lcd-top") }, { f: ticker, e: q(".ticker") }, { f: tracker, e: q("#tracker") },
+      { f: lcdinfo, e: q("#lcdinfo") }, T(".lcd-info > span:last-child")];
+    var KEYS = [{ f: keys, e: q(".keys") }, T(".textin", 1)];
+    var CHAIN = [T(ch[0]), T(ch[1]), T(ch[2], 1)];
+    var CARD = [T("#card-h"), { f: dl, e: q("#card dl"), dw: 9 }];
+    var PJ = function (i) { var a = kids("#p" + i); return Ct([T(a[0]), T(a[1]), T(a[2]), T(a[3])], "#p" + i, "a", ["dump", "hex", "bin"][i - 1]); };
+    var L1 = [T(l1[0]), UL(l1[1]), T(l1[2], 1), UL(l1[3])];
+    var L2 = [T("#l2 h2"), UL("#l2 ul")], L3 = [T("#l3 h2"), UL("#l3 ul")];
+    var NOTE = [T(nt[0]), T(nt[1]), T(nt[2], 1)];
+    var fmA = function () { return Ct(FMA, "#fm", "a", "hex"); };
+    var lcd = function () { return Ct(LCD, "#fm", "a", "lcd", "k"); };
+    var key = function () { return Ct(KEYS, "#fm", "a", "loop"); };
+    var garden = Ar(ART.garden, "a", "sparse", { av: "bot" });
+
+    if (C >= 150) {
+      // wide: the name across the top, KES FM in the middle of the first screen, a column of colour on the right
+      var side = C >= 172 ? 14 : 8, av = C - side - 8, wA = 40, wF = 58, wS = 45;
+      if (av - 143 < 6) { wA = 37; wF = 56; wS = 42; }
+      var dk = av - wA - wF - wS;
+      if (dk > 26) { var ex = dk - 26; wA += ex * .25 | 0; wF += ex * .2 | 0; wS += ex * .25 | 0; dk = av - wA - wF - wS; }
+      var big = C >= 163;
+      var name = Ct(NAME(C >= 159 ? ART.big : ART.mid), "#hello", big ? 159 : [1], "dots", "F");
+      var top = big ? H([name, V([P("p", [3]), H([W("dump", [2]), P("y", 3)], { s: 3, lw: 1 })], { s: [1] })]) : name;
+      var aboutCol = V([Ct(ABOUT, "#about", "a", "chop"),
+        H([P("u", [3], 4), V([W("sparse", [1]), P("k", 3), W("dots", [1])], { s: 8 })], { s: [1] })], { s: wA });
+      var strip = H([W("sparse", [3]), P("y", 6), W("bin", [2]), P("p", 3), W("dots", [2]), P("u", 2)], { s: [1], lw: 1 });
+      var fmCol = V([fmA(), lcd(), key(), strip], { s: wF });
+      var csCol = V([Ct(CHAIN, "#chain", "a", "dump"), Ar(ART.spk, "a", "sparse"),
+        H([W("hex", [2]), V([P("y", [2]), W("dots", [1])], { s: 12 })], { s: [1] })], { s: [1] });
+      var deco = V([W("slash", [3]), P("p", 3, 0, "shade"), W("sparse", [2]), H([P("u", [1]), W("dots", [1])], { s: 2, lw: 1 }), W("bin", [2])], { s: dk });
+      var sideCol = V([W("loop", [2]), P("y", 7), W("dots", [3]), H([P("p", 2), W("sparse", [1])], { s: 4, lw: 1 }), P("u", 3)], { s: side });
+      var lk = [aboutCol, fmCol, csCol];
+      if (dk >= 6) lk.push(deco);
+      lk.push(sideCol);
+      var hero = V([top, H(lk, { s: [1], beads: [lk.length - 2] })], { fit: Rv - 1, beads: [0] });
+
+      var wC = Math.min(64, Math.max(56, C * .34 | 0));
+      var band2 = H([
+        V([Ct(CARD, "#card", "a", "loop"), H([Ar(ART.bunny, [3], "sparse"), P("p", [1])], { s: [1] })], { s: wC }),
+        V([H([V([PJ(1), W("sparse", [1], 2)]), V([PJ(2), P("y", [1], 2)]), V([PJ(3), W("dots", [1], 2)])]),
+           H([W("chop", [2]), P("u", 4), W("dots", [3]), P("k", 2), W("plus", [2])], { s: [1], lw: 1 })], { s: [1] }),
+        V([P("y", [1]), W("hiss", [2])], { s: 10 })
+      ], { beads: [0] });
+      var band3 = H([V([Ct(L1, "#l1", "a", "chop"), P("p", [1], 2)], { s: 44 }), Ct(L2, "#l2", [5], "hiss"),
+        V([Ct(L3, "#l3", "a", "loop"), W("slash", [1], 2)], { s: [6] }), V([W("dots", [2]), P("u", [1], 3), W("sparse", [1])], { s: 12 })]);
+      var band4 = H([V([W("loop", [1]), P("y", [2], 2)], { s: [2] }), Ct(NOTE, "#note", Math.min(78, C - 40), "dump"),
+        V([P("u", [1]), W("dots", [1])], { s: [1] })]);
+      return V([hero, band2, band3, band4, garden], { beads: [1] });
+    }
+
+    if (C >= 112) {
+      // middling: kes over inkersole, KES FM beside the hello
+      var top2 = H([Ct(NAME(C - 18 >= 118 ? ART.mid : ART.small), "#hello", [1], "dots", "F"),
+        V([P("p", [2]), W("dump", [1]), P("y", 3)], { s: 12 })]);
+      var row2 = H([V([Ct(ABOUT, "#about", "a", "chop"), H([P("u", [2], 3), W("sparse", [1]), P("k", 4)], { s: [1], lw: 1 })], { s: [1] }),
+        V([fmA(), lcd(), key(), H([W("sparse", [2]), P("y", 5), W("bin", [1]), P("p", 3)], { s: [1], lw: 1 })], { s: 58 }),
+        V([W("loop", [2]), P("y", 6), W("dots", [3])], { s: 8 })], { beads: [1] });
+      var row3 = H([Ct(CHAIN, "#chain", [2], "dump"), Ar(ART.spk, 41, "sparse"), V([W("slash", [1]), P("p", 4), W("bin", [1])], { s: [1] })]);
+      return V([
+        V([top2, row2, row3], { beads: [1] }),
+        H([V([Ct(CARD, "#card", "a", "loop"), Ar(ART.bunny, [1], "sparse")], { s: [3] }), V([P("p", [1]), W("hiss", [1])], { s: [1] })]),
+        H([V([PJ(1), W("sparse", [1], 2)]), V([PJ(2), P("y", [1], 2)]), V([PJ(3), W("dots", [1], 2)])]),
+        H([V([Ct(L1, "#l1", "a", "chop"), P("p", [1], 2)], { s: [1] }), Ct(L2, "#l2", [1], "hiss")], { beads: [0] }),
+        H([Ct(L3, "#l3", [3], "loop"), V([W("dots", [1]), P("u", 4), W("sparse", [1])], { s: [1] })]),
+        H([Ct(NOTE, "#note", [3], "dump"), V([P("y", [1]), W("loop", [1])], { s: [1] })]),
+        garden
+      ]);
+    }
+
+    // narrow: one tall stack, each rectangle with a thin column of colour beside it, swapping sides
+    var sw = C >= 70 ? 10 : 6;
+    var sd = function (k) { return V(k, { s: sw }); };
+    var beside = function (c, k, left) { return H(left ? [sd(k), c] : [c, sd(k)]); };
+    var strip2 = function (k) { return H(k, { s: 2, lw: 1 }); };
+    var spk = Ar(ART.spk, [1], "sparse");
+    return V([
+      C >= 46 ? beside(Ct(NAME(ART.small), "#hello", [1], "dots", "F"), [P("p", [2]), W("dump", [1]), P("y", 2)]) : Ct(NAME(ART.small), "#hello", "a", "dots", "F"),
+      beside(Ct(ABOUT, "#about", [1], "chop"), [P("u", [3]), W("sparse", [1]), P("k", 2)], true),
+      strip2([P("y", 6), W("hiss", [1]), P("p", 2), W("dots", [2]), P("u", 4)]),
+      beside(V([fmA(), lcd(), key()], { s: [1] }), [W("loop", [2]), P("p", [3], 4), W("dots", [1])]),
+      beside(Ct(CHAIN, "#chain", [1], "dump"), [P("y", [1]), W("bin", [1])], true),
+      C - sw - 2 >= 41 ? beside(spk, [W("slash", [1]), P("u", 3)]) : spk,
+      beside(Ct(CARD, "#card", [1], "loop"), [W("slash", [1]), P("p", 4), W("dots", [1])], true),
+      H([Ar(ART.bunny, 28, "sparse"), P("p", [1]), W("hex", [1])]),
+      beside(Ct(PJ(1).c, "#p1", [1], "dump"), [P("y", [1]), W("sparse", [1])]),
+      beside(Ct(PJ(2).c, "#p2", [1], "hex"), [W("dots", [2]), P("k", 2)], true),
+      beside(Ct(PJ(3).c, "#p3", [1], "bin"), [P("u", [1]), W("loop", [1])]),
+      strip2([W("sparse", [2]), P("p", 3), W("bin", [1]), P("y", 5)]),
+      beside(Ct(L1, "#l1", [1], "chop"), [W("dots", [1]), P("y", 4)], true),
+      beside(Ct(L2, "#l2", [1], "hiss"), [P("p", [1]), W("sparse", [2])]),
+      beside(Ct(L3, "#l3", [1], "loop"), [W("slash", [1]), P("u", [1])], true),
+      beside(Ct(NOTE, "#note", [1], "dump"), [P("y", [1]), W("dots", [1])]),
+      garden
+    ], { beads: [2, 6, 11] });
+  }
+
+  layout();
+  var queued = 0;
+  window.addEventListener("resize", function () { if (!queued) queued = requestAnimationFrame(function () { queued = 0; layout(); }); });
+})();
 </script>
 </body>
 </html>

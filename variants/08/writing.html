@@ -1,364 +1,548 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en-GB">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>chainmail · kes inkersole</title>
-<meta name="description" content="chainmail: short pieces of writing by kes inkersole, sent in by email.">
+<title>chainmail (working title) · kes inkersole</title>
+<meta name="description" content="chainmail: kes inkersole's own writing, short pieces sent in by email.">
+<script>document.documentElement.className='js';</script>
 <style>
-/* ---------------------------------------------------------------
-   chainmail. the same rules as the home page:
-   a field of characters, one cell = 1ch x 18px, and every piece sits
-   in its own opening, snapped to the cells. one type size, doubled for
-   the title. black on white, grey field, blue links, pink highlight.
-   --------------------------------------------------------------- */
+/* kes inkersole · Tableau I (1921) set in type.
+   one monospace grid. lines are rows of █, planes are ░▒▓█, the big light square is white space.
+   at rest the colours are mixed with white, like 1921. on air they go pure, like the 1925 rework. */
 :root {
-  --r: 18px;
-  --ink: #000;
-  --paper: #fff;
-  --soft: #666;
-  --field: #c4c4c4;
-  --blue: #0038ff;
-  --pink: #ff3399;
-  --mono: ui-monospace, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --paper: #fff; --ink: #000; --pink: #ff1f8f; --blue: #1a3cff; --yellow: #ffd60a;
+  --mp: #eaa6c6; --mb: #a3afec; --my: #f2e08e; --mk: #4d4d4d;
+  --grey: #5c5c5c;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, "DejaVu Sans Mono", "Liberation Mono", "Courier New", monospace;
+  --fs: 15px; --lh: 18px; --cw: 9px;
   color-scheme: light;
 }
-html { background: var(--paper); color: var(--ink); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
-body { margin: 0; position: relative; min-height: 100vh; overflow-x: clip; font: 13px/18px var(--mono); }
-h1, h2, p, figure, pre { margin: 0; }
-h2 { font: inherit; font-weight: 700; }
-pre { font: inherit; white-space: pre; }
-::selection { background: var(--pink); color: var(--ink); }
+* { box-sizing: border-box; }
+html { background: var(--paper); overflow-x: hidden; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { margin: 0; position: relative; background: var(--paper); color: var(--ink);
+  font: 400 var(--fs)/var(--lh) var(--mono); font-variant-ligatures: none; font-kerning: none; }
+html.gated, html.gated body { height: 100%; overflow: hidden; }
+.sr { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.measure { position: absolute; left: 0; top: 0; visibility: hidden; font-size: 100px; line-height: 1; white-space: pre; }
 
-a { color: var(--blue); text-decoration-thickness: 1px; text-underline-offset: 3px; }
-a:visited { color: var(--blue); }
-a:hover, a:focus-visible { background: var(--pink); color: var(--ink); text-decoration: none; outline: none; }
-.m { color: var(--soft); }
-.big2 { font-size: 26px; line-height: calc(var(--r) * 2); font-weight: 400; }
+/* ---------- the painting ---------- */
+#stage { position: absolute; left: 0; top: 0; width: 100%; overflow: hidden; pointer-events: none; -webkit-user-select: none; user-select: none; z-index: 0;
+  --cp: var(--mp); --cb: var(--mb); --cy: var(--my); --ck: var(--mk); }
+#paint, #ext { position: absolute; left: 0; top: 0; margin: 0; font: inherit; white-space: pre; }
+#paint, #ext, .blk { line-height: calc(var(--bl, 1.16) * 1em); letter-spacing: var(--bls, 0); transform-origin: 0 0;
+  transform: translateY(var(--bdy, 0)) scale(var(--bsx, 1), var(--bsy, 1)); }
+.blk { display: block; overflow: visible; }
+#paint i { font-style: normal; }
+#paint .L { color: var(--ink); }
+#paint .g1 { color: #8f8f8f; } #paint .g2 { color: #9c9c9c; } #paint .g3 { color: #7b7b7b; }
+#paint .p { color: var(--cp); } #paint .b { color: var(--cb); } #paint .y { color: var(--cy); } #paint .k { color: var(--ck); }
+.on-air #stage { --cp: var(--pink); --cb: var(--blue); --cy: var(--yellow); --ck: var(--ink); }
+.on-air #stage.r1 { --cp: var(--blue); --cb: var(--yellow); --cy: var(--pink); }
+.on-air #stage.r2 { --cp: var(--yellow); --cb: var(--pink); --cy: var(--blue); }
+.on-air #stage.rw { --cp: var(--mp); --cb: var(--mb); --cy: var(--my); --ck: var(--mk); }
+.on-air #stage.rw.r1 { --cp: var(--mb); --cb: var(--my); --cy: var(--mp); }
+.on-air #stage.rw.r2 { --cp: var(--my); --cb: var(--mp); --cy: var(--mb); }
+#ext { color: transparent; }
+#stage.kick #ext { color: var(--ink); }
 
-.field { position: absolute; inset: 0; z-index: 0; overflow: hidden; color: var(--field); pointer-events: none; user-select: none; -webkit-user-select: none; }
+/* ---------- type set into the light planes ---------- */
+.js #hero > *, .js #main > section, .js #main > article { position: absolute; z-index: 2; margin: 0; }
+h1, h2, p, ul, li { margin: 0; padding: 0; font-size: inherit; line-height: inherit; }
+h1, h2 { font-weight: 700; }
+#main section > *, #main article > *, .deck > *, .lcd > * { margin: 0 0 var(--lh); }
+#main section > :last-child, #main article > :last-child, .deck > :last-child, .lcd > :last-child { margin-bottom: 0; }
+#main .lab { color: var(--grey); margin-bottom: 0; }
+ul { list-style: none; }
+li { padding-left: 2ch; text-indent: -2ch; }
+li::before { content: "→ "; content: "→ " / ""; color: var(--grey); }
+a { color: var(--blue); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .2em; }
+a:hover { background: var(--pink); color: #fff; text-decoration: none; }
+a:focus-visible, button:focus-visible { outline: 3px solid var(--pink); outline-offset: 2px; }
+::selection { background: var(--pink); color: #fff; }
+#main .facts .kv { padding-left: 9ch; text-indent: -9ch; margin-bottom: 0; }
+#main .facts .kv:last-child { margin-bottom: 0; }
+[tabindex="-1"]:focus { outline: none; }
+.facts .k { display: inline-block; width: 9ch; text-indent: 0; color: var(--grey); }
+#main .pic { height: calc(var(--lh) * 8); padding-top: calc(var(--lh) * 3); margin: 0; white-space: nowrap; }
 
-.page { position: relative; z-index: 1; container: page / inline-size; padding: calc(var(--r) * 2) 0 calc(var(--r) * 4); }
-.frame { --fl: 2ch; margin-left: var(--fl); width: calc(100cqw - 4ch); width: round(down, 100cqw - 4ch, 1ch); }
-.blk { padding: var(--r) 2ch; }
+/* ---------- the gate ---------- */
+button { font: inherit; line-height: inherit; color: var(--blue); background: none; border: 0; border-radius: 0; padding: 0; margin: 0;
+  cursor: pointer; -webkit-appearance: none; appearance: none; text-align: left; }
+#go { left: 0; top: 0; color: var(--pink); white-space: pre; overflow: hidden; display: block; }
+#go .art { display: block; }
+#go:hover { color: var(--blue); }
+#go:focus-visible { outline: 3px solid var(--blue); outline-offset: -3px; }
+#sign .art, #title .art { display: block; }
+.sl { display: block; white-space: pre; }
+#sign b { font-weight: 700; color: var(--ink); }
+#sign b.o { font-weight: 400; color: #cfcfcf; }
+#sign b.h { color: var(--pink); }
+#sign .cap { font-weight: 700; letter-spacing: .5ch; }
+.moving .on-air #sign b.l { color: #cbcbcb; }
+#hint { color: var(--grey); white-space: nowrap; }
+#hint .in, html.gated #hint .out { display: none; }
+html.gated #hint .in { display: inline; }
+#quiet { text-decoration: underline; text-underline-offset: .2em; white-space: nowrap; }
+html:not(.gated) #quiet { display: none; }
+#quiet:hover, .keys button:hover, .floatstop:hover .t { background: var(--pink); color: #fff; text-decoration: none; }
+#title .art { color: var(--ink); white-space: pre; }
 
-/* ---------- the top: the little computer the pieces arrive at ---------- */
-.home { width: fit-content; padding: 0 2ch; }
-.mailhead { margin-top: calc(var(--r) * 2); display: grid; grid-template-columns: minmax(0, 1fr); row-gap: calc(var(--r) * 2); }
-.intro h1 { margin-bottom: var(--r); }
-.intro p + p { margin-top: var(--r); }
-.pcbox { width: fit-content; padding-bottom: 0; align-self: end; }
-.pc b, .cable b { font-weight: inherit; }
-/* the cable leaves the computer and runs off the edge of the screen */
-.cable { margin-left: 29ch; padding: 0; width: calc(100cqw - var(--fl) - 29ch); overflow: hidden; }
-.cable pre { display: flex; }
-.wire { flex: 1; overflow: hidden; }
-.wire span { display: inline-block; margin-left: -30ch; animation: send 6s linear infinite paused; }
-.mailhead:hover + .cable .wire span, .cable:hover .wire span { animation-play-state: running; }   /* hover the top and the hearts go down the wire */
-@keyframes send { to { transform: translateX(30ch); } }
+/* ---------- KES FM ---------- */
+.spk { white-space: pre; font: inherit; color: var(--ink); }
+.spk .p { color: var(--pink); } .spk .g { color: var(--blue); } .spk .b { color: #8a8a8a; } .spk .i { color: #b9b9b9; }
+.spk .kf { color: var(--pink); font-weight: 700; }
+.spk .tower.lit { color: var(--blue); }
+@keyframes thump { from { color: var(--pink); } to { color: var(--blue); } }
+@media (prefers-reduced-motion: no-preference) { .spk .sound.thump { animation: thump .3s ease-out; } }
+.lcd-top { display: flex; justify-content: space-between; flex-wrap: wrap; column-gap: 2ch; }
+.status { color: var(--pink); font-weight: 700; }
+.ticker { overflow: hidden; white-space: nowrap; color: var(--grey); }
+.ticker > div { display: inline-block; }
+.ticker span { padding-right: 1ch; }
+@keyframes run { to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: no-preference) { .ticker > div { animation: run 70s linear infinite; } }
+/* the tracker: 32 sixteenths as an 8 x 4 block of half-cell squares */
+.tracker { display: grid; grid-template-columns: repeat(8, calc(var(--cw) * 2)); grid-auto-rows: var(--lh); }
+.tracker span { font-size: 0; line-height: 0; }
+.tracker span::before { content: "▄"; font-size: var(--fs); line-height: var(--lh); color: #b3b3b3; }
+.tracker .rest::before { content: "·"; }
+.tracker .rev::before { color: var(--blue); }
+.tracker .up::before { color: #e2b600; }
+.tracker .roll::before { color: var(--ink); }
+.tracker .on::before { content: "█"; color: var(--pink); }
+.lcd-info { color: var(--grey); }
+.lcd-info > span { display: block; }
+.lcd-info .rev { color: var(--blue); } .lcd-info .up { color: #a88600; } .lcd-info .now { color: var(--pink); }
+.keys > div { margin: 0; }
+.lbl { display: inline-block; width: 6ch; color: var(--grey); }
+.keys button::before { content: "["; content: "[" / ""; color: var(--ink); }
+.keys button::after { content: "]"; content: "]" / ""; color: var(--ink); }
+.keys button[aria-pressed="true"] { color: var(--ink); font-weight: 700; }
+.keys button[aria-pressed="true"]::before { content: "▐"; content: "▐" / ""; color: var(--pink); }
+.keys button[aria-pressed="true"]::after { content: "▌"; content: "▌" / ""; color: var(--pink); }
+.keys button:hover::before, .keys button:hover::after { color: #fff; }
+.vol { color: var(--grey); }
+.vbar { position: relative; display: inline-block; }
+.vbar input { position: absolute; left: 0; top: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.vtxt { color: var(--blue); }
+.vbar:focus-within .vtxt { outline: 3px solid var(--pink); outline-offset: 2px; }
+.floatstop { position: fixed; right: calc(var(--cw) * 2); bottom: var(--lh); z-index: 9; color: var(--yellow); white-space: pre; }
+.floatstop[hidden] { display: none; }
+.floatstop .u { display: block; }
+.floatstop .t { position: absolute; left: 0; right: 0; top: var(--lh); text-align: center; color: var(--ink); font-weight: 700; }
+.floatstop:hover { color: var(--pink); }
 
-/* ---------- the pieces, newest first, each in its own opening ---------- */
-.pieces { margin-top: calc(var(--r) * 3); column-gap: 4ch; }
-.piece { break-inside: avoid; margin-bottom: calc(var(--r) * 2); }
-.piece .meta { color: var(--soft); }
-.piece h2 { margin-bottom: var(--r); }
-.piece .text p + p { margin-top: var(--r); }
-
-/* ---------- the end ---------- */
-.foot { margin-top: calc(var(--r) * 2); display: grid; grid-template-columns: minmax(0, 1fr); gap: calc(var(--r) * 2) 4ch; align-items: start; }
-.foot .back { width: fit-content; }
-.bye { width: fit-content; }
-.garden-bed { position: relative; z-index: 1; padding-top: var(--r); overflow: hidden; }
-.garden { overflow: hidden; }
-
-@container page (min-width: 104ch) {
-  .frame { --fl: round(down, (100cqw - 100ch) / 2, 1ch); width: 100ch; }
-  .mailhead { grid-template-columns: 48ch 48ch; column-gap: 4ch; grid-template-areas: "p i"; }
-  .pcbox { grid-area: p; } .intro { grid-area: i; align-self: start; }
-  .pieces { columns: 2; }
-  .foot { grid-template-columns: 48ch 48ch; }
-}
-@container page (min-width: 180ch) {
-  .frame { --fl: round(down, (100cqw - 176ch) / 2, 1ch); width: 176ch; }
-  .mailhead { grid-template-columns: 56ch 56ch 56ch; }
-  .pieces { columns: 3; }
-  .foot { grid-template-columns: 56ch 56ch 56ch; }
-  .foot .bye { grid-column: 3; }
-}
-@media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
+/* no script: plain, readable, no gate */
+html:not(.js) #stage { display: none; }
+html:not(.js) #hero, html:not(.js) #main { max-width: 74ch; margin: 0 auto; padding: 2em 2ch 0; }
+html:not(.js) #main > * { margin-bottom: 2em; }
 </style>
 </head>
-<body>
+<body data-page="writing">
+<div id="stage" aria-hidden="true"><pre id="paint"></pre><pre id="ext"></pre></div>
 
-<pre class="field" id="field" aria-hidden="true"></pre>
-
-<div class="page">
-<div class="frame">
-
-<p class="home blk"><a href="index.html">← kes inkersole</a></p>
-
-<header class="mailhead">
-<div class="intro blk">
-<h1 class="big2">chainmail <span class="heart">♡</span></h1>
-<p>my own writing: short pieces, the kind i write in my notes app. each one is an email, its subject is the title, and they collect here over time into a kind of text moodboard, newest first.</p>
-<p class="m">pieces arrive by email at (address tbc)<br>chainmail is a working title</p>
-</div>
-<div class="pcbox blk">
-<pre class="pc" role="img" aria-label="ascii drawing of a little computer with a heart on its screen, its cable running off the edge of the page">  ______________________
- |  __________________  |
- | |                  | |
- | |   <b>&lt;3&lt;3</b>    <b>&lt;3&lt;3</b>   | |
- | | <b>&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3</b> | |
- | | <b>&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3</b> | |
- | |   <b>&lt;3&lt;3&lt;3&lt;3&lt;3&lt;3</b>   | |
- | |     <b>&lt;3&lt;3&lt;3&lt;3</b>     | |
- | |       <b>&lt;3&lt;3</b>       | |
- | |        <b>&lt;3</b>        | |
- | |__________________| |
- |                      |
- |  <b>o</b>          ______   |
- |______________________|\
-   |__________________|   \</pre>
-</div>
+<header id="hero">
+<h1 id="title"><span class="sr">chainmail (working title)</span><span class="art" aria-hidden="true"></span></h1>
 </header>
-<div class="cable blk" aria-hidden="true"><pre><span>\</span><span class="wire"><span>_____________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________<b>&lt;3</b>____________________________</span></span></pre></div>
 
-<main class="pieces" id="pieces">
-<!--
-  the pipeline: each email becomes one <article class="piece blk">, added straight
-  below this comment so the newest is first. the subject is the h2, the date
-  is the day it was sent, and each paragraph of the email is a <p>. the shape:
-
-  <article class="piece blk" id="piece-NNN" data-sent="YYYY-MM-DD">
-  <header><p class="meta">no. NNN · <time datetime="YYYY-MM-DD">D mon YYYY</time></p>
-  <h2>the email subject</h2></header>
-  <div class="text"><p>the email, one paragraph per p</p></div>
-  </article>
-
-  the pieces below are lorem ipsum placeholders with placeholder dates.
--->
-
-<article class="piece blk" id="piece-010" data-sent="2026-10-18">
-<header><p class="meta">no. 010 · <time datetime="2026-10-18">18 oct 2026</time></p>
-<h2>lorem ipsum</h2></header>
-<div class="text"><p>lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></div>
-</article>
-
-<article class="piece blk" id="piece-009" data-sent="2026-10-15">
-<header><p class="meta">no. 009 · <time datetime="2026-10-15">15 oct 2026</time></p>
-<h2>sed do eiusmod tempor</h2></header>
-<div class="text"><p>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-<p>excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
-<p>nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. neque porro quisquam est.</p></div>
-</article>
-
-<article class="piece blk" id="piece-008" data-sent="2026-10-12">
-<header><p class="meta">no. 008 · <time datetime="2026-10-12">12 oct 2026</time></p>
-<h2>ut labore</h2></header>
-<div class="text"><p>ut labore et dolore magna aliqua. quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.</p></div>
-</article>
-
-<article class="piece blk" id="piece-007" data-sent="2026-10-09">
-<header><p class="meta">no. 007 · <time datetime="2026-10-09">9 oct 2026</time></p>
-<h2>magna aliqua</h2></header>
-<div class="text"><p>lorem ipsum<br>dolor sit amet<br>consectetur adipiscing<br>sed do eiusmod<br>tempor &lt;3</p></div>
-</article>
-
-<article class="piece blk" id="piece-006" data-sent="2026-10-05">
-<header><p class="meta">no. 006 · <time datetime="2026-10-05">5 oct 2026</time></p>
-<h2>quis nostrud exercitation</h2></header>
-<div class="text"><p>quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. at vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi.</p></div>
-</article>
-
-<article class="piece blk" id="piece-005" data-sent="2026-10-01">
-<header><p class="meta">no. 005 · <time datetime="2026-10-01">1 oct 2026</time></p>
-<h2>re: dolor</h2></header>
-<div class="text"><p>dolor sit amet, iterum.</p></div>
-</article>
-
-<article class="piece blk" id="piece-004" data-sent="2026-09-27">
-<header><p class="meta">no. 004 · <time datetime="2026-09-27">27 sep 2026</time></p>
-<h2>ullamco laboris</h2></header>
-<div class="text"><p>ullamco laboris nisi ut aliquip ex ea commodo consequat. duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur, et harum quidem rerum facilis est et expedita distinctio.</p>
-<p>nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est.</p></div>
-</article>
-
-<article class="piece blk" id="piece-003" data-sent="2026-09-22">
-<header><p class="meta">no. 003 · <time datetime="2026-09-22">22 sep 2026</time></p>
-<h2>nisi ut aliquip</h2></header>
-<div class="text"><p>nisi ut aliquip ex ea commodo.<br>temporibus autem quibusdam.<br>et aut officiis debitis.</p></div>
-</article>
-
-<article class="piece blk" id="piece-002" data-sent="2026-09-16">
-<header><p class="meta">no. 002 · <time datetime="2026-09-16">16 sep 2026</time></p>
-<h2>commodo consequat</h2></header>
-<div class="text"><p>commodo consequat, temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat. lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</p>
-<p>ut enim ad minim veniam.</p></div>
-</article>
-
-<article class="piece blk" id="piece-001" data-sent="2026-09-09">
-<header><p class="meta">no. 001 · <time datetime="2026-09-09">9 sep 2026</time></p>
-<h2>duis aute irure</h2></header>
-<div class="text"><p>duis aute irure dolor in reprehenderit, lorem ipsum dolor sit amet.</p></div>
-</article>
+<main id="main">
+<section id="intro"><p><a href="index.html">&lt;- kes inkersole</a></p><h2>chainmail (working title)</h2><p>my own writing. short pieces, the kind i write in my notes app, sent here by email and collected over time into a kind of text moodboard.</p><p class="lab">by email</p><p>each piece arrives as an email to (address tbc). the subject line becomes its title and the newest one lands at the top.</p></section>
+<article><p class="lab">no. 011 · 18 oct 2026</p><h2>lorem ipsum</h2><p>lorem ipsum dolor sit amet.</p></article>
+<article><p class="lab">no. 010 · 14 oct 2026</p><h2>consectetur adipiscing elit</h2><p>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p><p>excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.</p><p>totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p></article>
+<article><p class="lab">no. 009 · 9 oct 2026</p><h2>(no subject)</h2><p>nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.</p></article>
+<article><p class="lab">no. 008 · 6 oct 2026</p><h2>sed quia consequuntur</h2><p>magni dolores eos qui ratione voluptatem sequi nesciunt. neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p></article>
+<article><p class="lab">no. 007 · 2 oct 2026</p><h2>ut enim ad minima</h2><p>quis autem vel eum</p><p>iure reprehenderit</p><p>qui in ea voluptate</p><p>velit esse quam nihil</p><p>molestiae consequatur</p></article>
+<article><p class="lab">no. 006 · 27 sep 2026</p><h2>at vero eos et accusamus</h2><p>et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.</p><p>similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. et harum quidem rerum facilis est et expedita distinctio.</p></article>
+<article><p class="lab">no. 005 · 21 sep 2026</p><h2>nam libero</h2><p>tempore, cum soluta nobis est eligendi optio.</p></article>
+<article><p class="lab">no. 004 · 14 sep 2026</p><h2>re: temporibus autem quibusdam</h2><p>et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.</p></article>
+<article><p class="lab">no. 003 · 3 sep 2026</p><h2>quis nostrum exercitationem</h2><p>ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur.</p><p>lorem ipsum dolor sit amet, consectetur adipiscing elit. integer nec odio. praesent libero. sed cursus ante dapibus diam. sed nisi. nulla quis sem at nibh elementum imperdiet. duis sagittis ipsum.</p><p>curabitur sodales ligula in libero.</p></article>
+<article><p class="lab">no. 002 · 28 aug 2026</p><h2>sed dignissim lacinia</h2><p>nunc. curabitur tortor. pellentesque nibh. aenean quam. in scelerisque sem at dolor. maecenas mattis. sed convallis tristique sem.</p></article>
+<article><p class="lab">no. 001 · 15 aug 2026</p><h2>hello, lorem</h2><p>proin ut ligula vel nunc egestas porttitor. morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. fusce ac turpis quis ligula lacinia aliquet.</p><p>mauris ipsum.</p></article>
 </main>
 
-<footer class="foot">
-<p class="back blk"><a href="index.html">← back to kes's little corner of the internet</a></p>
-<p class="bye blk"><span class="big2">thanks for reading <span class="heart">♡</span></span></p>
-</footer>
-
-</div>
-</div>
-
-<div class="garden-bed blk">
-<pre class="garden" aria-hidden="true">    _                             _                          _                        _                            _                        _                             _
-  _(_)_         @               _(_)_         @            _(_)_              @     _(_)_         @              _(_)_    @               _(_)_         @               _(_)_    @
- (_)@(_)        |/  vVv        (_)@(_)        |/    vVv   (_)@(_)             |/   (_)@(_)  vVv   |/            (_)@(_)   |/  vVv        (_)@(_)        |/  vVv        (_)@(_)   |/  vVv
-   (_)    vVv  \|   (_)    *     (_)    vVv  \|     (_)     (_)     *   vVv  \|      (_)    (_)  \|   vVv   *     (_)    \|   (_)  vVv     (_)     *   \|   (_)   vVv    (_)    \|   (_)  vVv
-    |/    (_)   |   \|     |/     |/    (_)   |     \|       |/     |/  (_)   |       |/    \|    |   (_)   |/     |/     |   \|   (_)      |/     |/   |   \|    (_)     |/     |   \|   (_)
-   \|      |    |    |    \|     \|      |    |      |      \|     \|    |    |      \|      |    |    |   \|     \|      |    |    |      \|     \|    |    |     |     \|      |    |    |</pre>
-</div>
-
 <script>
-/* ---------------------------------------------------------------
-   the field. one byte pattern, repeated, that comes apart into noise
-   the further down the page it goes, like a binary file opened as text.
-   it's seeded, so it's the same field every time. every block on the
-   page cuts a clear opening in it, snapped to whole cells.
-   --------------------------------------------------------------- */
+/* the painting: works out a character grid for this viewport, splits it like Tableau I
+   (a big light square, planes round the edge, lines that stop short of the edges)
+   and sets the content into the light planes. deterministic for a given window size. */
 (function () {
-  "use strict";
-  var d = document, F = d.getElementById("field");
-  if (!F || !window.getComputedStyle) return;
+  var D = document, H = D.documentElement, B = D.body;
+  var $ = function (s) { return D.querySelector(s); };
+  var HOME = B.getAttribute('data-page') === 'home';
+  var STILL = typeof still !== 'undefined' ? still : matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!STILL) H.classList.add('moving');
+  var stage = $('#stage'), paintEl = $('#paint'), extEl = $('#ext');
 
-  var MOTIF = "<3±0ðKDDDDDDDDDDDDDDÅÂÀEÏDDDDDDDDDDDDDDS,", P = MOTIF.length;   // one period, with a <3 in it
-  var ABC = "", k;                                                          // printable ascii + latin-1
-  for (k = 33; k < 256; k++) if (k < 127 || (k > 160 && k !== 173)) ABC += String.fromCharCode(k);
-  var RAMP = " .'`^\",:;Il!i><~+_-?][}{1)(|/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$";
+  function rnd(a) { return function () { a = a + 0x6D2B79F5 | 0; var t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+  var ADV = (function () {
+    var s = D.createElement('span'); s.className = 'measure'; s.textContent = '0000000000000000000000000000000000000000';
+    B.appendChild(s); var w = s.getBoundingClientRect().width / 4000; B.removeChild(s); return w || .6;
+  })();
 
-  var cw = 7.8, rh = 18, cols = 0, rows = 0, noise = [], holes = [], shift = 0, queued = 0, pics = [];
-
-  function prng(a) {                     // mulberry32
-    return function () {
-      a = a + 0x6D2B79F5 | 0;
-      var t = Math.imul(a ^ a >>> 15, 1 | a);
-      t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
-      return ((t ^ t >>> 14) >>> 0) / 4294967296;
-    };
-  }
-  // how far the pattern has come apart at depth t (0 = top of the page, 1 = the bottom)
-  function decay(t) { t = (t - .1) / .75; t = t < 0 ? 0 : t > 1 ? 1 : t; return t * t * (3 - 2 * t); }
-
-  // one row of noise: bursts that start rare and short, then grow until they swallow the pattern
-  function noiseRow(r) {
-    var rnd = prng(r * 9973 + 17), p = decay(rows > 1 ? r / (rows - 1) : 0);
-    var start = p * p * .5, longest = 3 + 70 * p, row = [], run = 0, last = "";
-    for (var c = 0; c < cols; c++) {
-      var a = rnd(), b = rnd(), e = rnd();
-      if (run <= 0 && a < start) run = 1 + Math.floor(e * e * e * longest);
-      if (run > 0) { run--; last = b < .1 && last ? last : ABC.charAt(Math.floor(rnd() * ABC.length)); row.push(last); }
-      else { row.push(""); last = ""; }
-    }
-    return row;
-  }
-
-  function paint() {
-    var out = [];
-    for (var r = 0; r < rows; r++) {
-      var nz = noise[r], h = holes[r], line = [], c, j;
-      for (c = 0; c < cols; c++) line.push(nz[c] || MOTIF.charAt(((c - 2 * r - shift) % P + P) % P));
-      if (h) for (j = 0; j < h.length; j++) for (c = h[j][0]; c < h[j][1]; c++) line[c] = " ";
-      out.push(line.join(""));
-    }
-    F.textContent = out.join("\n");
+  // block glyphs never quite fill a fractional cell, so the block layers are set a touch tighter than the
+  // cell and scaled back up: rows and columns overlap by a hair and no white seams show between characters
+  var INK = (function () {
+    var r = { h: 1.164, top: 0 };
+    try {
+      var c = D.createElement('canvas').getContext('2d'); c.font = '100px ' + getComputedStyle(B).fontFamily;
+      var m = c.measureText('\u2588');
+      if (m.actualBoundingBoxAscent) {
+        r.h = (m.actualBoundingBoxAscent + m.actualBoundingBoxDescent) / 100;
+        if (m.fontBoundingBoxAscent) r.top = ((m.fontBoundingBoxAscent - m.actualBoundingBoxAscent) - (m.fontBoundingBoxDescent - m.actualBoundingBoxDescent)) / 200;
+      }
+    } catch (e) {}
+    return r;
+  })();
+  function blockVars(fs, cw, lh) {
+    var L = INK.h * .96, sy = lh / (L * fs), sx = cw / (cw - .5);
+    // where the ink of a row starts, relative to its line box, in em; nudge it to start just above the row
+    var inkTop = INK.top - .02 * INK.h + (L - INK.h) / 2;
+    H.style.setProperty('--bl', L); H.style.setProperty('--bls', (-.5 / fs) + 'em');
+    H.style.setProperty('--bdy', (-inkTop - .02 * INK.h) * sy + 'em'); H.style.setProperty('--bsx', sx); H.style.setProperty('--bsy', sy);
   }
 
-  function build() {
-    queued = 0;
-    var probe = d.createElement("span");
-    probe.textContent = new Array(201).join("0");
-    F.textContent = ""; F.appendChild(probe);
-    cw = probe.getBoundingClientRect().width / 200 || cw;
-    rh = parseFloat(getComputedStyle(F).lineHeight) || rh;
-    F.textContent = "";
-    pics.forEach(function (draw) { draw(); });
-    var box = F.getBoundingClientRect(), nc = Math.ceil(box.width / cw), nr = Math.ceil(box.height / rh);
-    if (nc !== cols || nr !== rows) {
-      cols = nc; rows = nr; noise = [];
-      for (var r = 0; r < rows; r++) noise.push(noiseRow(r));
+  /* ---------- pixel letters, drawn with half blocks ---------- */
+  var GL = {
+    P: '####.|#...#|#...#|####.|#....|#....|#....', L: '#....|#....|#....|#....|#....|#....|#####',
+    A: '.###.|#...#|#...#|#####|#...#|#...#|#...#', Y: '#...#|#...#|.#.#.|..#..|..#..|..#..|..#..',
+    O: '.###.|#...#|#...#|#...#|#...#|#...#|.###.', N: '#...#|##..#|#.#.#|#..##|#...#|#...#|#...#',
+    I: '###|.#.|.#.|.#.|.#.|.#.|###', R: '####.|#...#|#...#|####.|#.#..|#..#.|#...#',
+    C: '.###.|#...#|#....|#....|#....|#...#|.###.', H: '#...#|#...#|#...#|#####|#...#|#...#|#...#',
+    M: '#...#|##.##|#.#.#|#.#.#|#...#|#...#|#...#', '>': '#...|##..|###.|####|###.|##..|#...', ' ': '.|.|.|.|.|.|.'
+  };
+  function word(t) {
+    var rows = ['', '', '', '', '', '', ''];
+    t.split('').forEach(function (c, i) { var g = GL[c].split('|'); for (var r = 0; r < 7; r++) rows[r] += (i ? '.' : '') + g[r]; });
+    return rows;
+  }
+  function carve(text, W, Hr, solid) {
+    var g = word(text), gw = text ? g[0].length : 0, ox = Math.floor((W - gw) / 2), oy = Math.max(0, Math.floor((2 * Hr - 7) / 2)), out = [];
+    function on(x, y) { var a = x - ox, b = y - oy, hit = !!text && a >= 0 && a < gw && b >= 0 && b < 7 && g[b][a] === '#'; return solid ? hit : !hit; }
+    for (var r = 0; r < Hr; r++) { var s = ''; for (var x = 0; x < W; x++) { var t = on(x, 2 * r), u = on(x, 2 * r + 1); s += t ? (u ? '█' : '▀') : (u ? '▄' : ' '); } out.push(s); }
+    return out;
+  }
+
+  /* ---------- kes's heart-letter name: 7 rows, every lit dot a <3 ---------- */
+  var NAME = [
+    '..#.....................#........#.............................##.................',
+    '..#..............................#..............................#.........##.##...',
+    '..#..#...###...####....##..#.##..#..#...###..#.##...####..###...#...###..#######..',
+    '..#.#...#...#.#.........#..##..#.#.#...#...#.##..#.#.....#...#..#..#...#.#######..',
+    '..##....#####..###......#..#...#.##....#####.#......###..#...#..#..#####..#####...',
+    '..#.#...#.........#.....#..#...#.#.#...#.....#.........#.#...#..#..#.......###....',
+    '..#..#...###..####.....###.#...#.#..#...###..#.....####...###..###..###.....#.....'
+  ];
+  var WORDS = { kes: [2, 18], inkersole: [23, 66], heart: [69, 79] };
+  function cols(words) { var c = []; words.forEach(function (w, i) { if (i) c.push(-1, -1); for (var x = WORDS[w][0]; x <= WORDS[w][1]; x++) c.push(x); }); return c; }
+  function signLine(words, s) {
+    var cs = cols(words), rows = [];
+    for (var r = 0; r < 7; r++) {
+      var out = '', cur = null, buf = '';
+      cs.forEach(function (c) {
+        var on = c >= 0 && NAME[r][c] === '#';
+        var k = on ? (c >= 69 ? 'h' : 'l s' + Math.min(31, Math.floor((c - 2) * 32 / 65))) : 'o';
+        if (k !== cur) { if (cur) out += '<b class="' + cur + '">' + buf + '</b>'; cur = k; buf = ''; }
+        buf += on ? '&lt;3' : ' .';
+      });
+      rows.push(out + '<b class="' + cur + '">' + buf + '</b>');
     }
-    holes = [];
-    [].forEach.call(d.querySelectorAll(".blk"), function (el) {
-      var b = el.getBoundingClientRect();
-      if (!b.width || !b.height) return;
-      var c0 = Math.max(0, Math.floor((b.left - box.left) / cw + .05)), c1 = Math.min(cols, Math.ceil((b.right - box.left) / cw - .05));
-      var r0 = Math.max(0, Math.floor((b.top - box.top) / rh + .05)), r1 = Math.min(rows, Math.ceil((b.bottom - box.top) / rh - .05));
-      for (var r = r0; r < r1; r++) (holes[r] = holes[r] || []).push([c0, c1]);
+    return '<span class="sl" style="font-size:' + S.fs * s + 'px;line-height:' + S.lh * s + 'px">' + rows.join('\n') + '</span>';
+  }
+
+  /* ---------- the grid ---------- */
+  var S = null, planes, lines, punches, lastT;
+  var MODE = { dir: 'h', dens: .06, light: false, seed: 1 };
+  var T_HOME = [['W', 24], ['g1', 20], ['g2', 15], ['g3', 7], ['p', 9], ['b', 10], ['y', 10], ['k', 5]];
+  var T_CALM = [['W', 34], ['g1', 26], ['g2', 17], ['g3', 6], ['p', 3], ['b', 6], ['y', 5], ['k', 3]];
+  var T_SMALL = [['k', 3], ['y', 3], ['W', 2], ['g2', 2], ['p', 1], ['b', 1]];
+  function pick(r, list, avoid) {
+    var tot = 0, i, x, t; list.forEach(function (e) { tot += e[1]; });
+    for (var n = 0; n < 4; n++) { x = r() * tot; for (i = 0; i < list.length - 1; i++) { x -= list[i][1]; if (x < 0) break; } t = list[i][0]; if (t !== avoid) break; }
+    return t;
+  }
+  function plane(x, y, w, h, t, r) {
+    if (w < 1 || h < 1) return;
+    if (!t) { t = pick(r, w * S.cw * h * S.lh < S.area * .45 ? T_SMALL : HOME ? T_HOME : T_CALM, lastT); lastT = t; }
+    planes.push({ x: x, y: y, w: w, h: h, t: t });
+  }
+  function lineH(x0, x1, y, cl, cr) { lines.push({ x: x0, y: y, w: x1 - x0 + 1, h: 1, a: cl ? S.gx : 0, b: cr ? S.gx : 0, o: 'h' }); }
+  function lineV(x, y0, y1, ct, cb) { if (y1 >= y0) lines.push({ x: x, y: y0, w: S.vw, h: y1 - y0 + 1, a: ct ? S.gy : 0, b: cb ? S.gy : 0, o: 'v' }); }
+  // split a rectangle the way the painting does: a few lines, planes of mixed size, colour mostly at the edges
+  function region(x, y, w, h, e, seed) {
+    if (w < 1 || h < 1) return;
+    var r = rnd(seed * 9973 + S.C * 31 + 7);
+    (function split(x, y, w, h, e, d) {
+      var A = w * S.cw * h * S.lh, canV = w >= 2 * S.minW + S.vw, canH = h >= 2 * S.minH + 1;
+      if (d > 7 || !(canV || canH) || A < S.area || (A < S.area * 3 && r() < .4)) { plane(x, y, w, h, null, r); return; }
+      if (canV && (!canH || (w * S.cw > h * S.lh ? r() < .78 : r() < .22))) {
+        var a = S.minW + Math.floor(r() * (w - 2 * S.minW - S.vw + 1));
+        lineV(x + a, y, y + h - 1, e.t, e.b);
+        split(x, y, a, h, { l: e.l, t: e.t, b: e.b }, d + 1);
+        split(x + a + S.vw, y, w - a - S.vw, h, { r: e.r, t: e.t, b: e.b }, d + 1);
+      } else {
+        var b = S.minH + Math.floor(r() * (h - 2 * S.minH));
+        lineH(x, x + w - 1, y + b, e.l, e.r);
+        split(x, y, w, b, { l: e.l, r: e.r, t: e.t }, d + 1);
+        split(x, y + b + 1, w, h - b - 1, { l: e.l, r: e.r, b: e.b }, d + 1);
+      }
+    })(x, y, w, h, e || {}, 0);
+  }
+
+  function put(el, col, row, w) { el.style.left = col * S.cw + 'px'; el.style.top = row * S.lh + 'px'; if (w != null) el.style.width = w * S.cw + 'px'; }
+  function rows(el) { return Math.max(1, Math.round(el.offsetHeight / S.lh)); }
+  function natural(el) { el.style.width = 'max-content'; var n = Math.ceil(el.offsetWidth / S.cw - .05); el.style.width = ''; return n; }
+
+  // one light plane per room, content inset by pad; short content leaves room for planes on the right
+  function room1(els, y, i, cap) {
+    var tw = S.cen - 2 * S.pad, nat = 0;
+    els.forEach(function (el) { nat = Math.max(nat, natural(el)); });
+    if (cap && cap < tw) nat = Math.min(nat, cap);
+    var split = nat + 2 * S.pad + S.vw + 9 <= S.cen && nat < tw;
+    if (split) tw = nat;
+    var row = y + 2, x = S.x0 + S.pad;
+    els.forEach(function (el) { var sp = el.querySelector('.spk'); if (sp) sp.style.fontSize = tw < 37 ? S.fs / 2 + 'px' : ''; if (sp) sp.style.lineHeight = tw < 37 ? S.lh / 2 + 'px' : ''; put(el, x, 0, tw); });
+    els.forEach(function (el) { var n = rows(el); put(el, x, row); el._row = row; row += n + 1; });
+    var hr = row - y - 1;
+    if (split) { var xs = S.x0 + 2 * S.pad + tw; lineV(xs, y + 1, y + hr); region(xs + S.vw, y + 1, S.xr - xs - S.vw, hr, {}, 40 + i); }
+    // the "(picture to come)" placeholders become grey planes with their label punched through
+    els.forEach(function (el) {
+      [].forEach.call(el.querySelectorAll('.pic'), function (pic, k) {
+        var pr = el._row + Math.round(pic.offsetTop / S.lh), n = +el.id.slice(1) || i, mw = Math.round(S.cen * (.5 + .08 * (n % 3)));
+        mw = Math.max(mw, Math.min(S.cen, S.pad + 20));
+        lineH(S.x0, S.xr - 1, pr); lineH(S.x0, S.xr - 1, pr + 6);
+        plane(S.x0, pr + 1, mw, 5, ['g2', 'g1', 'g3'][n % 3]);
+        punches.push({ x: S.x0 + S.pad - 1, y: pr + 3, w: Math.min(mw - S.pad + 1, pic.textContent.length + 2) });
+        if (S.cen - mw - S.vw >= 3) { lineV(S.x0 + mw, pr + 1, pr + 5); region(S.x0 + mw + S.vw, pr + 1, S.cen - mw - S.vw, 5, {}, 60 + n); }
+      });
     });
-    paint();
+    return hr;
   }
-  function later() { if (!queued) queued = requestAnimationFrame(build); }
+  // two pieces side by side; the shorter one leaves a plane underneath (the weave)
+  function room2(a, b, y, i) {
+    var w1 = Math.floor((S.cen - S.vw) / 2), w2 = S.cen - S.vw - w1, xa = S.x0, xb = S.x0 + w1 + S.vw;
+    put(a, xa + S.pad, 0, w1 - 2 * S.pad); if (b) put(b, xb + S.pad, 0, w2 - 2 * S.pad);
+    var ha = rows(a), hb = b ? rows(b) : 0, hm = Math.max(ha, hb), hr = hm + 2;
+    put(a, xa + S.pad, y + 2); if (b) put(b, xb + S.pad, y + 2);
+    lineV(xa + w1, y + 1, y + hr);
+    if (!b) region(xb, y + 1, w2, hr, {}, 80 + i);
+    [[xa, w1, ha], [xb, w2, hb]].forEach(function (c, k) {
+      if (k && !b) return;
+      if (hm - c[2] >= 4) { var ly = y + 3 + c[2]; lineH(c[0], c[0] + c[1] - 1, ly); region(c[0], ly + 1, c[1], y + hr - ly, {}, 90 + 2 * i + k); }
+    });
+    return hr;
+  }
+  function bands(br, x, w, e, seed) {
+    br = br.filter(function (v, i, a) { return a.indexOf(v) === i; }).sort(function (p, q) { return p - q; });
+    for (var i = 0; i + 1 < br.length; i++) { var a = br[i] + 1, b = br[i + 1] - 1; if (b >= a) region(x, a, w, b - a + 1, e, seed + i); }
+  }
 
-  // the project pictures, drawn in characters on the same grid
-  [].forEach.call(d.querySelectorAll(".pic[data-src]"), function (fig) {
-    var pre = fig.querySelector("pre"), photo = null, img = new Image();
-    function draw() {
-      var w = Math.max(8, Math.floor(pre.getBoundingClientRect().width / cw + .02)), h = Math.max(4, Math.round(w * cw / 1.5 / rh));
-      var lum = null, out = [], i, x, y, s;
-      if (photo) try {
-        var cv = d.createElement("canvas"), g = cv.getContext("2d");
-        cv.width = w; cv.height = h; g.drawImage(photo, 0, 0, w, h);
-        var px = g.getImageData(0, 0, w, h).data, lo = 1, hi = 0;
-        lum = [];
-        for (i = 0; i < w * h; i++) {
-          var v = (px[i * 4] * .3 + px[i * 4 + 1] * .59 + px[i * 4 + 2] * .11) / 255;
-          lum.push(v); if (v < lo) lo = v; if (v > hi) hi = v;
-        }
-        for (i = 0; i < lum.length; i++) lum[i] = (lum[i] - lo) / (hi - lo || 1);
-      } catch (err) { lum = null; }
-      for (y = 0; y < h; y++) {
-        s = "";
-        for (x = 0; x < w; x++) {
-          var L = lum ? lum[y * w + x] : 1 - .42 * Math.pow((x / w + y / h) / 2, 1.4);   // no photo yet: a soft dithered ramp
-          s += RAMP.charAt(Math.round((1 - L) * (RAMP.length - 1)));
-        }
-        out.push(s);
-      }
-      if (!lum) {
-        var tag = " placeholder photo ", m = Math.floor(h / 2), at = Math.max(0, Math.floor((w - tag.length) / 2));
-        out[m] = (out[m].slice(0, at) + tag + out[m].slice(at + tag.length)).slice(0, w);
-      }
-      pre.textContent = out.join("\n");
+  function layout() {
+    var W = H.clientWidth, Hh = innerHeight;
+    var cwT = W < 560 ? 8 : W < 1000 ? 8.8 : Math.min(10.4, Math.max(9, W / 150));
+    var C = Math.max(30, Math.round(W / cwT)), cw = W / C, fs = cw / ADV;
+    var R0 = Math.max(20, Math.round(Hh / (fs * 1.2))), lh = HOME ? Hh / R0 : fs * 1.2;
+    S = { C: C, cw: cw, lh: lh, fs: fs, R0: R0, vw: C >= 70 ? 2 : 1, gx: C >= 70 ? 3 : 2, gy: 1, pad: 2,
+      minW: C >= 70 ? 5 : 2, minH: 2, area: (W < 560 ? 2600 : 11000) * (HOME ? 1 : 2.2) };
+    H.style.setProperty('--fs', fs + 'px'); H.style.setProperty('--lh', lh + 'px'); H.style.setProperty('--cw', cw + 'px');
+    blockVars(fs, cw, lh);
+    planes = []; lines = []; punches = []; lastT = '';
+    var vw = S.vw, tb = HOME ? 6 : 3, bb = C < 70 ? 3 : 2, mr = R0 - tb - 2 - bb, lb, rb, cen;
+    if (C < 70) { lb = 2; rb = 3; cen = C - 5 - 2 * vw; }
+    else {
+      var bmin = Math.max(5, Math.round(C * .09)), room = C - 2 * bmin - 2 * vw;
+      // home: the light square, wide enough for "inkersole" in hearts (92) when the window allows
+      var want = HOME ? Math.max(Math.round(mr * lh / cw), 92) : 96;
+      cen = Math.max(Math.min(64, room), Math.min(want, 96, room));
+      var rest = C - cen - 2 * vw; lb = Math.round(rest * .46);
+      if (HOME && lb < 34 && rest - 34 >= bmin) lb = 34;
+      rb = rest - lb;
     }
-    pics.push(draw);
-    img.crossOrigin = "anonymous";
-    img.onload = function () { photo = img; later(); };
-    img.src = fig.getAttribute("data-src");
-  });
-
-  // KES FM's volume, as a row of characters over the real slider
-  var vol = d.getElementById("vol"), bar = d.querySelector(".volbar");
-  function volbar() {
-    var n = 16, on = Math.round(+vol.value * n);
-    bar.textContent = "[" + new Array(on + 1).join("=") + "o" + new Array(n - on + 1).join("-") + "]";
+    S.lb = lb; S.rb = rb; S.cen = cen; S.x0 = lb + vw; S.xr = lb + vw + cen;
+    var y = HOME ? hero(tb, bb, mr) : (region(0, 0, C, tb, { t: 1, l: 1, r: 1 }, 1), tb);
+    var y0 = y, brL = [y], brR = [y], plan = [];
+    if (HOME) ['#hello', '#presents', '#fm', '#p1', '#p2', '#p3', '#more', '#mywriting', '#written', '#pods', '#irl', '#foot'].forEach(function (s) { plan.push({ els: [$(s)], cap: 76 }); });
+    else {
+      var t = $('#title'), tw = 49 <= cen - 2 * S.pad ? 1 : .5;
+      t.querySelector('.art').innerHTML = '<span class="sl blk" style="font-size:' + fs * tw + 'px;height:' + 4 * lh * tw + 'px">' + carve('CHAINMAIL', 49, 4, true).join('\n') + '</span>';
+      plan.push({ els: [t, $('#intro')], cap: 72 });
+      var arts = [].slice.call(D.querySelectorAll('#main article')), two = cen >= 2 * 38 + vw + 4 * S.pad;
+      for (var i = 0; i < arts.length; i += two ? 2 : 1) plan.push(two ? { a: arts[i], b: arts[i + 1] } : { els: [arts[i]] });
+    }
+    plan.forEach(function (rm, i) {
+      var eL = i === 0 || i % 2 === 1 || i % 5 === 0, eR = i === 0 || i % 2 === 0;
+      lineH(eL ? 0 : lb, eR ? C - 1 : S.xr + vw - 1, y, eL, eR);
+      if (eL) brL.push(y); if (eR) brR.push(y);
+      var hr = rm.a ? room2(rm.a, rm.b, y, i) : room1(rm.els, y, i, rm.cap);
+      plane(S.x0, y + 1, cen, hr, 'W');
+      y += 1 + hr;
+    });
+    lineH(0, C - 1, y, 1, 1); brL.push(y); brR.push(y);
+    lineV(lb, y0, y); lineV(S.xr, y0, y);
+    bands(brL, 0, lb, { l: 1 }, 100); bands(brR, S.xr + vw, C - S.xr - vw, { r: 1 }, 200);
+    region(0, y + 1, C, 3, { l: 1, r: 1, b: 1 }, 6);
+    S.R = y + 4;
+    stage.style.height = S.R * lh + 'px';
+    paint();
+    goArt();
   }
-  if (vol && bar) { vol.addEventListener("input", volbar); volbar(); }
 
-  // on air, the pattern slips one cell on every beat (KES FM only beats when motion is allowed)
-  var face = d.querySelector(".stack.sound");
-  if (face && window.MutationObserver) new MutationObserver(function () {
-    if (/\bthump\b/.test(face.className) && /\bon-air\b/.test(d.body.className)) { shift++; paint(); }
-  }).observe(face, { attributes: true, attributeFilter: ["class"] });
-
-  build();
-  addEventListener("resize", later);
-  addEventListener("load", later);
-  if (window.ResizeObserver) {
-    var ro = new ResizeObserver(later);
-    ro.observe(d.body);
-    [].forEach.call(d.querySelectorAll(".blk"), function (el) { ro.observe(el); });
+  function hero(tb, bb, mr) {
+    var C = S.C, vw = S.vw, lb = S.lb, x0 = S.x0, xr = S.xr, cen = S.cen;
+    var pw = lb >= 34 ? lb : Math.min(34, C - vw - 6);
+    S.go = { w: pw, h: tb };
+    plane(0, 0, pw, tb, 'GO');
+    lineV(pw, 0, tb - 1, 1, 0);
+    region(pw + vw, 0, C - pw - vw, tb, { t: 1, r: 1 }, 1);
+    lineH(0, C - 1, tb, 1, 1);
+    var y1 = tb + 1, hb = y1 + mr, sq = Math.round(cen * S.cw / S.lh), sh = mr;
+    lineV(lb, y1, hb - 1); lineV(xr, y1, hb - 1);
+    region(0, y1, lb, mr, { l: 1 }, 2);
+    region(xr + vw, y1, C - xr - vw, mr, { r: 1 }, 3);
+    if (mr - sq - 1 >= 4 && mr * S.lh > cen * S.cw * 1.15) { sh = sq; lineH(x0, xr - 1, y1 + sh); region(x0, y1 + sh + 1, cen, mr - sh - 1, {}, 4); }
+    plane(x0, y1, cen, sh, 'W');
+    lineH(0, C - 1, hb, 1, 1);
+    region(0, hb + 1, C, bb, { l: 1, r: 1, b: 1 }, 5);
+    // what sits in the light square: a hint, the name, the quiet way in
+    var px = x0 + S.pad, avail = cen - 2 * S.pad, room = sh - 5;
+    var wOf = function (ws) { return cols(ws).length * 2; };
+    var l1 = ['kes'], big = wOf(['inkersole']) <= avail, s1 = 1;
+    if (wOf(['kes', 'heart']) <= avail) l1.push('heart');
+    var h2 = big ? 7 : 1;
+    if (7 + 1 + h2 > room) { s1 = .5; big = big && 3.5 + 1 + 3.5 <= room; h2 = big ? 3.5 : 1; }
+    var top = room >= 7 * s1 + 3 + h2 ? 3 : 1;
+    $('#sign .art').innerHTML = signLine(l1, s1) + '<span class="sl" style="height:' + S.lh + 'px"></span>' +
+      (big ? signLine(['inkersole'], s1) : '<span class="sl cap">inkersole</span>');
+    put($('#sign'), px, y1 + top, null);
+    var hint = $('#hint'); hint.style.display = top === 3 ? '' : 'none';
+    hint.querySelector('.in').textContent = (pw === lb ? '↖' : '↑') + ' press play · sound on';
+    put(hint, px, y1 + 1, null);
+    put($('#quiet'), px, y1 + sh - 2, null);
+    var g = $('#go'); put(g, 0, 0, pw); g.style.height = tb * S.lh + 'px'; g.querySelector('.art').style.height = tb * S.lh + 'px';
+    return S.R0;
   }
+
+  /* ---------- paint ---------- */
+  var BASE = { p: '█', b: '█', y: '█', k: '█', g1: '░', g2: '▒', g3: '▓' }, ALT = { p: '▓', b: '▓', y: '▓', k: '▓', g1: '▒', g2: '░', g3: '▒' };
+  function texture(p, n, ch, kk) {
+    var base = BASE[p.t]; if (!base) return;
+    var alt = ALT[p.t], r = rnd(n * 7919 + MODE.seed * 104729 + 3), C = S.C, d = MODE.dens, x, y, j, run;
+    if (MODE.light) { if (base === '█') { base = '▓'; alt = '▒'; } else if (base === '▓') { base = '▒'; alt = '░'; } }
+    function set(x, y, c) { if (x < p.w && y < p.h) ch[(p.y + y) * C + p.x + x] = c; }
+    for (y = 0; y < p.h; y++) for (x = 0; x < p.w; x++) { var i = (p.y + y) * C + p.x + x; ch[i] = base; kk[i] = p.t; }
+    if (MODE.dir === 'h') { for (y = 0; y < p.h; y++) for (x = 0; x < p.w; x++) if (r() < d) { run = 2 + (r() * 7 | 0); for (j = 0; j < run; j++) set(x + j, y, alt); x += run; } }
+    else if (MODE.dir === 'v') { for (x = 0; x < p.w; x++) for (y = 0; y < p.h; y++) if (r() < d * 1.6) { run = 1 + (r() * 4 | 0); for (j = 0; j < run; j++) set(x, y + j, alt); y += run; } }
+    else { for (y = 0; y < p.h; y += 2) for (x = 0; x < p.w; x += 4) if (r() < d * 3) for (j = 0; j < 8; j++) set(x + (j & 3), y + (j >> 2), alt); }
+  }
+  function paint() {
+    var C = S.C, R = S.R, N = C * R, ch = new Array(N), kk = new Array(N), ex = new Uint8Array(N), gap = new Uint8Array(N), i, x, y;
+    for (i = 0; i < N; i++) { ch[i] = ' '; kk[i] = ''; }
+    planes.forEach(function (p, n) { texture(p, n, ch, kk); });
+    punches.forEach(function (p) { for (var x = p.x; x < p.x + p.w; x++) { var i = p.y * C + x; ch[i] = ' '; kk[i] = ''; } });
+    lines.forEach(function (l) {
+      for (var y = l.y; y < l.y + l.h; y++) for (var x = l.x; x < l.x + l.w; x++) {
+        if (x < 0 || x >= C || y < 0 || y >= R) continue;
+        var i = y * C + x, d = l.o === 'h' ? x - l.x : y - l.y, len = l.o === 'h' ? l.w : l.h;
+        if (d < l.a || d >= len - l.b) { ex[i] = 1; if (kk[i] !== 'L') gap[i] = 1; }
+        else { ch[i] = '█'; kk[i] = 'L'; gap[i] = 0; }
+      }
+    });
+    // where a line stops short, the planes either side meet
+    lines.forEach(function (l) {
+      if (!l.a && !l.b) return;
+      for (var y = l.y; y < l.y + l.h; y++) for (var x = l.x; x < l.x + l.w; x++) {
+        var i = y * C + x; if (!gap[i]) continue;
+        var nb = l.o === 'h' ? [[x, y + 1], [x, y - 1]] : [[l.x + l.w, y], [l.x - 1, y]], done = 0;
+        nb.forEach(function (q) { var j = q[1] * C + q[0]; if (done || q[0] < 0 || q[0] >= C || q[1] < 0 || q[1] >= R || kk[j] === 'L' || gap[j]) return; ch[i] = ch[j]; kk[i] = kk[j]; done = 1; });
+        if (!done) { ch[i] = ' '; kk[i] = ''; }
+      }
+    });
+    var out = [], ext = [];
+    for (y = 0; y < R; y++) {
+      var s = '', cur = '', buf = '', e = '';
+      for (x = 0; x < C; x++) {
+        i = y * C + x;
+        if (kk[i] !== cur) { s += cur ? '<i class="' + cur + '">' + buf + '</i>' : buf; cur = kk[i]; buf = ''; }
+        buf += ch[i]; e += ex[i] ? '█' : ' ';
+      }
+      out.push(s + (cur ? '<i class="' + cur + '">' + buf + '</i>' : buf)); ext.push(e.replace(/ +$/, ''));
+    }
+    paintEl.innerHTML = out.join('\n'); extEl.textContent = ext.join('\n');
+  }
+
+  /* ---------- the play plane ---------- */
+  function goArt() {
+    var g = $('#go'); if (!g || !S || !S.go) return;
+    var on = g.getAttribute('aria-pressed') === 'true', w = S.go.w, txt = on ? 'ON AIR' : '> PLAY';
+    if (word(txt)[0].length > w - 2) txt = on ? '' : '>';
+    g.querySelector('.art').textContent = carve(txt, w, S.go.h, false).join('\n');
+  }
+
+  /* ---------- sizing: once, then again only when the width changes (or the gate's height) ---------- */
+  var lastW = H.clientWidth, lastH = innerHeight, raf = 0;
+  function resized() {
+    cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(function () {
+      var w = H.clientWidth, h = innerHeight;
+      if (w === lastW && (h === lastH || !(HOME && H.classList.contains('gated')))) return;
+      lastW = w; lastH = h; layout();
+    });
+  }
+  layout();
+  if (window.ResizeObserver) new ResizeObserver(resized).observe(H);
+  addEventListener('resize', resized);
+
+  if (!HOME) return;
+
+  /* ---------- the gate ---------- */
+  function enter(quiet) {
+    if (!H.classList.contains('gated')) return;
+    H.classList.remove('gated');
+    try { sessionStorage.setItem('kesIn', '1'); } catch (e) {}
+    if (quiet) {
+      var h = $('#hello h2'); h.setAttribute('tabindex', '-1');
+      scrollTo({ top: S.R0 * S.lh, behavior: STILL ? 'auto' : 'smooth' });
+      h.focus({ preventScroll: true });
+    }
+    resized();
+  }
+  $('#go').addEventListener('click', function () { enter(false); });
+  $('#quiet').addEventListener('click', function () { enter(true); });
+  D.addEventListener('focusin', function (e) { if (H.classList.contains('gated') && !$('#hero').contains(e.target)) enter(false); });
+  var g2 = $('#go2'); if (g2) g2.addEventListener('click', function () { $('#go').click(); });
+  new MutationObserver(goArt).observe($('#go'), { attributes: true, attributeFilter: ['aria-pressed'] });
+
+  /* ---------- the volume, as characters ---------- */
+  var vol = $('#vol'), vt = $('.vtxt');
+  function vb() { var n = Math.round(vol.value * 10); vt.textContent = '[' + Array(n + 1).join('█') + Array(11 - n).join('░') + ']'; }
+  vol.addEventListener('input', vb); vb();
+
+  /* ---------- alive with the music ---------- */
+  var css = '';
+  for (var i = 0; i < 32; i++) css += '.moving .on-air #sign[data-st="' + i + '"] b.s' + i + '{color:var(--pink)}.moving .on-air #sign[data-st="' + i + '"] b.s' + ((i + 31) % 32) + '{color:var(--mp)}';
+  var st = D.createElement('style'); st.textContent = css; D.head.appendChild(st);
+  var rot = 0, kickT = 0, rwT = 0;
+  function setRot() { stage.classList.remove('r1', 'r2'); if (rot) stage.classList.add('r' + rot); }
+  // look() from the engine: every beat ("^" every other beat), "@" on pull up, nothing on stop/resume
+  window.paintLook = function (m) {
+    if (m === undefined) { clearInterval(rwT); rwT = 0; rot = 0; stage.classList.remove('rw', 'kick'); setRot(); return; }
+    if (STILL) return;
+    if (m === '@') { stage.classList.add('rw'); stage.classList.remove('kick'); clearInterval(rwT); rwT = setInterval(function () { rot = (rot + 2) % 3; setRot(); }, 90); return; }
+    stage.classList.add('kick'); clearTimeout(kickT); kickT = setTimeout(function () { stage.classList.remove('kick'); }, 110);
+    if (m === '^') { rot = (rot + 1) % 3; setRot(); }
+  };
+  var tr = $('#tracker'), sign = $('#sign');
+  if (!STILL) new MutationObserver(function () {
+    var on = tr.querySelector('.on');
+    if (!on || !window.onAir) sign.removeAttribute('data-st'); else sign.setAttribute('data-st', [].indexOf.call(tr.children, on));
+  }).observe(tr, { subtree: true, attributes: true, attributeFilter: ['class'], childList: true });
+  // the break sets the brush direction, the bass sets how thick the paint is
+  var info = $('#lcdinfo');
+  new MutationObserver(function () {
+    var t = info.textContent, br = (/break: ([^·]+?) ·/.exec(t) || [])[1] || 'straight', bs = (/bass: (\w+)/.exec(t) || [])[1] || 'sub';
+    var seed = 1; if (/your/.test(br)) { seed = 7; tr.textContent.split('').forEach(function (c) { seed = (seed * 31 + c.charCodeAt(0)) | 0; }); }
+    var m = { dir: /chop/.test(br) ? 'c' : /rollin/.test(br) ? 'v' : 'h', dens: bs === 'reese' ? .2 : bs === 'off' ? .1 : .06, light: bs === 'off', seed: seed };
+    if (m.dir !== MODE.dir || m.dens !== MODE.dens || m.light !== MODE.light || m.seed !== MODE.seed) { MODE = m; paint(); }
+  }).observe(info, { childList: true, characterData: true, subtree: true });
 })();
 </script>
 </body>

@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en" class="entered">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>chainmail · kes inkersole</title>
+<meta name="description" content="kes inkersole: creative strategist, internet equalities researcher, london.">
+<script>document.documentElement.classList.add('js')</script>
+<style>
+:root { --ink: #000; --soft: #777; --line: #a2a2a2; --pink: #ff2e93; --blue: #1f3dff;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "DejaVu Sans Mono", "Liberation Mono", monospace; --sans: "Helvetica Neue", Helvetica, Arial, sans-serif; --serif: "Times New Roman", Times, "Liberation Serif", serif; --fs: 13px; --lh: 16px; }
+@media (max-width: 700px) { :root { --fs: 11px; --lh: 14px; } }
+html { background: #fff; }
+body { margin: 0; color: var(--ink); font: 15px/1.4 var(--sans); -webkit-text-size-adjust: 100%; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+a { color: var(--blue); text-underline-offset: 2px; text-decoration-thickness: 1px; }
+a:hover { background: var(--pink); color: #fff; text-decoration-color: #fff; }
+a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visible { outline: 2px solid var(--pink); outline-offset: 2px; }
+pre { margin: 0; font: var(--fs)/var(--lh) var(--mono); color: var(--line); }
+pre .n { color: var(--soft); } pre .lit, pre .hrt { color: var(--pink); } pre .sig { color: var(--pink); }
+
+.page { max-width: 1040px; margin: 0 auto; padding: 0 16px; }
+.roof, .floor { display: grid; grid-template-columns: max-content minmax(0, 34rem); column-gap: 3ch; align-items: start; }
+.flat { padding: var(--lh) 0 calc(var(--lh) * 2); min-width: 0; }
+.flat > :first-child { margin-top: 0; }
+.flat p, .flat ul, .flat dl { margin: 0 0 .55em; }
+h1 { font: 700 15px/1.4 var(--sans); margin: 0; }
+h2 { font: 700 15px/1.4 var(--sans); margin: 0 0 .45em; }
+h2 .sym { color: var(--pink); font-weight: 400; margin-left: .35em; }
+.hello { font: italic 400 28px/1.15 var(--serif); margin-bottom: .5em; }
+.hello .hrt { color: var(--pink); font-style: normal; }
+.meta { font: 12px/1.5 var(--mono); color: var(--soft); }
+ul { list-style: none; padding: 0; }
+li { padding-left: 1.4em; text-indent: -1.4em; margin: .15em 0; }
+li::before { content: "☆ "; color: var(--pink); font-family: var(--mono); font-size: 12px; }
+li:hover::before { content: "★ "; }
+.cv p { margin: 0 0 .2em; }
+.cv .lbl { font: 12px/1.5 var(--mono); color: var(--soft); }
+.pic { font: var(--fs)/var(--lh) var(--mono); color: var(--line); margin: .3em 0 .7em; white-space: pre; overflow: hidden; }
+
+/* the roof: the antenna on the left, the name and KES FM beside it */
+.roof .side { display: flex; flex-direction: column; justify-content: space-between; align-self: stretch; padding: calc(var(--lh) * 1.5) 0 calc(var(--lh) * 1.2); }
+.roof h1 + p { margin: .2em 0 0; color: var(--soft); font: 12px/1.5 var(--mono); }
+.fm { font: 12px/1.5 var(--mono); }
+.fm p { margin: 0 0 .5em; }
+.fm .status { color: var(--pink); margin-left: 1ch; }
+.fm button { font: inherit; color: var(--ink); background: none; border: 0; padding: 0; cursor: pointer; }
+.fm button::before { content: "["; color: var(--soft); } .fm button::after { content: "]"; color: var(--soft); }
+.fm button[aria-pressed="true"] { color: var(--pink); }
+.fm button:hover { background: var(--pink); color: #fff; }
+.fm #go { font-weight: 700; color: #fff; background: var(--pink); padding: 2px 8px; }
+.fm #go::before, .fm #go::after { content: none; }
+.fm #go:hover { background: var(--ink); }
+.fm #go[aria-pressed="true"] { background: none; color: var(--pink); padding: 2px 0; }
+.fm .quiet { color: var(--blue); text-decoration: underline; margin-left: 1ch; }
+.fm .quiet::before, .fm .quiet::after { content: none; }
+.entered .fm .quiet { display: none; }
+.fm #stop { display: none; } .entered .fm #stop { display: inline; margin-left: 1ch; }
+.fm details { display: none; } .entered .fm details { display: block; }
+.fm summary { cursor: pointer; color: var(--soft); list-style: none; }
+.fm summary::-webkit-details-marker { display: none; }
+.fm summary::after { content: " ▾"; } .fm details[open] summary::after { content: " ▴"; }
+.fm details p { margin: .35em 0; }
+.fm .lbl, .fm .lcd { color: var(--soft); }
+.fm input[type=range] { width: 6em; vertical-align: middle; accent-color: var(--pink); height: 12px; margin: 0; }
+.fm .tracker, .fm .ticker { height: 0; overflow: hidden; }
+.floatstop { position: fixed; right: 12px; bottom: 12px; z-index: 5; font: 12px/1 var(--mono); background: #fff; color: var(--ink); border: 1px solid var(--ink); padding: 6px 9px; cursor: pointer; }
+.floatstop:hover { background: var(--pink); color: #fff; border-color: var(--pink); }
+.floatstop[hidden] { display: none; }
+
+/* the ground: kes's flowers, with the block standing in them */
+.ground { overflow: hidden; margin-top: 0; }
+.ground pre { white-space: pre; }
+.ground .r { color: #e0578a; } .ground .l { color: #9a5cc6; } .ground .p { color: #4a55d0; } .ground .s { color: #6f9a68; } .ground .w { color: var(--line); } .ground .d { color: #c9c9c9; }
+
+/* going down: which floor you're on */
+.lift { position: fixed; left: 12px; bottom: 12px; margin: 0; font: 12px/1 var(--mono); color: var(--soft); background: #fff; padding: 4px 6px; z-index: 4; }
+.gated .lift { display: none; }
+.js.gated, .js.gated body { overflow: hidden; }
+
+@media (max-width: 700px) {
+  .page { padding: 0 10px; }
+  .roof, .floor { column-gap: 1.5ch; }
+  .hello { font-size: 23px; }
+  body { font-size: 14px; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+<header class="roof"><pre class="mast" aria-hidden="true"></pre><div class="side"><div><p class="meta"><a href="index.html">&lt;- kes inkersole</a></p><h1>chainmail (working title)</h1><p>my own writing. short pieces, the kind i write in my notes app, sent here by email and collected over time into a kind of text moodboard.</p><p class="meta">by email</p><p>each piece arrives as an email to (address tbc). the subject line becomes its title and the newest one lands at the top.</p></div></div></header>
+<main id="block">
+<article class="floor"><pre class="shaft" aria-hidden="true"></pre><div class="flat"><p class="meta">no. 011 · 18 oct 2026</p><h2>lorem ipsum</h2><p>lorem ipsum dolor sit amet.</p></div></article>
+<article class="floor"><pre class="shaft" aria-hidden="true"></pre><div class="flat"><p class="meta">no. 010 · 14 oct 2026</p><h2>consectetur adipiscing elit</h2><p>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p><p>excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.</p><p>totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p></div></article>
+<article class="floor"><pre class="shaft" aria-hidden="true"></pre><div class="flat"><p class="meta">no. 009 · 9 oct 2026</p><h2>(no subject)</h2><p>nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.</p></div></article>
+<article class="floor"><pre class="shaft" aria-hidden="true"></pre><div class="flat"><p class="meta">no. 008 · 6 oct 2026</p><h2>sed quia consequuntur</h2><p>magni dolores eos qui ratione voluptatem sequi nesciunt. neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p></div></article>
+<article class="floor"><pre class="shaft" aria-hidden="true"></pre><div class="flat"><p class="meta">no. 007 · 2 oct 2026</p><h2>ut enim ad minima</h2><p>quis autem vel eum</p><p>iure reprehenderit</p><p>qui in ea voluptate</p><p>velit esse quam nihil</p><p>molestiae consequatur</p></div></article>
+<article class="floor"><pre class="shaft" aria-hidden="true"></pre><div class="flat"><p class="meta">no. 006 · 27 sep 2026</p><h2>at vero eos et accusamus</h2><p>et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.</p><p>similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. et harum quidem rerum facilis est et expedita distinctio.</p></div></article>
+<article class="floor"><pre class="shaft" aria-hidden="true"></pre><div class="flat"><p class="meta">no. 005 · 21 sep 2026</p><h2>nam libero</h2><p>tempore, cum soluta nobis est eligendi optio.</p></div></article>
+<article class="floor"><pre class="shaft" aria-hidden="true"></pre><div class="flat"><p class="meta">no. 004 · 14 sep 2026</p><h2>re: temporibus autem quibusdam</h2><p>et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.</p></div></article>
+<article class="floor"><pre class="shaft" aria-hidden="true"></pre><div class="flat"><p class="meta">no. 003 · 3 sep 2026</p><h2>quis nostrum exercitationem</h2><p>ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur.</p><p>lorem ipsum dolor sit amet, consectetur adipiscing elit. integer nec odio. praesent libero. sed cursus ante dapibus diam. sed nisi. nulla quis sem at nibh elementum imperdiet. duis sagittis ipsum.</p><p>curabitur sodales ligula in libero.</p></div></article>
+<article class="floor"><pre class="shaft" aria-hidden="true"></pre><div class="flat"><p class="meta">no. 002 · 28 aug 2026</p><h2>sed dignissim lacinia</h2><p>nunc. curabitur tortor. pellentesque nibh. aenean quam. in scelerisque sem at dolor. maecenas mattis. sed convallis tristique sem.</p></div></article>
+<article class="floor"><pre class="shaft" aria-hidden="true"></pre><div class="flat"><p class="meta">no. 001 · 15 aug 2026</p><h2>hello, lorem</h2><p>proin ut ligula vel nunc egestas porttitor. morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. fusce ac turpis quis ligula lacinia aliquet.</p><p>mauris ipsum.</p></div></article>
+<div class="floor lobby" aria-hidden="true"><pre class="shaft"></pre><div class="flat"></div></div>
+</main>
+</div>
+<footer class="ground"><pre aria-hidden="true"></pre></footer>
+<p class="lift" aria-hidden="true"></p>
+<script id="garden-data" type="application/json">[["    _                             _                          _                        _                            _                        _                             _                  ", "    r                             l                          r                        p                            r                        l                             p                  "], ["  _(_)_         @               _(_)_         @            _(_)_              @     _(_)_         @              _(_)_    @               _(_)_         @               _(_)_    @           ", "  rrrrr         r               lllll         p            rrrrr              r     ppppp         r              rrrrr    l               lllll         p               ppppp    r           "], [" (_)@(_)        |/  vVv        (_)@(_)        |/    vVv   (_)@(_)             |/   (_)@(_)  vVv   |/            (_)@(_)   |/  vVv        (_)@(_)        |/  vVv        (_)@(_)   |/  vVv     ", " rrrrrrr        ss  ppp        lllllll        ss    rrr   rrrrrrr             ss   ppppppp  lll   ss            rrrrrrr   ss  rrr        lllllll        ss  lll        ppppppp   ss  lll     "], ["   (_)    vVv  \\|   (_)    *     (_)    vVv  \\|     (_)     (_)     *   vVv  \\|      (_)    (_)  \\|   vVv   *     (_)    \\|   (_)  vVv     (_)     *   \\|   (_)   vVv    (_)    \\|   (_)  vVv", "   rrr    lll  ss   ppp    l     lll    rrr  ss     rrr     rrr     p   lll  ss      ppp    lll  ss   rrr   l     rrr    ss   rrr  ppp     lll     r   ss   lll   rrr    ppp    ss   lll  rrr"], ["    |/    (_)   |   \\|     |/     |/    (_)   |     \\|       |/     |/  (_)   |       |/    \\|    |   (_)   |/     |/     |   \\|   (_)      |/     |/   |   \\|    (_)     |/     |   \\|   (_)", "    ss    lll   s   ss     ss     ss    rrr   s     ss       ss     ss  lll   s       ss    ss    s   rrr   ss     ss     s   ss   ppp      ss     ss   s   ss    rrr     ss     s   ss   rrr"], ["   \\|      |    |    |    \\|     \\|      |    |      |      \\|     \\|    |    |      \\|      |    |    |   \\|     \\|      |    |    |      \\|     \\|    |    |     |     \\|      |    |    | ", "   ss      s    s    s    ss     ss      s    s      s      ss     ss    s    s      ss      s    s    s   ss     ss      s    s    s      ss     ss    s    s     s     ss      s    s    s "]]</script>
+<script>
+(function () {
+  'use strict';
+  var doc = document, win = window, root = doc.documentElement;
+  var REDUCE = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var T = win.TOWER = { beat: function () {} };
+  var GARDEN = JSON.parse(doc.getElementById('garden-data').textContent);
+  var floors = [].slice.call(doc.querySelectorAll('.floor'));
+  var mast = doc.querySelector('.mast'), ground = doc.querySelector('.ground pre'), lift = doc.querySelector('.lift');
+  var M = {}, lit = {}, sig = 0;
+
+  function esc(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+  function rng(a) { return function () { a = (a + 0x6D2B79F5) >>> 0; var t = a; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+  function pad(s, n) { while (s.length < n) s += ' '; return s; }
+  function rep(c, n) { return n > 0 ? new Array(n + 1).join(c) : ''; }
+
+  function metrics() {
+    var s = doc.createElement('pre'); s.style.cssText = 'position:absolute;visibility:hidden;left:-9999px';
+    s.textContent = rep('M', 40); doc.body.appendChild(s);
+    var r = s.getBoundingClientRect(); doc.body.removeChild(s);
+    M.cw = r.width / 40; M.lh = r.height;
+    M.mobile = root.clientWidth < 700;
+    M.W = M.mobile ? 13 : 29;        // the block, wall to wall
+    M.G = M.mobile ? 3 : 4;          // the floor numbers
+  }
+
+  // one row of windows across the block
+  function windows(inner, f, row) {
+    var w = M.mobile ? 1 : 2, k = Math.floor((inner - w) / (3 + w)), used = k * 3 + (k + 1) * w, left = Math.floor((inner - used) / 2);
+    var s = rep(' ', left + w), cols = [];
+    for (var i = 0; i < k; i++) { cols.push(s.length + 1); s += '[ ]' + rep(' ', w); }
+    return { text: pad(s, inner), cols: cols };
+  }
+
+  // a floor: a blank line, rows of windows, a slab underneath. the number sits in the margin
+  function drawFloor(fl, fi) {
+    var flat = fl.querySelector('.flat'), pre = fl.querySelector('.shaft');
+    var n = Math.max(5, Math.ceil(flat.offsetHeight / M.lh));
+    if (n % 2 === 0) n++;
+    var inner = M.W - 2, lines = [], wins = [];
+    var lobby = fl.classList.contains('lobby');
+    var r = rng(fi * 131 + 7);
+    for (var i = 0; i < n; i++) {
+      var num = i === 1 ? (lobby ? ' G' : String(floors.length - 1 - fi)) : '';
+      var g = pad(num.length < 3 ? rep(' ', 3 - num.length) + num : num, M.G);
+      var body;
+      if (i === n - 1 && !lobby) body = '|' + rep('_', inner) + '|';
+      else if (i % 2 === 1 && i < n - 1) {
+        var wr = windows(inner, fi, i);
+        body = '|' + wr.text + '|';
+        wr.cols.forEach(function (c) { wins.push([i, M.G + c + 1]); });
+        // now and then someone's in
+        if (r() < 0.12 && wr.cols.length) { var bi = wr.cols[Math.floor(r() * wr.cols.length)] + 1; body = body.slice(0, bi) + (r() < 0.5 ? '~' : '*') + body.slice(bi + 1); }
+      } else body = '|' + rep(' ', inner) + '|';
+      lines.push(g + body);
+    }
+    fl._lines = lines; fl._wins = wins;
+    paint(fl, fi);
+  }
+  function paint(fl, fi) {
+    var html = fl._lines.map(function (l, i) {
+      var out = '', j = 0;
+      var hits = (lit[fi] || []).filter(function (w) { return w[0] === i; }).map(function (w) { return w[1]; });
+      for (var c = 0; c < l.length; c++) {
+        var ch = l.charAt(c);
+        if (c < M.G) { out += ch === ' ' ? ' ' : '<span class="n">' + esc(ch) + '</span>'; continue; }
+        if (hits.indexOf(c) >= 0 && ch === ' ') { out += '<span class="lit">•</span>'; continue; }
+        out += esc(ch);
+      }
+      return out;
+    }).join('\n');
+    fl.querySelector('.shaft').innerHTML = html;
+  }
+
+  // the roof: the lozenge with two lines, as a radio mast, standing on the parapet
+  function drawRoof() {
+    var side = doc.querySelector('.roof .side');
+    var want = Math.round((win.innerHeight * (M.mobile ? 0.62 : 0.7)) / M.lh);
+    var minLines = Math.ceil(side.offsetHeight / M.lh) + 1;
+    var n = Math.max(want, minLines, M.mobile ? 22 : 26);
+    var c = M.G + Math.floor(M.W / 2);                 // the mast
+    var hw = M.mobile ? 5 : 11, hh = M.mobile ? 5 : 7; // the lozenge
+    var lines = [];
+    function put(row, col, ch) { var l = lines[row]; lines[row] = l.slice(0, col) + ch + l.slice(col + 1); }
+    var width = M.G + M.W + 1;
+    for (var i = 0; i < n; i++) lines.push(rep(' ', width));
+    var roofRow = n - 2;                               // parapet line, then the roof edge
+    var tip = 3, mid = tip + 2 + hh;
+    for (var y = tip; y < roofRow; y++) put(y, c, '|');
+    put(tip - 1, c, '.');
+    for (var d = 1; d < hh; d++) {
+      var dx = Math.round((hh - d) * hw / hh);
+      put(mid - d, c - dx, '/'); put(mid - d, c + dx, '\\');
+      put(mid + d, c - dx, '\\'); put(mid + d, c + dx, '/');
+    }
+    for (var x = c - hw; x <= c + hw; x++) put(mid, x, x === c ? '+' : '-');
+    put(mid, c - hw - 1, '<'); put(mid, c + hw + 1, '>');
+    // the roof
+    lines[roofRow] = rep(' ', M.G) + ' ' + rep('_', M.W - 2) + ' ';
+    put(roofRow, c, '|');
+    lines[roofRow + 1] = rep(' ', M.G) + '|' + rep('=', M.W - 2) + '|';
+    M.roof = { lines: lines, tip: tip, c: c };
+    paintRoof();
+  }
+  function paintRoof() {
+    var R = M.roof, lines = R.lines.slice();
+    var html = lines.map(function (l, i) {
+      if (i === R.tip - 1 && sig > 0) {
+        var txt = rep('(', sig) + ' . ' + rep(')', sig), a = R.c - sig - 1;
+        return esc(l.slice(0, a)) + '<span class="sig">' + esc(txt) + '</span>' + esc(l.slice(a + txt.length));
+      }
+      return esc(l);
+    }).join('\n');
+    mast.innerHTML = html;
+  }
+
+  // the ground: the block walks down into kes's garden
+  function drawGround() {
+    var box = doc.querySelector('.ground'), shaft = floors[floors.length - 1].querySelector('.shaft');
+    var left = shaft.getBoundingClientRect().left - box.getBoundingClientRect().left;
+    var k = Math.floor(left / M.cw), frac = left - k * M.cw;
+    ground.style.marginLeft = frac + 'px';
+    var cols = Math.ceil((box.clientWidth - frac) / M.cw) + 2;
+    var gw = GARDEN[0][0].length, x0 = k + M.G, x1 = x0 + M.W - 1, door = x0 + Math.floor(M.W / 2);
+    var rows = GARDEN.map(function (g) { return g; });
+    rows.push([rep(',.,;,.', 40).slice(0, gw), rep('d', gw)]);
+    var html = rows.map(function (g, i) {
+      var out = '';
+      for (var x = 0; x < cols; x++) {
+        var t = g[0].charAt(x % gw), cl = g[1].charAt(x % gw);
+        if (i < rows.length - 1 && x >= x0 && x <= x1 && t === ' ') {
+          // the walls and the front door, behind the flowers
+          var w = (x === x0 || x === x1) ? '|' : ((x === door - 1 || x === door + 1) && i >= 1) ? '|' : (x === door && i === 0) ? '_' : ' ';
+          out += w === ' ' ? ' ' : '<span class="w">' + w + '</span>';
+          continue;
+        }
+        out += t === ' ' ? ' ' : '<span class="' + (cl === ' ' ? 's' : cl) + '">' + esc(t) + '</span>';
+      }
+      return out;
+    }).join('\n');
+    ground.innerHTML = html;
+  }
+
+  function layout() {
+    metrics();
+    // give every shaft its width first, so the text beside it wraps as it finally will
+    floors.forEach(function (f) { f.querySelector('.shaft').textContent = rep(' ', M.G + M.W); });
+    drawRoof(); floors.forEach(drawFloor); drawGround(); onScroll();
+  }
+
+  // KES FM: on the beat a few lights come on, and the mast sends out rings
+  T.beat = function (mark) {
+    if (mark === undefined) { if (!win.onAir) { lit = {}; sig = 0; floors.forEach(paint); paintRoof(); } return; }
+    if (REDUCE) return;
+    var vis = floors.map(function (f, i) { var r = f.getBoundingClientRect(); return r.bottom > 0 && r.top < win.innerHeight ? i : -1; }).filter(function (i) { return i >= 0; });
+    var r = rng((Date.now() / 50) | 0);
+    var changed = {};
+    Object.keys(lit).forEach(function (k) { changed[k] = 1; });
+    lit = {};
+    vis.forEach(function (fi) {
+      var wins = floors[fi]._wins || []; var n = Math.min(wins.length, mark === '@' ? wins.length : 2 + Math.floor(r() * 3));
+      for (var q = 0; q < n; q++) { (lit[fi] = lit[fi] || []).push(wins[Math.floor(r() * wins.length)]); }
+      changed[fi] = 1;
+    });
+    Object.keys(changed).forEach(function (fi) { if (floors[fi]) paint(floors[fi], +fi); });
+    sig = sig % 3 + 1; paintRoof();
+  };
+  T.entered = function () { onScroll(); };
+
+  // the lift: which floor is in front of you
+  function onScroll() {
+    if (!lift) return;
+    var mid = win.innerHeight * 0.45, label = 'roof';
+    for (var i = 0; i < floors.length; i++) {
+      var r = floors[i].getBoundingClientRect();
+      if (r.top <= mid && r.bottom > mid) { label = floors[i].classList.contains('lobby') ? 'G' : String(floors.length - 1 - i); break; }
+    }
+    if (doc.querySelector('.ground').getBoundingClientRect().top < mid) label = 'garden';
+    var t = label === 'roof' || label === 'garden' ? label : 'floor ' + label;
+    if (lift.textContent !== '▼ ' + t) lift.textContent = '▼ ' + t;
+  }
+  win.addEventListener('scroll', onScroll, { passive: true });
+  var go = doc.getElementById('go');
+  if (go) new MutationObserver(function () { var on = go.getAttribute('aria-pressed') === 'true'; go.textContent = on ? '● on air' : '▶ play'; }).observe(go, { attributes: true, attributeFilter: ['aria-pressed'] });
+  var rt; win.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(layout, 120); });
+  layout();
+  if (doc.fonts && doc.fonts.ready) doc.fonts.ready.then(layout);
+})();
+</script>
+</body>
+</html>

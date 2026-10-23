@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en" class="entered">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>chainmail · kes inkersole</title>
+<meta name="description" content="kes inkersole: creative strategist, internet equalities researcher, london.">
+<script>document.documentElement.classList.add('js')</script>
+<style>
+:root { --ink: #000; --soft: #666; --line: #9a9a9a; --pink: #e5007d; --blue: #1f3dff;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "DejaVu Sans Mono", "Liberation Mono", monospace; --serif: "Times New Roman", Times, "Liberation Serif", serif; }
+html { background: #fff; }
+body { margin: 0; color: var(--ink); font: 16px/1.4 var(--serif); -webkit-text-size-adjust: 100%; }
+a { color: var(--blue); text-underline-offset: 2px; }
+a:hover { background: var(--pink); color: #fff; }
+a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visible { outline: 2px solid var(--pink); outline-offset: 2px; }
+.wrap { display: grid; grid-template-columns: minmax(0, 46rem) max-content; column-gap: 56px; padding: 14px 16px 0; max-width: 1100px; }
+header.top { padding-bottom: 14px; }
+h1 { font: 700 clamp(40px, 5.4vw, 72px)/.95 var(--serif); letter-spacing: -.025em; margin: 0 0 .25em; }
+.role { margin: 0 0 1em; font-size: 1.12em; }
+.fm { font: 13px/1.5 var(--mono); }
+.fm p { margin: 0 0 6px; }
+.fm .status { color: var(--pink); margin-left: 1ch; }
+.fm button { font: inherit; background: #fff; color: var(--ink); border: 1px solid var(--ink); padding: 3px 9px; cursor: pointer; margin: 0 0 0 -1px; }
+.fm button[aria-pressed="true"] { background: var(--ink); color: #fff; }
+.fm button:hover { background: var(--pink); color: #fff; border-color: var(--ink); }
+.fm #go { margin-left: 0; background: var(--pink); color: #fff; font-weight: 700; }
+.fm #go:hover { background: var(--ink); }
+.fm #go[aria-pressed="true"] { background: #fff; color: var(--pink); }
+.fm .quiet { border: 0; background: none; color: var(--blue); text-decoration: underline; margin-left: 1.2ch; padding: 0; }
+.fm .quiet:hover { background: var(--pink); color: #fff; }
+.entered .fm .quiet { display: none; }
+.fm #stop { display: none; } .entered .fm #stop { display: inline-block; }
+.fm details { display: none; margin-top: 6px; } .entered .fm details { display: block; }
+.fm summary { cursor: pointer; color: var(--soft); width: max-content; }
+.fm details p { margin: 6px 0; }
+.fm .lbl, .fm .lcd { color: var(--soft); margin-right: 1ch; }
+.fm input[type=range] { width: 7em; vertical-align: middle; accent-color: var(--pink); }
+.fm .tracker, .fm .ticker { height: 0; overflow: hidden; }
+.rule { border: 0; border-top: 3px double var(--ink); margin: 0; }
+
+/* the floors, top to bottom, like numbered clauses */
+.floor { display: grid; grid-template-columns: 2.6em minmax(0, 1fr); border-top: 1px solid var(--ink); padding: 12px 0 16px; scroll-margin-top: 8px; }
+.floor:first-of-type { border-top: 0; }
+.floor .no { font: 13px/1.6 var(--mono); color: var(--pink); padding-top: 2px; }
+.floor h2 { font: 700 1em/1.4 var(--serif); margin: 0 0 .35em; }
+.floor p, .floor ul { margin: 0 0 .45em; }
+.floor ul { padding: 0; list-style: none; }
+.floor li { margin: .2em 0; padding-left: 2.3em; text-indent: -2.3em; }
+.floor li .n { display: inline-block; min-width: 2.3em; text-indent: 0; font: 13px/1 var(--mono); color: var(--soft); }
+.floor .meta { font: 13px/1.5 var(--mono); color: var(--soft); }
+.floor .pic { background: #f3f3f3; aspect-ratio: 16 / 6; display: flex; align-items: flex-end; padding: 6px 8px; font: 12px/1.3 var(--mono); color: var(--soft); margin: .4em 0 .6em; max-width: 24rem; }
+.floor h2.hello { font: italic 400 1.6em/1.15 var(--serif); }
+.hello .hrt { color: var(--pink); font-style: normal; }
+.cv .lbl { font: 13px/1.5 var(--mono); color: var(--soft); display: inline-block; min-width: 5.5em; }
+
+/* the block, small, beside the text: you are here */
+aside.map { position: sticky; top: 14px; align-self: start; padding-top: 4px; }
+.map pre { margin: 0; font: 12px/14px var(--mono); color: var(--line); }
+.map a { color: inherit; text-decoration: none; display: inline; }
+.map a:hover { background: none; color: var(--ink); }
+.map .here { color: var(--ink); }
+.map .here .arrow, .map .lit, .map .sig { color: var(--pink); }
+.map .cap { font: 12px/1.4 var(--mono); color: var(--soft); margin: 8px 0 0; }
+
+.ground { margin-top: 0; overflow: hidden; border-top: 3px double var(--ink); padding-top: 12px; }
+.ground pre { margin: 0; font: 13px/16px var(--mono); white-space: pre; }
+.ground .r { color: #e0578a; } .ground .l { color: #9a5cc6; } .ground .p { color: #4a55d0; } .ground .s { color: #6f9a68; } .ground .d { color: #bbb; }
+.lift { display: none; }
+.floatstop { position: fixed; right: 12px; bottom: 12px; z-index: 5; font: 13px/1 var(--mono); background: #fff; color: var(--ink); border: 1px solid var(--ink); padding: 6px 9px; cursor: pointer; }
+.floatstop:hover { background: var(--pink); color: #fff; }
+.floatstop[hidden] { display: none; }
+.js.gated, .js.gated body { overflow: hidden; }
+
+@media (max-width: 860px) {
+  .wrap { grid-template-columns: minmax(0, 1fr); }
+  aside.map { display: none; }
+  .lift { display: block; position: fixed; left: 10px; bottom: 10px; margin: 0; font: 12px/1 var(--mono); color: var(--soft); background: #fff; padding: 4px 6px; z-index: 4; }
+  .gated .lift { display: none; }
+  .mini { display: block !important; }
+}
+.mini { display: none; font: 12px/14px var(--mono); color: var(--line); margin: 0 0 10px; }
+.mini .sig { color: var(--pink); }
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="col">
+<header class="top"><pre class="mini" aria-hidden="true"></pre>
+<p class="role" style="font:13px/1.5 var(--mono)"><a href="index.html">&lt;- kes inkersole</a></p><h1>chainmail (working title)</h1><p>my own writing. short pieces, the kind i write in my notes app, sent here by email and collected over time into a kind of text moodboard.</p><p class="role" style="margin:0;font:13px/1.5 var(--mono);color:var(--soft)">by email</p><p>each piece arrives as an email to (address tbc). the subject line becomes its title and the newest one lands at the top.</p></header>
+<hr class="rule">
+<main>
+<article class="floor" id="f11" data-floor="11"><div class="no" aria-hidden="true">11</div><div class="in"><p class="meta">no. 011 · 18 oct 2026</p><h2>lorem ipsum</h2><p>lorem ipsum dolor sit amet.</p></div></article>
+<article class="floor" id="f10" data-floor="10"><div class="no" aria-hidden="true">10</div><div class="in"><p class="meta">no. 010 · 14 oct 2026</p><h2>consectetur adipiscing elit</h2><p>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p><p>excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.</p><p>totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p></div></article>
+<article class="floor" id="f9" data-floor="9"><div class="no" aria-hidden="true">9</div><div class="in"><p class="meta">no. 009 · 9 oct 2026</p><h2>(no subject)</h2><p>nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.</p></div></article>
+<article class="floor" id="f8" data-floor="8"><div class="no" aria-hidden="true">8</div><div class="in"><p class="meta">no. 008 · 6 oct 2026</p><h2>sed quia consequuntur</h2><p>magni dolores eos qui ratione voluptatem sequi nesciunt. neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p></div></article>
+<article class="floor" id="f7" data-floor="7"><div class="no" aria-hidden="true">7</div><div class="in"><p class="meta">no. 007 · 2 oct 2026</p><h2>ut enim ad minima</h2><p>quis autem vel eum</p><p>iure reprehenderit</p><p>qui in ea voluptate</p><p>velit esse quam nihil</p><p>molestiae consequatur</p></div></article>
+<article class="floor" id="f6" data-floor="6"><div class="no" aria-hidden="true">6</div><div class="in"><p class="meta">no. 006 · 27 sep 2026</p><h2>at vero eos et accusamus</h2><p>et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.</p><p>similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. et harum quidem rerum facilis est et expedita distinctio.</p></div></article>
+<article class="floor" id="f5" data-floor="5"><div class="no" aria-hidden="true">5</div><div class="in"><p class="meta">no. 005 · 21 sep 2026</p><h2>nam libero</h2><p>tempore, cum soluta nobis est eligendi optio.</p></div></article>
+<article class="floor" id="f4" data-floor="4"><div class="no" aria-hidden="true">4</div><div class="in"><p class="meta">no. 004 · 14 sep 2026</p><h2>re: temporibus autem quibusdam</h2><p>et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.</p></div></article>
+<article class="floor" id="f3" data-floor="3"><div class="no" aria-hidden="true">3</div><div class="in"><p class="meta">no. 003 · 3 sep 2026</p><h2>quis nostrum exercitationem</h2><p>ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur.</p><p>lorem ipsum dolor sit amet, consectetur adipiscing elit. integer nec odio. praesent libero. sed cursus ante dapibus diam. sed nisi. nulla quis sem at nibh elementum imperdiet. duis sagittis ipsum.</p><p>curabitur sodales ligula in libero.</p></div></article>
+<article class="floor" id="f2" data-floor="2"><div class="no" aria-hidden="true">2</div><div class="in"><p class="meta">no. 002 · 28 aug 2026</p><h2>sed dignissim lacinia</h2><p>nunc. curabitur tortor. pellentesque nibh. aenean quam. in scelerisque sem at dolor. maecenas mattis. sed convallis tristique sem.</p></div></article>
+<article class="floor" id="f1" data-floor="1"><div class="no" aria-hidden="true">1</div><div class="in"><p class="meta">no. 001 · 15 aug 2026</p><h2>hello, lorem</h2><p>proin ut ligula vel nunc egestas porttitor. morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. fusce ac turpis quis ligula lacinia aliquet.</p><p>mauris ipsum.</p></div></article>
+</main>
+</div>
+<aside class="map" aria-label="the block, floor by floor"><pre></pre><p class="cap" aria-hidden="true">you are here &lt;</p></aside>
+</div>
+<footer class="ground"><pre aria-hidden="true"></pre></footer>
+<p class="lift" aria-hidden="true"></p>
+<script id="garden-data" type="application/json">[["    _                             _                          _                        _                            _                        _                             _                  ", "    r                             l                          r                        p                            r                        l                             p                  "], ["  _(_)_         @               _(_)_         @            _(_)_              @     _(_)_         @              _(_)_    @               _(_)_         @               _(_)_    @           ", "  rrrrr         r               lllll         p            rrrrr              r     ppppp         r              rrrrr    l               lllll         p               ppppp    r           "], [" (_)@(_)        |/  vVv        (_)@(_)        |/    vVv   (_)@(_)             |/   (_)@(_)  vVv   |/            (_)@(_)   |/  vVv        (_)@(_)        |/  vVv        (_)@(_)   |/  vVv     ", " rrrrrrr        ss  ppp        lllllll        ss    rrr   rrrrrrr             ss   ppppppp  lll   ss            rrrrrrr   ss  rrr        lllllll        ss  lll        ppppppp   ss  lll     "], ["   (_)    vVv  \\|   (_)    *     (_)    vVv  \\|     (_)     (_)     *   vVv  \\|      (_)    (_)  \\|   vVv   *     (_)    \\|   (_)  vVv     (_)     *   \\|   (_)   vVv    (_)    \\|   (_)  vVv", "   rrr    lll  ss   ppp    l     lll    rrr  ss     rrr     rrr     p   lll  ss      ppp    lll  ss   rrr   l     rrr    ss   rrr  ppp     lll     r   ss   lll   rrr    ppp    ss   lll  rrr"], ["    |/    (_)   |   \\|     |/     |/    (_)   |     \\|       |/     |/  (_)   |       |/    \\|    |   (_)   |/     |/     |   \\|   (_)      |/     |/   |   \\|    (_)     |/     |   \\|   (_)", "    ss    lll   s   ss     ss     ss    rrr   s     ss       ss     ss  lll   s       ss    ss    s   rrr   ss     ss     s   ss   ppp      ss     ss   s   ss    rrr     ss     s   ss   rrr"], ["   \\|      |    |    |    \\|     \\|      |    |      |      \\|     \\|    |    |      \\|      |    |    |   \\|     \\|      |    |    |      \\|     \\|    |    |     |     \\|      |    |    | ", "   ss      s    s    s    ss     ss      s    s      s      ss     ss    s    s      ss      s    s    s   ss     ss      s    s    s      ss     ss    s    s     s     ss      s    s    s "]]</script>
+<script>
+(function () {
+  'use strict';
+  var doc = document, win = window;
+  var REDUCE = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var T = win.TOWER = { beat: function () {} };
+  var GARDEN = JSON.parse(doc.getElementById('garden-data').textContent);
+  var floors = [].slice.call(doc.querySelectorAll('.floor'));
+  var map = doc.querySelector('.map pre'), mini = doc.querySelector('.mini'), lift = doc.querySelector('.lift');
+  var here = -1, lit = {}, sig = 0;
+  function esc(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+  function rep(c, n) { return n > 0 ? new Array(n + 1).join(c) : ''; }
+  function rng(a) { return function () { a = (a + 0x6D2B79F5) >>> 0; var t = a; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+
+  // the antenna: the lozenge and its two lines, small
+  function antenna(c, hw, hh) {
+    var mid = 2 + hh, h = mid + hh + 2, rows = [];
+    for (var i = 0; i < h; i++) rows.push(rep(' ', c * 2 + 3));
+    function put(r, x, ch) { rows[r] = rows[r].slice(0, x) + ch + rows[r].slice(x + 1); }
+    for (var y = 1; y < h; y++) put(y, c, '|');
+    put(0, c, '.');
+    for (var d = 1; d < hh; d++) { var dx = Math.round((hh - d) * hw / hh); put(mid - d, c - dx, '/'); put(mid - d, c + dx, '\\'); put(mid + d, c - dx, '\\'); put(mid + d, c + dx, '/'); }
+    for (var x = c - hw; x <= c + hw; x++) put(mid, x, x === c ? '+' : '-');
+    return rows;
+  }
+  function ring(row, c) {
+    if (!sig) return esc(row);
+    var txt = rep('(', sig) + ' . ' + rep(')', sig), a = c - sig - 1;
+    if (a < 0) return esc(row);
+    return esc(row.slice(0, a)) + '<span class="sig">' + esc(txt) + '</span>' + esc(row.slice(a + txt.length));
+  }
+
+  // the map: the antenna on the roof, then one row of windows per floor, numbered
+  function drawMap() {
+    if (!map) return;
+    var W = 13, c = 6, out = [];
+    var ant = antenna(c, 5, 4);
+    ant.forEach(function (row, i) { out.push(i === 0 ? ring(row, c) : esc(row)); });
+    out.push(esc(' ' + rep('_', W - 2) + ' ').replace(/^(.{6})_/, '$1|'));
+    out.push(esc('|' + rep('=', W - 2) + '|'));
+    floors.forEach(function (f, i) {
+      var wins = '', L = lit[i] || [];
+      for (var k = 0; k < 3; k++) wins += ' [' + (L.indexOf(k) >= 0 ? '<span class="lit">•</span>' : ' ') + ']';
+      var label = f.getAttribute('data-floor');
+      var row = '|' + wins + ' |';
+      var on = i === here;
+      out.push('<a href="#' + f.id + '"' + (on ? ' class="here" aria-current="true"' : '') + '>' + row + ' ' + esc(label) + (on ? ' <span class="arrow">&lt;</span>' : '') + '</a>');
+    });
+    out.push(esc('|' + rep('_', 4) + '| |' + rep('_', 4) + '|'));
+    map.innerHTML = out.join('\n');
+  }
+  function drawMini() {
+    if (!mini) return;
+    var c = 8, ant = antenna(c, 7, 3);
+    mini.innerHTML = ant.map(function (r, i) { return i === 0 ? ring(r, c) : esc(r); }).join('\n');
+  }
+
+  function drawGround() {
+    var pre = doc.querySelector('.ground pre'), box = doc.querySelector('.ground');
+    var probe = doc.createElement('span'); probe.textContent = rep('M', 20); pre.appendChild(probe);
+    var cw = probe.getBoundingClientRect().width / 20; pre.removeChild(probe);
+    var cols = Math.ceil(box.clientWidth / cw) + 2, gw = GARDEN[0][0].length;
+    var rows = GARDEN.slice(); rows.push([rep(',.,;,.', 40).slice(0, gw), rep('d', gw)]);
+    pre.innerHTML = rows.map(function (g) {
+      var s = '';
+      for (var x = 0; x < cols; x++) { var t = g[0].charAt(x % gw), cl = g[1].charAt(x % gw); s += t === ' ' ? ' ' : '<span class="' + (cl === ' ' ? 's' : cl) + '">' + esc(t) + '</span>'; }
+      return s;
+    }).join('\n');
+  }
+
+  function onScroll() {
+    var mid = win.innerHeight * 0.4, n = -1;
+    for (var i = 0; i < floors.length; i++) { var r = floors[i].getBoundingClientRect(); if (r.top <= mid && r.bottom > mid) { n = i; break; } }
+    if (n !== here) { here = n; drawMap(); }
+    if (lift) { var t = n < 0 ? (floors[0].getBoundingClientRect().top > mid ? 'roof' : 'garden') : 'floor ' + floors[n].getAttribute('data-floor'); if (lift.textContent !== '▼ ' + t) lift.textContent = '▼ ' + t; }
+  }
+
+  T.beat = function (mark) {
+    if (mark === undefined) { if (!win.onAir) { lit = {}; sig = 0; drawMap(); drawMini(); } return; }
+    if (REDUCE) return;
+    var r = rng((Date.now() / 40) | 0); lit = {};
+    for (var q = 0; q < 4; q++) { var f = Math.floor(r() * floors.length); (lit[f] = lit[f] || []).push(Math.floor(r() * 3)); }
+    if (here >= 0) (lit[here] = lit[here] || []).push(Math.floor(r() * 3));
+    sig = sig % 3 + 1; drawMap(); drawMini();
+  };
+  T.entered = onScroll;
+
+  var go = doc.getElementById('go');
+  if (go) new MutationObserver(function () { go.textContent = go.getAttribute('aria-pressed') === 'true' ? '● on air' : '▶ play'; }).observe(go, { attributes: true, attributeFilter: ['aria-pressed'] });
+  win.addEventListener('scroll', onScroll, { passive: true });
+  var rt; win.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(function () { drawGround(); onScroll(); }, 120); });
+  drawMap(); drawMini(); drawGround(); onScroll();
+})();
+</script>
+</body>
+</html>

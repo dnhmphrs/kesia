@@ -488,7 +488,9 @@ a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visibl
     '  vec3 p = aPos, n = aNor; int g = int(aInfo.y + .5);',
     '  if (g == 1) { vec3 q = p - uLozC; float c = cos(uLozA), s = sin(uLozA); p = uLozC + vec3(c*q.x + s*q.z, q.y, -s*q.x + c*q.z); n = vec3(c*n.x + s*n.z, n.y, -s*n.x + c*n.z); }',
     '  else if (g == 2) { p.x += sin(uTime * 2.6 + p.x * .011) * uSway * aInfo.w; }',
-    '  gl_Position = uM * vec4(p, 1.);',
+    // the tilt (mouse and scroll speed) moves things on the screen, never in depth: depth is written from vDepth
+    '  vec4 c = uM * vec4(p, 1.);',
+    '  gl_Position = vec4(c.xy, 0., c.w);',
     '  vMat = int(aInfo.x + .5); vPanel = int(aInfo.z + .5) - 1; vNor = n; vUV = aUV; vDepth = uCamZ - p.z;',
     '}'].join('\n');
   var FS_SCENE = [
@@ -498,6 +500,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visibl
     'uniform usampler2D uPanels; uniform usampler2D uArt; uniform vec3 uLight; uniform float uFar;',
     'layout(location = 0) out uvec4 o;',
     'void main(){',
+    '  gl_FragDepth = clamp(vDepth / uFar, 0., 1.);',
     '  int m = vMat;',
     '  if (vPanel >= 0) m = int(texelFetch(uPanels, ivec2(vPanel % 256, vPanel / 256), 0).r);',
     '  vec3 n = normalize(vNor), a = abs(n); int nc;',

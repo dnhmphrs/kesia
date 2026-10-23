@@ -1,0 +1,1092 @@
+<!doctype html>
+<html lang="en" class="entered">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>chainmail · kes inkersole</title>
+<meta name="description" content="kes inkersole: creative strategist, internet equalities researcher, london.">
+<script>document.documentElement.classList.add('js')</script>
+<style>
+:root {
+  --ink: #0b0b0d; --pink: #ff2e93; --blue: #1f3dff; --yellow: #ffc800; --grey: #6b6b6b;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "DejaVu Sans Mono", "Liberation Mono", monospace;
+  --serif: "Times New Roman", Times, "Liberation Serif", serif;
+  --gfs: 13px; --glh: 1.2;
+  color-scheme: light;
+}
+@media (max-width: 759px) { :root { --gfs: 11px; } }
+html { background: #fff; }
+body { margin: 0; background: #fff; color: var(--ink); font: 16px/1.36 var(--serif); -webkit-text-size-adjust: 100%; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.probe { position: absolute; left: -9999px; top: 0; visibility: hidden; white-space: pre; font: var(--gfs)/var(--glh) var(--mono); }
+
+#field { display: none; }
+.js #field { display: block; position: fixed; left: 0; top: 0; width: 100%; height: 100%; z-index: 0; }
+
+/* the boxes are plain html. without js they just stack */
+#page { position: relative; z-index: 1; padding: 1px 0; }
+.box { background: #fff; border: 1px solid var(--ink); margin: 1rem; max-width: 36rem; }
+.js .box { position: absolute; margin: 0; max-width: none; box-sizing: border-box; background: transparent; }
+.box > * { margin: 0; padding: 3px 10px; background: #fff; }
+.box > :first-child { padding-top: 8px; }
+.box > :last-child { padding-bottom: 10px; }
+.box h2, .box h1 { font-size: 1.18em; font-weight: normal; line-height: 1.2; }
+.box .meta { font: 11px/1.45 var(--mono); color: var(--grey); letter-spacing: .02em; }
+.box ul { list-style: none; }
+.box li { padding-left: 1.05em; text-indent: -1.05em; }
+.box li::before { content: "* "; font: 12px var(--mono); color: var(--pink); }
+.box dl { display: grid; grid-template-columns: max-content 1fr; gap: 0 .7em; }
+.box dt { font: 11px/1.9 var(--mono); color: var(--grey); }
+.box dd { margin: 0; }
+a { color: var(--blue); text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px; }
+a:hover { background: var(--pink); color: var(--ink); text-decoration-color: var(--ink); }
+a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid var(--pink); outline-offset: 2px; }
+
+/* a window in the box: the picture to come is whatever the tower is doing behind it */
+.box > .pic { position: relative; padding: 0; background: transparent; height: calc(var(--gfs) * var(--glh) * 6); border-block: 1px solid var(--ink); }
+.pic span { position: absolute; left: 0; bottom: 0; background: #fff; font: 11px/1.4 var(--mono); color: var(--grey); padding: 1px 6px 0 10px; }
+
+/* KES FM: small, on the roof */
+.radio { font: 12px/1.5 var(--mono); }
+.radio > * { padding-left: 8px; padding-right: 8px; }
+.radio .top { display: flex; justify-content: space-between; gap: 1ch; }
+.radio .status { color: var(--pink); }
+.radio button { font: inherit; color: var(--ink); background: none; border: 0; padding: 0; cursor: pointer; }
+.radio button::before { content: "["; } .radio button::after { content: "]"; }
+.radio button:hover { background: var(--pink); }
+.radio button[aria-pressed="true"] { font-weight: bold; background: var(--ink); color: #fff; }
+.radio button[aria-pressed="true"]::before, .radio button[aria-pressed="true"]::after { color: #fff; }
+.radio .lbl { color: var(--grey); }
+.radio #go { font-size: 15px; font-weight: bold; background: var(--pink); color: var(--ink); padding: 3px 10px; border: 1px solid var(--ink); }
+.radio #go::before, .radio #go::after { content: none; }
+.radio #go:hover { background: var(--blue); color: #fff; }
+.radio #go[aria-pressed="true"] { background: #fff; color: var(--pink); }
+.radio .gate { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; padding-top: 6px; padding-bottom: 8px; }
+.radio #quiet { color: var(--blue); text-decoration: underline; }
+.radio #quiet::before, .radio #quiet::after { content: none; }
+.radio .keys { display: none; }
+.entered .radio .keys { display: block; }
+.entered .radio .gate .quiet { display: none; }
+.radio .keys span.grp { white-space: nowrap; margin-right: .6ch; }
+.radio input[type=range] { width: 6em; vertical-align: middle; accent-color: var(--pink); height: 12px; margin: 0; }
+.radio .lcd { color: var(--grey); font-size: 10px; }
+.radio .tracker { display: flex; font-size: 10px; letter-spacing: 0; color: var(--grey); overflow: hidden; height: 0; padding: 0; }
+.radio .ticker { height: 0; overflow: hidden; padding: 0; }
+.floatstop { position: fixed; right: 12px; bottom: 12px; z-index: 5; font: bold 12px/1 var(--mono); background: var(--yellow); color: var(--ink); border: 1px solid var(--ink); padding: 7px 10px; cursor: pointer; }
+.floatstop[hidden] { display: none; }
+
+/* before you press play: only the roof */
+.js.gated, .js.gated body { overflow: hidden; }
+.js.gated #page .box:not(.radio) { opacity: 0; pointer-events: none; }
+.js #page .box { transition: none; }
+.js #page .box.drop { animation: drop .42s steps(4, end) both; animation-delay: var(--d, 0ms); }
+@keyframes drop { from { translate: 0 calc(var(--gfs) * var(--glh) * -4); opacity: 0; } 30% { opacity: 1; } to { translate: 0 0; opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .js #page .box.drop { animation: none; } }
+
+.flat #field { opacity: .9; }
+
+</style>
+</head>
+<body data-page="writing">
+<canvas id="field" aria-hidden="true"></canvas>
+<div id="page">
+
+<header class="box head" data-w="52">
+<p class="meta"><a href="index.html">&lt;- kes inkersole</a></p>
+<h1>chainmail (working title)</h1>
+<p>my own writing. short pieces, the kind i write in my notes app, sent here by email and collected over time into a kind of text moodboard.</p>
+<p class="meta">by email</p>
+<p>each piece arrives as an email to (address tbc). the subject line becomes its title and the newest one lands at the top.</p>
+</header>
+
+<article class="box" data-w="40">
+<p class="meta">no. 011 · 18 oct 2026</p><h2>lorem ipsum</h2><p>lorem ipsum dolor sit amet.</p>
+</article>
+
+<article class="box" data-w="50">
+<p class="meta">no. 010 · 14 oct 2026</p><h2>consectetur adipiscing elit</h2><p>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p><p>excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.</p><p>totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+</article>
+
+<article class="box" data-w="36">
+<p class="meta">no. 009 · 9 oct 2026</p><h2>(no subject)</h2><p>nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.</p>
+</article>
+
+<article class="box" data-w="46">
+<p class="meta">no. 008 · 6 oct 2026</p><h2>sed quia consequuntur</h2><p>magni dolores eos qui ratione voluptatem sequi nesciunt. neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
+</article>
+
+<article class="box" data-w="34">
+<p class="meta">no. 007 · 2 oct 2026</p><h2>ut enim ad minima</h2><p>quis autem vel eum</p><p>iure reprehenderit</p><p>qui in ea voluptate</p><p>velit esse quam nihil</p><p>molestiae consequatur</p>
+</article>
+
+<article class="box" data-w="48">
+<p class="meta">no. 006 · 27 sep 2026</p><h2>at vero eos et accusamus</h2><p>et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.</p><p>similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. et harum quidem rerum facilis est et expedita distinctio.</p>
+</article>
+
+<article class="box" data-w="32">
+<p class="meta">no. 005 · 21 sep 2026</p><h2>nam libero</h2><p>tempore, cum soluta nobis est eligendi optio.</p>
+</article>
+
+<article class="box" data-w="52">
+<p class="meta">no. 004 · 14 sep 2026</p><h2>re: temporibus autem quibusdam</h2><p>et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.</p>
+</article>
+
+<article class="box" data-w="38">
+<p class="meta">no. 003 · 3 sep 2026</p><h2>quis nostrum exercitationem</h2><p>ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur.</p><p>lorem ipsum dolor sit amet, consectetur adipiscing elit. integer nec odio. praesent libero. sed cursus ante dapibus diam. sed nisi. nulla quis sem at nibh elementum imperdiet. duis sagittis ipsum.</p><p>curabitur sodales ligula in libero.</p>
+</article>
+
+<article class="box" data-w="44">
+<p class="meta">no. 002 · 28 aug 2026</p><h2>sed dignissim lacinia</h2><p>nunc. curabitur tortor. pellentesque nibh. aenean quam. in scelerisque sem at dolor. maecenas mattis. sed convallis tristique sem.</p>
+</article>
+
+<article class="box" data-w="36">
+<p class="meta">no. 001 · 15 aug 2026</p><h2>hello, lorem</h2><p>proin ut ligula vel nunc egestas porttitor. morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. fusce ac turpis quis ligula lacinia aliquet.</p><p>mauris ipsum.</p>
+</article>
+
+</div>
+<script id="cfg" type="application/json">{"glyphs":[" ","·","•",".",":","-","=","+","*","#","%","@","█","▓","▒","░","▀","▄","▌","▐","▘","▝","▖","▗","▬","|","/","\\","_","‾","(",")","<","3","o","O","◆","■","^","v","V","~","[","]",",",";","`","'","?"],"art":{"signBig":{"row0":0,"w":167,"h":11,"gap":43.0},"signSmall":{"row0":11,"w":41,"h":11,"gap":13.0},"garden":{"row0":22,"w":189,"h":7,"gap":0},"rows":[{"g":[3,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,3],"c":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]},{"g":[25,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,25],"c":[1,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,1]},{"g":[25,0,3,0,3,32,33,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,32,33,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,32,33,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,32,33,32,33,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,25],"c":[1,4,4,4,4,5,5,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,5,5,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,5,5,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,5,5,5,5,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,1]},{"g":[25,0,3,0,3,32,33,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,32,33,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,32,33,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,32,33,32,33,0,3,32,33,32,33,0,3,0,3,0,3,0,25],"c":[1,4,4,4,4,5,5,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,5,5,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,5,5,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,5,5,5,5,4,4,5,5,5,5,4,4,4,4,4,4,4,1]},{"g":[25,0,3,0,3,32,33,0,3,0,3,32,33,0,3,0,3,0,3,32,33,32,33,32,33,0,3,0,3,0,3,32,33,32,33,32,33,32,33,0,3,0,3,0,3,0,3,32,33,32,33,0,3,0,3,32,33,0,3,32,33,32,33,0,3,0,3,32,33,0,3,0,3,32,33,0,3,0,3,0,3,32,33,32,33,32,33,0,3,0,3,32,33,0,3,32,33,32,33,0,3,0,3,0,3,32,33,32,33,32,33,32,33,0,3,0,3,32,33,32,33,32,33,0,3,0,3,0,3,32,33,0,3,0,3,0,3,32,33,32,33,32,33,0,3,0,3,32,33,32,33,32,33,32,33,32,33,32,33,32,33,0,3,0,3,0,25],"c":[1,4,4,4,4,5,5,4,4,4,4,5,5,4,4,4,4,4,4,5,5,5,5,5,5,4,4,4,4,4,4,5,5,5,5,5,5,5,5,4,4,4,4,4,4,4,4,5,5,5,5,4,4,4,4,5,5,4,4,5,5,5,5,4,4,4,4,5,5,4,4,4,4,5,5,4,4,4,4,4,4,5,5,5,5,5,5,4,4,4,4,5,5,4,4,5,5,5,5,4,4,4,4,4,4,5,5,5,5,5,5,5,5,4,4,4,4,5,5,5,5,5,5,4,4,4,4,4,4,5,5,4,4,4,4,4,4,5,5,5,5,5,5,4,4,4,4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,4,4,4,4,4,1]},{"g":[25,0,3,0,3,32,33,0,3,32,33,0,3,0,3,0,3,32,33,0,3,0,3,0,3,32,33,0,3,32,33,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,32,33,0,3,0,3,32,33,32,33,0,3,0,3,32,33,0,3,32,33,0,3,32,33,0,3,0,3,0,3,32,33,0,3,0,3,0,3,32,33,0,3,32,33,32,33,0,3,0,3,32,33,0,3,32,33,0,3,0,3,0,3,0,3,0,3,32,33,0,3,0,3,0,3,32,33,0,3,0,3,32,33,0,3,0,3,32,33,0,3,0,3,0,3,32,33,0,3,32,33,32,33,32,33,32,33,32,33,32,33,32,33,0,3,0,3,0,25],"c":[1,4,4,4,4,5,5,4,4,5,5,4,4,4,4,4,4,5,5,4,4,4,4,4,4,5,5,4,4,5,5,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,5,5,4,4,4,4,5,5,5,5,4,4,4,4,5,5,4,4,5,5,4,4,5,5,4,4,4,4,4,4,5,5,4,4,4,4,4,4,5,5,4,4,5,5,5,5,4,4,4,4,5,5,4,4,5,5,4,4,4,4,4,4,4,4,4,4,5,5,4,4,4,4,4,4,5,5,4,4,4,4,5,5,4,4,4,4,5,5,4,4,4,4,4,4,5,5,4,4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,4,4,4,4,4,1]},{"g":[25,0,3,0,3,32,33,32,33,0,3,0,3,0,3,0,3,32,33,32,33,32,33,32,33,32,33,0,3,0,3,32,33,32,33,32,33,0,3,0,3,0,3,0,3,0,3,0,3,32,33,0,3,0,3,32,33,0,3,0,3,0,3,32,33,0,3,32,33,32,33,0,3,0,3,0,3,0,3,32,33,32,33,32,33,32,33,32,33,0,3,32,33,0,3,0,3,0,3,0,3,0,3,0,3,32,33,32,33,32,33,0,3,0,3,32,33,0,3,0,3,0,3,32,33,0,3,0,3,32,33,0,3,0,3,32,33,32,33,32,33,32,33,32,33,0,3,0,3,32,33,32,33,32,33,32,33,32,33,0,3,0,3,0,3,0,25],"c":[1,4,4,4,4,5,5,5,5,4,4,4,4,4,4,4,4,5,5,5,5,5,5,5,5,5,5,4,4,4,4,5,5,5,5,5,5,4,4,4,4,4,4,4,4,4,4,4,4,5,5,4,4,4,4,5,5,4,4,4,4,4,4,5,5,4,4,5,5,5,5,4,4,4,4,4,4,4,4,5,5,5,5,5,5,5,5,5,5,4,4,5,5,4,4,4,4,4,4,4,4,4,4,4,4,5,5,5,5,5,5,4,4,4,4,5,5,4,4,4,4,4,4,5,5,4,4,4,4,5,5,4,4,4,4,5,5,5,5,5,5,5,5,5,5,4,4,4,4,5,5,5,5,5,5,5,5,5,5,4,4,4,4,4,4,4,1]},{"g":[25,0,3,0,3,32,33,0,3,32,33,0,3,0,3,0,3,32,33,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,32,33,0,3,0,3,0,3,0,3,0,3,32,33,0,3,0,3,32,33,0,3,0,3,0,3,32,33,0,3,32,33,0,3,32,33,0,3,0,3,0,3,32,33,0,3,0,3,0,3,0,3,0,3,32,33,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,32,33,0,3,32,33,0,3,0,3,0,3,32,33,0,3,0,3,32,33,0,3,0,3,32,33,0,3,0,3,0,3,0,3,0,3,0,3,0,3,32,33,32,33,32,33,0,3,0,3,0,3,0,3,0,25],"c":[1,4,4,4,4,5,5,4,4,5,5,4,4,4,4,4,4,5,5,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,5,5,4,4,4,4,4,4,4,4,4,4,5,5,4,4,4,4,5,5,4,4,4,4,4,4,5,5,4,4,5,5,4,4,5,5,4,4,4,4,4,4,5,5,4,4,4,4,4,4,4,4,4,4,5,5,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,5,5,4,4,5,5,4,4,4,4,4,4,5,5,4,4,4,4,5,5,4,4,4,4,5,5,4,4,4,4,4,4,4,4,4,4,4,4,4,4,5,5,5,5,5,5,4,4,4,4,4,4,4,4,4,1]},{"g":[25,0,3,0,3,32,33,0,3,0,3,32,33,0,3,0,3,0,3,32,33,32,33,32,33,0,3,0,3,32,33,32,33,32,33,32,33,0,3,0,3,0,3,0,3,0,3,32,33,32,33,32,33,0,3,32,33,0,3,0,3,0,3,32,33,0,3,32,33,0,3,0,3,32,33,0,3,0,3,0,3,32,33,32,33,32,33,0,3,0,3,32,33,0,3,0,3,0,3,0,3,0,3,32,33,32,33,32,33,32,33,0,3,0,3,0,3,32,33,32,33,32,33,0,3,0,3,32,33,32,33,32,33,0,3,0,3,32,33,32,33,32,33,0,3,0,3,0,3,0,3,0,3,32,33,0,3,0,3,0,3,0,3,0,3,0,25],"c":[1,4,4,4,4,5,5,4,4,4,4,5,5,4,4,4,4,4,4,5,5,5,5,5,5,4,4,4,4,5,5,5,5,5,5,5,5,4,4,4,4,4,4,4,4,4,4,5,5,5,5,5,5,4,4,5,5,4,4,4,4,4,4,5,5,4,4,5,5,4,4,4,4,5,5,4,4,4,4,4,4,5,5,5,5,5,5,4,4,4,4,5,5,4,4,4,4,4,4,4,4,4,4,5,5,5,5,5,5,5,5,4,4,4,4,4,4,5,5,5,5,5,5,4,4,4,4,5,5,5,5,5,5,4,4,4,4,5,5,5,5,5,5,4,4,4,4,4,4,4,4,4,4,5,5,4,4,4,4,4,4,4,4,4,4,4,1]},{"g":[25,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,25],"c":[1,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,1]},{"g":[47,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,47],"c":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]},{"g":[3,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,3],"c":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]},{"g":[25,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,25],"c":[1,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,1]},{"g":[25,0,3,32,33,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,25],"c":[1,4,4,5,5,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,1]},{"g":[25,0,3,32,33,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,25],"c":[1,4,4,5,5,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,1]},{"g":[25,0,3,32,33,0,3,0,3,32,33,0,3,0,3,0,3,32,33,32,33,32,33,0,3,0,3,0,3,32,33,32,33,32,33,32,33,0,3,0,25],"c":[1,4,4,5,5,4,4,4,4,5,5,4,4,4,4,4,4,5,5,5,5,5,5,4,4,4,4,4,4,5,5,5,5,5,5,5,5,4,4,4,1]},{"g":[25,0,3,32,33,0,3,32,33,0,3,0,3,0,3,32,33,0,3,0,3,0,3,32,33,0,3,32,33,0,3,0,3,0,3,0,3,0,3,0,25],"c":[1,4,4,5,5,4,4,5,5,4,4,4,4,4,4,5,5,4,4,4,4,4,4,5,5,4,4,5,5,4,4,4,4,4,4,4,4,4,4,4,1]},{"g":[25,0,3,32,33,32,33,0,3,0,3,0,3,0,3,32,33,32,33,32,33,32,33,32,33,0,3,0,3,32,33,32,33,32,33,0,3,0,3,0,25],"c":[1,4,4,5,5,5,5,4,4,4,4,4,4,4,4,5,5,5,5,5,5,5,5,5,5,4,4,4,4,5,5,5,5,5,5,4,4,4,4,4,1]},{"g":[25,0,3,32,33,0,3,32,33,0,3,0,3,0,3,32,33,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,32,33,0,3,0,25],"c":[1,4,4,5,5,4,4,5,5,4,4,4,4,4,4,5,5,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,5,5,4,4,4,1]},{"g":[25,0,3,32,33,0,3,0,3,32,33,0,3,0,3,0,3,32,33,32,33,32,33,0,3,0,3,32,33,32,33,32,33,32,33,0,3,0,3,0,25],"c":[1,4,4,5,5,4,4,4,4,5,5,4,4,4,4,4,4,5,5,5,5,5,5,4,4,4,4,5,5,5,5,5,5,5,5,4,4,4,4,4,1]},{"g":[25,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,25],"c":[1,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,1]},{"g":[47,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,47],"c":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]},{"g":[0,0,0,0,28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],"c":[2,2,2,2,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,6,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2]},{"g":[0,0,28,30,28,31,28,0,0,0,0,0,0,0,0,0,11,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,28,30,28,31,28,0,0,0,0,0,0,0,0,0,11,0,0,0,0,0,0,0,0,0,0,0,0,28,30,28,31,28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,11,0,0,0,0,0,28,30,28,31,28,0,0,0,0,0,0,0,0,0,11,0,0,0,0,0,0,0,0,0,0,0,0,0,0,28,30,28,31,28,0,0,0,0,11,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,28,30,28,31,28,0,0,0,0,0,0,0,0,0,11,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,28,30,28,31,28,0,0,0,0,11,0,0,0,0,0,0,0,0,0,0,0],"c":[2,2,5,5,5,5,5,5,5,5,5,5,5,5,5,5,1,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,7,7,7,7,7,7,7,7,7,7,7,7,7,7,1,6,6,6,6,6,6,6,6,6,6,6,6,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,1,5,5,5,5,5,6,6,6,6,6,6,6,6,6,6,6,6,6,6,1,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,1,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,1,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,1,2,2,2,2,2,2,2,2,2,2,2]},{"g":[0,30,28,31,11,30,28,31,0,0,0,0,0,0,0,0,25,26,0,0,39,40,39,0,0,0,0,0,0,0,0,30,28,31,11,30,28,31,0,0,0,0,0,0,0,0,25,26,0,0,0,0,39,40,39,0,0,0,30,28,31,11,30,28,31,0,0,0,0,0,0,0,0,0,0,0,0,0,25,26,0,0,0,30,28,31,11,30,28,31,0,0,39,40,39,0,0,0,25,26,0,0,0,0,0,0,0,0,0,0,0,0,30,28,31,11,30,28,31,0,0,0,25,26,0,0,39,40,39,0,0,0,0,0,0,0,0,30,28,31,11,30,28,31,0,0,0,0,0,0,0,0,25,26,0,0,39,40,39,0,0,0,0,0,0,0,0,30,28,31,11,30,28,31,0,0,0,25,26,0,0,39,40,39,0,0,0,0,0],"c":[2,5,5,5,1,5,5,5,5,5,5,5,5,5,5,5,2,2,2,2,6,6,6,6,6,6,6,6,6,6,6,7,7,7,1,7,7,7,7,7,7,7,7,7,7,7,2,2,2,2,2,2,5,5,5,5,5,5,5,5,5,1,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,2,2,2,2,2,6,6,6,1,6,6,6,6,6,7,7,7,7,7,7,2,2,2,2,2,2,2,2,2,2,2,2,2,2,5,5,5,1,5,5,5,5,5,5,2,2,2,2,5,5,5,5,5,5,5,5,5,5,5,7,7,7,1,7,7,7,7,7,7,7,7,7,7,7,2,2,2,2,7,7,7,7,7,7,7,7,7,7,7,6,6,6,1,6,6,6,6,6,6,2,2,2,2,7,7,7,2,2,2,2,2]},{"g":[0,0,0,30,28,31,0,0,0,0,39,40,39,0,0,27,25,0,0,0,30,28,31,0,0,0,0,8,0,0,0,0,0,30,28,31,0,0,0,0,39,40,39,0,0,27,25,0,0,0,0,0,30,28,31,0,0,0,0,0,30,28,31,0,0,0,0,0,8,0,0,0,39,40,39,0,0,27,25,0,0,0,0,0,0,30,28,31,0,0,0,0,30,28,31,0,0,27,25,0,0,0,39,40,39,0,0,0,8,0,0,0,0,0,30,28,31,0,0,0,0,27,25,0,0,0,30,28,31,0,0,39,40,39,0,0,0,0,0,30,28,31,0,0,0,0,0,8,0,0,0,27,25,0,0,0,30,28,31,0,0,0,39,40,39,0,0,0,0,30,28,31,0,0,0,0,27,25,0,0,0,30,28,31,0,0,39,40,39],"c":[2,2,2,5,5,5,5,5,5,5,7,7,7,7,7,2,2,2,2,2,6,6,6,6,6,6,6,7,7,7,7,7,7,7,7,7,7,7,7,7,5,5,5,5,5,2,2,2,2,2,2,2,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6,6,6,6,7,7,7,7,7,2,2,2,2,2,2,2,2,6,6,6,6,6,6,6,7,7,7,7,7,2,2,2,2,2,5,5,5,5,5,5,7,7,7,7,7,7,5,5,5,5,5,5,5,2,2,2,2,2,5,5,5,5,5,6,6,6,6,6,6,6,6,7,7,7,7,7,7,7,7,5,5,5,5,2,2,2,2,2,7,7,7,7,7,7,5,5,5,5,5,5,5,6,6,6,6,6,6,6,2,2,2,2,2,7,7,7,7,7,5,5,5]},{"g":[0,0,0,0,25,26,0,0,0,0,30,28,31,0,0,0,25,0,0,0,27,25,0,0,0,0,0,25,26,0,0,0,0,0,25,26,0,0,0,0,30,28,31,0,0,0,25,0,0,0,0,0,27,25,0,0,0,0,0,0,0,25,26,0,0,0,0,0,25,26,0,0,30,28,31,0,0,0,25,0,0,0,0,0,0,0,25,26,0,0,0,0,27,25,0,0,0,0,25,0,0,0,30,28,31,0,0,0,25,26,0,0,0,0,0,25,26,0,0,0,0,0,25,0,0,0,27,25,0,0,0,30,28,31,0,0,0,0,0,0,25,26,0,0,0,0,0,25,26,0,0,0,25,0,0,0,27,25,0,0,0,0,30,28,31,0,0,0,0,0,25,26,0,0,0,0,0,25,0,0,0,27,25,0,0,0,30,28,31],"c":[2,2,2,2,2,2,2,2,2,2,7,7,7,7,7,7,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,5,5,5,5,5,5,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,7,7,7,7,7,7,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,5,5,5,5,5,5,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,6,6,6,6,6,6,6,6,6,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,5,5,5,5,5,5,5,5,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,5,5,5]},{"g":[0,0,0,27,25,0,0,0,0,0,0,25,0,0,0,0,25,0,0,0,0,25,0,0,0,0,27,25,0,0,0,0,0,27,25,0,0,0,0,0,0,25,0,0,0,0,25,0,0,0,0,0,0,25,0,0,0,0,0,0,27,25,0,0,0,0,0,27,25,0,0,0,0,25,0,0,0,0,25,0,0,0,0,0,0,27,25,0,0,0,0,0,0,25,0,0,0,0,25,0,0,0,0,25,0,0,0,27,25,0,0,0,0,0,27,25,0,0,0,0,0,0,25,0,0,0,0,25,0,0,0,0,25,0,0,0,0,0,0,27,25,0,0,0,0,0,27,25,0,0,0,0,25,0,0,0,0,25,0,0,0,0,0,25,0,0,0,0,0,27,25,0,0,0,0,0,0,25,0,0,0,0,25,0,0,0,0,25,0],"c":[2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2]},{"g":[44,3,44,44,3,44,45,44,44,3,44,44,44,3,44,3,44,45,44,3,44,44,44,3,44,44,3,44,44,3,44,45,44,44,3,44,44,44,3,44,3,44,45,44,3,44,44,44,3,44,44,3,44,44,3,44,45,44,44,3,44,44,44,3,44,3,44,45,44,3,44,44,44,3,44,44,3,44,44,3,44,45,44,44,3,44,44,44,3,44,3,44,45,44,3,44,44,44,3,44,44,3,44,44,3,44,45,44,44,3,44,44,44,3,44,3,44,45,44,3,44,44,44,3,44,44,3,44,44,3,44,45,44,44,3,44,44,44,3,44,3,44,45,44,3,44,44,44,3,44,44,3,44,44,3,44,45,44,44,3,44,44,44,3,44,3,44,45,44,3,44,44,44,3,44,44,3,44,44,3,44,45,44,44,3,44,44,44,3],"c":[3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3]}],"width":189,"height":29}}</script>
+<script>
+/* the tower: a mondrian tower block in 3d, drawn into a character grid.
+   pass 1 renders the geometry into a small buffer (material, face, shade, depth),
+   pass 2 turns each character cell into a glyph and a colour,
+   pass 3 draws the glyphs. the html boxes are pinned to the facade plane. */
+(function () {
+  'use strict';
+  var doc = document, win = window, root = doc.documentElement;
+  root.classList.add('js');
+  var CFG = JSON.parse(doc.getElementById('cfg').textContent);
+  var PAGE = doc.body.getAttribute('data-page');
+  var REDUCE = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var K = win.KESTOWER = { beat: function () {} };
+
+  // ---------- materials and palette ----------
+  var M = { SKY: 0, WALL: 1, BEAM: 2, GLASS: 3, LIT: 4, PINK: 5, BLUE: 6, YEL: 7, BLACK: 8, ROOF: 9, MAST: 10,
+    APINK: 11, AYEL: 12, ABLUE: 13, LOZ: 14, STEM: 15, ART: 16, GROUND: 17, RAIL: 18, LITP: 19, LITB: 20, SLOT: 21, FAR: 22 };
+  var PAL = ['#ffffff', '#0b0b0d', '#4a4a4a', '#8c8c8c', '#c6c6c6', '#ff2e93', '#1f3dff', '#ffc800', '#e4e4e4'];
+
+  // ---------- glyphs ----------
+  var GL_LIST = CFG.glyphs;               // array of single characters, index = glyph id
+  var GI = {}; GL_LIST.forEach(function (g, i) { GI[g] = i; });
+
+  // ---------- seeded random ----------
+  function rng(seed) { var a = seed >>> 0; return function () { a = (a + 0x6D2B79F5) >>> 0; var t = a; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+
+  // ---------- small matrix helpers (column-major) ----------
+  function rows(r0, r1, r2, r3) { return new Float32Array([r0[0], r1[0], r2[0], r3[0], r0[1], r1[1], r2[1], r3[1], r0[2], r1[2], r2[2], r3[2], r0[3], r1[3], r2[3], r3[3]]); }
+  function mul(a, b) { var o = new Float32Array(16); for (var c = 0; c < 4; c++) for (var r = 0; r < 4; r++) o[c * 4 + r] = a[r] * b[c * 4] + a[4 + r] * b[c * 4 + 1] + a[8 + r] * b[c * 4 + 2] + a[12 + r] * b[c * 4 + 3]; return o; }
+  function apply(m, x, y, z) { return [m[0] * x + m[4] * y + m[8] * z + m[12], m[1] * x + m[5] * y + m[9] * z + m[13], m[2] * x + m[6] * y + m[10] * z + m[14], m[3] * x + m[7] * y + m[11] * z + m[15]]; }
+
+  // ---------- state ----------
+  var canvas = doc.getElementById('field');
+  var ZERO = new Uint32Array(4);
+  var page = doc.getElementById('page');
+  var BOXES = page.querySelectorAll('.box'), PICS = page.querySelectorAll('.pic');
+  var L = {};                 // layout
+  var view = { mx: 0, my: 0, ex: 0, ey: 0, wx: 0, wy: 0, wob: 0, lastS: -1 };
+  var anim = { loz: 0, lozV: 0, sway: 0, rings: [], ringN: 0, step: -1, drop: [] };
+  var gl = null, R = null, raf = 0, needs = true, touch = false;
+  var panels = null, panelBase = null, panelFloor = null, floorsGlass = [];
+
+  // ---------- measuring ----------
+  function cellSize() {
+    var s = doc.createElement('span'); s.className = 'probe'; s.textContent = 'MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM';
+    doc.body.appendChild(s); var r = s.getBoundingClientRect(); doc.body.removeChild(s);
+    var dpr = Math.min(win.devicePixelRatio || 1, 2);
+    var px = Math.max(4, Math.round(r.width / 40 * dpr)), py = Math.max(8, Math.round(r.height * dpr));
+    return { dpr: dpr, px: px, py: py, cw: px / dpr, ch: py / dpr };
+  }
+
+  // ---------- layout: boxes first, then the building around them ----------
+  function layout() {
+    var cs = cellSize();
+    var vw = root.clientWidth, vh = win.innerHeight;
+    var mobile = vw < 760;
+    var CW = cs.cw, CH = cs.ch;
+    L = { vw: vw, vh: vh, dpr: cs.dpr, cpx: cs.px, cpy: cs.py, CW: CW, CH: CH, mobile: mobile };
+    L.cols = Math.ceil(vw * cs.dpr / cs.px); L.rows = Math.ceil(vh * cs.dpr / cs.py);
+    L.gW = L.cols * CW; L.gH = L.rows * CH;
+    var fov = (mobile ? 68 : 76) * Math.PI / 180;
+    L.f = (vh / 2) / Math.tan(fov / 2);
+    var snapX = function (x) { return Math.round(x / CW) * CW; }, snapY = function (y) { return Math.round(y / CH) * CH; };
+    var vc = Math.floor(vw / CW);
+    var Wc = mobile ? vc - 4 : Math.max(40, Math.min(86, Math.round(vc * 0.34)));
+    var W = Wc * CW, x0;
+    // kes's name stands on the roof. the big sign if it fits, with the mast in the gap between "kes" and "inkersole"
+    var big = CFG.art.signBig && (CFG.art.signBig.w + 2) * CW <= vw && !mobile;
+    var art = big ? CFG.art.signBig : CFG.art.signSmall, SW = art.w * CW;
+    var signLeft, mastX;
+    if (big) {
+      signLeft = snapX((vw - SW) / 2);
+      mastX = signLeft + art.gap * CW;
+      x0 = snapX(mastX - W * 0.14);
+    } else {
+      x0 = mobile ? 2 * CW : snapX(vw * 0.5 - W / 2);
+      mastX = snapX(x0 + W * (mobile ? 0.5 : 0.3));
+      signLeft = mobile ? snapX(x0 + (W - SW) / 2) : Math.min(snapX(mastX + W * 0.16), Math.floor((vw - CW - SW) / CW) * CW);
+    }
+    L.sign = { art: art, left: signLeft };
+    L.mastX = mastX;
+    L.tower = { x0: x0, x1: x0 + W, W: W, Wc: Wc, D: Math.round(Math.min(W * 0.62, 420)) };
+    L.roofY = snapY(vh * (mobile ? 0.66 : 0.72));
+    L.camRangeX = W / 2 + vw * 0.3;
+    L.camRangeY = vh * 0.38;
+    L.k = 0.11; L.shear = 0.035;
+    L.far = L.tower.D + 3000;
+    var rnd = rng(PAGE === 'home' ? 1709 : 4103);
+
+    var boxes = [].slice.call(page.querySelectorAll('.box'));
+    var radio = page.querySelector('.box.radio');
+    var floorsBoxes = boxes.filter(function (b) { return b !== radio || mobile; });
+    var maxW = vw - 2 * CW;
+
+    // the radio sits on the roof, beside the mast
+    if (radio && !mobile) {
+      var rw = 40 * CW;
+      radio.style.width = rw + 'px';
+      var gated = root.classList.contains('gated'); if (gated) { root.classList.remove('gated'); root.classList.add('entered'); }
+      var rhIn = radio.offsetHeight;
+      if (gated) { root.classList.add('gated'); root.classList.remove('entered'); }
+      var rh = radio.offsetHeight;
+      place(radio, Math.max(CW, x0 - rw + 5 * CW), L.roofY + 3 * CH - Math.ceil(rh / CH) * CH, rw);
+      L.radioIn = rhIn;
+    }
+
+    var y = L.roofY, side = mobile ? 0 : 1, floors = [];
+    floorsBoxes.forEach(function (b, i) {
+      var want = (parseInt(b.getAttribute('data-w'), 10) || 44);
+      if (b === radio) want = 46;
+      var w, x;
+      if (mobile) {
+        w = Math.min(maxW, (vc - 7) * CW);
+        x = side ? vw - CW - w : CW;
+      } else {
+        var over = (5 + Math.floor(rnd() * 6)) * CW;
+        w = want * CW;
+        if (side === 0) { w = Math.min(w, x0 + over - CW); x = x0 + over - w; }
+        else { w = Math.min(w, vw - CW - (L.tower.x1 - over)); x = L.tower.x1 - over; }
+      }
+      var fdx = 0, fdz = 0;
+      if (i > 0 && rnd() < 0.5) fdx = (rnd() < 0.5 ? -1 : 1) * (1 + Math.floor(rnd() * (mobile ? 1 : 3))) * CW;
+      if (rnd() < 0.35) fdz = (rnd() < 0.5 ? -1 : 1) * Math.round(L.f * 0.025);
+      x = Math.max(CW, Math.min(vw - CW - w, x + fdx));
+      b.style.width = w + 'px';
+      var h = b.offsetHeight;
+      var hr = Math.ceil((h + 2) / CH);
+      var top = y + CH * (1 + (rnd() < 0.4 ? 1 : 0));
+      place(b, x, top, w);
+      var gap = (mobile ? 3 : 2) + Math.floor(rnd() * 3);
+      var y1 = top + hr * CH + gap * CH;
+      floors.push({ y0: y, y1: y1, box: b, side: side, dx: fdx, dz: fdz });
+      y = y1;
+      if (i % 3 === 2 && i < floorsBoxes.length - 1) { var e = (3 + Math.floor(rnd() * 4)) * CH; floors.push({ y0: y, y1: y + e, box: null }); y += e; }
+      side ^= 1;
+    });
+    // the lobby, then the ground
+    var lobby = (mobile ? 7 : 6) * CH;
+    floors.push({ y0: y, y1: y + lobby, box: null, lobby: true });
+    y += lobby;
+    L.floors = floors;
+    L.groundY = y;
+    L.gardenZ = [6, Math.round(L.f * 0.27), Math.round(L.f * 0.54)];
+    L.pageH = Math.ceil(L.groundY + (vh / 2) * (L.gardenZ[2] / L.f) + 2 * CH);
+    page.style.height = L.pageH + 'px';
+  }
+  function place(b, x, y, w) { b.style.left = x + 'px'; b.style.top = y + 'px'; b.style.width = w + 'px'; b._ax = x; b._ay = y; b._ox = 0; b._oy = 0; }
+
+  // ---------- geometry ----------
+  var V, VS, VA, panelList;
+  var STRIDE = 13;
+  function vtx(p, n, mat, grp, panel, sway, uv) { V.push(p[0], p[1], p[2], n[0], n[1], n[2], mat, grp, panel, sway, uv ? uv[0] : 0, uv ? uv[1] : 0, uv ? uv[2] : 0); }
+  function quad(a, b, c, d, n, mat, o, uvs) {
+    V = mat === M.ART ? VA : VS;
+    var P = [a, b, c, a, c, d], U = uvs ? [uvs[0], uvs[1], uvs[2], uvs[0], uvs[2], uvs[3]] : null;
+    for (var i = 0; i < 6; i++) vtx(P[i], n, mat, o.grp || 0, o.panel || 0, o.sway ? o.sway(P[i]) : 0, U ? U[i] : null);
+  }
+  // world: x right, y up, z towards the camera. box from (x0,y0,z0) to (x1,y1,z1)
+  var OFF = null;
+  function box(x0, y0, z0, x1, y1, z1, mat, o) {
+    o = o || {};
+    if (OFF) { x0 += OFF.x; x1 += OFF.x; z0 += OFF.z; z1 += OFF.z; }
+    var c = [[x0, y0, z0], [x1, y0, z0], [x1, y1, z0], [x0, y1, z0], [x0, y0, z1], [x1, y0, z1], [x1, y1, z1], [x0, y1, z1]];
+    var N = { f: [0, 0, 1], r: [1, 0, 0], l: [-1, 0, 0], t: [0, 1, 0], b: [0, -1, 0], k: [0, 0, -1] };
+    if (o.rot) { // rotate about the z axis around (rot.cx, rot.cy)
+      var ca = Math.cos(o.rot.a), sa = Math.sin(o.rot.a);
+      c = c.map(function (p) { var dx = p[0] - o.rot.cx, dy = p[1] - o.rot.cy; return [o.rot.cx + dx * ca - dy * sa, o.rot.cy + dx * sa + dy * ca, p[2]]; });
+      Object.keys(N).forEach(function (k) { var n = N[k]; N[k] = [n[0] * ca - n[1] * sa, n[0] * sa + n[1] * ca, n[2]]; });
+    }
+    var skip = o.skip || '';
+    if (skip.indexOf('f') < 0) quad(c[4], c[5], c[6], c[7], N.f, mat, o);
+    if (skip.indexOf('r') < 0) quad(c[5], c[1], c[2], c[6], N.r, mat, o);
+    if (skip.indexOf('l') < 0) quad(c[0], c[4], c[7], c[3], N.l, mat, o);
+    if (skip.indexOf('t') < 0) quad(c[7], c[6], c[2], c[3], N.t, mat, o);
+    if (skip.indexOf('b') < 0) quad(c[0], c[1], c[5], c[4], N.b, mat, o);
+    if (o.back) quad(c[1], c[0], c[3], c[2], N.k, mat, o);
+  }
+  // page coordinates → world on the facade plane
+  function wx(px) { return px - L.vw / 2; }
+  function wy(py) { return -py; }
+  function addPanel(mat, floor) { panelList.push(mat); if (floor != null) { (floorsGlass[floor] = floorsGlass[floor] || []).push(panelList.length); } return panelList.length; }
+
+  function build() {
+    VS = []; VA = []; V = VS; panelList = []; floorsGlass = [];
+    var T = L.tower, CW = L.CW, CH = L.CH, D = T.D;
+    var X0 = wx(T.x0), X1 = wx(T.x1);
+    var rnd = rng(PAGE === 'home' ? 77 : 311);
+    var colW = L.mobile ? CW : 2 * CW;           // thickness of the vertical lines
+    var front = 8, glassZ = -12, coreZ = -16;
+
+    // the core of the block, set back behind everything on the facade
+    box(X0, wy(L.groundY), -D, X1, wy(L.roofY), coreZ, M.WALL, { skip: 'f' });
+    // structural columns, shared by every floor: the edges plus a couple inside
+    var cols = [0, T.Wc - (L.mobile ? 1 : 2)];
+    var inner = L.mobile ? [0.42] : [0.24, 0.61];
+    inner.forEach(function (fr) { cols.push(Math.round(T.Wc * fr)); });
+    cols.sort(function (a, b) { return a - b; });
+    var palette = [M.PINK, M.BLUE, M.YEL];
+    var lastColour = -1;
+
+    L.floors.forEach(function (fl, fi) {
+      var top = fl.y0, bot = fl.y1;
+      OFF = { x: fl.dx || 0, z: fl.dz || 0 };
+      // the slab: one row of black at the top of each floor, running back the full depth
+      box(X0 - CW * 0.5, wy(top + CH), -D - 2, X1 + CW * 0.5, wy(top), front, M.BEAM);
+      var y0 = top + CH, y1 = bot;
+      // this floor's vertical lines: the shared columns plus one or two of its own
+      var lines = cols.slice();
+      var extra = rnd() < 0.7 ? 1 + (rnd() < 0.35 ? 1 : 0) : 0;
+      for (var e = 0; e < extra; e++) lines.push(Math.round(T.Wc * (0.08 + rnd() * 0.84)));
+      lines.sort(function (a, b) { return a - b; });
+      lines = lines.filter(function (v, i) { return i === 0 || v - lines[i - 1] >= 4; });
+      lines.forEach(function (c) {
+        var x = X0 + c * CW;
+        box(x, wy(y1), coreZ, x + colW, wy(y0), front - 2, M.BEAM);
+      });
+      // panels between the lines
+      for (var k = 0; k < lines.length - 1; k++) {
+        var px0 = X0 + lines[k] * CW + colW, px1 = X0 + lines[k + 1] * CW;
+        if (px1 - px0 < CW) continue;
+        var cells = [[y0, y1]];
+        var hrows = Math.round((y1 - y0) / CH);
+        if (hrows >= 6 && rnd() < 0.55) { // split the bay with a transom
+          var cut = y0 + CH * (2 + Math.floor(rnd() * (hrows - 4)));
+          cells = [[y0, cut], [cut + CH, y1]];
+          box(px0, wy(cut + CH), coreZ, px1, wy(cut), front - 4, M.BEAM);
+        }
+        cells.forEach(function (cl) {
+          var r = rnd(), a = cl[0], b = cl[1];
+          if (fl.lobby) {
+            if (k === Math.floor((lines.length - 1) / 2)) { box(px0 + CW, wy(b), glassZ - 6, px1 - CW, wy(a + CH), glassZ - 4, M.BLACK); box(px0, wy(b), coreZ, px0 + CW, wy(a), 0, M.WALL); box(px1 - CW, wy(b), coreZ, px1, wy(a), 0, M.WALL); box(px0, wy(a + CH), coreZ, px1, wy(a), 0, M.WALL); }
+            else letterboxes(px0, px1, a, b);
+            return;
+          }
+          var small = (px1 - px0) < CW * 9 && (b - a) < CH * 5;
+          if (r < 0.34) { // window
+            box(px0, wy(b), coreZ, px1, wy(a), glassZ, M.GLASS, { panel: addPanel(M.GLASS, fi) });
+          } else if (r < 0.6 || (r < 0.88 && r >= 0.84 && !small)) { // white plane
+            box(px0, wy(b), coreZ, px1, wy(a), 0, M.WALL, { panel: addPanel(M.WALL) });
+          } else if (r < 0.84) { // colour plane, never the same colour twice running
+            var cidx = Math.floor(rnd() * 3); if (cidx === lastColour) cidx = (cidx + 1) % 3; lastColour = cidx;
+            box(px0, wy(b), coreZ, px1, wy(a), 3, palette[cidx], { panel: addPanel(palette[cidx]) });
+          } else if (r < 0.88) { // a small black plane
+            box(px0, wy(b), coreZ, px1, wy(a), 1, M.BLACK);
+          } else { // balcony: window behind, a slab and a coloured parapet sticking out
+            box(px0, wy(b), coreZ, px1, wy(a), glassZ, M.GLASS, { panel: addPanel(M.GLASS, fi) });
+            var depth = Math.round(L.f * (0.07 + rnd() * 0.12));
+            var c2 = palette[Math.floor(rnd() * 3)];
+            box(px0 - CW * 0.5, wy(b), front, px1 + CW * 0.5, wy(b - CH * 0.6), depth, M.BEAM);
+            box(px0 - CW * 0.5, wy(b - CH * 0.6), depth - 5, px1 + CW * 0.5, wy(b - CH * 2.6), depth, c2, { panel: addPanel(c2) });
+            box(px0 - CW * 0.5, wy(b - CH * 2.6), front, px0, wy(b - CH * 0.6), depth, M.RAIL);
+            box(px1, wy(b - CH * 2.6), front, px1 + CW * 0.5, wy(b - CH * 0.6), depth, M.RAIL);
+          }
+        });
+      }
+    });
+    OFF = null;
+    function letterboxes(px0, px1, a, b) {
+      box(px0, wy(b), coreZ, px1, wy(a), 0, M.WALL);
+      var n = Math.max(1, Math.floor((px1 - px0 - CW) / (CW * 3))), rowsN = Math.max(1, Math.floor((b - a - CH) / (CH * 1.5)));
+      for (var j = 0; j < rowsN; j++) for (var i = 0; i < n; i++) {
+        var sx = px0 + CW + i * CW * 3, sy = a + CH * (0.8 + j * 1.5);
+        box(sx, wy(sy + CH * 0.5), -4, sx + CW * 2, wy(sy), 0.5, M.SLOT);
+      }
+    }
+    // roof: a parapet, the lift room
+    var rY = wy(L.roofY);
+    box(X0 - CW * 0.5, rY, -CW * 1.2, X1 + CW * 0.5, rY + CH, front, M.BEAM);
+    box(X0 - CW * 0.5, rY, -D - 2, X0 + CW * 0.7, rY + CH * 0.6, -CW * 1.2, M.ROOF);
+    box(X1 - CW * 0.7, rY, -D - 2, X1 + CW * 0.5, rY + CH * 0.6, -CW * 1.2, M.ROOF);
+    box(X0 + CW * 0.7, rY, -D - 2, X1 - CW * 0.7, rY + CH * 0.6, -D + CW, M.ROOF);
+
+    buildAntenna(rY);
+    buildSign(rY);
+    buildGround();
+    buildDistance();
+  }
+
+  // place a point designed in page coordinates at depth z so that it sits exactly there at scroll S
+  function at(px, py, z, S) {
+    var s = (L.f - z) / L.f;
+    return [(px - L.vw / 2) * s, (L.vh / 2 - py + S) * s - S - L.vh / 2];
+  }
+
+  function buildAntenna(rY) {
+    var T = L.tower, CW = L.CW, CH = L.CH, z = -T.D * 0.66;
+    var s = (L.f - z) / L.f;
+    var mx = wx(L.mastX) * s;
+    var tip = at(0, CH * 2.5, z, 0)[1];
+    var hgt = tip - rY;
+    var th = CW * 2.2 * s;
+    L.mast = { x: mx, z: z, y0: rY, y1: tip };
+    box(mx - th / 2, rY, z - th / 2, mx + th / 2, tip, z + th / 2, M.MAST);
+    // crossbar
+    var cb = rY + hgt * 0.3, cl = T.W * 0.5 * s;
+    box(mx - cl * 0.3, cb, z - th * 0.3, mx + cl, cb + CH * s, z + th * 0.3, M.MAST);
+    var a = 0.55, armT = CW * 0.7 * s, len = L.vh * 0.09 * s;
+    function arm(x, y, ang, l, mat) { box(x - armT / 2, y, z - armT / 2, x + armT / 2, y + l, z + armT / 2, mat, { rot: { cx: x, cy: y, a: ang } }); }
+    // pink rabbit ears near the top, yellow v off the crossbar, a long blue diagonal from the tip
+    arm(mx, tip - CH * 1.2 * s, a, len, M.APINK);
+    arm(mx, tip - CH * 1.2 * s, -a, len, M.APINK);
+    arm(mx + cl, cb + CH * 0.4 * s, 0.8, len * 1.3, M.AYEL);
+    arm(mx + cl, cb + CH * 0.4 * s, Math.PI - 0.8, len * 1.3, M.AYEL);
+    arm(mx, tip - CH * 4 * s, -2.3, len * 3.1, M.ABLUE);
+    // the dotted lozenge, which turns around the mast while KES FM plays
+    var lc = rY + hgt * 0.58, hy = Math.min(hgt * 0.4, L.vh * (L.mobile ? 0.2 : 0.3)), hx = hy * (L.mobile ? 0.8 : 1.05);
+    L.loz = { x: mx, y: lc, z: z };
+    var lt = CW * 0.42 * s, dot = CW * 1.3 * s;
+    var corners = [[0, hy], [hx, 0], [0, -hy], [-hx, 0]];
+    for (var e = 0; e < 4; e++) {
+      var p = corners[e], q = corners[(e + 1) % 4];
+      var ex = mx + p[0], ey = lc + p[1], dx = q[0] - p[0], dy = q[1] - p[1], len2 = Math.sqrt(dx * dx + dy * dy);
+      var ang = Math.atan2(dy, dx) - Math.PI / 2;
+      box(ex - lt / 2, ey, z - lt / 2, ex + lt / 2, ey + len2, z + lt / 2, M.LOZ, { grp: 1, rot: { cx: ex, cy: ey, a: ang } });
+      box(ex - dot / 2, ey - dot / 2, z - dot / 2, ex + dot / 2, ey + dot / 2, z + dot / 2, M.LOZ, { grp: 1 });
+    }
+  }
+
+  function buildSign(rY) {
+    var T = L.tower, CW = L.CW, CH = L.CH, z = -T.D * 0.2;
+    var art = L.sign.art;
+    var s = (L.f - z) / L.f;
+    var w = art.w * CW * s, h = art.h * CH * s;
+    var leftPage = L.sign.left;
+    var x0 = (leftPage - L.vw / 2) * s;
+    var legs = CH * (L.mobile ? 3 : 4) * s;
+    var yb = rY + legs, yt = yb + h;
+    var r0 = Math.max(x0, wx(T.x0) + CW * 2), r1 = Math.min(x0 + w, wx(T.x1) - CW * 2);
+    [0.12, 0.88].forEach(function (fr) { var lx = r0 + (r1 - r0) * fr; box(lx, rY, z - CW * s, lx + CW * 1.4 * s, yb, z, M.BEAM); });
+    box(x0, yb - CH * 0.6 * s, z - CW * s, x0 + w, yb, z, M.BEAM);
+    quad([x0, yb, z + 1], [x0 + w, yb, z + 1], [x0 + w, yt, z + 1], [x0, yt, z + 1], [0, 0, 1], M.ART, {},
+      [[0, art.row0 + art.h, art.w], [art.w, art.row0 + art.h, art.w], [art.w, art.row0, art.w], [0, art.row0, art.w]]);
+  }
+
+  function buildGround() {
+    var CW = L.CW, CH = L.CH, gY = wy(L.groundY), T = L.tower;
+    // the ground: a wide slab whose top you see from above
+    box(-L.vw * 3, gY - CH * 40, -T.D - 600, L.vw * 3, gY, L.f - 24, M.GROUND, { skip: 'f' });
+    // kes's garden, three rows deep. each row of flowers is 1:1 with the grid when the page is scrolled to the bottom
+    var S = L.pageH - L.vh, art = CFG.art.garden;
+    L.gardenZ.forEach(function (z, li) {
+      var s = (L.f - z) / L.f;
+      var left = Math.round(-L.vw * 0.4 / CW) * CW, w = L.vw * 1.8 * s, x0 = (left - L.vw / 2) * s;
+      // the bottom of the flowers stands on the ground
+      var yb = gY, yt = yb + art.h * CH * s;
+      // nudge so the rows land on the grid at the bottom of the page
+      var screenTop = L.vh / 2 - L.f * (yt + S + L.vh / 2) / (L.f - z);
+      var snap = Math.round(screenTop / CH) * CH - screenTop;
+      yb -= snap * s; yt -= snap * s;
+      var colsN = w / (CW * s), phase = (li * 61) % art.w;
+      var sway = function (p) { return (p[1] - yb) / (yt - yb); };
+      quad([x0, yb, z], [x0 + w, yb, z], [x0 + w, yt, z], [x0, yt, z], [0, 0, 1], M.ART, { grp: 2, sway: sway },
+        [[phase, art.row0 + art.h, art.w], [phase + colsN, art.row0 + art.h, art.w], [phase + colsN, art.row0, art.w], [phase, art.row0, art.w]]);
+    });
+  }
+
+  // two blocks further off, greyer, for depth
+  function buildDistance() {
+    var CW = L.CW, CH = L.CH, T = L.tower, rnd = rng(PAGE === 'home' ? 913 : 517);
+    var spots = L.mobile ? [[0.62, 0.95, 1.5, 0.12]] : [[T.x1 / L.vw + 0.2, T.x1 / L.vw + 0.38, 1.25, 0.3], [0.02, 0.16, 2.4, 0.05]];
+    spots.forEach(function (sp) {
+      var z = -L.f * sp[2], depth = 260, s = (L.f - z) / L.f;
+      var x0 = (sp[0] * L.vw - L.vw / 2) * s, x1 = (sp[1] * L.vw - L.vw / 2) * s;
+      var top = at(0, L.roofY + L.vh * sp[3], z, 0)[1], bot = wy(L.groundY);
+      box(x0, bot, z - depth, x1, top, z, M.FAR);
+      var fh = CH * 3 * s, k = 0, plane = Math.floor(rnd() * 6) + 2;
+      for (var y = top - fh; y > bot; y -= fh, k++) {
+        box(x0 - CW * 0.3 * s, y - CH * 0.45 * s, z - depth, x1 + CW * 0.3 * s, y, z + 4, M.FAR);
+        if (k === plane) { var px = x0 + (x1 - x0) * (0.15 + rnd() * 0.5); box(px, y - fh + CH * 0.5 * s, z, px + (x1 - x0) * 0.25, y - CH * 0.45 * s, z + 2, [M.PINK, M.BLUE, M.YEL][Math.floor(rnd() * 3)]); }
+      }
+    });
+  }
+
+  // ---------- webgl ----------
+  var SX = 4, SY = 6;
+  var VS_SCENE = [
+    '#version 300 es',
+    'in vec3 aPos; in vec3 aNor; in vec4 aInfo; in vec3 aUV;',
+    'uniform mat4 uM; uniform float uCamZ, uTime, uSway, uLozA; uniform vec3 uLozC;',
+    'flat out int vMat; flat out int vPanel; out vec3 vNor; out vec3 vUV; out float vDepth;',
+    'void main(){',
+    '  vec3 p = aPos, n = aNor; int g = int(aInfo.y + .5);',
+    '  if (g == 1) { vec3 q = p - uLozC; float c = cos(uLozA), s = sin(uLozA); p = uLozC + vec3(c*q.x + s*q.z, q.y, -s*q.x + c*q.z); n = vec3(c*n.x + s*n.z, n.y, -s*n.x + c*n.z); }',
+    '  else if (g == 2) { p.x += sin(uTime * 2.6 + p.x * .011) * uSway * aInfo.w; }',
+    '  gl_Position = uM * vec4(p, 1.);',
+    '  vMat = int(aInfo.x + .5); vPanel = int(aInfo.z + .5) - 1; vNor = n; vUV = aUV; vDepth = uCamZ - p.z;',
+    '}'].join('\n');
+  var FS_SCENE = [
+    '#version 300 es',
+    'precision highp float; precision highp int; precision highp usampler2D;',
+    'flat in int vMat; flat in int vPanel; in vec3 vNor; in vec3 vUV; in float vDepth;',
+    'uniform usampler2D uPanels; uniform usampler2D uArt; uniform vec3 uLight; uniform float uFar;',
+    'layout(location = 0) out uvec4 o;',
+    'void main(){',
+    '  int m = vMat;',
+    '  if (vPanel >= 0) m = int(texelFetch(uPanels, ivec2(vPanel % 256, vPanel / 256), 0).r);',
+    '  vec3 n = normalize(vNor), a = abs(n); int nc;',
+    '  if (a.z >= a.x && a.z >= a.y) nc = n.z > 0. ? 1 : 6; else if (a.x >= a.y) nc = n.x > 0. ? 2 : 3; else nc = n.y > 0. ? 4 : 5;',
+    '  uint d = uint(clamp(vDepth / uFar, 0., 1.) * 65535.);',
+    '  if (m == ' + M.ART + ') {',
+    '    float aw = max(vUV.z, 1.); float u = mod(vUV.x, aw); float v = vUV.y;',
+    '    uvec4 t = texelFetch(uArt, ivec2(int(u), int(v)), 0);',
+    '    if (t.r == 0u) discard;',
+    '    o = uvec4(uint(u * 16.), uint(v * 16.), d, 1u); return;',
+    '  }',
+    '  float sh = clamp(.3 + .7 * max(dot(n, uLight), 0.), 0., 1.);',
+    '  o = uvec4(uint(m) | (uint(nc) << 8), uint(sh * 65535.), d, uint(vPanel + 1));',
+    '}'].join('\n');
+  var VS_FULL = ['#version 300 es', 'void main(){ vec2 p = vec2(float((gl_VertexID << 1) & 2), float(gl_VertexID & 2)); gl_Position = vec4(p * 2. - 1., 0., 1.); }'].join('\n');
+
+  function cellShader() {
+    var g = function (ch) { if (!(ch in GI)) throw new Error('glyph missing: ' + ch); return GI[ch] + 'u'; };
+    return [
+      '#version 300 es',
+      'precision highp float; precision highp int; precision highp usampler2D;',
+      'uniform usampler2D uScene; uniform usampler2D uArt; uniform usampler2D uArtBuf;',
+      'uniform vec2 uCellPx; uniform int uRows; uniform vec4 uRing[6]; uniform int uRingN; uniform float uTime; uniform int uSkyDots; uniform vec4 uHole[4]; uniform int uHoleN; uniform int uStep;',
+      'out uvec4 o;',
+      '#define SX ' + SX, '#define SY ' + SY,
+      'int prio(int m){',
+      '  if (m == ' + M.MAST + ' || m == ' + M.BEAM + ' || m == ' + M.LOZ + ' || m == ' + M.ART + ') return 9;',
+      '  if (m == ' + M.BLACK + ' || m == ' + M.SLOT + ' || m == ' + M.RAIL + ') return 8;',
+      '  if (m == ' + M.APINK + ' || m == ' + M.AYEL + ' || m == ' + M.ABLUE + ') return 8;',
+      '  if (m == ' + M.PINK + ' || m == ' + M.BLUE + ' || m == ' + M.YEL + ' || m == ' + M.LIT + ' || m == ' + M.LITP + ' || m == ' + M.LITB + ') return 6;',
+      '  if (m == ' + M.WALL + ' || m == ' + M.ROOF + ') return 4;',
+      '  if (m == ' + M.GLASS + ') return 3;',
+      '  if (m == ' + M.FAR + ') return 1;',
+      '  return 2;',
+      '}',
+      'uint ink(int m){',
+      '  if (m == ' + M.PINK + ' || m == ' + M.APINK + ' || m == ' + M.LITP + ') return 5u;',
+      '  if (m == ' + M.BLUE + ' || m == ' + M.ABLUE + ' || m == ' + M.LITB + ') return 6u;',
+      '  if (m == ' + M.YEL + ' || m == ' + M.AYEL + ' || m == ' + M.LIT + ') return 7u;',
+      '  if (m == ' + M.WALL + ' || m == ' + M.ROOF + ') return 2u;',
+      '  if (m == ' + M.GLASS + ') return 3u;',
+      '  if (m == ' + M.GROUND + ') return 3u;',
+      '  if (m == ' + M.LOZ + ') return 5u;',
+      '  if (m == ' + M.FAR + ') return 4u;',
+      '  return 1u;',
+      '}',
+      // fill glyphs, by material and which way the face points (1 front, 2 right, 3 left, 4 top, 5 bottom)
+      'uvec2 fill(int m, int nc, float sh, ivec2 c, int var){',
+      '  bool fr = nc == 1, tp = nc == 4;',
+      '  if (m == ' + M.WALL + ') {',
+      '    if (fr) { int k = var % 3;',
+      '      if (k == 0) return ((c.x + c.y * 2) % 4 == 0) ? uvec2(' + g('·') + ', 4u) : uvec2(' + g(' ') + ', 0u);',
+      '      if (k == 1) return uvec2(' + g(' ') + ', 0u);',
+      '      return ((c.x % 2) == 0 && (c.y % 2) == 0) ? uvec2(' + g('.') + ', 4u) : uvec2(' + g(' ') + ', 0u); }',
+      '    if (nc == 2) return uvec2(' + g('/') + ', sh > .55 ? 4u : 3u);',
+      '    if (nc == 3) return uvec2(' + g('\\') + ', sh > .55 ? 4u : 3u);',
+      '    if (tp) return uvec2(' + g('=') + ', 4u);',
+      '    return uvec2(' + g(':') + ', 3u);',
+      '  }',
+      '  if (m == ' + M.ROOF + ') return uvec2(tp ? ' + g('=') + ' : ' + g(':') + ', 4u);',
+      '  if (m == ' + M.BEAM + ' || m == ' + M.MAST + ' || m == ' + M.BLACK + ' || m == ' + M.RAIL + ') {',
+      '    if (fr) return uvec2(' + g('█') + ', 1u);',
+      '    return uvec2(tp ? ' + g('▀') + ' : ' + g('▓') + ', 1u);',
+      '  }',
+      '  if (m == ' + M.SLOT + ') return uvec2(' + g('▬') + ', 1u);',
+      '  if (m == ' + M.GLASS + ') {',
+      '    if (!fr) return uvec2(' + g(':') + ', 4u);',
+      '    int k = var % 4;',
+      '    if (k == 1) return uvec2(' + g('=') + ', 4u);',
+      '    if (k == 2) return uvec2(((c.x + c.y) % 2 == 0) ? ' + g(':') + ' : ' + g('.') + ', 3u);',
+      '    return uvec2(' + g('░') + ', 3u);',
+      '  }',
+      '  if (m == ' + M.LIT + ' || m == ' + M.LITP + ' || m == ' + M.LITB + ') return uvec2(fr ? ' + g('█') + ' : ' + g('▒') + ', ink(m));',
+      '  if (m == ' + M.PINK + ' || m == ' + M.BLUE + ' || m == ' + M.YEL + ') {',
+      '    if (fr && var % 4 == 3) {',  // a few planes are written in characters instead of solid colour
+      '      if (m == ' + M.PINK + ') return uvec2(c.x % 2 == 0 ? ' + g('<') + ' : ' + g('3') + ', 5u);',
+      '      if (m == ' + M.BLUE + ') return uvec2(' + g('~') + ', 6u);',
+      '      return uvec2(' + g('*') + ', 7u);',
+      '    }',
+      '    return uvec2(fr ? ' + g('█') + ' : (tp ? ' + g('▒') + ' : ' + g('▓') + '), ink(m));',
+      '  }',
+      '  if (m == ' + M.APINK + ' || m == ' + M.AYEL + ' || m == ' + M.ABLUE + ') return uvec2(fr ? ' + g('█') + ' : ' + g('▓') + ', ink(m));',
+      '  if (m == ' + M.LOZ + ') return uvec2(' + g('◆') + ', 5u);',
+      '  if (m == ' + M.FAR + ') return fr ? uvec2(((c.x + c.y) % 2 == 0) ? ' + g('·') + ' : ' + g(' ') + ', 4u) : uvec2(nc == 4 ? ' + g('-') + ' : ' + g(':') + ', 8u);',
+      '  if (m == ' + M.GROUND + ') { int h = (c.x * 7 + c.y * 13) % 11; return uvec2(h == 0 ? ' + g(',') + ' : (h == 5 ? ' + g('.') + ' : ' + g(' ') + '), 4u); }',
+      '  return uvec2(' + g('?') + ', 1u);',
+      '}',
+      'void main(){',
+      '  ivec2 cb = ivec2(gl_FragCoord.xy);',
+      '  ivec2 c = ivec2(cb.x, uRows - 1 - cb.y);', // c: column, row from the top
+      '  uvec4 S[SX * SY];',
+      '  int best = -1; int bi = 0; float bd = 2.;',
+      '  for (int j = 0; j < SY; j++) for (int i = 0; i < SX; i++) {',
+      '    uvec4 s = texelFetch(uScene, cb * ivec2(SX, SY) + ivec2(i, j), 0); S[j * SX + i] = s;',
+      '    int m = int(s.r & 255u); if (m == 0) continue;',
+      '    float d = float(s.b) / 65535.; int sc = prio(m) * 100000 - int(d * 99999.);',
+      '    if (sc > best) { best = sc; bi = j * SX + i; bd = d; }',
+      '  }',
+      '  uvec2 gc = uvec2(' + g(' ') + ', 0u);',
+      '  int m = -1;',
+      '  if (best >= 0) {',
+      '    uint key = S[bi].r; m = int(key & 255u); int nc = int(key >> 8);',
+      '    float n = 0., su = 0., sv = 0., suu = 0., svv = 0., suv = 0., shs = 0.;',
+      '    for (int k = 0; k < SX * SY; k++) {',
+      '      uvec4 s = S[k]; if (s.r != key) continue; float d = float(s.b) / 65535.; if (abs(d - bd) > .01) continue;',
+      '      int i = k % SX, j = k / SX;',
+      '      float u = (float(i) + .5) / float(SX), v = (float(SY - 1 - j) + .5) / float(SY);',
+      '      n += 1.; su += u; sv += v; suu += u * u; svv += v * v; suv += u * v; shs += float(s.g) / 65535.;',
+      '    }',
+      '    float cov = n / float(SX * SY);',
+      '    int var = int(S[bi].a);',
+      '    bool inkm = m == ' + M.BEAM + ' || m == ' + M.MAST + ' || m == ' + M.BLACK + ' || m == ' + M.RAIL + ' || m == ' + M.SLOT + ';',
+      '    if (cov > .84 || m == ' + M.FAR + ') {',
+      '      gc = fill(m, nc, shs / n, c, var);',
+      '    } else if (m == ' + M.LOZ + ') {',
+      '      gc = uvec2(cov > .45 ? ' + g('◆') + ' : ' + g('•') + ', 5u);',
+      '    } else {',
+      '      uint col = ink(m);',
+      '      float mu = su / n, mv = sv / n; vec2 dd = vec2(mu - .5, mv - .5); float dl = length(dd);',
+      '      if (cov >= .45 && dl > .07) {',          // a thick shape whose edge crosses the cell
+      '        vec2 nn = dd / dl;',
+      '        float ang = mod(degrees(atan(nn.y, nn.x)) + 90., 180.);',
+      '        if (ang < 22.5 || ang >= 157.5) {',
+      '          if (inkm && cov > .3) gc = uvec2(nn.y > 0. ? ' + g('▄') + ' : ' + g('▀') + ', col);',
+      '          else { float b = nn.y > 0. ? 1. - cov : cov; gc = uvec2(b < .34 ? ' + g('‾') + ' : (b > .66 ? ' + g('_') + ' : ' + g('-') + '), col); }',
+      '        } else if (ang < 67.5) gc = uvec2(' + g('\\') + ', col);',
+      '        else if (ang < 112.5) gc = uvec2(inkm && cov > .3 ? (nn.x > 0. ? ' + g('▐') + ' : ' + g('▌') + ') : ' + g('|') + ', col);',
+      '        else gc = uvec2(' + g('/') + ', col);',
+      '      } else {',                               // a thin line, a corner, or a speck
+      '        float cuu = suu / n - mu * mu, cvv = svv / n - mv * mv, cuv = suv / n - mu * mv;',
+      '        float tr = cuu + cvv, de = sqrt(max((cuu - cvv) * (cuu - cvv) * .25 + cuv * cuv, 0.));',
+      '        float an = tr > 1e-6 ? 2. * de / tr : 0.;',
+      '        if (an < .35) {',
+      '          if (inkm && cov > .12 && dl > .12) gc = uvec2(dd.y < 0. ? (dd.x < 0. ? ' + g('▘') + ' : ' + g('▝') + ') : (dd.x < 0. ? ' + g('▖') + ' : ' + g('▗') + '), col);',
+      '          else gc = uvec2(cov < .3 ? ' + g('·') + ' : (cov < .6 ? ' + g('+') + ' : (inkm ? ' + g('█') + ' : ' + g('#') + ')), col);',
+      '        }',
+      '        else {',
+      '          float th = degrees(.5 * atan(2. * cuv, cuu - cvv)); if (th < 0.) th += 180.;',
+      '          if (th < 22.5 || th >= 157.5) gc = uvec2(mv > .64 ? ' + g('_') + ' : (mv < .36 ? ' + g('‾') + ' : ' + g('-') + '), col);',
+      '          else if (th < 67.5) gc = uvec2(' + g('\\') + ', col);',
+      '          else if (th < 112.5) gc = uvec2(' + g('|') + ', col);',
+      '          else gc = uvec2(' + g('/') + ', col);',
+      '        }',
+      '      }',
+      '    }',
+      '  } else if (uSkyDots > 0 && c.x % 3 == 0 && c.y % 2 == 0) {',
+      '    gc = uvec2(' + g('·') + ', 8u);',
+      '  }',
+      // kes's drawings, where they are in front of the building
+      '  uvec4 ab = texelFetch(uArtBuf, cb, 0);',
+      '  if (ab.a > 0u) {',
+      '    uvec4 cs = S[(SY / 2) * SX + SX / 2]; float gd = (cs.r & 255u) == 0u ? 2. : float(cs.b) / 65535.;',
+      '    if (float(ab.b) / 65535. <= gd + .0005) {',
+      '      uvec4 t = texelFetch(uArt, ivec2(int(ab.r / 16u), int(ab.g / 16u)), 0);',
+      '      if (t.r != 0u) { gc = uvec2(t.r, t.g); m = ' + M.ART + '; }',
+      '    }',
+      '  }',
+      // the pictures to come: a hatch, which steps with the beat while KES FM plays
+      '  for (int h = 0; h < 4; h++) {',
+      '    if (h >= uHoleN) break;',
+      '    vec4 H = uHole[h];',
+      '    if (float(c.x) >= H.x && float(c.x) < H.z && float(c.y) >= H.y && float(c.y) < H.w && m < 0) {',
+      '      int k = (c.x + c.y * 2 + uStep) % 6;',
+      '      if (k == 0) gc = uvec2(' + g('/') + ', 3u); else if (k == 3) gc = uvec2(' + g('/') + ', 4u);',
+      '    }',
+      '  }',
+      // transmission: rings out from the top of the mast, ((( ))) style
+      '  vec2 p = (vec2(c) + .5) * uCellPx;',
+      '  for (int r = 0; r < 6; r++) {',
+      '    if (r >= uRingN) break;',
+      '    vec4 R = uRing[r]; vec2 d = p - R.xy; float dist = length(d);',
+      '    if (abs(dist - R.z) < uCellPx.x * .5 && abs(d.y) < dist * .78 && dist > uCellPx.x * 3.) {',
+      '      if (m < 0) gc = uvec2(d.x > 0. ? ' + g(')') + ' : ' + g('(') + ', uint(R.w));',
+      '    }',
+      '  }',
+      '  o = uvec4(gc.x, gc.y, 0u, 0u);',
+      '}'].join('\n');
+  }
+  var FS_SHOW = [
+    '#version 300 es',
+    'precision highp float; precision highp int; precision highp usampler2D;',
+    'uniform usampler2D uCells; uniform sampler2D uAtlas; uniform vec2 uCellPx; uniform float uH; uniform int uRows; uniform vec3 uPal[9];',
+    'out vec4 o;',
+    'void main(){',
+    '  vec2 f = vec2(gl_FragCoord.x, uH - gl_FragCoord.y);',
+    '  ivec2 c = ivec2(floor(f / uCellPx));',
+    '  uvec4 t = texelFetch(uCells, ivec2(c.x, uRows - 1 - c.y), 0);',
+    '  ivec2 in_ = ivec2(f - vec2(c) * uCellPx);',
+    '  float a = texelFetch(uAtlas, ivec2(int(t.r) * int(uCellPx.x) + in_.x, in_.y), 0).a;',
+    '  vec3 fg = uPal[int(t.g)], bg = uPal[int(t.b)];',
+    '  o = vec4(mix(bg, fg, a), 1.);',
+    '}'].join('\n');
+
+  function compile(type, src) { var s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s) + '\n' + src.split('\n').map(function (l, i) { return (i + 1) + ': ' + l; }).join('\n')); return s; }
+  function program(vs, fs) { var p = gl.createProgram(); gl.attachShader(p, compile(gl.VERTEX_SHADER, vs)); gl.attachShader(p, compile(gl.FRAGMENT_SHADER, fs)); gl.linkProgram(p); if (!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(p)); var u = {}; var n = gl.getProgramParameter(p, gl.ACTIVE_UNIFORMS); for (var i = 0; i < n; i++) { var info = gl.getActiveUniform(p, i); u[info.name.replace(/\[0\]$/, '')] = gl.getUniformLocation(p, info.name); } return { p: p, u: u }; }
+  function itex(internal, fmt, type, w, h, data) {
+    var t = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, t);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    gl.texImage2D(gl.TEXTURE_2D, 0, internal, w, h, 0, fmt, type, data || null); return t;
+  }
+
+  function initGL() {
+    gl = canvas.getContext('webgl2', { antialias: false, alpha: false, depth: false, stencil: false, premultipliedAlpha: false, powerPreference: 'low-power' });
+    if (!gl) return false;
+    gl.pixelStorei(gl.UNPACK_ALIGNMENT, 1);
+    R = {};
+    R.scene = program(VS_SCENE, FS_SCENE);
+    R.cell = program(VS_FULL, cellShader());
+    R.show = program(VS_FULL, FS_SHOW);
+    R.empty = gl.createVertexArray();
+    // art: every drawing kes picked, one glyph and one colour per character
+    var A = CFG.art, aw = A.width, ah = A.height, data = new Uint8Array(aw * ah * 2);
+    A.rows.forEach(function (row, y) { for (var x = 0; x < row.g.length; x++) { data[(y * aw + x) * 2] = row.g[x]; data[(y * aw + x) * 2 + 1] = row.c[x]; } });
+    R.art = itex(gl.RG8UI, gl.RG_INTEGER, gl.UNSIGNED_BYTE, aw, ah, data);
+    return true;
+  }
+
+  function atlas() {
+    var cv = doc.createElement('canvas'), n = GL_LIST.length, w = L.cpx, h = L.cpy;
+    cv.width = n * w; cv.height = h;
+    var c = cv.getContext('2d');
+    var fs = getComputedStyle(doc.querySelector('.probe-font') || root).getPropertyValue('--gfs');
+    var px = parseFloat(fs) || 13;
+    c.font = Math.round(px * L.dpr) + 'px ' + getComputedStyle(root).getPropertyValue('--mono');
+    c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillStyle = '#000';
+    GL_LIST.forEach(function (ch, i) {
+      var x = i * w;
+      if (ch === '█') { c.fillRect(x, 0, w, h); return; }
+      if (ch === '▓') { c.fillRect(x, 0, w - Math.max(1, Math.round(L.dpr)), h - Math.max(1, Math.round(L.dpr))); return; }
+      if (ch === '▀') { c.fillRect(x, 0, w, Math.round(h / 2)); return; }
+      if (ch === '▄') { c.fillRect(x, Math.round(h / 2), w, h - Math.round(h / 2)); return; }
+      if (ch === '▌') { c.fillRect(x, 0, Math.round(w / 2), h); return; }
+      if (ch === '▐') { c.fillRect(x + Math.round(w / 2), 0, w - Math.round(w / 2), h); return; }
+      var hw = Math.round(w / 2), hh = Math.round(h / 2);
+      if (ch === '▘') { c.fillRect(x, 0, hw, hh); return; }
+      if (ch === '▝') { c.fillRect(x + hw, 0, w - hw, hh); return; }
+      if (ch === '▖') { c.fillRect(x, hh, hw, h - hh); return; }
+      if (ch === '▗') { c.fillRect(x + hw, hh, w - hw, h - hh); return; }
+      if (ch === '▬') { c.fillRect(x, Math.round(h * 0.35), w, Math.round(h * 0.3)); return; }
+      if (ch === '▒' || ch === '░') {
+        var step = ch === '▒' ? 2 : 3, sz = Math.max(1, Math.round(L.dpr * (ch === '▒' ? 1 : 1)));
+        for (var yy = 0; yy < h; yy += step * sz) for (var xx = ((yy / (step * sz)) % 2) * sz; xx < w; xx += step * sz) c.fillRect(x + xx, yy, sz, sz);
+        return;
+      }
+      c.fillText(ch, x + w / 2, h / 2 + L.dpr * 0.5);
+    });
+    var t = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, t);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, cv);
+    return t;
+  }
+
+  function upload() {
+    // geometry
+    function vao(list, key) {
+      if (R[key]) { gl.deleteVertexArray(R[key].vao); gl.deleteBuffer(R[key].vbo); }
+      var arr = new Float32Array(list), o = { count: arr.length / STRIDE };
+      o.vao = gl.createVertexArray(); gl.bindVertexArray(o.vao);
+      o.vbo = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, o.vbo); gl.bufferData(gl.ARRAY_BUFFER, arr, gl.STATIC_DRAW);
+      var p = R.scene.p, B = STRIDE * 4;
+      [['aPos', 3, 0], ['aNor', 3, 12], ['aInfo', 4, 24], ['aUV', 3, 40]].forEach(function (a) {
+        var loc = gl.getAttribLocation(p, a[0]); if (loc < 0) return; gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, a[1], gl.FLOAT, false, B, a[2]);
+      });
+      gl.bindVertexArray(null); R[key] = o;
+    }
+    vao(VS, 'solid'); vao(VA, 'arts');
+    // panels: the material each window or colour plane currently has
+    var n = Math.max(1, panelList.length), ph = Math.ceil(n / 256);
+    panelBase = new Uint8Array(256 * ph); panelList.forEach(function (m, i) { panelBase[i] = m; });
+    panels = new Uint8Array(panelBase);
+    if (R.panels) gl.deleteTexture(R.panels);
+    R.panels = itex(gl.R8UI, gl.RED_INTEGER, gl.UNSIGNED_BYTE, 256, ph, panels); R.ph = ph;
+    // targets
+    ['sceneT', 'cellT', 'atlasT', 'artT'].forEach(function (k) { if (R[k]) gl.deleteTexture(R[k]); });
+    if (R.depth) { gl.deleteRenderbuffer(R.depth); gl.deleteRenderbuffer(R.artDepth); }
+    if (R.fbS) { gl.deleteFramebuffer(R.fbS); gl.deleteFramebuffer(R.fbC); gl.deleteFramebuffer(R.fbA); }
+    R.sw = L.cols * SX; R.sh = L.rows * SY;
+    R.sceneT = itex(gl.RGBA16UI, gl.RGBA_INTEGER, gl.UNSIGNED_SHORT, R.sw, R.sh);
+    R.depth = gl.createRenderbuffer(); gl.bindRenderbuffer(gl.RENDERBUFFER, R.depth); gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT24, R.sw, R.sh);
+    R.fbS = gl.createFramebuffer(); gl.bindFramebuffer(gl.FRAMEBUFFER, R.fbS);
+    gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, R.sceneT, 0);
+    gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, R.depth);
+    // the drawings (sign, garden) are sampled once per cell, at its centre, so they stay legible
+    R.artT = itex(gl.RGBA16UI, gl.RGBA_INTEGER, gl.UNSIGNED_SHORT, L.cols, L.rows);
+    R.artDepth = gl.createRenderbuffer(); gl.bindRenderbuffer(gl.RENDERBUFFER, R.artDepth); gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT24, L.cols, L.rows);
+    R.fbA = gl.createFramebuffer(); gl.bindFramebuffer(gl.FRAMEBUFFER, R.fbA);
+    gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, R.artT, 0);
+    gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, R.artDepth);
+    R.cellT = itex(gl.RGBA8UI, gl.RGBA_INTEGER, gl.UNSIGNED_BYTE, L.cols, L.rows);
+    R.fbC = gl.createFramebuffer(); gl.bindFramebuffer(gl.FRAMEBUFFER, R.fbC);
+    gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, R.cellT, 0);
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+    R.atlasT = atlas();
+    canvas.width = Math.ceil(L.vw * L.dpr); canvas.height = Math.ceil(L.vh * L.dpr);
+  }
+
+  // ---------- camera ----------
+  function camera(S) {
+    var f = L.f, ex = view.ex, ey = view.ey;
+    var dX = ex * L.camRangeX, dY = -ey * L.camRangeY;
+    // never let the eye sink to the ground: the garden would go edge-on
+    var floor = -L.groundY + L.vh * 0.12;
+    if (-(S + L.vh / 2) + dY < floor) dY = floor + (S + L.vh / 2);
+    var camx = dX, camy = -(S + L.vh / 2) + dY, camz = f;
+    var cxp = L.vw / 2 + dX, cyp = L.vh / 2 - dY;              // lens shift: the facade plane stays put
+    var near = 6, far = f + L.far, A = (far + near) / (near - far), B = 2 * far * near / (near - far);
+    var ax = 2 * cxp / L.gW - 1, ay = 1 - 2 * cyp / L.gH;
+    var P = rows([2 * f / L.gW, 0, -ax, -(2 * f / L.gW) * camx + ax * camz],
+                 [0, 2 * f / L.gH, -ay, -(2 * f / L.gH) * camy + ay * camz],
+                 [0, 0, A, -A * camz + B],
+                 [0, 0, -1, camz]);
+    // the projective shift: tip the picture plane with the mouse, and wobble it with scroll speed
+    var k1 = view.wx, k2 = -view.wy + view.wob;
+    var H = rows([1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [k1, k2, 0, 1]);
+    return { m: mul(H, P), camz: camz };
+  }
+  function toScreen(m, x, y, z) { var c = apply(m, x, y, z); var nx = c[0] / c[3], ny = c[1] / c[3]; return [(nx + 1) / 2 * L.gW, (1 - ny) / 2 * L.gH, c[3]]; }
+
+  // ---------- frame ----------
+  function frame(now) {
+    raf = 0;
+    var t = now / 1000, dt = Math.min(0.05, t - (anim.t || t)); anim.t = t;
+    var S = win.pageYOffset || root.scrollTop || 0;
+    var Sq = Math.round(S / L.CH) * L.CH;     // the character world scrolls a whole row at a time
+    var live = false;
+    // ease the view towards the pointer
+    var k = REDUCE ? 1 : 1 - Math.exp(-dt * 5.5);
+    var tx = REDUCE ? 0 : view.mx, ty = REDUCE ? 0 : view.my;
+    if (touch && !REDUCE && !view.dragging) { tx = Math.sin(t * 0.21) * 0.55; ty = Math.sin(t * 0.13 + 1) * 0.08; live = true; }
+    var pex = view.ex, pey = view.ey;
+    view.ex += (tx - view.ex) * k; view.ey += (ty - view.ey) * k;
+    // moving the view tips the picture plane; it settles back when you stop
+    if (!REDUCE) {
+      var kw = 1 - Math.exp(-dt * 7), cl = function (v) { return Math.max(-0.09, Math.min(0.09, v)); };
+      view.wx += (cl((view.ex - pex) / Math.max(dt, 1e-3) * 0.06) - view.wx) * kw;
+      view.wy += (cl((view.ey - pey) / Math.max(dt, 1e-3) * 0.06) - view.wy) * kw;
+      if (Math.abs(view.wx) + Math.abs(view.wy) > 0.0006) live = true; else { view.wx = 0; view.wy = 0; }
+    }
+    if (Math.abs(tx - view.ex) > 0.0005 || Math.abs(ty - view.ey) > 0.0005) live = true;
+    // scroll speed wobbles the picture plane a little
+    var v = view.lastS < 0 ? 0 : (S - view.lastS) / Math.max(dt, 0.001); view.lastS = S;
+    if (!REDUCE) { view.wob += (Math.max(-1, Math.min(1, v / 4000)) * 0.05 - view.wob) * (1 - Math.exp(-dt * 6)); if (Math.abs(view.wob) > 0.0004) live = true; else view.wob = 0; }
+    // KES FM
+    var playing = !!win.onAir;
+    if (goBtn && goBtn._on !== playing) { goBtn._on = playing; goBtn.textContent = playing ? '● on air' : '▶ play'; }
+    if (playing && !REDUCE) { anim.loz += dt * (0.85 + anim.lozV); live = true; }
+    if (anim.lozV) { anim.lozV *= Math.exp(-dt * 2.2); if (Math.abs(anim.lozV) < 0.02) anim.lozV = 0; }
+    if (!playing && anim.loz !== 0 && !REDUCE) { var target = Math.round(anim.loz / Math.PI) * Math.PI; anim.loz += (target - anim.loz) * (1 - Math.exp(-dt * 3)); if (Math.abs(target - anim.loz) < 0.002) anim.loz = target % (Math.PI * 2); else live = true; }
+    anim.sway += ((playing && !REDUCE ? 1 : 0) * L.CW * 1.4 - anim.sway) * (1 - Math.exp(-dt * 2));
+    if (Math.abs(anim.sway) > 0.01 && (playing || anim.sway > 0.05)) live = true;
+    if (playing) stepLights();
+    // rings
+    anim.rings = anim.rings.filter(function (r) { return t - r.t0 < 1.25; });
+    if (anim.rings.length) live = true;
+    if (anim.drop.length) live = true;
+
+    var cam = camera(Sq);
+    if (gl) draw(cam, t); else if (K.flat) K.flat(Sq);
+    placeBoxes(cam, Sq, dt, t);
+    if (live || needs) { needs = false; if (live) kick(); }
+  }
+  function kick() { if (!raf) raf = requestAnimationFrame(frame); }
+  K.kick = kick;
+
+  function draw(cam, t) {
+    // pass 1: the geometry
+    gl.bindFramebuffer(gl.FRAMEBUFFER, R.fbS);
+    gl.viewport(0, 0, R.sw, R.sh);
+    gl.clearBufferuiv(gl.COLOR, 0, ZERO);
+    gl.clearDepth(1); gl.clear(gl.DEPTH_BUFFER_BIT);
+    gl.enable(gl.DEPTH_TEST); gl.depthFunc(gl.LESS);
+    gl.enable(gl.CULL_FACE); gl.cullFace(gl.BACK); gl.frontFace(gl.CCW);
+    var s = R.scene; gl.useProgram(s.p);
+    gl.uniformMatrix4fv(s.u.uM, false, cam.m);
+    gl.uniform1f(s.u.uCamZ, cam.camz); gl.uniform1f(s.u.uFar, L.f + L.far);
+    gl.uniform1f(s.u.uTime, t); gl.uniform1f(s.u.uSway, anim.sway); gl.uniform1f(s.u.uLozA, anim.loz);
+    gl.uniform3f(s.u.uLozC, L.loz.x, L.loz.y, L.loz.z);
+    gl.uniform3f(s.u.uLight, -0.48, 0.62, 0.62);
+    gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, R.panels); gl.uniform1i(s.u.uPanels, 0);
+    if (anim.panelsDirty) { gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, 256, R.ph, gl.RED_INTEGER, gl.UNSIGNED_BYTE, panels); anim.panelsDirty = false; }
+    gl.activeTexture(gl.TEXTURE1); gl.bindTexture(gl.TEXTURE_2D, R.art); gl.uniform1i(s.u.uArt, 1);
+    gl.bindVertexArray(R.solid.vao); gl.drawArrays(gl.TRIANGLES, 0, R.solid.count);
+    gl.bindFramebuffer(gl.FRAMEBUFFER, R.fbA);
+    gl.viewport(0, 0, L.cols, L.rows);
+    gl.clearBufferuiv(gl.COLOR, 0, ZERO); gl.clear(gl.DEPTH_BUFFER_BIT);
+    gl.disable(gl.CULL_FACE);
+    gl.bindVertexArray(R.arts.vao); gl.drawArrays(gl.TRIANGLES, 0, R.arts.count); gl.bindVertexArray(null);
+    gl.disable(gl.DEPTH_TEST);
+    // pass 2: one glyph per cell
+    gl.bindFramebuffer(gl.FRAMEBUFFER, R.fbC);
+    gl.viewport(0, 0, L.cols, L.rows);
+    var c = R.cell; gl.useProgram(c.p);
+    gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, R.sceneT); gl.uniform1i(c.u.uScene, 0);
+    gl.activeTexture(gl.TEXTURE1); gl.bindTexture(gl.TEXTURE_2D, R.art); gl.uniform1i(c.u.uArt, 1);
+    gl.activeTexture(gl.TEXTURE2); gl.bindTexture(gl.TEXTURE_2D, R.artT); gl.uniform1i(c.u.uArtBuf, 2);
+    gl.uniform2f(c.u.uCellPx, L.cpx, L.cpy); gl.uniform1i(c.u.uRows, L.rows); gl.uniform1f(c.u.uTime, t);
+    gl.uniform1i(c.u.uSkyDots, 1);
+    var hn = 0, hd = R.holes || (R.holes = new Float32Array(16)), pics = PICS;
+    for (var i = 0; i < pics.length && hn < 4; i++) {
+      var r = pics[i].getBoundingClientRect(); if (r.bottom < 0 || r.top > L.vh || !r.width) continue;
+      hd[hn * 4] = Math.ceil(r.left / L.CW); hd[hn * 4 + 1] = Math.ceil(r.top / L.CH); hd[hn * 4 + 2] = Math.floor(r.right / L.CW); hd[hn * 4 + 3] = Math.floor(r.bottom / L.CH); hn++;
+    }
+    gl.uniform4fv(c.u.uHole, hd); gl.uniform1i(c.u.uHoleN, hn); gl.uniform1i(c.u.uStep, Math.max(0, anim.step));
+    var tip = toScreen(cam.m, L.mast.x, L.mast.y1, L.mast.z);
+    var ringData = new Float32Array(24), rn = 0, now = t;
+    anim.rings.forEach(function (r) { if (rn >= 6) return; var age = now - r.t0; ringData[rn * 4] = tip[0] * L.dpr; ringData[rn * 4 + 1] = tip[1] * L.dpr; ringData[rn * 4 + 2] = (age * L.vh * 0.75 + L.CW * 3) * L.dpr; ringData[rn * 4 + 3] = age > 0.8 ? 4 : r.col; rn++; });
+    gl.uniform4fv(c.u.uRing, ringData); gl.uniform1i(c.u.uRingN, rn);
+    gl.bindVertexArray(R.empty); gl.drawArrays(gl.TRIANGLES, 0, 3);
+    // pass 3: draw the glyphs
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    var sh = R.show; gl.useProgram(sh.p);
+    gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, R.cellT); gl.uniform1i(sh.u.uCells, 0);
+    gl.activeTexture(gl.TEXTURE1); gl.bindTexture(gl.TEXTURE_2D, R.atlasT); gl.uniform1i(sh.u.uAtlas, 1);
+    gl.uniform2f(sh.u.uCellPx, L.cpx, L.cpy); gl.uniform1f(sh.u.uH, canvas.height); gl.uniform1i(sh.u.uRows, L.rows);
+    gl.uniform3fv(sh.u.uPal, R.pal);
+    gl.drawArrays(gl.TRIANGLES, 0, 3); gl.bindVertexArray(null);
+  }
+
+  // ---------- the html boxes: pinned to the facade, they follow the projection a cell at a time ----------
+  var restCam = null;
+  function placeBoxes(cam, Sq, dt, t) {
+    var boxes = BOXES;
+    var lag = 1 - Math.exp(-dt * 9);
+    for (var i = 0; i < boxes.length; i++) {
+      var b = boxes[i]; if (b._ax == null) continue;
+      var x = wx(b._ax), y = wy(b._ay);
+      var p = toScreen(cam.m, x, y, 0);
+      var tx = p[0] - b._ax, ty = p[1] - (b._ay - Sq);
+      // a whole cell at a time, and a beat behind
+      tx = Math.round(tx / L.CW) * L.CW; ty = Math.round(ty / L.CH) * L.CH;
+      b._ox += (tx - b._ox) * lag; b._oy += (ty - b._oy) * lag;
+      var ox = Math.round(b._ox / L.CW) * L.CW, oy = Math.round(b._oy / L.CH) * L.CH;
+      if (Math.abs(tx - b._ox) > 0.5 || Math.abs(ty - b._oy) > 0.5) needs = true;
+      if (ox !== b._sx || oy !== b._sy) { b.style.transform = (ox || oy) ? 'translate(' + ox + 'px,' + oy + 'px)' : ''; b._sx = ox; b._sy = oy; }
+    }
+    if (needs) kick();
+  }
+
+  // ---------- KES FM, as seen from outside ----------
+  var tracker = doc.getElementById('tracker'), goBtn = doc.getElementById('go');
+  function stepLights() {
+    if (!tracker || REDUCE) return;
+    var on = tracker.querySelector('.on'); if (!on) return;
+    var idx = Array.prototype.indexOf.call(tracker.children, on);
+    if (idx === anim.step) return;
+    anim.step = idx;
+    var kind = on.classList.contains('rev') ? M.LITP : on.classList.contains('up') ? M.LIT : on.classList.contains('rest') ? 0 : M.LIT;
+    panels.set(panelBase);
+    var nF = floorsGlass.length;
+    if (nF && kind) {
+      // the lights run down the block with the 16ths
+      var f = idx % nF, list = floorsGlass[f] || [];
+      list.forEach(function (pid) { panels[pid - 1] = kind; });
+      var r = rng(idx * 97 + 13);
+      for (var q = 0; q < 3; q++) { var fl = floorsGlass[Math.floor(r() * nF)] || []; if (fl.length) panels[fl[Math.floor(r() * fl.length)] - 1] = on.classList.contains('roll') ? M.LITB : kind; }
+    }
+    if (anim.swap) anim.swap.forEach(function (sw) { panels[sw[0]] = sw[1]; });
+    anim.panelsDirty = true;
+  }
+  var ringCol = 0;
+  K.beat = function (mark) {
+    if (!L.mast) return;
+    if (mark === undefined || mark === null && !win.onAir) {
+      if (!win.onAir) { anim.swap = null; anim.step = -1; if (panels) { panels.set(panelBase); anim.panelsDirty = true; } }
+      kick(); if (mark === undefined) return;
+    }
+    if (REDUCE) return;
+    var t = performance.now() / 1000;
+    anim.rings.push({ t0: t, col: [5, 6, 7][ringCol++ % 3] });
+    if (anim.rings.length > 4) anim.rings.shift();
+    if (mark === '^') {
+      // two colour planes trade colours
+      var cp = []; panelBase.forEach(function (m, i) { if (m === M.PINK || m === M.BLUE || m === M.YEL) cp.push(i); });
+      var r = rng(Math.floor(t * 10)); anim.swap = [];
+      for (var i = 0; i < 4 && cp.length; i++) { var a = cp[Math.floor(r() * cp.length)]; var nm = [M.PINK, M.BLUE, M.YEL][Math.floor(r() * 3)]; anim.swap.push([a, nm]); }
+    }
+    if (mark === '@') anim.lozV = -7;
+    kick();
+  };
+
+  // ---------- 2d fallback when there's no webgl2: the facade, flat ----------
+  function flatFallback() {
+    var c2 = canvas.getContext('2d'); if (!c2) return;
+    K.flat = function (Sq) {
+      canvas.width = Math.ceil(L.vw * L.dpr); canvas.height = Math.ceil(L.vh * L.dpr);
+      c2.fillStyle = '#fff'; c2.fillRect(0, 0, canvas.width, canvas.height);
+      c2.font = Math.round(parseFloat(getComputedStyle(root).getPropertyValue('--gfs')) * L.dpr) + 'px ' + getComputedStyle(root).getPropertyValue('--mono');
+      c2.textBaseline = 'top';
+      var T = L.tower, top = Math.floor(Sq / L.CH), n = L.rows;
+      for (var r = 0; r < n; r++) {
+        var py = (top + r) * L.CH; var line = '';
+        for (var cI = 0; cI < L.cols; cI++) {
+          var px = cI * L.CW, ch = ' ';
+          if (px >= T.x0 && px < T.x1 && py >= L.roofY && py < L.groundY) {
+            var fl = L.floors.find(function (f) { return py >= f.y0 && py < f.y1; });
+            ch = fl && py < fl.y0 + L.CH ? '█' : ((cI + r) % 3 === 0 ? '░' : ' ');
+            if (px < T.x0 + L.CW * 2 || px >= T.x1 - L.CW * 2) ch = '█';
+          }
+          line += ch;
+        }
+        c2.fillStyle = '#0b0b0d'; c2.fillText(line, 0, r * L.cpy);
+      }
+    };
+  }
+
+  // ---------- input ----------
+  win.addEventListener('pointermove', function (e) {
+    if (e.pointerType === 'touch') { touch = true; if (!view.dragging) return; }
+    else touch = false;
+    view.mx = Math.max(-1, Math.min(1, (e.clientX / L.vw) * 2 - 1));
+    view.my = Math.max(-1, Math.min(1, (e.clientY / L.vh) * 2 - 1));
+    kick();
+  }, { passive: true });
+  win.addEventListener('pointerdown', function (e) { if (e.pointerType === 'touch') { touch = true; view.dragging = true; view.mx = (e.clientX / L.vw) * 2 - 1; view.my = (e.clientY / L.vh) * 2 - 1; kick(); } }, { passive: true });
+  win.addEventListener('pointerup', function (e) { if (e.pointerType === 'touch') view.dragging = false; }, { passive: true });
+  doc.addEventListener('pointerleave', function () { view.mx = 0; view.my = 0; kick(); });
+  win.addEventListener('scroll', kick, { passive: true });
+  if (matchMedia('(hover: none)').matches) touch = true;
+
+  var lastW = 0, lastH = 0, rt = 0;
+  function rebuild() {
+    layout(); build();
+    if (gl) upload();
+    lastW = L.vw; lastH = L.vh; needs = true; kick();
+  }
+  win.addEventListener('resize', function () {
+    clearTimeout(rt);
+    rt = setTimeout(function () {
+      var w = root.clientWidth, h = win.innerHeight;
+      if (w !== lastW || Math.abs(h - lastH) > 120) rebuild();
+      else if (h !== lastH) { L.vh = h; L.rows = Math.ceil(h * L.dpr / L.cpy); L.gH = L.rows * L.CH; lastH = h; if (gl) upload(); kick(); }
+    }, 120);
+  });
+
+  // ---------- start ----------
+  try { if (!initGL()) throw new Error('no webgl2'); }
+  catch (e) { gl = null; root.classList.add('flat'); if (win.console) console.warn('tower: drawing flat', e && e.message); }
+  try {
+    rebuild();
+    if (gl) { R.pal = new Float32Array(PAL.length * 3); PAL.forEach(function (h, i) { R.pal[i * 3] = parseInt(h.slice(1, 3), 16) / 255; R.pal[i * 3 + 1] = parseInt(h.slice(3, 5), 16) / 255; R.pal[i * 3 + 2] = parseInt(h.slice(5, 7), 16) / 255; }); }
+    else flatFallback();
+  } catch (e) { if (win.console) console.error(e); root.classList.remove('js'); }
+  if (doc.fonts && doc.fonts.ready) doc.fonts.ready.then(function () { rebuild(); });
+  K.relayout = rebuild;
+})();
+
+</script>
+</body>
+</html>

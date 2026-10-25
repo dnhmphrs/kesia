@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>kes inkersole</title>
+<style>
+:root {
+  --ink: #111;
+  --mute: #777;
+  --rule: #c8c8c8;
+  --line: #b5b5b5;
+  --bg: #fff;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", "DejaVu Sans Mono", monospace;
+  --l: 20px;   /* one line of text */
+  --g: 40px;   /* column gap */
+  --rg: 0px;   /* row gap, once columns wrap */
+}
+* { box-sizing: border-box; }
+html { background: var(--bg); color: var(--ink); -webkit-text-size-adjust: 100%; }
+body { margin: 0; padding: 28px 32px 40px; font: 12.5px/var(--l) var(--mono); background: var(--bg); }
+h1, h2, p, ul, dl, dd { margin: 0; padding: 0; font: inherit; }
+ul { list-style: none; }
+img { display: block; height: 220px; width: auto; max-width: 100%; object-fit: contain; object-position: left bottom; }
+a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; text-decoration-color: var(--line); }
+a:hover { text-decoration-color: currentColor; }
+a:focus-visible { outline: 1px solid var(--ink); outline-offset: 2px; }
+.m { color: var(--mute); }
+
+/* the page is a text file: three columns, blank lines, a line of ─ between sections */
+.row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--g); row-gap: var(--rg); align-items: start; }
+.row > p + p { margin-top: 0; }
+.r::before { content: "────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────"; display: block; grid-column: 1 / -1; white-space: nowrap; overflow: hidden; color: var(--rule); margin: var(--l) 0 calc(var(--l) - var(--rg)); }
+.span { grid-column: 2 / -1; }
+
+h2 { margin-bottom: var(--l); }
+p + p { margin-top: var(--l); }
+.c p { max-width: 64ch; }
+
+.cv dl { display: grid; grid-template-columns: 9ch minmax(0, 1fr); }
+.cv dt { color: var(--mute); }
+
+.p img { margin-bottom: var(--l); }
+.p p + p { margin-top: calc(var(--l) / 2); }
+
+li { padding-left: 2ch; text-indent: -2ch; }
+li::before { content: "- "; color: var(--mute); }
+
+@media (max-width: 960px) {
+  .row { grid-template-columns: repeat(2, minmax(0, 1fr)); --rg: calc(var(--l) * 2); }
+  .span { grid-column: 2; }
+}
+@media (max-width: 640px) {
+  body { padding: 20px 16px 32px; font-size: 12px; }
+  .row { grid-template-columns: minmax(0, 1fr); }
+  .span { grid-column: 1; }
+  header.row { row-gap: 0; }
+  /* on a phone the pictures come sooner: about and the cv lines move below the projects */
+  main { display: flex; flex-direction: column; }
+  .readme { display: contents; }
+  .readme::before { order: 0; margin-bottom: var(--l); }
+  .hello { order: 1; }
+  .funds { order: 2; }
+  .fun { order: 3; }
+  .about { order: 4; }
+  .about::before { content: "────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────"; display: block; white-space: nowrap; overflow: hidden; color: var(--rule); margin: var(--l) 0; }
+  .cv { order: 5; margin-top: calc(var(--l) * 2); }
+  .lists { order: 6; }
+  img { height: 200px; }
+}
+</style>
+</head>
+<body>
+
+<header class="row">
+<h1>kes inkersole</h1>
+<p class="span">creative strategist, internet equalities researcher, london. available for work.</p>
+</header>
+
+<main>
+
+<section class="row readme r">
+<div class="c hello">
+<h2>hello, i'm kes &lt;3</h2>
+<p>i'm kes inkersole (kesia on paper), a freelance creative strategist and internet equalities researcher based in london. welcome to kes' little corner of the internet.</p>
+</div>
+<div class="c about">
+<h2>about</h2>
+<p>my practice focuses on understanding and critiquing the impacts of emerging technologies on people, culture, and the planet. i work collectively to rethink the narratives and behaviours surrounding technologies — prioritising collaborative research as a process for testing, imagining and prototyping more equitable, alternative futures.</p>
+</div>
+<div class="c cv">
+<dl>
+<dt>does:</dt><dd>creative strategy, research, workshops, writing and teaching</dd>
+<dt>teaches:</dt><dd>associate lecturer at UAL (LCF + CCI)</dd>
+<dt>clients:</dt><dd>Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges</dd>
+<dt>school:</dt><dd>MA internet equalities, BA creative direction, PhD [ ? ]</dd>
+<dt>cv:</dt><dd>cv &amp; portfolio on request</dd>
+<dt>email:</dt><dd><a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></dd>
+</dl>
+</div>
+</section>
+
+<section class="funds r">
+<h2>for funds</h2>
+<div class="row">
+<div class="p">
+<img src="../img/s/networked-worlds-1.jpg" width="453" height="640" alt="yellow cover with a curved grid: Networked Worlds, WeTransfer">
+<p><a href="https://co-matter.com/project/networked-worlds">networked worlds</a> with co—matter</p>
+<p>duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. excepteur sint occaecat cupidatat non proident.</p>
+</div>
+<div class="p">
+<img src="../img/s/protein-1.jpg" width="640" height="640" alt="pink report cover: dirty word [report #4] community">
+<p><a href="https://www.protein.xyz/dirty-words-4-community/">protein dirty words #4: community report</a></p>
+<p>sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo.</p>
+</div>
+<div class="p">
+<img src="../img/s/morning-3.jpg" width="640" height="640" alt="3d render of three pink piglet-like creatures curled inside a cracked black egg">
+<p><a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1">MØRNING Ø</a></p>
+</div>
+</div>
+</section>
+
+<section class="fun r">
+<h2>for fun</h2>
+<div class="row">
+<div class="p">
+<p><a href="https://latent-space.vercel.app/">latent space</a></p>
+<p>lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam.</p>
+</div>
+<div class="p">
+<p><a href="https://protecht.vercel.app/">pro(tech)t</a></p>
+</div>
+</div>
+</section>
+
+<section class="row lists r">
+<div>
+<h2>things i've written</h2>
+<ul>
+<li><a href="https://www.protein.xyz/sex-and-the-internet/">mindy seu on sex and the internet</a> <span class="m">(Protein)</span></li>
+<li><a href="https://midnight.agency/thoughts/dreaming-and-designing-more-accessible-web">dreaming and designing a more accessible web</a> <span class="m">(Midnight Agency)</span></li>
+<li><a href="https://midnight.agency/thoughts/coding-a-more-creative-and-playful-web">coding a more creative and playful web</a> <span class="m">(Midnight Agency)</span></li>
+<li><a href="https://midnight.agency/thoughts/composing-a-flexible-and-modular-web">composing a flexible and modular web</a> <span class="m">(Midnight Agency)</span></li>
+<li><a href="https://morningfyi.substack.com/p/020-uh-oh-meet">burn after reading: uh oh, meet o</a> <span class="m">(morningfyi)</span></li>
+<li><a href="https://morningfyi.substack.com/p/024-entering-limb-with">burn after reading: entering limbo</a> <span class="m">(morningfyi)</span></li>
+</ul>
+</div>
+<div>
+<h2>podcasts, for the bus</h2>
+<ul>
+<li><a href="https://podcasts.apple.com/gb/podcast/mindy-seu-on-collaboration-community-and/id1449302502?i=1000597869409">mindy seu on collaboration, community and the cyberfeminism index</a></li>
+<li><a href="https://soundcloud.com/proteincommunity/protein-forum-what-can-web2-organisations-learn-from-web3-communities">what can web2 organisations learn from web3 communities?</a> <span class="m">(Protein)</span></li>
+<li><a href="https://podcasts.apple.com/gb/podcast/cherie-hu-on-water-musics-journey-through-web3/id1449302502?i=1000581859804">cherie hu on water &amp; music's journey through web3</a></li>
+<li><a href="https://podcasts.apple.com/gb/podcast/molly-dickson-on-dao-activism-and-fighting-for/id1449302502?i=1000578164761">molly dickson on dao activism</a></li>
+<li><a href="https://podcasts.apple.com/gb/podcast/dame-on-the-need-for-education-accessibility/id1449302502?i=1000559829008">dame on education, accessibility and inclusivity in web3</a></li>
+<li><a href="https://podcasts.apple.com/gb/podcast/nadia-piet-on-creative-ai-and-protopian-futures/id1449302502?i=1000559822732">nadia piet on creative ai and protopian futures</a></li>
+<li><a href="https://podcasts.apple.com/gb/podcast/cyn-bahati-on-her-journey-into-web3-with-her-family/id1449302502?i=1000559818509">cyn bahati on her journey into web3 with her family</a></li>
+<li><a href="https://podcasts.apple.com/gb/podcast/latash%C3%A1-on-the-potential-of-web3-for-music-artists/id1449302502?i=1000552812458">latasha on the potential of web3 for music artists</a></li>
+</ul>
+</div>
+<div>
+<h2>irl (mostly)</h2>
+<ul>
+<li><a href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1">olden residency</a></li>
+<li><a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1">softer london</a> <span class="m">(talk + workshop)</span></li>
+<li><a href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard">tech yard</a> <span class="m">(workshop)</span></li>
+<li><a href="https://www.instagram.com/p/BslwSSPH5Rc/?img_index=2">ovar it</a></li>
+</ul>
+</div>
+</section>
+
+</main>
+
+<footer class="row r">
+<p>thanks for stopping by &lt;3</p>
+<p>say hello: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
+</footer>
+
+</body>
+</html>

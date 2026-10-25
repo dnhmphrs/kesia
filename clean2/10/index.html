@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>kes inkersole</title>
+<style>
+:root {
+  --ink: #000;
+  --grey: #666;
+  --rule: #bdbdbd;
+  --serif: "Times New Roman", Times, "Liberation Serif", serif;
+  --mono: ui-monospace, Menlo, Consolas, "DejaVu Sans Mono", monospace;
+  --out: clamp(16px, 3vw, 48px);   /* outer margin of a page */
+  --in: clamp(16px, 3.6vw, 60px);  /* inner margin, by the gutter */
+}
+* { box-sizing: border-box; }
+html { background: #fff; color: var(--ink); -webkit-text-size-adjust: 100%; }
+body { margin: 0; font: 17px/1.42 var(--serif); }
+h1, h2, h3, p, ul, dl, dd, figure { margin: 0; }
+h1, h2, h3 { font-weight: normal; font-size: inherit; }
+ul { list-style: none; padding: 0; }
+img { display: block; width: 100%; height: auto; }
+a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; text-decoration-color: #aaa; }
+a:hover { text-decoration-color: currentColor; }
+a:focus-visible { outline: 1px solid var(--ink); outline-offset: 2px; }
+
+/* a spread: two facing pages, a 1px gutter rule between */
+.spread { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); border-bottom: 1px solid var(--rule); }
+.spread > * { min-width: 0; padding: 0 var(--in) 0 var(--out); }
+.spread > .r { padding: 0 var(--out) 0 var(--in); border-left: 1px solid var(--rule); }
+.pg { padding-top: 14px !important; padding-bottom: 64px !important; }
+.spread > .rh { padding-top: 14px; }
+.spread.foot > p { padding-top: 14px; padding-bottom: 18px; }
+
+/* running heads */
+.rh { font: 11px/1.45 var(--mono); letter-spacing: .02em; color: var(--ink); padding-top: 14px; }
+.rh.r { text-align: right; }
+.pg > .rh { padding-top: 0; margin-bottom: 44px; }
+.lb { font: 11px/1.45 var(--mono); color: var(--grey); }
+
+/* first spread: text on the verso, plates on the recto */
+.first { grid-template-areas: "hl hr" "in pl" "wk pl"; grid-template-rows: auto auto 1fr; }
+.first > .rh { padding-bottom: 44px; }
+.first > .rh.l { grid-area: hl; }
+.first > .rh.r { grid-area: hr; }
+.intro { grid-area: in; padding-bottom: 52px; }
+.plates { grid-area: pl; padding-bottom: 64px; }
+.works { grid-area: wk; padding-bottom: 64px; }
+
+.intro h2 { font-size: 25px; line-height: 1.15; margin-bottom: 16px; }
+.intro p, .works p, .works h3 { max-width: 34em; }
+.intro p + p { margin-top: .7em; }
+
+.works section + section { margin-top: 36px; }
+.works .lb { margin-bottom: 12px; }
+.works article + article { margin-top: 18px; }
+.works h3 { font-size: 19px; line-height: 1.25; }
+.works p { font-size: 15.5px; color: #333; margin-top: 4px; }
+
+.plates { display: grid; gap: 48px; justify-items: center; align-content: start; }
+.plate { width: min(100%, 260px); }
+.plate figcaption { font-size: 15px; margin-top: 8px; }
+
+/* lists and cv */
+.list li { padding: 3px 0; font-size: 16px; line-height: 1.35; max-width: 36em; }
+.src { color: var(--grey); }
+.cv { display: grid; grid-template-columns: 6.5em minmax(0, 1fr); gap: 6px 14px; font-size: 16px; line-height: 1.35; max-width: 40em; }
+.cv dt { font: 11px/1.9 var(--mono); color: var(--grey); }
+
+/* running feet */
+.foot { border-bottom: 0; }
+.foot p { font: 11px/1.45 var(--mono); }
+.foot p.r { text-align: right; }
+
+@media (max-width: 759px) {
+  .spread, .first { grid-template-columns: minmax(0, 1fr); grid-template-areas: none; grid-template-rows: none; }
+  .spread > *, .spread > .r { padding-left: 16px; padding-right: 16px; border-left: 0; }
+  .first > * { grid-area: auto !important; }
+  .rh.r, .foot p.r { text-align: left; }
+  .first > .rh.l { padding-bottom: 2px; }
+  .first > .rh.r { padding-top: 0; padding-bottom: 32px; }
+  .pg { padding-top: 22px !important; padding-bottom: 44px !important; }
+  .pg + .pg { border-top: 1px solid var(--rule); }
+  .intro.pg { padding-top: 0 !important; }
+  .pg > .rh { margin-bottom: 26px; }
+  .plates { gap: 40px; }
+  .intro h2 { font-size: 23px; }
+  .spread.foot > p { padding-top: 10px; padding-bottom: 0; }
+  .spread.foot > p.r { padding-top: 2px; padding-bottom: 18px; }
+}
+</style>
+</head>
+<body>
+<main>
+
+<section class="spread first" aria-labelledby="name">
+  <h1 class="rh l" id="name">kes inkersole</h1>
+  <p class="rh r">creative strategist, internet equalities researcher, london. available for work.</p>
+
+  <div class="pg intro">
+    <h2>hello, i'm kes &lt;3</h2>
+    <p>i'm kes inkersole (kesia on paper), a freelance creative strategist and internet equalities researcher based in london. welcome to kes' little corner of the internet.</p>
+    <p>my practice focuses on understanding and critiquing the impacts of emerging technologies on people, culture, and the planet. i work collectively to rethink the narratives and behaviours surrounding technologies — prioritising collaborative research as a process for testing, imagining and prototyping more equitable, alternative futures.</p>
+  </div>
+
+  <div class="pg plates r">
+    <figure class="plate">
+      <a href="https://co-matter.com/project/networked-worlds" tabindex="-1" aria-hidden="true"><img src="../img/s/networked-worlds-1.jpg" srcset="../img/s/networked-worlds-1.jpg 453w, ../img/l/networked-worlds-1.jpg 990w" sizes="(min-width: 760px) 260px, 100vw" width="453" height="640" alt="yellow cover with a curved grid: Networked Worlds, WeTransfer"></a>
+      <figcaption>networked worlds with co—matter</figcaption>
+    </figure>
+    <figure class="plate">
+      <a href="https://www.protein.xyz/dirty-words-4-community/" tabindex="-1" aria-hidden="true"><img src="../img/s/protein-1.jpg" srcset="../img/s/protein-1.jpg 640w, ../img/l/protein-1.jpg 1080w" sizes="(min-width: 760px) 260px, 100vw" width="640" height="640" alt="pink report cover: dirty word [report #4] community" loading="lazy"></a>
+      <figcaption>protein dirty words #4: community report</figcaption>
+    </figure>
+    <figure class="plate">
+      <a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1" tabindex="-1" aria-hidden="true"><img src="../img/s/morning-3.jpg" srcset="../img/s/morning-3.jpg 640w, ../img/l/morning-3.jpg 1400w" sizes="(min-width: 760px) 260px, 100vw" width="640" height="640" alt="3d render of three pink piglet-like creatures curled inside a cracked black egg" loading="lazy"></a>
+      <figcaption>MØRNING Ø</figcaption>
+    </figure>
+  </div>
+
+  <div class="pg works">
+    <section aria-labelledby="funds">
+      <h2 class="lb" id="funds">for funds</h2>
+      <article>
+        <h3><a href="https://co-matter.com/project/networked-worlds">networked worlds</a> with co—matter</h3>
+        <p>duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. excepteur sint occaecat cupidatat non proident.</p>
+      </article>
+      <article>
+        <h3><a href="https://www.protein.xyz/dirty-words-4-community/">protein dirty words #4: community report</a></h3>
+        <p>sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo.</p>
+      </article>
+      <article>
+        <h3><a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1">MØRNING Ø</a></h3>
+      </article>
+    </section>
+    <section aria-labelledby="fun">
+      <h2 class="lb" id="fun">for fun</h2>
+      <article>
+        <h3><a href="https://latent-space.vercel.app/">latent space</a></h3>
+        <p>lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam.</p>
+      </article>
+      <article>
+        <h3><a href="https://protecht.vercel.app/">pro(tech)t</a></h3>
+      </article>
+    </section>
+  </div>
+</section>
+
+<div class="spread">
+  <section class="pg" aria-labelledby="written">
+    <h2 class="rh" id="written">things i've written</h2>
+    <ul class="list">
+      <li><a href="https://www.protein.xyz/sex-and-the-internet/">mindy seu on sex and the internet</a> <span class="src">(Protein)</span></li>
+      <li><a href="https://midnight.agency/thoughts/dreaming-and-designing-more-accessible-web">dreaming and designing a more accessible web</a> <span class="src">(Midnight Agency)</span></li>
+      <li><a href="https://midnight.agency/thoughts/coding-a-more-creative-and-playful-web">coding a more creative and playful web</a> <span class="src">(Midnight Agency)</span></li>
+      <li><a href="https://midnight.agency/thoughts/composing-a-flexible-and-modular-web">composing a flexible and modular web</a> <span class="src">(Midnight Agency)</span></li>
+      <li><a href="https://morningfyi.substack.com/p/020-uh-oh-meet">burn after reading: uh oh, meet o</a> <span class="src">(morningfyi)</span></li>
+      <li><a href="https://morningfyi.substack.com/p/024-entering-limb-with">burn after reading: entering limbo</a> <span class="src">(morningfyi)</span></li>
+    </ul>
+  </section>
+  <section class="pg r" aria-labelledby="pods">
+    <h2 class="rh r" id="pods">podcasts, for the bus</h2>
+    <ul class="list">
+      <li><a href="https://podcasts.apple.com/gb/podcast/mindy-seu-on-collaboration-community-and/id1449302502?i=1000597869409">mindy seu on collaboration, community and the cyberfeminism index</a></li>
+      <li><a href="https://soundcloud.com/proteincommunity/protein-forum-what-can-web2-organisations-learn-from-web3-communities">what can web2 organisations learn from web3 communities?</a> <span class="src">(Protein)</span></li>
+      <li><a href="https://podcasts.apple.com/gb/podcast/cherie-hu-on-water-musics-journey-through-web3/id1449302502?i=1000581859804">cherie hu on water &amp; music's journey through web3</a></li>
+      <li><a href="https://podcasts.apple.com/gb/podcast/molly-dickson-on-dao-activism-and-fighting-for/id1449302502?i=1000578164761">molly dickson on dao activism</a></li>
+      <li><a href="https://podcasts.apple.com/gb/podcast/dame-on-the-need-for-education-accessibility/id1449302502?i=1000559829008">dame on education, accessibility and inclusivity in web3</a></li>
+      <li><a href="https://podcasts.apple.com/gb/podcast/nadia-piet-on-creative-ai-and-protopian-futures/id1449302502?i=1000559822732">nadia piet on creative ai and protopian futures</a></li>
+      <li><a href="https://podcasts.apple.com/gb/podcast/cyn-bahati-on-her-journey-into-web3-with-her-family/id1449302502?i=1000559818509">cyn bahati on her journey into web3 with her family</a></li>
+      <li><a href="https://podcasts.apple.com/gb/podcast/latash%C3%A1-on-the-potential-of-web3-for-music-artists/id1449302502?i=1000552812458">latasha on the potential of web3 for music artists</a></li>
+    </ul>
+  </section>
+</div>
+
+<div class="spread">
+  <section class="pg" aria-labelledby="irl">
+    <h2 class="rh" id="irl">irl (mostly)</h2>
+    <ul class="list">
+      <li><a href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1">olden residency</a></li>
+      <li><a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1">softer london</a> <span class="src">(talk + workshop)</span></li>
+      <li><a href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard">tech yard</a> <span class="src">(workshop)</span></li>
+      <li><a href="https://www.instagram.com/p/BslwSSPH5Rc/?img_index=2">ovar it</a></li>
+    </ul>
+  </section>
+  <section class="pg r" aria-labelledby="cv">
+    <h2 class="rh r" id="cv">credentials</h2>
+    <dl class="cv">
+      <dt>does</dt><dd>creative strategy, research, workshops, writing and teaching</dd>
+      <dt>teaches</dt><dd>associate lecturer at UAL (LCF + CCI)</dd>
+      <dt>clients</dt><dd>Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges</dd>
+      <dt>school</dt><dd>MA internet equalities, BA creative direction, PhD [ ? ]</dd>
+      <dt>cv</dt><dd>cv &amp; portfolio on request</dd>
+      <dt>email</dt><dd><a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></dd>
+    </dl>
+  </section>
+</div>
+
+</main>
+<footer class="spread foot">
+  <p>thanks for stopping by &lt;3</p>
+  <p class="r">say hello: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>chainmail · kes inkersole</title>
+<style>
+:root {
+  --ink: #111;
+  --mute: #666;
+  --line: #b9b9b9;
+  --bg: #fff;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", "DejaVu Sans Mono", monospace;
+  --t: 184px;   /* number column (the picture column on the index) */
+  --n: 36ch;    /* name column: with the date column it ends where the index's size column ends */
+  --s: 12ch;    /* date column */
+  --g: 28px;
+  --cols: var(--t) minmax(0, var(--n)) var(--s) minmax(0, 1fr);
+}
+* { box-sizing: border-box; }
+html { background: var(--bg); color: var(--ink); -webkit-text-size-adjust: 100%; }
+body { margin: 0; padding: 26px 32px 0; font: 12.5px/1.6 var(--mono); }
+h1, h2, h3, p, ul { margin: 0; padding: 0; font: inherit; }
+a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; text-decoration-color: var(--line); }
+a:hover { text-decoration-color: currentColor; }
+a:focus-visible, summary:focus-visible { outline: 1px solid var(--ink); outline-offset: 2px; }
+.m { color: var(--mute); }
+
+h1 { font-size: 17px; line-height: 1.3; margin-bottom: 30px; }
+
+.readme, .row, .body { display: grid; grid-template-columns: var(--cols); column-gap: var(--g); align-items: start; }
+.readme { margin-bottom: 52px; }
+.about { grid-column: 1 / 3; max-width: 76ch; }
+.about h2, .mail h3 { margin-bottom: .8em; }
+.mail { grid-column: 4; max-width: 72ch; }
+.mail h3 { color: var(--mute); }
+
+.hd { color: var(--mute); padding-bottom: 5px; border-bottom: 1px solid var(--ink); margin-bottom: 14px; }
+.s { color: var(--mute); white-space: nowrap; }
+.up { padding: 2px 0 10px; }
+.i { color: var(--mute); }
+
+article summary { cursor: pointer; list-style: none; padding: 2px 0; }
+article summary::-webkit-details-marker { display: none; }
+article summary:hover h2 { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.pv { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--mute); }
+details[open] .pv { visibility: hidden; }
+details[open] summary h2 { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; }
+/* the text unfolds in place of its first line */
+.body { padding-bottom: 22px; margin-top: calc(-1.6em - 2px); }
+.body > div { grid-column: 4; max-width: 68ch; }
+.body p + p { margin-top: .8em; }
+.body p.l + p.l { margin-top: 0; }
+
+.foot { margin-top: 44px; padding-bottom: 6px; }
+.garden { margin: 30px -32px 0; padding: 0 32px 10px; font-size: 9.5px; line-height: 1.2; color: #bdbdbd; white-space: pre; overflow: hidden; }
+
+@media (max-width: 1100px) {
+  :root { --t: 136px; --n: 28ch; --g: 22px; }
+}
+@media (max-width: 760px) {
+  :root { --t: 8ch; --g: 16px; }
+  body { padding: 18px 16px 0; font-size: 12px; }
+  h1 { font-size: 15px; margin-bottom: 22px; }
+  .readme { display: block; margin-bottom: 36px; }
+  .mail { margin-top: 1.4em; }
+  .row { grid-template-columns: var(--t) minmax(0, 1fr) auto; grid-template-areas: "i n s" "i d d"; }
+  .row > .i { grid-area: i; } .row > .n { grid-area: n; } .row > .s { grid-area: s; } .row > .d { grid-area: d; }
+  .hd > .d { display: none; }
+  article summary { padding: 4px 0; }
+  details[open] .pv { display: none; }
+  .body { display: block; margin: 0; padding: 4px 0 20px calc(var(--t) + var(--g)); }
+  .garden { margin: 24px -16px 0; padding: 0 16px 8px; font-size: 8px; }
+}
+</style>
+</head>
+<body>
+<header>
+<h1><a href="index.html">kes inkersole</a>/chainmail/</h1>
+</header>
+<main>
+
+<section class="readme" aria-labelledby="cm">
+<div class="about">
+<h2 id="cm">chainmail (working title)</h2>
+<p>my own writing. short pieces, the kind i write in my notes app, sent here by email and collected over time into a kind of text moodboard.</p>
+</div>
+<div class="mail">
+<h3>by email</h3>
+<p>each piece arrives as an email to (address tbc). the subject line becomes its title and the newest one lands at the top.</p>
+</div>
+</section>
+
+<div class="row hd"><span class="i"></span><span class="n">name</span><span class="s">date</span><span class="d">description</span></div>
+<div class="row up"><span class="i"></span><span class="n"><a href="index.html">&lt;- kes inkersole</a></span><span class="s">-</span><span class="d"></span></div>
+
+<article><details>
+<summary class="row"><span class="i">no. 011</span><h2 class="n">lorem ipsum</h2><span class="s">18 oct 2026</span><span class="d pv">lorem ipsum dolor sit amet.</span></summary>
+<div class="body"><div><p>lorem ipsum dolor sit amet.</p></div></div>
+</details></article>
+
+<article><details>
+<summary class="row"><span class="i">no. 010</span><h2 class="n">consectetur adipiscing elit</h2><span class="s">14 oct 2026</span><span class="d pv">sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</span></summary>
+<div class="body"><div><p>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p><p>excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.</p><p>totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p></div></div>
+</details></article>
+
+<article><details>
+<summary class="row"><span class="i">no. 009</span><h2 class="n">(no subject)</h2><span class="s">9 oct 2026</span><span class="d pv">nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.</span></summary>
+<div class="body"><div><p>nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.</p></div></div>
+</details></article>
+
+<article><details>
+<summary class="row"><span class="i">no. 008</span><h2 class="n">sed quia consequuntur</h2><span class="s">6 oct 2026</span><span class="d pv">magni dolores eos qui ratione voluptatem sequi nesciunt. neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</span></summary>
+<div class="body"><div><p>magni dolores eos qui ratione voluptatem sequi nesciunt. neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p></div></div>
+</details></article>
+
+<article><details>
+<summary class="row"><span class="i">no. 007</span><h2 class="n">ut enim ad minima</h2><span class="s">2 oct 2026</span><span class="d pv">quis autem vel eum / iure reprehenderit / qui in ea voluptate / velit esse quam nihil / molestiae consequatur</span></summary>
+<div class="body"><div><p class="l">quis autem vel eum</p><p class="l">iure reprehenderit</p><p class="l">qui in ea voluptate</p><p class="l">velit esse quam nihil</p><p class="l">molestiae consequatur</p></div></div>
+</details></article>
+
+<article><details>
+<summary class="row"><span class="i">no. 006</span><h2 class="n">at vero eos et accusamus</h2><span class="s">27 sep 2026</span><span class="d pv">et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.</span></summary>
+<div class="body"><div><p>et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.</p><p>similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. et harum quidem rerum facilis est et expedita distinctio.</p></div></div>
+</details></article>
+
+<article><details>
+<summary class="row"><span class="i">no. 005</span><h2 class="n">nam libero</h2><span class="s">21 sep 2026</span><span class="d pv">tempore, cum soluta nobis est eligendi optio.</span></summary>
+<div class="body"><div><p>tempore, cum soluta nobis est eligendi optio.</p></div></div>
+</details></article>
+
+<article><details>
+<summary class="row"><span class="i">no. 004</span><h2 class="n">re: temporibus autem quibusdam</h2><span class="s">14 sep 2026</span><span class="d pv">et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.</span></summary>
+<div class="body"><div><p>et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.</p></div></div>
+</details></article>
+
+<article><details>
+<summary class="row"><span class="i">no. 003</span><h2 class="n">quis nostrum exercitationem</h2><span class="s">3 sep 2026</span><span class="d pv">ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur.</span></summary>
+<div class="body"><div><p>ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur.</p><p>lorem ipsum dolor sit amet, consectetur adipiscing elit. integer nec odio. praesent libero. sed cursus ante dapibus diam. sed nisi. nulla quis sem at nibh elementum imperdiet. duis sagittis ipsum.</p><p>curabitur sodales ligula in libero.</p></div></div>
+</details></article>
+
+<article><details>
+<summary class="row"><span class="i">no. 002</span><h2 class="n">sed dignissim lacinia</h2><span class="s">28 aug 2026</span><span class="d pv">nunc. curabitur tortor. pellentesque nibh. aenean quam. in scelerisque sem at dolor. maecenas mattis. sed convallis tristique sem.</span></summary>
+<div class="body"><div><p>nunc. curabitur tortor. pellentesque nibh. aenean quam. in scelerisque sem at dolor. maecenas mattis. sed convallis tristique sem.</p></div></div>
+</details></article>
+
+<article><details>
+<summary class="row"><span class="i">no. 001</span><h2 class="n">hello, lorem</h2><span class="s">15 aug 2026</span><span class="d pv">proin ut ligula vel nunc egestas porttitor. morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. fusce ac turpis quis ligula lacinia aliquet.</span></summary>
+<div class="body"><div><p>proin ut ligula vel nunc egestas porttitor. morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. fusce ac turpis quis ligula lacinia aliquet.</p><p>mauris ipsum.</p></div></div>
+</details></article>
+
+</main>
+<footer>
+<div class="row foot"><span class="i"></span><p class="n"><a href="index.html">&lt;- kes inkersole</a></p></div>
+<pre class="garden" aria-hidden="true">    _                             _                          _                        _                            _                        _                             _                         _                             _                          _                        _                            _                        _                             _
+  _(_)_         @               _(_)_         @            _(_)_              @     _(_)_         @              _(_)_    @               _(_)_         @               _(_)_    @                _(_)_         @               _(_)_         @            _(_)_              @     _(_)_         @              _(_)_    @               _(_)_         @               _(_)_    @
+ (_)@(_)        |/  vVv        (_)@(_)        |/    vVv   (_)@(_)             |/   (_)@(_)  vVv   |/            (_)@(_)   |/  vVv        (_)@(_)        |/  vVv        (_)@(_)   |/  vVv         (_)@(_)        |/  vVv        (_)@(_)        |/    vVv   (_)@(_)             |/   (_)@(_)  vVv   |/            (_)@(_)   |/  vVv        (_)@(_)        |/  vVv        (_)@(_)   |/  vVv
+   (_)    vVv  \|   (_)    *     (_)    vVv  \|     (_)     (_)     *   vVv  \|      (_)    (_)  \|   vVv   *     (_)    \|   (_)  vVv     (_)     *   \|   (_)   vVv    (_)    \|   (_)  vVv      (_)    vVv  \|   (_)    *     (_)    vVv  \|     (_)     (_)     *   vVv  \|      (_)    (_)  \|   vVv   *     (_)    \|   (_)  vVv     (_)     *   \|   (_)   vVv    (_)    \|   (_)  vVv
+    |/    (_)   |   \|     |/     |/    (_)   |     \|       |/     |/  (_)   |       |/    \|    |   (_)   |/     |/     |   \|   (_)      |/     |/   |   \|    (_)     |/     |   \|   (_)       |/    (_)   |   \|     |/     |/    (_)   |     \|       |/     |/  (_)   |       |/    \|    |   (_)   |/     |/     |   \|   (_)      |/     |/   |   \|    (_)     |/     |   \|   (_)
+   \|      |    |    |    \|     \|      |    |      |      \|     \|    |    |      \|      |    |    |   \|     \|      |    |    |      \|     \|    |    |     |     \|      |    |    |       \|      |    |    |    \|     \|      |    |      |      \|     \|    |    |      \|      |    |    |   \|     \|      |    |    |      \|     \|    |    |     |     \|      |    |    |</pre>
+</footer>
+</body>
+</html>

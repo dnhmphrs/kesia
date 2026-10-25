@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>chainmail · kes inkersole</title>
+<style>
+:root {
+  --ink: #111;
+  --grey: #6b6b6b;
+  --rule: #e4e4e4;
+  --rule-soft: #efefef;
+  --vrule: #eeeeee;
+  --cell: 10px;
+  --bg: #fff;
+  --pad: 24px;
+  --c-no: 4%;
+  --c-date: 13%;
+  --c-left: 43%;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 13px/1.4 -apple-system, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; text-decoration-color: #b5b5b5; }
+a:hover { text-decoration-color: currentColor; }
+a:focus-visible { outline: 1px solid var(--ink); outline-offset: 2px; text-decoration-color: currentColor; }
+h1, h2, p { margin: 0; font-size: inherit; font-weight: inherit; }
+
+.intro {
+  display: grid;
+  grid-template-columns: var(--c-no) var(--c-left) 1fr;
+  padding: 22px var(--pad) 64px;
+  font-size: clamp(17px, 1.45vw, 22px);
+  line-height: 1.32;
+}
+.intro > * { grid-column: 2; padding: 0 2.2em 0 var(--cell); }
+.intro .r { grid-column: 3; padding-right: 0; max-width: 40em; }
+.intro .back { grid-column: 2 / -1; font-size: 13px; margin-bottom: 1.2em; }
+.intro .lbl { margin-top: 1.4em; color: var(--grey); }
+.intro p.r.mail { margin-top: 1.4em; }
+.intro .about { color: var(--ink); }
+
+/* the sheet: no. / date / subject, each piece's text in a full-width row beneath */
+.sheet { margin: 0 var(--pad); }
+.row {
+  display: grid;
+  grid-template-columns: var(--c-no) var(--c-date) 1fr;
+  align-items: baseline;
+}
+.row > * { padding: 7px 16px 7px var(--cell); border-left: 1px solid var(--vrule); align-self: stretch; }
+.row > :first-child { border-left: 0; padding-left: 0; }
+.head {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--bg);
+  color: var(--grey);
+  box-shadow: inset 0 -1px 0 #cfcfcf;
+}
+.head > * { padding-top: 10px; padding-bottom: 6px; }
+article { border-bottom: 1px solid var(--rule); }
+article header { border-bottom: 1px solid var(--rule-soft); }
+article .no { color: var(--grey); font-variant-numeric: tabular-nums; }
+article .d { color: var(--grey); }
+article h2 { color: var(--ink); font-size: 15px; line-height: 1.3; padding-top: 5px; }
+.txt {
+  padding: 10px 0 24px calc(var(--c-no) + var(--c-date) + var(--cell));
+  font-size: 15px;
+  line-height: 1.5;
+  column-count: 2;
+  column-gap: 48px;
+}
+.txt p { max-width: 38em; break-inside: avoid-column; }
+.txt p + p { margin-top: .75em; }
+.txt.verse { column-count: 1; }
+.txt.verse p + p { margin-top: 0; }
+
+footer {
+  display: grid;
+  grid-template-columns: var(--c-no) var(--c-left) 1fr;
+  padding: 72px var(--pad) 40px;
+  font-size: clamp(17px, 1.45vw, 22px);
+  line-height: 1.32;
+}
+footer p { grid-column: 2; padding-left: var(--cell); }
+
+@media (max-width: 760px) {
+  :root { --pad: 16px; }
+  .intro { display: block; padding: 18px var(--pad) 40px; }
+  .intro > * { padding: 0; }
+  .intro .r { margin-top: .8em; }
+  .intro .lbl { margin-top: 1.6em; }
+  .intro p.r.mail { margin-top: .2em; }
+  .row { grid-template-columns: 36px 1fr; }
+  .row > * { border-left: 0; padding: 0; }
+  .head { display: none; }
+  article header { border-bottom: 0; padding-top: 10px; }
+  article .no { grid-column: 1; }
+  article .d { grid-column: 2; }
+  article h2 { grid-column: 2; padding-top: 2px; }
+  .txt { padding: 8px 0 18px 36px; column-count: 1; color: #333; }
+  footer { display: block; padding: 48px var(--pad) 32px; }
+  footer p { padding-left: 0; }
+}
+</style>
+</head>
+<body>
+
+<header class="intro">
+  <p class="back"><a href="index.html">&lt;- kes inkersole</a></p>
+  <h1>chainmail (working title)</h1>
+  <p class="r about">my own writing. short pieces, the kind i write in my notes app, sent here by email and collected over time into a kind of text moodboard.</p>
+  <p class="lbl">by email</p>
+  <p class="r mail">each piece arrives as an email to (address tbc). the subject line becomes its title and the newest one lands at the top.</p>
+</header>
+
+<main class="sheet">
+  <div class="row head" aria-hidden="true"><span>no.</span><span>date</span><span>subject</span></div>
+
+  <article>
+    <header class="row"><p class="no">011</p><p class="d"><time datetime="2026-10-18">18 oct 2026</time></p><h2>lorem ipsum</h2></header>
+    <div class="txt"><p>lorem ipsum dolor sit amet.</p></div>
+  </article>
+
+  <article>
+    <header class="row"><p class="no">010</p><p class="d"><time datetime="2026-10-14">14 oct 2026</time></p><h2>consectetur adipiscing elit</h2></header>
+    <div class="txt"><p>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p><p>excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.</p><p>totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p></div>
+  </article>
+
+  <article>
+    <header class="row"><p class="no">009</p><p class="d"><time datetime="2026-10-09">9 oct 2026</time></p><h2>(no subject)</h2></header>
+    <div class="txt"><p>nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.</p></div>
+  </article>
+
+  <article>
+    <header class="row"><p class="no">008</p><p class="d"><time datetime="2026-10-06">6 oct 2026</time></p><h2>sed quia consequuntur</h2></header>
+    <div class="txt"><p>magni dolores eos qui ratione voluptatem sequi nesciunt. neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p></div>
+  </article>
+
+  <article>
+    <header class="row"><p class="no">007</p><p class="d"><time datetime="2026-10-02">2 oct 2026</time></p><h2>ut enim ad minima</h2></header>
+    <div class="txt verse"><p>quis autem vel eum</p><p>iure reprehenderit</p><p>qui in ea voluptate</p><p>velit esse quam nihil</p><p>molestiae consequatur</p></div>
+  </article>
+
+  <article>
+    <header class="row"><p class="no">006</p><p class="d"><time datetime="2026-09-27">27 sep 2026</time></p><h2>at vero eos et accusamus</h2></header>
+    <div class="txt"><p>et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.</p><p>similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. et harum quidem rerum facilis est et expedita distinctio.</p></div>
+  </article>
+
+  <article>
+    <header class="row"><p class="no">005</p><p class="d"><time datetime="2026-09-21">21 sep 2026</time></p><h2>nam libero</h2></header>
+    <div class="txt"><p>tempore, cum soluta nobis est eligendi optio.</p></div>
+  </article>
+
+  <article>
+    <header class="row"><p class="no">004</p><p class="d"><time datetime="2026-09-14">14 sep 2026</time></p><h2>re: temporibus autem quibusdam</h2></header>
+    <div class="txt"><p>et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.</p></div>
+  </article>
+
+  <article>
+    <header class="row"><p class="no">003</p><p class="d"><time datetime="2026-09-03">3 sep 2026</time></p><h2>quis nostrum exercitationem</h2></header>
+    <div class="txt"><p>ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur.</p><p>lorem ipsum dolor sit amet, consectetur adipiscing elit. integer nec odio. praesent libero. sed cursus ante dapibus diam. sed nisi. nulla quis sem at nibh elementum imperdiet. duis sagittis ipsum.</p><p>curabitur sodales ligula in libero.</p></div>
+  </article>
+
+  <article>
+    <header class="row"><p class="no">002</p><p class="d"><time datetime="2026-08-28">28 aug 2026</time></p><h2>sed dignissim lacinia</h2></header>
+    <div class="txt"><p>nunc. curabitur tortor. pellentesque nibh. aenean quam. in scelerisque sem at dolor. maecenas mattis. sed convallis tristique sem.</p></div>
+  </article>
+
+  <article>
+    <header class="row"><p class="no">001</p><p class="d"><time datetime="2026-08-15">15 aug 2026</time></p><h2>hello, lorem</h2></header>
+    <div class="txt"><p>proin ut ligula vel nunc egestas porttitor. morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. fusce ac turpis quis ligula lacinia aliquet.</p><p>mauris ipsum.</p></div>
+  </article>
+</main>
+
+<footer>
+  <p><a href="index.html">&lt;- kes inkersole</a></p>
+</footer>
+
+</body>
+</html>

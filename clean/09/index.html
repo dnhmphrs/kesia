@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>kes inkersole</title>
+<style>
+:root {
+  --ink: #111;
+  --mute: #666;
+  --tree: #a3a3a3;
+  --line: #b9b9b9;
+  --bg: #fff;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", "DejaVu Sans Mono", monospace;
+  --t: 184px;   /* picture column */
+  --n: 42ch;    /* name column */
+  --s: 6ch;     /* size column */
+  --g: 28px;    /* column gap */
+  --cols: var(--t) minmax(0, var(--n)) var(--s) minmax(0, 1fr);
+}
+* { box-sizing: border-box; }
+html { background: var(--bg); color: var(--ink); -webkit-text-size-adjust: 100%; }
+body { margin: 0; padding: 26px 32px 0; font: 12.5px/1.6 var(--mono); }
+h1, h2, p, ul, dl, dd { margin: 0; padding: 0; font: inherit; }
+ul { list-style: none; }
+img { display: block; }
+a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; text-decoration-color: var(--line); }
+a:hover { text-decoration-color: currentColor; }
+a:focus-visible, summary:focus-visible { outline: 1px solid var(--ink); outline-offset: 2px; }
+.m { color: var(--mute); }
+.tr { color: var(--tree); }
+
+h1 { font-size: 17px; line-height: 1.3; margin-bottom: 30px; }
+
+/* readme: sits on the listing's own columns */
+.readme, .row, .foot { display: grid; grid-template-columns: var(--cols); column-gap: var(--g); align-items: start; }
+.readme { margin-bottom: 46px; }
+.hello { grid-column: 1 / 3; max-width: 76ch; }
+.hello h2 { margin-bottom: .8em; }
+.hello p + p { margin-top: .8em; }
+.cv { grid-column: 4; max-width: 92ch; }
+.cv dl { display: grid; grid-template-columns: 9ch minmax(0, 1fr); margin-top: .8em; }
+.cv dt { color: var(--mute); }
+
+/* listing */
+.hd { color: var(--mute); padding-bottom: 5px; border-bottom: 1px solid var(--ink); margin-bottom: 14px; }
+.s { text-align: right; color: var(--mute); white-space: nowrap; }
+.i img { width: auto; height: auto; max-width: 100%; max-height: var(--t); }
+.i.tbc { color: var(--mute); font-size: 11px; }
+.top > li { padding: 0 0 14px; }
+.top > li.pic { padding-bottom: 22px; }
+.d p + p { margin-top: .35em; }
+.d p.para { max-width: 78ch; }
+
+/* folders: the name toggles, the files follow the row */
+.n details, .n summary { display: block; }
+summary { cursor: pointer; list-style: none; position: relative; }
+summary::-webkit-details-marker { display: none; }
+summary::before { content: "\25B8"; position: absolute; left: -2ch; color: var(--mute); }
+details[open] > summary::before { content: "\25BE"; }
+summary h2 { display: inline; }
+summary:hover h2 { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.kids { display: none; padding-top: 10px; }
+.e:has(details[open]) > .kids { display: block; }
+@supports not selector(:has(*)) { .kids { display: block; } }
+.kids > li { padding: 1px 0; }
+.kids > li.pic { padding: 0 0 10px; }
+.kids .n { padding-left: 4ch; text-indent: -4ch; }
+.kids .i { justify-self: end; }
+.kids .i img { max-height: 84px; }
+
+/* foot */
+.foot { margin-top: 44px; padding-bottom: 6px; }
+.foot p:first-child { grid-column: 1 / 3; }
+.foot p:last-child { grid-column: 4; }
+.garden { margin: 30px -32px 0; padding: 0 32px 10px; font-size: 9.5px; line-height: 1.2; color: #bdbdbd; white-space: pre; overflow: hidden; }
+
+@media (max-width: 1100px) {
+  :root { --t: 136px; --n: 34ch; --g: 22px; }
+}
+@media (max-width: 760px) {
+  :root { --t: 84px; --g: 16px; }
+  body { padding: 18px 16px 0; font-size: 12px; }
+  h1 { font-size: 15px; margin-bottom: 22px; }
+  /* on a phone the pictures come sooner: the cv lines move below the listing */
+  main { display: flex; flex-direction: column; }
+  .readme { display: contents; }
+  .hello { order: 1; margin-bottom: 36px; }
+  .hd { order: 2; } .top { order: 3; }
+  .cv { order: 4; margin-top: 30px; }
+  .row { grid-template-columns: var(--t) minmax(0, 1fr) auto; grid-template-rows: auto 1fr; grid-template-areas: "i n s" "i d d"; }
+  summary::before { left: -1.6ch; }
+  .row > .i { grid-area: i; } .row > .n { grid-area: n; } .row > .s { grid-area: s; } .row > .d { grid-area: d; }
+  .row.bare { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "n s" "d d"; }
+  .row.bare > .i { display: none; }
+  .hd > .d { display: none; }
+  .pic .d { margin-top: 2px; }
+  .bare .d { padding-left: 0; }
+  .kids .d { padding-left: 4ch; }
+  .kids .i img { max-height: 64px; }
+  .foot { display: block; }
+  .foot p + p { margin-top: .4em; }
+  .garden { margin: 24px -16px 0; padding: 0 16px 8px; font-size: 8px; }
+}
+@media (min-width: 1280px) { :root { --n: 66ch; --t: 220px; } }
+</style>
+</head>
+<body>
+<header>
+<h1>kes inkersole/</h1>
+</header>
+<main>
+
+<section class="readme" aria-labelledby="hello">
+<div class="hello">
+<h2 id="hello">hello, i'm kes &lt;3</h2>
+<p>i'm kes inkersole (kesia on paper), a freelance creative strategist and internet equalities researcher based in london. welcome to kes' little corner of the internet.</p>
+<p>my practice focuses on understanding and critiquing the impacts of emerging technologies on people, culture, and the planet. i work collectively to rethink the narratives and behaviours surrounding technologies — prioritising collaborative research as a process for testing, imagining and prototyping more equitable, alternative futures.</p>
+</div>
+<div class="cv">
+<p>creative strategist, internet equalities researcher, london. available for work.</p>
+<dl>
+<dt>does:</dt><dd>creative strategy, research, workshops, writing and teaching</dd>
+<dt>teaches:</dt><dd>associate lecturer at UAL (LCF + CCI)</dd>
+<dt>clients:</dt><dd>Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges</dd>
+<dt>school:</dt><dd>MA internet equalities, BA creative direction, PhD [ ? ]</dd>
+<dt>cv:</dt><dd>cv &amp; portfolio on request</dd>
+<dt>email:</dt><dd><a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></dd>
+</dl>
+</div>
+</section>
+
+<div class="row hd"><span class="i"></span><span class="n">name</span><span class="s">size</span><span class="d">description</span></div>
+<ul class="top">
+
+<li class="e pic">
+<div class="row">
+<a class="i" href="../img/l/networked-worlds-1.jpg"><img src="../img/s/networked-worlds-1.jpg" width="453" height="640" alt="yellow cover with a curved grid: Networked Worlds, WeTransfer"></a>
+<details class="n"><summary><h2>networked-worlds/</h2></summary></details>
+<span class="s">-</span>
+<div class="d"><p><a href="https://co-matter.com/project/networked-worlds">networked worlds</a> with co—matter <span class="m">· for funds</span></p><p class="para">duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. excepteur sint occaecat cupidatat non proident.</p></div>
+</div>
+<ul class="kids">
+<li class="row pic"><a class="i" href="../img/l/networked-worlds-1.jpg"><img src="../img/s/networked-worlds-1.jpg" width="453" height="640" loading="lazy" alt="yellow cover with a curved grid: Networked Worlds, WeTransfer"></a><span class="n"><span class="tr" aria-hidden="true">├── </span><a href="../img/l/networked-worlds-1.jpg">networked-worlds-1.jpg</a></span><span class="s">111K</span><span class="d m">990×1400</span></li>
+<li class="row pic"><a class="i" href="../img/l/networked-worlds-2.jpg"><img src="../img/s/networked-worlds-2.jpg" width="457" height="640" loading="lazy" alt="a collage of many small images on black"></a><span class="n"><span class="tr" aria-hidden="true">├── </span><a href="../img/l/networked-worlds-2.jpg">networked-worlds-2.jpg</a></span><span class="s">239K</span><span class="d m">1000×1400</span></li>
+<li class="row pic"><a class="i" href="../img/l/networked-worlds-3.jpg"><img src="../img/s/networked-worlds-3.jpg" width="460" height="640" loading="lazy" alt="&quot;worlding resources&quot;: a timeline of books and texts on black"></a><span class="n"><span class="tr" aria-hidden="true">└── </span><a href="../img/l/networked-worlds-3.jpg">networked-worlds-3.jpg</a></span><span class="s">204K</span><span class="d m">1005×1400</span></li>
+</ul>
+</li>
+
+<li class="e pic">
+<div class="row">
+<a class="i" href="../img/l/protein-1.jpg"><img src="../img/s/protein-1.jpg" width="640" height="640" alt="pink report cover: dirty word [report #4] community"></a>
+<details class="n"><summary><h2>protein/</h2></summary></details>
+<span class="s">-</span>
+<div class="d"><p><a href="https://www.protein.xyz/dirty-words-4-community/">protein dirty words #4: community report</a> <span class="m">· for funds</span></p><p class="para">sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo.</p></div>
+</div>
+<ul class="kids">
+<li class="row pic"><a class="i" href="../img/l/protein-1.jpg"><img src="../img/s/protein-1.jpg" width="640" height="640" loading="lazy" alt="pink report cover: dirty word [report #4] community"></a><span class="n"><span class="tr" aria-hidden="true">├── </span><a href="../img/l/protein-1.jpg">protein-1.jpg</a></span><span class="s">157K</span><span class="d m">1080×1080</span></li>
+<li class="row pic"><a class="i" href="../img/l/protein-2.jpg"><img src="../img/s/protein-2.jpg" width="640" height="640" loading="lazy" alt="overlapping page spreads from the report"></a><span class="n"><span class="tr" aria-hidden="true">├── </span><a href="../img/l/protein-2.jpg">protein-2.jpg</a></span><span class="s">198K</span><span class="d m">1080×1080</span></li>
+<li class="row pic"><a class="i" href="../img/l/protein-3.jpg"><img src="../img/s/protein-3.jpg" width="640" height="640" loading="lazy" alt="a grid of the report's pages in pink, black and white"></a><span class="n"><span class="tr" aria-hidden="true">├── </span><a href="../img/l/protein-3.jpg">protein-3.jpg</a></span><span class="s">380K</span><span class="d m">1080×1080</span></li>
+<li class="row pic"><a class="i" href="../img/l/protein-4.jpg"><img src="../img/s/protein-4.jpg" width="480" height="640" loading="lazy" alt="the printed report on a wooden floor"></a><span class="n"><span class="tr" aria-hidden="true">└── </span><a href="../img/l/protein-4.jpg">protein-4.jpg</a></span><span class="s">242K</span><span class="d m">1050×1400</span></li>
+</ul>
+</li>
+
+<li class="e pic">
+<div class="row">
+<a class="i" href="../img/l/morning-3.jpg"><img src="../img/s/morning-3.jpg" width="640" height="640" alt="3d render of three pink piglet-like creatures curled inside a cracked black egg"></a>
+<details class="n"><summary><h2>morning/</h2></summary></details>
+<span class="s">-</span>
+<div class="d"><p><a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1">MØRNING Ø</a> <span class="m">· for funds</span></p></div>
+</div>
+<ul class="kids">
+<li class="row pic"><a class="i" href="../img/l/morning-1.jpg"><img src="../img/s/morning-1.jpg" width="640" height="640" loading="lazy" alt="MØRNING newsletter graphic: &quot;#020 uh oh, meet Ø&quot;, a red burn after reading sticker over screenshots of video calls"></a><span class="n"><span class="tr" aria-hidden="true">├── </span><a href="../img/l/morning-1.jpg">morning-1.jpg</a></span><span class="s">99K</span><span class="d m">1080×1080</span></li>
+<li class="row pic"><a class="i" href="../img/l/morning-2.jpg"><img src="../img/s/morning-2.jpg" width="512" height="640" loading="lazy" alt="3d render of a dark glossy egg with orange marbling"></a><span class="n"><span class="tr" aria-hidden="true">├── </span><a href="../img/l/morning-2.jpg">morning-2.jpg</a></span><span class="s">61K</span><span class="d m">1120×1400</span></li>
+<li class="row pic"><a class="i" href="../img/l/morning-3.jpg"><img src="../img/s/morning-3.jpg" width="640" height="640" loading="lazy" alt="3d render of three pink piglet-like creatures curled inside a cracked black egg"></a><span class="n"><span class="tr" aria-hidden="true">└── </span><a href="../img/l/morning-3.jpg">morning-3.jpg</a></span><span class="s">123K</span><span class="d m">1400×1400</span></li>
+</ul>
+</li>
+
+<li class="e">
+<div class="row">
+<span class="i tbc">(picture to come)</span>
+<h2 class="n">latent-space/</h2>
+<span class="s">-</span>
+<div class="d"><p><a href="https://latent-space.vercel.app/">latent space</a> <span class="m">· for fun</span></p><p class="para">lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam.</p></div>
+</div>
+</li>
+
+<li class="e">
+<div class="row bare">
+<span class="i"></span>
+<h2 class="n">protecht/</h2>
+<span class="s">-</span>
+<div class="d"><p><a href="https://protecht.vercel.app/">pro(tech)t</a> <span class="m">· for fun</span></p></div>
+</div>
+</li>
+
+<li class="e">
+<div class="row bare">
+<span class="i"></span>
+<h2 class="n"><a href="writing.html">chainmail/</a></h2>
+<span class="s">-</span>
+<div class="d"><p>new: short pieces from my notes app, sent in by email. it's called chainmail.</p></div>
+</div>
+</li>
+
+<li class="e">
+<div class="row bare">
+<span class="i"></span>
+<details class="n" open><summary><h2>writing/</h2></summary></details>
+<span class="s">-</span>
+<div class="d m"><p>things i've written</p></div>
+</div>
+<ul class="kids">
+<li class="row bare"><span class="i"></span><span class="n"><span class="tr" aria-hidden="true">├── </span><a href="https://www.protein.xyz/sex-and-the-internet/">mindy seu on sex and the internet</a></span><span class="s">-</span><span class="d">Protein</span></li>
+<li class="row bare"><span class="i"></span><span class="n"><span class="tr" aria-hidden="true">├── </span><a href="https://midnight.agency/thoughts/dreaming-and-designing-more-accessible-web">dreaming and designing a more accessible web</a></span><span class="s">-</span><span class="d">Midnight Agency</span></li>
+<li class="row bare"><span class="i"></span><span class="n"><span class="tr" aria-hidden="true">├── </span><a href="https://midnight.agency/thoughts/coding-a-more-creative-and-playful-web">coding a more creative and playful web</a></span><span class="s">-</span><span class="d">Midnight Agency</span></li>
+<li class="row bare"><span class="i"></span><span class="n"><span class="tr" aria-hidden="true">├── </span><a href="https://midnight.agency/thoughts/composing-a-flexible-and-modular-web">composing a flexible and modular web</a></span><span class="s">-</span><span class="d">Midnight Agency</span></li>
+<li class="row bare"><span class="i"></span><span class="n"><span class="tr" aria-hidden="true">├── </span><a href="https://morningfyi.substack.com/p/020-uh-oh-meet">burn after reading: uh oh, meet o</a></span><span class="s">-</span><span class="d">morningfyi</span></li>
+<li class="row bare"><span class="i"></span><span class="n"><span class="tr" aria-hidden="true">└── </span><a href="https://morningfyi.substack.com/p/024-entering-limb-with">burn after reading: entering limbo</a></span><span class="s">-</span><span class="d">morningfyi</span></li>
+</ul>
+</li>
+
+<li class="e">
+<div class="row bare">
+<span class="i"></span>
+<details class="n" open><summary><h2>podcasts/</h2></summary></details>
+<span class="s">-</span>
+<div class="d m"><p>podcasts, for the bus</p></div>
+</div>
+<ul class="kids">
+<li class="row bare"><span class="i"></span><span class="n"><span class="tr" aria-hidden="true">├── </span><a href="https://podcasts.apple.com/gb/podcast/mindy-seu-on-collaboration-community-and/id1449302502?i=1000597869409">mindy seu on collaboration, community and the cyberfeminism index</a></span><span class="s">-</span><span class="d"></span></li>
+<li class="row bare"><span class="i"></span><span class="n"><span class="tr" aria-hidden="true">├── </span><a href="https://soundcloud.com/proteincommunity/protein-forum-what-can-web2-organisations-learn-from-web3-communities">what can web2 organisations learn from web3 communities?</a></span><span class="s">-</span><span class="d">Protein</span></li>
+<li class="row bare"><span class="i"></span><span class="n"><span class="tr" aria-hidden="true">├── </span><a href="https://podcasts.apple.com/gb/podcast/cherie-hu-on-water-musics-journey-through-web3/id1449302502?i=1000581859804">cherie hu on water &amp; music's journey through web3</a></span><span class="s">-</span><span class="d"></span></li>
+<li class="row bare"><span class="i"></span><span class="n"><span class="tr" aria-hidden="true">├── </span><a href="https://podcasts.apple.com/gb/podcast/molly-dickson-on-dao-activism-and-fighting-for/id1449302502?i=1000578164761">molly dickson on dao activism</a></span><span class="s">-</span><span class="d"></span></li>
+<li class="row bare"><span class="i"></span><span class="n"><span class="tr" aria-hidden="true">├── </span><a href="https://podcasts.apple.com/gb/podcast/dame-on-the-need-for-education-accessibility/id1449302502?i=1000559829008">dame on education, accessibility and inclusivity in web3</a></span><span class="s">-</span><span class="d"></span></li>
+<li class="row bare"><span class="i"></span><span class="n"><span class="tr" aria-hidden="true">├── </span><a href="https://podcasts.apple.com/gb/podcast/nadia-piet-on-creative-ai-and-protopian-futures/id1449302502?i=1000559822732">nadia piet on creative ai and protopian futures</a></span><span class="s">-</span><span class="d"></span></li>
+<li class="row bare"><span class="i"></span><span class="n"><span class="tr" aria-hidden="true">├── </span><a href="https://podcasts.apple.com/gb/podcast/cyn-bahati-on-her-journey-into-web3-with-her-family/id1449302502?i=1000559818509">cyn bahati on her journey into web3 with her family</a></span><span class="s">-</span><span class="d"></span></li>
+<li class="row bare"><span class="i"></span><span class="n"><span class="tr" aria-hidden="true">└── </span><a href="https://podcasts.apple.com/gb/podcast/latash%C3%A1-on-the-potential-of-web3-for-music-artists/id1449302502?i=1000552812458">latasha on the potential of web3 for music artists</a></span><span class="s">-</span><span class="d"></span></li>
+</ul>
+</li>
+
+<li class="e">
+<div class="row bare">
+<span class="i"></span>
+<details class="n" open><summary><h2>irl/</h2></summary></details>
+<span class="s">-</span>
+<div class="d m"><p>irl (mostly)</p></div>
+</div>
+<ul class="kids">
+<li class="row bare"><span class="i"></span><span class="n"><span class="tr" aria-hidden="true">├── </span><a href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1">olden residency</a></span><span class="s">-</span><span class="d"></span></li>
+<li class="row bare"><span class="i"></span><span class="n"><span class="tr" aria-hidden="true">├── </span><a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1">softer london</a></span><span class="s">-</span><span class="d">talk + workshop</span></li>
+<li class="row bare"><span class="i"></span><span class="n"><span class="tr" aria-hidden="true">├── </span><a href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard">tech yard</a></span><span class="s">-</span><span class="d">workshop</span></li>
+<li class="row bare"><span class="i"></span><span class="n"><span class="tr" aria-hidden="true">└── </span><a href="https://www.instagram.com/p/BslwSSPH5Rc/?img_index=2">ovar it</a></span><span class="s">-</span><span class="d"></span></li>
+</ul>
+</li>
+
+</ul>
+</main>
+
+<footer>
+<div class="foot">
+<p>thanks for stopping by &lt;3</p>
+<p>say hello: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
+</div>
+<pre class="garden" aria-hidden="true">    _                             _                          _                        _                            _                        _                             _                         _                             _                          _                        _                            _                        _                             _
+  _(_)_         @               _(_)_         @            _(_)_              @     _(_)_         @              _(_)_    @               _(_)_         @               _(_)_    @                _(_)_         @               _(_)_         @            _(_)_              @     _(_)_         @              _(_)_    @               _(_)_         @               _(_)_    @
+ (_)@(_)        |/  vVv        (_)@(_)        |/    vVv   (_)@(_)             |/   (_)@(_)  vVv   |/            (_)@(_)   |/  vVv        (_)@(_)        |/  vVv        (_)@(_)   |/  vVv         (_)@(_)        |/  vVv        (_)@(_)        |/    vVv   (_)@(_)             |/   (_)@(_)  vVv   |/            (_)@(_)   |/  vVv        (_)@(_)        |/  vVv        (_)@(_)   |/  vVv
+   (_)    vVv  \|   (_)    *     (_)    vVv  \|     (_)     (_)     *   vVv  \|      (_)    (_)  \|   vVv   *     (_)    \|   (_)  vVv     (_)     *   \|   (_)   vVv    (_)    \|   (_)  vVv      (_)    vVv  \|   (_)    *     (_)    vVv  \|     (_)     (_)     *   vVv  \|      (_)    (_)  \|   vVv   *     (_)    \|   (_)  vVv     (_)     *   \|   (_)   vVv    (_)    \|   (_)  vVv
+    |/    (_)   |   \|     |/     |/    (_)   |     \|       |/     |/  (_)   |       |/    \|    |   (_)   |/     |/     |   \|   (_)      |/     |/   |   \|    (_)     |/     |   \|   (_)       |/    (_)   |   \|     |/     |/    (_)   |     \|       |/     |/  (_)   |       |/    \|    |   (_)   |/     |/     |   \|   (_)      |/     |/   |   \|    (_)     |/     |   \|   (_)
+   \|      |    |    |    \|     \|      |    |      |      \|     \|    |    |      \|      |    |    |   \|     \|      |    |    |      \|     \|    |    |     |     \|      |    |    |       \|      |    |    |    \|     \|      |    |      |      \|     \|    |    |      \|      |    |    |   \|     \|      |    |    |      \|     \|    |    |     |     \|      |    |    |</pre>
+</footer>
+</body>
+</html>

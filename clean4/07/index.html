@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>kes inkersole</title>
+<style>
+:root {
+  --ink: #111;
+  --grey: #777;
+  --line: #c8c8c8;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", "DejaVu Sans Mono", monospace;
+  --pad: 16px;
+  --r1: 0.707143; /* networked worlds cover, 990 / 1400 */
+}
+* { box-sizing: border-box; }
+html { background: #fff; color: var(--ink); -webkit-text-size-adjust: 100%; }
+body { margin: 0; font: 12px/1.6 var(--mono); background: #fff; }
+h1, h2, h3, p, ul, dl, dd, figure { margin: 0; padding: 0; font: inherit; }
+ul { list-style: none; }
+a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; text-decoration-color: #aaa; }
+a:hover { text-decoration-color: currentColor; }
+a:focus-visible { outline: 1px solid var(--ink); outline-offset: 2px; }
+.k, .n, dt { color: var(--grey); }
+
+/* one thin line: the name, then the role */
+header { display: grid; grid-template-columns: minmax(0, 1fr); padding: 12px 0 11px; }
+header > * { padding: 0 var(--pad); }
+
+/* the strip: three pictures, full bleed, one shared height.
+   flex-grow = aspect ratio and flex-basis 0, so every width follows from the same height */
+.strip { display: flex; flex-direction: column; gap: 1px; }
+.strip figure { min-width: 0; }
+.strip img { display: block; width: 100%; height: auto; }
+figcaption { padding: 8px var(--pad) 14px; }
+figcaption .n { margin-right: 1ch; }
+
+/* everything else: a hairline grid, white cells 1px apart over the rule colour */
+.grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1px; background: var(--line); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.c { background: #fff; min-width: 0; padding: 14px var(--pad) 22px; }
+.c > .k { margin-bottom: .8em; }
+.c p + p, .c p + h3 { margin-top: .9em; }
+.c h3 + p { margin-top: .2em; }
+.c li + li { margin-top: .3em; }
+.lorem { color: #333; }
+dl div + div { margin-top: .3em; }
+dt, dd { display: inline; }
+
+@media (min-width: 700px) {
+  /* the role starts where the second picture starts */
+  header { grid-template-columns: minmax(0, 0.707143fr) minmax(0, 2fr); column-gap: 1px; }
+  .strip { flex-direction: row; }
+  .strip figure { flex: 1 1 0; }
+  .strip figure:first-child { flex-grow: var(--r1); }
+  figcaption { padding-bottom: 12px; }
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 1100px) {
+  /* five columns that sit under the strip: one under the first picture, two under each of the others */
+  .grid { grid-template-columns: minmax(0, 0.707143fr) repeat(4, minmax(0, 0.5fr)); }
+  .w2 { grid-column: span 2; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>kes inkersole</h1>
+  <p>creative strategist, internet equalities researcher, london. available for work.</p>
+</header>
+
+<main>
+
+  <div class="strip">
+    <figure>
+      <img src="../img/l/networked-worlds-1.jpg" srcset="../img/s/networked-worlds-1.jpg 453w, ../img/l/networked-worlds-1.jpg 990w" sizes="(min-width: 700px) 27vw, 100vw" width="990" height="1400" alt="yellow cover with a curved grid: Networked Worlds, WeTransfer">
+      <figcaption><span class="n">01</span><span class="k">for funds ·</span> <a href="https://co-matter.com/project/networked-worlds">networked worlds</a> with co—matter</figcaption>
+    </figure>
+    <figure>
+      <img src="../img/l/protein-1.jpg" srcset="../img/s/protein-1.jpg 640w, ../img/l/protein-1.jpg 1080w" sizes="(min-width: 700px) 37vw, 100vw" width="1080" height="1080" alt="pink report cover: dirty word [report #4] community">
+      <figcaption><span class="n">02</span><span class="k">for funds ·</span> <a href="https://www.protein.xyz/dirty-words-4-community/">protein dirty words #4: community report</a></figcaption>
+    </figure>
+    <figure>
+      <img src="../img/l/morning-3.jpg" srcset="../img/s/morning-3.jpg 640w, ../img/l/morning-3.jpg 1400w" sizes="(min-width: 700px) 37vw, 100vw" width="1400" height="1400" alt="3d render of three pink piglet-like creatures curled inside a cracked black egg">
+      <figcaption><span class="n">03</span><span class="k">for funds ·</span> <a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1">MØRNING Ø</a></figcaption>
+    </figure>
+  </div>
+
+  <div class="grid">
+
+    <section class="c">
+      <h2 class="k">hello, i'm kes &lt;3</h2>
+      <p>i'm kes inkersole (kesia on paper), a freelance creative strategist and internet equalities researcher based in london. welcome to kes' little corner of the internet.</p>
+      <p>my practice focuses on understanding and critiquing the impacts of emerging technologies on people, culture, and the planet. i work collectively to rethink the narratives and behaviours surrounding technologies — prioritising collaborative research as a process for testing, imagining and prototyping more equitable, alternative futures.</p>
+    </section>
+
+    <section class="c">
+      <h2 class="k">for funds</h2>
+      <h3>networked worlds with co—matter</h3>
+      <p class="lorem">duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. excepteur sint occaecat cupidatat non proident.</p>
+      <h3>protein dirty words #4: community report</h3>
+      <p class="lorem">sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo.</p>
+    </section>
+
+    <section class="c">
+      <h2 class="k">for fun</h2>
+      <h3><a href="https://latent-space.vercel.app/">latent space</a></h3>
+      <p class="lorem">lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam.</p>
+      <h3><a href="https://protecht.vercel.app/">pro(tech)t</a></h3>
+    </section>
+
+    <section class="c">
+      <h2 class="k">irl (mostly)</h2>
+      <ul>
+        <li><a href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1">olden residency</a></li>
+        <li><a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1">softer london</a> <span class="n">(talk + workshop)</span></li>
+        <li><a href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard">tech yard</a> <span class="n">(workshop)</span></li>
+        <li><a href="https://www.instagram.com/p/BslwSSPH5Rc/?img_index=2">ovar it</a></li>
+      </ul>
+    </section>
+
+    <section class="c">
+      <h2 class="k">about</h2>
+      <dl>
+        <div><dt>does:</dt> <dd>creative strategy, research, workshops, writing and teaching</dd></div>
+        <div><dt>teaches:</dt> <dd>associate lecturer at UAL (LCF + CCI)</dd></div>
+        <div><dt>clients:</dt> <dd>Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges</dd></div>
+        <div><dt>school:</dt> <dd>MA internet equalities, BA creative direction, PhD [ ? ]</dd></div>
+        <div><dt>cv:</dt> <dd>cv &amp; portfolio on request</dd></div>
+        <div><dt>email:</dt> <dd><a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></dd></div>
+      </dl>
+    </section>
+
+    <section class="c">
+      <h2 class="k">things i've written</h2>
+      <ul>
+        <li><a href="https://www.protein.xyz/sex-and-the-internet/">mindy seu on sex and the internet</a> <span class="n">(Protein)</span></li>
+        <li><a href="https://midnight.agency/thoughts/dreaming-and-designing-more-accessible-web">dreaming and designing a more accessible web</a> <span class="n">(Midnight Agency)</span></li>
+        <li><a href="https://midnight.agency/thoughts/coding-a-more-creative-and-playful-web">coding a more creative and playful web</a> <span class="n">(Midnight Agency)</span></li>
+        <li><a href="https://midnight.agency/thoughts/composing-a-flexible-and-modular-web">composing a flexible and modular web</a> <span class="n">(Midnight Agency)</span></li>
+        <li><a href="https://morningfyi.substack.com/p/020-uh-oh-meet">burn after reading: uh oh, meet o</a> <span class="n">(morningfyi)</span></li>
+        <li><a href="https://morningfyi.substack.com/p/024-entering-limb-with">burn after reading: entering limbo</a> <span class="n">(morningfyi)</span></li>
+      </ul>
+    </section>
+
+    <section class="c w2">
+      <h2 class="k">podcasts, for the bus</h2>
+      <ul>
+        <li><a href="https://podcasts.apple.com/gb/podcast/mindy-seu-on-collaboration-community-and/id1449302502?i=1000597869409">mindy seu on collaboration, community and the cyberfeminism index</a></li>
+        <li><a href="https://soundcloud.com/proteincommunity/protein-forum-what-can-web2-organisations-learn-from-web3-communities">what can web2 organisations learn from web3 communities?</a> <span class="n">(Protein)</span></li>
+        <li><a href="https://podcasts.apple.com/gb/podcast/cherie-hu-on-water-musics-journey-through-web3/id1449302502?i=1000581859804">cherie hu on water &amp; music's journey through web3</a></li>
+        <li><a href="https://podcasts.apple.com/gb/podcast/molly-dickson-on-dao-activism-and-fighting-for/id1449302502?i=1000578164761">molly dickson on dao activism</a></li>
+        <li><a href="https://podcasts.apple.com/gb/podcast/dame-on-the-need-for-education-accessibility/id1449302502?i=1000559829008">dame on education, accessibility and inclusivity in web3</a></li>
+        <li><a href="https://podcasts.apple.com/gb/podcast/nadia-piet-on-creative-ai-and-protopian-futures/id1449302502?i=1000559822732">nadia piet on creative ai and protopian futures</a></li>
+        <li><a href="https://podcasts.apple.com/gb/podcast/cyn-bahati-on-her-journey-into-web3-with-her-family/id1449302502?i=1000559818509">cyn bahati on her journey into web3 with her family</a></li>
+        <li><a href="https://podcasts.apple.com/gb/podcast/latash%C3%A1-on-the-potential-of-web3-for-music-artists/id1449302502?i=1000552812458">latasha on the potential of web3 for music artists</a></li>
+      </ul>
+    </section>
+
+    <footer class="c w2">
+      <h2 class="k">contact</h2>
+      <p>thanks for stopping by &lt;3</p>
+      <p>say hello: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
+    </footer>
+
+  </div>
+
+</main>
+
+</body>
+</html>

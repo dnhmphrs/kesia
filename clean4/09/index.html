@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>kes inkersole</title>
+<style>
+:root {
+  --ink: #111;
+  --mute: #777;
+  --line: #c8c8c8;
+  --bg: #fff;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", "DejaVu Sans Mono", monospace;
+  --pad: 32px;   /* slide edge */
+  --side: 34ch;  /* label column: name, numerals, captions */
+  --g: 40px;     /* gap between label column and stage */
+  --h: 80vh;     /* picture height */
+}
+@supports (height: 1svh) { :root { --h: 80svh; } }
+* { box-sizing: border-box; }
+html { background: var(--bg); color: var(--ink); -webkit-text-size-adjust: 100%; }
+body { margin: 0; font: 12.5px/1.6 var(--mono); background: var(--bg); }
+h1, h2, p, ul, dl, dd { margin: 0; padding: 0; font: inherit; }
+ul { list-style: none; }
+a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; text-decoration-color: #aaa; }
+a:hover { text-decoration-color: currentColor; }
+a:focus-visible { outline: 1px solid var(--ink); outline-offset: 2px; }
+.k, .n, dt { color: var(--mute); }
+
+/* a slide: one screen, a hairline between each */
+.slide { min-height: 100vh; min-height: 100svh; display: flex; flex-direction: column; justify-content: center; padding: var(--pad); }
+.slide + .slide { border-top: 1px solid var(--line); }
+
+/* every slide shares one frame: a label column on the left, the stage on one axis to its right */
+.frame { display: grid; grid-template-columns: var(--side) minmax(0, 1fr); column-gap: var(--g); min-height: var(--h); }
+.side { display: flex; flex-direction: column; justify-content: space-between; gap: 32px; min-width: 0; }
+.stage { display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-start; min-width: 0; }
+
+/* the picture: as large as fits, proportions kept, top and bottom on the label column's corners */
+.stage img { display: block; width: auto; height: auto; max-width: 100%; max-height: var(--h); }
+
+.cap p + p, .cap h2 + p { margin-top: .6em; }
+.cap .k + h2 { margin-top: .2em; }
+
+/* title slide */
+.role { margin-top: .2em; }
+.hello { max-width: 64ch; }
+.hello h2 { margin-bottom: 1em; }
+.hello p + p { margin-top: 1em; }
+
+/* last slide: monospace columns */
+.last .stage { justify-content: flex-start; }
+.cols { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 40px 32px; align-items: start; }
+.cols h2 { margin-bottom: .8em; }
+.cols section + section { margin-top: 2.4em; }
+.cols p + p { margin-top: .5em; }
+.cols li + li { margin-top: .45em; }
+.cols dl div { display: grid; grid-template-columns: 9ch minmax(0, 1fr); }
+.cols dl div + div { margin-top: .45em; }
+.contact p + p { margin-top: .2em; }
+.contact h2 { margin-bottom: .8em; }
+
+@media (min-width: 761px) {
+  html { scroll-snap-type: y proximity; }
+  .slide { scroll-snap-align: start; }
+}
+@media (max-width: 1240px) {
+  :root { --side: 28ch; --g: 32px; }
+  .cols { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 760px) {
+  :root { --pad: 16px; }
+  body { font-size: 12px; }
+  /* on a phone the slides take their natural height and each picture runs full width */
+  .slide { min-height: 0; display: block; padding: 20px var(--pad) 32px; }
+  .frame { display: flex; flex-direction: column; gap: 14px; min-height: 0; }
+  .side { display: contents; }
+  .side > :first-child { order: 0; }
+  .stage { order: 1; }
+  .side > :last-child { order: 2; }
+  .stage img { width: 100%; max-height: none; }
+  .intro .stage { margin-top: 28px; }
+  .cols { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+  .last .contact { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line); }
+}
+</style>
+</head>
+<body>
+
+<main>
+
+<section class="slide intro">
+<div class="frame">
+<div class="side">
+<header>
+<h1>kes inkersole</h1>
+<p class="role">creative strategist, internet equalities researcher, london. available for work.</p>
+</header>
+<span aria-hidden="true"></span>
+</div>
+<div class="stage">
+<div class="hello">
+<h2 class="k">hello, i'm kes &lt;3</h2>
+<p>i'm kes inkersole (kesia on paper), a freelance creative strategist and internet equalities researcher based in london. welcome to kes' little corner of the internet.</p>
+<p>my practice focuses on understanding and critiquing the impacts of emerging technologies on people, culture, and the planet. i work collectively to rethink the narratives and behaviours surrounding technologies — prioritising collaborative research as a process for testing, imagining and prototyping more equitable, alternative futures.</p>
+</div>
+</div>
+</div>
+</section>
+
+<section class="slide">
+<div class="frame">
+<div class="side">
+<p class="n">01</p>
+<div class="cap">
+<p class="k">for funds</p>
+<h2><a href="https://co-matter.com/project/networked-worlds">networked worlds</a> with co—matter</h2>
+<p>duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. excepteur sint occaecat cupidatat non proident.</p>
+</div>
+</div>
+<div class="stage">
+<img src="../img/l/networked-worlds-1.jpg" width="990" height="1400" alt="yellow cover with a curved grid: Networked Worlds, WeTransfer">
+</div>
+</div>
+</section>
+
+<section class="slide">
+<div class="frame">
+<div class="side">
+<p class="n">02</p>
+<div class="cap">
+<p class="k">for funds</p>
+<h2><a href="https://www.protein.xyz/dirty-words-4-community/">protein dirty words #4: community report</a></h2>
+<p>sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo.</p>
+</div>
+</div>
+<div class="stage">
+<img src="../img/l/protein-1.jpg" width="1080" height="1080" alt="pink report cover: dirty word [report #4] community">
+</div>
+</div>
+</section>
+
+<section class="slide">
+<div class="frame">
+<div class="side">
+<p class="n">03</p>
+<div class="cap">
+<p class="k">for funds</p>
+<h2><a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1">MØRNING Ø</a></h2>
+</div>
+</div>
+<div class="stage">
+<img src="../img/l/morning-3.jpg" width="1400" height="1400" alt="3d render of three pink piglet-like creatures curled inside a cracked black egg">
+</div>
+</div>
+</section>
+
+<section class="slide last">
+<div class="frame">
+<div class="side">
+<p class="n">04</p>
+<footer class="contact">
+<h2 class="k">contact</h2>
+<p>thanks for stopping by &lt;3</p>
+<p>say hello: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
+</footer>
+</div>
+<div class="stage">
+<div class="cols">
+
+<div>
+<section>
+<h2 class="k">for fun</h2>
+<p><a href="https://latent-space.vercel.app/">latent space</a></p>
+<p>lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam.</p>
+<p><a href="https://protecht.vercel.app/">pro(tech)t</a></p>
+</section>
+<section>
+<h2 class="k">irl (mostly)</h2>
+<ul>
+<li><a href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1">olden residency</a></li>
+<li><a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1">softer london</a> <span class="n">(talk + workshop)</span></li>
+<li><a href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard">tech yard</a> <span class="n">(workshop)</span></li>
+<li><a href="https://www.instagram.com/p/BslwSSPH5Rc/?img_index=2">ovar it</a></li>
+</ul>
+</section>
+</div>
+
+<section>
+<h2 class="k">about</h2>
+<dl>
+<div><dt>does:</dt> <dd>creative strategy, research, workshops, writing and teaching</dd></div>
+<div><dt>teaches:</dt> <dd>associate lecturer at UAL (LCF + CCI)</dd></div>
+<div><dt>clients:</dt> <dd>Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges</dd></div>
+<div><dt>school:</dt> <dd>MA internet equalities, BA creative direction, PhD [ ? ]</dd></div>
+<div><dt>cv:</dt> <dd>cv &amp; portfolio on request</dd></div>
+<div><dt>email:</dt> <dd><a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></dd></div>
+</dl>
+</section>
+
+<section>
+<h2 class="k">things i've written</h2>
+<ul>
+<li><a href="https://www.protein.xyz/sex-and-the-internet/">mindy seu on sex and the internet</a> <span class="n">(Protein)</span></li>
+<li><a href="https://midnight.agency/thoughts/dreaming-and-designing-more-accessible-web">dreaming and designing a more accessible web</a> <span class="n">(Midnight Agency)</span></li>
+<li><a href="https://midnight.agency/thoughts/coding-a-more-creative-and-playful-web">coding a more creative and playful web</a> <span class="n">(Midnight Agency)</span></li>
+<li><a href="https://midnight.agency/thoughts/composing-a-flexible-and-modular-web">composing a flexible and modular web</a> <span class="n">(Midnight Agency)</span></li>
+<li><a href="https://morningfyi.substack.com/p/020-uh-oh-meet">burn after reading: uh oh, meet o</a> <span class="n">(morningfyi)</span></li>
+<li><a href="https://morningfyi.substack.com/p/024-entering-limb-with">burn after reading: entering limbo</a> <span class="n">(morningfyi)</span></li>
+</ul>
+</section>
+
+<section>
+<h2 class="k">podcasts, for the bus</h2>
+<ul>
+<li><a href="https://podcasts.apple.com/gb/podcast/mindy-seu-on-collaboration-community-and/id1449302502?i=1000597869409">mindy seu on collaboration, community and the cyberfeminism index</a></li>
+<li><a href="https://soundcloud.com/proteincommunity/protein-forum-what-can-web2-organisations-learn-from-web3-communities">what can web2 organisations learn from web3 communities?</a> <span class="n">(Protein)</span></li>
+<li><a href="https://podcasts.apple.com/gb/podcast/cherie-hu-on-water-musics-journey-through-web3/id1449302502?i=1000581859804">cherie hu on water &amp; music's journey through web3</a></li>
+<li><a href="https://podcasts.apple.com/gb/podcast/molly-dickson-on-dao-activism-and-fighting-for/id1449302502?i=1000578164761">molly dickson on dao activism</a></li>
+<li><a href="https://podcasts.apple.com/gb/podcast/dame-on-the-need-for-education-accessibility/id1449302502?i=1000559829008">dame on education, accessibility and inclusivity in web3</a></li>
+<li><a href="https://podcasts.apple.com/gb/podcast/nadia-piet-on-creative-ai-and-protopian-futures/id1449302502?i=1000559822732">nadia piet on creative ai and protopian futures</a></li>
+<li><a href="https://podcasts.apple.com/gb/podcast/cyn-bahati-on-her-journey-into-web3-with-her-family/id1449302502?i=1000559818509">cyn bahati on her journey into web3 with her family</a></li>
+<li><a href="https://podcasts.apple.com/gb/podcast/latash%C3%A1-on-the-potential-of-web3-for-music-artists/id1449302502?i=1000552812458">latasha on the potential of web3 for music artists</a></li>
+</ul>
+</section>
+
+</div>
+</div>
+</div>
+</section>
+
+</main>
+
+</body>
+</html>

@@ -1,203 +1,67 @@
 /* ===========================================================
-   anti-design — edge to edge, loud color, broken grid,
-   raw default-ish type. controlled chaos, no webfonts.
+   kes inkersole — the full-bleed strip. three pictures edge to
+   edge, a 1px hairline grid below, system monospace, rose links.
    =========================================================== */
 
-   :root {
-    --paper: #e9e7e0;
-    --ink: #0a0a0a;
-    --red: #ff2d16;
-    --blue: #1f35ff;
-    --green: #00b341;
-    --yellow: #ffe11a;
-    --pink: #ff52c0;
-  
-    /* font mashup — all system, no webfonts. clashing on purpose. */
-    --sans:  Helvetica, Arial, sans-serif;
-    --serif: Georgia, "Times New Roman", Times, serif;
-    --mono:  "Courier New", "Lucida Console", Monaco, monospace;
-    --cond:  "Arial Narrow", "Helvetica Neue Condensed", "Liberation Sans Narrow", sans-serif;
-    --grotbig: Impact, Haettenschweiler, "Franklin Gothic Bold", "Arial Black", sans-serif;
-  }
-  
-  * { box-sizing: border-box; }
-  html { -webkit-text-size-adjust: 100%; background: var(--ink);}
-  ::selection { background: var(--yellow); color: var(--ink); }
-  
-  body {
-    background: var(--paper); 
-    color: var(--ink);
-    font-family: var(--sans);
-    font-size: 16px;
-    line-height: 1.35;
-    margin: 0;
-    padding: 0;
-  }
-  
-  /* NO wrapper width, NO side margins — full bleed */
-  .wrap { width: 100%; }
-  
-  /* masthead spans full width, color block, name oversized & cramped */
-  .masthead {
-    background: var(--ink);
-    color: var(--paper);
-    padding: 14px 18px 22px;
-    border-bottom: 6px solid var(--red);
-  }
-  h1 {
-    font-size: clamp(48px, 13vw, 120px);
-    font-weight: 700;
-    letter-spacing: -0.05em;
-    line-height: 0.82;
-    margin: 0;
-    margin-top: 8px;
-    text-transform: uppercase;
-  }
-  /* the two words fight: heavy clean grotesque vs. lowercase serif italic */
-  h1 .a {
-    font-family: "Helvetica Neue", "Arial Black", Helvetica, Arial, sans-serif;
-    font-weight: 800;
-    letter-spacing: -0.04em;
-  }
-  h1 .b {
-    font-family: var(--serif);
-    font-style: italic;
-    font-weight: 400;
-    text-transform: lowercase;
-    letter-spacing: -0.03em;
-    color: var(--pink);
-    margin-left: 0.06em;
-  }
-  .masthead .role {
-    font-family: var(--mono);
-    font-size: clamp(14px, 2vw, 20px);
-    margin: 16px 0 0;
-    font-weight: 400;
-    color: var(--yellow);
-    text-transform: lowercase;
-    letter-spacing: 0.02em;
-  }
-  .masthead .meta {
-    font-family: var(--mono);
-    margin: 16px 0 0;
-    font-size: 14px;
-    display: flex;
-    gap: 0;
-    flex-wrap: wrap;
-  }
-  .masthead .meta span,
-  .masthead .meta a {
-    padding: 4px 10px;
-    border: 2px solid var(--paper);
-    margin: 0 -2px -2px 0;            /* collapse borders, overlap */
-    text-decoration: none;
-    color: var(--paper);
-  }
-  .masthead .meta a { background: var(--green); color: #fff; }
-  .masthead .meta a:hover { background: var(--yellow); color: var(--ink); }
-  .masthead .avail { background: var(--blue); color: var(--ink); }
-  
-  /* every row is full width, label sits in a colored gutter cell */
-  .row {
-    display: grid;
-    grid-template-columns: clamp(120px, 18vw, 260px) 1fr;
-    border-bottom: 3px solid var(--ink);
-  }
-  .label {
-    font-family: var(--grotbig);
-    font-size: clamp(16px, 2vw, 26px);
-    font-weight: 400;
-    text-transform: uppercase;
-    letter-spacing: 0.01em;
-    padding: 16px 14px;
-    border-right: 3px solid var(--ink);
-    align-self: stretch;
-  }
-  .content { padding: 16px 18px; min-width: 0; }
-  
-  /* rotate the color of each label gutter — anti-design "wrongness" */
-  .row:nth-of-type(1) .label { background: var(--yellow); }
-  .row:nth-of-type(2) .label { background: none; }
-  .row:nth-of-type(3) .label { background: var(--pink); }
-  .row:nth-of-type(4) .label { background: var(--green); color: var(--ink); }
-  .row:nth-of-type(5) .label { background: var(--blue); color: #fff; }
-  .row:nth-of-type(6) .label { background: var(--red); color: #fff; }
-  .row:nth-of-type(7) .label { background: var(--ink); color: var(--paper); }
-  .row:nth-of-type(8) .label { background: var(--yellow); }
-  .row:nth-of-type(9) .label { background: none; }
-  
-  .content p { font-family: var(--serif); font-size: 18px; margin: 0 0 12px; max-width: 80ch; }
-  .content p:last-child { margin: 0; }
-  .content .sub { font-family: var(--mono); font-size: 13px; line-height: 1.5; }
-  .content .sub b, .content b { background: var(--yellow); padding: 0 3px; font-weight: 700; }
-  
-  /* ---- FLAT TAGS: solid fill, hard square, no border, no radius ----
-     but now loud and multicolor. they butt right up against each other. */
-  .tags { display: flex; flex-wrap: wrap; gap: 0; align-items: stretch; }
-  a.tag {
-    display: inline-block;
-    background: var(--ink);
-    color: var(--paper);
-    text-decoration: none;
-    padding: 7px 13px;
-    border: none;
-    border-radius: 0;
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 1.3;
-    margin: 0 4px 4px 0;
-  }
-  /* tags also cycle FONTS — clashing typefaces within one cluster */
-  .tags a.tag:nth-of-type(4n+1) { font-family: var(--sans); }
-  .tags a.tag:nth-of-type(4n+2) { font-family: var(--mono); text-transform: lowercase; }
-  .tags a.tag:nth-of-type(4n+3) { font-family: var(--serif); font-style: italic; font-size: 18px; }
-  .tags a.tag:nth-of-type(4n+4) { font-family: var(--cond); text-transform: uppercase; letter-spacing: 0.03em; font-weight: 700; }
-  a.tag:hover { background: var(--paper); color: var(--ink); outline: 3px solid var(--ink); outline-offset: -3px; }
-  a.tag:visited { color: var(--paper); }
-  a.tag:visited:hover { color: var(--ink); }
-  
-  /* color-cycle the tags so each cluster is a riot.
-     nth-of-type counts only <a> siblings, so .meta spans don't shift it */
-  .tags a.tag:nth-of-type(6n+1) { background: var(--red);    color:#fff; }
-  .tags a.tag:nth-of-type(6n+2) { background: var(--blue);   color:#fff; }
-  .tags a.tag:nth-of-type(6n+3) { background: var(--green);  color: var(--ink); }
-  .tags a.tag:nth-of-type(6n+4) { background: var(--pink);   color: var(--ink); }
-  .tags a.tag:nth-of-type(6n+5) { background: none;   color: var(--ink); }
-  .tags a.tag:nth-of-type(6n+6) { background: var(--ink);    color: var(--paper); }
-  .tags a:hover { background: var(--yellow) !important; color: var(--ink) !important; outline: 3px solid var(--ink); outline-offset: -3px; }
-  .tags a:visited { color: inherit; }
-  
-  .tags .meta {
-    font-family: var(--serif);
-    font-size: 14px; font-style: italic;
-    padding: 7px 4px 7px 8px; align-self: center;
-  }
-  
-  /* credentials — raw, monospace numbers feel */
-  .creds { display: flex; flex-direction: column; gap: 0; }
-  .creds span { font-family: var(--cond); text-transform: uppercase; letter-spacing: 0.04em; font-size: 18px; display: flex; gap: 0; border-top: 2px solid var(--ink); padding: 5px 0; align-items: center; }
-  .creds span:first-child { border-top: none; }
-  .creds .deg {
-    font-family: var(--mono); font-weight: 700; min-width: 56px;
-    background: var(--ink); color: var(--paper);
-    padding: 2px 8px; margin-right: 10px; text-transform: none; letter-spacing: 0;
-  }
-  
-  a.mail {
-    font-family: var(--serif);
-    font-style: italic;
-    font-size: clamp(20px, 4vw, 30px);
-    font-weight: 700;
-    color: var(--blue);
-    text-decoration: underline;          /* default underline, on purpose */
-    text-decoration-thickness: 3px;
-    text-underline-offset: 4px;
-    word-break: break-all;
-  }
-  a.mail:hover { background: var(--yellow); color: var(--ink); }
-  a.mail:visited { color: var(--blue); }
-  
-  @media (max-width: 600px) {
-    .row { grid-template-columns: 1fr; }
-    .label { border-right: none; border-bottom: 3px solid var(--ink); }
-  }
+:root {
+  --ink: #111;
+  --grey: #777;
+  --line: #c8c8c8;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", "DejaVu Sans Mono", monospace;
+  --pad: 16px;
+  --r1: 0.707143; /* networked worlds cover, 990 / 1400 */
+}
+* { box-sizing: border-box; }
+html { background: #fff; color: var(--ink); -webkit-text-size-adjust: 100%; }
+body { margin: 0; font: 12px/1.6 var(--mono); background: #fff; }
+h1, h2, h3, p, ul, dl, dd, figure { margin: 0; padding: 0; font: inherit; }
+ul { list-style: none; }
+a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; text-decoration-color: #aaa; }
+a:hover { text-decoration-color: currentColor; }
+a:focus-visible { outline: 1px solid var(--ink); outline-offset: 2px; }
+.k, .n, dt { color: var(--grey); }
+
+/* one thin line: the name, then the role */
+header { display: grid; grid-template-columns: minmax(0, 1fr); padding: 12px 0 11px; }
+header > * { padding: 0 var(--pad); }
+
+/* the strip: three pictures, full bleed, one shared height.
+   flex-grow = aspect ratio and flex-basis 0, so every width follows from the same height */
+.strip { display: flex; flex-direction: column; gap: 1px; }
+.strip figure { min-width: 0; }
+.strip img { display: block; width: 100%; height: auto; }
+figcaption { padding: 8px var(--pad) 14px; }
+figcaption .n { margin-right: 1ch; }
+
+/* everything else: a hairline grid, white cells 1px apart over the rule colour */
+.grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1px; background: var(--line); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.c { background: #fff; min-width: 0; padding: 14px var(--pad) 22px; }
+.c > .k { margin-bottom: .8em; }
+.c p + p, .c p + h3 { margin-top: .9em; }
+.c h3 + p { margin-top: .2em; }
+.c li + li { margin-top: .3em; }
+.lorem { color: #333; }
+dl div + div { margin-top: .3em; }
+dt, dd { display: inline; }
+
+@media (min-width: 700px) {
+  /* the role starts where the second picture starts */
+  header { grid-template-columns: minmax(0, 0.707143fr) minmax(0, 2fr); column-gap: 1px; }
+  .strip { flex-direction: row; }
+  .strip figure { flex: 1 1 0; }
+  .strip figure:first-child { flex-grow: var(--r1); }
+  figcaption { padding-bottom: 12px; }
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 1100px) {
+  /* five columns that sit under the strip: one under the first picture, two under each of the others */
+  .grid { grid-template-columns: minmax(0, 0.707143fr) repeat(4, minmax(0, 0.5fr)); }
+  .w2 { grid-column: span 2; }
+}
+
+/* rose links, and a small ascii flower beside the name and at the foot */
+a { color: #c44a78; text-decoration-color: #f2c2d5; }
+a:hover { text-decoration-color: currentColor; }
+header h1::after { content: " \273F"; color: #e7a3bf; }
+.strip figcaption .n { color: #e7a3bf; }
+footer p:first-of-type::after { content: " \273F"; color: #e7a3bf; }

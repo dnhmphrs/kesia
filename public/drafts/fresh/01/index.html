@@ -53,8 +53,6 @@ img { display: block; width: 100%; height: auto; }
 .body .lorem { grid-column: 2 / span 7; }
 .body .out { grid-column: 10 / span 3; text-align: right; }
 
-/* the glitch: while a project opens, frozen copies of it stair-step down behind it, then drop away */
-.ghost { position: absolute; left: 0; top: 0; width: 100%; pointer-events: none; background: #fff; border: 1px solid var(--line); }
 
 /* the rest: a plain table of contents */
 .sec h2 { grid-column: span 3; }
@@ -80,7 +78,6 @@ img { display: block; width: 100%; height: auto; }
   .sec h2 { margin-bottom: 6px; }
   .foot p:first-child, .foot p:last-child { grid-column: 1 / -1; text-align: left; }
 }
-@media (prefers-reduced-motion: reduce) { .ghost { display: none; } }
 </style>
 </head>
 <body>
@@ -196,24 +193,11 @@ img { display: block; width: 100%; height: auto; }
 <script>
 (function () {
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  // the glitch: freeze copies of the opened project and stair-step them, then drop them one by one
-  function glitch(p) {
-    if (reduce) return;
-    var body = p.querySelector('.body'), n = 6, i, ghosts = [];
-    for (i = n; i >= 1; i--) {
-      var g = body.cloneNode(true); g.className = 'ghost'; g.removeAttribute('style');
-      g.style.transform = 'translate(' + (-i * 14) + 'px,' + (-i * 18) + 'px)';
-      g.style.opacity = (0.15 + 0.12 * (n - i)).toFixed(2); g.style.zIndex = n - i;
-      g.querySelectorAll('img').forEach(function (im) { im.loading = 'eager'; });
-      body.appendChild(g); ghosts.push(g);
-    }
-    ghosts.forEach(function (g, k) { setTimeout(function () { g.remove(); }, 70 * (k + 1)); });
-  }
   function set(id, scroll) {
     document.querySelectorAll('.p').forEach(function (p) {
       var on = p.id === id && !p.classList.contains('open');
       p.classList.toggle('open', on); p.querySelector('.idx').setAttribute('aria-expanded', on);
-      if (on) { glitch(p); if (scroll) p.scrollIntoView({ block: 'start', behavior: reduce ? 'auto' : 'smooth' }); }
+      if (on) { if (scroll) p.scrollIntoView({ block: 'start', behavior: reduce ? 'auto' : 'smooth' }); }
     });
     var open = document.querySelector('.p.open');
     history.replaceState(null, '', open ? '#' + open.id : location.pathname + location.search);

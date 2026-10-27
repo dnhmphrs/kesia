@@ -1,102 +1,75 @@
-/* ===========================================================
-   kes inkersole — the full-bleed strip. three pictures edge to
-   edge, a 1px hairline grid below, system monospace, rose links.
-   click a project: its pictures take the strip (one at a time,
-   by #target, no js); × or back returns to the three.
-   =========================================================== */
+/* kes inkersole — a mono document on one 12-column grid. one picture per project;
+   a project opens in place with all its pictures, one at a time. */
 
-:root {
-  --ink: #111;
-  --grey: #777;
-  --line: #c8c8c8;
-  --mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", "DejaVu Sans Mono", monospace;
-  --pad: 16px;
-  --r1: 0.707143; /* networked worlds cover, 990 / 1400 */
-}
+:root { --ink: #111; --grey: #8a8a8a; --line: #d0d0d0; --rose: #c44a78; --mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace; --pad: 16px; }
 * { box-sizing: border-box; }
 html { background: #fff; color: var(--ink); -webkit-text-size-adjust: 100%; }
-body { margin: 0; font: 12px/1.6 var(--mono); background: #fff; }
+body { margin: 0; font: 12px/1.5 var(--mono); }
 h1, h2, h3, p, ul, dl, dd, figure { margin: 0; padding: 0; font: inherit; }
 ul { list-style: none; }
-a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; text-decoration-color: #aaa; }
+a { color: var(--rose); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; text-decoration-color: #f2c2d5; }
 a:hover { text-decoration-color: currentColor; }
-a:focus-visible { outline: 1px solid var(--ink); outline-offset: 2px; }
-.k, .n, dt { color: var(--grey); }
+img { display: block; width: 100%; height: auto; }
+.g { color: var(--grey); }
+.u { text-transform: uppercase; letter-spacing: .04em; }
 
-/* one thin line: the name, then the role */
-header { display: grid; grid-template-columns: minmax(0, 1fr); padding: 12px 0 11px; }
-header > * { padding: 0 var(--pad); }
+/* every block is a row of the same 12-column grid, divided by one hairline */
+.row { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--pad); padding: 10px var(--pad); border-bottom: 1px solid var(--line); }
 
-/* the strip: three pictures, full bleed, one shared height.
-   flex-grow = aspect ratio and flex-basis 0, so every width follows from the same height */
-.strip { display: flex; flex-direction: column; gap: 1px; }
-.strip figure { min-width: 0; }
-.strip img { display: block; width: 100%; height: auto; }
-figcaption { padding: 8px var(--pad) 14px; }
-figcaption .n { margin-right: 1ch; }
+/* head */
+.head { align-items: baseline; }
+.head h1 { grid-column: span 3; }
+.head p { grid-column: span 3; }
+.head p:last-child { text-align: right; }
 
-/* everything else: a hairline grid, white cells 1px apart over the rule colour */
-.grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1px; background: var(--line); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-.c { background: #fff; min-width: 0; padding: 14px var(--pad) 22px; }
-.c > .k { margin-bottom: .8em; }
-.c p + p, .c p + h3 { margin-top: .9em; }
-.c h3 + p { margin-top: .2em; }
-.c h3 + h3 { margin-top: .3em; }
-.c li + li { margin-top: .3em; }
-.lorem { color: #333; }
-dl div + div { margin-top: .3em; }
-dt, dd { display: inline; }
+/* the index of projects: a document list, prof. dr. style; one line each */
+.idx { cursor: pointer; align-items: baseline; }
+.idx:hover { background: #fafafa; }
+.idx .n { grid-column: span 1; }
+.idx .t { grid-column: span 6; }
+.idx .w { grid-column: span 4; }
+.idx .o { grid-column: span 1; text-align: right; }
+.idx .o::after { content: "+"; color: var(--grey); }
+.p.open .idx .o::after { content: "\2212"; color: var(--ink); }
 
-@media (min-width: 700px) {
-  /* the role starts where the second picture starts */
-  header { grid-template-columns: minmax(0, 0.707143fr) minmax(0, 2fr); column-gap: 1px; }
-  .strip { flex-direction: row; }
-  .strip figure { flex: 1 1 0; }
-  .strip figure:first-child { flex-grow: var(--r1); }
-  figcaption { padding-bottom: 12px; }
-  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-@media (min-width: 1100px) {
-  /* five columns that sit under the strip: one under the first picture, two under each of the others */
-  .grid { grid-template-columns: minmax(0, 0.707143fr) repeat(4, minmax(0, 0.5fr)); }
-  .w2 { grid-column: span 2; }
-}
+/* the picture: closed, one icon per project in the grid */
+.thumbs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--line); border-bottom: 1px solid var(--line); }
+.thumbs button { all: unset; cursor: pointer; display: block; background: #fff; }
+.thumbs button:focus-visible { outline: 1px solid var(--ink); outline-offset: -1px; }
+.thumbs img { aspect-ratio: 1 / 1; object-fit: contain; background: #fff; }
+.thumbs span { display: block; padding: 6px var(--pad) 8px; }
 
-/* rose links, and a small ascii flower beside the name and at the foot */
-a { color: #c44a78; text-decoration-color: #f2c2d5; }
-a:hover { text-decoration-color: currentColor; }
-header h1::after { content: " \273F"; color: #e7a3bf; }
-.strip figcaption .n { color: #e7a3bf; }
-footer p:first-of-type::after { content: " \273F"; color: #e7a3bf; }
+/* open: the project unfolds under its line, all pictures in one row */
+.body { display: none; border-bottom: 1px solid var(--line); position: relative; }
+.p.open .body { display: block; }
+.pics { display: flex; gap: 1px; background: var(--line); }
+.pics img { width: auto; height: min(60vh, calc((100vw - 3px) / var(--sum))); flex: none; }
+.body .row { border-bottom: 0; }
+.body .lorem { grid-column: 2 / span 7; }
+.body .out { grid-column: 10 / span 3; text-align: right; }
 
-/* one project open at a time: a project section shows only when its id is the url's #target,
-   and then the home strip hides. nothing moves but the pictures in the slot; × or back returns. */
-.p { display: none; scroll-margin-top: 48px; }
-.p:target { display: block; }
-.p:target ~ .home { display: none; }
-.strip > a { display: block; min-width: 0; }
-.strip figure > a { display: block; }
 
-/* the open project: all its pictures edge to edge at one shared height, lead first */
-.pics { display: flex; gap: 1px; justify-content: flex-start; }
-.pics img { display: block; width: auto; height: min(78vh, calc((100vw - 3px) / var(--sum))); }
-/* its row beneath: caption under the name, text under the role line, × at the end */
-.row { display: grid; grid-template-columns: minmax(0, 1fr); row-gap: 4px; padding: 8px 0 14px; }
-.row p { padding: 0 var(--pad); }
-.row .side { display: flex; gap: 2ch; align-items: flex-start; }
-.row .lorem { flex: 1 1 0; min-width: 0; max-width: 60em; }
-.x { flex: none; margin-left: auto; color: var(--grey); text-decoration: none; padding: 0 2px; }
-.x:hover, .x:focus-visible { color: var(--ink); }
-.row .n { margin-right: 1ch; }
+/* the rest: a plain table of contents */
+.sec h2 { grid-column: span 3; }
+.sec > div { grid-column: span 9; }
+.sec li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2ch; padding: 2px 0; }
+.sec li span { color: var(--grey); text-align: right; }
+.sec p + p { margin-top: .8em; }
+.sec dl div { display: grid; grid-template-columns: 9ch minmax(0, 1fr); }
+.sec dt { color: var(--grey); }
+.foot p:first-child { grid-column: span 6; }
+.foot p:last-child { grid-column: span 6; text-align: right; }
 
 @media (max-width: 699px) {
-  /* phone: the open project's pictures two across, each pair at one height; its row comes first so × is in reach */
-  .p { display: none; flex-direction: column; }
-  .p:target { display: flex; }
-  .row { order: -1; padding: 10px 0 12px; }
+  .row { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .head h1, .head p { grid-column: span 4; }
+  .head p:last-child { text-align: left; }
+  .idx .n { grid-column: span 1; } .idx .t { grid-column: span 3; } .idx .w { grid-column: 2 / span 2; } .idx .o { grid-column: 4; grid-row: 1; }
+  .thumbs span { padding: 4px 8px 6px; }
   .pics { flex-wrap: wrap; }
-  .pics img { flex: none; width: var(--pw); height: auto; }
-}
-@media (min-width: 700px) {
-  .row { grid-template-columns: minmax(0, 0.707143fr) minmax(0, 2fr); column-gap: 1px; padding-bottom: 12px; }
+  .pics img { width: calc(50% - .5px); height: auto; aspect-ratio: 1 / 1; object-fit: cover; }
+  .body .lorem, .body .out { grid-column: 1 / -1; text-align: left; }
+  .sec h2, .sec > div { grid-column: 1 / -1; }
+  .sec h2 { margin-bottom: 6px; }
+  .foot p:first-child, .foot p:last-child { grid-column: 1 / -1; text-align: left; }
 }

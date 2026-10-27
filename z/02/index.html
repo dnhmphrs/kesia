@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>kes inkersole</title>
+<style>
+:root {
+  --ink: #111;
+  --grey: #777;
+  --line: #c8c8c8;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", "DejaVu Sans Mono", monospace;
+  --pad: 16px;
+  --r1: 0.707143; /* networked worlds cover, 990 / 1400 */
+}
+* { box-sizing: border-box; }
+html { background: #fff; color: var(--ink); -webkit-text-size-adjust: 100%; }
+body { margin: 0; font: 12px/1.6 var(--mono); background: #fff; }
+h1, h2, h3, p, ul, dl, dd, figure { margin: 0; padding: 0; font: inherit; }
+ul { list-style: none; }
+a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; text-decoration-color: #aaa; }
+a:hover { text-decoration-color: currentColor; }
+a:focus-visible { outline: 1px solid var(--ink); outline-offset: 2px; }
+.k, .n, dt { color: var(--grey); }
+
+/* one thin line: the name, then the role */
+header { display: grid; grid-template-columns: minmax(0, 1fr); padding: 12px 0 11px; }
+header > * { padding: 0 var(--pad); }
+
+/* the strip: three pictures, full bleed, one shared height.
+   flex-grow = aspect ratio and flex-basis 0, so every width follows from the same height */
+.strip figure { min-width: 0; }
+
+/* everything else: a hairline grid, white cells 1px apart over the rule colour */
+.grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1px; background: var(--line); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.c { background: #fff; min-width: 0; padding: 14px var(--pad) 22px; }
+.c > .k { margin-bottom: .8em; }
+.c p + p, .c p + h3 { margin-top: .9em; }
+.c h3 + p { margin-top: .2em; }
+.c h3 + h3 { margin-top: .3em; }
+.c li + li { margin-top: .3em; }
+.lorem { color: #333; }
+dl div + div { margin-top: .3em; }
+dt, dd { display: inline; }
+
+@media (min-width: 700px) {
+  /* the role starts where the second picture starts */
+  header { grid-template-columns: minmax(0, 0.707143fr) minmax(0, 2fr); column-gap: 1px; }
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 1100px) {
+  /* five columns that sit under the strip: one under the first picture, two under each of the others */
+  .grid { grid-template-columns: minmax(0, 0.707143fr) repeat(4, minmax(0, 0.5fr)); }
+  .w2 { grid-column: span 2; }
+}
+</style>
+<style>
+/* variant: rose + flowers */
+a { color: #c44a78; text-decoration-color: #f2c2d5; }
+a:hover { text-decoration-color: currentColor; }
+header h1::after { content: " \273F"; color: #e7a3bf; }
+.strip figcaption .n { color: #e7a3bf; }
+footer p:first-of-type::after { content: " \273F"; color: #e7a3bf; }
+</style>
+<style>
+/* the stack */
+.r { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+.r:focus-visible + * { outline: 1px solid var(--ink); outline-offset: -2px; }
+label { cursor: pointer; }
+.pic { position: relative; }
+.pic > label { display: block; }
+.lead { display: block; width: 100%; height: auto; }
+.pic > .back, figcaption > .back { display: none; }
+.pic > .back { position: absolute; inset: 0; }
+figcaption { padding: 8px var(--pad) 12px; display: flex; justify-content: space-between; gap: 2ch; }
+figcaption > label { justify-content: space-between; gap: 2ch; flex: 1 1 auto; min-width: 0; }
+figcaption > .go { display: flex; }
+figcaption .go > span:first-child, figcaption .back > span:first-child { min-width: 0; }
+figcaption .tog { color: var(--grey); flex: none; }
+figcaption .n { margin-right: 1ch; }
+
+#o-networked-worlds:checked ~ .strip #f-networked-worlds .back { display: block; }
+#o-networked-worlds:checked ~ .strip #f-networked-worlds figcaption > .back { display: flex; }
+#o-networked-worlds:checked ~ .strip #f-networked-worlds figcaption > .go { display: none; }
+#o-networked-worlds:checked ~ .txt .t-networked-worlds { display: grid; }
+
+#o-protein:checked ~ .strip #f-protein .back { display: block; }
+#o-protein:checked ~ .strip #f-protein figcaption > .back { display: flex; }
+#o-protein:checked ~ .strip #f-protein figcaption > .go { display: none; }
+#o-protein:checked ~ .txt .t-protein { display: grid; }
+
+#o-morning:checked ~ .strip #f-morning .back { display: block; }
+#o-morning:checked ~ .strip #f-morning figcaption > .back { display: flex; }
+#o-morning:checked ~ .strip #f-morning figcaption > .go { display: none; }
+#o-morning:checked ~ .txt .t-morning { display: grid; }
+.txt > div { display: none; grid-template-columns: minmax(0, 1fr); row-gap: 4px; padding: 8px 0 14px; border-bottom: 1px solid var(--line); }
+.txt p { padding: 0 var(--pad); max-width: 60em; }
+.txt .side { display: flex; gap: 2ch; align-items: flex-start; }
+.txt .lorem { flex: 1 1 0; min-width: 0; }
+.txt .x { flex: none; margin-left: auto; color: var(--grey); padding: 0 2px; }
+.txt .x:hover { color: var(--ink); }
+.txt .k { color: var(--grey); }
+@media (min-width: 700px) { .txt > div { grid-template-columns: minmax(0, 0.707143fr) minmax(0, 2fr); column-gap: 1px; padding-bottom: 12px; } }
+
+.strip { display: flex; flex-direction: column; gap: 1px; }
+.stage { display: none; position: relative; height: calc(var(--h) * var(--sh)); overflow: hidden; border-top: 1px solid var(--line); }
+.stage img { position: absolute; display: block; height: var(--h); width: auto; border: 1px solid var(--line); box-sizing: border-box; background: #fff; }
+.edge { position: absolute; height: 1px; background: var(--line); transform-origin: 0 0; }
+  #o-networked-worlds:checked ~ .stage.s-networked-worlds { display: block; }
+  #o-protein:checked ~ .stage.s-protein { display: block; }
+  #o-morning:checked ~ .stage.s-morning { display: block; }
+@media (min-width: 700px) {
+  .strip { flex-direction: row; }
+  .strip figure { flex: 1 1 0; }
+  .strip figure:first-child { flex-grow: 0.707143; }
+  .stage { --h: min(52vh, calc(var(--avail) / var(--sw))); }
+}
+@media (max-width: 699px) {
+  /* phone: no stage; the other pictures two across under the strip */
+  .stage { height: auto; display: none; flex-wrap: wrap; gap: 1px; }
+  #o-networked-worlds:checked ~ .stage.s-networked-worlds { display: flex; }
+  #o-protein:checked ~ .stage.s-protein { display: flex; }
+  #o-morning:checked ~ .stage.s-morning { display: flex; }
+  .stage img { position: static; height: auto; border: 0; flex: none; width: var(--pw); }
+  .stack { position: static !important; display: contents; }
+  .edge { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>kes inkersole</h1>
+  <p>creative strategist, internet equalities researcher, london. available for work.</p>
+</header>
+
+<main>
+
+  <input class="r" type="radio" name="open" id="o-none" checked>
+  <input class="r" type="radio" name="open" id="o-networked-worlds">
+  <input class="r" type="radio" name="open" id="o-protein">
+  <input class="r" type="radio" name="open" id="o-morning">
+  <div class="strip">
+    <figure id="f-networked-worlds">
+      <div class="pic"><label class="go" for="o-networked-worlds"><img class="lead" src="../img/l/networked-worlds-1.jpg" srcset="../img/s/networked-worlds-1.jpg 453w, ../img/l/networked-worlds-1.jpg 990w" sizes="(min-width: 700px) 37vw, 100vw" width="990" height="1400" alt="yellow cover with a curved grid: Networked Worlds, WeTransfer" style="--r: 0.707143;"></label><label class="back" for="o-none" aria-label="close"></label></div>
+      <figcaption><label class="go" for="o-networked-worlds"><span><span class="n">01</span><span class="k">for funds ·</span> <a href="https://co-matter.com/project/networked-worlds">networked worlds</a> with co—matter</span><span class="tog" aria-hidden="true">+</span></label><label class="back" for="o-none"><span><span class="n">01</span><span class="k">for funds ·</span> <a href="https://co-matter.com/project/networked-worlds">networked worlds</a> with co—matter</span><span class="tog" aria-hidden="true">&minus;</span></label></figcaption>
+    </figure>
+    <figure id="f-protein">
+      <div class="pic"><label class="go" for="o-protein"><img class="lead" src="../img/l/protein-1.jpg" srcset="../img/s/protein-1.jpg 640w, ../img/l/protein-1.jpg 1080w" sizes="(min-width: 700px) 37vw, 100vw" width="1080" height="1080" alt="pink report cover: dirty word [report #4] community" style="--r: 1.000000;"></label><label class="back" for="o-none" aria-label="close"></label></div>
+      <figcaption><label class="go" for="o-protein"><span><span class="n">02</span><span class="k">for funds ·</span> <a href="https://www.protein.xyz/dirty-words-4-community/">protein dirty words #4: community report</a></span><span class="tog" aria-hidden="true">+</span></label><label class="back" for="o-none"><span><span class="n">02</span><span class="k">for funds ·</span> <a href="https://www.protein.xyz/dirty-words-4-community/">protein dirty words #4: community report</a></span><span class="tog" aria-hidden="true">&minus;</span></label></figcaption>
+    </figure>
+    <figure id="f-morning">
+      <div class="pic"><label class="go" for="o-morning"><img class="lead" src="../img/l/morning-3.jpg" srcset="../img/s/morning-3.jpg 640w, ../img/l/morning-3.jpg 1400w" sizes="(min-width: 700px) 37vw, 100vw" width="1400" height="1400" alt="3d render of three pink piglet-like creatures curled inside a cracked black egg" style="--r: 1.000000;"></label><label class="back" for="o-none" aria-label="close"></label></div>
+      <figcaption><label class="go" for="o-morning"><span><span class="n">03</span><span class="k">for funds ·</span> <a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1">MØRNING Ø</a></span><span class="tog" aria-hidden="true">+</span></label><label class="back" for="o-none"><span><span class="n">03</span><span class="k">for funds ·</span> <a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1">MØRNING Ø</a></span><span class="tog" aria-hidden="true">&minus;</span></label></figcaption>
+    </figure>
+  </div>
+  <div class="stage s-networked-worlds" style="--sw: 1.4107; --sh: 1.2200; --avail: calc(100vw - 32px)"><div class="stack" style="position: absolute; inset: 0; left: 16px"><i class="edge" style="width: calc(0.6676 * var(--h)); bottom: calc((0.0000 + 1) * var(--h)); left: calc(0.0000 * var(--h)); transform-origin: 0 0; transform: rotate(-15.64deg); z-index: 0"></i><i class="edge" style="width: calc(0.6710 * var(--h)); bottom: calc((0.0000 + 1) * var(--h)); left: calc(0.7143 * var(--h)); transform-origin: 0 0; transform: rotate(-15.56deg); z-index: 0"></i><i class="edge" style="width: calc(0.6676 * var(--h)); bottom: calc((0.0000 + 0) * var(--h)); left: calc(0.0000 * var(--h)); transform-origin: 0 0; transform: rotate(-15.64deg); z-index: 0"></i><i class="edge" style="width: calc(0.6710 * var(--h)); bottom: calc((0.0000 + 0) * var(--h)); left: calc(0.7143 * var(--h)); transform-origin: 0 0; transform: rotate(-15.56deg); z-index: 0"></i><img src="../img/l/networked-worlds-2.jpg" srcset="../img/s/networked-worlds-2.jpg 457w, ../img/l/networked-worlds-2.jpg 1000w" sizes="30vw" width="1000" height="1400" alt="a collage of many small images on black" style="--r: 0.714286; left: calc(0.0000 * var(--h)); bottom: calc(0.0000 * var(--h)); z-index: 2; --pw: calc((100% - 1px) * 0.4988);"><img src="../img/l/networked-worlds-3.jpg" srcset="../img/s/networked-worlds-3.jpg 460w, ../img/l/networked-worlds-3.jpg 1005w" sizes="30vw" width="1005" height="1400" alt="&quot;worlding resources&quot;: a timeline of books and texts on black" style="--r: 0.717857; left: calc(0.6429 * var(--h)); bottom: calc(0.1800 * var(--h)); z-index: 1; --pw: calc((100% - 1px) * 0.5012);"></div></div>
+  <div class="stage s-protein" style="--sw: 2.6000; --sh: 1.4000; --avail: calc(73.88vw - 32px)"><div class="stack" style="position: absolute; inset: 0; left: 26.12%"><i class="edge" style="width: calc(0.9178 * var(--h)); bottom: calc((0.0000 + 1) * var(--h)); left: calc(0.0000 * var(--h)); transform-origin: 0 0; transform: rotate(-11.31deg); z-index: 0"></i><i class="edge" style="width: calc(0.9178 * var(--h)); bottom: calc((0.0000 + 1) * var(--h)); left: calc(1.0000 * var(--h)); transform-origin: 0 0; transform: rotate(-11.31deg); z-index: 0"></i><i class="edge" style="width: calc(0.9178 * var(--h)); bottom: calc((0.0000 + 0) * var(--h)); left: calc(0.0000 * var(--h)); transform-origin: 0 0; transform: rotate(-11.31deg); z-index: 0"></i><i class="edge" style="width: calc(0.9178 * var(--h)); bottom: calc((0.0000 + 0) * var(--h)); left: calc(1.0000 * var(--h)); transform-origin: 0 0; transform: rotate(-11.31deg); z-index: 0"></i><i class="edge" style="width: calc(0.9178 * var(--h)); bottom: calc((0.1800 + 1) * var(--h)); left: calc(0.9000 * var(--h)); transform-origin: 0 0; transform: rotate(-11.31deg); z-index: 0"></i><i class="edge" style="width: calc(0.6745 * var(--h)); bottom: calc((0.1800 + 1) * var(--h)); left: calc(1.9000 * var(--h)); transform-origin: 0 0; transform: rotate(-15.48deg); z-index: 0"></i><i class="edge" style="width: calc(0.9178 * var(--h)); bottom: calc((0.1800 + 0) * var(--h)); left: calc(0.9000 * var(--h)); transform-origin: 0 0; transform: rotate(-11.31deg); z-index: 0"></i><i class="edge" style="width: calc(0.6745 * var(--h)); bottom: calc((0.1800 + 0) * var(--h)); left: calc(1.9000 * var(--h)); transform-origin: 0 0; transform: rotate(-15.48deg); z-index: 0"></i><img src="../img/l/protein-2.jpg" srcset="../img/s/protein-2.jpg 640w, ../img/l/protein-2.jpg 1080w" sizes="30vw" width="1080" height="1080" alt="overlapping page spreads from the report" style="--r: 1.000000; left: calc(0.0000 * var(--h)); bottom: calc(0.0000 * var(--h)); z-index: 3; --pw: calc((100% - 1px) * 0.5000);"><img src="../img/l/protein-3.jpg" srcset="../img/s/protein-3.jpg 640w, ../img/l/protein-3.jpg 1080w" sizes="30vw" width="1080" height="1080" alt="a grid of the report&#x27;s pages in pink, black and white" style="--r: 1.000000; left: calc(0.9000 * var(--h)); bottom: calc(0.1800 * var(--h)); z-index: 2; --pw: calc((100% - 1px) * 0.5000);"><img src="../img/l/protein-4.jpg" srcset="../img/s/protein-4.jpg 480w, ../img/l/protein-4.jpg 1050w" sizes="30vw" width="1050" height="1400" alt="the printed report on a wooden floor" style="--r: 0.750000; left: calc(1.8000 * var(--h)); bottom: calc(0.3600 * var(--h)); z-index: 1; --pw: 100%;"></div></div>
+  <div class="stage s-morning" style="--sw: 1.7500; --sh: 1.2200; --avail: calc(100vw - 32px)"><div class="stack" style="position: absolute; inset: 0; right: 16px"><i class="edge" style="width: calc(0.9178 * var(--h)); bottom: calc((0.0000 + 1) * var(--h)); right: calc(0.0000 * var(--h)); transform-origin: 100% 0; transform: rotate(11.31deg); z-index: 0"></i><i class="edge" style="width: calc(0.7228 * var(--h)); bottom: calc((0.0000 + 1) * var(--h)); right: calc(1.0000 * var(--h)); transform-origin: 100% 0; transform: rotate(14.42deg); z-index: 0"></i><i class="edge" style="width: calc(0.9178 * var(--h)); bottom: calc((0.0000 + 0) * var(--h)); right: calc(0.0000 * var(--h)); transform-origin: 100% 0; transform: rotate(11.31deg); z-index: 0"></i><i class="edge" style="width: calc(0.7228 * var(--h)); bottom: calc((0.0000 + 0) * var(--h)); right: calc(1.0000 * var(--h)); transform-origin: 100% 0; transform: rotate(14.42deg); z-index: 0"></i><img src="../img/l/morning-1.jpg" srcset="../img/s/morning-1.jpg 640w, ../img/l/morning-1.jpg 1080w" sizes="30vw" width="1080" height="1080" alt="MØRNING newsletter graphic: &quot;#020 uh oh, meet Ø&quot;, a red burn after reading sticker over screenshots of video calls" style="--r: 1.000000; right: calc(0.0000 * var(--h)); bottom: calc(0.0000 * var(--h)); z-index: 2; --pw: calc((100% - 1px) * 0.5556);"><img src="../img/l/morning-2.jpg" srcset="../img/s/morning-2.jpg 512w, ../img/l/morning-2.jpg 1120w" sizes="30vw" width="1120" height="1400" alt="3d render of a dark glossy egg with orange marbling" style="--r: 0.800000; right: calc(0.9000 * var(--h)); bottom: calc(0.1800 * var(--h)); z-index: 1; --pw: calc((100% - 1px) * 0.4444);"></div></div>
+  <div class="txt">
+    <div class="t-networked-worlds"><p class="k">01</p><div class="side"><p class="lorem">duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. excepteur sint occaecat cupidatat non proident.</p><label class="x" for="o-none" aria-label="close">×</label></div></div>
+    <div class="t-protein"><p class="k">02</p><div class="side"><p class="lorem">sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo.</p><label class="x" for="o-none" aria-label="close">×</label></div></div>
+  </div>
+
+  <div class="grid">
+
+    <section class="c">
+      <h2 class="k">hello, i'm kes &lt;3</h2>
+      <p>i'm kes inkersole (kesia on paper), a freelance creative strategist and internet equalities researcher based in london. welcome to kes' little corner of the internet.</p>
+      <p>my practice focuses on understanding and critiquing the impacts of emerging technologies on people, culture, and the planet. i work collectively to rethink the narratives and behaviours surrounding technologies — prioritising collaborative research as a process for testing, imagining and prototyping more equitable, alternative futures.</p>
+    </section>
+
+    <section class="c">
+      <h2 class="k">for funds</h2>
+      <h3><a href="https://co-matter.com/project/networked-worlds">networked worlds</a> with co—matter</h3>
+      <h3><a href="https://www.protein.xyz/dirty-words-4-community/">protein dirty words #4: community report</a></h3>
+      <h3><a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1">MØRNING Ø</a></h3>
+    </section>
+
+    <section class="c">
+      <h2 class="k">for fun</h2>
+      <h3><a href="https://latent-space.vercel.app/">latent space</a></h3>
+      <p class="lorem">lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam.</p>
+      <h3><a href="https://protecht.vercel.app/">pro(tech)t</a></h3>
+    </section>
+
+    <section class="c">
+      <h2 class="k">irl (mostly)</h2>
+      <ul>
+        <li><a href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1">olden residency</a></li>
+        <li><a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1">softer london</a> <span class="n">(talk + workshop)</span></li>
+        <li><a href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard">tech yard</a> <span class="n">(workshop)</span></li>
+        <li><a href="https://www.instagram.com/p/BslwSSPH5Rc/?img_index=2">ovar it</a></li>
+      </ul>
+    </section>
+
+    <section class="c">
+      <h2 class="k">about</h2>
+      <dl>
+        <div><dt>does:</dt> <dd>creative strategy, research, workshops, writing and teaching</dd></div>
+        <div><dt>teaches:</dt> <dd>associate lecturer at UAL (LCF + CCI)</dd></div>
+        <div><dt>clients:</dt> <dd>Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges</dd></div>
+        <div><dt>school:</dt> <dd>MA internet equalities, BA creative direction, PhD [ ? ]</dd></div>
+        <div><dt>cv:</dt> <dd>cv &amp; portfolio on request</dd></div>
+        <div><dt>email:</dt> <dd><a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></dd></div>
+      </dl>
+    </section>
+
+    <section class="c">
+      <h2 class="k">things i've written</h2>
+      <ul>
+        <li><a href="https://www.protein.xyz/sex-and-the-internet/">mindy seu on sex and the internet</a> <span class="n">(Protein)</span></li>
+        <li><a href="https://midnight.agency/thoughts/dreaming-and-designing-more-accessible-web">dreaming and designing a more accessible web</a> <span class="n">(Midnight Agency)</span></li>
+        <li><a href="https://midnight.agency/thoughts/coding-a-more-creative-and-playful-web">coding a more creative and playful web</a> <span class="n">(Midnight Agency)</span></li>
+        <li><a href="https://midnight.agency/thoughts/composing-a-flexible-and-modular-web">composing a flexible and modular web</a> <span class="n">(Midnight Agency)</span></li>
+        <li><a href="https://morningfyi.substack.com/p/020-uh-oh-meet">burn after reading: uh oh, meet o</a> <span class="n">(morningfyi)</span></li>
+        <li><a href="https://morningfyi.substack.com/p/024-entering-limb-with">burn after reading: entering limbo</a> <span class="n">(morningfyi)</span></li>
+      </ul>
+    </section>
+
+    <section class="c w2">
+      <h2 class="k">podcasts, for the bus</h2>
+      <ul>
+        <li><a href="https://podcasts.apple.com/gb/podcast/mindy-seu-on-collaboration-community-and/id1449302502?i=1000597869409">mindy seu on collaboration, community and the cyberfeminism index</a></li>
+        <li><a href="https://soundcloud.com/proteincommunity/protein-forum-what-can-web2-organisations-learn-from-web3-communities">what can web2 organisations learn from web3 communities?</a> <span class="n">(Protein)</span></li>
+        <li><a href="https://podcasts.apple.com/gb/podcast/cherie-hu-on-water-musics-journey-through-web3/id1449302502?i=1000581859804">cherie hu on water &amp; music's journey through web3</a></li>
+        <li><a href="https://podcasts.apple.com/gb/podcast/molly-dickson-on-dao-activism-and-fighting-for/id1449302502?i=1000578164761">molly dickson on dao activism</a></li>
+        <li><a href="https://podcasts.apple.com/gb/podcast/dame-on-the-need-for-education-accessibility/id1449302502?i=1000559829008">dame on education, accessibility and inclusivity in web3</a></li>
+        <li><a href="https://podcasts.apple.com/gb/podcast/nadia-piet-on-creative-ai-and-protopian-futures/id1449302502?i=1000559822732">nadia piet on creative ai and protopian futures</a></li>
+        <li><a href="https://podcasts.apple.com/gb/podcast/cyn-bahati-on-her-journey-into-web3-with-her-family/id1449302502?i=1000559818509">cyn bahati on her journey into web3 with her family</a></li>
+        <li><a href="https://podcasts.apple.com/gb/podcast/latash%C3%A1-on-the-potential-of-web3-for-music-artists/id1449302502?i=1000552812458">latasha on the potential of web3 for music artists</a></li>
+      </ul>
+    </section>
+
+    <footer class="c w2">
+      <h2 class="k">contact</h2>
+      <p>thanks for stopping by &lt;3</p>
+      <p>say hello: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
+    </footer>
+
+  </div>
+
+</main>
+
+</body>
+</html>

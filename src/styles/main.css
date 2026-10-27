@@ -1,6 +1,8 @@
 /* ===========================================================
    kes inkersole — the full-bleed strip. three pictures edge to
    edge, a 1px hairline grid below, system monospace, rose links.
+   click a project: its pictures take the strip (one at a time,
+   by #target, no js); × or back returns to the three.
    =========================================================== */
 
 :root {
@@ -39,6 +41,7 @@ figcaption .n { margin-right: 1ch; }
 .c > .k { margin-bottom: .8em; }
 .c p + p, .c p + h3 { margin-top: .9em; }
 .c h3 + p { margin-top: .2em; }
+.c h3 + h3 { margin-top: .3em; }
 .c li + li { margin-top: .3em; }
 .lorem { color: #333; }
 dl div + div { margin-top: .3em; }
@@ -65,3 +68,35 @@ a:hover { text-decoration-color: currentColor; }
 header h1::after { content: " \273F"; color: #e7a3bf; }
 .strip figcaption .n { color: #e7a3bf; }
 footer p:first-of-type::after { content: " \273F"; color: #e7a3bf; }
+
+/* one project open at a time: a project section shows only when its id is the url's #target,
+   and then the home strip hides. nothing moves but the pictures in the slot; × or back returns. */
+.p { display: none; scroll-margin-top: 48px; }
+.p:target { display: block; }
+.p:target ~ .home { display: none; }
+.strip > a { display: block; min-width: 0; }
+.strip figure > a { display: block; }
+
+/* the open project: all its pictures edge to edge at one shared height, lead first */
+.pics { display: flex; gap: 1px; justify-content: flex-start; }
+.pics img { display: block; width: auto; height: min(78vh, calc((100vw - 3px) / var(--sum))); }
+/* its row beneath: caption under the name, text under the role line, × at the end */
+.row { display: grid; grid-template-columns: minmax(0, 1fr); row-gap: 4px; padding: 8px 0 14px; }
+.row p { padding: 0 var(--pad); }
+.row .side { display: flex; gap: 2ch; align-items: flex-start; }
+.row .lorem { flex: 1 1 0; min-width: 0; max-width: 60em; }
+.x { flex: none; margin-left: auto; color: var(--grey); text-decoration: none; padding: 0 2px; }
+.x:hover, .x:focus-visible { color: var(--ink); }
+.row .n { margin-right: 1ch; }
+
+@media (max-width: 699px) {
+  /* phone: the open project's pictures two across, each pair at one height; its row comes first so × is in reach */
+  .p { display: none; flex-direction: column; }
+  .p:target { display: flex; }
+  .row { order: -1; padding: 10px 0 12px; }
+  .pics { flex-wrap: wrap; }
+  .pics img { flex: none; width: var(--pw); height: auto; }
+}
+@media (min-width: 700px) {
+  .row { grid-template-columns: minmax(0, 0.707143fr) minmax(0, 2fr); column-gap: 1px; padding-bottom: 12px; }
+}

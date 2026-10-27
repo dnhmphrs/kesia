@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>kes inkersole</title>
+<style>
+:root {
+  --ink: #111;
+  --grey: #777;
+  --line: #c8c8c8;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", "DejaVu Sans Mono", monospace;
+  --pad: 16px;
+  --r1: 0.707143; /* first column of the grid, as on the home page: 990 / 1400 */
+}
+* { box-sizing: border-box; }
+html { background: #fff; color: var(--ink); -webkit-text-size-adjust: 100%; }
+body { margin: 0; font: 12px/1.6 var(--mono); background: #fff; }
+h1, h2, h3, p, ul, dl, dd, figure { margin: 0; padding: 0; font: inherit; }
+ul { list-style: none; }
+a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; text-decoration-color: #aaa; }
+a:hover { text-decoration-color: currentColor; }
+a:focus-visible { outline: 1px solid var(--ink); outline-offset: 2px; }
+.k, .n, dt { color: var(--grey); }
+
+/* one thin line: the name (a way back), then the role */
+header { display: grid; grid-template-columns: minmax(0, 1fr); padding: 12px 0 11px; }
+header > * { padding: 0 var(--pad); }
+
+/* the title row: this project's caption, above its pictures */
+.cap { border-top: 1px solid var(--line); padding: 8px var(--pad) 12px; }
+.n { margin-right: 1ch; }
+
+/* the pictures: full bleed, one shared height.
+   flex-basis and flex-grow are both the aspect ratio, so every width follows from the same height;
+   on a phone the basis is large enough that only two fit a row (a last one on its own goes full width) */
+.pics { display: flex; flex-wrap: wrap; gap: 1px; }
+.pics figure { min-width: 0; flex: var(--r) 1 calc(var(--r) * 49%); }
+.pics img { display: block; width: 100%; height: auto; }
+
+/* below: hairline cells, white 1px apart over the rule colour */
+.text, .foot { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1px; border-top: 1px solid var(--line); }
+.foot { background: var(--line); border-bottom: 1px solid var(--line); }
+.c { background: #fff; min-width: 0; padding: 14px var(--pad) 22px; }
+.c p + p { margin-top: .9em; }
+.lorem { color: #333; }
+
+@media (min-width: 700px) {
+  header { grid-template-columns: minmax(0, 0.707143fr) minmax(0, 2fr); column-gap: 1px; }
+  .pics { flex-wrap: nowrap; }
+  .pics figure { flex-basis: 0; }
+  .text { grid-template-columns: calc((100% - 1px) / 2); }
+  .text .c { border-right: 1px solid var(--line); }
+  .foot { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .foot footer { grid-column: span 2; }
+}
+@media (min-width: 1100px) {
+  /* the same five columns as the home page: one under the first picture, two under each of the others */
+  .text { grid-template-columns: calc((100% - 4px) * 0.707143 / 2.707143); }
+  .foot { grid-template-columns: minmax(0, 0.707143fr) repeat(4, minmax(0, 0.5fr)); }
+  .foot .next, .foot footer { grid-column: span 2; }
+}
+</style>
+<style>
+/* variant: rose + flowers */
+a { color: #c44a78; text-decoration-color: #f2c2d5; }
+a:hover { text-decoration-color: currentColor; }
+header h1::after { content: " \273F"; color: #e7a3bf; }
+.cap .n { color: #e7a3bf; }
+footer p:first-of-type::after { content: " \273F"; color: #e7a3bf; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1><a href="../">kes inkersole</a></h1>
+  <p>creative strategist, internet equalities researcher, london. available for work.</p>
+</header>
+
+<main>
+
+  <p class="cap"><span class="n">03</span><span class="k">for funds ·</span> <a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1">MØRNING Ø</a></p>
+
+  <div class="pics">
+    <figure style="--r: 1.000000">
+      <img src="../../img/l/morning-3.jpg" srcset="../../img/s/morning-3.jpg 640w, ../../img/l/morning-3.jpg 1400w" sizes="(min-width: 700px) 36vw, 50vw" width="1400" height="1400" alt="3d render of three pink piglet-like creatures curled inside a cracked black egg">
+    </figure>
+    <figure style="--r: 1.000000">
+      <img src="../../img/l/morning-1.jpg" srcset="../../img/s/morning-1.jpg 640w, ../../img/l/morning-1.jpg 1080w" sizes="(min-width: 700px) 36vw, 50vw" width="1080" height="1080" alt="MØRNING newsletter graphic: "#020 uh oh, meet Ø", a red burn after reading sticker over screenshots of video calls">
+    </figure>
+    <figure style="--r: 0.800000">
+      <img src="../../img/l/morning-2.jpg" srcset="../../img/s/morning-2.jpg 512w, ../../img/l/morning-2.jpg 1120w" sizes="(min-width: 700px) 29vw, 100vw" width="1120" height="1400" alt="3d render of a dark glossy egg with orange marbling">
+    </figure>
+  </div>
+
+  <div class="foot">
+    <p class="c prev">← <span class="n">02</span><span class="k">for funds ·</span> <a href="../protein/">protein dirty words #4: community report</a></p>
+    <p class="c next"><span class="n">01</span><span class="k">for funds ·</span> <a href="../networked-worlds/">networked worlds</a> with co—matter →</p>
+    <footer class="c">
+      <p>thanks for stopping by &lt;3</p>
+      <p>say hello: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
+    </footer>
+  </div>
+
+</main>
+
+</body>
+</html>

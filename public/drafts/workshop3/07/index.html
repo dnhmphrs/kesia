@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>kes inkersole</title>
+<style>
+/* the one rule every sheet, including none, keeps: pictures never wider than the window */
+img { max-width: 100%; height: auto; }
+</style>
+<style data-sheet="base">
+/* base: type, header, sections (worn by reel, list and grid) */
+:root { --ink: #111; --grey: #8a8a8a; --line: #d0d0d0; --rose: #c44a78; --mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace; --pad: 16px; --cardh: clamp(420px, 70vh, 780px); --caph: 64px; }
+* { box-sizing: border-box; }
+html { background: #fff; color: var(--ink); -webkit-text-size-adjust: 100%; }
+body { margin: 0; font: 12px/1.5 var(--mono); }
+h1, h2, h3, p, ul, dl, dd, figure { margin: 0; padding: 0; font: inherit; }
+ul { list-style: none; }
+a { color: var(--rose); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; text-decoration-color: #f2c2d5; }
+a:hover { text-decoration-color: currentColor; }
+img { display: block; max-width: none; }
+.g { color: var(--grey); }
+.u { text-transform: uppercase; letter-spacing: .04em; }
+
+.row { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--pad); padding: 10px var(--pad); border-bottom: 1px solid var(--line); }
+
+.head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 2ch; padding: 10px var(--pad); border-bottom: 1px solid var(--line); }
+.head h1 { margin-right: auto; }
+.sheets { display: flex; gap: 1.5ch; padding-left: 2ch; border-left: 1px solid var(--line); }
+.sheets button { all: unset; cursor: pointer; color: var(--grey); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; text-decoration-color: transparent; }
+.sheets button:hover { color: var(--ink); text-decoration-color: var(--line); }
+.sheets button[aria-pressed="true"] { color: var(--ink); text-decoration-color: currentColor; }
+.sheets button:focus-visible { outline: 1px solid var(--ink); outline-offset: 2px; }
+
+/* the caption button, shared */
+.cap { all: unset; box-sizing: border-box; display: grid; grid-template-columns: 4ch minmax(0, 1fr) 2ch; align-content: start; cursor: pointer; min-width: 0; }
+.cap:focus-visible { outline: 1px solid var(--ink); outline-offset: -1px; }
+.cap .t, .cap .w { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cap .w { grid-column: 2; }
+.cap .o { grid-column: 3; grid-row: 1; text-align: right; }
+.cap .o::after { content: "+"; color: var(--grey); }
+.card.open .cap .o::after { content: "\2212"; color: var(--ink); }
+.card { cursor: pointer; }
+.card.open { cursor: default; }
+.txt { cursor: auto; }
+.txt p + p { margin-top: .8em; }
+
+.sec h2 { grid-column: span 3; }
+.sec > div { grid-column: span 9; }
+.sec li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2ch; padding: 2px 0; }
+.sec li span { color: var(--grey); text-align: right; }
+.sec p + p { margin-top: .8em; }
+.sec dl div { display: grid; grid-template-columns: 9ch minmax(0, 1fr); }
+.sec dt { color: var(--grey); }
+.foot p:first-child { grid-column: span 6; }
+.foot p:last-child { grid-column: span 6; text-align: right; }
+
+@media (max-width: 699px) {
+  .head h1 { flex-basis: 100%; }
+  .sheets { flex-basis: 100%; padding: 6px 0 0; margin-top: 6px; border-left: 0; border-top: 1px solid var(--line); }
+  .row { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .sec h2, .sec > div { grid-column: 1 / -1; }
+  .sec h2 { margin-bottom: 6px; }
+  .foot p:first-child, .foot p:last-child { grid-column: 1 / -1; text-align: left; }
+}
+</style>
+<style data-sheet="reel">
+/* reel: one full-bleed row of tall cards that scrolls sideways */
+.reel { display: flex; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x proximity; border-bottom: 1px solid var(--line); scrollbar-width: thin; scrollbar-color: var(--line) transparent; overscroll-behavior-x: contain; }
+.reel::-webkit-scrollbar { height: 6px; }
+.reel::-webkit-scrollbar-thumb { background: var(--line); }
+.card { flex: none; height: var(--cardh); display: flex; flex-direction: column; border-right: 1px solid var(--line); scroll-snap-align: start; }
+.card:hover .cap { background: #fafafa; }
+.stage { flex: 1; min-height: 0; display: flex; }
+.pics { display: flex; gap: 1px; background: var(--line); height: 100%; }
+.pics img { height: calc(var(--cardh) - var(--caph)); width: auto; flex: none; background: #fff; }
+.pics img + img { display: none; }
+.txt { display: none; order: -1; width: 34ch; flex: none; padding: 10px var(--pad); border-right: 1px solid var(--line); }
+.cap { height: var(--caph); flex: none; padding: 8px var(--pad) 0 10px; border-top: 1px solid var(--line); contain: inline-size; }
+.card.open .pics img + img { display: block; }
+.card.open .txt { display: block; }
+.card.open .cap { grid-template-columns: 4ch max-content 4ch; }
+.card.open .pics { cursor: pointer; }
+.card.open:hover .cap { background: none; }
+@media (max-width: 699px) {
+  :root { --cardh: clamp(420px, 70vh, 640px); }
+  .card { width: 80vw; }
+  .card.open { width: auto; }
+  .pics img:first-child { width: calc(80vw - 1px); object-fit: contain; }
+  .card.open .pics img:first-child { width: auto; }
+  .txt { width: 64vw; }
+}
+</style>
+<style data-sheet="list">
+/* list: an index, one hairline row per project; the open row unfolds downward */
+.reel { display: block; border-bottom: 1px solid var(--line); }
+.card { display: grid; grid-template-columns: 96px minmax(0, 1fr); border-top: 1px solid var(--line); }
+.card:first-child { border-top: 0; }
+.card:hover .cap { background: #fafafa; }
+.stage { grid-column: 1; grid-row: 1; height: 64px; overflow: hidden; border-right: 1px solid var(--line); }
+.pics img { width: 96px; height: 64px; object-fit: cover; }
+.pics img + img, .txt { display: none; }
+.cap { grid-column: 2; grid-row: 1; grid-template-columns: 4ch minmax(0, 3fr) minmax(0, 2fr) 2ch; column-gap: 2ch; align-items: center; align-content: center; padding: 0 var(--pad) 0 10px; height: 64px; }
+.cap .w { grid-column: 3; grid-row: 1; }
+.cap .o { grid-column: 4; }
+.card.open .cap { grid-column: 1 / -1; padding-left: var(--pad); border-bottom: 1px solid var(--line); background: none; }
+.card.open .stage { grid-column: 1 / -1; grid-row: 2; height: auto; overflow: visible; border-right: 0; display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 9fr); }
+.card.open .txt { display: block; grid-column: 1; grid-row: 1; padding: 10px var(--pad); border-right: 1px solid var(--line); }
+.card.open .pics { grid-column: 2; grid-row: 1; min-width: 0; display: flex; gap: 1px; background: var(--line); overflow-x: auto; scrollbar-width: thin; scrollbar-color: var(--line) transparent; }
+.card.open .pics img { display: block; flex: none; width: auto; height: clamp(280px, 52vh, 520px); object-fit: contain; background: #fff; }
+@media (max-width: 699px) {
+  .card { grid-template-columns: 64px minmax(0, 1fr); }
+  .stage, .pics img, .cap { height: 56px; }
+  .pics img { width: 64px; }
+  .cap { grid-template-columns: 3ch minmax(0, 1fr) 2ch; column-gap: 1ch; align-content: center; row-gap: 0; padding-right: 10px; }
+  .cap .w { grid-column: 2; grid-row: 2; }
+  .cap .o { grid-column: 3; }
+  .card.open .stage { grid-template-columns: minmax(0, 1fr); }
+  .card.open .txt { border-right: 0; border-bottom: 1px solid var(--line); }
+  .card.open .pics { grid-column: 1; grid-row: 2; }
+  .card.open .pics img { height: 300px; }
+}
+</style>
+<style data-sheet="grid">
+/* grid: a contact sheet of cropped covers; the open one takes a whole row */
+.reel { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); grid-auto-flow: row dense; border-bottom: 1px solid var(--line); overflow: hidden; }
+.card { display: flex; flex-direction: column; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); margin-bottom: -1px; min-width: 0; }
+.card:hover .cap { background: #fafafa; }
+.stage { aspect-ratio: 4 / 5; overflow: hidden; }
+.pics { height: 100%; }
+.pics img { width: 100%; height: 100%; object-fit: cover; }
+.pics img + img, .txt { display: none; }
+.cap { padding: 8px 10px 10px; border-top: 1px solid var(--line); min-height: 56px; }
+.card.open { grid-column: 1 / -1; flex-direction: column-reverse; }
+.card.open .cap { border-top: 0; border-bottom: 1px solid var(--line); padding-left: var(--pad); grid-template-columns: 4ch max-content 4ch; background: none; }
+.card.open .stage { aspect-ratio: auto; display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 9fr); }
+.card.open .txt { display: block; grid-column: 1; grid-row: 1; padding: 10px var(--pad); border-right: 1px solid var(--line); }
+.card.open .pics { grid-column: 2; grid-row: 1; min-width: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: var(--pad); padding: var(--pad); background: #fff; align-content: start; align-items: start; }
+.card.open .pics img { display: block; aspect-ratio: auto; width: 100%; height: auto; object-fit: fill; background: #fff; }
+@media (max-width: 699px) {
+  .reel { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cap { grid-template-columns: 3ch minmax(0, 1fr) 2ch; padding-right: 8px; }
+  .card.open .cap { grid-template-columns: 3ch minmax(0, 1fr) 2ch; }
+  .card.open .stage { grid-template-columns: minmax(0, 1fr); }
+  .card.open .txt { border-right: 0; border-bottom: 1px solid var(--line); }
+  .card.open .pics { grid-column: 1; grid-row: 2; }
+  .card.open .pics { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; padding: 10px; }
+}
+</style>
+<script>
+/* only reel (+ base) is on at first; list and grid wait, switched off with .disabled */
+[].forEach.call(document.querySelectorAll('style[data-sheet]'), function (s) { s.disabled = !/^(base|reel)$/.test(s.dataset.sheet); });
+</script>
+</head>
+<body>
+
+<header class="head">
+  <h1 class="u">Kes Inkersole</h1>
+  <p class="g">creative strategist</p>
+  <p class="g">internet equalities researcher</p>
+  <p class="g">london · available for work</p>
+  <p class="sheets" role="group" aria-label="stylesheet"><button type="button" data-use="reel" aria-pressed="true">reel</button> <button type="button" data-use="list" aria-pressed="false">list</button> <button type="button" data-use="grid" aria-pressed="false">grid</button> <button type="button" data-use="plain" aria-pressed="false">plain</button></p>
+</header>
+
+<main class="reel" aria-label="projects">
+
+<article class="card" id="networked-worlds">
+  <div class="stage">
+    <div class="pics"><img src="../../img/l/networked-worlds-1.jpg" srcset="../../img/s/networked-worlds-1.jpg 453w, ../../img/l/networked-worlds-1.jpg 990w" sizes="(min-width: 700px) 50vw, 80vw" width="990" height="1400" alt="yellow cover with a curved grid: Networked Worlds, WeTransfer"><img src="../../img/l/networked-worlds-2.jpg" width="1000" height="1400" alt="a collage of many small images on black" loading="lazy"><img src="../../img/l/networked-worlds-3.jpg" width="1005" height="1400" alt="&quot;worlding resources&quot;: a timeline of books and texts on black" loading="lazy"></div>
+    <div class="txt"><p>duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. excepteur sint occaecat cupidatat non proident.</p><p><a href="https://co-matter.com/project/networked-worlds">networked worlds ↗</a></p></div>
+  </div>
+  <button class="cap" aria-expanded="false"><span class="n g">01</span><span class="t u">Networked Worlds</span><span class="w g">with co—matter · for funds</span><span class="o"></span></button>
+</article>
+
+<article class="card" id="protein">
+  <div class="stage">
+    <div class="pics"><img src="../../img/l/protein-1.jpg" srcset="../../img/s/protein-1.jpg 640w, ../../img/l/protein-1.jpg 1080w" sizes="(min-width: 700px) 50vw, 80vw" width="1080" height="1080" alt="pink report cover: dirty word [report #4] community"><img src="../../img/l/protein-2.jpg" width="1080" height="1080" alt="overlapping page spreads from the report" loading="lazy"><img src="../../img/l/protein-3.jpg" width="1080" height="1080" alt="a grid of the report's pages in pink, black and white" loading="lazy"><img src="../../img/l/protein-4.jpg" width="1050" height="1400" alt="the printed report on a wooden floor" loading="lazy"></div>
+    <div class="txt"><p>sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo.</p><p><a href="https://www.protein.xyz/dirty-words-4-community/">protein dirty words #4: community report ↗</a></p></div>
+  </div>
+  <button class="cap" aria-expanded="false"><span class="n g">02</span><span class="t u">Protein Dirty Words #4: Community Report</span><span class="w g">for funds</span><span class="o"></span></button>
+</article>
+
+<article class="card" id="morning">
+  <div class="stage">
+    <div class="pics"><img src="../../img/l/morning-3.jpg" srcset="../../img/s/morning-3.jpg 640w, ../../img/l/morning-3.jpg 1400w" sizes="(min-width: 700px) 50vw, 80vw" width="1400" height="1400" alt="3d render of three pink piglet-like creatures curled inside a cracked black egg"><img src="../../img/l/morning-1.jpg" width="1080" height="1080" alt="MØRNING newsletter graphic: &quot;#020 uh oh, meet Ø&quot;, a red burn after reading sticker over screenshots of video calls" loading="lazy"><img src="../../img/l/morning-2.jpg" width="1120" height="1400" alt="3d render of a dark glossy egg with orange marbling" loading="lazy"></div>
+    <div class="txt"><p><a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1">MØRNING Ø ↗</a></p></div>
+  </div>
+  <button class="cap" aria-expanded="false"><span class="n g">03</span><span class="t u">MØRNING Ø</span><span class="w g">for funds</span><span class="o"></span></button>
+</article>
+
+<article class="card" id="lorem-ipsum">
+  <div class="stage">
+    <div class="pics"><img src="../../img/l/morning-1.jpg" width="1080" height="1080" alt="MØRNING newsletter graphic: &quot;#020 uh oh, meet Ø&quot;, a red burn after reading sticker over screenshots of video calls" loading="lazy"><img src="../../img/l/morning-2.jpg" width="1120" height="1400" alt="3d render of a dark glossy egg with orange marbling" loading="lazy"></div>
+    <div class="txt"><p>lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p></div>
+  </div>
+  <button class="cap" aria-expanded="false"><span class="n g">04</span><span class="t u">Lorem Ipsum</span><span class="w g">for fun</span><span class="o"></span></button>
+</article>
+
+<article class="card" id="dolor-sit">
+  <div class="stage">
+    <div class="pics"><img src="../../img/l/protein-2.jpg" width="1080" height="1080" alt="overlapping page spreads from the report" loading="lazy"><img src="../../img/l/protein-3.jpg" width="1080" height="1080" alt="a grid of the report's pages in pink, black and white" loading="lazy"></div>
+    <div class="txt"><p>lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p></div>
+  </div>
+  <button class="cap" aria-expanded="false"><span class="n g">05</span><span class="t u">Dolor Sit Amet</span><span class="w g">for funds</span><span class="o"></span></button>
+</article>
+
+<article class="card" id="consectetur">
+  <div class="stage">
+    <div class="pics"><img src="../../img/l/networked-worlds-2.jpg" width="1000" height="1400" alt="a collage of many small images on black" loading="lazy"><img src="../../img/l/networked-worlds-3.jpg" width="1005" height="1400" alt="&quot;worlding resources&quot;: a timeline of books and texts on black" loading="lazy"></div>
+    <div class="txt"><p>lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p></div>
+  </div>
+  <button class="cap" aria-expanded="false"><span class="n g">06</span><span class="t u">Consectetur</span><span class="w g">for fun</span><span class="o"></span></button>
+</article>
+
+<article class="card" id="adipiscing">
+  <div class="stage">
+    <div class="pics"><img src="../../img/l/protein-3.jpg" width="1080" height="1080" alt="a grid of the report's pages in pink, black and white" loading="lazy"><img src="../../img/l/protein-4.jpg" width="1050" height="1400" alt="the printed report on a wooden floor" loading="lazy"></div>
+    <div class="txt"><p>lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p></div>
+  </div>
+  <button class="cap" aria-expanded="false"><span class="n g">07</span><span class="t u">Adipiscing Elit</span><span class="w g">for funds</span><span class="o"></span></button>
+</article>
+
+<article class="card" id="eiusmod">
+  <div class="stage">
+    <div class="pics"><img src="../../img/l/morning-2.jpg" width="1120" height="1400" alt="3d render of a dark glossy egg with orange marbling" loading="lazy"><img src="../../img/l/morning-1.jpg" width="1080" height="1080" alt="MØRNING newsletter graphic: &quot;#020 uh oh, meet Ø&quot;, a red burn after reading sticker over screenshots of video calls" loading="lazy"></div>
+    <div class="txt"><p>lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p></div>
+  </div>
+  <button class="cap" aria-expanded="false"><span class="n g">08</span><span class="t u">Sed Do Eiusmod</span><span class="w g">for funds</span><span class="o"></span></button>
+</article>
+
+<article class="card" id="tempor">
+  <div class="stage">
+    <div class="pics"><img src="../../img/l/networked-worlds-3.jpg" width="1005" height="1400" alt="&quot;worlding resources&quot;: a timeline of books and texts on black" loading="lazy"><img src="../../img/l/networked-worlds-2.jpg" width="1000" height="1400" alt="a collage of many small images on black" loading="lazy"></div>
+    <div class="txt"><p>lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p></div>
+  </div>
+  <button class="cap" aria-expanded="false"><span class="n g">09</span><span class="t u">Tempor Incididunt</span><span class="w g">for fun</span><span class="o"></span></button>
+</article>
+
+<article class="card" id="labore">
+  <div class="stage">
+    <div class="pics"><img src="../../img/l/protein-4.jpg" width="1050" height="1400" alt="the printed report on a wooden floor" loading="lazy"><img src="../../img/l/protein-2.jpg" width="1080" height="1080" alt="overlapping page spreads from the report" loading="lazy"></div>
+    <div class="txt"><p>lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p></div>
+  </div>
+  <button class="cap" aria-expanded="false"><span class="n g">10</span><span class="t u">Ut Labore et Dolore</span><span class="w g">for funds</span><span class="o"></span></button>
+</article>
+
+</main>
+
+<section class="row sec">
+  <h2 class="u g">For fun</h2>
+  <div>
+    <ul>
+      <li><a href="https://latent-space.vercel.app/">latent space</a></li>
+      <li><a href="https://protecht.vercel.app/">pro(tech)t</a></li>
+    </ul>
+    <p class="g" style="margin-top:.8em">lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam.</p>
+  </div>
+</section>
+
+<section class="row sec">
+  <h2 class="u g">Hello, i'm kes &lt;3</h2>
+  <div>
+    <p>i'm kes inkersole (kesia on paper), a freelance creative strategist and internet equalities researcher based in london. welcome to kes' little corner of the internet.</p>
+    <p>my practice focuses on understanding and critiquing the impacts of emerging technologies on people, culture, and the planet. i work collectively to rethink the narratives and behaviours surrounding technologies — prioritising collaborative research as a process for testing, imagining and prototyping more equitable, alternative futures.</p>
+  </div>
+</section>
+
+<section class="row sec">
+  <h2 class="u g">Things i've written</h2>
+  <div><ul>
+    <li><a href="https://www.protein.xyz/sex-and-the-internet/">mindy seu on sex and the internet</a><span>Protein</span></li>
+    <li><a href="https://midnight.agency/thoughts/dreaming-and-designing-more-accessible-web">dreaming and designing a more accessible web</a><span>Midnight Agency</span></li>
+    <li><a href="https://midnight.agency/thoughts/coding-a-more-creative-and-playful-web">coding a more creative and playful web</a><span>Midnight Agency</span></li>
+    <li><a href="https://midnight.agency/thoughts/composing-a-flexible-and-modular-web">composing a flexible and modular web</a><span>Midnight Agency</span></li>
+    <li><a href="https://morningfyi.substack.com/p/020-uh-oh-meet">burn after reading: uh oh, meet o</a><span>morningfyi</span></li>
+    <li><a href="https://morningfyi.substack.com/p/024-entering-limb-with">burn after reading: entering limbo</a><span>morningfyi</span></li>
+  </ul></div>
+</section>
+
+<section class="row sec">
+  <h2 class="u g">Podcasts, for the bus</h2>
+  <div><ul>
+    <li><a href="https://podcasts.apple.com/gb/podcast/mindy-seu-on-collaboration-community-and/id1449302502?i=1000597869409">mindy seu on collaboration, community and the cyberfeminism index</a></li>
+    <li><a href="https://soundcloud.com/proteincommunity/protein-forum-what-can-web2-organisations-learn-from-web3-communities">what can web2 organisations learn from web3 communities?</a><span>Protein</span></li>
+    <li><a href="https://podcasts.apple.com/gb/podcast/cherie-hu-on-water-musics-journey-through-web3/id1449302502?i=1000581859804">cherie hu on water &amp; music's journey through web3</a></li>
+    <li><a href="https://podcasts.apple.com/gb/podcast/molly-dickson-on-dao-activism-and-fighting-for/id1449302502?i=1000578164761">molly dickson on dao activism</a></li>
+    <li><a href="https://podcasts.apple.com/gb/podcast/dame-on-the-need-for-education-accessibility/id1449302502?i=1000559829008">dame on education, accessibility and inclusivity in web3</a></li>
+    <li><a href="https://podcasts.apple.com/gb/podcast/nadia-piet-on-creative-ai-and-protopian-futures/id1449302502?i=1000559822732">nadia piet on creative ai and protopian futures</a></li>
+    <li><a href="https://podcasts.apple.com/gb/podcast/cyn-bahati-on-her-journey-into-web3-with-her-family/id1449302502?i=1000559818509">cyn bahati on her journey into web3 with her family</a></li>
+    <li><a href="https://podcasts.apple.com/gb/podcast/latash%C3%A1-on-the-potential-of-web3-for-music-artists/id1449302502?i=1000552812458">latasha on the potential of web3 for music artists</a></li>
+  </ul></div>
+</section>
+
+<section class="row sec">
+  <h2 class="u g">Irl (mostly)</h2>
+  <div><ul>
+    <li><a href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1">olden residency</a></li>
+    <li><a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1">softer london</a><span>talk + workshop</span></li>
+    <li><a href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard">tech yard</a><span>workshop</span></li>
+    <li><a href="https://www.instagram.com/p/BslwSSPH5Rc/?img_index=2">ovar it</a></li>
+  </ul></div>
+</section>
+
+<section class="row sec">
+  <h2 class="u g">About</h2>
+  <div><dl>
+    <div><dt>does</dt><dd>creative strategy, research, workshops, writing and teaching</dd></div>
+    <div><dt>teaches</dt><dd>associate lecturer at UAL (LCF + CCI)</dd></div>
+    <div><dt>clients</dt><dd>Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges</dd></div>
+    <div><dt>school</dt><dd>MA internet equalities, BA creative direction, PhD [ ? ]</dd></div>
+    <div><dt>cv</dt><dd>cv &amp; portfolio on request</dd></div>
+  </dl></div>
+</section>
+
+<footer class="row foot">
+  <p>thanks for stopping by &lt;3 <span style="color:#e7a3bf">✿</span></p>
+  <p>say hello: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
+</footer>
+
+
+<script>
+(function () {
+  var reel = document.querySelector('.reel');
+  var cards = [].slice.call(document.querySelectorAll('.card'));
+  var sheets = [].slice.call(document.querySelectorAll('style[data-sheet]'));
+  var buttons = [].slice.call(document.querySelectorAll('.sheets button'));
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var mode = 'reel';
+
+  function show(card, smooth) {
+    var b = smooth && !reduce ? 'smooth' : 'auto';
+    if (mode === 'reel') {
+      var left = card.getBoundingClientRect().left - reel.getBoundingClientRect().left + reel.scrollLeft;
+      reel.scrollTo({ left: left, behavior: b });
+    } else {
+      var r = card.getBoundingClientRect();
+      if (r.top < 0 || r.top > innerHeight * 0.6) scrollTo({ top: scrollY + r.top - 8, behavior: b });
+    }
+  }
+  function set(id, smooth) {
+    var opened = null;
+    cards.forEach(function (c) {
+      var on = c.id === id && !c.classList.contains('open');
+      c.classList.toggle('open', on);
+      c.querySelector('.cap').setAttribute('aria-expanded', on);
+      if (on) opened = c;
+    });
+    history.replaceState(null, '', opened ? '#' + opened.id : location.pathname + location.search);
+    if (opened) show(opened, smooth);
+  }
+  cards.forEach(function (c) {
+    c.addEventListener('click', function (e) {
+      if (e.target.closest('a, .txt')) return;
+      set(c.id, true);
+    });
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') { var o = document.querySelector('.card.open'); if (o) set(o.id, false); }
+  });
+  function fromHash() {
+    var h = decodeURIComponent(location.hash.slice(1)), c = h && document.getElementById(h);
+    if (c && c.classList.contains('card') && !c.classList.contains('open')) set(h, false);
+  }
+  addEventListener('hashchange', fromHash);
+
+  /* the stylesheet switch: the HTML never changes, only which <style> blocks are enabled */
+  function visible(el) {
+    var r = el.getBoundingClientRect();
+    return r.bottom > 0 && r.top < innerHeight && r.right > 0 && r.left < innerWidth;
+  }
+  function anchor() {
+    var open = document.querySelector('.card.open');
+    if (open && visible(open)) return open;
+    var all = [document.querySelector('.head')].concat(cards, [].slice.call(document.querySelectorAll('.sec, .foot')));
+    for (var i = 0; i < all.length; i++) {
+      var r = all[i].getBoundingClientRect();
+      if (r.bottom > 0 && r.right > 0 && r.left < innerWidth) return all[i];
+    }
+    return null;
+  }
+  function use(name) {
+    if (name === mode) return;
+    var a = anchor(), before = a && a.getBoundingClientRect().top;
+    sheets.forEach(function (s) {
+      var k = s.dataset.sheet;
+      s.disabled = name === 'plain' ? true : !(k === 'base' || k === name);
+    });
+    mode = name;
+    buttons.forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.use === name); });
+    var open = document.querySelector('.card.open');
+    if (name === 'reel') {
+      reel.scrollLeft = 0;
+      var target = open || (a && a.classList.contains('card') ? a : null);
+      if (target) { var left = target.getBoundingClientRect().left - reel.getBoundingClientRect().left + reel.scrollLeft; reel.scrollLeft = left; }
+    }
+    if (a) scrollBy(0, a.getBoundingClientRect().top - before);
+  }
+  buttons.forEach(function (b) { b.addEventListener('click', function () { use(b.dataset.use); }); });
+
+  fromHash();
+})();
+</script>
+</body>
+</html>

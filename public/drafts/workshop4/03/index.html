@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>kes inkersole</title>
+<style>
+:root { --ink: #111; --grey: #8a8a8a; --line: #d0d0d0; --rose: #c44a78; --mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace; --pad: 16px; --lab: 129px; --hh: 31px; }
+* { box-sizing: border-box; }
+html { background: #fff; color: var(--ink); -webkit-text-size-adjust: 100%; }
+body { margin: 0; font: 12px/1.5 var(--mono); }
+h1, h2, p, ul, dl, dd, dt { margin: 0; padding: 0; font: inherit; }
+a { color: var(--rose); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; text-decoration-color: #f2c2d5; }
+a:hover { text-decoration-color: currentColor; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; margin: 0; cursor: pointer; text-align: inherit; }
+img { display: block; }
+.g { color: var(--grey); }
+.u { text-transform: uppercase; letter-spacing: .04em; }
+
+/* plain rows above and below the index: a label in the # + thumb columns, text from the title column on */
+.pr { display: grid; grid-template-columns: var(--lab) minmax(0, 1fr); border-bottom: 1px solid var(--line); }
+.pr > :first-child { padding: 8px 8px 8px var(--pad); border-right: 1px solid var(--line); }
+.pr > :last-child { padding: 8px var(--pad) 8px 8px; }
+.pr h2 { color: var(--grey); text-transform: uppercase; letter-spacing: .04em; }
+.pr p + p { margin-top: .8em; }
+.pr .w { max-width: 112ch; }
+.top .r3 { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0 24px; color: var(--grey); }
+.top h1 { color: var(--ink); }
+.ab dl { display: grid; grid-template-columns: 9ch minmax(0, 1fr); column-gap: 16px; row-gap: 2px; }
+.ab dt { color: var(--grey); }
+.foot > :last-child { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 24px; }
+
+/* the filter row */
+.fl .types { display: flex; flex-wrap: wrap; gap: 2px 18px; }
+.fl button { color: var(--grey); }
+.fl button sup { font-size: 10px; vertical-align: top; position: relative; top: -2px; margin-left: 2px; }
+.fl button:hover { color: var(--ink); }
+.fl button[aria-pressed="true"] { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+.fl button:focus-visible, th button:focus-visible { outline: 1px solid var(--ink); outline-offset: 2px; }
+
+/* one table: every item on the site is a row */
+table { width: 100%; table-layout: fixed; border-collapse: separate; border-spacing: 0; }
+th, td { padding: 6px 8px; text-align: left; vertical-align: top; font-weight: normal; border-bottom: 1px solid var(--line); border-right: 1px solid var(--line); overflow-wrap: anywhere; }
+th:last-child, td:last-child { border-right: 0; }
+th:first-child, td:first-child { padding-left: var(--pad); }
+th:last-child, td:last-child { padding-right: var(--pad); }
+col.k-n { width: 64px; } col.k-i { width: 65px; } col.k-y { width: 19%; } col.k-w { width: 15%; } col.k-c { width: 64px; } col.k-l { width: 56px; }
+thead th { position: sticky; top: 0; z-index: 2; background: #fff; color: var(--grey); text-transform: uppercase; letter-spacing: .04em; }
+thead th button { text-transform: inherit; letter-spacing: inherit; color: inherit; white-space: nowrap; }
+thead th button:hover { color: var(--ink); }
+thead th[aria-sort] button { color: var(--ink); }
+thead th button::after { content: "\00a0\00a0"; }
+thead th[aria-sort="ascending"] button::after { content: "\00a0\2191"; }
+thead th[aria-sort="descending"] button::after { content: "\00a0\2193"; }
+.c-c, .c-l, th.h-c, th.h-l { text-align: right; }
+.c-n, .c-y, .c-w, .c-c { color: var(--grey); }
+.c-n { font-variant-numeric: tabular-nums; }
+.c-l a { text-decoration: none; }
+tbody.i[hidden] { display: none; }
+
+/* project rows: thumbnail, expand in place */
+.r { cursor: pointer; }
+.r td { vertical-align: middle; }
+.r:hover td, .r:focus-visible td { background: #fafafa; }
+.r:focus-visible { outline: none; }
+.r:focus-visible .c-t { text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 2px; }
+.c-i { padding-top: 4px !important; padding-bottom: 4px !important; }
+.c-i img { width: 48px; height: 48px; object-fit: cover; background: #f4f4f4; }
+.r .c-t::before { content: "+\00a0"; color: var(--grey); }
+.p.open .c-t::before { content: "\2212\00a0"; color: var(--ink); }
+.p.open .r td { background: #fafafa; border-bottom-color: transparent; }
+.p.open .c-n { color: var(--ink); }
+.p { scroll-margin-top: var(--hh); }
+.x > td { padding: 0 !important; }
+.pics { display: flex; gap: 1px; background: var(--line); max-width: calc(64vh * var(--sum)); border-bottom: 1px solid var(--line); }
+.pics img { flex: var(--r) 1 0; width: 0; min-width: 0; height: auto; }
+.txt { display: grid; grid-template-columns: minmax(0, 1fr) 34%; column-gap: 16px; padding: 8px var(--pad) 10px calc(var(--lab) + 8px); }
+.txt .out { text-align: right; }
+
+/* link rows: the title is the link */
+.o td { padding-top: 5px; padding-bottom: 5px; }
+.o:hover td { background: #fafafa; }
+.empty td { color: var(--grey); padding-left: calc(var(--lab) + 8px); }
+
+@media (max-width: 699px) {
+  :root { --lab: 0px; }
+  .pr { display: block; padding: 8px var(--pad); }
+  .pr > :first-child, .pr > :last-child { padding: 0; border: 0; }
+  .pr > h2 { margin-bottom: 4px; }
+  .top .r3 { display: block; margin-top: 2px; }
+  .top .r3 span { display: block; }
+  .fl { position: static; }
+  .fl > :first-child { margin-bottom: 4px; }
+  table, thead, tbody, tr, th, td { display: block; }
+  colgroup { display: none; }
+  tbody.i[hidden] { display: none; }
+  th, td { border: 0 !important; padding: 0 !important; }
+  thead { position: sticky; top: 0; z-index: 2; background: #fff; border-bottom: 1px solid var(--line); }
+  thead tr { display: flex; flex-wrap: wrap; gap: 0 14px; padding: 6px var(--pad); }
+  thead th { position: static; }
+  thead th.h-i, thead th.h-l { display: none; }
+  tr.r, tr.o { display: grid; grid-template-columns: 22px 40px minmax(0, 1fr) auto; column-gap: 10px; padding: 6px var(--pad); border-bottom: 1px solid var(--line); align-items: start; }
+  .c-n { grid-column: 1; grid-row: 1 / span 2; }
+  .c-i { grid-column: 2; grid-row: 1 / span 2; }
+  .c-i img { width: 40px; height: 40px; }
+  .c-t { grid-column: 3; grid-row: 1; }
+  .c-l { grid-column: 4; grid-row: 1; }
+  .c-y { grid-column: 3 / -1; grid-row: 2; display: flex !important; flex-wrap: wrap; gap: 0 6px; }
+  .c-w, .c-c { display: none !important; }
+  .c-y::after { content: attr(data-more); }
+  .o .c-i { display: none; }
+  .o .c-t { grid-column: 2 / 4; }
+  .o .c-y { grid-column: 2 / -1; }
+  .r td, .p.open .r td, .o:hover td { background: none; }
+  .r:hover, .p.open .r { background: #fafafa; }
+  .p.open .r { border-bottom-color: transparent; }
+  .x { display: block; padding: 0; border-bottom: 1px solid var(--line); }
+  .x[hidden] { display: none; }
+  .pics { max-width: none; overflow-x: auto; overscroll-behavior-x: contain; }
+  .pics img { flex: none; height: 260px; width: auto; }
+  .txt { grid-template-columns: 1fr; row-gap: 6px; padding: 8px var(--pad) 10px; }
+  .txt .out { text-align: left; }
+  .txt p:empty { display: none; }
+  .empty td { padding: 8px var(--pad) !important; }
+  .ab dl { grid-template-columns: 8ch minmax(0, 1fr); }
+  .foot > :last-child { display: block; }
+}
+</style>
+</head>
+<body>
+
+<header>
+<div class="pr top"><h1 class="u">Kes Inkersole</h1><p class="r3"><span>creative strategist</span><span>internet equalities researcher</span><span>london · available for work</span></p></div>
+<section class="pr hi" aria-label="hello"><h2>Hello, i'm kes &lt;3</h2><div class="w"><p>i'm kes inkersole (kesia on paper), a freelance creative strategist and internet equalities researcher based in london. welcome to kes' little corner of the internet.</p><p>my practice focuses on understanding and critiquing the impacts of emerging technologies on people, culture, and the planet. i work collectively to rethink the narratives and behaviours surrounding technologies — prioritising collaborative research as a process for testing, imagining and prototyping more equitable, alternative futures.</p></div></section>
+</header>
+
+<main>
+<div class="pr fl" role="group" aria-label="filter by type"><h2>Type</h2><div class="types">
+<button type="button" data-f="" aria-pressed="true">all<sup>30</sup></button>
+<button type="button" data-f="funds" aria-pressed="false">for funds<sup>7</sup></button>
+<button type="button" data-f="fun" aria-pressed="false">for fun<sup>5</sup></button>
+<button type="button" data-f="wr" aria-pressed="false">things i've written<sup>6</sup></button>
+<button type="button" data-f="pod" aria-pressed="false">podcasts, for the bus<sup>8</sup></button>
+<button type="button" data-f="irl" aria-pressed="false">irl (mostly)<sup>4</sup></button>
+</div></div>
+
+<table id="index">
+<colgroup><col class="k-n"><col class="k-i"><col><col class="k-y"><col class="k-w"><col class="k-c"><col class="k-l"></colgroup>
+<thead><tr><th class="h-n" aria-sort="ascending"><button type="button" data-k="n">#</button></th><th class="h-i"></th><th class="h-t"><button type="button" data-k="t">title</button></th><th class="h-y"><button type="button" data-k="y">type</button></th><th class="h-w"><button type="button" data-k="w">with</button></th><th class="h-c"><button type="button" data-k="c">pics</button></th><th class="h-l"><button type="button" data-k="l">link</button></th></tr></thead>
+<tbody class="i p" id="networked-worlds" data-n="01" data-type="funds">
+<tr class="r" tabindex="0" aria-expanded="false"><td class="c-n">01</td><td class="c-i"><img loading="lazy" src="../../img/s/networked-worlds-1.jpg" width="990" height="1400" alt="yellow cover with a curved grid: Networked Worlds, WeTransfer"></td><td class="c-t u">Networked Worlds</td><td class="c-y">for funds</td><td class="c-w">co—matter</td><td class="c-c">3</td><td class="c-l"><a href="https://co-matter.com/project/networked-worlds" title="networked worlds">↗</a></td></tr>
+<tr class="x" hidden><td colspan="7"><div class="pics" style="--sum:2.1393"><img loading="lazy" style="--r:0.7071" src="../../img/l/networked-worlds-1.jpg" width="990" height="1400" alt="yellow cover with a curved grid: Networked Worlds, WeTransfer"><img loading="lazy" style="--r:0.7143" src="../../img/l/networked-worlds-2.jpg" width="1000" height="1400" alt="a collage of many small images on black"><img loading="lazy" style="--r:0.7179" src="../../img/l/networked-worlds-3.jpg" width="1005" height="1400" alt="&quot;worlding resources&quot;: a timeline of books and texts on black"></div><div class="txt"><p>duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. excepteur sint occaecat cupidatat non proident.</p><p class="out"><a href="https://co-matter.com/project/networked-worlds">networked worlds ↗</a></p></div></td></tr>
+</tbody>
+<tbody class="i p" id="protein" data-n="02" data-type="funds">
+<tr class="r" tabindex="0" aria-expanded="false"><td class="c-n">02</td><td class="c-i"><img loading="lazy" src="../../img/s/protein-1.jpg" width="1080" height="1080" alt="pink report cover: dirty word [report #4] community"></td><td class="c-t u">Protein Dirty Words #4: Community Report</td><td class="c-y">for funds</td><td class="c-w"></td><td class="c-c">4</td><td class="c-l"><a href="https://www.protein.xyz/dirty-words-4-community/" title="protein dirty words #4: community report">↗</a></td></tr>
+<tr class="x" hidden><td colspan="7"><div class="pics" style="--sum:3.7500"><img loading="lazy" style="--r:1.0000" src="../../img/l/protein-1.jpg" width="1080" height="1080" alt="pink report cover: dirty word [report #4] community"><img loading="lazy" style="--r:1.0000" src="../../img/l/protein-2.jpg" width="1080" height="1080" alt="overlapping page spreads from the report"><img loading="lazy" style="--r:1.0000" src="../../img/l/protein-3.jpg" width="1080" height="1080" alt="a grid of the report's pages in pink, black and white"><img loading="lazy" style="--r:0.7500" src="../../img/l/protein-4.jpg" width="1050" height="1400" alt="the printed report on a wooden floor"></div><div class="txt"><p>sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo.</p><p class="out"><a href="https://www.protein.xyz/dirty-words-4-community/">protein dirty words #4: community report ↗</a></p></div></td></tr>
+</tbody>
+<tbody class="i p" id="morning" data-n="03" data-type="funds">
+<tr class="r" tabindex="0" aria-expanded="false"><td class="c-n">03</td><td class="c-i"><img loading="lazy" src="../../img/s/morning-3.jpg" width="1400" height="1400" alt="3d render of three pink piglet-like creatures curled inside a cracked black egg"></td><td class="c-t u">MØRNING Ø</td><td class="c-y">for funds</td><td class="c-w"></td><td class="c-c">3</td><td class="c-l"><a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1" title="MØRNING Ø">↗</a></td></tr>
+<tr class="x" hidden><td colspan="7"><div class="pics" style="--sum:2.8000"><img loading="lazy" style="--r:1.0000" src="../../img/l/morning-3.jpg" width="1400" height="1400" alt="3d render of three pink piglet-like creatures curled inside a cracked black egg"><img loading="lazy" style="--r:1.0000" src="../../img/l/morning-1.jpg" width="1080" height="1080" alt="MØRNING newsletter graphic: &quot;#020 uh oh, meet Ø&quot;, a red burn after reading sticker over screenshots of video calls"><img loading="lazy" style="--r:0.8000" src="../../img/l/morning-2.jpg" width="1120" height="1400" alt="3d render of a dark glossy egg with orange marbling"></div><div class="txt"><p></p><p class="out"><a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1">MØRNING Ø ↗</a></p></div></td></tr>
+</tbody>
+<tbody class="i p" id="lorem-ipsum" data-n="04" data-type="fun">
+<tr class="r" tabindex="0" aria-expanded="false"><td class="c-n">04</td><td class="c-i"><img loading="lazy" src="../../img/l/morning-1.jpg" width="1080" height="1080" alt="MØRNING newsletter graphic: &quot;#020 uh oh, meet Ø&quot;, a red burn after reading sticker over screenshots of video calls"></td><td class="c-t u">Lorem Ipsum</td><td class="c-y">for fun</td><td class="c-w"></td><td class="c-c">2</td><td class="c-l"></td></tr>
+<tr class="x" hidden><td colspan="7"><div class="pics" style="--sum:1.8000"><img loading="lazy" style="--r:1.0000" src="../../img/l/morning-1.jpg" width="1080" height="1080" alt="MØRNING newsletter graphic: &quot;#020 uh oh, meet Ø&quot;, a red burn after reading sticker over screenshots of video calls"><img loading="lazy" style="--r:0.8000" src="../../img/l/morning-2.jpg" width="1120" height="1400" alt="3d render of a dark glossy egg with orange marbling"></div><div class="txt"><p>lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><p class="out"></p></div></td></tr>
+</tbody>
+<tbody class="i p" id="dolor-sit" data-n="05" data-type="funds">
+<tr class="r" tabindex="0" aria-expanded="false"><td class="c-n">05</td><td class="c-i"><img loading="lazy" src="../../img/l/protein-2.jpg" width="1080" height="1080" alt="overlapping page spreads from the report"></td><td class="c-t u">Dolor Sit Amet</td><td class="c-y">for funds</td><td class="c-w"></td><td class="c-c">2</td><td class="c-l"></td></tr>
+<tr class="x" hidden><td colspan="7"><div class="pics" style="--sum:2.0000"><img loading="lazy" style="--r:1.0000" src="../../img/l/protein-2.jpg" width="1080" height="1080" alt="overlapping page spreads from the report"><img loading="lazy" style="--r:1.0000" src="../../img/l/protein-3.jpg" width="1080" height="1080" alt="a grid of the report's pages in pink, black and white"></div><div class="txt"><p>lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><p class="out"></p></div></td></tr>
+</tbody>
+<tbody class="i p" id="consectetur" data-n="06" data-type="fun">
+<tr class="r" tabindex="0" aria-expanded="false"><td class="c-n">06</td><td class="c-i"><img loading="lazy" src="../../img/l/networked-worlds-2.jpg" width="1000" height="1400" alt="a collage of many small images on black"></td><td class="c-t u">Consectetur</td><td class="c-y">for fun</td><td class="c-w"></td><td class="c-c">2</td><td class="c-l"></td></tr>
+<tr class="x" hidden><td colspan="7"><div class="pics" style="--sum:1.4321"><img loading="lazy" style="--r:0.7143" src="../../img/l/networked-worlds-2.jpg" width="1000" height="1400" alt="a collage of many small images on black"><img loading="lazy" style="--r:0.7179" src="../../img/l/networked-worlds-3.jpg" width="1005" height="1400" alt="&quot;worlding resources&quot;: a timeline of books and texts on black"></div><div class="txt"><p>lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><p class="out"></p></div></td></tr>
+</tbody>
+<tbody class="i p" id="adipiscing" data-n="07" data-type="funds">
+<tr class="r" tabindex="0" aria-expanded="false"><td class="c-n">07</td><td class="c-i"><img loading="lazy" src="../../img/l/protein-3.jpg" width="1080" height="1080" alt="a grid of the report's pages in pink, black and white"></td><td class="c-t u">Adipiscing Elit</td><td class="c-y">for funds</td><td class="c-w"></td><td class="c-c">2</td><td class="c-l"></td></tr>
+<tr class="x" hidden><td colspan="7"><div class="pics" style="--sum:1.7500"><img loading="lazy" style="--r:1.0000" src="../../img/l/protein-3.jpg" width="1080" height="1080" alt="a grid of the report's pages in pink, black and white"><img loading="lazy" style="--r:0.7500" src="../../img/l/protein-4.jpg" width="1050" height="1400" alt="the printed report on a wooden floor"></div><div class="txt"><p>lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><p class="out"></p></div></td></tr>
+</tbody>
+<tbody class="i p" id="eiusmod" data-n="08" data-type="funds">
+<tr class="r" tabindex="0" aria-expanded="false"><td class="c-n">08</td><td class="c-i"><img loading="lazy" src="../../img/l/morning-2.jpg" width="1120" height="1400" alt="3d render of a dark glossy egg with orange marbling"></td><td class="c-t u">Sed Do Eiusmod</td><td class="c-y">for funds</td><td class="c-w"></td><td class="c-c">2</td><td class="c-l"></td></tr>
+<tr class="x" hidden><td colspan="7"><div class="pics" style="--sum:1.8000"><img loading="lazy" style="--r:0.8000" src="../../img/l/morning-2.jpg" width="1120" height="1400" alt="3d render of a dark glossy egg with orange marbling"><img loading="lazy" style="--r:1.0000" src="../../img/l/morning-1.jpg" width="1080" height="1080" alt="MØRNING newsletter graphic: &quot;#020 uh oh, meet Ø&quot;, a red burn after reading sticker over screenshots of video calls"></div><div class="txt"><p>lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><p class="out"></p></div></td></tr>
+</tbody>
+<tbody class="i p" id="tempor" data-n="09" data-type="fun">
+<tr class="r" tabindex="0" aria-expanded="false"><td class="c-n">09</td><td class="c-i"><img loading="lazy" src="../../img/l/networked-worlds-3.jpg" width="1005" height="1400" alt="&quot;worlding resources&quot;: a timeline of books and texts on black"></td><td class="c-t u">Tempor Incididunt</td><td class="c-y">for fun</td><td class="c-w"></td><td class="c-c">2</td><td class="c-l"></td></tr>
+<tr class="x" hidden><td colspan="7"><div class="pics" style="--sum:1.4321"><img loading="lazy" style="--r:0.7179" src="../../img/l/networked-worlds-3.jpg" width="1005" height="1400" alt="&quot;worlding resources&quot;: a timeline of books and texts on black"><img loading="lazy" style="--r:0.7143" src="../../img/l/networked-worlds-2.jpg" width="1000" height="1400" alt="a collage of many small images on black"></div><div class="txt"><p>lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><p class="out"></p></div></td></tr>
+</tbody>
+<tbody class="i p" id="labore" data-n="10" data-type="funds">
+<tr class="r" tabindex="0" aria-expanded="false"><td class="c-n">10</td><td class="c-i"><img loading="lazy" src="../../img/l/protein-4.jpg" width="1050" height="1400" alt="the printed report on a wooden floor"></td><td class="c-t u">Ut Labore et Dolore</td><td class="c-y">for funds</td><td class="c-w"></td><td class="c-c">2</td><td class="c-l"></td></tr>
+<tr class="x" hidden><td colspan="7"><div class="pics" style="--sum:1.7500"><img loading="lazy" style="--r:0.7500" src="../../img/l/protein-4.jpg" width="1050" height="1400" alt="the printed report on a wooden floor"><img loading="lazy" style="--r:1.0000" src="../../img/l/protein-2.jpg" width="1080" height="1080" alt="overlapping page spreads from the report"></div><div class="txt"><p>lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><p class="out"></p></div></td></tr>
+</tbody>
+<tbody class="i" data-n="11" data-type="fun"><tr class="o"><td class="c-n">11</td><td class="c-i"></td><td class="c-t"><a href="https://latent-space.vercel.app/">latent space</a></td><td class="c-y">for fun</td><td class="c-w"></td><td class="c-c"></td><td class="c-l"><a href="https://latent-space.vercel.app/" tabindex="-1" aria-hidden="true">↗</a></td></tr></tbody>
+<tbody class="i" data-n="12" data-type="fun"><tr class="o"><td class="c-n">12</td><td class="c-i"></td><td class="c-t"><a href="https://protecht.vercel.app/">pro(tech)t</a></td><td class="c-y">for fun</td><td class="c-w"></td><td class="c-c"></td><td class="c-l"><a href="https://protecht.vercel.app/" tabindex="-1" aria-hidden="true">↗</a></td></tr></tbody>
+<tbody class="i" data-n="13" data-type="wr"><tr class="o"><td class="c-n">13</td><td class="c-i"></td><td class="c-t"><a href="https://www.protein.xyz/sex-and-the-internet/">mindy seu on sex and the internet</a></td><td class="c-y">things i've written</td><td class="c-w">Protein</td><td class="c-c"></td><td class="c-l"><a href="https://www.protein.xyz/sex-and-the-internet/" tabindex="-1" aria-hidden="true">↗</a></td></tr></tbody>
+<tbody class="i" data-n="14" data-type="wr"><tr class="o"><td class="c-n">14</td><td class="c-i"></td><td class="c-t"><a href="https://midnight.agency/thoughts/dreaming-and-designing-more-accessible-web">dreaming and designing a more accessible web</a></td><td class="c-y">things i've written</td><td class="c-w">Midnight Agency</td><td class="c-c"></td><td class="c-l"><a href="https://midnight.agency/thoughts/dreaming-and-designing-more-accessible-web" tabindex="-1" aria-hidden="true">↗</a></td></tr></tbody>
+<tbody class="i" data-n="15" data-type="wr"><tr class="o"><td class="c-n">15</td><td class="c-i"></td><td class="c-t"><a href="https://midnight.agency/thoughts/coding-a-more-creative-and-playful-web">coding a more creative and playful web</a></td><td class="c-y">things i've written</td><td class="c-w">Midnight Agency</td><td class="c-c"></td><td class="c-l"><a href="https://midnight.agency/thoughts/coding-a-more-creative-and-playful-web" tabindex="-1" aria-hidden="true">↗</a></td></tr></tbody>
+<tbody class="i" data-n="16" data-type="wr"><tr class="o"><td class="c-n">16</td><td class="c-i"></td><td class="c-t"><a href="https://midnight.agency/thoughts/composing-a-flexible-and-modular-web">composing a flexible and modular web</a></td><td class="c-y">things i've written</td><td class="c-w">Midnight Agency</td><td class="c-c"></td><td class="c-l"><a href="https://midnight.agency/thoughts/composing-a-flexible-and-modular-web" tabindex="-1" aria-hidden="true">↗</a></td></tr></tbody>
+<tbody class="i" data-n="17" data-type="wr"><tr class="o"><td class="c-n">17</td><td class="c-i"></td><td class="c-t"><a href="https://morningfyi.substack.com/p/020-uh-oh-meet">burn after reading: uh oh, meet o</a></td><td class="c-y">things i've written</td><td class="c-w">morningfyi</td><td class="c-c"></td><td class="c-l"><a href="https://morningfyi.substack.com/p/020-uh-oh-meet" tabindex="-1" aria-hidden="true">↗</a></td></tr></tbody>
+<tbody class="i" data-n="18" data-type="wr"><tr class="o"><td class="c-n">18</td><td class="c-i"></td><td class="c-t"><a href="https://morningfyi.substack.com/p/024-entering-limb-with">burn after reading: entering limbo</a></td><td class="c-y">things i've written</td><td class="c-w">morningfyi</td><td class="c-c"></td><td class="c-l"><a href="https://morningfyi.substack.com/p/024-entering-limb-with" tabindex="-1" aria-hidden="true">↗</a></td></tr></tbody>
+<tbody class="i" data-n="19" data-type="pod"><tr class="o"><td class="c-n">19</td><td class="c-i"></td><td class="c-t"><a href="https://podcasts.apple.com/gb/podcast/mindy-seu-on-collaboration-community-and/id1449302502?i=1000597869409">mindy seu on collaboration, community and the cyberfeminism index</a></td><td class="c-y">podcasts, for the bus</td><td class="c-w"></td><td class="c-c"></td><td class="c-l"><a href="https://podcasts.apple.com/gb/podcast/mindy-seu-on-collaboration-community-and/id1449302502?i=1000597869409" tabindex="-1" aria-hidden="true">↗</a></td></tr></tbody>
+<tbody class="i" data-n="20" data-type="pod"><tr class="o"><td class="c-n">20</td><td class="c-i"></td><td class="c-t"><a href="https://soundcloud.com/proteincommunity/protein-forum-what-can-web2-organisations-learn-from-web3-communities">what can web2 organisations learn from web3 communities?</a></td><td class="c-y">podcasts, for the bus</td><td class="c-w">Protein</td><td class="c-c"></td><td class="c-l"><a href="https://soundcloud.com/proteincommunity/protein-forum-what-can-web2-organisations-learn-from-web3-communities" tabindex="-1" aria-hidden="true">↗</a></td></tr></tbody>
+<tbody class="i" data-n="21" data-type="pod"><tr class="o"><td class="c-n">21</td><td class="c-i"></td><td class="c-t"><a href="https://podcasts.apple.com/gb/podcast/cherie-hu-on-water-musics-journey-through-web3/id1449302502?i=1000581859804">cherie hu on water &amp; music's journey through web3</a></td><td class="c-y">podcasts, for the bus</td><td class="c-w"></td><td class="c-c"></td><td class="c-l"><a href="https://podcasts.apple.com/gb/podcast/cherie-hu-on-water-musics-journey-through-web3/id1449302502?i=1000581859804" tabindex="-1" aria-hidden="true">↗</a></td></tr></tbody>
+<tbody class="i" data-n="22" data-type="pod"><tr class="o"><td class="c-n">22</td><td class="c-i"></td><td class="c-t"><a href="https://podcasts.apple.com/gb/podcast/molly-dickson-on-dao-activism-and-fighting-for/id1449302502?i=1000578164761">molly dickson on dao activism</a></td><td class="c-y">podcasts, for the bus</td><td class="c-w"></td><td class="c-c"></td><td class="c-l"><a href="https://podcasts.apple.com/gb/podcast/molly-dickson-on-dao-activism-and-fighting-for/id1449302502?i=1000578164761" tabindex="-1" aria-hidden="true">↗</a></td></tr></tbody>
+<tbody class="i" data-n="23" data-type="pod"><tr class="o"><td class="c-n">23</td><td class="c-i"></td><td class="c-t"><a href="https://podcasts.apple.com/gb/podcast/dame-on-the-need-for-education-accessibility/id1449302502?i=1000559829008">dame on education, accessibility and inclusivity in web3</a></td><td class="c-y">podcasts, for the bus</td><td class="c-w"></td><td class="c-c"></td><td class="c-l"><a href="https://podcasts.apple.com/gb/podcast/dame-on-the-need-for-education-accessibility/id1449302502?i=1000559829008" tabindex="-1" aria-hidden="true">↗</a></td></tr></tbody>
+<tbody class="i" data-n="24" data-type="pod"><tr class="o"><td class="c-n">24</td><td class="c-i"></td><td class="c-t"><a href="https://podcasts.apple.com/gb/podcast/nadia-piet-on-creative-ai-and-protopian-futures/id1449302502?i=1000559822732">nadia piet on creative ai and protopian futures</a></td><td class="c-y">podcasts, for the bus</td><td class="c-w"></td><td class="c-c"></td><td class="c-l"><a href="https://podcasts.apple.com/gb/podcast/nadia-piet-on-creative-ai-and-protopian-futures/id1449302502?i=1000559822732" tabindex="-1" aria-hidden="true">↗</a></td></tr></tbody>
+<tbody class="i" data-n="25" data-type="pod"><tr class="o"><td class="c-n">25</td><td class="c-i"></td><td class="c-t"><a href="https://podcasts.apple.com/gb/podcast/cyn-bahati-on-her-journey-into-web3-with-her-family/id1449302502?i=1000559818509">cyn bahati on her journey into web3 with her family</a></td><td class="c-y">podcasts, for the bus</td><td class="c-w"></td><td class="c-c"></td><td class="c-l"><a href="https://podcasts.apple.com/gb/podcast/cyn-bahati-on-her-journey-into-web3-with-her-family/id1449302502?i=1000559818509" tabindex="-1" aria-hidden="true">↗</a></td></tr></tbody>
+<tbody class="i" data-n="26" data-type="pod"><tr class="o"><td class="c-n">26</td><td class="c-i"></td><td class="c-t"><a href="https://podcasts.apple.com/gb/podcast/latash%C3%A1-on-the-potential-of-web3-for-music-artists/id1449302502?i=1000552812458">latasha on the potential of web3 for music artists</a></td><td class="c-y">podcasts, for the bus</td><td class="c-w"></td><td class="c-c"></td><td class="c-l"><a href="https://podcasts.apple.com/gb/podcast/latash%C3%A1-on-the-potential-of-web3-for-music-artists/id1449302502?i=1000552812458" tabindex="-1" aria-hidden="true">↗</a></td></tr></tbody>
+<tbody class="i" data-n="27" data-type="irl"><tr class="o"><td class="c-n">27</td><td class="c-i"></td><td class="c-t"><a href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1">olden residency</a></td><td class="c-y">irl (mostly)</td><td class="c-w"></td><td class="c-c"></td><td class="c-l"><a href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1" tabindex="-1" aria-hidden="true">↗</a></td></tr></tbody>
+<tbody class="i" data-n="28" data-type="irl"><tr class="o"><td class="c-n">28</td><td class="c-i"></td><td class="c-t"><a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1">softer london</a></td><td class="c-y">irl (mostly)</td><td class="c-w">talk + workshop</td><td class="c-c"></td><td class="c-l"><a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1" tabindex="-1" aria-hidden="true">↗</a></td></tr></tbody>
+<tbody class="i" data-n="29" data-type="irl"><tr class="o"><td class="c-n">29</td><td class="c-i"></td><td class="c-t"><a href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard">tech yard</a></td><td class="c-y">irl (mostly)</td><td class="c-w">workshop</td><td class="c-c"></td><td class="c-l"><a href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard" tabindex="-1" aria-hidden="true">↗</a></td></tr></tbody>
+<tbody class="i" data-n="30" data-type="irl"><tr class="o"><td class="c-n">30</td><td class="c-i"></td><td class="c-t"><a href="https://www.instagram.com/p/BslwSSPH5Rc/?img_index=2">ovar it</a></td><td class="c-y">irl (mostly)</td><td class="c-w"></td><td class="c-c"></td><td class="c-l"><a href="https://www.instagram.com/p/BslwSSPH5Rc/?img_index=2" tabindex="-1" aria-hidden="true">↗</a></td></tr></tbody>
+<tbody class="empty" hidden><tr><td colspan="7">0 rows</td></tr></tbody>
+</table>
+</main>
+
+<footer>
+<section class="pr fn" aria-label="for fun"><h2>For fun</h2><p class="w g">lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam.</p></section>
+<section class="pr ab" aria-label="about"><h2>About</h2><dl>
+<dt>does</dt><dd>creative strategy, research, workshops, writing and teaching</dd>
+<dt>teaches</dt><dd>associate lecturer at UAL (LCF + CCI)</dd>
+<dt>clients</dt><dd>Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges</dd>
+<dt>school</dt><dd>MA internet equalities, BA creative direction, PhD [ ? ]</dd>
+<dt>cv</dt><dd>cv &amp; portfolio on request</dd>
+</dl></section>
+<div class="pr foot"><h2>Contact</h2><p><span>say hello: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></span><span>thanks for stopping by &lt;3 <span style="color:#e7a3bf">✿</span></span></p></div>
+</footer>
+
+<script>
+(function () {
+  var table = document.getElementById('index');
+  var items = [].slice.call(table.querySelectorAll('tbody.i'));
+  var ps = items.filter(function (b) { return b.classList.contains('p'); });
+  var empty = table.querySelector('tbody.empty');
+  var ORDER = { funds: 0, fun: 1, wr: 2, pod: 3, irl: 4 };
+  var sortKey = 'n', sortDir = 1, filter = '';
+
+  /* small screens: type and with share one line under the title */
+  items.forEach(function (b) {
+    var w = b.querySelector('.c-w').textContent, c = b.querySelector('.c-c').textContent;
+    b.querySelector('.c-y').setAttribute('data-more', (w ? ' · ' + w : '') + (c ? ' · ' + c + ' pics' : ''));
+  });
+
+  function val(b, k) {
+    var r = b.rows[0];
+    if (k === 'n') return +b.getAttribute('data-n');
+    if (k === 'y') return ORDER[b.getAttribute('data-type')];
+    if (k === 'c') { var c = r.querySelector('.c-c').textContent; return c ? +c : null; }
+    if (k === 'l') return r.querySelector('.c-l a') ? 0 : null;
+    var s = r.querySelector(k === 't' ? '.c-t' : '.c-w').textContent.trim().toLowerCase();
+    return s || null;
+  }
+  function sort() {
+    var s = items.slice().sort(function (a, b) {
+      var x = val(a, sortKey), y = val(b, sortKey);
+      if (x === null && y === null) return val(a, 'n') - val(b, 'n');
+      if (x === null) return 1; if (y === null) return -1; /* blanks always last */
+      var d = typeof x === 'number' ? x - y : x.localeCompare(y);
+      return d ? d * sortDir : val(a, 'n') - val(b, 'n');
+    });
+    s.forEach(function (b) { table.insertBefore(b, empty); });
+    [].forEach.call(table.querySelectorAll('thead th'), function (th) {
+      var btn = th.querySelector('button');
+      if (btn && btn.getAttribute('data-k') === sortKey) th.setAttribute('aria-sort', sortDir > 0 ? 'ascending' : 'descending');
+      else th.removeAttribute('aria-sort');
+    });
+  }
+  function applyFilter() {
+    var shown = 0;
+    items.forEach(function (b) { var on = !filter || b.getAttribute('data-type') === filter; b.hidden = !on; if (on) shown++; });
+    empty.hidden = shown > 0;
+    [].forEach.call(document.querySelectorAll('.fl button'), function (x) { x.setAttribute('aria-pressed', x.getAttribute('data-f') === filter); });
+    var o = document.querySelector('.p.open'); if (o && o.hidden) set(o.id);
+  }
+
+  function set(id, how) {
+    var p = document.getElementById(id), row = p && p.querySelector('.r');
+    var before = row ? row.getBoundingClientRect().top : 0;
+    ps.forEach(function (q) {
+      var on = q.id === id && !q.classList.contains('open');
+      q.classList.toggle('open', on);
+      q.querySelector('.r').setAttribute('aria-expanded', on);
+      q.querySelector('.x').hidden = !on;
+    });
+    var open = document.querySelector('.p.open');
+    history.replaceState(null, '', open ? '#' + open.id : location.pathname + location.search);
+    if (!row || p.hidden) return;
+    if (how === 'jump') p.scrollIntoView({ block: 'start' });
+    else window.scrollBy(0, row.getBoundingClientRect().top - before); /* keep the clicked row where it was */
+  }
+
+  ps.forEach(function (p) {
+    var r = p.querySelector('.r');
+    r.addEventListener('click', function (e) { if (e.target.closest('a')) return; set(p.id); });
+    r.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); set(p.id); } });
+  });
+  [].forEach.call(table.querySelectorAll('thead button'), function (btn) {
+    btn.addEventListener('click', function () {
+      var k = btn.getAttribute('data-k');
+      if (k === sortKey) sortDir = -sortDir; else { sortKey = k; sortDir = 1; }
+      sort();
+    });
+  });
+  [].forEach.call(document.querySelectorAll('.fl button'), function (btn) {
+    btn.addEventListener('click', function () { filter = btn.getAttribute('data-f'); applyFilter(); });
+  });
+  document.addEventListener('keydown', function (e) { var o = document.querySelector('.p.open'); if (e.key === 'Escape' && o) { set(o.id); o.querySelector('.r').focus(); } });
+
+  var h = decodeURIComponent(location.hash.slice(1));
+  if (h && document.getElementById(h) && document.getElementById(h).classList.contains('p')) set(h, 'jump');
+})();
+</script>
+</body>
+</html>

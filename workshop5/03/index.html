@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>kes inkersole</title>
+<script>document.documentElement.className = 'js';</script>
+<style>
+:root { --ink: #111; --grey: #8a8a8a; --line: #d0d0d0; --rose: #c44a78; --mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace; --serif: "Times New Roman", Times, "Nimbus Roman", "Liberation Serif", serif; --pad: 20px; --gut: 40px; }
+* { box-sizing: border-box; }
+html { background: #fff; color: var(--ink); -webkit-text-size-adjust: 100%; }
+body { margin: 0; font: 15px/1.45 var(--serif); }
+h1, h2, p, ul, ol, li, dl, dt, dd, figure, figcaption { margin: 0; padding: 0; font: inherit; }
+ul, ol { list-style: none; }
+img { display: block; }
+a { color: inherit; text-decoration: none; }
+b { font-weight: inherit; }
+.g { color: var(--grey); }
+.m { font: 11px/1.5 var(--mono); }
+.u { text-transform: uppercase; letter-spacing: .04em; }
+.paper { max-width: 1180px; margin: 0 auto; padding: 0 var(--pad) 40px; }
+
+/* title block: the name as title, the roles as the author line */
+.title { text-align: center; padding: 56px 0 30px; }
+.title h1 { font-size: 34px; line-height: 1.15; letter-spacing: -.01em; }
+.title .au { margin-top: 10px; font-style: italic; font-size: 16px; }
+.title .af { margin-top: 8px; }
+
+/* abstract: the hello text in a narrower measure */
+.abs { max-width: 640px; margin: 0 auto; padding-bottom: 30px; }
+.abs h2 { margin-bottom: 8px; text-align: center; }
+.abs p + p { margin-top: .6em; }
+hr { border: 0; border-top: 1px solid var(--line); margin: 0; }
+
+/* the body: two columns at desktop, section numbers in a mono gutter */
+.cols { padding-top: 26px; }
+.sec + .sec { margin-top: 30px; }
+.sec h2 { display: grid; grid-template-columns: var(--gut) minmax(0, 1fr); font-size: 13px; line-height: 1.5; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 10px; break-after: avoid; }
+.n { font: 11px/1.6 var(--mono); color: var(--grey); letter-spacing: 0; text-transform: none; }
+.sec li { display: grid; grid-template-columns: var(--gut) minmax(0, 1fr); padding: 2px 0; break-inside: avoid; }
+.sec li .n { line-height: 21.75px; }
+.src, .k { font: 11px/1.5 var(--mono); color: var(--grey); }
+.src { white-space: nowrap; }
+.k { display: inline-block; min-width: 8ch; }
+.sec .txt { padding-left: var(--gut); }
+.sec p + p { margin-top: .6em; }
+
+/* footnote marks: the only colour on the page */
+sup.fn { font: 9px/0 var(--mono); vertical-align: super; margin-left: 1px; }
+sup.fn a { color: var(--rose); }
+sup.fn a:hover { text-decoration: underline; text-underline-offset: 2px; }
+
+/* figures: one small icon per project, label above, hairline under, title as caption */
+.figs { font-size: 0; margin: 2px 0 6px; }
+.tile { display: inline-block; vertical-align: top; width: calc(50% - 10px); margin: 0 20px 22px 0; font: 11px/1.5 var(--mono); color: var(--ink); }
+.tile:nth-of-type(even) { margin-right: 0; }
+.tile .lab { display: flex; justify-content: space-between; color: var(--grey); margin-bottom: 6px; }
+.tile .o::after { content: "+"; }
+.tile.on .o::after { content: "\2212"; color: var(--ink); }
+.tile img { height: 120px; width: auto; max-width: 100%; }
+.tile .cap { display: block; border-top: 1px solid var(--line); margin-top: 8px; padding-top: 5px; }
+.tile .cap b { display: block; text-transform: uppercase; letter-spacing: .04em; }
+.tile .cap .g { display: block; }
+.tile:hover .cap b, .tile.on .cap b { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; text-decoration-color: var(--line); }
+.tile:focus-visible { outline: 1px solid var(--ink); outline-offset: 2px; }
+
+/* the open project: a full-width plate across both columns, all pictures in a row, its text as the long caption */
+.plate { display: none; font: 11px/1.5 var(--mono); scroll-margin-top: 14px; }
+.plate.open, html:not(.js) .plate:target { display: block; column-span: all; margin: 4px 0 34px; border-top: 1px solid var(--line); padding-top: 6px; }
+.plate .ph { display: flex; justify-content: space-between; color: var(--grey); margin-bottom: 8px; }
+.plate .x:hover { color: var(--ink); }
+.pics { display: flex; gap: 1px; background: var(--line); max-width: calc(var(--sum) * 60vh); }
+.pics img { flex: 1 1 0; width: 0; min-width: 0; height: auto; }
+.plate figcaption { border-top: 1px solid var(--line); margin-top: 8px; padding-top: 6px; }
+.plate figcaption .cb { display: block; max-width: 84ch; }
+.plate figcaption b { text-transform: uppercase; letter-spacing: .04em; }
+
+/* notes: the links, numbered, under a hairline at the foot */
+.notes { border-top: 1px solid var(--line); margin-top: 30px; padding-top: 8px; font: 11px/1.6 var(--mono); }
+.notes h2 { color: var(--grey); margin-bottom: 6px; }
+.notes li { display: grid; grid-template-columns: var(--gut) minmax(0, 1fr); padding: 1px 0; break-inside: avoid; overflow-wrap: anywhere; }
+.notes li .n { color: var(--rose); line-height: inherit; }
+.notes a { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; text-decoration-color: var(--line); }
+.notes a:hover, .notes li:target a { text-decoration-color: currentColor; }
+.end { margin-top: 30px; padding-left: var(--gut); }
+
+@media (min-width: 900px) {
+  .cols { columns: 2; column-gap: 48px; column-rule: 1px solid var(--line); }
+  .notes ol { columns: 2; column-gap: 48px; }
+}
+@media (max-width: 899px) {
+  .title { padding-top: 40px; }
+  .pics { flex-wrap: wrap; max-width: none; }
+  .pics img { flex: none; width: calc(50% - .5px); aspect-ratio: 1 / 1; object-fit: cover; }
+}
+</style>
+</head>
+<body>
+<div class="paper">
+
+<header class="title">
+  <h1>Kes Inkersole</h1>
+  <p class="au">creative strategist · internet equalities researcher</p>
+  <p class="af m g">london · available for work</p>
+</header>
+
+<section class="abs">
+  <h2 class="m u g">Hello, i'm kes &lt;3</h2>
+  <p>i'm kes inkersole (kesia on paper), a freelance creative strategist and internet equalities researcher based in london. welcome to kes' little corner of the internet.</p>
+  <p>my practice focuses on understanding and critiquing the impacts of emerging technologies on people, culture, and the planet. i work collectively to rethink the narratives and behaviours surrounding technologies — prioritising collaborative research as a process for testing, imagining and prototyping more equitable, alternative futures.</p>
+</section>
+
+<hr>
+
+<div class="cols">
+
+<section class="sec">
+  <h2><span class="n">1</span>Index</h2>
+  <div class="figs">
+    <a class="tile" href="#networked-worlds" aria-controls="networked-worlds" aria-expanded="false"><span class="lab"><span>fig. 01</span><span class="o"></span></span><img src="../img/l/networked-worlds-1.jpg" srcset="../img/s/networked-worlds-1.jpg 453w, ../img/l/networked-worlds-1.jpg 990w" sizes="85px" width="990" height="1400" alt="yellow cover with a curved grid: Networked Worlds, WeTransfer"><span class="cap"><b>Networked Worlds</b><span class="g">with co—matter · for funds</span></span></a>
+    <a class="tile" href="#protein" aria-controls="protein" aria-expanded="false"><span class="lab"><span>fig. 02</span><span class="o"></span></span><img src="../img/l/protein-1.jpg" srcset="../img/s/protein-1.jpg 640w, ../img/l/protein-1.jpg 1080w" sizes="120px" width="1080" height="1080" alt="pink report cover: dirty word [report #4] community"><span class="cap"><b>Protein Dirty Words #4: Community Report</b><span class="g">for funds</span></span></a>
+    <a class="tile" href="#morning" aria-controls="morning" aria-expanded="false"><span class="lab"><span>fig. 03</span><span class="o"></span></span><img src="../img/l/morning-3.jpg" srcset="../img/s/morning-3.jpg 640w, ../img/l/morning-3.jpg 1400w" sizes="120px" width="1400" height="1400" alt="3d render of three pink piglet-like creatures curled inside a cracked black egg"><span class="cap"><b>MØRNING Ø</b><span class="g">for funds</span></span></a>
+    <a class="tile" href="#lorem-ipsum" aria-controls="lorem-ipsum" aria-expanded="false"><span class="lab"><span>fig. 04</span><span class="o"></span></span><img src="../img/l/morning-1.jpg" srcset="../img/s/morning-1.jpg 640w, ../img/l/morning-1.jpg 1080w" sizes="120px" width="1080" height="1080" alt="MØRNING newsletter graphic: &quot;#020 uh oh, meet Ø&quot;, a red burn after reading sticker over screenshots of video calls"><span class="cap"><b>Lorem Ipsum</b><span class="g">for fun</span></span></a>
+    <a class="tile" href="#dolor-sit" aria-controls="dolor-sit" aria-expanded="false"><span class="lab"><span>fig. 05</span><span class="o"></span></span><img src="../img/l/protein-2.jpg" srcset="../img/s/protein-2.jpg 640w, ../img/l/protein-2.jpg 1080w" sizes="120px" width="1080" height="1080" alt="overlapping page spreads from the report"><span class="cap"><b>Dolor Sit Amet</b><span class="g">for funds</span></span></a>
+    <a class="tile" href="#consectetur" aria-controls="consectetur" aria-expanded="false"><span class="lab"><span>fig. 06</span><span class="o"></span></span><img src="../img/l/networked-worlds-2.jpg" srcset="../img/s/networked-worlds-2.jpg 457w, ../img/l/networked-worlds-2.jpg 1000w" sizes="86px" width="1000" height="1400" alt="a collage of many small images on black"><span class="cap"><b>Consectetur</b><span class="g">for fun</span></span></a>
+    <a class="tile" href="#adipiscing" aria-controls="adipiscing" aria-expanded="false"><span class="lab"><span>fig. 07</span><span class="o"></span></span><img src="../img/l/protein-3.jpg" srcset="../img/s/protein-3.jpg 640w, ../img/l/protein-3.jpg 1080w" sizes="120px" width="1080" height="1080" alt="a grid of the report's pages in pink, black and white"><span class="cap"><b>Adipiscing Elit</b><span class="g">for funds</span></span></a>
+    <a class="tile" href="#eiusmod" aria-controls="eiusmod" aria-expanded="false"><span class="lab"><span>fig. 08</span><span class="o"></span></span><img src="../img/l/morning-2.jpg" srcset="../img/s/morning-2.jpg 512w, ../img/l/morning-2.jpg 1120w" sizes="96px" width="1120" height="1400" alt="3d render of a dark glossy egg with orange marbling"><span class="cap"><b>Sed Do Eiusmod</b><span class="g">for funds</span></span></a>
+    <a class="tile" href="#tempor" aria-controls="tempor" aria-expanded="false"><span class="lab"><span>fig. 09</span><span class="o"></span></span><img src="../img/l/networked-worlds-3.jpg" srcset="../img/s/networked-worlds-3.jpg 460w, ../img/l/networked-worlds-3.jpg 1005w" sizes="86px" width="1005" height="1400" alt="&quot;worlding resources&quot;: a timeline of books and texts on black"><span class="cap"><b>Tempor Incididunt</b><span class="g">for fun</span></span></a>
+    <a class="tile" href="#labore" aria-controls="labore" aria-expanded="false"><span class="lab"><span>fig. 10</span><span class="o"></span></span><img src="../img/l/protein-4.jpg" srcset="../img/s/protein-4.jpg 480w, ../img/l/protein-4.jpg 1050w" sizes="90px" width="1050" height="1400" alt="the printed report on a wooden floor"><span class="cap"><b>Ut Labore et Dolore</b><span class="g">for funds</span></span></a>
+  </div>
+  <div class="plates">
+    <figure class="plate" id="networked-worlds" style="--sum:2.1393">
+      <div class="ph"><span>fig. 01</span><a class="x" href="#">close ×</a></div>
+      <div class="pics"><img src="../img/l/networked-worlds-1.jpg" width="990" height="1400" alt="yellow cover with a curved grid: Networked Worlds, WeTransfer" loading="lazy" style="flex-grow:0.7071"><img src="../img/l/networked-worlds-2.jpg" width="1000" height="1400" alt="a collage of many small images on black" loading="lazy" style="flex-grow:0.7143"><img src="../img/l/networked-worlds-3.jpg" width="1005" height="1400" alt="&quot;worlding resources&quot;: a timeline of books and texts on black" loading="lazy" style="flex-grow:0.7179"></div>
+      <figcaption><span class="cb"><b>Networked Worlds</b><sup class="fn"><a href="#n1">[1]</a></sup> <span class="g">with co—matter · for funds</span><br>duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. excepteur sint occaecat cupidatat non proident.</span></figcaption>
+    </figure>
+    <figure class="plate" id="protein" style="--sum:3.7500">
+      <div class="ph"><span>fig. 02</span><a class="x" href="#">close ×</a></div>
+      <div class="pics"><img src="../img/l/protein-1.jpg" width="1080" height="1080" alt="pink report cover: dirty word [report #4] community" loading="lazy" style="flex-grow:1.0000"><img src="../img/l/protein-2.jpg" width="1080" height="1080" alt="overlapping page spreads from the report" loading="lazy" style="flex-grow:1.0000"><img src="../img/l/protein-3.jpg" width="1080" height="1080" alt="a grid of the report's pages in pink, black and white" loading="lazy" style="flex-grow:1.0000"><img src="../img/l/protein-4.jpg" width="1050" height="1400" alt="the printed report on a wooden floor" loading="lazy" style="flex-grow:0.7500"></div>
+      <figcaption><span class="cb"><b>Protein Dirty Words #4: Community Report</b><sup class="fn"><a href="#n2">[2]</a></sup> <span class="g">for funds</span><br>sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo.</span></figcaption>
+    </figure>
+    <figure class="plate" id="morning" style="--sum:2.8000">
+      <div class="ph"><span>fig. 03</span><a class="x" href="#">close ×</a></div>
+      <div class="pics"><img src="../img/l/morning-3.jpg" width="1400" height="1400" alt="3d render of three pink piglet-like creatures curled inside a cracked black egg" loading="lazy" style="flex-grow:1.0000"><img src="../img/l/morning-1.jpg" width="1080" height="1080" alt="MØRNING newsletter graphic: &quot;#020 uh oh, meet Ø&quot;, a red burn after reading sticker over screenshots of video calls" loading="lazy" style="flex-grow:1.0000"><img src="../img/l/morning-2.jpg" width="1120" height="1400" alt="3d render of a dark glossy egg with orange marbling" loading="lazy" style="flex-grow:0.8000"></div>
+      <figcaption><span class="cb"><b>MØRNING Ø</b><sup class="fn"><a href="#n3">[3]</a></sup> <span class="g">for funds</span></span></figcaption>
+    </figure>
+    <figure class="plate" id="lorem-ipsum" style="--sum:1.8000">
+      <div class="ph"><span>fig. 04</span><a class="x" href="#">close ×</a></div>
+      <div class="pics"><img src="../img/l/morning-1.jpg" width="1080" height="1080" alt="MØRNING newsletter graphic: &quot;#020 uh oh, meet Ø&quot;, a red burn after reading sticker over screenshots of video calls" loading="lazy" style="flex-grow:1.0000"><img src="../img/l/morning-2.jpg" width="1120" height="1400" alt="3d render of a dark glossy egg with orange marbling" loading="lazy" style="flex-grow:0.8000"></div>
+      <figcaption><span class="cb"><b>Lorem Ipsum</b> <span class="g">for fun</span><br>lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span></figcaption>
+    </figure>
+    <figure class="plate" id="dolor-sit" style="--sum:2.0000">
+      <div class="ph"><span>fig. 05</span><a class="x" href="#">close ×</a></div>
+      <div class="pics"><img src="../img/l/protein-2.jpg" width="1080" height="1080" alt="overlapping page spreads from the report" loading="lazy" style="flex-grow:1.0000"><img src="../img/l/protein-3.jpg" width="1080" height="1080" alt="a grid of the report's pages in pink, black and white" loading="lazy" style="flex-grow:1.0000"></div>
+      <figcaption><span class="cb"><b>Dolor Sit Amet</b> <span class="g">for funds</span><br>lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span></figcaption>
+    </figure>
+    <figure class="plate" id="consectetur" style="--sum:1.4321">
+      <div class="ph"><span>fig. 06</span><a class="x" href="#">close ×</a></div>
+      <div class="pics"><img src="../img/l/networked-worlds-2.jpg" width="1000" height="1400" alt="a collage of many small images on black" loading="lazy" style="flex-grow:0.7143"><img src="../img/l/networked-worlds-3.jpg" width="1005" height="1400" alt="&quot;worlding resources&quot;: a timeline of books and texts on black" loading="lazy" style="flex-grow:0.7179"></div>
+      <figcaption><span class="cb"><b>Consectetur</b> <span class="g">for fun</span><br>lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span></figcaption>
+    </figure>
+    <figure class="plate" id="adipiscing" style="--sum:1.7500">
+      <div class="ph"><span>fig. 07</span><a class="x" href="#">close ×</a></div>
+      <div class="pics"><img src="../img/l/protein-3.jpg" width="1080" height="1080" alt="a grid of the report's pages in pink, black and white" loading="lazy" style="flex-grow:1.0000"><img src="../img/l/protein-4.jpg" width="1050" height="1400" alt="the printed report on a wooden floor" loading="lazy" style="flex-grow:0.7500"></div>
+      <figcaption><span class="cb"><b>Adipiscing Elit</b> <span class="g">for funds</span><br>lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span></figcaption>
+    </figure>
+    <figure class="plate" id="eiusmod" style="--sum:1.8000">
+      <div class="ph"><span>fig. 08</span><a class="x" href="#">close ×</a></div>
+      <div class="pics"><img src="../img/l/morning-2.jpg" width="1120" height="1400" alt="3d render of a dark glossy egg with orange marbling" loading="lazy" style="flex-grow:0.8000"><img src="../img/l/morning-1.jpg" width="1080" height="1080" alt="MØRNING newsletter graphic: &quot;#020 uh oh, meet Ø&quot;, a red burn after reading sticker over screenshots of video calls" loading="lazy" style="flex-grow:1.0000"></div>
+      <figcaption><span class="cb"><b>Sed Do Eiusmod</b> <span class="g">for funds</span><br>lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span></figcaption>
+    </figure>
+    <figure class="plate" id="tempor" style="--sum:1.4321">
+      <div class="ph"><span>fig. 09</span><a class="x" href="#">close ×</a></div>
+      <div class="pics"><img src="../img/l/networked-worlds-3.jpg" width="1005" height="1400" alt="&quot;worlding resources&quot;: a timeline of books and texts on black" loading="lazy" style="flex-grow:0.7179"><img src="../img/l/networked-worlds-2.jpg" width="1000" height="1400" alt="a collage of many small images on black" loading="lazy" style="flex-grow:0.7143"></div>
+      <figcaption><span class="cb"><b>Tempor Incididunt</b> <span class="g">for fun</span><br>lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span></figcaption>
+    </figure>
+    <figure class="plate" id="labore" style="--sum:1.7500">
+      <div class="ph"><span>fig. 10</span><a class="x" href="#">close ×</a></div>
+      <div class="pics"><img src="../img/l/protein-4.jpg" width="1050" height="1400" alt="the printed report on a wooden floor" loading="lazy" style="flex-grow:0.7500"><img src="../img/l/protein-2.jpg" width="1080" height="1080" alt="overlapping page spreads from the report" loading="lazy" style="flex-grow:1.0000"></div>
+      <figcaption><span class="cb"><b>Ut Labore et Dolore</b> <span class="g">for funds</span><br>lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="sec">
+  <h2><span class="n">2</span>For fun</h2>
+  <ul>
+    <li><span class="n">2.1</span><span>latent space<sup class="fn"><a href="#n4">[4]</a></sup></span></li>
+    <li><span class="n">2.2</span><span>pro(tech)t<sup class="fn"><a href="#n5">[5]</a></sup></span></li>
+  </ul>
+  <p class="txt g" style="margin-top:8px">lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam.</p>
+</section>
+
+<section class="sec">
+  <h2><span class="n">3</span>Things i've written</h2>
+  <ul>
+    <li><span class="n">3.1</span><span>mindy seu on sex and the internet<sup class="fn"><a href="#n6">[6]</a></sup> <span class="src">Protein</span></span></li>
+    <li><span class="n">3.2</span><span>dreaming and designing a more accessible web<sup class="fn"><a href="#n7">[7]</a></sup> <span class="src">Midnight Agency</span></span></li>
+    <li><span class="n">3.3</span><span>coding a more creative and playful web<sup class="fn"><a href="#n8">[8]</a></sup> <span class="src">Midnight Agency</span></span></li>
+    <li><span class="n">3.4</span><span>composing a flexible and modular web<sup class="fn"><a href="#n9">[9]</a></sup> <span class="src">Midnight Agency</span></span></li>
+    <li><span class="n">3.5</span><span>burn after reading: uh oh, meet o<sup class="fn"><a href="#n10">[10]</a></sup> <span class="src">morningfyi</span></span></li>
+    <li><span class="n">3.6</span><span>burn after reading: entering limbo<sup class="fn"><a href="#n11">[11]</a></sup> <span class="src">morningfyi</span></span></li>
+  </ul>
+</section>
+
+<section class="sec">
+  <h2><span class="n">4</span>Podcasts, for the bus</h2>
+  <ul>
+    <li><span class="n">4.1</span><span>mindy seu on collaboration, community and the cyberfeminism index<sup class="fn"><a href="#n12">[12]</a></sup></span></li>
+    <li><span class="n">4.2</span><span>what can web2 organisations learn from web3 communities?<sup class="fn"><a href="#n13">[13]</a></sup> <span class="src">Protein</span></span></li>
+    <li><span class="n">4.3</span><span>cherie hu on water &amp; music's journey through web3<sup class="fn"><a href="#n14">[14]</a></sup></span></li>
+    <li><span class="n">4.4</span><span>molly dickson on dao activism<sup class="fn"><a href="#n15">[15]</a></sup></span></li>
+    <li><span class="n">4.5</span><span>dame on education, accessibility and inclusivity in web3<sup class="fn"><a href="#n16">[16]</a></sup></span></li>
+    <li><span class="n">4.6</span><span>nadia piet on creative ai and protopian futures<sup class="fn"><a href="#n17">[17]</a></sup></span></li>
+    <li><span class="n">4.7</span><span>cyn bahati on her journey into web3 with her family<sup class="fn"><a href="#n18">[18]</a></sup></span></li>
+    <li><span class="n">4.8</span><span>latasha on the potential of web3 for music artists<sup class="fn"><a href="#n19">[19]</a></sup></span></li>
+  </ul>
+</section>
+
+<section class="sec">
+  <h2><span class="n">5</span>Irl (mostly)</h2>
+  <ul>
+    <li><span class="n">5.1</span><span>olden residency<sup class="fn"><a href="#n20">[20]</a></sup></span></li>
+    <li><span class="n">5.2</span><span>softer london<sup class="fn"><a href="#n21">[21]</a></sup> <span class="src">talk + workshop</span></span></li>
+    <li><span class="n">5.3</span><span>tech yard<sup class="fn"><a href="#n22">[22]</a></sup> <span class="src">workshop</span></span></li>
+    <li><span class="n">5.4</span><span>ovar it<sup class="fn"><a href="#n23">[23]</a></sup></span></li>
+  </ul>
+</section>
+
+<section class="sec">
+  <h2><span class="n">6</span>About</h2>
+  <ul>
+    <li><span class="n">6.1</span><span><span class="k">does</span> creative strategy, research, workshops, writing and teaching</span></li>
+    <li><span class="n">6.2</span><span><span class="k">teaches</span> associate lecturer at UAL (LCF + CCI)</span></li>
+    <li><span class="n">6.3</span><span><span class="k">clients</span> Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges</span></li>
+    <li><span class="n">6.4</span><span><span class="k">school</span> MA internet equalities, BA creative direction, PhD [ ? ]</span></li>
+    <li><span class="n">6.5</span><span><span class="k">cv</span> cv &amp; portfolio on request</span></li>
+  </ul>
+</section>
+
+<p class="end">thanks for stopping by &lt;3 <span class="g">✿</span><br>say hello: inkersolekesia@gmail.com<sup class="fn"><a href="#n24">[24]</a></sup></p>
+
+</div>
+
+<footer class="notes">
+  <h2 class="m">notes</h2>
+  <ol>
+    <li id="n1"><span class="n">[1]</span><a href="https://co-matter.com/project/networked-worlds">https://co-matter.com/project/networked-worlds</a></li>
+    <li id="n2"><span class="n">[2]</span><a href="https://www.protein.xyz/dirty-words-4-community/">https://www.protein.xyz/dirty-words-4-community/</a></li>
+    <li id="n3"><span class="n">[3]</span><a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1">https://www.instagram.com/p/CwOEAMetgc1/?img_index=1</a></li>
+    <li id="n4"><span class="n">[4]</span><a href="https://latent-space.vercel.app/">https://latent-space.vercel.app/</a></li>
+    <li id="n5"><span class="n">[5]</span><a href="https://protecht.vercel.app/">https://protecht.vercel.app/</a></li>
+    <li id="n6"><span class="n">[6]</span><a href="https://www.protein.xyz/sex-and-the-internet/">https://www.protein.xyz/sex-and-the-internet/</a></li>
+    <li id="n7"><span class="n">[7]</span><a href="https://midnight.agency/thoughts/dreaming-and-designing-more-accessible-web">https://midnight.agency/thoughts/dreaming-and-designing-more-accessible-web</a></li>
+    <li id="n8"><span class="n">[8]</span><a href="https://midnight.agency/thoughts/coding-a-more-creative-and-playful-web">https://midnight.agency/thoughts/coding-a-more-creative-and-playful-web</a></li>
+    <li id="n9"><span class="n">[9]</span><a href="https://midnight.agency/thoughts/composing-a-flexible-and-modular-web">https://midnight.agency/thoughts/composing-a-flexible-and-modular-web</a></li>
+    <li id="n10"><span class="n">[10]</span><a href="https://morningfyi.substack.com/p/020-uh-oh-meet">https://morningfyi.substack.com/p/020-uh-oh-meet</a></li>
+    <li id="n11"><span class="n">[11]</span><a href="https://morningfyi.substack.com/p/024-entering-limb-with">https://morningfyi.substack.com/p/024-entering-limb-with</a></li>
+    <li id="n12"><span class="n">[12]</span><a href="https://podcasts.apple.com/gb/podcast/mindy-seu-on-collaboration-community-and/id1449302502?i=1000597869409">https://podcasts.apple.com/gb/podcast/mindy-seu-on-collaboration-community-and/id1449302502?i=1000597869409</a></li>
+    <li id="n13"><span class="n">[13]</span><a href="https://soundcloud.com/proteincommunity/protein-forum-what-can-web2-organisations-learn-from-web3-communities">https://soundcloud.com/proteincommunity/protein-forum-what-can-web2-organisations-learn-from-web3-communities</a></li>
+    <li id="n14"><span class="n">[14]</span><a href="https://podcasts.apple.com/gb/podcast/cherie-hu-on-water-musics-journey-through-web3/id1449302502?i=1000581859804">https://podcasts.apple.com/gb/podcast/cherie-hu-on-water-musics-journey-through-web3/id1449302502?i=1000581859804</a></li>
+    <li id="n15"><span class="n">[15]</span><a href="https://podcasts.apple.com/gb/podcast/molly-dickson-on-dao-activism-and-fighting-for/id1449302502?i=1000578164761">https://podcasts.apple.com/gb/podcast/molly-dickson-on-dao-activism-and-fighting-for/id1449302502?i=1000578164761</a></li>
+    <li id="n16"><span class="n">[16]</span><a href="https://podcasts.apple.com/gb/podcast/dame-on-the-need-for-education-accessibility/id1449302502?i=1000559829008">https://podcasts.apple.com/gb/podcast/dame-on-the-need-for-education-accessibility/id1449302502?i=1000559829008</a></li>
+    <li id="n17"><span class="n">[17]</span><a href="https://podcasts.apple.com/gb/podcast/nadia-piet-on-creative-ai-and-protopian-futures/id1449302502?i=1000559822732">https://podcasts.apple.com/gb/podcast/nadia-piet-on-creative-ai-and-protopian-futures/id1449302502?i=1000559822732</a></li>
+    <li id="n18"><span class="n">[18]</span><a href="https://podcasts.apple.com/gb/podcast/cyn-bahati-on-her-journey-into-web3-with-her-family/id1449302502?i=1000559818509">https://podcasts.apple.com/gb/podcast/cyn-bahati-on-her-journey-into-web3-with-her-family/id1449302502?i=1000559818509</a></li>
+    <li id="n19"><span class="n">[19]</span><a href="https://podcasts.apple.com/gb/podcast/latash%C3%A1-on-the-potential-of-web3-for-music-artists/id1449302502?i=1000552812458">https://podcasts.apple.com/gb/podcast/latash%C3%A1-on-the-potential-of-web3-for-music-artists/id1449302502?i=1000552812458</a></li>
+    <li id="n20"><span class="n">[20]</span><a href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1">https://www.instagram.com/p/DRjYCG8jARb/?img_index=1</a></li>
+    <li id="n21"><span class="n">[21]</span><a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1">https://www.instagram.com/p/C52uHshIkjq/?img_index=1</a></li>
+    <li id="n22"><span class="n">[22]</span><a href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard">https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard</a></li>
+    <li id="n23"><span class="n">[23]</span><a href="https://www.instagram.com/p/BslwSSPH5Rc/?img_index=2">https://www.instagram.com/p/BslwSSPH5Rc/?img_index=2</a></li>
+    <li id="n24"><span class="n">[24]</span><a href="mailto:inkersolekesia@gmail.com">mailto:inkersolekesia@gmail.com</a></li>
+  </ol>
+</footer>
+
+</div>
+
+<script>
+(function () {
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var plates = document.querySelectorAll('.plate'), tiles = document.querySelectorAll('.tile');
+  function set(id, scroll) {
+    var open = null;
+    plates.forEach(function (p) {
+      var on = p.id === id && !p.classList.contains('open');
+      p.classList.toggle('open', on); if (on) open = p;
+    });
+    tiles.forEach(function (t) {
+      var on = !!open && t.getAttribute('aria-controls') === open.id;
+      t.classList.toggle('on', on); t.setAttribute('aria-expanded', on);
+    });
+    history.replaceState(null, '', open ? '#' + open.id : location.pathname + location.search);
+    if (open && scroll) open.scrollIntoView({ block: 'start', behavior: reduce ? 'auto' : 'smooth' });
+  }
+  tiles.forEach(function (t) {
+    t.addEventListener('click', function (e) { e.preventDefault(); set(t.getAttribute('aria-controls'), true); });
+  });
+  document.querySelectorAll('.plate .x').forEach(function (x) {
+    x.addEventListener('click', function (e) { e.preventDefault(); set(null, false); });
+  });
+  document.querySelectorAll('sup.fn a').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      var n = document.getElementById(a.getAttribute('href').slice(1));
+      if (n) { e.preventDefault(); n.scrollIntoView({ block: 'center', behavior: reduce ? 'auto' : 'smooth' }); }
+    });
+  });
+  var h = location.hash.slice(1); if (h && document.getElementById(h) && document.getElementById(h).classList.contains('plate')) set(h, true);
+})();
+</script>
+</body>
+</html>

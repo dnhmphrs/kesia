@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>kes inkersole</title>
+<style>
+:root { --ink: #111; --grey: #8a8a8a; --line: #d0d0d0; --rose: #c44a78; --mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace; --pad: 16px; --col: 24ch; }
+* { box-sizing: border-box; }
+html { background: #fff; color: var(--ink); -webkit-text-size-adjust: 100%; }
+body { margin: 0; font: 12px/1.5 var(--mono); }
+h1, h2, h3, p, ul, dl, dd, figure, figcaption { margin: 0; padding: 0; font: inherit; }
+ul { list-style: none; }
+a { color: var(--rose); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; text-decoration-color: #f2c2d5; }
+a:hover { text-decoration-color: currentColor; }
+img { display: block; width: 100%; height: auto; }
+.g { color: var(--grey); }
+.u { text-transform: uppercase; letter-spacing: .04em; }
+
+/* one left column of 24ch for numbers and labels, everything else to its right; 1px rules between rows */
+.head, .idx, .txt, .sec { display: grid; column-gap: var(--pad); padding: 7px var(--pad) 8px; border-bottom: 1px solid var(--line); }
+
+.head { grid-template-columns: var(--col) minmax(0, 1fr) minmax(0, 1fr) auto; align-items: baseline; }
+.head p:last-child { text-align: right; }
+
+/* ten icons, dithered to 1 bit in ink on white; the picture turns to colour when its project is open */
+.icons { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 1px; background: var(--line); border-bottom: 1px solid var(--line); }
+.ic { background: #fff; min-width: 0; }
+.ic button { all: unset; box-sizing: border-box; display: block; width: 100%; cursor: pointer; padding: 10px 10px 0; }
+.ic button:focus-visible { outline: 1px solid var(--ink); outline-offset: -1px; }
+.ic .pic { position: relative; aspect-ratio: 1 / 1; }
+.ic img { position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: contain; }
+.ic canvas { position: absolute; left: 0; top: 0; display: none; image-rendering: pixelated; }
+.ic.dith:not(.on) img { visibility: hidden; }
+.ic.dith:not(.on) canvas { display: block; }
+.ic.svgd:not(.on) img { filter: url(#dither); }
+.ic figcaption { display: flex; justify-content: space-between; gap: 1ch; padding: 4px 10px 6px; color: var(--grey); }
+.ic .st { display: none; color: var(--ink); }
+.ic.on .st { display: inline; }
+.ic.on .kb { display: none; }
+
+/* the index: one row per project */
+.idx { grid-template-columns: var(--col) minmax(0, 1fr) auto 2ch; align-items: baseline; cursor: pointer; }
+.idx:hover { background: #fafafa; }
+.idx:focus-visible { outline: 1px solid var(--ink); outline-offset: -1px; }
+.idx .o { text-align: right; }
+.idx .o::after { content: "+"; color: var(--grey); }
+.p.open .idx .o::after { content: "\00d7"; color: var(--ink); }
+
+/* open: the real pictures in one row, then the text */
+.body { display: none; border-bottom: 1px solid var(--line); container-type: inline-size; }
+.p.open .body { display: block; }
+.pics { display: flex; gap: 1px; background: var(--line); border-bottom: 1px solid var(--line); overflow-x: auto; }
+.pics figure { flex: none; background: #fff; }
+.pics figure:last-child { flex-grow: 1; }
+.pics img { width: auto; height: min(60vh, calc((100vw - 3px) / var(--sum))); height: min(60vh, calc((100cqw - (var(--n) - 1) * 1px) / var(--sum))); }
+.pics figcaption { padding: 4px 10px 6px; color: var(--grey); }
+.txt { grid-template-columns: var(--col) minmax(0, 64ch) minmax(0, 1fr); border-bottom: 0; }
+.txt .lorem { grid-column: 2; }
+.txt .out { grid-column: 3; text-align: right; }
+
+/* the rest: label left, content right */
+.sec { grid-template-columns: var(--col) minmax(0, 1fr); }
+.sec li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2ch; padding: 1px 0; }
+.sec li span { color: var(--grey); text-align: right; }
+.sec p { max-width: 80ch; }
+.sec p + p { margin-top: .8em; }
+.sec dl div { display: grid; grid-template-columns: 9ch minmax(0, 1fr); }
+.sec dt { color: var(--grey); }
+.foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0 2ch; padding: 7px var(--pad) 8px; }
+
+@media (max-width: 699px) {
+  .head { grid-template-columns: minmax(0, 1fr); }
+  .head p:last-child { text-align: left; }
+  .icons { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .idx { grid-template-columns: 4ch minmax(0, 1fr) 2ch; }
+  .idx .w { grid-column: 2; }
+  .pics { flex-wrap: wrap; }
+  .pics figure { width: calc(50% - .5px); }
+  .pics figure:last-child { flex-grow: 0; }
+  .pics img { width: 100%; height: auto; aspect-ratio: 1 / 1; object-fit: cover; }
+  .txt { grid-template-columns: minmax(0, 1fr); }
+  .txt .lorem, .txt .out { grid-column: 1; text-align: left; }
+  .sec { grid-template-columns: minmax(0, 1fr); }
+  .sec h2 { margin-bottom: 4px; }
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <filter id="dither" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB" primitiveUnits="userSpaceOnUse">
+    <feColorMatrix in="SourceGraphic" type="matrix" values="0.2126 0.7152 0.0722 0 0  0.2126 0.7152 0.0722 0 0  0.2126 0.7152 0.0722 0 0  0 0 0 1 0" result="lum"/>
+    <feImage href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAAAAACMmsGiAAAAHUlEQVR42mP4XnE9gsFiu8R0huMezzMYONo1lgMAV0QH+aP42o4AAAAASUVORK5CYII=" x="0" y="0" width="4" height="4" preserveAspectRatio="none" result="cell"/>
+    <feTile in="cell" result="pat"/>
+    <feComposite in="lum" in2="pat" operator="arithmetic" k1="0" k2="0.5" k3="0.5" k4="0" result="sum"/>
+    <feComponentTransfer in="sum" result="bw"><feFuncR type="discrete" tableValues="0.0667 1"/><feFuncG type="discrete" tableValues="0.0667 1"/><feFuncB type="discrete" tableValues="0.0667 1"/></feComponentTransfer>
+    <feComposite in="bw" in2="SourceGraphic" operator="in"/>
+  </filter>
+</svg>
+
+<header class="head">
+  <h1 class="u">Kes Inkersole</h1>
+  <p class="g">creative strategist</p>
+  <p class="g">internet equalities researcher</p>
+  <p class="g">london · available for work</p>
+</header>
+
+<div class="icons">
+  <figure class="ic" data-open="networked-worlds"><button aria-label="open networked worlds"><div class="pic"><img src="../../img/s/networked-worlds-1.jpg" width="453" height="640" alt="yellow cover with a curved grid: Networked Worlds, WeTransfer"></div></button><figcaption><span>01</span><span class="kb"></span><span class="st">open</span></figcaption></figure>
+  <figure class="ic" data-open="protein"><button aria-label="open protein dirty words #4"><div class="pic"><img src="../../img/s/protein-1.jpg" width="640" height="640" alt="pink report cover: dirty word [report #4] community"></div></button><figcaption><span>02</span><span class="kb"></span><span class="st">open</span></figcaption></figure>
+  <figure class="ic" data-open="morning"><button aria-label="open MØRNING Ø"><div class="pic"><img src="../../img/s/morning-3.jpg" width="640" height="640" alt="3d render of three pink piglet-like creatures curled inside a cracked black egg"></div></button><figcaption><span>03</span><span class="kb"></span><span class="st">open</span></figcaption></figure>
+  <figure class="ic" data-open="lorem-ipsum"><button aria-label="open Lorem Ipsum"><div class="pic"><img src="../../img/s/morning-1.jpg" width="640" height="640" alt="MØRNING newsletter graphic: &quot;#020 uh oh, meet Ø&quot;, a red burn after reading sticker over screenshots of video calls"></div></button><figcaption><span>04</span><span class="kb"></span><span class="st">open</span></figcaption></figure>
+  <figure class="ic" data-open="dolor-sit"><button aria-label="open Dolor Sit Amet"><div class="pic"><img src="../../img/s/protein-2.jpg" width="640" height="640" alt="overlapping page spreads from the report"></div></button><figcaption><span>05</span><span class="kb"></span><span class="st">open</span></figcaption></figure>
+  <figure class="ic" data-open="consectetur"><button aria-label="open Consectetur"><div class="pic"><img src="../../img/s/networked-worlds-2.jpg" width="457" height="640" alt="a collage of many small images on black"></div></button><figcaption><span>06</span><span class="kb"></span><span class="st">open</span></figcaption></figure>
+  <figure class="ic" data-open="adipiscing"><button aria-label="open Adipiscing Elit"><div class="pic"><img src="../../img/s/protein-3.jpg" width="640" height="640" alt="a grid of the report's pages in pink, black and white"></div></button><figcaption><span>07</span><span class="kb"></span><span class="st">open</span></figcaption></figure>
+  <figure class="ic" data-open="eiusmod"><button aria-label="open Sed Do Eiusmod"><div class="pic"><img src="../../img/s/morning-2.jpg" width="512" height="640" alt="3d render of a dark glossy egg with orange marbling"></div></button><figcaption><span>08</span><span class="kb"></span><span class="st">open</span></figcaption></figure>
+  <figure class="ic" data-open="tempor"><button aria-label="open Tempor Incididunt"><div class="pic"><img src="../../img/s/networked-worlds-3.jpg" width="460" height="640" alt="&quot;worlding resources&quot;: a timeline of books and texts on black"></div></button><figcaption><span>09</span><span class="kb"></span><span class="st">open</span></figcaption></figure>
+  <figure class="ic" data-open="labore"><button aria-label="open Ut Labore et Dolore"><div class="pic"><img src="../../img/s/protein-4.jpg" width="480" height="640" alt="the printed report on a wooden floor"></div></button><figcaption><span>10</span><span class="kb"></span><span class="st">open</span></figcaption></figure>
+</div>
+
+<section class="p" id="networked-worlds">
+  <div class="idx" role="button" tabindex="0" aria-expanded="false"><span class="n g">01</span><span class="t u">Networked Worlds</span><span class="w g">with co—matter · for funds</span><span class="o"></span></div>
+  <div class="body">
+    <div class="pics" style="--sum: 2.1396; --n: 3">
+      <figure><img src="../../img/l/networked-worlds-1.jpg" width="990" height="1400" alt="yellow cover with a curved grid: Networked Worlds, WeTransfer" loading="lazy"><figcaption>fig. 1 · 990 × 1400</figcaption></figure>
+      <figure><img src="../../img/l/networked-worlds-2.jpg" width="1000" height="1400" alt="a collage of many small images on black" loading="lazy"><figcaption>fig. 2 · 1000 × 1400</figcaption></figure>
+      <figure><img src="../../img/l/networked-worlds-3.jpg" width="1005" height="1400" alt="&quot;worlding resources&quot;: a timeline of books and texts on black" loading="lazy"><figcaption>fig. 3 · 1005 × 1400</figcaption></figure>
+    </div>
+    <div class="txt"><p class="lorem">duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. excepteur sint occaecat cupidatat non proident.</p><p class="out"><a href="https://co-matter.com/project/networked-worlds">networked worlds ↗</a></p></div>
+  </div>
+</section>
+
+<section class="p" id="protein">
+  <div class="idx" role="button" tabindex="0" aria-expanded="false"><span class="n g">02</span><span class="t u">Protein Dirty Words #4: Community Report</span><span class="w g">for funds</span><span class="o"></span></div>
+  <div class="body">
+    <div class="pics" style="--sum: 3.75; --n: 4">
+      <figure><img src="../../img/l/protein-1.jpg" width="1080" height="1080" alt="pink report cover: dirty word [report #4] community" loading="lazy"><figcaption>fig. 1 · 1080 × 1080</figcaption></figure>
+      <figure><img src="../../img/l/protein-2.jpg" width="1080" height="1080" alt="overlapping page spreads from the report" loading="lazy"><figcaption>fig. 2 · 1080 × 1080</figcaption></figure>
+      <figure><img src="../../img/l/protein-3.jpg" width="1080" height="1080" alt="a grid of the report's pages in pink, black and white" loading="lazy"><figcaption>fig. 3 · 1080 × 1080</figcaption></figure>
+      <figure><img src="../../img/l/protein-4.jpg" width="1050" height="1400" alt="the printed report on a wooden floor" loading="lazy"><figcaption>fig. 4 · 1050 × 1400</figcaption></figure>
+    </div>
+    <div class="txt"><p class="lorem">sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo.</p><p class="out"><a href="https://www.protein.xyz/dirty-words-4-community/">protein dirty words #4: community report ↗</a></p></div>
+  </div>
+</section>
+
+<section class="p" id="morning">
+  <div class="idx" role="button" tabindex="0" aria-expanded="false"><span class="n g">03</span><span class="t u">MØRNING Ø</span><span class="w g">for funds</span><span class="o"></span></div>
+  <div class="body">
+    <div class="pics" style="--sum: 2.8; --n: 3">
+      <figure><img src="../../img/l/morning-3.jpg" width="1400" height="1400" alt="3d render of three pink piglet-like creatures curled inside a cracked black egg" loading="lazy"><figcaption>fig. 1 · 1400 × 1400</figcaption></figure>
+      <figure><img src="../../img/l/morning-1.jpg" width="1080" height="1080" alt="MØRNING newsletter graphic: &quot;#020 uh oh, meet Ø&quot;, a red burn after reading sticker over screenshots of video calls" loading="lazy"><figcaption>fig. 2 · 1080 × 1080</figcaption></figure>
+      <figure><img src="../../img/l/morning-2.jpg" width="1120" height="1400" alt="3d render of a dark glossy egg with orange marbling" loading="lazy"><figcaption>fig. 3 · 1120 × 1400</figcaption></figure>
+    </div>
+    <div class="txt"><p class="lorem"></p><p class="out"><a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1">MØRNING Ø ↗</a></p></div>
+  </div>
+</section>
+
+<section class="p" id="lorem-ipsum">
+  <div class="idx" role="button" tabindex="0" aria-expanded="false"><span class="n g">04</span><span class="t u">Lorem Ipsum</span><span class="w g">for fun</span><span class="o"></span></div>
+  <div class="body">
+    <div class="pics" style="--sum: 1.8000; --n: 2">
+      <figure><img src="../../img/l/morning-1.jpg" width="1080" height="1080" alt="MØRNING newsletter graphic: &quot;#020 uh oh, meet Ø&quot;, a red burn after reading sticker over screenshots of video calls" loading="lazy"><figcaption>fig. 1 · 1080 × 1080</figcaption></figure>
+      <figure><img src="../../img/l/morning-2.jpg" width="1120" height="1400" alt="3d render of a dark glossy egg with orange marbling" loading="lazy"><figcaption>fig. 2 · 1120 × 1400</figcaption></figure>
+    </div>
+    <div class="txt"><p class="lorem">lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><p class="out"></p></div>
+  </div>
+</section>
+
+<section class="p" id="dolor-sit">
+  <div class="idx" role="button" tabindex="0" aria-expanded="false"><span class="n g">05</span><span class="t u">Dolor Sit Amet</span><span class="w g">for funds</span><span class="o"></span></div>
+  <div class="body">
+    <div class="pics" style="--sum: 2.0000; --n: 2">
+      <figure><img src="../../img/l/protein-2.jpg" width="1080" height="1080" alt="overlapping page spreads from the report" loading="lazy"><figcaption>fig. 1 · 1080 × 1080</figcaption></figure>
+      <figure><img src="../../img/l/protein-3.jpg" width="1080" height="1080" alt="a grid of the report's pages in pink, black and white" loading="lazy"><figcaption>fig. 2 · 1080 × 1080</figcaption></figure>
+    </div>
+    <div class="txt"><p class="lorem">lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><p class="out"></p></div>
+  </div>
+</section>
+
+<section class="p" id="consectetur">
+  <div class="idx" role="button" tabindex="0" aria-expanded="false"><span class="n g">06</span><span class="t u">Consectetur</span><span class="w g">for fun</span><span class="o"></span></div>
+  <div class="body">
+    <div class="pics" style="--sum: 1.4321; --n: 2">
+      <figure><img src="../../img/l/networked-worlds-2.jpg" width="1000" height="1400" alt="a collage of many small images on black" loading="lazy"><figcaption>fig. 1 · 1000 × 1400</figcaption></figure>
+      <figure><img src="../../img/l/networked-worlds-3.jpg" width="1005" height="1400" alt="&quot;worlding resources&quot;: a timeline of books and texts on black" loading="lazy"><figcaption>fig. 2 · 1005 × 1400</figcaption></figure>
+    </div>
+    <div class="txt"><p class="lorem">lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><p class="out"></p></div>
+  </div>
+</section>
+
+<section class="p" id="adipiscing">
+  <div class="idx" role="button" tabindex="0" aria-expanded="false"><span class="n g">07</span><span class="t u">Adipiscing Elit</span><span class="w g">for funds</span><span class="o"></span></div>
+  <div class="body">
+    <div class="pics" style="--sum: 1.7500; --n: 2">
+      <figure><img src="../../img/l/protein-3.jpg" width="1080" height="1080" alt="a grid of the report's pages in pink, black and white" loading="lazy"><figcaption>fig. 1 · 1080 × 1080</figcaption></figure>
+      <figure><img src="../../img/l/protein-4.jpg" width="1050" height="1400" alt="the printed report on a wooden floor" loading="lazy"><figcaption>fig. 2 · 1050 × 1400</figcaption></figure>
+    </div>
+    <div class="txt"><p class="lorem">lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><p class="out"></p></div>
+  </div>
+</section>
+
+<section class="p" id="eiusmod">
+  <div class="idx" role="button" tabindex="0" aria-expanded="false"><span class="n g">08</span><span class="t u">Sed Do Eiusmod</span><span class="w g">for funds</span><span class="o"></span></div>
+  <div class="body">
+    <div class="pics" style="--sum: 1.8000; --n: 2">
+      <figure><img src="../../img/l/morning-2.jpg" width="1120" height="1400" alt="3d render of a dark glossy egg with orange marbling" loading="lazy"><figcaption>fig. 1 · 1120 × 1400</figcaption></figure>
+      <figure><img src="../../img/l/morning-1.jpg" width="1080" height="1080" alt="MØRNING newsletter graphic: &quot;#020 uh oh, meet Ø&quot;, a red burn after reading sticker over screenshots of video calls" loading="lazy"><figcaption>fig. 2 · 1080 × 1080</figcaption></figure>
+    </div>
+    <div class="txt"><p class="lorem">lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><p class="out"></p></div>
+  </div>
+</section>
+
+<section class="p" id="tempor">
+  <div class="idx" role="button" tabindex="0" aria-expanded="false"><span class="n g">09</span><span class="t u">Tempor Incididunt</span><span class="w g">for fun</span><span class="o"></span></div>
+  <div class="body">
+    <div class="pics" style="--sum: 1.4321; --n: 2">
+      <figure><img src="../../img/l/networked-worlds-3.jpg" width="1005" height="1400" alt="&quot;worlding resources&quot;: a timeline of books and texts on black" loading="lazy"><figcaption>fig. 1 · 1005 × 1400</figcaption></figure>
+      <figure><img src="../../img/l/networked-worlds-2.jpg" width="1000" height="1400" alt="a collage of many small images on black" loading="lazy"><figcaption>fig. 2 · 1000 × 1400</figcaption></figure>
+    </div>
+    <div class="txt"><p class="lorem">lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><p class="out"></p></div>
+  </div>
+</section>
+
+<section class="p" id="labore">
+  <div class="idx" role="button" tabindex="0" aria-expanded="false"><span class="n g">10</span><span class="t u">Ut Labore et Dolore</span><span class="w g">for funds</span><span class="o"></span></div>
+  <div class="body">
+    <div class="pics" style="--sum: 1.7500; --n: 2">
+      <figure><img src="../../img/l/protein-4.jpg" width="1050" height="1400" alt="the printed report on a wooden floor" loading="lazy"><figcaption>fig. 1 · 1050 × 1400</figcaption></figure>
+      <figure><img src="../../img/l/protein-2.jpg" width="1080" height="1080" alt="overlapping page spreads from the report" loading="lazy"><figcaption>fig. 2 · 1080 × 1080</figcaption></figure>
+    </div>
+    <div class="txt"><p class="lorem">lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><p class="out"></p></div>
+  </div>
+</section>
+
+<section class="sec">
+  <h2 class="u g">For fun</h2>
+  <div>
+    <ul>
+      <li><a href="https://latent-space.vercel.app/">latent space</a></li>
+      <li><a href="https://protecht.vercel.app/">pro(tech)t</a></li>
+    </ul>
+    <p class="g" style="margin-top:.8em">lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam.</p>
+  </div>
+</section>
+
+<section class="sec">
+  <h2 class="u g">Hello, i'm kes &lt;3</h2>
+  <div>
+    <p>i'm kes inkersole (kesia on paper), a freelance creative strategist and internet equalities researcher based in london. welcome to kes' little corner of the internet.</p>
+    <p>my practice focuses on understanding and critiquing the impacts of emerging technologies on people, culture, and the planet. i work collectively to rethink the narratives and behaviours surrounding technologies — prioritising collaborative research as a process for testing, imagining and prototyping more equitable, alternative futures.</p>
+  </div>
+</section>
+
+<section class="sec">
+  <h2 class="u g">Things i've written</h2>
+  <div><ul>
+    <li><a href="https://www.protein.xyz/sex-and-the-internet/">mindy seu on sex and the internet</a><span>Protein</span></li>
+    <li><a href="https://midnight.agency/thoughts/dreaming-and-designing-more-accessible-web">dreaming and designing a more accessible web</a><span>Midnight Agency</span></li>
+    <li><a href="https://midnight.agency/thoughts/coding-a-more-creative-and-playful-web">coding a more creative and playful web</a><span>Midnight Agency</span></li>
+    <li><a href="https://midnight.agency/thoughts/composing-a-flexible-and-modular-web">composing a flexible and modular web</a><span>Midnight Agency</span></li>
+    <li><a href="https://morningfyi.substack.com/p/020-uh-oh-meet">burn after reading: uh oh, meet o</a><span>morningfyi</span></li>
+    <li><a href="https://morningfyi.substack.com/p/024-entering-limb-with">burn after reading: entering limbo</a><span>morningfyi</span></li>
+  </ul></div>
+</section>
+
+<section class="sec">
+  <h2 class="u g">Podcasts, for the bus</h2>
+  <div><ul>
+    <li><a href="https://podcasts.apple.com/gb/podcast/mindy-seu-on-collaboration-community-and/id1449302502?i=1000597869409">mindy seu on collaboration, community and the cyberfeminism index</a></li>
+    <li><a href="https://soundcloud.com/proteincommunity/protein-forum-what-can-web2-organisations-learn-from-web3-communities">what can web2 organisations learn from web3 communities?</a><span>Protein</span></li>
+    <li><a href="https://podcasts.apple.com/gb/podcast/cherie-hu-on-water-musics-journey-through-web3/id1449302502?i=1000581859804">cherie hu on water &amp; music's journey through web3</a></li>
+    <li><a href="https://podcasts.apple.com/gb/podcast/molly-dickson-on-dao-activism-and-fighting-for/id1449302502?i=1000578164761">molly dickson on dao activism</a></li>
+    <li><a href="https://podcasts.apple.com/gb/podcast/dame-on-the-need-for-education-accessibility/id1449302502?i=1000559829008">dame on education, accessibility and inclusivity in web3</a></li>
+    <li><a href="https://podcasts.apple.com/gb/podcast/nadia-piet-on-creative-ai-and-protopian-futures/id1449302502?i=1000559822732">nadia piet on creative ai and protopian futures</a></li>
+    <li><a href="https://podcasts.apple.com/gb/podcast/cyn-bahati-on-her-journey-into-web3-with-her-family/id1449302502?i=1000559818509">cyn bahati on her journey into web3 with her family</a></li>
+    <li><a href="https://podcasts.apple.com/gb/podcast/latash%C3%A1-on-the-potential-of-web3-for-music-artists/id1449302502?i=1000552812458">latasha on the potential of web3 for music artists</a></li>
+  </ul></div>
+</section>
+
+<section class="sec">
+  <h2 class="u g">Irl (mostly)</h2>
+  <div><ul>
+    <li><a href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1">olden residency</a></li>
+    <li><a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1">softer london</a><span>talk + workshop</span></li>
+    <li><a href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard">tech yard</a><span>workshop</span></li>
+    <li><a href="https://www.instagram.com/p/BslwSSPH5Rc/?img_index=2">ovar it</a></li>
+  </ul></div>
+</section>
+
+<section class="sec">
+  <h2 class="u g">About</h2>
+  <div><dl>
+    <div><dt>does</dt><dd>creative strategy, research, workshops, writing and teaching</dd></div>
+    <div><dt>teaches</dt><dd>associate lecturer at UAL (LCF + CCI)</dd></div>
+    <div><dt>clients</dt><dd>Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges</dd></div>
+    <div><dt>school</dt><dd>MA internet equalities, BA creative direction, PhD [ ? ]</dd></div>
+    <div><dt>cv</dt><dd>cv &amp; portfolio on request</dd></div>
+  </dl></div>
+</section>
+
+<footer class="foot">
+  <p>thanks for stopping by &lt;3 <span style="color:var(--rose)">✿</span></p>
+  <p>say hello: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
+</footer>
+
+<script>
+(function () {
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var figs = [].slice.call(document.querySelectorAll('.ic'));
+
+  /* --- the pictures: 1 bit, ink on white, drawn at screen size from the small file --- */
+  var noPixels = false, canDeflate = typeof CompressionStream === 'function';
+
+  function fit(img, W, H) {
+    var r = img.naturalWidth / img.naturalHeight, w = W, h = Math.round(W / r);
+    if (h > H) { h = H; w = Math.round(H * r); }
+    return { w: w, h: h, x: Math.floor((W - w) / 2), y: Math.floor((H - h) / 2), W: W, H: H };
+  }
+  function showKb(fig, bytes) { fig.querySelector('.kb').textContent = Math.max(1, Math.round(bytes / 1000)) + ' kB'; }
+
+  /* weight of the dithered picture as a 1-bit png: a filter byte and w/8 bytes per row, deflated, plus 57 bytes of headers;
+     without deflate (or without the bits) the raw 1-bit bitmap */
+  function weigh(fig, bits, w, h) {
+    var stride = (w + 7) >> 3, raw = new Uint8Array((stride + 1) * h), head = 57;
+    if (!bits || !canDeflate) { showKb(fig, raw.length + head); return; }
+    for (var y = 0; y < h; y++) { var o = y * (stride + 1) + 1, i = y * w; for (var x = 0; x < w; x++) if (bits[i + x]) raw[o + (x >> 3)] |= 128 >> (x & 7); }
+    try {
+      new Response(new Blob([raw]).stream().pipeThrough(new CompressionStream('deflate'))).arrayBuffer()
+        .then(function (b) { showKb(fig, b.byteLength + head); }, function () { showKb(fig, raw.length + head); });
+    } catch (e) { showKb(fig, raw.length + head); }
+  }
+
+  /* Floyd–Steinberg, serpentine, on luminance */
+  function floyd(fig, img, f) {
+    var off = document.createElement('canvas'), w = f.w, h = f.h, id;
+    off.width = w; off.height = h;
+    var ox = off.getContext('2d', { willReadFrequently: true });
+    ox.drawImage(img, 0, 0, w, h);
+    try { id = ox.getImageData(0, 0, w, h); } catch (e) { noPixels = true; return false; }
+    var d = id.data, n = w * h, lum = new Float32Array(n), bits = new Uint8Array(n), i, x, y, k;
+    for (i = 0; i < n; i++) lum[i] = (d[i * 4] * 0.2126 + d[i * 4 + 1] * 0.7152 + d[i * 4 + 2] * 0.0722) / 255;
+    for (y = 0; y < h; y++) {
+      var ltr = !(y & 1), dx = ltr ? 1 : -1;
+      for (k = 0; k < w; k++) {
+        x = ltr ? k : w - 1 - k; i = y * w + x;
+        var old = lum[i], nw = old < 0.5 ? 0 : 1, err = old - nw;
+        bits[i] = nw;
+        if (x + dx >= 0 && x + dx < w) lum[i + dx] += err * 0.4375;
+        if (y + 1 < h) {
+          if (x - dx >= 0 && x - dx < w) lum[i + w - dx] += err * 0.1875;
+          lum[i + w] += err * 0.3125;
+          if (x + dx >= 0 && x + dx < w) lum[i + w + dx] += err * 0.0625;
+        }
+      }
+    }
+    for (i = 0; i < n; i++) { var v = bits[i] ? 255 : 17; d[i * 4] = v; d[i * 4 + 1] = v; d[i * 4 + 2] = v; d[i * 4 + 3] = 255; }
+    var c = fig.querySelector('canvas');
+    if (!c) { c = document.createElement('canvas'); c.setAttribute('aria-hidden', 'true'); img.parentNode.appendChild(c); }
+    c.width = f.W; c.height = f.H; c.style.width = f.W + 'px'; c.style.height = f.H + 'px';
+    c.getContext('2d').putImageData(id, f.x, f.y);
+    fig.classList.add('dith');
+    weigh(fig, bits, w, h);
+    return true;
+  }
+
+  function render(fig) {
+    var img = fig.querySelector('img'), box = fig.querySelector('.pic');
+    if (!img.naturalWidth) return;
+    var W = Math.round(box.clientWidth), H = Math.round(box.clientHeight);
+    if (!W || !H) return;
+    fig._w = W;
+    var f = fit(img, W, H);
+    if (!noPixels && floyd(fig, img, f)) return;
+    /* no pixel access (file://): an ordered dither as an svg filter instead; the weight is then the raw 1-bit bitmap */
+    fig.classList.add('svgd');
+    weigh(fig, null, f.w, f.h);
+  }
+
+  figs.forEach(function (fig) {
+    var img = fig.querySelector('img');
+    if (img.complete && img.naturalWidth) render(fig); else img.addEventListener('load', function () { render(fig); });
+  });
+  var t;
+  addEventListener('resize', function () {
+    clearTimeout(t);
+    t = setTimeout(function () { figs.forEach(function (fig) { if (Math.round(fig.querySelector('.pic').clientWidth) !== fig._w) render(fig); }); }, 200);
+  });
+
+  /* --- one project open at a time, its id in the url --- */
+  function set(id, scroll) {
+    document.querySelectorAll('.p').forEach(function (p) {
+      var on = p.id === id && !p.classList.contains('open');
+      p.classList.toggle('open', on); p.querySelector('.idx').setAttribute('aria-expanded', on);
+      if (on && scroll) p.scrollIntoView({ block: 'start', behavior: reduce ? 'auto' : 'smooth' });
+    });
+    var open = document.querySelector('.p.open');
+    figs.forEach(function (f) { f.classList.toggle('on', !!open && f.getAttribute('data-open') === open.id); });
+    history.replaceState(null, '', open ? '#' + open.id : location.pathname + location.search);
+  }
+  document.querySelectorAll('.idx').forEach(function (r) {
+    r.addEventListener('click', function () { set(r.parentNode.id, false); });
+    r.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); set(r.parentNode.id, false); } });
+  });
+  figs.forEach(function (f) {
+    f.querySelector('button').addEventListener('click', function () {
+      var id = f.getAttribute('data-open'), p = document.getElementById(id);
+      if (!p.classList.contains('open')) set(id, true); else p.scrollIntoView({ block: 'start', behavior: reduce ? 'auto' : 'smooth' });
+    });
+  });
+  function fromHash() {
+    var h = location.hash.slice(1), el = h && document.getElementById(h);
+    if (el && el.classList.contains('p') && !el.classList.contains('open')) set(h, true);
+  }
+  addEventListener('hashchange', fromHash);
+  fromHash();
+})();
+</script>
+</body>
+</html>

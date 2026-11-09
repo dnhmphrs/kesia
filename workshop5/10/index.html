@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>kes inkersole</title>
+<style>
+:root { --ink: #111; --grey: #8a8a8a; --line: #d0d0d0; --rule: #e4e2dd; --rose: #c44a78; --desk: #f7f6f3; --mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace; --pad: 12px; --gap: 16px; }
+* { box-sizing: border-box; }
+html { background: var(--desk); color: var(--ink); -webkit-text-size-adjust: 100%; }
+body { margin: 0; font: 12px/1.5 var(--mono); }
+h1, h2, p, ul, dl, dd { margin: 0; padding: 0; font: inherit; }
+ul { list-style: none; }
+a { color: var(--rose); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; text-decoration-color: #f2c2d5; }
+a:hover { text-decoration-color: currentColor; }
+img { display: block; }
+.g { color: var(--grey); }
+.u { text-transform: uppercase; letter-spacing: .04em; }
+
+/* the desk: a grid of index cards. --W is one card's width; --P the pitch of its rules.
+   a 5x3 card is five pitches tall: the header line, three faint rules, the bottom margin. */
+.deck { display: grid; grid-template-columns: min(100%, 384px); justify-content: center; gap: var(--gap); grid-auto-flow: dense; padding: var(--gap); max-width: 1560px; margin: 0 auto; container-type: inline-size;
+  --W: min(100cqw, 384px); --P: calc(.12 * var(--W) - .2px); --t: calc(var(--P) / 2 - .64em); }
+@media (min-width: 600px)  { .deck { grid-template-columns: repeat(2, min((100% - var(--gap)) / 2, 384px)); --W: min((100cqw - var(--gap)) / 2, 384px); } }
+@media (min-width: 900px)  { .deck { grid-template-columns: repeat(3, min((100% - 2 * var(--gap)) / 3, 384px)); --W: min((100cqw - 2 * var(--gap)) / 3, 384px); } }
+@media (min-width: 1200px) { .deck { grid-template-columns: repeat(4, min((100% - 3 * var(--gap)) / 4, 384px)); --W: min((100cqw - 3 * var(--gap)) / 4, 384px); } }
+
+/* a card: white, hairline border, ruled every --P; text sits on the rules */
+.card { background: #fff; border: 1px solid var(--line); display: flex; flex-direction: column; min-width: 0; scroll-margin-top: var(--gap); }
+.ru { background-image: linear-gradient(to bottom, transparent calc(100% - 1px), var(--rule) calc(100% - 1px)); background-size: 100% var(--P); background-repeat: repeat-y; }
+.hd { display: flex; flex-wrap: wrap; justify-content: space-between; column-gap: 2ch; min-height: var(--P); line-height: var(--P); padding: 0 var(--pad);
+  background: linear-gradient(var(--line), var(--line)) 0 100% / 100% 1px no-repeat, linear-gradient(to bottom, transparent calc(100% - 1px), var(--rule) calc(100% - 1px)) 0 0 / 100% var(--P) repeat-y; }
+.hd > * { position: relative; top: var(--t); min-width: 0; }
+.tx { flex: 1; padding: var(--t) var(--pad) calc(var(--P) - var(--t) - 1px); line-height: var(--P); }
+.tx p:empty { display: none; }
+.tx p + p, .tx ul + p { margin-top: var(--P); }
+.tx .out { margin-top: 0; }
+.tx li { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 2ch; }
+.tx li span { color: var(--grey); text-align: right; }
+.tx dl div { display: grid; grid-template-columns: 9ch minmax(0, 1fr); }
+.tx dt { color: var(--grey); }
+.tx .lorem { max-width: 80ch; }
+
+/* the front of a project card: the icon picture small at the left, the caps title on the first rule */
+.p { display: contents; }
+.front { cursor: pointer; }
+.front:hover { border-color: var(--grey); }
+.front:focus-visible, .x:focus-visible { outline: 1px solid var(--ink); outline-offset: 2px; }
+.bd { height: calc(4 * var(--P) - 1px); display: grid; grid-template-columns: calc(3 * var(--P)) minmax(0, 1fr); column-gap: var(--pad); align-items: start; padding: 0 var(--pad); overflow: hidden; }
+.bd img { height: calc(3 * var(--P) - 1px); width: auto; max-width: 100%; }
+.bd h2, .bd p { padding-top: var(--t); line-height: var(--P); }
+.name .bd { display: block; }
+
+/* open: a wider card spanning the row, pictures in a row, text on the rules */
+.body { display: none; grid-column: 1 / -1; }
+.p.open .front, .p.open .body { border-color: var(--ink); }
+.p.open .body { display: flex; }
+.x { all: unset; cursor: pointer; color: var(--ink); padding: 0 .5ch; }
+.pics { padding: 0 var(--pad); }
+.pics .row { display: flex; gap: 1px; max-width: calc(8 * var(--P) * var(--sum) + (var(--n) - 1) * 1px); }
+.pics img { flex: var(--r) 1 0; min-width: 0; width: auto; height: auto; }
+@media (max-width: 599px) {
+  .pics .row { display: grid; grid-template-columns: 1fr 1fr; max-width: none; }
+  .pics img { width: 100%; height: calc(4 * var(--P)); object-fit: cover; }
+}
+
+/* the rest: one card per section */
+.sec { grid-column: 1 / -1; }
+@media (min-width: 1200px) { .sec { grid-column: span 2; } .foot { grid-column: 1 / -1; } }
+</style>
+</head>
+<body>
+
+<main class="deck">
+
+<header class="card name">
+  <div class="hd"><h1 class="u">Kes Inkersole</h1></div>
+  <div class="bd ru"><p class="g">creative strategist</p><p class="g">internet equalities researcher</p><p class="g">london · available for work</p></div>
+</header>
+
+<section class="p" id="networked-worlds">
+  <div class="card front" role="button" tabindex="0" aria-expanded="false">
+    <div class="hd"><span class="g">01</span><span class="g">with co—matter · for funds</span></div>
+    <div class="bd ru"><img src="../img/l/networked-worlds-1.jpg" srcset="../img/s/networked-worlds-1.jpg 453w, ../img/l/networked-worlds-1.jpg 990w" sizes="130px" width="990" height="1400" alt="yellow cover with a curved grid: Networked Worlds, WeTransfer"><h2 class="u">Networked Worlds</h2></div>
+  </div>
+  <div class="card body">
+    <div class="hd"><span><span class="g">01</span> <span class="u">Networked Worlds</span></span><span class="g">with co—matter · for funds <button class="x" aria-label="close">×</button></span></div>
+    <div class="pics ru"><div class="row" style="--sum: 2.1393; --n: 3"><img style="--r: .70714" src="../img/l/networked-worlds-1.jpg" width="990" height="1400" alt="yellow cover with a curved grid: Networked Worlds, WeTransfer" loading="lazy"><img style="--r: .71429" src="../img/l/networked-worlds-2.jpg" width="1000" height="1400" alt="a collage of many small images on black" loading="lazy"><img style="--r: .71786" src="../img/l/networked-worlds-3.jpg" width="1005" height="1400" alt="&quot;worlding resources&quot;: a timeline of books and texts on black" loading="lazy"></div></div>
+    <div class="tx ru"><p class="lorem">duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. excepteur sint occaecat cupidatat non proident.</p><p class="out"><a href="https://co-matter.com/project/networked-worlds">networked worlds ↗</a></p></div>
+  </div>
+</section>
+
+<section class="p" id="protein">
+  <div class="card front" role="button" tabindex="0" aria-expanded="false">
+    <div class="hd"><span class="g">02</span><span class="g">for funds</span></div>
+    <div class="bd ru"><img src="../img/l/protein-1.jpg" srcset="../img/s/protein-1.jpg 640w, ../img/l/protein-1.jpg 1080w" sizes="130px" width="1080" height="1080" alt="pink report cover: dirty word [report #4] community"><h2 class="u">Protein Dirty Words #4: Community Report</h2></div>
+  </div>
+  <div class="card body">
+    <div class="hd"><span><span class="g">02</span> <span class="u">Protein Dirty Words #4: Community Report</span></span><span class="g">for funds <button class="x" aria-label="close">×</button></span></div>
+    <div class="pics ru"><div class="row" style="--sum: 3.75; --n: 4"><img style="--r: 1" src="../img/l/protein-1.jpg" width="1080" height="1080" alt="pink report cover: dirty word [report #4] community" loading="lazy"><img style="--r: 1" src="../img/l/protein-2.jpg" width="1080" height="1080" alt="overlapping page spreads from the report" loading="lazy"><img style="--r: 1" src="../img/l/protein-3.jpg" width="1080" height="1080" alt="a grid of the report's pages in pink, black and white" loading="lazy"><img style="--r: .75" src="../img/l/protein-4.jpg" width="1050" height="1400" alt="the printed report on a wooden floor" loading="lazy"></div></div>
+    <div class="tx ru"><p class="lorem">sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo.</p><p class="out"><a href="https://www.protein.xyz/dirty-words-4-community/">protein dirty words #4: community report ↗</a></p></div>
+  </div>
+</section>
+
+<section class="p" id="morning">
+  <div class="card front" role="button" tabindex="0" aria-expanded="false">
+    <div class="hd"><span class="g">03</span><span class="g">for funds</span></div>
+    <div class="bd ru"><img src="../img/l/morning-3.jpg" srcset="../img/s/morning-3.jpg 640w, ../img/l/morning-3.jpg 1400w" sizes="130px" width="1400" height="1400" alt="3d render of three pink piglet-like creatures curled inside a cracked black egg"><h2 class="u">MØRNING Ø</h2></div>
+  </div>
+  <div class="card body">
+    <div class="hd"><span><span class="g">03</span> <span class="u">MØRNING Ø</span></span><span class="g">for funds <button class="x" aria-label="close">×</button></span></div>
+    <div class="pics ru"><div class="row" style="--sum: 2.8; --n: 3"><img style="--r: 1" src="../img/l/morning-3.jpg" width="1400" height="1400" alt="3d render of three pink piglet-like creatures curled inside a cracked black egg" loading="lazy"><img style="--r: 1" src="../img/l/morning-1.jpg" width="1080" height="1080" alt="MØRNING newsletter graphic: &quot;#020 uh oh, meet Ø&quot;, a red burn after reading sticker over screenshots of video calls" loading="lazy"><img style="--r: .8" src="../img/l/morning-2.jpg" width="1120" height="1400" alt="3d render of a dark glossy egg with orange marbling" loading="lazy"></div></div>
+    <div class="tx ru"><p class="lorem"></p><p class="out"><a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1">MØRNING Ø ↗</a></p></div>
+  </div>
+</section>
+
+<section class="p" id="lorem-ipsum">
+  <div class="card front" role="button" tabindex="0" aria-expanded="false">
+    <div class="hd"><span class="g">04</span><span class="g">for fun</span></div>
+    <div class="bd ru"><img src="../img/l/morning-1.jpg" width="1080" height="1080" alt="MØRNING newsletter graphic: &quot;#020 uh oh, meet Ø&quot;, a red burn after reading sticker over screenshots of video calls"><h2 class="u">Lorem Ipsum</h2></div>
+  </div>
+  <div class="card body">
+    <div class="hd"><span><span class="g">04</span> <span class="u">Lorem Ipsum</span></span><span class="g">for fun <button class="x" aria-label="close">×</button></span></div>
+    <div class="pics ru"><div class="row" style="--sum: 1.8; --n: 2"><img style="--r: 1" src="../img/l/morning-1.jpg" width="1080" height="1080" alt="MØRNING newsletter graphic: &quot;#020 uh oh, meet Ø&quot;, a red burn after reading sticker over screenshots of video calls" loading="lazy"><img style="--r: .8" src="../img/l/morning-2.jpg" width="1120" height="1400" alt="3d render of a dark glossy egg with orange marbling" loading="lazy"></div></div>
+    <div class="tx ru"><p class="lorem">lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p></div>
+  </div>
+</section>
+
+<section class="p" id="dolor-sit">
+  <div class="card front" role="button" tabindex="0" aria-expanded="false">
+    <div class="hd"><span class="g">05</span><span class="g">for funds</span></div>
+    <div class="bd ru"><img src="../img/l/protein-2.jpg" width="1080" height="1080" alt="overlapping page spreads from the report"><h2 class="u">Dolor Sit Amet</h2></div>
+  </div>
+  <div class="card body">
+    <div class="hd"><span><span class="g">05</span> <span class="u">Dolor Sit Amet</span></span><span class="g">for funds <button class="x" aria-label="close">×</button></span></div>
+    <div class="pics ru"><div class="row" style="--sum: 2; --n: 2"><img style="--r: 1" src="../img/l/protein-2.jpg" width="1080" height="1080" alt="overlapping page spreads from the report" loading="lazy"><img style="--r: 1" src="../img/l/protein-3.jpg" width="1080" height="1080" alt="a grid of the report's pages in pink, black and white" loading="lazy"></div></div>
+    <div class="tx ru"><p class="lorem">lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p></div>
+  </div>
+</section>
+
+<section class="p" id="consectetur">
+  <div class="card front" role="button" tabindex="0" aria-expanded="false">
+    <div class="hd"><span class="g">06</span><span class="g">for fun</span></div>
+    <div class="bd ru"><img src="../img/l/networked-worlds-2.jpg" width="1000" height="1400" alt="a collage of many small images on black"><h2 class="u">Consectetur</h2></div>
+  </div>
+  <div class="card body">
+    <div class="hd"><span><span class="g">06</span> <span class="u">Consectetur</span></span><span class="g">for fun <button class="x" aria-label="close">×</button></span></div>
+    <div class="pics ru"><div class="row" style="--sum: 1.4321; --n: 2"><img style="--r: .71429" src="../img/l/networked-worlds-2.jpg" width="1000" height="1400" alt="a collage of many small images on black" loading="lazy"><img style="--r: .71786" src="../img/l/networked-worlds-3.jpg" width="1005" height="1400" alt="&quot;worlding resources&quot;: a timeline of books and texts on black" loading="lazy"></div></div>
+    <div class="tx ru"><p class="lorem">lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p></div>
+  </div>
+</section>
+
+<section class="p" id="adipiscing">
+  <div class="card front" role="button" tabindex="0" aria-expanded="false">
+    <div class="hd"><span class="g">07</span><span class="g">for funds</span></div>
+    <div class="bd ru"><img src="../img/l/protein-3.jpg" width="1080" height="1080" alt="a grid of the report's pages in pink, black and white"><h2 class="u">Adipiscing Elit</h2></div>
+  </div>
+  <div class="card body">
+    <div class="hd"><span><span class="g">07</span> <span class="u">Adipiscing Elit</span></span><span class="g">for funds <button class="x" aria-label="close">×</button></span></div>
+    <div class="pics ru"><div class="row" style="--sum: 1.75; --n: 2"><img style="--r: 1" src="../img/l/protein-3.jpg" width="1080" height="1080" alt="a grid of the report's pages in pink, black and white" loading="lazy"><img style="--r: .75" src="../img/l/protein-4.jpg" width="1050" height="1400" alt="the printed report on a wooden floor" loading="lazy"></div></div>
+    <div class="tx ru"><p class="lorem">lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p></div>
+  </div>
+</section>
+
+<section class="p" id="eiusmod">
+  <div class="card front" role="button" tabindex="0" aria-expanded="false">
+    <div class="hd"><span class="g">08</span><span class="g">for funds</span></div>
+    <div class="bd ru"><img src="../img/l/morning-2.jpg" width="1120" height="1400" alt="3d render of a dark glossy egg with orange marbling"><h2 class="u">Sed Do Eiusmod</h2></div>
+  </div>
+  <div class="card body">
+    <div class="hd"><span><span class="g">08</span> <span class="u">Sed Do Eiusmod</span></span><span class="g">for funds <button class="x" aria-label="close">×</button></span></div>
+    <div class="pics ru"><div class="row" style="--sum: 1.8; --n: 2"><img style="--r: .8" src="../img/l/morning-2.jpg" width="1120" height="1400" alt="3d render of a dark glossy egg with orange marbling" loading="lazy"><img style="--r: 1" src="../img/l/morning-1.jpg" width="1080" height="1080" alt="MØRNING newsletter graphic: &quot;#020 uh oh, meet Ø&quot;, a red burn after reading sticker over screenshots of video calls" loading="lazy"></div></div>
+    <div class="tx ru"><p class="lorem">lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p></div>
+  </div>
+</section>
+
+<section class="p" id="tempor">
+  <div class="card front" role="button" tabindex="0" aria-expanded="false">
+    <div class="hd"><span class="g">09</span><span class="g">for fun</span></div>
+    <div class="bd ru"><img src="../img/l/networked-worlds-3.jpg" width="1005" height="1400" alt="&quot;worlding resources&quot;: a timeline of books and texts on black"><h2 class="u">Tempor Incididunt</h2></div>
+  </div>
+  <div class="card body">
+    <div class="hd"><span><span class="g">09</span> <span class="u">Tempor Incididunt</span></span><span class="g">for fun <button class="x" aria-label="close">×</button></span></div>
+    <div class="pics ru"><div class="row" style="--sum: 1.4321; --n: 2"><img style="--r: .71786" src="../img/l/networked-worlds-3.jpg" width="1005" height="1400" alt="&quot;worlding resources&quot;: a timeline of books and texts on black" loading="lazy"><img style="--r: .71429" src="../img/l/networked-worlds-2.jpg" width="1000" height="1400" alt="a collage of many small images on black" loading="lazy"></div></div>
+    <div class="tx ru"><p class="lorem">lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p></div>
+  </div>
+</section>
+
+<section class="p" id="labore">
+  <div class="card front" role="button" tabindex="0" aria-expanded="false">
+    <div class="hd"><span class="g">10</span><span class="g">for funds</span></div>
+    <div class="bd ru"><img src="../img/l/protein-4.jpg" width="1050" height="1400" alt="the printed report on a wooden floor"><h2 class="u">Ut Labore et Dolore</h2></div>
+  </div>
+  <div class="card body">
+    <div class="hd"><span><span class="g">10</span> <span class="u">Ut Labore et Dolore</span></span><span class="g">for funds <button class="x" aria-label="close">×</button></span></div>
+    <div class="pics ru"><div class="row" style="--sum: 1.75; --n: 2"><img style="--r: .75" src="../img/l/protein-4.jpg" width="1050" height="1400" alt="the printed report on a wooden floor" loading="lazy"><img style="--r: 1" src="../img/l/protein-2.jpg" width="1080" height="1080" alt="overlapping page spreads from the report" loading="lazy"></div></div>
+    <div class="tx ru"><p class="lorem">lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p></div>
+  </div>
+</section>
+
+<section class="card sec">
+  <div class="hd"><h2 class="u g">For fun</h2></div>
+  <div class="tx ru">
+    <ul>
+      <li><a href="https://latent-space.vercel.app/">latent space</a></li>
+      <li><a href="https://protecht.vercel.app/">pro(tech)t</a></li>
+    </ul>
+    <p class="g">lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam.</p>
+  </div>
+</section>
+
+<section class="card sec">
+  <div class="hd"><h2 class="u g">Hello, i'm kes &lt;3</h2></div>
+  <div class="tx ru">
+    <p>i'm kes inkersole (kesia on paper), a freelance creative strategist and internet equalities researcher based in london. welcome to kes' little corner of the internet.</p>
+    <p>my practice focuses on understanding and critiquing the impacts of emerging technologies on people, culture, and the planet. i work collectively to rethink the narratives and behaviours surrounding technologies — prioritising collaborative research as a process for testing, imagining and prototyping more equitable, alternative futures.</p>
+  </div>
+</section>
+
+<section class="card sec">
+  <div class="hd"><h2 class="u g">Things i've written</h2></div>
+  <div class="tx ru"><ul>
+    <li><a href="https://www.protein.xyz/sex-and-the-internet/">mindy seu on sex and the internet</a><span>Protein</span></li>
+    <li><a href="https://midnight.agency/thoughts/dreaming-and-designing-more-accessible-web">dreaming and designing a more accessible web</a><span>Midnight Agency</span></li>
+    <li><a href="https://midnight.agency/thoughts/coding-a-more-creative-and-playful-web">coding a more creative and playful web</a><span>Midnight Agency</span></li>
+    <li><a href="https://midnight.agency/thoughts/composing-a-flexible-and-modular-web">composing a flexible and modular web</a><span>Midnight Agency</span></li>
+    <li><a href="https://morningfyi.substack.com/p/020-uh-oh-meet">burn after reading: uh oh, meet o</a><span>morningfyi</span></li>
+    <li><a href="https://morningfyi.substack.com/p/024-entering-limb-with">burn after reading: entering limbo</a><span>morningfyi</span></li>
+  </ul></div>
+</section>
+
+<section class="card sec">
+  <div class="hd"><h2 class="u g">Podcasts, for the bus</h2></div>
+  <div class="tx ru"><ul>
+    <li><a href="https://podcasts.apple.com/gb/podcast/mindy-seu-on-collaboration-community-and/id1449302502?i=1000597869409">mindy seu on collaboration, community and the cyberfeminism index</a></li>
+    <li><a href="https://soundcloud.com/proteincommunity/protein-forum-what-can-web2-organisations-learn-from-web3-communities">what can web2 organisations learn from web3 communities?</a><span>Protein</span></li>
+    <li><a href="https://podcasts.apple.com/gb/podcast/cherie-hu-on-water-musics-journey-through-web3/id1449302502?i=1000581859804">cherie hu on water &amp; music's journey through web3</a></li>
+    <li><a href="https://podcasts.apple.com/gb/podcast/molly-dickson-on-dao-activism-and-fighting-for/id1449302502?i=1000578164761">molly dickson on dao activism</a></li>
+    <li><a href="https://podcasts.apple.com/gb/podcast/dame-on-the-need-for-education-accessibility/id1449302502?i=1000559829008">dame on education, accessibility and inclusivity in web3</a></li>
+    <li><a href="https://podcasts.apple.com/gb/podcast/nadia-piet-on-creative-ai-and-protopian-futures/id1449302502?i=1000559822732">nadia piet on creative ai and protopian futures</a></li>
+    <li><a href="https://podcasts.apple.com/gb/podcast/cyn-bahati-on-her-journey-into-web3-with-her-family/id1449302502?i=1000559818509">cyn bahati on her journey into web3 with her family</a></li>
+    <li><a href="https://podcasts.apple.com/gb/podcast/latash%C3%A1-on-the-potential-of-web3-for-music-artists/id1449302502?i=1000552812458">latasha on the potential of web3 for music artists</a></li>
+  </ul></div>
+</section>
+
+<section class="card sec">
+  <div class="hd"><h2 class="u g">Irl (mostly)</h2></div>
+  <div class="tx ru"><ul>
+    <li><a href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1">olden residency</a></li>
+    <li><a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1">softer london</a><span>talk + workshop</span></li>
+    <li><a href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard">tech yard</a><span>workshop</span></li>
+    <li><a href="https://www.instagram.com/p/BslwSSPH5Rc/?img_index=2">ovar it</a></li>
+  </ul></div>
+</section>
+
+<section class="card sec">
+  <div class="hd"><h2 class="u g">About</h2></div>
+  <div class="tx ru"><dl>
+    <div><dt>does</dt><dd>creative strategy, research, workshops, writing and teaching</dd></div>
+    <div><dt>teaches</dt><dd>associate lecturer at UAL (LCF + CCI)</dd></div>
+    <div><dt>clients</dt><dd>Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges</dd></div>
+    <div><dt>school</dt><dd>MA internet equalities, BA creative direction, PhD [ ? ]</dd></div>
+    <div><dt>cv</dt><dd>cv &amp; portfolio on request</dd></div>
+  </dl></div>
+</section>
+
+<footer class="card sec foot">
+  <div class="hd"><p>thanks for stopping by &lt;3 <span style="color:var(--rose)">✿</span></p></div>
+  <div class="tx ru"><p>say hello: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p></div>
+</footer>
+
+</main>
+
+<script>
+(function () {
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches, beh = reduce ? 'auto' : 'smooth';
+  function set(id, toTop) {
+    document.querySelectorAll('.p').forEach(function (p) {
+      var on = p.id === id && !p.classList.contains('open');
+      p.classList.toggle('open', on); p.querySelector('.front').setAttribute('aria-expanded', on);
+      if (on) {
+        if (toTop) p.querySelector('.front').scrollIntoView({ block: 'start', behavior: beh });
+        else p.querySelector('.body').scrollIntoView({ block: 'nearest', behavior: beh });
+      }
+    });
+    var open = document.querySelector('.p.open');
+    history.replaceState(null, '', open ? '#' + open.id : location.pathname + location.search);
+  }
+  document.querySelectorAll('.front').forEach(function (f) {
+    f.addEventListener('click', function () { set(f.parentNode.id, false); });
+    f.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); set(f.parentNode.id, false); } });
+  });
+  document.querySelectorAll('.x').forEach(function (x) {
+    x.addEventListener('click', function () { var p = x.closest('.p'); set(p.id, false); p.querySelector('.front').focus(); });
+  });
+  var h = location.hash.slice(1); if (h && document.getElementById(h)) set(h, true);
+})();
+</script>
+</body>
+</html>

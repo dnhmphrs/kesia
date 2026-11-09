@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>kes inkersole</title>
+<style>
+:root { --ink: #111; --grey: #8a8a8a; --rule: #8a8a8a; --rose: #c44a78; --r: 1.9377; }
+* { box-sizing: border-box; border: 0; }
+html { background: #fff; color: var(--ink); -webkit-text-size-adjust: 100%; }
+/* one font, one size, the font's own line height: every box is a whole number of cells */
+body { margin: 0; font: 12px/normal Menlo, "Cascadia Mono", Consolas, "DejaVu Sans Mono", "Liberation Mono", monospace; letter-spacing: 0; }
+h1, h2, p, ul, dl, dd, figure, figcaption { margin: 0; padding: 0; font: inherit; }
+ul { list-style: none; }
+a { color: var(--rose); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; text-decoration-color: #f2c2d5; }
+a:hover { text-decoration-color: currentColor; }
+img { display: block; }
+.g { color: var(--grey); }
+.u { text-transform: uppercase; }
+.page { width: calc(100% - 2ch); width: round(down, calc(100% - 2ch), 1ch); margin: 0 auto; padding: 1lh 0; }
+
+/* the rules: box-drawing glyphs, never borders. j = junction, f = horizontal fill, v = vertical fill */
+b.j, b.f, b.v { display: block; position: relative; overflow: hidden; color: var(--rule); white-space: pre; font: inherit; }
+b.j, b.f { height: 1lh; }
+b.j::before { content: "┼"; }
+b.f::before, b.v::before { position: absolute; left: 0; top: 0; }
+b.f::before { content: "────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────"; }
+b.v::before { content: "│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│\A│"; }
+.hd { display: flex; height: 1lh; overflow: hidden; white-space: nowrap; color: var(--grey); text-transform: uppercase; }
+.hd::before, .hd::after { color: var(--rule); white-space: pre; }
+.hd::before { content: "─ "; }
+.hd::after { content: " ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────"; flex: 1 1 0; min-width: 0; overflow: hidden; }
+@supports (content: "a" / "b") { .hd::before { content: "─ " / ""; } .hd::after { content: " ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────" / ""; } }
+.top .j1::before { content: "┌"; } .top .jm::before { content: "┬"; } .top .jn::before { content: "┐"; }
+.sep .j1::before { content: "├"; } .sep .jm::before { content: "┼"; } .sep .jn::before { content: "┤"; }
+.cut .j1::before { content: "├"; } .cut .jm::before { content: "┴"; } .cut .jn::before { content: "┤"; }
+.p.open .sep .jm::before { content: "┬"; }
+.bot .j1::before, .last .j1::before { content: "└"; } .bot .jm::before, .last .jm::before { content: "┴"; } .bot .jn::before, .last .jn::before { content: "┘"; }
+.p.open .last .jm::before { content: "─"; }
+
+/* frames are grids whose odd columns are 1ch wide for the rules; edge and content rows subgrid them */
+.box, .fg { display: grid; grid-template-columns: 1ch minmax(0, 1fr) 1ch; }
+.edge, .row { grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; }
+.box { grid-template-rows: auto minmax(0, 1fr) auto; margin-top: 1lh; }
+.c { padding: 1lh 1ch; }
+
+/* status lines, top and bottom */
+.bar { display: flex; flex-wrap: wrap; gap: 0 2ch; padding: 0 1ch; }
+.bar .end { margin-left: auto; }
+
+/* the index: a framed table, one picture cell per project */
+.tbl { display: grid; grid-template-columns: 1ch 11ch 1ch 4ch 1ch minmax(0, 1fr) 1ch 28ch 1ch 3ch 1ch; margin-top: 1lh; }
+.p, .tx { display: contents; }
+.body { display: none; }
+.p.open .body { display: contents; }
+.idx { cursor: pointer; }
+.idx:hover { background: #f6f6f6; }
+.idx:focus-visible { outline: 0; }
+.idx:focus-visible .o::before { background: var(--ink); color: #fff; }
+.ic { position: relative; height: 5lh; }
+.ic img, .fg img { position: absolute; object-fit: contain; }
+.ic img { top: 0; left: 0; width: 100%; height: 100%; }
+.n, .t, .w, .o { padding: 2lh 1ch 0; }
+.t { text-transform: uppercase; }
+.n, .w, .o { color: var(--grey); }
+.o { text-align: center; padding-left: 0; padding-right: 0; }
+.o::before { content: "+"; }
+.p.open .o { color: var(--ink); }
+.p.open .o::before { content: "×"; }
+
+/* open: a panel across the whole table, pictures in a row of framed figures */
+.pan { grid-column: 2 / -2; padding: 1lh 1ch; }
+.pics { display: flex; flex-wrap: wrap; gap: 1lh 1ch; --h: var(--hd, 24); }
+.fg { --w: round(var(--a, 1) * (var(--h) - 2) * var(--r) + 2); width: calc(var(--w) * 1ch); position: relative; flex: none; grid-template-rows: 1lh calc((var(--h) - 2) * 1lh) 1lh; }
+.fg .row .v + .v { grid-column: 3; }
+.fg img { top: 1lh; left: 1ch; width: calc(100% - 2ch); height: calc(100% - 2lh); }
+.txt { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0 2ch; margin-top: 1lh; }
+.lorem { max-width: 96ch; }
+.out { text-align: right; }
+
+/* the rest: pairs of framed panels */
+.ls li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0 2ch; }
+.ls li span { color: var(--grey); text-align: right; }
+.c p + p, .c ul + p { margin-top: 1lh; }
+.c dl div { display: grid; grid-template-columns: 9ch minmax(0, 1fr); }
+.c dt { color: var(--grey); }
+
+@media (min-width: 700px) {
+  .pair { display: grid; grid-template-columns: calc((100% - 3ch) / 2 + 2ch) minmax(0, 1fr); grid-template-columns: calc(round(down, calc((100% - 3ch) / 2), 1ch) + 2ch) minmax(0, 1fr); margin-top: 1lh; }
+  .pair .box { margin-top: 0; }
+  .r { grid-template-columns: minmax(0, 1fr) 1ch; }
+  .r .j1, .r .row > .v:first-child { display: none; }
+  .l .top .jn::before { content: "┬"; }
+  .l .bot .jn::before { content: "┴"; }
+}
+@media (max-width: 699px) {
+  .pair .box + .box { margin-top: 0; }
+  .l .bot { display: none; }
+  .r .top .j1::before { content: "├"; }
+  .r .top .jn::before { content: "┤"; }
+  .tbl { grid-template-columns: 1ch 11ch 1ch minmax(0, 1fr) 1ch 3ch 1ch; }
+  b.d { display: none; }
+  .tx { display: block; padding: 1lh 1ch 0; }
+  .n, .t { display: inline; padding: 0; }
+  .w { display: block; padding: 0; }
+  .o { padding-top: 1lh; }
+  .pics { --h: 13; }
+  .txt { display: block; }
+  .out { text-align: left; margin-top: 1lh; }
+  .lorem { max-width: none; }
+  .bar .end { margin-left: 0; width: 100%; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<header class="bar">
+  <h1 class="u">Kes Inkersole</h1>
+  <p class="g">creative strategist</p>
+  <p class="g">internet equalities researcher</p>
+  <p class="g end">london · available for work</p>
+</header>
+
+<div class="tbl">
+<div class="edge top"><b class="j j1" aria-hidden="true"></b><h2 class="f hd">index</h2><b class="j jm" aria-hidden="true"></b><b class="f d" aria-hidden="true"></b><b class="j jm d" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jm d" aria-hidden="true"></b><b class="f d" aria-hidden="true"></b><b class="j jm" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jn" aria-hidden="true"></b></div>
+<section class="p" id="networked-worlds">
+  <div class="row idx" role="button" tabindex="0" aria-expanded="false"><b class="v" aria-hidden="true"></b><figure class="ic"><img src="../../img/l/networked-worlds-1.jpg" srcset="../../img/s/networked-worlds-1.jpg 453w, ../../img/l/networked-worlds-1.jpg 990w" sizes="90px" width="990" height="1400" alt="yellow cover with a curved grid: Networked Worlds, WeTransfer"></figure><b class="v" aria-hidden="true"></b><div class="tx"><span class="n">01</span> <b class="v d" aria-hidden="true"></b><h2 class="t">Networked Worlds</h2><b class="v d" aria-hidden="true"></b><span class="w">with co—matter · for funds</span></div><b class="v" aria-hidden="true"></b><span class="o"></span><b class="v" aria-hidden="true"></b></div>
+  <div class="body"><div class="edge cut" aria-hidden="true"><b class="j j1" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jm" aria-hidden="true"></b><b class="f d" aria-hidden="true"></b><b class="j jm d" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jm d" aria-hidden="true"></b><b class="f d" aria-hidden="true"></b><b class="j jm" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jn" aria-hidden="true"></b></div><div class="row prow"><b class="v" aria-hidden="true"></b><div class="pan"><div class="pics" style="--hd:36"><figure class="fg" style="--a:0.7071"><figcaption class="edge top"><b class="j j1" aria-hidden="true"></b><span class="f hd">fig. 1</span><b class="j jn" aria-hidden="true"></b></figcaption><div class="row"><b class="v" aria-hidden="true"></b><b class="v" aria-hidden="true"></b></div><img src="../../img/l/networked-worlds-1.jpg" width="990" height="1400" alt="yellow cover with a curved grid: Networked Worlds, WeTransfer" loading="lazy"><div class="edge bot" aria-hidden="true"><b class="j j1" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jn" aria-hidden="true"></b></div></figure><figure class="fg" style="--a:0.7143"><figcaption class="edge top"><b class="j j1" aria-hidden="true"></b><span class="f hd">fig. 2</span><b class="j jn" aria-hidden="true"></b></figcaption><div class="row"><b class="v" aria-hidden="true"></b><b class="v" aria-hidden="true"></b></div><img src="../../img/l/networked-worlds-2.jpg" width="1000" height="1400" alt="a collage of many small images on black" loading="lazy"><div class="edge bot" aria-hidden="true"><b class="j j1" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jn" aria-hidden="true"></b></div></figure><figure class="fg" style="--a:0.7179"><figcaption class="edge top"><b class="j j1" aria-hidden="true"></b><span class="f hd">fig. 3</span><b class="j jn" aria-hidden="true"></b></figcaption><div class="row"><b class="v" aria-hidden="true"></b><b class="v" aria-hidden="true"></b></div><img src="../../img/l/networked-worlds-3.jpg" width="1005" height="1400" alt="&quot;worlding resources&quot;: a timeline of books and texts on black" loading="lazy"><div class="edge bot" aria-hidden="true"><b class="j j1" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jn" aria-hidden="true"></b></div></figure></div><div class="txt"><p class="lorem">duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. excepteur sint occaecat cupidatat non proident.</p><p class="out"><a href="https://co-matter.com/project/networked-worlds">networked worlds ↗</a></p></div></div><b class="v" aria-hidden="true"></b></div></div>
+  <div class="edge sep" aria-hidden="true"><b class="j j1" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jm" aria-hidden="true"></b><b class="f d" aria-hidden="true"></b><b class="j jm d" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jm d" aria-hidden="true"></b><b class="f d" aria-hidden="true"></b><b class="j jm" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jn" aria-hidden="true"></b></div>
+</section>
+<section class="p" id="protein">
+  <div class="row idx" role="button" tabindex="0" aria-expanded="false"><b class="v" aria-hidden="true"></b><figure class="ic"><img src="../../img/l/protein-1.jpg" srcset="../../img/s/protein-1.jpg 640w, ../../img/l/protein-1.jpg 1080w" sizes="90px" width="1080" height="1080" alt="pink report cover: dirty word [report #4] community"></figure><b class="v" aria-hidden="true"></b><div class="tx"><span class="n">02</span> <b class="v d" aria-hidden="true"></b><h2 class="t">Protein Dirty Words #4: Community Report</h2><b class="v d" aria-hidden="true"></b><span class="w">for funds</span></div><b class="v" aria-hidden="true"></b><span class="o"></span><b class="v" aria-hidden="true"></b></div>
+  <div class="body"><div class="edge cut" aria-hidden="true"><b class="j j1" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jm" aria-hidden="true"></b><b class="f d" aria-hidden="true"></b><b class="j jm d" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jm d" aria-hidden="true"></b><b class="f d" aria-hidden="true"></b><b class="j jm" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jn" aria-hidden="true"></b></div><div class="row prow"><b class="v" aria-hidden="true"></b><div class="pan"><div class="pics" style="--hd:26"><figure class="fg" style="--a:1.0000"><figcaption class="edge top"><b class="j j1" aria-hidden="true"></b><span class="f hd">fig. 1</span><b class="j jn" aria-hidden="true"></b></figcaption><div class="row"><b class="v" aria-hidden="true"></b><b class="v" aria-hidden="true"></b></div><img src="../../img/l/protein-1.jpg" width="1080" height="1080" alt="pink report cover: dirty word [report #4] community" loading="lazy"><div class="edge bot" aria-hidden="true"><b class="j j1" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jn" aria-hidden="true"></b></div></figure><figure class="fg" style="--a:1.0000"><figcaption class="edge top"><b class="j j1" aria-hidden="true"></b><span class="f hd">fig. 2</span><b class="j jn" aria-hidden="true"></b></figcaption><div class="row"><b class="v" aria-hidden="true"></b><b class="v" aria-hidden="true"></b></div><img src="../../img/l/protein-2.jpg" width="1080" height="1080" alt="overlapping page spreads from the report" loading="lazy"><div class="edge bot" aria-hidden="true"><b class="j j1" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jn" aria-hidden="true"></b></div></figure><figure class="fg" style="--a:1.0000"><figcaption class="edge top"><b class="j j1" aria-hidden="true"></b><span class="f hd">fig. 3</span><b class="j jn" aria-hidden="true"></b></figcaption><div class="row"><b class="v" aria-hidden="true"></b><b class="v" aria-hidden="true"></b></div><img src="../../img/l/protein-3.jpg" width="1080" height="1080" alt="a grid of the report's pages in pink, black and white" loading="lazy"><div class="edge bot" aria-hidden="true"><b class="j j1" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jn" aria-hidden="true"></b></div></figure><figure class="fg" style="--a:0.7500"><figcaption class="edge top"><b class="j j1" aria-hidden="true"></b><span class="f hd">fig. 4</span><b class="j jn" aria-hidden="true"></b></figcaption><div class="row"><b class="v" aria-hidden="true"></b><b class="v" aria-hidden="true"></b></div><img src="../../img/l/protein-4.jpg" width="1050" height="1400" alt="the printed report on a wooden floor" loading="lazy"><div class="edge bot" aria-hidden="true"><b class="j j1" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jn" aria-hidden="true"></b></div></figure></div><div class="txt"><p class="lorem">sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo.</p><p class="out"><a href="https://www.protein.xyz/dirty-words-4-community/">protein dirty words #4: community report ↗</a></p></div></div><b class="v" aria-hidden="true"></b></div></div>
+  <div class="edge sep" aria-hidden="true"><b class="j j1" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jm" aria-hidden="true"></b><b class="f d" aria-hidden="true"></b><b class="j jm d" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jm d" aria-hidden="true"></b><b class="f d" aria-hidden="true"></b><b class="j jm" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jn" aria-hidden="true"></b></div>
+</section>
+<section class="p" id="morning">
+  <div class="row idx" role="button" tabindex="0" aria-expanded="false"><b class="v" aria-hidden="true"></b><figure class="ic"><img src="../../img/l/morning-3.jpg" srcset="../../img/s/morning-3.jpg 640w, ../../img/l/morning-3.jpg 1400w" sizes="90px" width="1400" height="1400" alt="3d render of three pink piglet-like creatures curled inside a cracked black egg"></figure><b class="v" aria-hidden="true"></b><div class="tx"><span class="n">03</span> <b class="v d" aria-hidden="true"></b><h2 class="t">MØRNING Ø</h2><b class="v d" aria-hidden="true"></b><span class="w">for funds</span></div><b class="v" aria-hidden="true"></b><span class="o"></span><b class="v" aria-hidden="true"></b></div>
+  <div class="body"><div class="edge cut" aria-hidden="true"><b class="j j1" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jm" aria-hidden="true"></b><b class="f d" aria-hidden="true"></b><b class="j jm d" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jm d" aria-hidden="true"></b><b class="f d" aria-hidden="true"></b><b class="j jm" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jn" aria-hidden="true"></b></div><div class="row prow"><b class="v" aria-hidden="true"></b><div class="pan"><div class="pics" style="--hd:35"><figure class="fg" style="--a:1.0000"><figcaption class="edge top"><b class="j j1" aria-hidden="true"></b><span class="f hd">fig. 1</span><b class="j jn" aria-hidden="true"></b></figcaption><div class="row"><b class="v" aria-hidden="true"></b><b class="v" aria-hidden="true"></b></div><img src="../../img/l/morning-3.jpg" width="1400" height="1400" alt="3d render of three pink piglet-like creatures curled inside a cracked black egg" loading="lazy"><div class="edge bot" aria-hidden="true"><b class="j j1" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jn" aria-hidden="true"></b></div></figure><figure class="fg" style="--a:1.0000"><figcaption class="edge top"><b class="j j1" aria-hidden="true"></b><span class="f hd">fig. 2</span><b class="j jn" aria-hidden="true"></b></figcaption><div class="row"><b class="v" aria-hidden="true"></b><b class="v" aria-hidden="true"></b></div><img src="../../img/l/morning-1.jpg" width="1080" height="1080" alt="MØRNING newsletter graphic: &quot;#020 uh oh, meet Ø&quot;, a red burn after reading sticker over screenshots of video calls" loading="lazy"><div class="edge bot" aria-hidden="true"><b class="j j1" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jn" aria-hidden="true"></b></div></figure><figure class="fg" style="--a:0.8000"><figcaption class="edge top"><b class="j j1" aria-hidden="true"></b><span class="f hd">fig. 3</span><b class="j jn" aria-hidden="true"></b></figcaption><div class="row"><b class="v" aria-hidden="true"></b><b class="v" aria-hidden="true"></b></div><img src="../../img/l/morning-2.jpg" width="1120" height="1400" alt="3d render of a dark glossy egg with orange marbling" loading="lazy"><div class="edge bot" aria-hidden="true"><b class="j j1" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jn" aria-hidden="true"></b></div></figure></div><div class="txt"><p class="lorem"></p><p class="out"><a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1">MØRNING Ø ↗</a></p></div></div><b class="v" aria-hidden="true"></b></div></div>
+  <div class="edge sep" aria-hidden="true"><b class="j j1" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jm" aria-hidden="true"></b><b class="f d" aria-hidden="true"></b><b class="j jm d" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jm d" aria-hidden="true"></b><b class="f d" aria-hidden="true"></b><b class="j jm" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jn" aria-hidden="true"></b></div>
+</section>
+<section class="p" id="lorem-ipsum">
+  <div class="row idx" role="button" tabindex="0" aria-expanded="false"><b class="v" aria-hidden="true"></b><figure class="ic"><img src="../../img/l/morning-1.jpg" width="1080" height="1080" alt="MØRNING newsletter graphic: &quot;#020 uh oh, meet Ø&quot;, a red burn after reading sticker over screenshots of video calls"></figure><b class="v" aria-hidden="true"></b><div class="tx"><span class="n">04</span> <b class="v d" aria-hidden="true"></b><h2 class="t">Lorem Ipsum</h2><b class="v d" aria-hidden="true"></b><span class="w">for fun</span></div><b class="v" aria-hidden="true"></b><span class="o"></span><b class="v" aria-hidden="true"></b></div>
+  <div class="body"><div class="edge cut" aria-hidden="true"><b class="j j1" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jm" aria-hidden="true"></b><b class="f d" aria-hidden="true"></b><b class="j jm d" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jm d" aria-hidden="true"></b><b class="f d" aria-hidden="true"></b><b class="j jm" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jn" aria-hidden="true"></b></div><div class="row prow"><b class="v" aria-hidden="true"></b><div class="pan"><div class="pics" style="--hd:36"><figure class="fg" style="--a:1.0000"><figcaption class="edge top"><b class="j j1" aria-hidden="true"></b><span class="f hd">fig. 1</span><b class="j jn" aria-hidden="true"></b></figcaption><div class="row"><b class="v" aria-hidden="true"></b><b class="v" aria-hidden="true"></b></div><img src="../../img/l/morning-1.jpg" width="1080" height="1080" alt="MØRNING newsletter graphic: &quot;#020 uh oh, meet Ø&quot;, a red burn after reading sticker over screenshots of video calls" loading="lazy"><div class="edge bot" aria-hidden="true"><b class="j j1" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jn" aria-hidden="true"></b></div></figure><figure class="fg" style="--a:0.8000"><figcaption class="edge top"><b class="j j1" aria-hidden="true"></b><span class="f hd">fig. 2</span><b class="j jn" aria-hidden="true"></b></figcaption><div class="row"><b class="v" aria-hidden="true"></b><b class="v" aria-hidden="true"></b></div><img src="../../img/l/morning-2.jpg" width="1120" height="1400" alt="3d render of a dark glossy egg with orange marbling" loading="lazy"><div class="edge bot" aria-hidden="true"><b class="j j1" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jn" aria-hidden="true"></b></div></figure></div><div class="txt"><p class="lorem">lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><p class="out"></p></div></div><b class="v" aria-hidden="true"></b></div></div>
+  <div class="edge sep" aria-hidden="true"><b class="j j1" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jm" aria-hidden="true"></b><b class="f d" aria-hidden="true"></b><b class="j jm d" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jm d" aria-hidden="true"></b><b class="f d" aria-hidden="true"></b><b class="j jm" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jn" aria-hidden="true"></b></div>
+</section>
+<section class="p" id="dolor-sit">
+  <div class="row idx" role="button" tabindex="0" aria-expanded="false"><b class="v" aria-hidden="true"></b><figure class="ic"><img src="../../img/l/protein-2.jpg" width="1080" height="1080" alt="overlapping page spreads from the report"></figure><b class="v" aria-hidden="true"></b><div class="tx"><span class="n">05</span> <b class="v d" aria-hidden="true"></b><h2 class="t">Dolor Sit Amet</h2><b class="v d" aria-hidden="true"></b><span class="w">for funds</span></div><b class="v" aria-hidden="true"></b><span class="o"></span><b class="v" aria-hidden="true"></b></div>
+  <div class="body"><div class="edge cut" aria-hidden="true"><b class="j j1" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jm" aria-hidden="true"></b><b class="f d" aria-hidden="true"></b><b class="j jm d" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jm d" aria-hidden="true"></b><b class="f d" aria-hidden="true"></b><b class="j jm" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jn" aria-hidden="true"></b></div><div class="row prow"><b class="v" aria-hidden="true"></b><div class="pan"><div class="pics" style="--hd:36"><figure class="fg" style="--a:1.0000"><figcaption class="edge top"><b class="j j1" aria-hidden="true"></b><span class="f hd">fig. 1</span><b class="j jn" aria-hidden="true"></b></figcaption><div class="row"><b class="v" aria-hidden="true"></b><b class="v" aria-hidden="true"></b></div><img src="../../img/l/protein-2.jpg" width="1080" height="1080" alt="overlapping page spreads from the report" loading="lazy"><div class="edge bot" aria-hidden="true"><b class="j j1" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jn" aria-hidden="true"></b></div></figure><figure class="fg" style="--a:1.0000"><figcaption class="edge top"><b class="j j1" aria-hidden="true"></b><span class="f hd">fig. 2</span><b class="j jn" aria-hidden="true"></b></figcaption><div class="row"><b class="v" aria-hidden="true"></b><b class="v" aria-hidden="true"></b></div><img src="../../img/l/protein-3.jpg" width="1080" height="1080" alt="a grid of the report's pages in pink, black and white" loading="lazy"><div class="edge bot" aria-hidden="true"><b class="j j1" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jn" aria-hidden="true"></b></div></figure></div><div class="txt"><p class="lorem">lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><p class="out"></p></div></div><b class="v" aria-hidden="true"></b></div></div>
+  <div class="edge sep" aria-hidden="true"><b class="j j1" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jm" aria-hidden="true"></b><b class="f d" aria-hidden="true"></b><b class="j jm d" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jm d" aria-hidden="true"></b><b class="f d" aria-hidden="true"></b><b class="j jm" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jn" aria-hidden="true"></b></div>
+</section>
+<section class="p" id="consectetur">
+  <div class="row idx" role="button" tabindex="0" aria-expanded="false"><b class="v" aria-hidden="true"></b><figure class="ic"><img src="../../img/l/networked-worlds-2.jpg" width="1000" height="1400" alt="a collage of many small images on black"></figure><b class="v" aria-hidden="true"></b><div class="tx"><span class="n">06</span> <b class="v d" aria-hidden="true"></b><h2 class="t">Consectetur</h2><b class="v d" aria-hidden="true"></b><span class="w">for fun</span></div><b class="v" aria-hidden="true"></b><span class="o"></span><b class="v" aria-hidden="true"></b></div>
+  <div class="body"><div class="edge cut" aria-hidden="true"><b class="j j1" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jm" aria-hidden="true"></b><b class="f d" aria-hidden="true"></b><b class="j jm d" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jm d" aria-hidden="true"></b><b class="f d" aria-hidden="true"></b><b class="j jm" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jn" aria-hidden="true"></b></div><div class="row prow"><b class="v" aria-hidden="true"></b><div class="pan"><div class="pics" style="--hd:36"><figure class="fg" style="--a:0.7143"><figcaption class="edge top"><b class="j j1" aria-hidden="true"></b><span class="f hd">fig. 1</span><b class="j jn" aria-hidden="true"></b></figcaption><div class="row"><b class="v" aria-hidden="true"></b><b class="v" aria-hidden="true"></b></div><img src="../../img/l/networked-worlds-2.jpg" width="1000" height="1400" alt="a collage of many small images on black" loading="lazy"><div class="edge bot" aria-hidden="true"><b class="j j1" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jn" aria-hidden="true"></b></div></figure><figure class="fg" style="--a:0.7179"><figcaption class="edge top"><b class="j j1" aria-hidden="true"></b><span class="f hd">fig. 2</span><b class="j jn" aria-hidden="true"></b></figcaption><div class="row"><b class="v" aria-hidden="true"></b><b class="v" aria-hidden="true"></b></div><img src="../../img/l/networked-worlds-3.jpg" width="1005" height="1400" alt="&quot;worlding resources&quot;: a timeline of books and texts on black" loading="lazy"><div class="edge bot" aria-hidden="true"><b class="j j1" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jn" aria-hidden="true"></b></div></figure></div><div class="txt"><p class="lorem">lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><p class="out"></p></div></div><b class="v" aria-hidden="true"></b></div></div>
+  <div class="edge sep" aria-hidden="true"><b class="j j1" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jm" aria-hidden="true"></b><b class="f d" aria-hidden="true"></b><b class="j jm d" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jm d" aria-hidden="true"></b><b class="f d" aria-hidden="true"></b><b class="j jm" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jn" aria-hidden="true"></b></div>
+</section>
+<section class="p" id="adipiscing">
+  <div class="row idx" role="button" tabindex="0" aria-expanded="false"><b class="v" aria-hidden="true"></b><figure class="ic"><img src="../../img/l/protein-3.jpg" width="1080" height="1080" alt="a grid of the report's pages in pink, black and white"></figure><b class="v" aria-hidden="true"></b><div class="tx"><span class="n">07</span> <b class="v d" aria-hidden="true"></b><h2 class="t">Adipiscing Elit</h2><b class="v d" aria-hidden="true"></b><span class="w">for funds</span></div><b class="v" aria-hidden="true"></b><span class="o"></span><b class="v" aria-hidden="true"></b></div>
+  <div class="body"><div class="edge cut" aria-hidden="true"><b class="j j1" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jm" aria-hidden="true"></b><b class="f d" aria-hidden="true"></b><b class="j jm d" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jm d" aria-hidden="true"></b><b class="f d" aria-hidden="true"></b><b class="j jm" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jn" aria-hidden="true"></b></div><div class="row prow"><b class="v" aria-hidden="true"></b><div class="pan"><div class="pics" style="--hd:36"><figure class="fg" style="--a:1.0000"><figcaption class="edge top"><b class="j j1" aria-hidden="true"></b><span class="f hd">fig. 1</span><b class="j jn" aria-hidden="true"></b></figcaption><div class="row"><b class="v" aria-hidden="true"></b><b class="v" aria-hidden="true"></b></div><img src="../../img/l/protein-3.jpg" width="1080" height="1080" alt="a grid of the report's pages in pink, black and white" loading="lazy"><div class="edge bot" aria-hidden="true"><b class="j j1" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jn" aria-hidden="true"></b></div></figure><figure class="fg" style="--a:0.7500"><figcaption class="edge top"><b class="j j1" aria-hidden="true"></b><span class="f hd">fig. 2</span><b class="j jn" aria-hidden="true"></b></figcaption><div class="row"><b class="v" aria-hidden="true"></b><b class="v" aria-hidden="true"></b></div><img src="../../img/l/protein-4.jpg" width="1050" height="1400" alt="the printed report on a wooden floor" loading="lazy"><div class="edge bot" aria-hidden="true"><b class="j j1" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jn" aria-hidden="true"></b></div></figure></div><div class="txt"><p class="lorem">lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><p class="out"></p></div></div><b class="v" aria-hidden="true"></b></div></div>
+  <div class="edge sep" aria-hidden="true"><b class="j j1" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jm" aria-hidden="true"></b><b class="f d" aria-hidden="true"></b><b class="j jm d" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jm d" aria-hidden="true"></b><b class="f d" aria-hidden="true"></b><b class="j jm" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jn" aria-hidden="true"></b></div>
+</section>
+<section class="p" id="eiusmod">
+  <div class="row idx" role="button" tabindex="0" aria-expanded="false"><b class="v" aria-hidden="true"></b><figure class="ic"><img src="../../img/l/morning-2.jpg" width="1120" height="1400" alt="3d render of a dark glossy egg with orange marbling"></figure><b class="v" aria-hidden="true"></b><div class="tx"><span class="n">08</span> <b class="v d" aria-hidden="true"></b><h2 class="t">Sed Do Eiusmod</h2><b class="v d" aria-hidden="true"></b><span class="w">for funds</span></div><b class="v" aria-hidden="true"></b><span class="o"></span><b class="v" aria-hidden="true"></b></div>
+  <div class="body"><div class="edge cut" aria-hidden="true"><b class="j j1" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jm" aria-hidden="true"></b><b class="f d" aria-hidden="true"></b><b class="j jm d" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jm d" aria-hidden="true"></b><b class="f d" aria-hidden="true"></b><b class="j jm" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jn" aria-hidden="true"></b></div><div class="row prow"><b class="v" aria-hidden="true"></b><div class="pan"><div class="pics" style="--hd:36"><figure class="fg" style="--a:0.8000"><figcaption class="edge top"><b class="j j1" aria-hidden="true"></b><span class="f hd">fig. 1</span><b class="j jn" aria-hidden="true"></b></figcaption><div class="row"><b class="v" aria-hidden="true"></b><b class="v" aria-hidden="true"></b></div><img src="../../img/l/morning-2.jpg" width="1120" height="1400" alt="3d render of a dark glossy egg with orange marbling" loading="lazy"><div class="edge bot" aria-hidden="true"><b class="j j1" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jn" aria-hidden="true"></b></div></figure><figure class="fg" style="--a:1.0000"><figcaption class="edge top"><b class="j j1" aria-hidden="true"></b><span class="f hd">fig. 2</span><b class="j jn" aria-hidden="true"></b></figcaption><div class="row"><b class="v" aria-hidden="true"></b><b class="v" aria-hidden="true"></b></div><img src="../../img/l/morning-1.jpg" width="1080" height="1080" alt="MØRNING newsletter graphic: &quot;#020 uh oh, meet Ø&quot;, a red burn after reading sticker over screenshots of video calls" loading="lazy"><div class="edge bot" aria-hidden="true"><b class="j j1" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jn" aria-hidden="true"></b></div></figure></div><div class="txt"><p class="lorem">lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><p class="out"></p></div></div><b class="v" aria-hidden="true"></b></div></div>
+  <div class="edge sep" aria-hidden="true"><b class="j j1" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jm" aria-hidden="true"></b><b class="f d" aria-hidden="true"></b><b class="j jm d" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jm d" aria-hidden="true"></b><b class="f d" aria-hidden="true"></b><b class="j jm" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jn" aria-hidden="true"></b></div>
+</section>
+<section class="p" id="tempor">
+  <div class="row idx" role="button" tabindex="0" aria-expanded="false"><b class="v" aria-hidden="true"></b><figure class="ic"><img src="../../img/l/networked-worlds-3.jpg" width="1005" height="1400" alt="&quot;worlding resources&quot;: a timeline of books and texts on black"></figure><b class="v" aria-hidden="true"></b><div class="tx"><span class="n">09</span> <b class="v d" aria-hidden="true"></b><h2 class="t">Tempor Incididunt</h2><b class="v d" aria-hidden="true"></b><span class="w">for fun</span></div><b class="v" aria-hidden="true"></b><span class="o"></span><b class="v" aria-hidden="true"></b></div>
+  <div class="body"><div class="edge cut" aria-hidden="true"><b class="j j1" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jm" aria-hidden="true"></b><b class="f d" aria-hidden="true"></b><b class="j jm d" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jm d" aria-hidden="true"></b><b class="f d" aria-hidden="true"></b><b class="j jm" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jn" aria-hidden="true"></b></div><div class="row prow"><b class="v" aria-hidden="true"></b><div class="pan"><div class="pics" style="--hd:36"><figure class="fg" style="--a:0.7179"><figcaption class="edge top"><b class="j j1" aria-hidden="true"></b><span class="f hd">fig. 1</span><b class="j jn" aria-hidden="true"></b></figcaption><div class="row"><b class="v" aria-hidden="true"></b><b class="v" aria-hidden="true"></b></div><img src="../../img/l/networked-worlds-3.jpg" width="1005" height="1400" alt="&quot;worlding resources&quot;: a timeline of books and texts on black" loading="lazy"><div class="edge bot" aria-hidden="true"><b class="j j1" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jn" aria-hidden="true"></b></div></figure><figure class="fg" style="--a:0.7143"><figcaption class="edge top"><b class="j j1" aria-hidden="true"></b><span class="f hd">fig. 2</span><b class="j jn" aria-hidden="true"></b></figcaption><div class="row"><b class="v" aria-hidden="true"></b><b class="v" aria-hidden="true"></b></div><img src="../../img/l/networked-worlds-2.jpg" width="1000" height="1400" alt="a collage of many small images on black" loading="lazy"><div class="edge bot" aria-hidden="true"><b class="j j1" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jn" aria-hidden="true"></b></div></figure></div><div class="txt"><p class="lorem">lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><p class="out"></p></div></div><b class="v" aria-hidden="true"></b></div></div>
+  <div class="edge sep" aria-hidden="true"><b class="j j1" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jm" aria-hidden="true"></b><b class="f d" aria-hidden="true"></b><b class="j jm d" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jm d" aria-hidden="true"></b><b class="f d" aria-hidden="true"></b><b class="j jm" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jn" aria-hidden="true"></b></div>
+</section>
+<section class="p" id="labore">
+  <div class="row idx" role="button" tabindex="0" aria-expanded="false"><b class="v" aria-hidden="true"></b><figure class="ic"><img src="../../img/l/protein-4.jpg" width="1050" height="1400" alt="the printed report on a wooden floor"></figure><b class="v" aria-hidden="true"></b><div class="tx"><span class="n">10</span> <b class="v d" aria-hidden="true"></b><h2 class="t">Ut Labore et Dolore</h2><b class="v d" aria-hidden="true"></b><span class="w">for funds</span></div><b class="v" aria-hidden="true"></b><span class="o"></span><b class="v" aria-hidden="true"></b></div>
+  <div class="body"><div class="edge cut" aria-hidden="true"><b class="j j1" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jm" aria-hidden="true"></b><b class="f d" aria-hidden="true"></b><b class="j jm d" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jm d" aria-hidden="true"></b><b class="f d" aria-hidden="true"></b><b class="j jm" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jn" aria-hidden="true"></b></div><div class="row prow"><b class="v" aria-hidden="true"></b><div class="pan"><div class="pics" style="--hd:36"><figure class="fg" style="--a:0.7500"><figcaption class="edge top"><b class="j j1" aria-hidden="true"></b><span class="f hd">fig. 1</span><b class="j jn" aria-hidden="true"></b></figcaption><div class="row"><b class="v" aria-hidden="true"></b><b class="v" aria-hidden="true"></b></div><img src="../../img/l/protein-4.jpg" width="1050" height="1400" alt="the printed report on a wooden floor" loading="lazy"><div class="edge bot" aria-hidden="true"><b class="j j1" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jn" aria-hidden="true"></b></div></figure><figure class="fg" style="--a:1.0000"><figcaption class="edge top"><b class="j j1" aria-hidden="true"></b><span class="f hd">fig. 2</span><b class="j jn" aria-hidden="true"></b></figcaption><div class="row"><b class="v" aria-hidden="true"></b><b class="v" aria-hidden="true"></b></div><img src="../../img/l/protein-2.jpg" width="1080" height="1080" alt="overlapping page spreads from the report" loading="lazy"><div class="edge bot" aria-hidden="true"><b class="j j1" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jn" aria-hidden="true"></b></div></figure></div><div class="txt"><p class="lorem">lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><p class="out"></p></div></div><b class="v" aria-hidden="true"></b></div></div>
+  <div class="edge sep last" aria-hidden="true"><b class="j j1" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jm" aria-hidden="true"></b><b class="f d" aria-hidden="true"></b><b class="j jm d" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jm d" aria-hidden="true"></b><b class="f d" aria-hidden="true"></b><b class="j jm" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jn" aria-hidden="true"></b></div>
+</section>
+</div>
+
+<div class="pair">
+<section class="box l"><div class="edge top"><b class="j j1" aria-hidden="true"></b><h2 class="f hd">For fun</h2><b class="j jn" aria-hidden="true"></b></div><div class="row"><b class="v" aria-hidden="true"></b><div class="c"><ul>
+      <li><a href="https://latent-space.vercel.app/">latent space</a></li>
+      <li><a href="https://protecht.vercel.app/">pro(tech)t</a></li>
+    </ul>
+    <p class="g">lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam.</p></div><b class="v" aria-hidden="true"></b></div><div class="edge bot" aria-hidden="true"><b class="j j1" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jn" aria-hidden="true"></b></div></section>
+<section class="box r"><div class="edge top"><b class="j j1" aria-hidden="true"></b><h2 class="f hd">Hello, i'm kes &lt;3</h2><b class="j jn" aria-hidden="true"></b></div><div class="row"><b class="v" aria-hidden="true"></b><div class="c"><p>i'm kes inkersole (kesia on paper), a freelance creative strategist and internet equalities researcher based in london. welcome to kes' little corner of the internet.</p>
+    <p>my practice focuses on understanding and critiquing the impacts of emerging technologies on people, culture, and the planet. i work collectively to rethink the narratives and behaviours surrounding technologies — prioritising collaborative research as a process for testing, imagining and prototyping more equitable, alternative futures.</p></div><b class="v" aria-hidden="true"></b></div><div class="edge bot" aria-hidden="true"><b class="j j1" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jn" aria-hidden="true"></b></div></section>
+</div>
+
+<div class="pair">
+<section class="box l"><div class="edge top"><b class="j j1" aria-hidden="true"></b><h2 class="f hd">Things i've written</h2><b class="j jn" aria-hidden="true"></b></div><div class="row"><b class="v" aria-hidden="true"></b><div class="c ls"><ul>
+      <li><a href="https://www.protein.xyz/sex-and-the-internet/">mindy seu on sex and the internet</a><span>Protein</span></li>
+      <li><a href="https://midnight.agency/thoughts/dreaming-and-designing-more-accessible-web">dreaming and designing a more accessible web</a><span>Midnight Agency</span></li>
+      <li><a href="https://midnight.agency/thoughts/coding-a-more-creative-and-playful-web">coding a more creative and playful web</a><span>Midnight Agency</span></li>
+      <li><a href="https://midnight.agency/thoughts/composing-a-flexible-and-modular-web">composing a flexible and modular web</a><span>Midnight Agency</span></li>
+      <li><a href="https://morningfyi.substack.com/p/020-uh-oh-meet">burn after reading: uh oh, meet o</a><span>morningfyi</span></li>
+      <li><a href="https://morningfyi.substack.com/p/024-entering-limb-with">burn after reading: entering limbo</a><span>morningfyi</span></li>
+    </ul></div><b class="v" aria-hidden="true"></b></div><div class="edge bot" aria-hidden="true"><b class="j j1" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jn" aria-hidden="true"></b></div></section>
+<section class="box r"><div class="edge top"><b class="j j1" aria-hidden="true"></b><h2 class="f hd">Podcasts, for the bus</h2><b class="j jn" aria-hidden="true"></b></div><div class="row"><b class="v" aria-hidden="true"></b><div class="c ls"><ul>
+      <li><a href="https://podcasts.apple.com/gb/podcast/mindy-seu-on-collaboration-community-and/id1449302502?i=1000597869409">mindy seu on collaboration, community and the cyberfeminism index</a></li>
+      <li><a href="https://soundcloud.com/proteincommunity/protein-forum-what-can-web2-organisations-learn-from-web3-communities">what can web2 organisations learn from web3 communities?</a><span>Protein</span></li>
+      <li><a href="https://podcasts.apple.com/gb/podcast/cherie-hu-on-water-musics-journey-through-web3/id1449302502?i=1000581859804">cherie hu on water &amp; music's journey through web3</a></li>
+      <li><a href="https://podcasts.apple.com/gb/podcast/molly-dickson-on-dao-activism-and-fighting-for/id1449302502?i=1000578164761">molly dickson on dao activism</a></li>
+      <li><a href="https://podcasts.apple.com/gb/podcast/dame-on-the-need-for-education-accessibility/id1449302502?i=1000559829008">dame on education, accessibility and inclusivity in web3</a></li>
+      <li><a href="https://podcasts.apple.com/gb/podcast/nadia-piet-on-creative-ai-and-protopian-futures/id1449302502?i=1000559822732">nadia piet on creative ai and protopian futures</a></li>
+      <li><a href="https://podcasts.apple.com/gb/podcast/cyn-bahati-on-her-journey-into-web3-with-her-family/id1449302502?i=1000559818509">cyn bahati on her journey into web3 with her family</a></li>
+      <li><a href="https://podcasts.apple.com/gb/podcast/latash%C3%A1-on-the-potential-of-web3-for-music-artists/id1449302502?i=1000552812458">latasha on the potential of web3 for music artists</a></li>
+    </ul></div><b class="v" aria-hidden="true"></b></div><div class="edge bot" aria-hidden="true"><b class="j j1" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jn" aria-hidden="true"></b></div></section>
+</div>
+
+<div class="pair">
+<section class="box l"><div class="edge top"><b class="j j1" aria-hidden="true"></b><h2 class="f hd">Irl (mostly)</h2><b class="j jn" aria-hidden="true"></b></div><div class="row"><b class="v" aria-hidden="true"></b><div class="c ls"><ul>
+      <li><a href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1">olden residency</a></li>
+      <li><a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1">softer london</a><span>talk + workshop</span></li>
+      <li><a href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard">tech yard</a><span>workshop</span></li>
+      <li><a href="https://www.instagram.com/p/BslwSSPH5Rc/?img_index=2">ovar it</a></li>
+    </ul></div><b class="v" aria-hidden="true"></b></div><div class="edge bot" aria-hidden="true"><b class="j j1" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jn" aria-hidden="true"></b></div></section>
+<section class="box r"><div class="edge top"><b class="j j1" aria-hidden="true"></b><h2 class="f hd">About</h2><b class="j jn" aria-hidden="true"></b></div><div class="row"><b class="v" aria-hidden="true"></b><div class="c"><dl>
+      <div><dt>does</dt><dd>creative strategy, research, workshops, writing and teaching</dd></div>
+      <div><dt>teaches</dt><dd>associate lecturer at UAL (LCF + CCI)</dd></div>
+      <div><dt>clients</dt><dd>Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges</dd></div>
+      <div><dt>school</dt><dd>MA internet equalities, BA creative direction, PhD [ ? ]</dd></div>
+      <div><dt>cv</dt><dd>cv &amp; portfolio on request</dd></div>
+    </dl></div><b class="v" aria-hidden="true"></b></div><div class="edge bot" aria-hidden="true"><b class="j j1" aria-hidden="true"></b><b class="f" aria-hidden="true"></b><b class="j jn" aria-hidden="true"></b></div></section>
+</div>
+
+<footer class="bar" style="margin-top:1lh">
+  <p>thanks for stopping by &lt;3 <span style="color:#e7a3bf">✿</span></p>
+  <p class="end">say hello: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
+</footer>
+
+</div>
+<script>
+(function () {
+  var root = document.documentElement, reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // measure one character cell, so picture frames come out a whole number of cells in whatever monospace font is in use
+  var m = document.createElement('div'); m.style.cssText = 'position:absolute;left:0;top:0;visibility:hidden;white-space:pre'; m.innerHTML = '<span>0000000000</span>';
+  document.body.appendChild(m);
+  var ch = m.firstChild.getBoundingClientRect().width / 10, lh = m.offsetHeight, r = lh / ch; m.remove();
+  if (ch > 0 && lh > 0) root.style.setProperty('--r', r.toFixed(4));
+  var page = document.querySelector('.page'), rounds = window.CSS && CSS.supports && CSS.supports('width', 'round(down, 10px, 3px)');
+  function fitPage() { if (!rounds && ch > 0) page.style.width = Math.max(20, Math.floor((document.body.clientWidth - 2 * ch) / ch)) + 'ch'; }
+  // the open project's pictures: as tall as will fit in one row across the panel, up to 36 lines
+  function fitPics() {
+    var open = document.querySelector('.p.open .pics'); if (!open || !matchMedia('(min-width: 700px)').matches || !(ch > 0)) return;
+    var figs = open.querySelectorAll('.fg'), n = figs.length, sum = 0;
+    figs.forEach(function (f) { sum += parseFloat(f.style.getPropertyValue('--a')) || 1; });
+    var cols = Math.floor(open.clientWidth / ch), h = Math.floor((cols - 3.5 * n + 1) / (sum * r)) + 2;
+    open.style.setProperty('--hd', Math.max(8, Math.min(36, h)));
+  }
+  function set(id, scroll) {
+    document.querySelectorAll('.p').forEach(function (p) {
+      var on = p.id === id && !p.classList.contains('open');
+      p.classList.toggle('open', on); p.querySelector('.idx').setAttribute('aria-expanded', on);
+      if (on && scroll) p.querySelector('.idx').scrollIntoView({ block: 'start', behavior: reduce ? 'auto' : 'smooth' });
+    });
+    var open = document.querySelector('.p.open');
+    history.replaceState(null, '', open ? '#' + open.id : location.pathname + location.search);
+    fitPics();
+  }
+  document.querySelectorAll('.idx').forEach(function (row) {
+    row.addEventListener('click', function (e) { if (e.target.closest('a')) return; set(row.parentNode.id, false); });
+    row.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); set(row.parentNode.id, false); } });
+  });
+  addEventListener('resize', function () { fitPage(); fitPics(); });
+  fitPage();
+  var h = location.hash.slice(1); if (h && document.getElementById(h)) set(h, true);
+})();
+</script>
+</body>
+</html>

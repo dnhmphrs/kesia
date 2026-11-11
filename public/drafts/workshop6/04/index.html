@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>kes inkersole</title>
+<style>
+:root { --ink: #111; --grey: #8a8a8a; --line: #d0d0d0; --rose: #c44a78; --grid: #ececec; --mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace; --pad: 16px; --h: 2.5px; --per: 7px; }
+* { box-sizing: border-box; }
+html { background: #fff; color: var(--ink); -webkit-text-size-adjust: 100%; }
+body { margin: 0; font: 12px/1.5 var(--mono); }
+h1, h2, h3, p, ul, dl, dd, figure { margin: 0; padding: 0; font: inherit; }
+ul { list-style: none; }
+a { color: var(--rose); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; text-decoration-color: #f2c2d5; }
+a:hover { text-decoration-color: currentColor; }
+img { display: block; width: 100%; height: auto; }
+button { all: unset; cursor: pointer; }
+button:focus-visible { outline: 1px solid var(--ink); outline-offset: 3px; }
+.g { color: var(--grey); }
+.u { text-transform: uppercase; letter-spacing: .04em; }
+
+/* the album's covers: head and foot, plain rows */
+.row { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--pad); padding: 10px var(--pad); align-items: baseline; }
+.head { border-bottom: 1px solid var(--line); }
+.head h1, .head p { grid-column: span 3; }
+.head p:last-child { text-align: right; }
+.foot { border-top: 1px solid var(--line); }
+.foot p { grid-column: span 6; }
+.foot p:last-child { text-align: right; }
+
+/* album pages: quadrille sheets, a hairline edge, a page number top right */
+.page { margin: var(--pad); padding: var(--pad); border: 1px solid var(--line); display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--pad);
+  background-color: #fff; background-image: linear-gradient(to right, var(--grid) 1px, transparent 1px), linear-gradient(to bottom, var(--grid) 1px, transparent 1px); background-size: 24px 24px; background-position: -1px -1px; }
+.page > h2 { grid-column: 1 / span 3; grid-row: 1; }
+.page > .pn { grid-column: 12; grid-row: 1; text-align: right; color: var(--grey); white-space: nowrap; }
+.page > .c { grid-column: 4 / span 8; grid-row: 1; }
+.page > .album { grid-column: 1 / -1; }
+
+/* page 1: stamps in rows; the cover for the open project below the rows */
+.album { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 28px var(--pad); align-items: start; justify-items: center; }
+.p { display: contents; }
+.stamp { display: flex; flex-direction: column; align-items: center; max-width: 100%; }
+
+/* a stamp: a grey mount, white paper with a perforated edge (a mask), a hairline frame, the denomination in a corner */
+.st { display: block; max-width: 100%; }
+.mount { display: block; background: var(--line); padding: 1px; }
+.paper { display: block; background: #fff; padding: calc(var(--h) + 5px);
+  -webkit-mask:
+    radial-gradient(circle at 50% 0, #0000 var(--h), #000 calc(var(--h) + .5px)) 0 0 / var(--per) calc(2 * var(--h)) round no-repeat,
+    radial-gradient(circle at 50% 100%, #0000 var(--h), #000 calc(var(--h) + .5px)) 0 100% / var(--per) calc(2 * var(--h)) round no-repeat,
+    radial-gradient(circle at 0 50%, #0000 var(--h), #000 calc(var(--h) + .5px)) 0 0 / calc(2 * var(--h)) var(--per) no-repeat round,
+    radial-gradient(circle at 100% 50%, #0000 var(--h), #000 calc(var(--h) + .5px)) 100% 0 / calc(2 * var(--h)) var(--per) no-repeat round,
+    linear-gradient(#000 0 0) var(--h) var(--h) / calc(100% - 2 * var(--h)) calc(100% - 2 * var(--h)) no-repeat;
+  mask:
+    radial-gradient(circle at 50% 0, #0000 var(--h), #000 calc(var(--h) + .5px)) 0 0 / var(--per) calc(2 * var(--h)) round no-repeat,
+    radial-gradient(circle at 50% 100%, #0000 var(--h), #000 calc(var(--h) + .5px)) 0 100% / var(--per) calc(2 * var(--h)) round no-repeat,
+    radial-gradient(circle at 0 50%, #0000 var(--h), #000 calc(var(--h) + .5px)) 0 0 / calc(2 * var(--h)) var(--per) no-repeat round,
+    radial-gradient(circle at 100% 50%, #0000 var(--h), #000 calc(var(--h) + .5px)) 100% 0 / calc(2 * var(--h)) var(--per) no-repeat round,
+    linear-gradient(#000 0 0) var(--h) var(--h) / calc(100% - 2 * var(--h)) calc(100% - 2 * var(--h)) no-repeat; }
+.frame { display: block; position: relative; border: 1px solid var(--line); }
+.stamp .frame img { height: 192px; width: auto; }
+.den { position: absolute; left: 0; top: 0; padding: 0 4px; background: #fff; color: var(--ink); border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); font-size: 10px; line-height: 16px; }
+.stamp:hover .frame, .p.open .frame { border-color: var(--ink); }
+.p.open .stamp .den { background: var(--ink); color: #fff; border-color: var(--ink); }
+
+/* the hinge label under the stamp: number, title, group */
+.hinge { display: block; margin-top: 8px; width: max-content; max-width: 100%; text-align: center; border: 1px solid var(--line); background: #fff; padding: 3px 8px 4px; }
+.hinge .w { display: block; color: var(--grey); }
+
+/* the cover: an envelope, the project's pictures as stamps top right, a postmark, the text as the address */
+.body { display: none; order: 1; grid-column: 1 / -1; justify-self: stretch; width: 100%; scroll-margin-top: var(--pad); }
+.p.open .body { display: block; }
+.cover { display: flex; flex-direction: column; aspect-ratio: 2 / 1; border: 1px solid var(--line); background: #fff; padding: var(--pad); }
+.top { display: flex; align-items: flex-start; flex-wrap: wrap; gap: var(--pad); }
+.ret { display: flex; gap: 1ch; align-items: baseline; max-width: min(100%, 400px); }
+.ret .x { color: var(--grey); padding: 0 4px; margin-left: -4px; }
+.ret .x:hover { color: var(--ink); }
+.ret .w { display: block; color: var(--grey); }
+.frank { flex: 1 1 0; min-width: 60%; display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: flex-start; gap: 8px; }
+.frank .st { width: min(300px, calc((100% - 72px - var(--n) * 8px) / var(--n))); }
+.frank .frame img { width: 100%; height: auto; }
+.postmark { flex: none; width: 96px; height: 96px; border-radius: 50%; border: 1px solid var(--ink); display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1.3; margin: 24px -32px 0 0; position: relative; z-index: 1; }
+.addr { margin-top: auto; padding-top: var(--pad); max-width: 64ch; }
+.addr .out { margin-top: .8em; }
+.addr .out:empty, .addr .lorem:empty { display: none; }
+
+/* later pages: the rest of the content */
+.c li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2ch; padding: 2px 0; }
+.c li span { color: var(--grey); text-align: right; }
+.c p + p { margin-top: .8em; }
+.c dl div { display: grid; grid-template-columns: 9ch minmax(0, 1fr); }
+.c dt { color: var(--grey); }
+
+@media (max-width: 699px) {
+  .row { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .head h1, .head p { grid-column: span 4; }
+  .head p:last-child { text-align: left; }
+  .foot p { grid-column: span 4; }
+  .foot p:last-child { text-align: left; }
+  .page { margin: 12px; padding: 12px; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+  .page > h2 { grid-column: 1 / span 3; }
+  .page > .pn { grid-column: 4; }
+  .page > .c { grid-column: 1 / -1; grid-row: 2; }
+  .album { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 12px; }
+  .stamp .frame img { height: 118px; }
+  .cover { padding: 12px; }
+  .frank .st { width: calc(50% - 4px); }
+  .postmark { width: 72px; height: 72px; margin: 16px -24px 0 0; }
+}
+</style>
+</head>
+<body>
+
+<header class="row head">
+  <h1 class="u">Kes Inkersole</h1>
+  <p class="g">creative strategist</p>
+  <p class="g">internet equalities researcher</p>
+  <p class="g">london · available for work</p>
+</header>
+
+<section class="page">
+  <h2 class="u g">Index</h2>
+  <p class="pn">page 1</p>
+  <div class="album">
+
+    <section class="p" id="networked-worlds">
+      <button class="stamp" aria-expanded="false" aria-controls="networked-worlds-cover">
+        <span class="st"><span class="mount"><span class="paper"><span class="frame"><img src="../../img/l/networked-worlds-1.jpg" srcset="../../img/s/networked-worlds-1.jpg 453w, ../../img/l/networked-worlds-1.jpg 990w" sizes="(min-width: 700px) 200px, 150px" width="990" height="1400" alt="yellow cover with a curved grid: Networked Worlds, WeTransfer"><b class="den">01</b></span></span></span></span>
+        <span class="hinge"><span class="u">Networked Worlds</span><span class="w">with co—matter · for funds</span></span>
+      </button>
+      <div class="body" id="networked-worlds-cover">
+        <div class="cover">
+          <div class="top">
+            <div class="ret"><button class="x" aria-label="close">×</button><span class="g">01</span><span><span class="u">Networked Worlds</span><span class="w">with co—matter · for funds</span></span></div>
+            <div class="frank" style="--n: 3">
+              <span class="postmark"><span class="g">no.</span><span>01</span></span>
+              <span class="st"><span class="mount"><span class="paper"><span class="frame"><img src="../../img/l/networked-worlds-1.jpg" width="990" height="1400" alt="yellow cover with a curved grid: Networked Worlds, WeTransfer" loading="lazy"><b class="den">1</b></span></span></span></span>
+              <span class="st"><span class="mount"><span class="paper"><span class="frame"><img src="../../img/l/networked-worlds-2.jpg" width="1000" height="1400" alt="a collage of many small images on black" loading="lazy"><b class="den">2</b></span></span></span></span>
+              <span class="st"><span class="mount"><span class="paper"><span class="frame"><img src="../../img/l/networked-worlds-3.jpg" width="1005" height="1400" alt="&quot;worlding resources&quot;: a timeline of books and texts on black" loading="lazy"><b class="den">3</b></span></span></span></span>
+            </div>
+          </div>
+          <div class="addr"><p class="lorem">duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. excepteur sint occaecat cupidatat non proident.</p><p class="out"><a href="https://co-matter.com/project/networked-worlds">networked worlds ↗</a></p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="p" id="protein">
+      <button class="stamp" aria-expanded="false" aria-controls="protein-cover">
+        <span class="st"><span class="mount"><span class="paper"><span class="frame"><img src="../../img/l/protein-1.jpg" srcset="../../img/s/protein-1.jpg 640w, ../../img/l/protein-1.jpg 1080w" sizes="(min-width: 700px) 200px, 150px" width="1080" height="1080" alt="pink report cover: dirty word [report #4] community"><b class="den">02</b></span></span></span></span>
+        <span class="hinge"><span class="u">Protein Dirty Words #4: Community Report</span><span class="w">for funds</span></span>
+      </button>
+      <div class="body" id="protein-cover">
+        <div class="cover">
+          <div class="top">
+            <div class="ret"><button class="x" aria-label="close">×</button><span class="g">02</span><span><span class="u">Protein Dirty Words #4: Community Report</span><span class="w">for funds</span></span></div>
+            <div class="frank" style="--n: 4">
+              <span class="postmark"><span class="g">no.</span><span>02</span></span>
+              <span class="st"><span class="mount"><span class="paper"><span class="frame"><img src="../../img/l/protein-1.jpg" width="1080" height="1080" alt="pink report cover: dirty word [report #4] community" loading="lazy"><b class="den">1</b></span></span></span></span>
+              <span class="st"><span class="mount"><span class="paper"><span class="frame"><img src="../../img/l/protein-2.jpg" width="1080" height="1080" alt="overlapping page spreads from the report" loading="lazy"><b class="den">2</b></span></span></span></span>
+              <span class="st"><span class="mount"><span class="paper"><span class="frame"><img src="../../img/l/protein-3.jpg" width="1080" height="1080" alt="a grid of the report's pages in pink, black and white" loading="lazy"><b class="den">3</b></span></span></span></span>
+              <span class="st"><span class="mount"><span class="paper"><span class="frame"><img src="../../img/l/protein-4.jpg" width="1050" height="1400" alt="the printed report on a wooden floor" loading="lazy"><b class="den">4</b></span></span></span></span>
+            </div>
+          </div>
+          <div class="addr"><p class="lorem">sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo.</p><p class="out"><a href="https://www.protein.xyz/dirty-words-4-community/">protein dirty words #4: community report ↗</a></p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="p" id="morning">
+      <button class="stamp" aria-expanded="false" aria-controls="morning-cover">
+        <span class="st"><span class="mount"><span class="paper"><span class="frame"><img src="../../img/l/morning-3.jpg" srcset="../../img/s/morning-3.jpg 640w, ../../img/l/morning-3.jpg 1400w" sizes="(min-width: 700px) 200px, 150px" width="1400" height="1400" alt="3d render of three pink piglet-like creatures curled inside a cracked black egg"><b class="den">03</b></span></span></span></span>
+        <span class="hinge"><span class="u">MØRNING Ø</span><span class="w">for funds</span></span>
+      </button>
+      <div class="body" id="morning-cover">
+        <div class="cover">
+          <div class="top">
+            <div class="ret"><button class="x" aria-label="close">×</button><span class="g">03</span><span><span class="u">MØRNING Ø</span><span class="w">for funds</span></span></div>
+            <div class="frank" style="--n: 3">
+              <span class="postmark"><span class="g">no.</span><span>03</span></span>
+              <span class="st"><span class="mount"><span class="paper"><span class="frame"><img src="../../img/l/morning-3.jpg" width="1400" height="1400" alt="3d render of three pink piglet-like creatures curled inside a cracked black egg" loading="lazy"><b class="den">1</b></span></span></span></span>
+              <span class="st"><span class="mount"><span class="paper"><span class="frame"><img src="../../img/l/morning-1.jpg" width="1080" height="1080" alt="MØRNING newsletter graphic: &quot;#020 uh oh, meet Ø&quot;, a red burn after reading sticker over screenshots of video calls" loading="lazy"><b class="den">2</b></span></span></span></span>
+              <span class="st"><span class="mount"><span class="paper"><span class="frame"><img src="../../img/l/morning-2.jpg" width="1120" height="1400" alt="3d render of a dark glossy egg with orange marbling" loading="lazy"><b class="den">3</b></span></span></span></span>
+            </div>
+          </div>
+          <div class="addr"><p class="lorem"></p><p class="out"><a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1">MØRNING Ø ↗</a></p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="p" id="lorem-ipsum">
+      <button class="stamp" aria-expanded="false" aria-controls="lorem-ipsum-cover">
+        <span class="st"><span class="mount"><span class="paper"><span class="frame"><img src="../../img/l/morning-1.jpg" width="1080" height="1080" alt="MØRNING newsletter graphic: &quot;#020 uh oh, meet Ø&quot;, a red burn after reading sticker over screenshots of video calls"><b class="den">04</b></span></span></span></span>
+        <span class="hinge"><span class="u">Lorem Ipsum</span><span class="w">for fun</span></span>
+      </button>
+      <div class="body" id="lorem-ipsum-cover">
+        <div class="cover">
+          <div class="top">
+            <div class="ret"><button class="x" aria-label="close">×</button><span class="g">04</span><span><span class="u">Lorem Ipsum</span><span class="w">for fun</span></span></div>
+            <div class="frank" style="--n: 2">
+              <span class="postmark"><span class="g">no.</span><span>04</span></span>
+              <span class="st"><span class="mount"><span class="paper"><span class="frame"><img src="../../img/l/morning-1.jpg" width="1080" height="1080" alt="MØRNING newsletter graphic: &quot;#020 uh oh, meet Ø&quot;, a red burn after reading sticker over screenshots of video calls" loading="lazy"><b class="den">1</b></span></span></span></span>
+              <span class="st"><span class="mount"><span class="paper"><span class="frame"><img src="../../img/l/morning-2.jpg" width="1120" height="1400" alt="3d render of a dark glossy egg with orange marbling" loading="lazy"><b class="den">2</b></span></span></span></span>
+            </div>
+          </div>
+          <div class="addr"><p class="lorem">lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><p class="out"></p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="p" id="dolor-sit">
+      <button class="stamp" aria-expanded="false" aria-controls="dolor-sit-cover">
+        <span class="st"><span class="mount"><span class="paper"><span class="frame"><img src="../../img/l/protein-2.jpg" width="1080" height="1080" alt="overlapping page spreads from the report"><b class="den">05</b></span></span></span></span>
+        <span class="hinge"><span class="u">Dolor Sit Amet</span><span class="w">for funds</span></span>
+      </button>
+      <div class="body" id="dolor-sit-cover">
+        <div class="cover">
+          <div class="top">
+            <div class="ret"><button class="x" aria-label="close">×</button><span class="g">05</span><span><span class="u">Dolor Sit Amet</span><span class="w">for funds</span></span></div>
+            <div class="frank" style="--n: 2">
+              <span class="postmark"><span class="g">no.</span><span>05</span></span>
+              <span class="st"><span class="mount"><span class="paper"><span class="frame"><img src="../../img/l/protein-2.jpg" width="1080" height="1080" alt="overlapping page spreads from the report" loading="lazy"><b class="den">1</b></span></span></span></span>
+              <span class="st"><span class="mount"><span class="paper"><span class="frame"><img src="../../img/l/protein-3.jpg" width="1080" height="1080" alt="a grid of the report's pages in pink, black and white" loading="lazy"><b class="den">2</b></span></span></span></span>
+            </div>
+          </div>
+          <div class="addr"><p class="lorem">lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><p class="out"></p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="p" id="consectetur">
+      <button class="stamp" aria-expanded="false" aria-controls="consectetur-cover">
+        <span class="st"><span class="mount"><span class="paper"><span class="frame"><img src="../../img/l/networked-worlds-2.jpg" width="1000" height="1400" alt="a collage of many small images on black"><b class="den">06</b></span></span></span></span>
+        <span class="hinge"><span class="u">Consectetur</span><span class="w">for fun</span></span>
+      </button>
+      <div class="body" id="consectetur-cover">
+        <div class="cover">
+          <div class="top">
+            <div class="ret"><button class="x" aria-label="close">×</button><span class="g">06</span><span><span class="u">Consectetur</span><span class="w">for fun</span></span></div>
+            <div class="frank" style="--n: 2">
+              <span class="postmark"><span class="g">no.</span><span>06</span></span>
+              <span class="st"><span class="mount"><span class="paper"><span class="frame"><img src="../../img/l/networked-worlds-2.jpg" width="1000" height="1400" alt="a collage of many small images on black" loading="lazy"><b class="den">1</b></span></span></span></span>
+              <span class="st"><span class="mount"><span class="paper"><span class="frame"><img src="../../img/l/networked-worlds-3.jpg" width="1005" height="1400" alt="&quot;worlding resources&quot;: a timeline of books and texts on black" loading="lazy"><b class="den">2</b></span></span></span></span>
+            </div>
+          </div>
+          <div class="addr"><p class="lorem">lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><p class="out"></p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="p" id="adipiscing">
+      <button class="stamp" aria-expanded="false" aria-controls="adipiscing-cover">
+        <span class="st"><span class="mount"><span class="paper"><span class="frame"><img src="../../img/l/protein-3.jpg" width="1080" height="1080" alt="a grid of the report's pages in pink, black and white"><b class="den">07</b></span></span></span></span>
+        <span class="hinge"><span class="u">Adipiscing Elit</span><span class="w">for funds</span></span>
+      </button>
+      <div class="body" id="adipiscing-cover">
+        <div class="cover">
+          <div class="top">
+            <div class="ret"><button class="x" aria-label="close">×</button><span class="g">07</span><span><span class="u">Adipiscing Elit</span><span class="w">for funds</span></span></div>
+            <div class="frank" style="--n: 2">
+              <span class="postmark"><span class="g">no.</span><span>07</span></span>
+              <span class="st"><span class="mount"><span class="paper"><span class="frame"><img src="../../img/l/protein-3.jpg" width="1080" height="1080" alt="a grid of the report's pages in pink, black and white" loading="lazy"><b class="den">1</b></span></span></span></span>
+              <span class="st"><span class="mount"><span class="paper"><span class="frame"><img src="../../img/l/protein-4.jpg" width="1050" height="1400" alt="the printed report on a wooden floor" loading="lazy"><b class="den">2</b></span></span></span></span>
+            </div>
+          </div>
+          <div class="addr"><p class="lorem">lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><p class="out"></p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="p" id="eiusmod">
+      <button class="stamp" aria-expanded="false" aria-controls="eiusmod-cover">
+        <span class="st"><span class="mount"><span class="paper"><span class="frame"><img src="../../img/l/morning-2.jpg" width="1120" height="1400" alt="3d render of a dark glossy egg with orange marbling"><b class="den">08</b></span></span></span></span>
+        <span class="hinge"><span class="u">Sed Do Eiusmod</span><span class="w">for funds</span></span>
+      </button>
+      <div class="body" id="eiusmod-cover">
+        <div class="cover">
+          <div class="top">
+            <div class="ret"><button class="x" aria-label="close">×</button><span class="g">08</span><span><span class="u">Sed Do Eiusmod</span><span class="w">for funds</span></span></div>
+            <div class="frank" style="--n: 2">
+              <span class="postmark"><span class="g">no.</span><span>08</span></span>
+              <span class="st"><span class="mount"><span class="paper"><span class="frame"><img src="../../img/l/morning-2.jpg" width="1120" height="1400" alt="3d render of a dark glossy egg with orange marbling" loading="lazy"><b class="den">1</b></span></span></span></span>
+              <span class="st"><span class="mount"><span class="paper"><span class="frame"><img src="../../img/l/morning-1.jpg" width="1080" height="1080" alt="MØRNING newsletter graphic: &quot;#020 uh oh, meet Ø&quot;, a red burn after reading sticker over screenshots of video calls" loading="lazy"><b class="den">2</b></span></span></span></span>
+            </div>
+          </div>
+          <div class="addr"><p class="lorem">lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><p class="out"></p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="p" id="tempor">
+      <button class="stamp" aria-expanded="false" aria-controls="tempor-cover">
+        <span class="st"><span class="mount"><span class="paper"><span class="frame"><img src="../../img/l/networked-worlds-3.jpg" width="1005" height="1400" alt="&quot;worlding resources&quot;: a timeline of books and texts on black"><b class="den">09</b></span></span></span></span>
+        <span class="hinge"><span class="u">Tempor Incididunt</span><span class="w">for fun</span></span>
+      </button>
+      <div class="body" id="tempor-cover">
+        <div class="cover">
+          <div class="top">
+            <div class="ret"><button class="x" aria-label="close">×</button><span class="g">09</span><span><span class="u">Tempor Incididunt</span><span class="w">for fun</span></span></div>
+            <div class="frank" style="--n: 2">
+              <span class="postmark"><span class="g">no.</span><span>09</span></span>
+              <span class="st"><span class="mount"><span class="paper"><span class="frame"><img src="../../img/l/networked-worlds-3.jpg" width="1005" height="1400" alt="&quot;worlding resources&quot;: a timeline of books and texts on black" loading="lazy"><b class="den">1</b></span></span></span></span>
+              <span class="st"><span class="mount"><span class="paper"><span class="frame"><img src="../../img/l/networked-worlds-2.jpg" width="1000" height="1400" alt="a collage of many small images on black" loading="lazy"><b class="den">2</b></span></span></span></span>
+            </div>
+          </div>
+          <div class="addr"><p class="lorem">lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><p class="out"></p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="p" id="labore">
+      <button class="stamp" aria-expanded="false" aria-controls="labore-cover">
+        <span class="st"><span class="mount"><span class="paper"><span class="frame"><img src="../../img/l/protein-4.jpg" width="1050" height="1400" alt="the printed report on a wooden floor"><b class="den">10</b></span></span></span></span>
+        <span class="hinge"><span class="u">Ut Labore et Dolore</span><span class="w">for funds</span></span>
+      </button>
+      <div class="body" id="labore-cover">
+        <div class="cover">
+          <div class="top">
+            <div class="ret"><button class="x" aria-label="close">×</button><span class="g">10</span><span><span class="u">Ut Labore et Dolore</span><span class="w">for funds</span></span></div>
+            <div class="frank" style="--n: 2">
+              <span class="postmark"><span class="g">no.</span><span>10</span></span>
+              <span class="st"><span class="mount"><span class="paper"><span class="frame"><img src="../../img/l/protein-4.jpg" width="1050" height="1400" alt="the printed report on a wooden floor" loading="lazy"><b class="den">1</b></span></span></span></span>
+              <span class="st"><span class="mount"><span class="paper"><span class="frame"><img src="../../img/l/protein-2.jpg" width="1080" height="1080" alt="overlapping page spreads from the report" loading="lazy"><b class="den">2</b></span></span></span></span>
+            </div>
+          </div>
+          <div class="addr"><p class="lorem">lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><p class="out"></p></div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</section>
+
+<section class="page">
+  <h2 class="u g">For fun</h2>
+  <p class="pn">page 2</p>
+  <div class="c">
+    <ul>
+      <li><a href="https://latent-space.vercel.app/">latent space</a></li>
+      <li><a href="https://protecht.vercel.app/">pro(tech)t</a></li>
+    </ul>
+    <p class="g" style="margin-top:.8em">lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam.</p>
+  </div>
+</section>
+
+<section class="page">
+  <h2 class="u g">Hello, i'm kes &lt;3</h2>
+  <p class="pn">page 3</p>
+  <div class="c">
+    <p>i'm kes inkersole (kesia on paper), a freelance creative strategist and internet equalities researcher based in london. welcome to kes' little corner of the internet.</p>
+    <p>my practice focuses on understanding and critiquing the impacts of emerging technologies on people, culture, and the planet. i work collectively to rethink the narratives and behaviours surrounding technologies — prioritising collaborative research as a process for testing, imagining and prototyping more equitable, alternative futures.</p>
+  </div>
+</section>
+
+<section class="page">
+  <h2 class="u g">Things i've written</h2>
+  <p class="pn">page 4</p>
+  <div class="c"><ul>
+    <li><a href="https://www.protein.xyz/sex-and-the-internet/">mindy seu on sex and the internet</a><span>Protein</span></li>
+    <li><a href="https://midnight.agency/thoughts/dreaming-and-designing-more-accessible-web">dreaming and designing a more accessible web</a><span>Midnight Agency</span></li>
+    <li><a href="https://midnight.agency/thoughts/coding-a-more-creative-and-playful-web">coding a more creative and playful web</a><span>Midnight Agency</span></li>
+    <li><a href="https://midnight.agency/thoughts/composing-a-flexible-and-modular-web">composing a flexible and modular web</a><span>Midnight Agency</span></li>
+    <li><a href="https://morningfyi.substack.com/p/020-uh-oh-meet">burn after reading: uh oh, meet o</a><span>morningfyi</span></li>
+    <li><a href="https://morningfyi.substack.com/p/024-entering-limb-with">burn after reading: entering limbo</a><span>morningfyi</span></li>
+  </ul></div>
+</section>
+
+<section class="page">
+  <h2 class="u g">Podcasts, for the bus</h2>
+  <p class="pn">page 5</p>
+  <div class="c"><ul>
+    <li><a href="https://podcasts.apple.com/gb/podcast/mindy-seu-on-collaboration-community-and/id1449302502?i=1000597869409">mindy seu on collaboration, community and the cyberfeminism index</a></li>
+    <li><a href="https://soundcloud.com/proteincommunity/protein-forum-what-can-web2-organisations-learn-from-web3-communities">what can web2 organisations learn from web3 communities?</a><span>Protein</span></li>
+    <li><a href="https://podcasts.apple.com/gb/podcast/cherie-hu-on-water-musics-journey-through-web3/id1449302502?i=1000581859804">cherie hu on water &amp; music's journey through web3</a></li>
+    <li><a href="https://podcasts.apple.com/gb/podcast/molly-dickson-on-dao-activism-and-fighting-for/id1449302502?i=1000578164761">molly dickson on dao activism</a></li>
+    <li><a href="https://podcasts.apple.com/gb/podcast/dame-on-the-need-for-education-accessibility/id1449302502?i=1000559829008">dame on education, accessibility and inclusivity in web3</a></li>
+    <li><a href="https://podcasts.apple.com/gb/podcast/nadia-piet-on-creative-ai-and-protopian-futures/id1449302502?i=1000559822732">nadia piet on creative ai and protopian futures</a></li>
+    <li><a href="https://podcasts.apple.com/gb/podcast/cyn-bahati-on-her-journey-into-web3-with-her-family/id1449302502?i=1000559818509">cyn bahati on her journey into web3 with her family</a></li>
+    <li><a href="https://podcasts.apple.com/gb/podcast/latash%C3%A1-on-the-potential-of-web3-for-music-artists/id1449302502?i=1000552812458">latasha on the potential of web3 for music artists</a></li>
+  </ul></div>
+</section>
+
+<section class="page">
+  <h2 class="u g">Irl (mostly)</h2>
+  <p class="pn">page 6</p>
+  <div class="c"><ul>
+    <li><a href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1">olden residency</a></li>
+    <li><a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1">softer london</a><span>talk + workshop</span></li>
+    <li><a href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard">tech yard</a><span>workshop</span></li>
+    <li><a href="https://www.instagram.com/p/BslwSSPH5Rc/?img_index=2">ovar it</a></li>
+  </ul></div>
+</section>
+
+<section class="page">
+  <h2 class="u g">About</h2>
+  <p class="pn">page 7</p>
+  <div class="c"><dl>
+    <div><dt>does</dt><dd>creative strategy, research, workshops, writing and teaching</dd></div>
+    <div><dt>teaches</dt><dd>associate lecturer at UAL (LCF + CCI)</dd></div>
+    <div><dt>clients</dt><dd>Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges</dd></div>
+    <div><dt>school</dt><dd>MA internet equalities, BA creative direction, PhD [ ? ]</dd></div>
+    <div><dt>cv</dt><dd>cv &amp; portfolio on request</dd></div>
+  </dl></div>
+</section>
+
+<footer class="row foot">
+  <p>thanks for stopping by &lt;3 <span style="color:#e7a3bf">✿</span></p>
+  <p>say hello: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
+</footer>
+
+<script>
+(function () {
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function set(id, scroll) {
+    var open = null;
+    document.querySelectorAll('.p').forEach(function (p) {
+      var on = p.id === id && !p.classList.contains('open');
+      p.classList.toggle('open', on);
+      p.querySelector('.stamp').setAttribute('aria-expanded', on);
+      if (on) open = p;
+    });
+    history.replaceState(null, '', open ? '#' + open.id : location.pathname + location.search);
+    if (open && scroll) open.querySelector('.body').scrollIntoView({ block: 'nearest', behavior: reduce ? 'auto' : 'smooth' });
+  }
+  document.querySelectorAll('.p').forEach(function (p) {
+    p.querySelector('.stamp').addEventListener('click', function () { set(p.id, true); });
+    p.querySelector('.x').addEventListener('click', function () { set(p.id, false); });
+  });
+  var h = location.hash.slice(1); if (h && document.getElementById(h)) set(h, true);
+})();
+</script>
+</body>
+</html>

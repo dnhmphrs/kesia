@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>kes inkersole</title>
+<style>
+:root { --ink: #111; --grey: #8a8a8a; --line: #d0d0d0; --rose: #c44a78; --paper: #faf9f6; --mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace; --pad: 16px; --lh: 18px; }
+* { box-sizing: border-box; }
+html { background: #fff; color: var(--ink); -webkit-text-size-adjust: 100%; }
+body { margin: 0; font: 12px/var(--lh) var(--mono); }
+h1, h2, h3, p, ul, dl, dd, figure { margin: 0; padding: 0; font: inherit; }
+ul { list-style: none; }
+a { color: var(--rose); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; text-decoration-color: #f2c2d5; }
+a:hover { text-decoration-color: currentColor; }
+img { display: block; }
+.g { color: var(--grey); }
+.u { text-transform: uppercase; letter-spacing: .04em; }
+
+/* head: the drawer label */
+.head { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--pad); padding: 10px var(--pad); border-bottom: 1px solid var(--line); align-items: baseline; }
+.head h1 { grid-column: span 3; }
+.head p { grid-column: span 3; }
+.head p:last-child { text-align: right; }
+
+/* the cabinet: sheets three across */
+.cab { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--pad); padding: var(--pad); }
+
+/* a herbarium sheet: 29 x 42 cm of off-white paper, outlined in a hairline */
+.sheet { position: relative; display: flex; flex-direction: column; justify-content: space-between; gap: 16px; aspect-ratio: 29 / 42; padding: 24px; background: var(--paper); border: 1px solid var(--line); align-self: start; }
+.sheet[id] { cursor: pointer; }
+.sheet[id]:hover, .sheet:focus-within { border-color: var(--grey); }
+.sheet.open { grid-column: 1 / -1; order: -1; aspect-ratio: auto; border-color: var(--ink); }
+
+/* the specimen: the picture, mounted with four paper strips across its corners */
+.mount { display: flex; justify-content: center; align-items: center; width: 100%; aspect-ratio: 1 / 1; container-type: inline-size; outline: none; }
+figure { position: relative; max-width: 100%; }
+figure + figure, figcaption { display: none; }
+.pin { position: relative; display: block; }
+.pin img { max-width: 100%; height: auto; }
+@supports (height: 1cqw) { .pin img { height: 100cqw; width: auto; max-width: none; } }
+.pin::before, .pin::after, .pin i::before, .pin i::after { content: ""; position: absolute; width: 34px; height: 10px; background: #fff; border: 1px solid var(--line); z-index: 1; }
+.pin::before { left: -11px; top: 1px; transform: rotate(-45deg); }
+.pin::after { right: -11px; top: 1px; transform: rotate(45deg); }
+.pin i::before { left: -11px; bottom: 1px; transform: rotate(45deg); }
+.pin i::after { right: -11px; bottom: 1px; transform: rotate(-45deg); }
+figcaption { color: var(--grey); padding-top: 6px; }
+
+/* open: the sheet is laid out full width, every picture mounted, the text on the label */
+.sheet.open .mount { aspect-ratio: auto; flex-wrap: wrap; align-items: flex-end; gap: 24px 32px; padding: 8px 0 16px; }
+.sheet.open figure { height: auto; }
+.sheet.open figure + figure, .sheet.open figcaption { display: block; }
+.sheet.open .pin { height: auto; }
+.sheet.open .pin img { height: min(60vh, calc((100vw - 100px - (var(--n) - 1) * 32px) / var(--sum))); }
+
+/* the bottom of the sheet: the stamp at the left, the ruled label at the right */
+.base { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; }
+.stamp { flex: none; width: 56px; height: 56px; margin-bottom: 6px; border: 1px solid var(--grey); border-radius: 50%; box-shadow: inset 0 0 0 3px var(--paper), inset 0 0 0 4px var(--grey); display: grid; place-items: center; color: var(--grey); letter-spacing: .04em; transform: rotate(-8deg); }
+.label { width: 64%; min-width: 180px; max-width: 100%; padding: 0 8px 9px; border: 1px solid var(--line); background-color: #fff; background-image: linear-gradient(transparent calc(var(--lh) - 1px), var(--line) 0); background-size: 100% var(--lh); background-repeat: repeat; }
+.label p:empty { display: none; }
+.label .lorem { margin-top: var(--lh); }
+.label .lorem:empty + .out { margin-top: var(--lh); }
+.sheet:not(.open) .label .lorem, .sheet:not(.open) .label .out { display: none; }
+.sheet.open .label { width: 40%; min-width: 300px; }
+
+.x { position: absolute; top: 8px; right: 8px; width: 22px; height: 22px; display: none; place-items: center; padding: 0; border: 1px solid var(--line); background: #fff; color: var(--grey); font: inherit; line-height: 1; cursor: pointer; }
+.sheet.open .x { display: grid; }
+.x:hover, .x:focus-visible { border-color: var(--ink); color: var(--ink); outline: none; }
+
+/* the final sheet: the rest of the content, as slips on one sheet */
+.rest { grid-column: span 2; aspect-ratio: auto; gap: 24px; }
+.cab.has-open .rest { grid-column: 1 / -1; }
+.slips { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 32px; align-items: start; }
+.cab.has-open .slips { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.slips .label { width: auto; min-width: 0; }
+.rest .base .label { width: 40%; min-width: 280px; }
+.slip li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2ch; }
+.slip li span { color: var(--grey); text-align: right; }
+.slip p + p, .slip ul + p { margin-top: var(--lh); }
+.slip dl div { display: grid; grid-template-columns: 9ch minmax(0, 1fr); }
+.slip dt { color: var(--grey); }
+
+@media (max-width: 699px) {
+  .head { grid-template-columns: minmax(0, 1fr); }
+  .head h1, .head p { grid-column: 1 / -1; }
+  .head p:last-child { text-align: left; }
+  .cab { grid-template-columns: minmax(0, 1fr); }
+  .rest, .cab.has-open .rest { grid-column: 1 / -1; }
+  .slips, .cab.has-open .slips { grid-template-columns: minmax(0, 1fr); }
+  .sheet { padding: 20px; }
+  .sheet.open .mount { gap: 24px; }
+  .sheet.open figure { width: 100%; }
+  .sheet.open .pin img { height: auto; width: 100%; }
+  .base { flex-wrap: wrap; }
+  .sheet.open .label, .rest .base .label { width: 100%; min-width: 0; }
+}
+</style>
+</head>
+<body>
+
+<header class="head">
+  <h1 class="u">Kes Inkersole</h1>
+  <p class="g">creative strategist</p>
+  <p class="g">internet equalities researcher</p>
+  <p class="g">london · available for work</p>
+</header>
+
+<div class="cab">
+
+<section class="sheet" id="networked-worlds">
+  <div class="mount" role="button" tabindex="0" aria-expanded="false" aria-labelledby="t-networked-worlds" style="--n: 3; --sum: 2.1396">
+    <figure><span class="pin"><img src="../../img/l/networked-worlds-1.jpg" srcset="../../img/s/networked-worlds-1.jpg 453w, ../../img/l/networked-worlds-1.jpg 990w" sizes="(min-width: 700px) 33vw, 100vw" width="990" height="1400" alt="yellow cover with a curved grid: Networked Worlds, WeTransfer"><i></i></span><figcaption>fig. 1</figcaption></figure>
+    <figure><span class="pin"><img src="../../img/l/networked-worlds-2.jpg" width="1000" height="1400" alt="a collage of many small images on black" loading="lazy"><i></i></span><figcaption>fig. 2</figcaption></figure>
+    <figure><span class="pin"><img src="../../img/l/networked-worlds-3.jpg" width="1005" height="1400" alt="&quot;worlding resources&quot;: a timeline of books and texts on black" loading="lazy"><i></i></span><figcaption>fig. 3</figcaption></figure>
+  </div>
+  <div class="base">
+    <span class="stamp" aria-hidden="true">01</span>
+    <div class="label">
+      <p class="g">no. 01</p>
+      <p class="u" id="t-networked-worlds">Networked Worlds</p>
+      <p class="g">with co—matter · for funds</p>
+      <p class="lorem">duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. excepteur sint occaecat cupidatat non proident.</p>
+      <p class="out"><a href="https://co-matter.com/project/networked-worlds">networked worlds ↗</a></p>
+    </div>
+  </div>
+  <button class="x" type="button" aria-label="close">×</button>
+</section>
+
+<section class="sheet" id="protein">
+  <div class="mount" role="button" tabindex="0" aria-expanded="false" aria-labelledby="t-protein" style="--n: 4; --sum: 3.75">
+    <figure><span class="pin"><img src="../../img/l/protein-1.jpg" srcset="../../img/s/protein-1.jpg 640w, ../../img/l/protein-1.jpg 1080w" sizes="(min-width: 700px) 33vw, 100vw" width="1080" height="1080" alt="pink report cover: dirty word [report #4] community"><i></i></span><figcaption>fig. 1</figcaption></figure>
+    <figure><span class="pin"><img src="../../img/l/protein-2.jpg" width="1080" height="1080" alt="overlapping page spreads from the report" loading="lazy"><i></i></span><figcaption>fig. 2</figcaption></figure>
+    <figure><span class="pin"><img src="../../img/l/protein-3.jpg" width="1080" height="1080" alt="a grid of the report's pages in pink, black and white" loading="lazy"><i></i></span><figcaption>fig. 3</figcaption></figure>
+    <figure><span class="pin"><img src="../../img/l/protein-4.jpg" width="1050" height="1400" alt="the printed report on a wooden floor" loading="lazy"><i></i></span><figcaption>fig. 4</figcaption></figure>
+  </div>
+  <div class="base">
+    <span class="stamp" aria-hidden="true">02</span>
+    <div class="label">
+      <p class="g">no. 02</p>
+      <p class="u" id="t-protein">Protein Dirty Words #4: Community Report</p>
+      <p class="g">for funds</p>
+      <p class="lorem">sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo.</p>
+      <p class="out"><a href="https://www.protein.xyz/dirty-words-4-community/">protein dirty words #4: community report ↗</a></p>
+    </div>
+  </div>
+  <button class="x" type="button" aria-label="close">×</button>
+</section>
+
+<section class="sheet" id="morning">
+  <div class="mount" role="button" tabindex="0" aria-expanded="false" aria-labelledby="t-morning" style="--n: 3; --sum: 2.8">
+    <figure><span class="pin"><img src="../../img/l/morning-3.jpg" srcset="../../img/s/morning-3.jpg 640w, ../../img/l/morning-3.jpg 1400w" sizes="(min-width: 700px) 33vw, 100vw" width="1400" height="1400" alt="3d render of three pink piglet-like creatures curled inside a cracked black egg"><i></i></span><figcaption>fig. 1</figcaption></figure>
+    <figure><span class="pin"><img src="../../img/l/morning-1.jpg" width="1080" height="1080" alt="MØRNING newsletter graphic: &quot;#020 uh oh, meet Ø&quot;, a red burn after reading sticker over screenshots of video calls" loading="lazy"><i></i></span><figcaption>fig. 2</figcaption></figure>
+    <figure><span class="pin"><img src="../../img/l/morning-2.jpg" width="1120" height="1400" alt="3d render of a dark glossy egg with orange marbling" loading="lazy"><i></i></span><figcaption>fig. 3</figcaption></figure>
+  </div>
+  <div class="base">
+    <span class="stamp" aria-hidden="true">03</span>
+    <div class="label">
+      <p class="g">no. 03</p>
+      <p class="u" id="t-morning">MØRNING Ø</p>
+      <p class="g">for funds</p>
+      <p class="lorem"></p>
+      <p class="out"><a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1">MØRNING Ø ↗</a></p>
+    </div>
+  </div>
+  <button class="x" type="button" aria-label="close">×</button>
+</section>
+
+<section class="sheet" id="lorem-ipsum">
+  <div class="mount" role="button" tabindex="0" aria-expanded="false" aria-labelledby="t-lorem-ipsum" style="--n: 2; --sum: 1.8000">
+    <figure><span class="pin"><img src="../../img/l/morning-1.jpg" width="1080" height="1080" alt="MØRNING newsletter graphic: &quot;#020 uh oh, meet Ø&quot;, a red burn after reading sticker over screenshots of video calls"><i></i></span><figcaption>fig. 1</figcaption></figure>
+    <figure><span class="pin"><img src="../../img/l/morning-2.jpg" width="1120" height="1400" alt="3d render of a dark glossy egg with orange marbling" loading="lazy"><i></i></span><figcaption>fig. 2</figcaption></figure>
+  </div>
+  <div class="base">
+    <span class="stamp" aria-hidden="true">04</span>
+    <div class="label">
+      <p class="g">no. 04</p>
+      <p class="u" id="t-lorem-ipsum">Lorem Ipsum</p>
+      <p class="g">for fun</p>
+      <p class="lorem">lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      <p class="out"></p>
+    </div>
+  </div>
+  <button class="x" type="button" aria-label="close">×</button>
+</section>
+
+<section class="sheet" id="dolor-sit">
+  <div class="mount" role="button" tabindex="0" aria-expanded="false" aria-labelledby="t-dolor-sit" style="--n: 2; --sum: 2.0000">
+    <figure><span class="pin"><img src="../../img/l/protein-2.jpg" width="1080" height="1080" alt="overlapping page spreads from the report"><i></i></span><figcaption>fig. 1</figcaption></figure>
+    <figure><span class="pin"><img src="../../img/l/protein-3.jpg" width="1080" height="1080" alt="a grid of the report's pages in pink, black and white" loading="lazy"><i></i></span><figcaption>fig. 2</figcaption></figure>
+  </div>
+  <div class="base">
+    <span class="stamp" aria-hidden="true">05</span>
+    <div class="label">
+      <p class="g">no. 05</p>
+      <p class="u" id="t-dolor-sit">Dolor Sit Amet</p>
+      <p class="g">for funds</p>
+      <p class="lorem">lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      <p class="out"></p>
+    </div>
+  </div>
+  <button class="x" type="button" aria-label="close">×</button>
+</section>
+
+<section class="sheet" id="consectetur">
+  <div class="mount" role="button" tabindex="0" aria-expanded="false" aria-labelledby="t-consectetur" style="--n: 2; --sum: 1.4321">
+    <figure><span class="pin"><img src="../../img/l/networked-worlds-2.jpg" width="1000" height="1400" alt="a collage of many small images on black"><i></i></span><figcaption>fig. 1</figcaption></figure>
+    <figure><span class="pin"><img src="../../img/l/networked-worlds-3.jpg" width="1005" height="1400" alt="&quot;worlding resources&quot;: a timeline of books and texts on black" loading="lazy"><i></i></span><figcaption>fig. 2</figcaption></figure>
+  </div>
+  <div class="base">
+    <span class="stamp" aria-hidden="true">06</span>
+    <div class="label">
+      <p class="g">no. 06</p>
+      <p class="u" id="t-consectetur">Consectetur</p>
+      <p class="g">for fun</p>
+      <p class="lorem">lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      <p class="out"></p>
+    </div>
+  </div>
+  <button class="x" type="button" aria-label="close">×</button>
+</section>
+
+<section class="sheet" id="adipiscing">
+  <div class="mount" role="button" tabindex="0" aria-expanded="false" aria-labelledby="t-adipiscing" style="--n: 2; --sum: 1.7500">
+    <figure><span class="pin"><img src="../../img/l/protein-3.jpg" width="1080" height="1080" alt="a grid of the report's pages in pink, black and white"><i></i></span><figcaption>fig. 1</figcaption></figure>
+    <figure><span class="pin"><img src="../../img/l/protein-4.jpg" width="1050" height="1400" alt="the printed report on a wooden floor" loading="lazy"><i></i></span><figcaption>fig. 2</figcaption></figure>
+  </div>
+  <div class="base">
+    <span class="stamp" aria-hidden="true">07</span>
+    <div class="label">
+      <p class="g">no. 07</p>
+      <p class="u" id="t-adipiscing">Adipiscing Elit</p>
+      <p class="g">for funds</p>
+      <p class="lorem">lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      <p class="out"></p>
+    </div>
+  </div>
+  <button class="x" type="button" aria-label="close">×</button>
+</section>
+
+<section class="sheet" id="eiusmod">
+  <div class="mount" role="button" tabindex="0" aria-expanded="false" aria-labelledby="t-eiusmod" style="--n: 2; --sum: 1.8000">
+    <figure><span class="pin"><img src="../../img/l/morning-2.jpg" width="1120" height="1400" alt="3d render of a dark glossy egg with orange marbling"><i></i></span><figcaption>fig. 1</figcaption></figure>
+    <figure><span class="pin"><img src="../../img/l/morning-1.jpg" width="1080" height="1080" alt="MØRNING newsletter graphic: &quot;#020 uh oh, meet Ø&quot;, a red burn after reading sticker over screenshots of video calls" loading="lazy"><i></i></span><figcaption>fig. 2</figcaption></figure>
+  </div>
+  <div class="base">
+    <span class="stamp" aria-hidden="true">08</span>
+    <div class="label">
+      <p class="g">no. 08</p>
+      <p class="u" id="t-eiusmod">Sed Do Eiusmod</p>
+      <p class="g">for funds</p>
+      <p class="lorem">lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      <p class="out"></p>
+    </div>
+  </div>
+  <button class="x" type="button" aria-label="close">×</button>
+</section>
+
+<section class="sheet" id="tempor">
+  <div class="mount" role="button" tabindex="0" aria-expanded="false" aria-labelledby="t-tempor" style="--n: 2; --sum: 1.4321">
+    <figure><span class="pin"><img src="../../img/l/networked-worlds-3.jpg" width="1005" height="1400" alt="&quot;worlding resources&quot;: a timeline of books and texts on black"><i></i></span><figcaption>fig. 1</figcaption></figure>
+    <figure><span class="pin"><img src="../../img/l/networked-worlds-2.jpg" width="1000" height="1400" alt="a collage of many small images on black" loading="lazy"><i></i></span><figcaption>fig. 2</figcaption></figure>
+  </div>
+  <div class="base">
+    <span class="stamp" aria-hidden="true">09</span>
+    <div class="label">
+      <p class="g">no. 09</p>
+      <p class="u" id="t-tempor">Tempor Incididunt</p>
+      <p class="g">for fun</p>
+      <p class="lorem">lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      <p class="out"></p>
+    </div>
+  </div>
+  <button class="x" type="button" aria-label="close">×</button>
+</section>
+
+<section class="sheet" id="labore">
+  <div class="mount" role="button" tabindex="0" aria-expanded="false" aria-labelledby="t-labore" style="--n: 2; --sum: 1.7500">
+    <figure><span class="pin"><img src="../../img/l/protein-4.jpg" width="1050" height="1400" alt="the printed report on a wooden floor"><i></i></span><figcaption>fig. 1</figcaption></figure>
+    <figure><span class="pin"><img src="../../img/l/protein-2.jpg" width="1080" height="1080" alt="overlapping page spreads from the report" loading="lazy"><i></i></span><figcaption>fig. 2</figcaption></figure>
+  </div>
+  <div class="base">
+    <span class="stamp" aria-hidden="true">10</span>
+    <div class="label">
+      <p class="g">no. 10</p>
+      <p class="u" id="t-labore">Ut Labore et Dolore</p>
+      <p class="g">for funds</p>
+      <p class="lorem">lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      <p class="out"></p>
+    </div>
+  </div>
+  <button class="x" type="button" aria-label="close">×</button>
+</section>
+
+<section class="sheet rest">
+  <div class="slips">
+    <div class="label slip">
+      <h2 class="u g">For fun</h2>
+      <ul>
+        <li><a href="https://latent-space.vercel.app/">latent space</a></li>
+        <li><a href="https://protecht.vercel.app/">pro(tech)t</a></li>
+      </ul>
+      <p class="g">lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam.</p>
+    </div>
+    <div class="label slip">
+      <h2 class="u g">Hello, i'm kes &lt;3</h2>
+      <p>i'm kes inkersole (kesia on paper), a freelance creative strategist and internet equalities researcher based in london. welcome to kes' little corner of the internet.</p>
+      <p>my practice focuses on understanding and critiquing the impacts of emerging technologies on people, culture, and the planet. i work collectively to rethink the narratives and behaviours surrounding technologies — prioritising collaborative research as a process for testing, imagining and prototyping more equitable, alternative futures.</p>
+    </div>
+    <div class="label slip">
+      <h2 class="u g">Things i've written</h2>
+      <ul>
+        <li><a href="https://www.protein.xyz/sex-and-the-internet/">mindy seu on sex and the internet</a><span>Protein</span></li>
+        <li><a href="https://midnight.agency/thoughts/dreaming-and-designing-more-accessible-web">dreaming and designing a more accessible web</a><span>Midnight Agency</span></li>
+        <li><a href="https://midnight.agency/thoughts/coding-a-more-creative-and-playful-web">coding a more creative and playful web</a><span>Midnight Agency</span></li>
+        <li><a href="https://midnight.agency/thoughts/composing-a-flexible-and-modular-web">composing a flexible and modular web</a><span>Midnight Agency</span></li>
+        <li><a href="https://morningfyi.substack.com/p/020-uh-oh-meet">burn after reading: uh oh, meet o</a><span>morningfyi</span></li>
+        <li><a href="https://morningfyi.substack.com/p/024-entering-limb-with">burn after reading: entering limbo</a><span>morningfyi</span></li>
+      </ul>
+    </div>
+    <div class="label slip">
+      <h2 class="u g">Podcasts, for the bus</h2>
+      <ul>
+        <li><a href="https://podcasts.apple.com/gb/podcast/mindy-seu-on-collaboration-community-and/id1449302502?i=1000597869409">mindy seu on collaboration, community and the cyberfeminism index</a></li>
+        <li><a href="https://soundcloud.com/proteincommunity/protein-forum-what-can-web2-organisations-learn-from-web3-communities">what can web2 organisations learn from web3 communities?</a><span>Protein</span></li>
+        <li><a href="https://podcasts.apple.com/gb/podcast/cherie-hu-on-water-musics-journey-through-web3/id1449302502?i=1000581859804">cherie hu on water &amp; music's journey through web3</a></li>
+        <li><a href="https://podcasts.apple.com/gb/podcast/molly-dickson-on-dao-activism-and-fighting-for/id1449302502?i=1000578164761">molly dickson on dao activism</a></li>
+        <li><a href="https://podcasts.apple.com/gb/podcast/dame-on-the-need-for-education-accessibility/id1449302502?i=1000559829008">dame on education, accessibility and inclusivity in web3</a></li>
+        <li><a href="https://podcasts.apple.com/gb/podcast/nadia-piet-on-creative-ai-and-protopian-futures/id1449302502?i=1000559822732">nadia piet on creative ai and protopian futures</a></li>
+        <li><a href="https://podcasts.apple.com/gb/podcast/cyn-bahati-on-her-journey-into-web3-with-her-family/id1449302502?i=1000559818509">cyn bahati on her journey into web3 with her family</a></li>
+        <li><a href="https://podcasts.apple.com/gb/podcast/latash%C3%A1-on-the-potential-of-web3-for-music-artists/id1449302502?i=1000552812458">latasha on the potential of web3 for music artists</a></li>
+      </ul>
+    </div>
+    <div class="label slip">
+      <h2 class="u g">Irl (mostly)</h2>
+      <ul>
+        <li><a href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1">olden residency</a></li>
+        <li><a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1">softer london</a><span>talk + workshop</span></li>
+        <li><a href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard">tech yard</a><span>workshop</span></li>
+        <li><a href="https://www.instagram.com/p/BslwSSPH5Rc/?img_index=2">ovar it</a></li>
+      </ul>
+    </div>
+    <div class="label slip">
+      <h2 class="u g">About</h2>
+      <dl>
+        <div><dt>does</dt><dd>creative strategy, research, workshops, writing and teaching</dd></div>
+        <div><dt>teaches</dt><dd>associate lecturer at UAL (LCF + CCI)</dd></div>
+        <div><dt>clients</dt><dd>Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges</dd></div>
+        <div><dt>school</dt><dd>MA internet equalities, BA creative direction, PhD [ ? ]</dd></div>
+        <div><dt>cv</dt><dd>cv &amp; portfolio on request</dd></div>
+      </dl>
+    </div>
+  </div>
+  <div class="base">
+    <span class="stamp" aria-hidden="true">11</span>
+    <footer class="label">
+      <p>thanks for stopping by &lt;3 <span style="color:#e7a3bf">✿</span></p>
+      <p>say hello: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p>
+    </footer>
+  </div>
+</section>
+
+</div>
+
+<script>
+(function () {
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var cab = document.querySelector('.cab');
+  var sheets = [].slice.call(document.querySelectorAll('.sheet[id]'));
+  function set(id, scroll) {
+    sheets.forEach(function (s) {
+      var on = s.id === id && !s.classList.contains('open');
+      s.classList.toggle('open', on);
+      s.querySelector('.mount').setAttribute('aria-expanded', on);
+      if (on && scroll) s.scrollIntoView({ block: 'start', behavior: reduce ? 'auto' : 'smooth' });
+    });
+    var open = document.querySelector('.sheet.open');
+    cab.classList.toggle('has-open', !!open);
+    history.replaceState(null, '', open ? '#' + open.id : location.pathname + location.search);
+  }
+  sheets.forEach(function (s) {
+    s.addEventListener('click', function (e) { if (e.target.closest('a')) return; set(s.id, true); });
+    s.querySelector('.mount').addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); set(s.id, true); } });
+  });
+  var h = location.hash.slice(1), t = h && document.getElementById(h);
+  if (t && t.classList.contains('sheet')) set(h, true);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>kes inkersole</title>
+<style>
+:root { --ink: #111; --grey: #8a8a8a; --line: #d0d0d0; --rose: #c44a78; --band: #f3f3f3; --mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace; --cols: 132; --strip: 40px; --acols: 24; --chr: 0.6; --lh: 1.3em; }
+* { box-sizing: border-box; }
+html { background: #fff; color: var(--ink); -webkit-text-size-adjust: 100%; }
+body { margin: 0; font: 12px/1.3 var(--mono); container-type: inline-size; counter-reset: page; }
+h1, h2, p, ul, dl, dd, pre { margin: 0; padding: 0; font: inherit; }
+ul { list-style: none; }
+a { color: var(--rose); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; text-decoration-color: #f2c2d5; }
+a:hover { text-decoration-color: currentColor; }
+img { display: block; width: 100%; height: auto; }
+.g { color: var(--grey); }
+.u { text-transform: uppercase; letter-spacing: .04em; }
+
+/* the paper: one continuous fanfold strip. the type size is whatever makes 132 columns fill the sheet
+   (10 cpi on a 14 7/8" sheet); the sheet never grows past 132 columns + the tractor margins. */
+.paper {
+  position: relative; margin: 0 auto;
+  font-size: clamp(10px, calc((100cqw - 2 * var(--strip)) / (var(--cols) + 2) / var(--chr)), 18px);
+  line-height: var(--lh);
+  width: min(100%, calc((var(--cols) + 2) * 1ch + 2 * var(--strip)));
+  padding-bottom: calc(2 * var(--lh));
+  background-color: #fff;
+  background-image:
+    radial-gradient(circle, #fff calc(var(--strip) * .2 - 1px), var(--line) calc(var(--strip) * .2 - 1px), var(--line) calc(var(--strip) * .2), transparent calc(var(--strip) * .2 + .6px)),
+    radial-gradient(circle, #fff calc(var(--strip) * .2 - 1px), var(--line) calc(var(--strip) * .2 - 1px), var(--line) calc(var(--strip) * .2), transparent calc(var(--strip) * .2 + .6px)),
+    repeating-linear-gradient(to bottom, var(--line) 0 3px, transparent 3px 7px),
+    repeating-linear-gradient(to bottom, var(--line) 0 3px, transparent 3px 7px),
+    repeating-linear-gradient(to bottom, var(--band) 0 calc(3 * var(--lh)), transparent calc(3 * var(--lh)) calc(6 * var(--lh)));
+  background-size:
+    var(--strip) calc(3 * var(--lh)),
+    var(--strip) calc(3 * var(--lh)),
+    1px 100%,
+    1px 100%,
+    100% calc(6 * var(--lh));
+  background-position: left top, right top, calc(var(--strip) - 1px) top, calc(100% - var(--strip) + 1px) top, left top;
+  background-repeat: repeat-y, repeat-y, no-repeat, no-repeat, repeat-y;
+}
+
+/* a page: everything between two perforations */
+.page { border-top: 1px dashed var(--line); padding: var(--lh) calc(var(--strip) + 1ch); }
+.perf { border-top: 1px dashed var(--line); }
+.ph { display: flex; flex-wrap: wrap; column-gap: 3ch; align-items: baseline; }
+.ph .no { margin-left: auto; }
+.ph .no::before { content: "page " counter(page); }
+.page { counter-increment: page; }
+.ruler { white-space: pre; overflow: hidden; }
+
+/* the index: ten figures printed as ascii art, five to a line */
+.idx { display: grid; grid-template-columns: repeat(auto-fit, calc(var(--acols) * 1ch)); justify-content: space-between; row-gap: calc(2 * var(--lh)); margin-top: var(--lh); }
+.e { cursor: pointer; }
+.e:focus-visible { outline: 1px solid var(--ink); outline-offset: 4px; }
+.e .fig { width: calc(var(--acols) * 1ch); margin-bottom: calc(var(--lh) / 2); }
+.e pre { white-space: pre; line-height: 1; color: var(--ink); overflow: hidden; }
+.e .fig.art img { display: none; }
+.e .t { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; text-decoration-color: transparent; }
+.e:hover .t { text-decoration-color: var(--line); }
+.e.on .t { text-decoration-color: var(--ink); }
+.e.on .n { color: var(--ink); }
+
+/* a project, printed on the pages that follow the index */
+.p { display: none; }
+.p.open { display: block; }
+.x { all: unset; cursor: pointer; color: var(--grey); padding: 0 .5ch; }
+.x:hover, .x:focus-visible { color: var(--ink); outline: 1px solid var(--ink); }
+.pics { display: flex; gap: 1ch; margin: var(--lh) 0; container-type: inline-size; }
+.pics img { width: auto; height: min(60vh, calc((100cqw - (var(--n) - 1) * 1ch) / var(--sum))); flex: none; }
+.lorem:empty { display: none; }
+.out { margin-top: var(--lh); }
+.url { overflow-wrap: anywhere; }
+
+/* the rest of the printout */
+.sec > ul, .sec > p, .sec > dl { margin-top: var(--lh); }
+.sec p + p { margin-top: var(--lh); }
+.sec li { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 2ch; }
+.sec li .url { grid-column: 1 / -1; padding-left: 4ch; }
+.sec li .v { color: var(--grey); text-align: right; }
+.sec dl div { display: grid; grid-template-columns: 9ch minmax(0, 1fr); }
+.sec dt { color: var(--grey); }
+
+@media (min-width: 600px) and (max-width: 999px) {
+  :root { --cols: 80; --strip: 32px; }
+}
+@media (max-width: 599px) {
+  :root { --cols: 48; --strip: 28px; --acols: 22; }
+  .ph { flex-direction: column; align-items: flex-start; }
+  .ph .no { margin-left: 0; }
+  .ph .x { position: absolute; right: calc(var(--strip) + 1ch); }
+  .page { position: relative; }
+  .pics { flex-direction: column; }
+  .pics img { width: 100%; height: auto; }
+  .sec li { grid-template-columns: minmax(0, 1fr); }
+  .sec li .v { text-align: left; }
+}
+</style>
+</head>
+<body>
+<div class="paper">
+
+<header class="page">
+  <div class="ph">
+    <h1 class="u">Kes Inkersole</h1>
+    <p class="g">creative strategist</p>
+    <p class="g">internet equalities researcher</p>
+    <p class="g">london · available for work</p>
+    <p class="no g u"></p>
+  </div>
+  <div class="ruler g" aria-hidden="true">----+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8----+----9----+----0----+----1----+----2----+----3--</div>
+
+  <div class="idx">
+    <div class="e" role="button" tabindex="0" aria-expanded="false" data-open="networked-worlds">
+      <div class="fig"><img src="../img/l/networked-worlds-1.jpg" srcset="../img/s/networked-worlds-1.jpg 453w, ../img/l/networked-worlds-1.jpg 990w" sizes="(min-width: 700px) 33vw, 100vw" width="990" height="1400" alt="yellow cover with a curved grid: Networked Worlds, WeTransfer"></div>
+      <p><span class="n g">01</span> <span class="t u">Networked Worlds</span></p>
+      <p class="g">with co—matter · for funds</p>
+    </div>
+    <div class="e" role="button" tabindex="0" aria-expanded="false" data-open="protein">
+      <div class="fig"><img src="../img/l/protein-1.jpg" srcset="../img/s/protein-1.jpg 640w, ../img/l/protein-1.jpg 1080w" sizes="(min-width: 700px) 33vw, 100vw" width="1080" height="1080" alt="pink report cover: dirty word [report #4] community"></div>
+      <p><span class="n g">02</span> <span class="t u">Protein Dirty Words #4: Community Report</span></p>
+      <p class="g">for funds</p>
+    </div>
+    <div class="e" role="button" tabindex="0" aria-expanded="false" data-open="morning">
+      <div class="fig"><img src="../img/l/morning-3.jpg" srcset="../img/s/morning-3.jpg 640w, ../img/l/morning-3.jpg 1400w" sizes="(min-width: 700px) 33vw, 100vw" width="1400" height="1400" alt="3d render of three pink piglet-like creatures curled inside a cracked black egg"></div>
+      <p><span class="n g">03</span> <span class="t u">MØRNING Ø</span></p>
+      <p class="g">for funds</p>
+    </div>
+    <div class="e" role="button" tabindex="0" aria-expanded="false" data-open="lorem-ipsum">
+      <div class="fig"><img src="../img/l/morning-1.jpg" width="1080" height="1080" alt="MØRNING newsletter graphic: &quot;#020 uh oh, meet Ø&quot;, a red burn after reading sticker over screenshots of video calls"></div>
+      <p><span class="n g">04</span> <span class="t u">Lorem Ipsum</span></p>
+      <p class="g">for fun</p>
+    </div>
+    <div class="e" role="button" tabindex="0" aria-expanded="false" data-open="dolor-sit">
+      <div class="fig"><img src="../img/l/protein-2.jpg" width="1080" height="1080" alt="overlapping page spreads from the report"></div>
+      <p><span class="n g">05</span> <span class="t u">Dolor Sit Amet</span></p>
+      <p class="g">for funds</p>
+    </div>
+    <div class="e" role="button" tabindex="0" aria-expanded="false" data-open="consectetur">
+      <div class="fig"><img src="../img/l/networked-worlds-2.jpg" width="1000" height="1400" alt="a collage of many small images on black"></div>
+      <p><span class="n g">06</span> <span class="t u">Consectetur</span></p>
+      <p class="g">for fun</p>
+    </div>
+    <div class="e" role="button" tabindex="0" aria-expanded="false" data-open="adipiscing">
+      <div class="fig"><img src="../img/l/protein-3.jpg" width="1080" height="1080" alt="a grid of the report's pages in pink, black and white"></div>
+      <p><span class="n g">07</span> <span class="t u">Adipiscing Elit</span></p>
+      <p class="g">for funds</p>
+    </div>
+    <div class="e" role="button" tabindex="0" aria-expanded="false" data-open="eiusmod">
+      <div class="fig"><img src="../img/l/morning-2.jpg" width="1120" height="1400" alt="3d render of a dark glossy egg with orange marbling"></div>
+      <p><span class="n g">08</span> <span class="t u">Sed Do Eiusmod</span></p>
+      <p class="g">for funds</p>
+    </div>
+    <div class="e" role="button" tabindex="0" aria-expanded="false" data-open="tempor">
+      <div class="fig"><img src="../img/l/networked-worlds-3.jpg" width="1005" height="1400" alt="&quot;worlding resources&quot;: a timeline of books and texts on black"></div>
+      <p><span class="n g">09</span> <span class="t u">Tempor Incididunt</span></p>
+      <p class="g">for fun</p>
+    </div>
+    <div class="e" role="button" tabindex="0" aria-expanded="false" data-open="labore">
+      <div class="fig"><img src="../img/l/protein-4.jpg" width="1050" height="1400" alt="the printed report on a wooden floor"></div>
+      <p><span class="n g">10</span> <span class="t u">Ut Labore et Dolore</span></p>
+      <p class="g">for funds</p>
+    </div>
+  </div>
+</header>
+
+<section class="p" id="networked-worlds">
+  <div class="page">
+    <div class="ph"><h2><span class="g">01</span> <span class="u">Networked Worlds</span></h2><p class="g">with co—matter · for funds</p><p class="no g u"></p><button class="x" type="button" aria-label="close">×</button></div>
+    <div class="pics" style="--sum: 2.1396; --n: 3"><img src="../img/l/networked-worlds-1.jpg" width="990" height="1400" alt="yellow cover with a curved grid: Networked Worlds, WeTransfer" loading="lazy"><img src="../img/l/networked-worlds-2.jpg" width="1000" height="1400" alt="a collage of many small images on black" loading="lazy"><img src="../img/l/networked-worlds-3.jpg" width="1005" height="1400" alt="&quot;worlding resources&quot;: a timeline of books and texts on black" loading="lazy"></div>
+    <p class="lorem">duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. excepteur sint occaecat cupidatat non proident.</p>
+    <p class="out"><a href="https://co-matter.com/project/networked-worlds">networked worlds ↗</a> <span class="url g">&lt;https://co-matter.com/project/networked-worlds&gt;</span></p>
+  </div>
+</section>
+
+<section class="p" id="protein">
+  <div class="page">
+    <div class="ph"><h2><span class="g">02</span> <span class="u">Protein Dirty Words #4: Community Report</span></h2><p class="g">for funds</p><p class="no g u"></p><button class="x" type="button" aria-label="close">×</button></div>
+    <div class="pics" style="--sum: 3.75; --n: 4"><img src="../img/l/protein-1.jpg" width="1080" height="1080" alt="pink report cover: dirty word [report #4] community" loading="lazy"><img src="../img/l/protein-2.jpg" width="1080" height="1080" alt="overlapping page spreads from the report" loading="lazy"><img src="../img/l/protein-3.jpg" width="1080" height="1080" alt="a grid of the report's pages in pink, black and white" loading="lazy"><img src="../img/l/protein-4.jpg" width="1050" height="1400" alt="the printed report on a wooden floor" loading="lazy"></div>
+    <p class="lorem">sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo.</p>
+    <p class="out"><a href="https://www.protein.xyz/dirty-words-4-community/">protein dirty words #4: community report ↗</a> <span class="url g">&lt;https://www.protein.xyz/dirty-words-4-community/&gt;</span></p>
+  </div>
+</section>
+
+<section class="p" id="morning">
+  <div class="page">
+    <div class="ph"><h2><span class="g">03</span> <span class="u">MØRNING Ø</span></h2><p class="g">for funds</p><p class="no g u"></p><button class="x" type="button" aria-label="close">×</button></div>
+    <div class="pics" style="--sum: 2.8; --n: 3"><img src="../img/l/morning-3.jpg" width="1400" height="1400" alt="3d render of three pink piglet-like creatures curled inside a cracked black egg" loading="lazy"><img src="../img/l/morning-1.jpg" width="1080" height="1080" alt="MØRNING newsletter graphic: &quot;#020 uh oh, meet Ø&quot;, a red burn after reading sticker over screenshots of video calls" loading="lazy"><img src="../img/l/morning-2.jpg" width="1120" height="1400" alt="3d render of a dark glossy egg with orange marbling" loading="lazy"></div>
+    <p class="lorem"></p>
+    <p class="out"><a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1">MØRNING Ø ↗</a> <span class="url g">&lt;https://www.instagram.com/p/CwOEAMetgc1/?img_index=1&gt;</span></p>
+  </div>
+</section>
+
+<section class="p" id="lorem-ipsum">
+  <div class="page">
+    <div class="ph"><h2><span class="g">04</span> <span class="u">Lorem Ipsum</span></h2><p class="g">for fun</p><p class="no g u"></p><button class="x" type="button" aria-label="close">×</button></div>
+    <div class="pics" style="--sum: 1.8000; --n: 2"><img src="../img/l/morning-1.jpg" width="1080" height="1080" alt="MØRNING newsletter graphic: &quot;#020 uh oh, meet Ø&quot;, a red burn after reading sticker over screenshots of video calls" loading="lazy"><img src="../img/l/morning-2.jpg" width="1120" height="1400" alt="3d render of a dark glossy egg with orange marbling" loading="lazy"></div>
+    <p class="lorem">lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+  </div>
+</section>
+
+<section class="p" id="dolor-sit">
+  <div class="page">
+    <div class="ph"><h2><span class="g">05</span> <span class="u">Dolor Sit Amet</span></h2><p class="g">for funds</p><p class="no g u"></p><button class="x" type="button" aria-label="close">×</button></div>
+    <div class="pics" style="--sum: 2.0000; --n: 2"><img src="../img/l/protein-2.jpg" width="1080" height="1080" alt="overlapping page spreads from the report" loading="lazy"><img src="../img/l/protein-3.jpg" width="1080" height="1080" alt="a grid of the report's pages in pink, black and white" loading="lazy"></div>
+    <p class="lorem">lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+  </div>
+</section>
+
+<section class="p" id="consectetur">
+  <div class="page">
+    <div class="ph"><h2><span class="g">06</span> <span class="u">Consectetur</span></h2><p class="g">for fun</p><p class="no g u"></p><button class="x" type="button" aria-label="close">×</button></div>
+    <div class="pics" style="--sum: 1.4321; --n: 2"><img src="../img/l/networked-worlds-2.jpg" width="1000" height="1400" alt="a collage of many small images on black" loading="lazy"><img src="../img/l/networked-worlds-3.jpg" width="1005" height="1400" alt="&quot;worlding resources&quot;: a timeline of books and texts on black" loading="lazy"></div>
+    <p class="lorem">lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+  </div>
+</section>
+
+<section class="p" id="adipiscing">
+  <div class="page">
+    <div class="ph"><h2><span class="g">07</span> <span class="u">Adipiscing Elit</span></h2><p class="g">for funds</p><p class="no g u"></p><button class="x" type="button" aria-label="close">×</button></div>
+    <div class="pics" style="--sum: 1.7500; --n: 2"><img src="../img/l/protein-3.jpg" width="1080" height="1080" alt="a grid of the report's pages in pink, black and white" loading="lazy"><img src="../img/l/protein-4.jpg" width="1050" height="1400" alt="the printed report on a wooden floor" loading="lazy"></div>
+    <p class="lorem">lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+  </div>
+</section>
+
+<section class="p" id="eiusmod">
+  <div class="page">
+    <div class="ph"><h2><span class="g">08</span> <span class="u">Sed Do Eiusmod</span></h2><p class="g">for funds</p><p class="no g u"></p><button class="x" type="button" aria-label="close">×</button></div>
+    <div class="pics" style="--sum: 1.8000; --n: 2"><img src="../img/l/morning-2.jpg" width="1120" height="1400" alt="3d render of a dark glossy egg with orange marbling" loading="lazy"><img src="../img/l/morning-1.jpg" width="1080" height="1080" alt="MØRNING newsletter graphic: &quot;#020 uh oh, meet Ø&quot;, a red burn after reading sticker over screenshots of video calls" loading="lazy"></div>
+    <p class="lorem">lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+  </div>
+</section>
+
+<section class="p" id="tempor">
+  <div class="page">
+    <div class="ph"><h2><span class="g">09</span> <span class="u">Tempor Incididunt</span></h2><p class="g">for fun</p><p class="no g u"></p><button class="x" type="button" aria-label="close">×</button></div>
+    <div class="pics" style="--sum: 1.4321; --n: 2"><img src="../img/l/networked-worlds-3.jpg" width="1005" height="1400" alt="&quot;worlding resources&quot;: a timeline of books and texts on black" loading="lazy"><img src="../img/l/networked-worlds-2.jpg" width="1000" height="1400" alt="a collage of many small images on black" loading="lazy"></div>
+    <p class="lorem">lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+  </div>
+</section>
+
+<section class="p" id="labore">
+  <div class="page">
+    <div class="ph"><h2><span class="g">10</span> <span class="u">Ut Labore et Dolore</span></h2><p class="g">for funds</p><p class="no g u"></p><button class="x" type="button" aria-label="close">×</button></div>
+    <div class="pics" style="--sum: 1.7500; --n: 2"><img src="../img/l/protein-4.jpg" width="1050" height="1400" alt="the printed report on a wooden floor" loading="lazy"><img src="../img/l/protein-2.jpg" width="1080" height="1080" alt="overlapping page spreads from the report" loading="lazy"></div>
+    <p class="lorem">lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+  </div>
+</section>
+
+<section class="page sec">
+  <div class="ph"><h2 class="u g">For fun</h2><p class="no g u"></p></div>
+  <ul>
+    <li><a href="https://latent-space.vercel.app/">latent space</a><span class="url g">&lt;https://latent-space.vercel.app/&gt;</span></li>
+    <li><a href="https://protecht.vercel.app/">pro(tech)t</a><span class="url g">&lt;https://protecht.vercel.app/&gt;</span></li>
+  </ul>
+  <p class="g">lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam.</p>
+</section>
+
+<section class="page sec">
+  <div class="ph"><h2 class="u g">Hello, i'm kes &lt;3</h2><p class="no g u"></p></div>
+  <p>i'm kes inkersole (kesia on paper), a freelance creative strategist and internet equalities researcher based in london. welcome to kes' little corner of the internet.</p>
+  <p>my practice focuses on understanding and critiquing the impacts of emerging technologies on people, culture, and the planet. i work collectively to rethink the narratives and behaviours surrounding technologies — prioritising collaborative research as a process for testing, imagining and prototyping more equitable, alternative futures.</p>
+</section>
+
+<section class="page sec">
+  <div class="ph"><h2 class="u g">Things i've written</h2><p class="no g u"></p></div>
+  <ul>
+    <li><a href="https://www.protein.xyz/sex-and-the-internet/">mindy seu on sex and the internet</a><span class="v">Protein</span><span class="url g">&lt;https://www.protein.xyz/sex-and-the-internet/&gt;</span></li>
+    <li><a href="https://midnight.agency/thoughts/dreaming-and-designing-more-accessible-web">dreaming and designing a more accessible web</a><span class="v">Midnight Agency</span><span class="url g">&lt;https://midnight.agency/thoughts/dreaming-and-designing-more-accessible-web&gt;</span></li>
+    <li><a href="https://midnight.agency/thoughts/coding-a-more-creative-and-playful-web">coding a more creative and playful web</a><span class="v">Midnight Agency</span><span class="url g">&lt;https://midnight.agency/thoughts/coding-a-more-creative-and-playful-web&gt;</span></li>
+    <li><a href="https://midnight.agency/thoughts/composing-a-flexible-and-modular-web">composing a flexible and modular web</a><span class="v">Midnight Agency</span><span class="url g">&lt;https://midnight.agency/thoughts/composing-a-flexible-and-modular-web&gt;</span></li>
+    <li><a href="https://morningfyi.substack.com/p/020-uh-oh-meet">burn after reading: uh oh, meet o</a><span class="v">morningfyi</span><span class="url g">&lt;https://morningfyi.substack.com/p/020-uh-oh-meet&gt;</span></li>
+    <li><a href="https://morningfyi.substack.com/p/024-entering-limb-with">burn after reading: entering limbo</a><span class="v">morningfyi</span><span class="url g">&lt;https://morningfyi.substack.com/p/024-entering-limb-with&gt;</span></li>
+  </ul>
+</section>
+
+<section class="page sec">
+  <div class="ph"><h2 class="u g">Podcasts, for the bus</h2><p class="no g u"></p></div>
+  <ul>
+    <li><a href="https://podcasts.apple.com/gb/podcast/mindy-seu-on-collaboration-community-and/id1449302502?i=1000597869409">mindy seu on collaboration, community and the cyberfeminism index</a><span class="url g">&lt;https://podcasts.apple.com/gb/podcast/mindy-seu-on-collaboration-community-and/id1449302502?i=1000597869409&gt;</span></li>
+    <li><a href="https://soundcloud.com/proteincommunity/protein-forum-what-can-web2-organisations-learn-from-web3-communities">what can web2 organisations learn from web3 communities?</a><span class="v">Protein</span><span class="url g">&lt;https://soundcloud.com/proteincommunity/protein-forum-what-can-web2-organisations-learn-from-web3-communities&gt;</span></li>
+    <li><a href="https://podcasts.apple.com/gb/podcast/cherie-hu-on-water-musics-journey-through-web3/id1449302502?i=1000581859804">cherie hu on water &amp; music's journey through web3</a><span class="url g">&lt;https://podcasts.apple.com/gb/podcast/cherie-hu-on-water-musics-journey-through-web3/id1449302502?i=1000581859804&gt;</span></li>
+    <li><a href="https://podcasts.apple.com/gb/podcast/molly-dickson-on-dao-activism-and-fighting-for/id1449302502?i=1000578164761">molly dickson on dao activism</a><span class="url g">&lt;https://podcasts.apple.com/gb/podcast/molly-dickson-on-dao-activism-and-fighting-for/id1449302502?i=1000578164761&gt;</span></li>
+    <li><a href="https://podcasts.apple.com/gb/podcast/dame-on-the-need-for-education-accessibility/id1449302502?i=1000559829008">dame on education, accessibility and inclusivity in web3</a><span class="url g">&lt;https://podcasts.apple.com/gb/podcast/dame-on-the-need-for-education-accessibility/id1449302502?i=1000559829008&gt;</span></li>
+    <li><a href="https://podcasts.apple.com/gb/podcast/nadia-piet-on-creative-ai-and-protopian-futures/id1449302502?i=1000559822732">nadia piet on creative ai and protopian futures</a><span class="url g">&lt;https://podcasts.apple.com/gb/podcast/nadia-piet-on-creative-ai-and-protopian-futures/id1449302502?i=1000559822732&gt;</span></li>
+    <li><a href="https://podcasts.apple.com/gb/podcast/cyn-bahati-on-her-journey-into-web3-with-her-family/id1449302502?i=1000559818509">cyn bahati on her journey into web3 with her family</a><span class="url g">&lt;https://podcasts.apple.com/gb/podcast/cyn-bahati-on-her-journey-into-web3-with-her-family/id1449302502?i=1000559818509&gt;</span></li>
+    <li><a href="https://podcasts.apple.com/gb/podcast/latash%C3%A1-on-the-potential-of-web3-for-music-artists/id1449302502?i=1000552812458">latasha on the potential of web3 for music artists</a><span class="url g">&lt;https://podcasts.apple.com/gb/podcast/latash%C3%A1-on-the-potential-of-web3-for-music-artists/id1449302502?i=1000552812458&gt;</span></li>
+  </ul>
+</section>
+
+<section class="page sec">
+  <div class="ph"><h2 class="u g">Irl (mostly)</h2><p class="no g u"></p></div>
+  <ul>
+    <li><a href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1">olden residency</a><span class="url g">&lt;https://www.instagram.com/p/DRjYCG8jARb/?img_index=1&gt;</span></li>
+    <li><a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1">softer london</a><span class="v">talk + workshop</span><span class="url g">&lt;https://www.instagram.com/p/C52uHshIkjq/?img_index=1&gt;</span></li>
+    <li><a href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard">tech yard</a><span class="v">workshop</span><span class="url g">&lt;https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard&gt;</span></li>
+    <li><a href="https://www.instagram.com/p/BslwSSPH5Rc/?img_index=2">ovar it</a><span class="url g">&lt;https://www.instagram.com/p/BslwSSPH5Rc/?img_index=2&gt;</span></li>
+  </ul>
+</section>
+
+<section class="page sec">
+  <div class="ph"><h2 class="u g">About</h2><p class="no g u"></p></div>
+  <dl>
+    <div><dt>does</dt><dd>creative strategy, research, workshops, writing and teaching</dd></div>
+    <div><dt>teaches</dt><dd>associate lecturer at UAL (LCF + CCI)</dd></div>
+    <div><dt>clients</dt><dd>Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges</dd></div>
+    <div><dt>school</dt><dd>MA internet equalities, BA creative direction, PhD [ ? ]</dd></div>
+    <div><dt>cv</dt><dd>cv &amp; portfolio on request</dd></div>
+  </dl>
+</section>
+
+<footer class="page sec">
+  <div class="ph"><p>thanks for stopping by &lt;3 <span style="color:#e7a3bf">✿</span></p><p class="no g u"></p></div>
+  <p>say hello: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a> <span class="url g">&lt;mailto:inkersolekesia@gmail.com&gt;</span></p>
+</footer>
+
+<div class="perf" aria-hidden="true"></div>
+</div>
+
+<script>
+(function () {
+  var paper = document.querySelector('.paper');
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* measure the real character cell of whatever monospace font we got, so 132 columns fill the sheet exactly */
+  var m = document.createElement('span');
+  m.textContent = '0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000';
+  m.style.cssText = 'position:absolute;visibility:hidden;white-space:pre;font:inherit';
+  paper.appendChild(m);
+  var chr = m.getBoundingClientRect().width / 100 / parseFloat(getComputedStyle(m).fontSize);
+  paper.removeChild(m);
+  if (chr > 0.3 && chr < 1) paper.style.setProperty('--chr', chr.toFixed(4));
+
+  /* open / close: one project at a time, #id in the url */
+  var ps = [].slice.call(document.querySelectorAll('.p')), es = [].slice.call(document.querySelectorAll('.e'));
+  function set(id, scroll) {
+    var open = null;
+    ps.forEach(function (p) { var on = p.id === id && !p.classList.contains('open'); p.classList.toggle('open', on); if (on) open = p; });
+    es.forEach(function (e) { var on = !!open && e.getAttribute('data-open') === open.id; e.classList.toggle('on', on); e.setAttribute('aria-expanded', on); });
+    history.replaceState(null, '', open ? '#' + open.id : location.pathname + location.search);
+    if (open && scroll) open.scrollIntoView({ block: 'start', behavior: reduce ? 'auto' : 'smooth' });
+  }
+  es.forEach(function (e) {
+    e.addEventListener('click', function () { set(e.getAttribute('data-open'), true); });
+    e.addEventListener('keydown', function (ev) { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); set(e.getAttribute('data-open'), true); } });
+  });
+  ps.forEach(function (p) {
+    p.querySelector('.x').addEventListener('click', function () { set(p.id, false); });
+  });
+  var h = location.hash.slice(1); if (h && document.getElementById(h)) set(h, true);
+
+  /* the ten icons, printed as ascii art: sample luminance into the ramp; on file:// getImageData throws, so the picture stays */
+  var RAMP = ' .:-=+*#%@', S = 4;
+  function print(fig) {
+    var img = fig.querySelector('img'), w = img.naturalWidth, hh = img.naturalHeight;
+    if (!w || !hh) return;
+    var cols = parseInt(getComputedStyle(fig).getPropertyValue('--acols'), 10) || 24;
+    var ratio = parseFloat(getComputedStyle(paper).getPropertyValue('--chr')) || 0.6;
+    var rows = Math.max(1, Math.round(cols * hh / w * ratio));
+    var c = document.createElement('canvas'); c.width = cols * S; c.height = rows * S;
+    var x = c.getContext('2d', { willReadFrequently: true }), d;
+    try {
+      x.imageSmoothingEnabled = true; x.imageSmoothingQuality = 'high';
+      x.drawImage(img, 0, 0, c.width, c.height);
+      d = x.getImageData(0, 0, c.width, c.height).data;
+    } catch (e) { return; }
+    var L = new Float32Array(cols * rows), lo = 255, hi = 0, r, q, i, j, k, s;
+    for (r = 0; r < rows; r++) for (q = 0; q < cols; q++) {
+      s = 0;
+      for (j = 0; j < S; j++) for (i = 0; i < S; i++) { k = ((r * S + j) * c.width + q * S + i) * 4; s += d[k] * .2126 + d[k + 1] * .7152 + d[k + 2] * .0722; }
+      s /= S * S; L[r * cols + q] = s; if (s < lo) lo = s; if (s > hi) hi = s;
+    }
+    var span = Math.max(32, hi - lo), out = [];
+    for (r = 0; r < rows; r++) { var line = ''; for (q = 0; q < cols; q++) line += RAMP[Math.round((1 - Math.min(1, (L[r * cols + q] - lo) / span)) * (RAMP.length - 1))]; out.push(line); }
+    var pre = fig.querySelector('pre');
+    if (!pre) { pre = document.createElement('pre'); pre.setAttribute('role', 'img'); pre.setAttribute('aria-label', img.getAttribute('alt') || ''); fig.appendChild(pre); }
+    pre.textContent = out.join('\n'); pre.setAttribute('data-cols', cols);
+    fig.classList.add('art');
+  }
+  var figs = [].slice.call(document.querySelectorAll('.e .fig'));
+  figs.forEach(function (fig) {
+    var img = fig.querySelector('img');
+    if (img.complete) print(fig); else img.addEventListener('load', function () { print(fig); });
+  });
+  var t;
+  addEventListener('resize', function () {
+    clearTimeout(t);
+    t = setTimeout(function () {
+      figs.forEach(function (fig) {
+        var pre = fig.querySelector('pre'); if (!pre) return;
+        var cols = parseInt(getComputedStyle(fig).getPropertyValue('--acols'), 10) || 24;
+        if (String(cols) !== pre.getAttribute('data-cols')) print(fig);
+      });
+    }, 150);
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1231 @@
+<!doctype html>
+<html lang="en-GB" class="gated">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>kes inkersole</title>
+<meta name="description" content="kes inkersole (kesia on paper): freelance creative strategist and internet equalities researcher, london.">
+<script>(function(h){h.classList.add("js");try{if(sessionStorage.getItem("kes-in")==="1"){h.classList.remove("gated");h.classList.add("entered");}}catch(e){}})(document.documentElement);</script>
+<style>
+/* broadway boogie woogie, stood up as a tower block, with KES FM's aerial on the roof.
+   white sky, yellow █ floors and walls, little squares of pink / blue / grey running along them,
+   lit windows, and kes's garden at the foot. no black lines: black is only for reading. */
+:root {
+  --y: #ffcc00;   /* floors, walls, the mast */
+  --p: #ff2e8f;   /* mondrian's red, turned to hot pink */
+  --b: #1636ff;   /* electric blue: windows and links */
+  --g: #c8c5be;   /* the warm grey squares */
+  --ink: #0b0b0b; /* text */
+  --mute: #6d6a64;
+  --gy: #f0b400;  /* yellow, for thin flower strokes */
+  --stem: #9e9a92;
+  --mono: Menlo, ui-monospace, Consolas, "DejaVu Sans Mono", "Liberation Mono", "Courier New", monospace;
+  --cw: 8px; --px: 16px; --lh: 16px; --fs: 13.3px;
+  --seal: .3px 0 currentColor, -.3px 0 currentColor, 0 .7px currentColor, 0 -.7px currentColor;
+  --fill: "████████████████████████████████████████████████████████████████████████████████";
+}
+html { background: #fff; color: var(--ink); scrollbar-gutter: stable; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { margin: 0; background: #fff; font: var(--fs)/var(--lh) var(--mono); font-kerning: none; font-variant-ligatures: none; }
+h1, h2, p, ul, li { margin: 0; padding: 0; font: inherit; }
+h1, h2 { font-weight: 700; }
+ul { list-style: none; }
+.sr { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.probe { position: absolute; left: -9999px; top: 0; white-space: pre; visibility: hidden; font-family: var(--mono); }
+
+/* ---------- the building: layers of characters ---------- */
+#world { position: relative; width: 100%; overflow: clip; }
+.fill, .sky, .cars, .ko, .gdn { position: absolute; left: 0; top: 0; width: 100%; pointer-events: none; user-select: none; -webkit-user-select: none; }
+.fill .r, .sky .r, .ko .r, .gdn .r { height: var(--lh); white-space: pre; }
+.ko .r, .gdn .r { overflow: hidden; }
+.fill .r, .sky b.q { transform: scaleY(1.05); text-shadow: var(--seal); }
+.sky b.q { display: inline-block; }
+.sky b.h { font-weight: 700; }
+.fill b, .sky b, .ko b, .cars b, .gdn b { font-weight: inherit; }
+.ko { color: #fff; font-weight: 700; }
+.c1, .c5 { color: var(--y); }
+.c2 { color: var(--p); }
+.c3 { color: var(--b); }
+.c4 { color: var(--g); }
+.car { position: absolute; left: 0; top: 0; white-space: pre; height: var(--lh); }
+.car s { text-decoration: none; display: inline-block; transform: scaleY(1.05); text-shadow: var(--seal); }
+.car u { text-decoration: none; display: none; font-weight: 700; }
+
+/* ---------- type on the grid ---------- */
+.js .u { position: absolute; display: flow-root; }
+.js:not(.laid) .u, .js:not(.laid) #go, .js:not(.laid) #quiet, .js:not(.laid) .beacon, .js:not(.laid) #tracker, .js:not(.laid) .ticker { visibility: hidden; }
+.u > * + * { margin-top: var(--lh); }
+.u li + li { margin-top: 0; }
+.sq { font-weight: 400; }
+.sq.p { color: var(--p); } .sq.b { color: var(--b); } .sq.g { color: var(--g); } .sq.y { color: var(--y); }
+.lab, .k { color: var(--mute); }
+li { padding-left: calc(2 * var(--cw)); text-indent: calc(-2 * var(--cw)); }
+li::before { content: "■ " / ""; color: var(--g); }
+li:nth-child(3n+2)::before { color: var(--p); }
+li:nth-child(3n+3)::before { color: var(--b); }
+
+/* links: electric blue; hover / focus puts a hot-pink block of █ behind them */
+a { color: var(--b); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; position: relative; z-index: 0; display: inline-block; text-indent: 0; }
+a:hover, a:focus-visible { color: var(--ink); text-decoration: none; outline: none; }
+a:hover::before, a:focus-visible::before,
+.btn:hover::before, .btn:focus-visible::before,
+.keys button:hover::before, .keys button:focus-visible::before,
+.keys button[aria-pressed="true"]::before, .floatstop::before {
+  content: var(--fill); position: absolute; left: 0; top: 0; right: -1px; bottom: 0; z-index: -1;
+  overflow: hidden; white-space: pre-wrap; word-break: break-all; line-height: var(--lh);
+  color: var(--p); font-weight: 400; text-indent: 0; transform: scaleY(1.05); text-shadow: var(--seal);
+}
+button { font: inherit; color: inherit; background: none; border: 0; border-radius: 0; padding: 0; margin: 0; cursor: pointer; position: relative; z-index: 0; line-height: var(--lh); -webkit-appearance: none; appearance: none; text-align: left; }
+button:focus-visible { outline: none; }
+.btn { color: var(--b); white-space: pre; }
+.btn:hover, .btn:focus-visible { color: var(--ink); }
+.br { color: var(--b); }
+
+/* ---------- the gate: the roof at rest, one thing to do ---------- */
+.js.gated body { overflow: hidden; }
+.js.gated #world { height: var(--gateH) !important; }
+.js.gated main, .js.gated .keys { opacity: 0; }
+.js.entered .gate-only { visibility: hidden; }
+.js.entered #quiet { display: none; }
+main, .keys { transition: opacity .5s; }
+@media (prefers-reduced-motion: reduce) { main, .keys { transition: none; } }
+
+/* the transmitter on the roof is the play button: a pink plane of █ with a white ▶ knocked out of it */
+#go { position: absolute; display: block; overflow: hidden; color: #fff; }
+#go .gf, #go .gk { position: absolute; left: 0; top: 0; white-space: pre; pointer-events: none; }
+#go .gf { color: var(--p); }
+#go .ln { display: block; height: var(--lh); }
+#go .gf .ln { transform: scaleY(1.05); text-shadow: var(--seal); }
+#go .gk .tri { text-shadow: var(--seal); }
+#go .gk { color: #fff; font-weight: 700; }
+#go:hover .gf, #go:focus-visible .gf { color: var(--b); }
+#go .t { color: var(--ink); }
+#go:hover .t, #go:focus-visible .t { color: #fff; }
+#go .on { display: none; }
+#go[aria-pressed="true"] .on { display: inline; }
+#go[aria-pressed="true"] .off { display: none; }
+#go.thump .tri { animation: thump .25s ease-out; }
+@keyframes thump { from { color: var(--y); } }
+#quiet { position: absolute; }
+
+/* the aerial: a beacon on the mast, and the mast is KES FM's tracker, one 16th per row, climbing */
+.beacon { position: absolute; white-space: pre; color: var(--g); transform: scaleY(1.05); text-shadow: var(--seal); }
+.beacon.lit { color: var(--p); }
+#tracker { position: absolute; display: flex; flex-direction: column-reverse; overflow: hidden; }
+#tracker span { position: relative; display: block; flex: none; height: var(--lh); color: transparent; white-space: pre; overflow: hidden; }
+#tracker span::before, #tracker span::after { position: absolute; left: 0; top: 0; white-space: pre; color: var(--y); }
+#tracker span::before { content: "████"; transform: scaleY(1.05); text-shadow: var(--seal); }
+#tracker .rest::before { color: #fff; }
+#tracker .rev::before { color: var(--p); }
+#tracker .up::before { color: var(--b); }
+#tracker .roll::before { content: "▄▄▄▄"; }
+#tracker .roll::after { content: "▀▀▀▀"; color: #fff; }
+#tracker .on::before { color: #fff; }
+#tracker .on::after { content: " <3 "; color: var(--p); font-weight: 700; }
+
+/* the roof edge carries the shout-outs, knocked out of the yellow */
+.ticker { position: absolute; z-index: 0; overflow: hidden; white-space: nowrap; height: var(--lh); color: #fff; font-weight: 700; }
+.ticker::before { content: var(--fill) var(--fill); position: absolute; left: 0; top: 0; right: 0; bottom: 0; z-index: -1; color: var(--y); white-space: nowrap; overflow: hidden; transform: scaleY(1.05); text-shadow: var(--seal); font-weight: 400; }
+.ticker > div { display: inline-block; padding-left: var(--cw); }
+.ticker span { padding-right: var(--cw); }
+@keyframes run { to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: no-preference) { .on-air .ticker > div { animation: run 70s linear infinite; } }
+
+/* KES FM's controls: a few bracketed words on the roof */
+.keys { color: var(--ink); }
+.keys > * + * { margin-top: 0; }
+.keys .lcd { color: var(--mute); }
+.status { color: var(--p); }
+.keys button { color: var(--ink); white-space: pre; }
+.keys button[aria-pressed="true"] { color: #fff; }
+.keys button[aria-pressed="true"]::before { color: var(--b); }
+.keys button[aria-pressed="true"] .br { color: #fff; }
+.keys button:hover, .keys button:focus-visible { color: var(--ink); }
+.keys button:hover::before, .keys button:focus-visible::before { color: var(--p); }
+.keys button:hover .br, .keys button:focus-visible .br { color: var(--ink); }
+#stop { font-weight: 700; }
+.vol { position: relative; display: inline-block; color: var(--mute); white-space: pre; }
+.vol .bar b { color: var(--y); font-weight: 400; }
+.vol .bar i { color: var(--g); font-style: normal; }
+.vol input { position: absolute; left: 0; top: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.vol:focus-within, .vol:hover { color: var(--p); }
+.vol:focus-within .bar b { color: var(--p); }
+.floatstop { position: fixed; right: var(--px); bottom: var(--lh); z-index: 9; padding: var(--lh) var(--px); color: var(--ink); font-weight: 700; }
+.floatstop::before { color: var(--y); }
+.floatstop:hover::before, .floatstop:focus-visible::before { color: var(--p); }
+.floatstop:focus-visible { outline: none; }
+.floatstop[hidden] { display: none; }
+
+/* ---------- the flats ---------- */
+.pic { position: relative; z-index: 0; height: calc(7 * var(--lh)); padding: var(--lh) var(--px); box-sizing: border-box; color: #fff; font-weight: 700; }
+.pic::before, .pic::after { content: var(--fill) var(--fill); position: absolute; z-index: -1; overflow: hidden; white-space: pre-wrap; word-break: break-all; line-height: var(--lh); font-weight: 400; transform: scaleY(1.05); text-shadow: var(--seal); }
+.pic::before { left: 0; top: 0; right: -1px; bottom: 0; color: var(--b); }
+.pic::after { width: calc(5 * var(--px)); height: calc(3 * var(--lh)); right: calc(2 * var(--px)); bottom: var(--lh); color: var(--p); }
+#p2 .pic::before { color: var(--p); } #p2 .pic { color: var(--ink); } #p2 .pic::after { color: var(--y); left: var(--px); right: auto; top: calc(3 * var(--lh)); bottom: auto; width: calc(4 * var(--px)); }
+#p3 .pic::before { color: var(--y); } #p3 .pic { color: var(--ink); } #p3 .pic::after { color: var(--g); width: calc(3 * var(--px)); height: calc(2 * var(--lh)); }
+.card p { margin-top: 0; }
+.card .gap { margin-top: var(--lh); }
+.u > h2 { padding-left: calc(3 * var(--cw)); text-indent: calc(-3 * var(--cw)); }
+.proj > h2, .card > h2 { padding-left: 0; text-indent: 0; margin-top: 0; }
+.kv { padding-left: calc(9 * var(--cw)); text-indent: calc(-9 * var(--cw)); }
+.kv .k { display: inline-block; width: calc(8 * var(--cw)); text-indent: 0; }
+#hello-h:focus { outline: none; }
+
+/* ---------- kes's garden ---------- */
+.gdn .gp { color: var(--p); } .gdn .gb { color: var(--b); } .gdn .gy { color: var(--gy); } .gdn .gg { color: var(--stem); } .gdn .gk { color: var(--ink); }
+.gdn s, .gdn u { text-decoration: none; }
+.gdn u, .on-air .gdn s { display: none; }
+.on-air .gdn u { display: inline; }
+.gdn .hd { transition: transform .12s ease-out; }
+.sway .gdn .hd { transform: translateX(var(--cw)); }
+
+/* ---------- the music moves the building ---------- */
+.beat .sw.c2 { color: var(--b); }
+.beat .sw.c3 { color: var(--p); }
+.beat .sw.c4 { color: var(--y); }
+.beat .sw.c5 { color: var(--g); }
+.fill .w.lt { color: var(--y); }
+.fill .w.lt2 { color: var(--p); }
+.cute .car s { display: none; }
+.cute .car u { display: inline-block; }
+.cute .ko { opacity: 0; }
+.bass-off .car.k2 { visibility: hidden; }
+.car.k3 { visibility: hidden; }
+.bass-reese .car.k3 { visibility: visible; }
+@media (prefers-reduced-motion: no-preference) {
+  .siren .car.c2, .siren .car.c4 { animation: sirenA .18s steps(1) infinite; }
+  .siren .car.c3 { animation: sirenB .18s steps(1) infinite; }
+  .siren .beacon { animation: sirenA .18s steps(1) infinite; }
+  .rew .ms, .rew .beacon { animation: flick .1s steps(1) infinite; }
+  .rew #tracker { animation: flick2 .1s steps(1) infinite; }
+  .rew .ko { opacity: .25; }
+}
+@media (prefers-reduced-motion: reduce) { .gdn .hd { transition: none; } }
+@keyframes sirenA { 50% { color: var(--b); } }
+@keyframes sirenB { 50% { color: var(--p); } }
+@keyframes flick { 50% { color: var(--g); } }
+@keyframes flick2 { 50% { opacity: .15; } }
+</style>
+</head>
+<body>
+<div id="world">
+<div class="fill" aria-hidden="true"></div>
+<div class="sky" aria-hidden="true"></div>
+<div class="cars" aria-hidden="true"></div>
+<div class="ko" aria-hidden="true"></div>
+<div class="gdn" aria-hidden="true"></div>
+<span class="beacon tower" aria-hidden="true">████</span>
+
+<h1 class="u" id="top">kes inkersole</h1>
+
+<button id="go" class="sound" type="button" aria-pressed="false"><span class="t off">press play</span> <span class="t on">● on air</span> <span class="t">KES FM 170.0</span></button>
+<button id="quiet" class="btn" type="button"><span class="br" aria-hidden="true">[ </span>enter without sound<span class="br" aria-hidden="true"> ]</span></button>
+
+<section class="fm" id="fm" aria-labelledby="fm-h">
+<h2 id="fm-h" class="sr">KES FM 170.0</h2>
+<div class="tracker" id="tracker" aria-hidden="true"></div>
+<div class="ticker" aria-hidden="true"><div><span>big up all the junglists ✦ big up everyone reading the source code ✦ big up the UAL lot, LCF + CCI ✦ big up Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges ✦ text in: inkersolekesia@gmail.com ✦ respect to the sound systems, pirates and producers who built all this ✦ lorem ipsum dolor sit amet ✦</span><span>big up all the junglists ✦ big up everyone reading the source code ✦ big up the UAL lot, LCF + CCI ✦ big up Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges ✦ text in: inkersolekesia@gmail.com ✦ respect to the sound systems, pirates and producers who built all this ✦ lorem ipsum dolor sit amet ✦</span></div></div>
+<div class="keys u" id="keys">
+<p class="row"><button class="stop" id="stop" type="button"><span class="br" aria-hidden="true">[</span>■ stop<span class="br" aria-hidden="true">]</span></button> <span role="group" aria-label="break"><button type="button" data-break="straight" aria-pressed="true"><span class="br" aria-hidden="true">[</span>straight<span class="br" aria-hidden="true">]</span></button> <button type="button" data-break="chopped" aria-pressed="false"><span class="br" aria-hidden="true">[</span>chopped<span class="br" aria-hidden="true">]</span></button> <button type="button" data-break="rollin" aria-pressed="false"><span class="br" aria-hidden="true">[</span>rollin'<span class="br" aria-hidden="true">]</span></button> <button type="button" id="chop" aria-pressed="false"><span class="br" aria-hidden="true">[</span>✂ chop it<span class="br" aria-hidden="true">]</span></button></span> <span role="group" aria-label="bass"><button type="button" data-bass="sub" aria-pressed="true"><span class="br" aria-hidden="true">[</span>sub<span class="br" aria-hidden="true">]</span></button> <button type="button" data-bass="reese" aria-pressed="false"><span class="br" aria-hidden="true">[</span>reese<span class="br" aria-hidden="true">]</span></button> <button type="button" data-bass="off" aria-pressed="false"><span class="br" aria-hidden="true">[</span>off<span class="br" aria-hidden="true">]</span></button></span> <button type="button" id="cute" aria-pressed="false"><span class="br" aria-hidden="true">[</span>✿ cute<span class="br" aria-hidden="true">]</span></button> <button type="button" id="pullup"><span class="br" aria-hidden="true">[</span>⟲ pull up<span class="br" aria-hidden="true">]</span></button> <button type="button" id="siren"><span class="br" aria-hidden="true">[</span>siren<span class="br" aria-hidden="true">]</span></button> <label class="vol">vol <span class="bar" aria-hidden="true"></span><input type="range" id="vol" min="0" max="1" step="0.05" value="0.5"></label></p>
+<p class="lcd"><span class="status" id="status" role="status">off air</span><span aria-hidden="true"> · </span><span class="lcd-info" aria-hidden="true"><span id="lcdinfo">break: straight · bass: sub · cute: off</span></span></p>
+</div>
+</section>
+
+<main>
+<section class="u" id="hello" aria-labelledby="hello-h"><h2 id="hello-h" tabindex="-1"><span class="sq b" aria-hidden="true">██</span> hello, i'm kes &lt;3</h2><p>i'm kes inkersole (kesia on paper), a freelance creative strategist and internet equalities researcher based in london. welcome to kes' little corner of the internet.</p><p>my practice focuses on understanding and critiquing the impacts of emerging technologies on people, culture, and the planet. i work collectively to rethink the narratives and behaviours surrounding technologies — prioritising collaborative research as a process for testing, imagining and prototyping more equitable, alternative futures.</p></section>
+
+<section class="u card" id="presents" aria-labelledby="presents-h"><p class="lab">this website presents</p><h2 id="presents-h">kes inkersole</h2><p>creative strategist, internet equalities researcher, london. available for work.</p><p class="kv gap"><span class="k">does:</span> creative strategy, research, workshops, writing and teaching</p><p class="kv"><span class="k">teaches:</span> associate lecturer at UAL (LCF + CCI)</p><p class="kv"><span class="k">clients:</span> Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges</p><p class="kv"><span class="k">school:</span> MA internet equalities, BA creative direction, PhD [ ? ]</p><p class="kv"><span class="k">cv:</span> cv &amp; portfolio on request</p><p class="kv"><span class="k">email:</span> <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p></section>
+
+<section class="u proj" id="p1" aria-labelledby="p1-h"><p class="lab">01 · for fun</p><h2 id="p1-h"><a href="https://latent-space.vercel.app/">latent space</a></h2><p class="pic">(picture to come)</p><p>lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam.</p></section>
+
+<section class="u proj" id="p2" aria-labelledby="p2-h"><p class="lab">02 · for funds</p><h2 id="p2-h"><a href="https://co-matter.com/project/networked-worlds">networked worlds</a> with co—matter</h2><p class="pic">(picture to come)</p><p>duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. excepteur sint occaecat cupidatat non proident.</p></section>
+
+<section class="u proj" id="p3" aria-labelledby="p3-h"><p class="lab">03 · for funds</p><h2 id="p3-h"><a href="https://www.protein.xyz/dirty-words-4-community/">protein dirty words #4: community report</a></h2><p class="pic">(picture to come)</p><p>sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo.</p></section>
+
+<section class="u" id="more" aria-labelledby="more-h"><h2 id="more-h"><span class="sq p" aria-hidden="true">██</span> more projects</h2><ul><li><a href="https://protecht.vercel.app/">pro(tech)t</a> (for fun)</li><li><a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1">MØRNING Ø</a> (for funds)</li></ul></section>
+
+<section class="u" id="writing" aria-labelledby="writing-h"><h2 id="writing-h"><span class="sq y" aria-hidden="true">██</span> my writing</h2><p>new: short pieces from my notes app, sent in by email. it's called <a href="writing.html">chainmail</a>.</p></section>
+
+<section class="u" id="written" aria-labelledby="written-h"><h2 id="written-h"><span class="sq b" aria-hidden="true">██</span> things i've written</h2><ul><li><a href="https://www.protein.xyz/sex-and-the-internet/">mindy seu on sex and the internet</a> (Protein)</li><li><a href="https://midnight.agency/thoughts/dreaming-and-designing-more-accessible-web">dreaming and designing a more accessible web</a> (Midnight Agency)</li><li><a href="https://midnight.agency/thoughts/coding-a-more-creative-and-playful-web">coding a more creative and playful web</a> (Midnight Agency)</li><li><a href="https://midnight.agency/thoughts/composing-a-flexible-and-modular-web">composing a flexible and modular web</a> (Midnight Agency)</li><li><a href="https://morningfyi.substack.com/p/020-uh-oh-meet">burn after reading: uh oh, meet o</a> (morningfyi)</li><li><a href="https://morningfyi.substack.com/p/024-entering-limb-with">burn after reading: entering limbo</a> (morningfyi)</li></ul></section>
+
+<section class="u" id="pods" aria-labelledby="pods-h"><h2 id="pods-h"><span class="sq g" aria-hidden="true">██</span> podcasts, for the bus</h2><ul><li><a href="https://podcasts.apple.com/gb/podcast/mindy-seu-on-collaboration-community-and/id1449302502?i=1000597869409">mindy seu on collaboration, community and the cyberfeminism index</a></li><li><a href="https://soundcloud.com/proteincommunity/protein-forum-what-can-web2-organisations-learn-from-web3-communities">what can web2 organisations learn from web3 communities?</a> (Protein)</li><li><a href="https://podcasts.apple.com/gb/podcast/cherie-hu-on-water-musics-journey-through-web3/id1449302502?i=1000581859804">cherie hu on water &amp; music's journey through web3</a></li><li><a href="https://podcasts.apple.com/gb/podcast/molly-dickson-on-dao-activism-and-fighting-for/id1449302502?i=1000578164761">molly dickson on dao activism</a></li><li><a href="https://podcasts.apple.com/gb/podcast/dame-on-the-need-for-education-accessibility/id1449302502?i=1000559829008">dame on education, accessibility and inclusivity in web3</a></li><li><a href="https://podcasts.apple.com/gb/podcast/nadia-piet-on-creative-ai-and-protopian-futures/id1449302502?i=1000559822732">nadia piet on creative ai and protopian futures</a></li><li><a href="https://podcasts.apple.com/gb/podcast/cyn-bahati-on-her-journey-into-web3-with-her-family/id1449302502?i=1000559818509">cyn bahati on her journey into web3 with her family</a></li><li><a href="https://podcasts.apple.com/gb/podcast/latash%C3%A1-on-the-potential-of-web3-for-music-artists/id1449302502?i=1000552812458">latasha on the potential of web3 for music artists</a></li></ul></section>
+
+<section class="u" id="irl" aria-labelledby="irl-h"><h2 id="irl-h"><span class="sq p" aria-hidden="true">██</span> irl (mostly)</h2><ul><li><a href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1">olden residency</a></li><li><a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1">softer london</a> (talk + workshop)</li><li><a href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard">tech yard</a> (workshop)</li><li><a href="https://www.instagram.com/p/BslwSSPH5Rc/?img_index=2">ovar it</a></li></ul></section>
+
+<section class="u" id="about" aria-label="about this website"><p>this website is mostly plain text: system fonts, no trackers, no photos, one radio that stays quiet until you ask. it's easy for me to update and it loads fine on bad wifi.</p><p>thanks for stopping by &lt;3</p><p>say hello: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p></section>
+</main>
+</div>
+<button class="floatstop" id="floatstop" type="button" hidden>■ stop KES FM</button>
+
+<script>
+/* ===== KES FM engine: paste VERBATIM, do not edit =====
+   it expects: var onAir, var happy, var still, function look() (no-ops are fine),
+   and optionally .tower / .sound elements on the page (it animates them if present) */
+var onAir = false;
+var happy = false;
+var still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+function look(mark) { if (window.kesLook) window.kesLook(mark); }
+/* ---------------------------------------------------------------
+   KES FM 170.0
+   a jungle machine. there are no samples in here: the break is
+   drummed out of oscillators and noise, recorded into a buffer at
+   136bpm, then played back sped up to 170 and chopped into slices,
+   which is what the old samplers did to records.
+   --------------------------------------------------------------- */
+(function () {
+  var Ctx = window.AudioContext || window.webkitAudioContext;
+  var $ = function (s) { return document.querySelector(s); };
+  var statusEl = $("#status"), tracker = $("#tracker"), infoEl = $("#lcdinfo"), floatStop = $("#floatstop");
+  var tower = $(".tower"), sounds = [].slice.call(document.querySelectorAll(".sound"));
+  if (!Ctx) { statusEl.textContent = "no web audio here, sorry x"; return; }
+
+  var BPM = 170, OLD = 136, RATE = BPM / OLD;
+  var STEP = 60 / BPM / 4, OSTEP = 60 / OLD / 4;   // a 16th note, now and in the original
+
+  // the breaks, written like a tracker. each number is a 16th-note slice of the break.
+  // r = reversed, ^ = pitched up, :3 = roll it three times in one step, -- = nothing
+  var BREAKS = {
+    straight: "00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F 10 11 12 13 14 15 16 17 18 19 1A 1B 1C 1D 1E 1F",
+    chopped:  "00 01 02 03 04 05 06 07 00 01 0A 0B 0C 0D 04 07 10 11 12 13 14 15 0C 0D 18 19 1A 1B 0C 09 r0C 14",
+    rollin:   "00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F 00 01 12 13 ^04 05 ^0C 07 0C 0D 0A 0B 0C:2 0C:2 14:3 04:4"
+  };
+  // basslines in F minor: [step, semitones from F, length in steps]
+  var BASS = {
+    sub:   [[0, 0, 6], [7, 0, 2], [10, 3, 4], [14, 2, 2], [16, -4, 6], [23, -4, 2], [26, -2, 3], [29, -5, 3]],
+    reese: [[0, 0, 10], [10, 3, 6], [16, -4, 10], [26, -5, 6]]
+  };
+  // the cute bit: a music box and a soft pad
+  var BELLS = { 0: 84, 3: 87, 6: 89, 10: 84, 12: 80, 14: 82, 16: 77, 19: 80, 22: 84, 26: 87, 28: 89, 30: 92 };
+  var PADS = { 0: [53, 56, 60, 63, 67], 16: [49, 53, 56, 60, 63] };
+
+  var ac = null, master, comp, drums, bassBus, cuteBus, echoIn, B = null;
+  var breakBuf = null, revBuf = null;
+  var pattern = "straight", bassMode = "sub", cute = false, wantOn = false;
+  var step = 0, nextT = 0, timer = null, raf = 0, queue = [], live = [], shown = 0;
+
+  function parse(str) {
+    return str.trim().split(/\s+/).map(function (t) {
+      var m = /^([r^]?)([0-9A-F]{2})(?::(\d))?$/i.exec(t);
+      if (!m) return null;
+      return { s: parseInt(m[2], 16), rev: m[1] === "r", up: m[1] === "^", n: +(m[3] || 1), label: m[2].toUpperCase() };
+    });
+  }
+  var pats = {};
+  Object.keys(BREAKS).forEach(function (k) { pats[k] = parse(BREAKS[k]); });
+
+  // ✂ chop it: a fresh edit of the straight break every time
+  function chop() {
+    var t = BREAKS.straight.split(" "), out = t.slice(), hx = function (n) { return (n < 16 ? "0" : "") + n.toString(16).toUpperCase(); };
+    for (var b = 1; b < 8; b++) {
+      var at = b * 4, r = Math.random();
+      if (r < .35) { var from = Math.floor(Math.random() * 8) * 4; for (var k = 0; k < 4; k++) out[at + k] = t[from + k]; }
+      else if (r < .5) { out[at + 2] = "0C:2"; out[at + 3] = "14:3"; }
+      else if (r < .62) { out[at] = "r" + hx([4, 12, 20][Math.floor(Math.random() * 3)]); }
+      else if (r < .74) { out[at + 2] = "^" + t[at + 2]; }
+    }
+    out[30] = "0C:2"; out[31] = Math.random() < .5 ? "04:4" : "14:3";
+    BREAKS.chop = out.join(" ");
+    pats.chop = parse(BREAKS.chop);
+  }
+
+  // ---------- record the break ----------
+  function shaper(k) {
+    var n = 1024, c = new Float32Array(n);
+    for (var i = 0; i < n; i++) { var x = i * 2 / n - 1; c[i] = Math.tanh(k * x) / Math.tanh(k); }
+    return c;
+  }
+  function recordBreak() {
+    var sr = 32000, len = Math.ceil((32 * OSTEP + .8) * sr);
+    var Off = window.OfflineAudioContext || window.webkitOfflineAudioContext;
+    var oc = new Off(1, len, sr);
+    var noise = oc.createBuffer(1, sr, sr), nd = noise.getChannelData(0);
+    for (var i = 0; i < nd.length; i++) nd[i] = Math.random() * 2 - 1;
+    var bus = oc.createGain(), sat = oc.createWaveShaper();
+    bus.gain.value = .8; sat.curve = shaper(1.6);
+    bus.connect(sat); sat.connect(oc.destination);
+
+    function hiss(t, type, f, q, v, dec) {
+      var s = oc.createBufferSource(), fl = oc.createBiquadFilter(), g = oc.createGain();
+      s.buffer = noise; fl.type = type; fl.frequency.value = f; fl.Q.value = q;
+      g.gain.setValueAtTime(v, t); g.gain.exponentialRampToValueAtTime(.001, t + dec);
+      s.connect(fl); fl.connect(g); g.connect(bus);
+      s.start(t, Math.random() * .5); s.stop(t + dec + .02);
+    }
+    function tone(t, type, f0, f1, bend, v, dec) {
+      var o = oc.createOscillator(), g = oc.createGain();
+      o.type = type; o.frequency.setValueAtTime(f0, t); o.frequency.exponentialRampToValueAtTime(f1, t + bend);
+      g.gain.setValueAtTime(v, t); g.gain.exponentialRampToValueAtTime(.001, t + dec);
+      o.connect(g); g.connect(bus); o.start(t); o.stop(t + dec + .02);
+    }
+    function kick(t, v) {
+      tone(t, "sine", 165, 48, .08, v, .3);
+      hiss(t, "highpass", 1800, .7, v * .35, .012);
+    }
+    function snare(t, v) {
+      tone(t, "triangle", 215, 185, .03, v * .55, .11);
+      tone(t, "triangle", 380, 330, .03, v * .3, .08);
+      hiss(t, "highpass", 1300, .6, v * .75, .19);
+      hiss(t, "bandpass", 3800, 1.1, v * .5, .07);
+    }
+    // the ride: six detuned squares, filtered, like an old drum machine cymbal
+    var metal = oc.createGain(), metalHP = oc.createBiquadFilter();
+    metal.gain.value = .12; metalHP.type = "highpass"; metalHP.frequency.value = 6000;
+    [205.3, 304.4, 369.6, 522.7, 540, 800].forEach(function (f) {
+      var o = oc.createOscillator(); o.type = "square"; o.frequency.value = f * 1.6; o.connect(metal); o.start(0);
+    });
+    metal.connect(metalHP);
+    function ride(t, v, dec) {
+      var g = oc.createGain();
+      g.gain.value = 0; g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(v, t + .002); g.gain.exponentialRampToValueAtTime(.001, t + dec);
+      g.gain.setValueAtTime(0, t + dec + .01);
+      metalHP.connect(g); g.connect(bus);
+      hiss(t, "highpass", 8500, .7, v * .3, dec * .8);
+    }
+    var at = function (s) { return .01 + s * OSTEP + (Math.random() - .5) * .003; };
+    [0, 2, 10, 11, 18, 19, 26].forEach(function (s) { kick(at(s), s === 11 || s === 19 ? .7 : .95); });
+    [[4, 1], [7, .45], [9, .55], [12, 1], [15, .5], [14, .15], [17, .3], [20, 1], [22, .14], [23, .45], [25, .55], [30, .9], [31, .2]]
+      .forEach(function (p) { snare(at(p[0]), p[1]); });
+    for (var s = 0; s < 32; s += 2) if (s !== 26 && s !== 28) ride(at(s), s % 4 ? .45 : .7, .32);
+    ride(at(26), 1, 1.2); hiss(at(26), "highpass", 4500, .5, .45, 1);   // the crash
+
+    return new Promise(function (ok) {
+      oc.oncomplete = function (e) { ok(e.renderedBuffer); };
+      var p = oc.startRendering();
+      if (p && p.then) p.then(ok);
+    }).then(function (buf) {
+      var d = buf.getChannelData(0), peak = 0;
+      for (var i = 0; i < d.length; i++) peak = Math.max(peak, Math.abs(d[i]));
+      for (i = 0; i < d.length; i++) d[i] *= .9 / (peak || 1);
+      var rb = oc.createBuffer(1, d.length, sr), r = rb.getChannelData(0);
+      for (i = 0; i < d.length; i++) r[i] = d[d.length - 1 - i];
+      breakBuf = buf; revBuf = rb;
+    });
+  }
+
+  // ---------- the live rig ----------
+  function vol() { return +$("#vol").value * .9; }
+  function build() {
+    ac = new Ctx();
+    master = ac.createGain(); master.gain.value = vol();
+    comp = ac.createDynamicsCompressor();
+    comp.threshold.value = -16; comp.knee.value = 8; comp.ratio.value = 4; comp.attack.value = .004; comp.release.value = .18;
+    comp.connect(master); master.connect(ac.destination);
+    drums = ac.createGain(); drums.gain.value = .85; drums.connect(comp);
+    bassBus = ac.createGain(); bassBus.gain.value = .6; bassBus.connect(comp);
+    // a dub echo, for the siren and the cute bits
+    echoIn = ac.createGain();
+    var dl = ac.createDelay(1), fb = ac.createGain(), lp = ac.createBiquadFilter();
+    dl.delayTime.value = STEP * 3; fb.gain.value = .4; lp.type = "lowpass"; lp.frequency.value = 2400;
+    echoIn.connect(dl); dl.connect(lp); lp.connect(fb); fb.connect(dl); lp.connect(comp);
+    cuteBus = ac.createGain(); cuteBus.gain.value = .5; cuteBus.connect(comp);
+    var send = ac.createGain(); send.gain.value = .5; cuteBus.connect(send); send.connect(echoIn);
+    // one bass voice that stays on: a sine sub, plus two detuned saws for the reese
+    var o1 = ac.createOscillator(), o2 = ac.createOscillator(), sub = ac.createOscillator(), lfo = ac.createOscillator();
+    var saw = ac.createGain(), subG = ac.createGain(), grit = ac.createWaveShaper(), lpf = ac.createBiquadFilter(), lfoG = ac.createGain(), env = ac.createGain();
+    o1.type = o2.type = "sawtooth"; o1.detune.value = -13; o2.detune.value = 13; sub.type = "sine";
+    lpf.type = "lowpass"; lpf.frequency.value = 480; lpf.Q.value = 4; lfo.frequency.value = .23; lfoG.gain.value = 300;
+    lfo.connect(lfoG); lfoG.connect(lpf.frequency);
+    grit.curve = shaper(2.5);
+    o1.connect(saw); o2.connect(saw); saw.connect(lpf); lpf.connect(env);
+    sub.connect(grit); grit.connect(subG); subG.connect(env);
+    env.gain.value = 0; env.connect(bassBus);
+    [o1, o2, sub, lfo].forEach(function (o) { o.start(); });
+    B = { o1: o1, o2: o2, sub: sub, saw: saw, subG: subG, env: env };
+    bassMix();
+  }
+  function bassMix() {
+    if (!B) return;
+    var t = ac.currentTime, r = bassMode === "reese";
+    B.saw.gain.setTargetAtTime(r ? .28 : 0, t, .05);
+    B.subG.gain.setTargetAtTime(r ? .5 : .85, t, .05);
+    if (bassMode === "off") B.env.gain.setTargetAtTime(0, t, .03);
+  }
+
+  function slice(tok, t, d, v) {
+    var s = ac.createBufferSource(), g = ac.createGain();
+    s.buffer = tok.rev ? revBuf : breakBuf;
+    s.playbackRate.value = RATE * (tok.up ? 1.26 : 1);
+    var off = tok.rev ? revBuf.duration - (tok.s + 1) * OSTEP : tok.s * OSTEP;
+    g.gain.value = 0;
+    g.gain.setValueAtTime(0, t);
+    g.gain.linearRampToValueAtTime(v, t + (tok.rev ? .01 : .0015));
+    g.gain.setValueAtTime(v, t + d - .004);
+    g.gain.linearRampToValueAtTime(0, t + d + .002);
+    s.connect(g); g.connect(drums);
+    s.start(t, Math.max(0, off)); s.stop(t + d + .01);
+    live.push({ s: s, end: t + d + .01 });
+  }
+  function hz(semi) { return 43.65 * Math.pow(2, semi / 12); }
+  function midi(m) { return 440 * Math.pow(2, (m - 69) / 12); }
+  function bass(i, t) {
+    if (bassMode === "off") return;
+    var line = BASS[bassMode];
+    line.forEach(function (n) {
+      if (n[0] !== i) return;
+      var f = hz(n[1]), end = t + n[2] * STEP, glide = bassMode === "reese" ? .045 : .01;
+      var legato = line.some(function (m) { return m[0] === (n[0] + n[2]) % 32; });
+      B.sub.frequency.setTargetAtTime(f, t, glide);
+      B.o1.frequency.setTargetAtTime(f * 2, t, glide);
+      B.o2.frequency.setTargetAtTime(f * 2, t, glide);
+      B.env.gain.setTargetAtTime(1, t, .006);
+      if (!legato || bassMode === "sub") B.env.gain.setTargetAtTime(0, end - .03, .02);
+    });
+  }
+  function bell(t, m) {
+    [[1, .3, .9], [2, .07, .3], [3.01, .04, .18]].forEach(function (p) {
+      var o = ac.createOscillator(), g = ac.createGain();
+      o.frequency.value = midi(m) * p[0];
+      g.gain.setValueAtTime(p[1], t); g.gain.exponentialRampToValueAtTime(.0005, t + p[2]);
+      o.connect(g); g.connect(cuteBus); o.start(t); o.stop(t + p[2] + .02);
+    });
+  }
+  function pad(t, notes) {
+    var len = 32 * STEP / 2;
+    notes.forEach(function (m, k) {
+      var o = ac.createOscillator(), g = ac.createGain(), f = ac.createBiquadFilter();
+      o.type = "triangle"; o.frequency.value = midi(m); o.detune.value = (k % 2 ? 6 : -6);
+      f.type = "lowpass"; f.frequency.value = 1400;
+      g.gain.value = 0; g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(.035, t + .6);
+      g.gain.setValueAtTime(.035, t + len - .5); g.gain.linearRampToValueAtTime(0, t + len);
+      o.connect(f); f.connect(g); g.connect(cuteBus); o.start(t); o.stop(t + len + .05);
+      live.push({ s: o, end: t + len + .05 });
+    });
+  }
+
+  function play(i, t) {
+    var tok = (pats[pattern] || pats.straight)[i];
+    if (tok) for (var k = 0; k < tok.n; k++) slice(tok, t + k * STEP / tok.n, STEP / tok.n, tok.n > 1 ? .55 + .45 * (k + 1) / tok.n : 1);
+    bass(i, t);
+    if (cute) { if (BELLS[i]) bell(t, BELLS[i]); if (PADS[i]) pad(t, PADS[i]); }
+  }
+  function tick() {
+    if (!ac) return;
+    var ahead = document.hidden ? 1.5 : .12, now = ac.currentTime;
+    while (nextT < now + ahead) {
+      var i = step % 32;
+      play(i, nextT);
+      queue.push([i, nextT]);
+      nextT += STEP; step++;
+    }
+    live = live.filter(function (x) { return x.end > now; });
+  }
+  function draw() {
+    if (!ac) return;
+    var now = ac.currentTime;
+    while (queue.length && queue[0][1] <= now) light(queue.shift()[0]);
+    raf = requestAnimationFrame(draw);
+  }
+  function light(i) {
+    var cells = tracker.children;
+    if (cells[shown]) cells[shown].classList.remove("on");
+    cells[i].classList.add("on"); shown = i;
+    if (i % 4) return;                          // the rest happens on the beat
+    if (!happy) look(i % 8 ? null : "^");
+    if (still) return;
+    if (tower) tower.classList.toggle("lit", i % 8 === 0);
+    sounds.forEach(function (s) { s.classList.remove("thump"); void s.offsetWidth; s.classList.add("thump"); });
+  }
+  function hush(t) {
+    live.forEach(function (x) { try { x.s.stop(t); } catch (e) {} });
+    live = []; queue = [];
+    if (B) {
+      B.env.gain.cancelScheduledValues(t); B.env.gain.setTargetAtTime(0, t, .015);
+      [B.sub, B.o1, B.o2].forEach(function (o) { o.frequency.cancelScheduledValues(t); });
+    }
+  }
+
+  // ---------- the buttons ----------
+  function say(s) { statusEl.textContent = s; }
+  function ui() {
+    document.body.classList.toggle("on-air", onAir);
+    $("#go").setAttribute("aria-pressed", onAir);
+    floatStop.hidden = !onAir;
+    document.querySelectorAll("[data-break]").forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.break === pattern); });
+    $("#chop").setAttribute("aria-pressed", pattern === "chop");
+    document.querySelectorAll("[data-bass]").forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.bass === bassMode); });
+    $("#cute").setAttribute("aria-pressed", cute);
+    infoEl.textContent = "break: " + (pattern === "chop" ? "your chop" : pattern) + " · bass: " + bassMode + " · cute: " + (cute ? "on ✿" : "off") + " · " + BPM + "bpm";
+    var html = "";
+    pats[pattern].forEach(function (t) {
+      html += t ? '<span class="' + (t.rev ? "rev " : "") + (t.up ? "up " : "") + (t.n > 1 ? "roll" : "") + '">' + t.label + "</span>" : '<span class="rest">--</span>';
+    });
+    tracker.innerHTML = html;
+    if (tracker.children[shown] && onAir) tracker.children[shown].classList.add("on");
+  }
+  function go() {
+    if (onAir) return;
+    wantOn = true;
+    if (!ac) build();
+    if (ac.resume) ac.resume();
+    say("tuning in…");
+    (breakBuf ? Promise.resolve() : recordBreak()).then(function () {
+      if (!wantOn || !ac) return;
+      onAir = true; step = 0; queue = []; nextT = ac.currentTime + .08;
+      clearInterval(timer); timer = setInterval(tick, 25); tick();
+      cancelAnimationFrame(raf); raf = requestAnimationFrame(draw);
+      say("● on air ♪");
+      ui();
+    }).catch(function (e) { say("no signal, your browser said no"); console.warn(e); });
+  }
+  function stop() {
+    wantOn = false; onAir = false;
+    clearInterval(timer); timer = null; cancelAnimationFrame(raf);
+    if (ac) {
+      var a = ac, m = master;
+      hush(a.currentTime);
+      m.gain.setTargetAtTime(0, a.currentTime, .01);
+      ac = null; B = null;
+      setTimeout(function () { if (a.close) a.close(); }, 150);
+    }
+    if (tower) tower.classList.remove("lit");
+    if (!happy) look();
+    say("off air");
+    ui();
+  }
+  // ⟲ the DJ pulls the record back by hand and drops it again from the top
+  function pullUp() {
+    if (!onAir || !ac) return;
+    clearInterval(timer);
+    var t = ac.currentTime + .01;
+    hush(t);
+    var s = ac.createBufferSource(), g = ac.createGain(), pos = ((shown + 1) % 32) * OSTEP;
+    s.buffer = revBuf; s.loop = true;
+    s.playbackRate.setValueAtTime(RATE, t);
+    s.playbackRate.linearRampToValueAtTime(RATE * 3, t + .4);
+    s.playbackRate.exponentialRampToValueAtTime(.2, t + 1.05);
+    g.gain.value = 0; g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(.8, t + .02);
+    g.gain.setValueAtTime(.8, t + .75); g.gain.linearRampToValueAtTime(0, t + 1.05);
+    s.connect(g); g.connect(drums);
+    s.start(t, Math.max(0, revBuf.duration - pos)); s.stop(t + 1.1);
+    live.push({ s: s, end: t + 1.1 });
+    say("⟲ pull up! from the top…");
+    if (!happy) look("@");
+    step = 0; nextT = t + 1.15;
+    timer = setInterval(tick, 25);
+    setTimeout(function () { if (onAir) { say("● on air ♪"); if (!happy) look(); } }, 1150);
+  }
+  // a dub siren, sound system style
+  function siren() {
+    if (!ac) build();
+    if (ac.resume) ac.resume();
+    var t = ac.currentTime + .02, o = ac.createOscillator(), l = ac.createOscillator(), lg = ac.createGain(), g = ac.createGain(), f = ac.createBiquadFilter();
+    o.type = "square"; o.frequency.setValueAtTime(380, t); o.frequency.exponentialRampToValueAtTime(820, t + 1.2);
+    l.type = "square"; l.frequency.setValueAtTime(4, t); l.frequency.linearRampToValueAtTime(10, t + 1.4);
+    lg.gain.value = 90; l.connect(lg); lg.connect(o.frequency);
+    f.type = "lowpass"; f.frequency.value = 1800;
+    g.gain.value = 0; g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(.09, t + .03);
+    g.gain.setValueAtTime(.09, t + 1.25); g.gain.linearRampToValueAtTime(0, t + 1.5);
+    o.connect(f); f.connect(g); g.connect(comp); g.connect(echoIn);
+    o.start(t); l.start(t); o.stop(t + 1.55); l.stop(t + 1.55);
+    live.push({ s: o, end: t + 1.55 }, { s: l, end: t + 1.55 });
+  }
+
+  $("#go").onclick = go;
+  $("#stop").onclick = stop;
+  floatStop.onclick = stop;
+  $("#pullup").onclick = pullUp;
+  $("#siren").onclick = siren;
+  $("#chop").onclick = function () { chop(); pattern = "chop"; ui(); };
+  $("#cute").onclick = function () { cute = !cute; ui(); };
+  $("#vol").oninput = function () { if (ac) master.gain.setTargetAtTime(vol(), ac.currentTime, .03); };
+  document.querySelectorAll("[data-break]").forEach(function (b) { b.onclick = function () { pattern = b.dataset.break; ui(); }; });
+  document.querySelectorAll("[data-bass]").forEach(function (b) { b.onclick = function () { bassMode = b.dataset.bass; bassMix(); ui(); }; });
+  ui();
+})();
+</script>
+<script>
+/* ---------------------------------------------------------------
+   the grid. everything is worked out in character columns and rows
+   for this viewport: a "pixel" is two columns wide and one row tall,
+   so it comes out square. the tower is three layers of type:
+   .fill (yellow █ floors, walls and lit windows), .cars (the little
+   squares that run along them) and .ko (words knocked out of the
+   floors in white). same viewport, same building.
+   --------------------------------------------------------------- */
+var Grid = (function () {
+  "use strict";
+  var D = document, H = D.documentElement;
+  var world = D.getElementById("world");
+  var FL = world.querySelector(".fill"), CL = world.querySelector(".cars"), KL = world.querySelector(".ko");
+  var probe = D.createElement("span");
+  probe.className = "probe"; probe.setAttribute("aria-hidden", "true");
+  D.body.appendChild(probe);
+  var BLOCK = "█";
+  H.style.setProperty("--fill", '"' + BLOCK.repeat(1200) + '"');
+
+  function adv(fs) { probe.style.fontSize = fs + "px"; probe.textContent = "0".repeat(200); return probe.getBoundingClientRect().width / 200; }
+
+  var G = { F: [], cars: [], maxY: 0, S: 5 };
+  G.metrics = function () {
+    var W = Math.floor(world.getBoundingClientRect().width * 100) / 100 || H.clientWidth || innerWidth;
+    var t = Math.max(8, Math.min(10, W / 165));
+    var cols = 2 * Math.max(12, Math.round(W / (2 * t)));
+    var cw = W / cols, fs = cw / (adv(100) / 100);
+    fs = fs * cw / adv(fs);
+    var lh = 2 * cw;
+    G.W = W; G.cols = cols; G.PW = cols / 2; G.cw = cw; G.px = 2 * cw; G.lh = lh; G.fs = fs;
+    G.R = Math.max(24, Math.floor((innerHeight || 700) / lh));
+    H.style.setProperty("--cw", cw + "px");
+    H.style.setProperty("--px", 2 * cw + "px");
+    H.style.setProperty("--lh", lh + "px");
+    H.style.setProperty("--fs", fs + "px");
+    return G;
+  };
+  G.reset = function () { G.F = []; G.cars = []; G.maxY = 0; G.texts = []; G.NS = 0; G.y0s = 0; };
+  function row(y) { if (!G.F[y]) G.F[y] = new Uint8Array(G.PW); if (y > G.maxY) G.maxY = y; return G.F[y]; }
+  // codes: 1 street (carries squares and words), 2 pink, 3 blue, 4 grey, 5 yellow plane,
+  // 6 the mast and its bars, 7 plain yellow structure (roof edge, balcony stubs), 8 a partition (squares, no words).
+  // +16 trades colour on the beat, +32 only while the gate is up, +64 a window on a numbered storey
+  G.put = function (x, y, c) { if (x < 0 || x >= G.PW || y < 0) return; row(y)[x] = c; };
+  G.get = function (x, y) { var r = G.F[y]; return r && x >= 0 && x < G.PW ? r[x] : 0; };
+  G.rect = function (x0, y0, x1, y1, c) { for (var y = y0; y <= y1; y++) for (var x = x0; x <= x1; x++) G.put(x, y, c); };
+  G.h = function (y, x0, x1) { G.rect(x0, y, x1, y, 1); };
+  G.v = function (x, y0, y1) { G.rect(x, y0, x, y1, 1); };
+  G.touch = function (y) { row(y); };
+
+  // a little deterministic dice, seeded by where you are
+  G.rng = function (seed) {
+    var s = (seed * 2654435761) >>> 0 || 7;
+    return function () { s ^= s << 13; s >>>= 0; s ^= s >>> 17; s ^= s << 5; s >>>= 0; return (s % 1000003) / 1000003; };
+  };
+
+  // a mondrian block: a plane with a smaller square inside it, both trading colours on the beat
+  var PAIRS = [[3, 2], [2, 4], [5, 4], [3, 5], [4, 2], [2, 3], [5, 3]];
+  G.block = function (x0, y0, x1, y1, k, extra) {
+    var pair = PAIRS[k % PAIRS.length], f = 16 | (extra || 0), w = x1 - x0 + 1, h = y1 - y0 + 1;
+    G.rect(x0, y0, x1, y1, pair[0] | f);
+    if (w >= 4 && h >= 3) {
+      var iw = Math.max(1, Math.round(w / 3)), ih = Math.max(1, Math.round(h / 3));
+      var ix = x0 + ((k & 1) ? w - iw - Math.max(1, Math.floor(w / 5)) : Math.max(1, Math.floor(w / 5)));
+      var iy = y0 + Math.max(1, Math.floor((h - ih) / 2));
+      G.rect(ix, iy, ix + iw - 1, iy + ih - 1, pair[1] | f);
+    }
+  };
+  // a lit window in a flat: a block that leans on the floor below
+  G.decor = function (x0, x1, yTop, yBot, k) {
+    var free = yBot - yTop + 1, w = x1 - x0 + 1;
+    if (free < 5 || w < 5) return;
+    var r = G.rng(x0 * 131 + yBot * 7 + k);
+    var bh = Math.min(free - 2, 3 + Math.floor(r() * 4)), bw = Math.max(3, Math.round(w * (0.25 + r() * 0.3)));
+    var left = r() < 0.5, bx0 = left ? x0 + 1 : x1 - bw;
+    G.block(bx0, yBot - bh + 1, bx0 + bw - 1, yBot, k);
+  };
+
+  // ---------- the building ----------
+  // sky either side, two walls, a lane of balconies down one or both sides, then the flats in bays
+  G.frame = function (PW) {
+    var f = {}, sky, lane, both;
+    if (PW >= 80) { f.cls = "wide"; sky = Math.max(4, Math.round(PW * 0.05)); lane = 4; both = true; }
+    else if (PW >= 56) { f.cls = "mid"; sky = 3; lane = 3; both = true; }
+    else { f.cls = "narrow"; sky = PW >= 36 ? 2 : 1; lane = PW >= 36 ? 2 : 1; both = PW >= 36; }
+    f.wl = sky; f.wr = PW - 1 - sky;
+    f.laneL = [f.wl + 1, f.wl + lane]; f.colL = f.wl + lane + 1;
+    if (both) { f.laneR = [f.wr - lane, f.wr - 1]; f.colR = f.wr - lane - 1; } else { f.laneR = null; f.colR = f.wr; }
+    var c0 = f.colL + 1, c1 = f.colR - 1, T;
+    if (f.cls === "wide") {
+      T = c1 - c0 + 1 - 2;
+      var A = Math.round(T * 0.4), Bw = Math.round(T * 0.3);
+      f.bays = [[c0, c0 + A - 1], [c0 + A + 1, c0 + A + Bw], [c0 + A + Bw + 2, c1]];
+    } else if (f.cls === "mid") {
+      T = c1 - c0 + 1 - 1;
+      var A2 = Math.round(T / 2);
+      f.bays = [[c0, c0 + A2 - 1], [c0 + A2 + 1, c1]];
+    } else f.bays = [[c0, c1]];
+    f.pad = f.cls === "narrow" && PW < 36 ? 1 : 2;
+    return f;
+  };
+  // walls and balcony lanes from y0 to y1; storeys (a stub and a window each) from y0 down to yW
+  G.tower = function (f, y0, y1, yW) {
+    var S = G.S;
+    G.v(f.wl, y0, y1); G.v(f.wr, y0, y1);
+    G.v(f.colL, y0, y1); if (f.laneR) G.v(f.colR, y0, y1);
+    var lanes = f.laneR ? [f.laneL, f.laneR] : [f.laneL], s = 0;
+    for (var y = y0; y + S <= yW; y += S, s++) {
+      lanes.forEach(function (ln, j) {
+        G.rect(ln[0], y, ln[1], y, 7);
+        var w = ln[1] - ln[0] + 1, x0 = w >= 3 ? ln[0] + 1 : ln[0], x1 = w >= 3 ? ln[1] - 1 : ln[1];
+        var r = G.rng(s * 31 + j * 7 + 3)(), col = r < 0.5 ? 4 : r < 0.67 ? 2 : r < 0.84 ? 3 : 5;
+        G.rect(x0, y + 2, x1, y + 3, col | 64);
+      });
+    }
+    G.NS = s; G.y0s = y0;
+  };
+
+  // ---------- type placed on the grid ----------
+  // a unit of real content in a cell x0..x1 (pixels), starting at row y; pad is in columns
+  G.place = function (el, x0, y, x1, pad, max) {
+    pad = pad == null ? 2 : pad;
+    var cols = (x1 - x0 + 1) * 2 - pad * 2;
+    if (max && cols > max) cols = max;
+    el.style.left = (x0 * 2 + pad) * G.cw + "px";
+    el.style.top = y * G.lh + "px";
+    el.style.width = cols * G.cw + "px";
+    return Math.max(1, Math.ceil(el.getBoundingClientRect().height / G.lh - 0.08));
+  };
+  G.at = function (el, x, y, w) {
+    el.style.left = x * G.px + "px"; el.style.top = y * G.lh + "px";
+    if (w != null) el.style.width = w * G.px + "px";
+  };
+
+  // one floor of flats. cells: [{ x: [x0, x1], u: [elements], decor }]. returns the next floor's row
+  G.band = function (f, ys, cells, k, groundRows) {
+    var S = G.S, bottom = ys + 3;
+    cells.forEach(function (c) {
+      var yy = ys + 2; c.inner = [];
+      c.u.forEach(function (u, i) {
+        if (i) { c.inner.push(yy + 1); yy += 3; }
+        yy += G.place(u, c.x[0], yy, c.x[1], f.pad, 72);
+      });
+      c.end = c.u.length ? yy : ys + 1;
+      bottom = Math.max(bottom, yy + 1);
+    });
+    var last = !!groundRows, g0 = bottom + 1, gr = g0 + (groundRows || 0) - 1;
+    if (!last) bottom = ys + Math.ceil((bottom - ys) / S) * S;
+    cells.forEach(function (c, i) {
+      c.inner.forEach(function (iy) { G.rect(c.x[0], iy, c.x[1], iy, 8); });   // a partition between two rooms: squares, no words
+      if (c.decor !== false) G.decor(c.x[0], c.x[1], c.end + 1, last ? g0 - 2 : bottom - 1, k + i * 2);
+    });
+    for (var i = 0; i < cells.length - 1; i++) G.v(cells[i].x[1] + 1, ys, last ? gr - 1 : bottom);
+    if (last) return { g0: g0, gr: gr };
+    G.h(bottom, f.wl, f.wr);
+    return bottom;
+  };
+
+  // ---------- kes's flower garden, at the foot of the tower ----------
+  var GT = ["                  _   _                                                             _   _                                                    _   _                                                          ", "     _           ( `v' )                                              _            ( `v' )            _                                     ( `v' )       _                              _                  ", "   _(_)_          \\   /           \\ | /               @@@           _(_)_           \\   /           _(_)_           @@@       \\ | /          \\   /      _(_)_                @@@       _(_)_     \\ | /      ", "  (_)@(_)          `.'           -- o --             @@@@@         (_)@(_)           `.'           (_)@(_)         @@@@@     -- o --          `.'      (_)@(_)              @@@@@     (_)@(_)   -- o --     ", "    (_)             |             / | \\    (\\_/)      @@@            (_)              |              (_)            @@@       / | \\            |         (_)                 @@@        (_)      / | \\      ", "     |\\            /|        ,      |      (-.-)       |             /|       ,      /|               |\\      ,      |          |             /|         /|      ,            |          |\\        |        ", "     |      \\|/     |       \\|      |/     (\")(\")     \\|     \\|/      |      \\|       |     \\|/       |      \\|     \\|          |/    \\|/      |          |     \\|   \\|/     \\|          |         |/    \\|/", ",.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,"], GC = ["                  p   p                                                             p   p                                                    p   p                                                          ", "     p           p ppp p                                              b            p ppp p            p                                     p ppp p       b                              p                  ", "   ppppp          p   p           y y y               lll           bbbbb           p   p           ppppp           lll       y y y          p   p      bbbbb                lll       ppppp     y y y      ", "  pppyppp          ppp           yy p yy             lllll         bbbybbb           ppp           pppyppp         lllll     yy p yy          ppp      bbbybbb              lllll     pppyppp   yy p yy     ", "    ppp             g             y y y    kkkkk      lll            bbb              g              ppp            lll       y y y            g         bbb                 lll        ppp      y y y      ", "     gg            gg        g      g      kkkkk       g             gg       g      gg               gg      g      g          g             gg         gg      g            g          gg        g        ", "     g      ggg     g       gg      gg     kkkkkk     gg     ggg      g      gg       g     ggg       g      gg     gg          gg    ggg      g          g     gg   ggg     gg          g         gg    ggg", "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg"];
+  var GCLS = { p: "gp", b: "gb", y: "gy", g: "gg", l: "gb", k: "gk" };
+  G.GROWS = GT.length;
+  G.garden = function (el, y0) {
+    var cols = G.cols, W = GT[0].length, out = [], mask = [];
+    for (var r = 0; r < GT.length; r++) {
+      var s = "", hits = new Uint8Array(G.PW), c = 0;
+      while (c < cols) {
+        var i = c % W, ch = GT[r][i], k = GC[r][i];
+        if (ch !== " ") {
+          hits[c >> 1] = 1;
+          if (r < 4) { if (c > 0) hits[(c - 1) >> 1] = 1; if (c + 1 < cols) hits[(c + 1) >> 1] = 1; }
+        }
+        if (r === 5 && GT[r].substr(i, 3) === "-.-" && c + 3 <= cols) {
+          s += '<b class="gk"><s>-.-</s><u>o.o</u></b>'; hits[c >> 1] = hits[(c + 2) >> 1] = 1; c += 3; continue;
+        }
+        var e = c + 1; while (e < cols && GC[r][e % W] === k && !(r === 5 && GT[r].substr(e % W, 3) === "-.-")) e++;
+        var txt = ""; for (var j = c; j < e; j++) txt += GT[r][j % W];
+        txt = txt.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        s += k === " " ? txt : '<b class="' + GCLS[k] + '">' + txt + "</b>";
+        for (j = c; j < e; j++) if (GT[r][j % W] !== " ") hits[j >> 1] = 1;
+        c = e;
+      }
+      out.push('<div class="r' + (r < 4 ? " hd" : "") + '">' + s + "</div>");
+      mask.push(hits);
+    }
+    el.innerHTML = out.join("");
+    el.style.top = y0 * G.lh + "px";
+    // the flowers grow in front of the tower's feet
+    for (r = 0; r < mask.length; r++) for (var x = 0; x < G.PW; x++) if (mask[r][x]) G.put(x, y0 + r, 0);
+    G.touch(y0 + GT.length - 1);
+  };
+
+  // ---------- render ----------
+  var CLS = ["", "c1", "c2", "c3", "c4", "c5", "c1 ms", "c1", "c1"];
+  function st(c) { c &= 15; return c === 1 || c === 8; }
+  function esc(s) { return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+  G.render = function (phrases, density, seed, minText) {
+    var PW = G.PW, rows = G.maxY + 1, out = [], y, x, S = G.S;
+    for (y = 0; y < rows; y++) {
+      var r = G.F[y], s = "";
+      if (r) for (x = 0; x < PW;) {
+        var c = r[x], x2 = x; while (x2 < PW && r[x2] === c) x2++;
+        var n = (x2 - x) * 2;
+        if (!c) s += " ".repeat(n);
+        else s += '<b class="' + CLS[c & 15] + (c & 16 ? " sw" : "") + (c & 32 ? " gate-only" : "") +
+          (c & 64 ? ' w" data-s="' + Math.floor((y - G.y0s) / S) : "") + '">' + BLOCK.repeat(n) + "</b>";
+        x = x2;
+      }
+      out.push('<div class="r">' + s + "</div>");
+    }
+    FL.innerHTML = out.join("");
+    world.style.height = rows * G.lh + "px";
+
+    // streets: runs of street cells, across and down
+    var segs = [], K = [];
+    for (y = 0; y < rows; y++) {
+      var rr = G.F[y]; if (!rr) continue;
+      for (x = 0; x < PW;) {
+        if (!st(rr[x])) { x++; continue; }
+        var e = x, words = true; while (e < PW && st(rr[e])) { if ((rr[e] & 15) === 8) words = false; e++; }
+        if (e - x >= 4) segs.push({ h: 1, y: y, a: x, n: e - x, words: words });
+        x = e;
+      }
+    }
+    for (x = 0; x < PW; x++) {
+      for (y = 0; y < rows;) {
+        if (!st(G.get(x, y))) { y++; continue; }
+        var e2 = y; while (e2 < rows && st(G.get(x, e2))) e2++;
+        if (e2 - y >= 4) segs.push({ h: 0, x: x, a: y, n: e2 - y });
+        y = e2;
+      }
+    }
+    // words knocked out of the floors
+    var pi = seed || 0;
+    segs.forEach(function (sg) {
+      if (!sg.h || !sg.words || !phrases || !phrases.length || sg.n < (minText || 8)) return;
+      var ph = phrases[pi++ % phrases.length] + " · ", line = K[sg.y] || (K[sg.y] = new Array(G.cols + 1).join(" ").split(""));
+      var off = (sg.y * 7) % ph.length;
+      for (var c2 = sg.a * 2 + 1; c2 < (sg.a + sg.n) * 2 - 1; c2++) line[c2] = ph[(c2 + off) % ph.length];
+    });
+    out = [];
+    for (y = 0; y < rows; y++) out.push('<div class="r">' + (K[y] ? esc(K[y].join("").replace(/\s+$/, "")) : "") + "</div>");
+    KL.innerHTML = out.join("");
+
+    // the little squares: grey, pink and blue, in irregular runs along every floor and wall
+    var html = [], cars = [];
+    segs.forEach(function (sg, i) {
+      var r = G.rng((sg.h ? sg.y * 97 + sg.a : sg.x * 89 + sg.a * 3) + 11), p = Math.floor(r() * 3);
+      sg.dir = (i % 2 ? -1 : 1); sg.sp = r() < 0.3 ? 2 : 1; sg.cars = [];
+      while (p < sg.n) {
+        var lvl = r() < 0.55 ? 1 : 2, col = [4, 2, 3, 4, 2, 3, 4][Math.floor(r() * 7)];
+        sg.cars.push({ p: p, c: col, k: lvl });
+        if (r() < 0.32 && p + 1 < sg.n) sg.cars.push({ p: ++p, c: col === 4 ? 2 : 4, k: lvl });
+        if (r() < 0.5 && p + 3 < sg.n) sg.cars.push({ p: p + 2, c: [2, 3, 4][Math.floor(r() * 3)], k: 3 });
+        p += 2 + Math.floor(r() * density);
+      }
+      sg.cars.forEach(function (c) { c.sg = sg; cars.push(c); html.push('<b class="car c' + c.c + " k" + c.k + '"><s>' + BLOCK + BLOCK + "</s><u>&lt;3</u></b>"); });
+    });
+    CL.innerHTML = html.join("");
+    var els = CL.children;
+    for (var j = 0; j < cars.length; j++) cars[j].el = els[j];
+    G.segs = segs; G.cars = cars;
+    G.move(0);
+  };
+  function mod(a, n) { return ((a % n) + n) % n; }
+  G.mod = mod;
+  G.move = function (t) {
+    for (var i = 0; i < G.cars.length; i++) {
+      var c = G.cars[i], sg = c.sg, q = mod(c.p + sg.dir * Math.floor(t / sg.sp), sg.n);
+      var x = sg.h ? sg.a + q : sg.x, y = sg.h ? sg.y : sg.a + q;
+      c.el.style.transform = "translate(" + (x * G.px).toFixed(2) + "px," + (y * G.lh).toFixed(2) + "px)";
+    }
+  };
+  return G;
+})();
+
+/* ---------------------------------------------------------------
+   the home page: first the roof (KES FM's aerial at rest, and a pink
+   transmitter that plays it), then the whole tower opens up beneath,
+   floor by floor, down to kes's garden at the bottom.
+   --------------------------------------------------------------- */
+(function () {
+  "use strict";
+  var D = document, H = D.documentElement, G = Grid;
+  var still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var $ = function (s) { return D.querySelector(s); };
+  var U = {
+    name: $("#top"), keys: $("#keys"), hello: $("#hello"), presents: $("#presents"),
+    p1: $("#p1"), p2: $("#p2"), p3: $("#p3"), more: $("#more"), writing: $("#writing"),
+    written: $("#written"), pods: $("#pods"), irl: $("#irl"), about: $("#about")
+  };
+  var go = $("#go"), quiet = $("#quiet"), trk = $("#tracker"), ticker = $(".ticker"), beacon = $(".beacon");
+  var SKYL = $(".sky"), GDN = $(".gdn");
+  var PHRASES = ["kes inkersole", "creative strategist", "internet equalities researcher", "london", "available for work", "KES FM 170.0"];
+  var B = "█";
+
+  // the transmitter: a pink plane of █ with a white ▶ knocked out of it
+  function placeGo(x, y, w, h) {
+    var cols = w * 2, t = Math.max(3, Math.min(6, h - 5)), Wt = Math.round(1.75 * t);
+    var top = Math.max(1, Math.floor((h - t - 3) / 2)), tx = Math.floor((cols - Wt) / 2);
+    function wid(s) { return Math.round(Wt * (1 - Math.abs(s + 0.5 - t) / t)); }
+    var fill = "", over = "";
+    for (var r = 0; r < h; r++) {
+      fill += '<span class="ln">' + B.repeat(cols) + "</span>";
+      var i = r - top, line = "";
+      if (i >= 0 && i < t) {
+        var wu = wid(2 * i), wl = wid(2 * i + 1);
+        line = " ".repeat(tx);
+        for (var c = 0; c < Wt; c++) { var u = c < wu, l = c < wl; line += u && l ? B : u ? "▀" : l ? "▄" : " "; }
+        line = '<span class="tri" aria-hidden="true">' + line + "</span>";
+      } else if (r === top + t + 1) {
+        line = '<span class="off" aria-hidden="true">' + " ".repeat(Math.max(0, Math.floor((cols - 10) / 2))) + '</span><span class="t off">press play</span>' +
+          '<span class="on" aria-hidden="true">' + " ".repeat(Math.max(0, Math.floor((cols - 8) / 2))) + "</span>" + '<span class="t on">● on air</span>';
+      } else if (r === top + t + 2) {
+        line = '<span aria-hidden="true">' + " ".repeat(Math.max(0, Math.floor((cols - 12) / 2))) + '</span><span class="t">KES FM 170.0</span>';
+      }
+      over += '<span class="ln">' + line + "</span>";
+    }
+    go.innerHTML = '<span class="gf" aria-hidden="true">' + fill + '</span><span class="gk">' + over + "</span>";
+    G.at(go, x, y, w); go.style.height = h * G.lh + "px";
+  }
+
+  // ---------- the sky: a dotted lozenge at rest; on air, the signal goes out in lozenges ----------
+  var SK = null, rings = [], ringOff = 0;
+  function skyMask(yb, rects) {
+    var m = [];
+    for (var y = 0; y < yb; y++) {
+      var r = new Uint8Array(G.PW);
+      for (var x = 0; x < G.PW; x++) if (G.get(x, y)) r[x] = 1;
+      m.push(r);
+    }
+    rects.forEach(function (q) {
+      for (var y = Math.max(0, q[1]); y <= Math.min(yb - 1, q[3]); y++) for (var x = Math.max(0, q[0]); x <= Math.min(G.PW - 1, q[2]); x++) m[y][x] = 1;
+    });
+    return m;
+  }
+  function drawSky() {
+    if (!SK) return;
+    var PW = G.PW, grid = [], y, x, list;
+    for (y = 0; y < SK.yb; y++) grid.push(new Uint8Array(PW));
+    function dot(x, y, c) { if (x < 0 || x >= PW || y < 0 || y >= SK.yb || SK.mask[y][x] || grid[y][x]) return; grid[y][x] = c; }
+    function ring(cx0, cx1, cy, r, step, c) {
+      for (var dy = -r; dy <= r; dy++) {
+        if ((dy + r) % step) continue;
+        var dx = r - Math.abs(dy);
+        dot(cx0 - dx, cy + dy, c); dot(cx1 + dx, cy + dy, c);
+      }
+    }
+    if (window.onAir && !still) {
+      list = rings;
+      list.forEach(function (rg) {
+        var r = SK.n - rg.b + ringOff;
+        if (r < 1 || r > SK.maxR) return;
+        ring(SK.cx0, SK.cx1, SK.cy, r, r < 8 ? 1 : r < 20 ? 2 : 3, r < 28 ? rg.c : 4);
+      });
+    } else ring(SK.cx0, SK.cx1, SK.ly, SK.lr, 2, window.onAir ? 2 : 4);
+    var cute = H.classList.contains("cute"), out = [];
+    for (y = 0; y < SK.yb; y++) {
+      var g = grid[y], s = "";
+      for (x = 0; x < PW;) {
+        var c = g[x], e = x; while (e < PW && g[e] === c) e++;
+        s += c ? '<b class="c' + c + (cute ? ' h">' + "&lt;3".repeat(e - x) : ' q">' + B.repeat(2 * (e - x))) + "</b>" : " ".repeat(2 * (e - x));
+        x = e;
+      }
+      out.push('<div class="r">' + s.replace(/\s+$/, "") + "</div>");
+    }
+    SKYL.innerHTML = out.join("");
+  }
+
+  var fr, S1;
+  function X(i, j) { return [fr.bays[i][0], fr.bays[j == null ? i : j][1]]; }
+
+  // ---------- the roof ----------
+  function roof(R) {
+    var f = fr, PW = G.PW, n = f.cls === "narrow", wide = f.cls === "wide";
+    var yb = R - 3;
+    var nameRows = G.place(U.name, f.wl, 1, Math.min(PW - 1, f.wl + 15), 0);
+    var mx = Math.floor((f.wl + f.wr) / 2);
+    var bw = n ? Math.min(12, f.wr - f.wl - 3) : wide ? 16 : 14; bw -= bw % 2;
+    var bh = n ? 9 : 10;
+    var bx0 = mx + 1 - bw / 2, bx1 = bx0 + bw - 1;
+    var kx0 = bx1 + 3, kx1 = f.wr - 1, right = (kx1 - kx0 + 1) >= 25, yQ, by0, by1, kr, krect;
+    if (right) {
+      yQ = yb - 2; by1 = yQ - 2; by0 = by1 - bh + 1;
+      kr = G.place(U.keys, kx0, by0, kx1, 0, 64);
+      U.keys.style.top = (by1 - kr + 1) * G.lh + "px";
+      krect = [kx0, by1 - kr + 1, kx1, by1];
+    } else {
+      kr = G.place(U.keys, f.wl + 1, 0, f.wr - 1, 1, 64);
+      yQ = yb - 1 - kr; by1 = yQ - 2; by0 = by1 - bh + 1;
+      U.keys.style.top = yQ * G.lh + "px";
+      krect = [f.wl + 1, yQ, f.wr - 1, yQ + kr - 1];
+    }
+    placeGo(bx0, by0, bw, bh);
+    var ql = 23, qx = bx0 * 2 + Math.max(0, Math.floor((bw * 2 - ql) / 2));
+    quiet.style.left = qx * G.cw + "px"; quiet.style.top = yQ * G.lh + "px";
+
+    // the mast, standing on the transmitter
+    var yTop = 2, L = by0 - yTop;
+    G.rect(mx, yTop, mx + 1, by0 - 1, 6);
+    G.at(beacon, mx, yTop - 1);
+    G.at(trk, mx, yTop, 2); trk.style.height = L * G.lh + "px";
+    // two stays from the tip down to the corners of the transmitter, pink and blue,
+    // braced every storey with a yellow bar: a lattice tower in three colours
+    function wire(xa, ya, xb, yb2, c) {
+      var px = xa, xs = [];
+      for (var y = ya; y <= yb2; y++) {
+        var x = Math.round(xa + (xb - xa) * (y - ya) / Math.max(1, yb2 - ya));
+        var lo = y === ya ? x : Math.min(px, x), hi = y === ya ? x : Math.max(px, x);
+        for (var xx = lo; xx <= hi; xx++) if (!G.get(xx, y)) G.put(xx, y, c);
+        xs[y] = x; px = x;
+      }
+      return xs;
+    }
+    var yS = yTop + 1, sl = wire(mx - 1, yS, bx0, by0 - 1, 2 | 16), sr = wire(mx + 2, yS, bx1, by0 - 1, 3 | 16);
+    for (var yy = by0 - 1 - G.S; yy > yS + 2; yy -= G.S) G.rect(sl[yy] + 1, yy, sr[yy] - 1, yy, 6);
+    // the roof edge, with the shout-outs knocked out of it
+    G.rect(f.wl, yb, f.wr, yb, 7);
+    G.at(ticker, f.wl, yb, f.wr - f.wl + 1);
+    // a lift motor room on the roof, a mondrian block
+    var mBot = right ? yb - 1 : by1, mx0 = f.wl + 2, mx1 = bx0 - 3;
+    if (mx1 - mx0 + 1 >= 6) G.block(mx0, mBot - Math.min(5, bh - 3) + 1, mx0 + Math.min(9, mx1 - mx0), mBot, 4);
+    if (!right && kx1 - kx0 + 1 >= 6) G.block(kx1 - Math.min(6, kx1 - kx0), by1 - 2, kx1, by1, 1);
+
+    var nameCols = Math.ceil(U.name.firstChild.length / 2) + 1;
+    SK = {
+      yb: yb, cx0: mx, cx1: mx + 1, cy: yTop - 1,
+      ly: yTop + Math.round(L * 0.36), lr: Math.max(6, Math.min(n ? 14 : 18, Math.round(L * 0.5))),
+      maxR: Math.max(mx, PW - mx) + yb, n: SK ? SK.n : 0,
+      rects: [[f.wl, 1, f.wl + nameCols, nameRows], [bx0, by0, bx1, by1], [bx0, yQ, bx1, yQ], krect, [mx, yTop - 1, mx + 1, yTop - 1]]
+    };
+    return { yb: yb };
+  }
+
+  // ---------- the tower: floors of flats, down to the garden ----------
+  var lastCols = 0, lastR = 0;
+  function layout() {
+    G.metrics(); G.reset();
+    fr = G.frame(G.PW);
+    var R = G.R, f = fr;
+    S1 = roof(R);
+    var y = S1.yb, k = 10, plan, cell = function (x, u, d) { return { x: x, u: u, decor: d }; };
+    if (f.cls === "wide") {
+      plan = [
+        [cell(X(0, 1), [U.hello], false), cell(X(2), [])],
+        [cell(X(0), [U.presents]), cell(X(1), [U.p1]), cell(X(2), [U.p2])],
+        [cell(X(0), [U.p3]), cell(X(1), [U.more, U.writing]), cell(X(2), [U.irl])],
+        [cell(X(0), [U.written]), cell(X(1, 2), [U.pods])],
+        [cell(X(0), [U.about], false), cell(X(1), []), cell(X(2), [])]
+      ];
+    } else if (f.cls === "mid") {
+      plan = [
+        [cell(X(0, 1), [U.hello], false)],
+        [cell(X(0), [U.presents]), cell(X(1), [U.p1])],
+        [cell(X(0), [U.p2]), cell(X(1), [U.p3])],
+        [cell(X(0), [U.more, U.writing]), cell(X(1), [U.irl])],
+        [cell(X(0, 1), [U.written])],
+        [cell(X(0, 1), [U.pods])],
+        [cell(X(0), [U.about], false), cell(X(1), [])]
+      ];
+    } else {
+      plan = [[U.hello], [U.presents], [U.p1], [U.p2], [U.p3], [U.more, U.writing], [U.written], [U.pods], [U.irl], [U.about]]
+        .map(function (u, i) { return [cell(X(0), u, i === 0 || i === 9 ? false : undefined)]; });
+    }
+    var g = null;
+    plan.forEach(function (cells, i) {
+      var r = G.band(f, y, cells, k, i === plan.length - 1 ? G.GROWS : 0);
+      if (typeof r === "number") y = r; else g = r;
+      k += 7;
+    });
+    G.tower(f, S1.yb, g.gr - 1, g.g0 - 1);
+    G.garden(GDN, g.g0);
+    G.render(PHRASES, 6, 0, 8);
+    SK.mask = skyMask(SK.yb, SK.rects);
+    drawSky();
+    storeys();
+    H.style.setProperty("--gateH", R * G.lh + "px");
+    H.classList.add("laid");
+    lastCols = G.cols; lastR = R;
+    if (window.onAir) G.move(t);
+  }
+
+  // ---------- the gate ----------
+  var entered = H.classList.contains("entered");
+  function enter(how) {
+    if (entered) return;
+    entered = true;
+    H.classList.remove("gated"); H.classList.add("entered");
+    try { sessionStorage.setItem("kes-in", "1"); } catch (e) {}
+    if (how === "quiet") {
+      window.scrollTo({ top: (S1.yb - 1) * G.lh, behavior: still ? "auto" : "smooth" });
+      var h2 = $("#hello h2"); if (h2) h2.focus({ preventScroll: true });
+    }
+  }
+  go.addEventListener("click", function () { enter("play"); });
+  quiet.addEventListener("click", function () { enter("quiet"); });
+  D.addEventListener("focusin", function (e) {
+    if (!entered && e.target !== go && e.target !== quiet && $("#world").contains(e.target) && e.target.matches("a, button, input")) enter("focus");
+  });
+
+  // ---------- the music moves the building ----------
+  var t = 0, beat = false, sway = false, rewinding = false, lastOn = null, byStorey = [], lit = [];
+  function storeys() {
+    byStorey = [];
+    [].forEach.call(D.querySelectorAll(".fill b[data-s]"), function (e) { var s = +e.getAttribute("data-s"); (byStorey[s] || (byStorey[s] = [])).push(e); });
+    lit = [];
+  }
+  // the windows light up floor by floor, one floor per 16th, coming down from the roof
+  function floors(tt) {
+    lit.forEach(function (e) { e.classList.remove("lt", "lt2"); }); lit = [];
+    if (!window.onAir || still || !G.NS) return;
+    [[G.mod(tt, G.NS), "lt"], [G.mod(tt - 1, G.NS), "lt2"]].forEach(function (p) {
+      (byStorey[p[0]] || []).forEach(function (e) { e.classList.add(p[1]); lit.push(e); });
+    });
+  }
+  window.kesLook = function (mark) {
+    if (still) { drawSky(); return; }
+    if (mark === "^") {
+      beat = !beat; H.classList.toggle("beat", beat);
+      sway = !sway; H.classList.toggle("sway", sway);
+    }
+    if (mark === "@") { rewind(); return; }
+    if (mark === undefined) {
+      if (!window.onAir) { beat = sway = false; H.classList.remove("beat", "sway"); rings = []; floors(0); }
+      drawSky(); return;
+    }
+    if (window.onAir && mark === "^") {                   // every other beat, the aerial sends a lozenge out
+      rings.push({ b: SK.n, c: rings.length && rings[rings.length - 1].c === 2 ? 3 : 2 });
+      rings = rings.filter(function (rg) { return SK.n - rg.b + ringOff <= SK.maxR; });
+    }
+  };
+  // ⟲ pull up: the squares run back, the signal is pulled back into the aerial, the mast flickers
+  function rewind() {
+    rewinding = true; H.classList.add("rew");
+    var t0 = t, start = performance.now();
+    (function f(now) {
+      var q = Math.min(1, (now - start) / 1050), back = Math.round((1 - Math.cos(q * Math.PI)) * 16);
+      t = t0 - back * 2; G.move(t);
+      ringOff = -back; drawSky();
+      if (q < 1) requestAnimationFrame(f);
+      else {
+        rings.forEach(function (rg) { rg.b += back; }); ringOff = 0;
+        rings = rings.filter(function (rg) { return SK.n - rg.b > 0; });
+        rewinding = false; H.classList.remove("rew");
+      }
+    })(start);
+  }
+  // every 16th the squares step along their floors, the way the break moves:
+  // a reversed slice steps them back, a pitched-up one jumps two, a rest holds still
+  new MutationObserver(function () {
+    if (!window.onAir) return;
+    var on = trk.querySelector(".on");
+    if (!on || on === lastOn) return;
+    lastOn = on;
+    if (SK) SK.n++;
+    if (still || rewinding) return;
+    var c = on.classList;
+    t += c.contains("rest") ? 0 : c.contains("rev") ? -1 : c.contains("up") ? 2 : 1;
+    G.move(t); floors(t); drawSky();
+  }).observe(trk, { subtree: true, attributes: true, attributeFilter: ["class"] });
+  // the bass decides how much traffic there is
+  var info = $("#lcdinfo");
+  function readInfo() {
+    var m = /bass: (\w+)/.exec(info.textContent || "");
+    H.classList.remove("bass-sub", "bass-reese", "bass-off");
+    if (m) H.classList.add("bass-" + m[1]);
+  }
+  new MutationObserver(readInfo).observe(info, { childList: true, characterData: true, subtree: true });
+  readInfo();
+  var cute = $("#cute");
+  new MutationObserver(function () { H.classList.toggle("cute", cute.getAttribute("aria-pressed") === "true"); drawSky(); })
+    .observe(cute, { attributes: true, attributeFilter: ["aria-pressed"] });
+  var sirenT = 0;
+  $("#siren").addEventListener("click", function () {
+    H.classList.add("siren"); clearTimeout(sirenT);
+    sirenT = setTimeout(function () { H.classList.remove("siren"); }, 1500);
+  });
+  // the volume is a slider, drawn as a bar of █ and ░
+  var vol = $("#vol"), bar = $(".vol .bar");
+  function vbar() { var n = Math.round(+vol.value * 10); bar.innerHTML = "[<b>" + B.repeat(n) + "</b><i>" + "░".repeat(10 - n) + "</i>]"; }
+  vol.addEventListener("input", vbar); vbar();
+
+  layout();
+  var rt = 0;
+  addEventListener("resize", function () {
+    clearTimeout(rt);
+    rt = setTimeout(function () {
+      var W = Math.floor($("#world").getBoundingClientRect().width * 100) / 100, t2 = Math.max(8, Math.min(10, W / 165)), cols = 2 * Math.max(12, Math.round(W / (2 * t2)));
+      var R = Math.floor(innerHeight / (2 * W / cols));
+      if (cols !== lastCols || (!entered && Math.abs(R - lastR) > 2)) layout();
+    }, 160);
+  });
+})();
+</script>
+</body>
+</html>

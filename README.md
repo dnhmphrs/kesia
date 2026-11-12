@@ -1,65 +1,55 @@
 # kes inkersole — the site
 
-Plain html, plain css, and the words in a few json files. One small script puts them
-together. Nothing to install.
+One html page, one stylesheet, and the words in a few json files. A small script puts
+them together. Nothing to install.
 
 ## What is where
 
 ```
-content/            ← the words. edit these to change what the site says
-  site.json           your name, the three lines under it, your email
-  about.json          the hello paragraphs, the about list, irl
-  projects.json       the projects (title, pictures, link) and the for-fun links
-  writing.json        things you've written, podcasts
-templates/          ← the pages. edit these to change the html
-  index.html          home
-  portfolio.html      projects
-  writing.html        writing + podcasts
-  about.html          about + contact
-style.css           ← the look. empty on purpose: start here
-public/             ← files copied as they are: pictures (img/), favicon, share image
-build.js            ← the script that fills the templates with the content (you can leave it alone)
-dist/               ← the finished site (made by the script, never edit by hand)
+index.html     the page. edit this to change the html
+style.css      the look. empty on purpose: start here
+content/       the words. edit these to change what the site says
+  site.json      name, the lines under it, email
+  about.json     hello paragraphs, the about list, irl
+  projects.json  projects (title, pictures, link) and the for-fun links
+  writing.json   things written, podcasts
+img/           the pictures
+build.js       the script that fills index.html with the content (leave it alone)
+dist/          the finished site, made by the script. never edit by hand
+_archive/      every draft made for the site before this one. open _archive/index.html
 ```
 
-## How the templates work
-
-A template is a normal html page with a few holes in it:
-
-- `{{site.name}}` is filled with a value from the content files
-  (`site.json` → `site.…`, `about.json` → `about.…`; the lists in `projects.json`
-  and `writing.json` are reached directly: `projects`, `fun`, `written`, `podcasts`).
-- `{{#projects}} … {{/projects}}` repeats what is inside once per project;
-  inside it, `{{title}}` is that project's title.
-- `{{.}}` is the item itself when the list is just words (the roles, the hello paragraphs).
-- `{{#text}} … {{/text}}` shows what is inside only when `text` is not empty.
-
-Want a new page? Copy one of the templates, give it a new name, and add it to the
-`<nav>` in the other templates.
-
-## Adding a project
-
-In `content/projects.json`, copy one of the blocks inside `"projects": [ … ]` and change
-it. Put the pictures in `public/img/l/` and point `src` at them (`img/l/your-picture.jpg`).
-`width` and `height` are the picture's real pixel size.
-
-## Seeing it
+## Seeing the site
 
 ```
 node build.js
 ```
 
-Then open `dist/index.html` in a browser. Run the command again after every change.
-(If `node` is not on your machine, install it from https://nodejs.org — version 18 or newer.)
+then open `dist/index.html` in a browser. Run the command again after every change.
+If `node` is not on your machine, install it from https://nodejs.org (18 or newer).
+
+## Changing things
+
+- **Words** live in `content/`. Change a value, keep the quotes and commas as they are.
+- **Pictures**: put the file in `img/l/` and point a project's `src` at it, like
+  `img/l/my-picture.jpg`. `width` and `height` are the picture's real pixel size.
+- **A new project**: in `content/projects.json`, copy one block inside `"projects": [ … ]`
+  and change it.
+- **Html** is `index.html`. It is a normal page with holes in it: `{{site.name}}` is
+  filled from the content, `{{#projects}} … {{/projects}}` repeats once per project,
+  `{{.}}` is the item itself when a list is just words, and `{{#text}} … {{/text}}`
+  only shows when `text` is not empty.
+- **Style** is `style.css`. It starts with nothing, so the page looks the way the
+  browser draws plain html. Add rules and rebuild.
 
 ## Going live
 
 The site is on Vercel, which watches the `main` branch of this repository. Push to
-`main` and Vercel runs `node build.js` and publishes `dist/`. That is all.
+`main`; Vercel runs `node build.js` and publishes `dist/`.
 
-## The archive
+## Learning
 
-Every draft made along the way, 157 pages in 26 rounds, is kept at `/archive/`
-(the files live in `public/drafts/` and `public/archive/`). It is not linked from
-the site and is marked noindex. The previous homepage is at `/drafts/home/`, and the
-original code for it is in the git history before this version.
+- https://developer.mozilla.org/en-US/docs/Learn/HTML — html, from the start
+- https://developer.mozilla.org/en-US/docs/Learn/CSS — css, from the start
+- https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/JSON — what json is
+- https://html.energy/ — a love letter to writing html by hand

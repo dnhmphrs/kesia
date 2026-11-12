@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{site.name}}</title>
+  <meta name="description" content="{{site.description}}">
+  <link rel="icon" href="favicon.ico">
+  <link rel="stylesheet" href="style.css">
+  <!-- the preview card when the link is shared (iMessage, Slack, LinkedIn, X) -->
+  <meta property="og:title" content="{{site.name}}">
+  <meta property="og:description" content="{{site.description}}">
+  <meta property="og:image" content="{{site.url}}/square.png">
+  <meta property="og:url" content="{{site.url}}">
+  <meta name="twitter:card" content="summary_large_image">
+</head>
+<body>
+
+<header>
+  <h1>{{site.name}}</h1>
+  {{#site.roles}}
+  <p>{{.}}</p>
+  {{/site.roles}}
+</header>
+
+<section id="hello">
+  <h2>Hello, i'm kes &lt;3</h2>
+  {{#about.hello}}
+  <p>{{.}}</p>
+  {{/about.hello}}
+</section>
+
+<section id="projects">
+  <h2>Projects</h2>
+  {{#projects}}
+  <article id="{{id}}">
+    <h3>{{title}}</h3>
+    <p>{{with}}</p>
+    {{#pictures}}
+    <img src="{{src}}" width="{{width}}" height="{{height}}" alt="{{alt}}" loading="lazy">
+    {{/pictures}}
+    {{#text}}
+    <p>{{text}}</p>
+    {{/text}}
+    <p><a href="{{link.url}}">{{link.label}} ↗</a></p>
+  </article>
+  {{/projects}}
+</section>
+
+<section id="fun">
+  <h2>For fun</h2>
+  <ul>
+    {{#fun}}
+    <li><a href="{{url}}">{{label}}</a></li>
+    {{/fun}}
+  </ul>
+</section>
+
+<section id="writing">
+  <h2>Things i've written</h2>
+  <ul>
+    {{#written}}
+    <li><a href="{{url}}">{{title}}</a>{{#where}} — {{where}}{{/where}}</li>
+    {{/written}}
+  </ul>
+</section>
+
+<section id="podcasts">
+  <h2>Podcasts, for the bus</h2>
+  <ul>
+    {{#podcasts}}
+    <li><a href="{{url}}">{{title}}</a>{{#where}} — {{where}}{{/where}}</li>
+    {{/podcasts}}
+  </ul>
+</section>
+
+<section id="irl">
+  <h2>Irl (mostly)</h2>
+  <ul>
+    {{#about.irl}}
+    <li><a href="{{url}}">{{title}}</a>{{#note}} — {{note}}{{/note}}</li>
+    {{/about.irl}}
+  </ul>
+</section>
+
+<section id="about">
+  <h2>About</h2>
+  <dl>
+    {{#about.facts}}
+    <dt>{{term}}</dt>
+    <dd>{{detail}}</dd>
+    {{/about.facts}}
+  </dl>
+</section>
+
+<footer>
+  <p>{{site.signoff}}</p>
+  <p>say hello: <a href="mailto:{{site.email}}">{{site.email}}</a></p>
+</footer>
+
+</body>
+</html>

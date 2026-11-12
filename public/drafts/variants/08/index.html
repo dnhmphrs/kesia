@@ -1,0 +1,1091 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>kes inkersole</title>
+<meta name="description" content="kes inkersole, creative strategist and internet equalities researcher, london.">
+<script>(function(){var h=document.documentElement;h.className='js gated';try{if(sessionStorage.getItem('kesIn'))h.className='js';}catch(e){}})();</script>
+<style>
+/* kes inkersole · the antenna on the tower block, after Tableau I (1921), set in type.
+   one monospace grid. lines are rows of █, planes are ░▒▓█, light flats are white space.
+   at rest the colours are mixed with white, like 1921. on air they go pure. */
+:root {
+  --paper: #fff; --ink: #000; --pink: #ff1f8f; --blue: #1a3cff; --yellow: #ffd60a;
+  --mp: #eaa6c6; --mb: #a3afec; --my: #f2e08e; --mk: #4d4d4d;
+  --grey: #5c5c5c;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, "DejaVu Sans Mono", "Liberation Mono", "Courier New", monospace;
+  --fs: 15px; --lh: 18px; --cw: 9px;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html { background: var(--paper); overflow-x: hidden; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { margin: 0; position: relative; background: var(--paper); color: var(--ink);
+  font: 400 var(--fs)/var(--lh) var(--mono); font-variant-ligatures: none; font-kerning: none; }
+html.gated, html.gated body { height: 100%; overflow: hidden; }
+.sr { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.measure { position: absolute; left: 0; top: 0; visibility: hidden; font-size: 100px; line-height: 1; white-space: pre; }
+
+/* ---------- the scene ---------- */
+#stage { position: absolute; left: 0; top: 0; width: 100%; overflow: hidden; pointer-events: none; -webkit-user-select: none; user-select: none; z-index: 0;
+  --cp: var(--mp); --cb: var(--mb); --cy: var(--my); --ck: var(--mk); }
+#paint, #garden { position: absolute; left: 0; top: 0; margin: 0; font: inherit; white-space: pre; }
+#paint, .blk { line-height: calc(var(--bl, 1.16) * 1em); letter-spacing: var(--bls, 0); transform-origin: 0 0;
+  transform: translateY(var(--bdy, 0)) scale(var(--bsx, 1), var(--bsy, 1)); }
+.blk { display: block; overflow: visible; }
+#paint i, #garden i { font-style: normal; }
+#paint .L, #paint .M { color: var(--ink); }
+#paint .g1 { color: #8f8f8f; } #paint .g2 { color: #9c9c9c; } #paint .g3 { color: #7b7b7b; }
+#paint .p { color: var(--cp); } #paint .b { color: var(--cb); } #paint .y { color: var(--cy); } #paint .k { color: var(--ck); }
+#paint .sw { color: #e2e2e2; }
+#paint .A { color: var(--mp); }
+#paint .q1, #paint .q2, #paint .q3 { color: transparent; }
+#paint .q4 { color: #b4b4b4; }
+html:not(.gated) #paint .cb { visibility: hidden; }
+#garden { color: #8c8c8c; transform-origin: 50% 100%; }
+#garden .p { color: var(--cp); } #garden .b, #garden .l { color: var(--cb); } #garden .y { color: var(--cy); }
+
+/* on air: pure colour, the planes trade places, the signal goes out on the beat */
+.on-air #stage { --cp: var(--pink); --cb: var(--blue); --cy: var(--yellow); --ck: var(--ink); }
+.on-air #stage.o1 { --cp: var(--blue); --cb: var(--yellow); --cy: var(--pink); }
+.on-air #stage.o2 { --cp: var(--yellow); --cb: var(--pink); --cy: var(--blue); }
+.on-air #stage.rw { --cp: var(--mp); --cb: var(--mb); --cy: var(--my); --ck: var(--mk); }
+.on-air #stage.rw.o1 { --cp: var(--mb); --cb: var(--my); --cy: var(--mp); }
+.on-air #stage.rw.o2 { --cp: var(--my); --cb: var(--mp); --cy: var(--mb); }
+.on-air #stage.lit .A { color: var(--pink); }
+.moving .on-air #stage[data-q="1"] .q1 { color: var(--cp); }
+.moving .on-air #stage[data-q="2"] .q2 { color: var(--cb); }
+.moving .on-air #stage[data-q="3"] .q3 { color: var(--cy); }
+.moving .on-air #stage[data-q="4"] .q4 { color: var(--cp); }
+.moving .on-air #stage[data-q="2"] .q1, .moving .on-air #stage[data-q="3"] .q2, .moving .on-air #stage[data-q="4"] .q3 { color: #e4e4e4; }
+@keyframes flick { 0% { color: var(--pink); } 34% { color: var(--ink); } 67% { color: var(--blue); } }
+.moving .on-air #stage.rw .M { animation: flick .14s steps(1) infinite; }
+@media (prefers-reduced-motion: no-preference) { #garden { transition: transform .34s ease-in-out; } }
+.moving .on-air #stage.sway #garden { transform: skewX(-4deg); }
+.moving .on-air #stage:not(.sway) #garden { transform: skewX(3deg); }
+
+/* ---------- type set into the light flats ---------- */
+.js #hero > *, .js #main > section, .js #main > article, .js #fm { position: absolute; z-index: 2; margin: 0; }
+h1, h2, p, ul, li { margin: 0; padding: 0; font-size: inherit; line-height: inherit; }
+h1, h2 { font-weight: 700; }
+#main section > *, #main article > * { margin: 0 0 var(--lh); }
+#main section > :last-child, #main article > :last-child { margin-bottom: 0; }
+#main .lab { color: var(--grey); margin-bottom: 0; }
+ul { list-style: none; }
+li { padding-left: 2ch; text-indent: -2ch; }
+li::before { content: "→ "; content: "→ " / ""; color: var(--grey); }
+a { color: var(--blue); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .2em; }
+a:hover { background: var(--pink); color: #fff; text-decoration: none; }
+a:focus-visible, button:focus-visible { outline: 3px solid var(--pink); outline-offset: 2px; }
+::selection { background: var(--pink); color: #fff; }
+[tabindex="-1"]:focus { outline: none; }
+#main .facts .kv { padding-left: 9ch; text-indent: -9ch; margin-bottom: 0; }
+.facts .k { display: inline-block; width: 9ch; text-indent: 0; color: var(--grey); }
+#main .pic { height: calc(var(--lh) * 8); padding-top: calc(var(--lh) * 3); margin: 0; white-space: nowrap; }
+.sl { display: block; white-space: pre; }
+#sign .art, #title .art { display: block; }
+#sign b { font-weight: 700; color: var(--ink); }
+#sign b.o { font-weight: 400; color: #cfcfcf; }
+#sign b.h { color: var(--pink); }
+#sign .cap { font-weight: 700; letter-spacing: .5ch; }
+.moving .on-air #sign b.l { color: #cbcbcb; }
+#title .art { color: var(--ink); }
+
+/* ---------- the gate ---------- */
+button { font: inherit; line-height: inherit; color: var(--blue); background: none; border: 0; border-radius: 0; padding: 0; margin: 0;
+  cursor: pointer; -webkit-appearance: none; appearance: none; text-align: left; }
+#go { color: var(--pink); white-space: pre; overflow: hidden; display: block; }
+#go .art { display: block; }
+#go:hover { color: var(--blue); }
+#go:focus-visible { outline: 3px solid var(--blue); outline-offset: -3px; }
+#quiet { text-decoration: underline; text-underline-offset: .2em; white-space: nowrap; }
+html:not(.gated) #quiet { display: none; }
+#quiet:hover, .keys button:hover, .floatstop:hover .t { background: var(--pink); color: #fff; text-decoration: none; }
+
+/* ---------- KES FM: a few bracketed words on the roof ---------- */
+html.gated #fm { visibility: hidden; }
+#fm { color: var(--grey); }
+#fm h2 { display: inline; color: var(--ink); }
+#fm .status { color: var(--pink); }
+#fm .ident { color: #8a8a8a; }
+.keys > div { margin: 0; }
+.keys .lbl { color: #8a8a8a; }
+.keys button { color: var(--ink); }
+.keys button::before { content: "["; content: "[" / ""; color: #a0a0a0; }
+.keys button::after { content: "]"; content: "]" / ""; color: #a0a0a0; }
+.keys button[aria-pressed="true"] { font-weight: 700; }
+.keys button[aria-pressed="true"]::before { content: "▐"; content: "▐" / ""; color: var(--pink); }
+.keys button[aria-pressed="true"]::after { content: "▌"; content: "▌" / ""; color: var(--pink); }
+.keys button:hover::before, .keys button:hover::after { color: #fff; }
+.vol { color: #8a8a8a; }
+.vbar { position: relative; display: inline-block; }
+.vbar input { position: absolute; left: 0; top: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.vtxt { color: var(--ink); }
+.vbar:focus-within .vtxt { outline: 3px solid var(--pink); outline-offset: 2px; }
+.lcd-info { color: #9a9a9a; }
+.ticker { overflow: hidden; white-space: nowrap; color: #ababab; }
+.ticker > div { display: inline-block; }
+.ticker span { padding-right: 1ch; }
+@keyframes run { to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: no-preference) { .ticker > div { animation: run 70s linear infinite; } }
+/* the tracker: 32 sixteenths as lights climbing the mast, two to a row */
+.tracker { position: absolute; display: flex; flex-wrap: wrap-reverse; width: calc(var(--cw) * 2); }
+.tracker span { display: block; width: var(--cw); height: var(--th, var(--lh)); overflow: hidden; font-size: 0; line-height: 0; }
+.tracker span::before { content: "█"; display: block; font-size: var(--fs); line-height: var(--th, var(--lh)); color: transparent; }
+.moving .on-air .tracker .on::before { color: var(--pink); }
+.moving .on-air .tracker .on.rev::before { color: var(--blue); }
+.moving .on-air .tracker .on.up::before { color: var(--yellow); }
+body:not(.on-air) .tracker { visibility: hidden; }
+.floatstop { position: fixed; right: calc(var(--cw) * 2); bottom: var(--lh); z-index: 9; color: var(--yellow); white-space: pre; }
+.floatstop[hidden] { display: none; }
+.floatstop .u { display: block; }
+.floatstop .t { position: absolute; left: 0; right: 0; top: var(--lh); text-align: center; color: var(--ink); font-weight: 700; }
+.floatstop:hover { color: var(--pink); }
+
+/* no script: plain, readable, no gate */
+html:not(.js) #stage { display: none; }
+html:not(.js) #hero, html:not(.js) #fm, html:not(.js) #main { max-width: 74ch; margin: 0 auto; padding: 2em 2ch 0; }
+html:not(.js) #main > * { margin-bottom: 2em; }
+
+</style>
+</head>
+<body data-page="home">
+<div id="stage" class="tower" aria-hidden="true"><pre id="paint"></pre><pre id="garden"></pre></div>
+
+<header id="hero">
+<h1 id="sign"><span class="sr">kes inkersole</span><span class="art" aria-hidden="true"></span></h1>
+<button id="go" type="button" aria-pressed="false"><span class="sr">play KES FM, sound on, and come in</span><span class="art blk" aria-hidden="true"></span></button>
+<button id="quiet" type="button">→ enter without sound</button>
+</header>
+
+<section class="fm" id="fm" aria-labelledby="fm-h">
+<div class="fmtop"><h2 id="fm-h">KES FM 170.0</h2> <span class="status" id="status" role="status">off air</span></div>
+<p class="ident">you're locked to KES FM.</p>
+<div class="deck">
+<div class="keys">
+<div><button class="stop" id="stop" type="button">■ stop</button> <button type="button" id="pullup">⟲ pull up</button> <button type="button" id="siren">siren</button> <button type="button" id="cute" aria-pressed="false">✿ cute</button></div>
+<div role="group" aria-label="break"><span class="lbl">break</span> <button type="button" data-break="straight" aria-pressed="true">straight</button> <button type="button" data-break="chopped" aria-pressed="false">chopped</button> <button type="button" data-break="rollin" aria-pressed="false">rollin'</button> <button type="button" id="chop" aria-pressed="false">✂ chop it</button></div>
+<div role="group" aria-label="bass"><span class="lbl">bass</span> <button type="button" data-bass="sub" aria-pressed="true">sub</button> <button type="button" data-bass="reese" aria-pressed="false">reese</button> <button type="button" data-bass="off" aria-pressed="false">off</button></div>
+<div><label class="vol"><span class="lbl">vol</span> <span class="vbar"><input type="range" id="vol" min="0" max="1" step="0.05" value="0.5"><span class="vtxt" aria-hidden="true">[█████░░░░░]</span></span></label></div>
+</div>
+<div class="lcd">
+<div class="lcd-info" aria-hidden="true"><span id="lcdinfo">break: straight · bass: sub · cute: off</span></div>
+<div class="ticker" aria-hidden="true"><div><span>big up all the junglists ✦ big up everyone reading the source code ✦ big up the UAL lot, LCF + CCI ✦ big up Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges ✦ text in: inkersolekesia@gmail.com ✦ respect to the sound systems, pirates and producers who built all this ✦ lorem ipsum dolor sit amet ✦</span><span>big up all the junglists ✦ big up everyone reading the source code ✦ big up the UAL lot, LCF + CCI ✦ big up Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges ✦ text in: inkersolekesia@gmail.com ✦ respect to the sound systems, pirates and producers who built all this ✦ lorem ipsum dolor sit amet ✦</span></div></div>
+<div class="tracker" id="tracker" aria-hidden="true"></div>
+</div>
+</div>
+</section>
+
+<main id="main">
+<section id="hello"><h2>hello, i&#x27;m kes &lt;3</h2><p>i&#x27;m kes inkersole (kesia on paper), a freelance creative strategist and internet equalities researcher based in london. welcome to kes&#x27; little corner of the internet.</p><p>my practice focuses on understanding and critiquing the impacts of emerging technologies on people, culture, and the planet. i work collectively to rethink the narratives and behaviours surrounding technologies — prioritising collaborative research as a process for testing, imagining and prototyping more equitable, alternative futures.</p></section>
+
+<section id="presents" class="facts"><p class="lab">this website presents</p><h2>kes inkersole</h2><p>creative strategist, internet equalities researcher, london. available for work.</p><p class="kv"><span class="k">does: </span>creative strategy, research, workshops, writing and teaching</p><p class="kv"><span class="k">teaches: </span>associate lecturer at UAL (LCF + CCI)</p><p class="kv"><span class="k">clients: </span>Neu Futur, DAZED, co—matter, MØRNING, WeTransfer, Protein, Midnight Agency, Softer, Selfridges</p><p class="kv"><span class="k">school: </span>MA internet equalities, BA creative direction, PhD [ ? ]</p><p class="kv"><span class="k">cv: </span>cv &amp; portfolio on request</p><p class="kv"><span class="k">email: </span><a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p></section>
+
+<section class="proj" id="p1"><p class="lab">01 · for fun</p><h2><a href="https://latent-space.vercel.app/">latent space</a></h2><p class="pic">(picture to come)</p><p>lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam.</p></section>
+
+<section class="proj" id="p2"><p class="lab">02 · for funds</p><h2><a href="https://co-matter.com/project/networked-worlds">networked worlds</a> with co—matter</h2><p class="pic">(picture to come)</p><p>duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. excepteur sint occaecat cupidatat non proident.</p></section>
+
+<section class="proj" id="p3"><p class="lab">03 · for funds</p><h2><a href="https://www.protein.xyz/dirty-words-4-community/">protein dirty words #4: community report</a></h2><p class="pic">(picture to come)</p><p>sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo.</p></section>
+
+<section id="more"><h2>more projects</h2><ul><li><a href="https://protecht.vercel.app/">pro(tech)t</a> (for fun)</li><li><a href="https://www.instagram.com/p/CwOEAMetgc1/?img_index=1">MØRNING Ø</a> (for funds)</li></ul></section>
+
+<section id="mywriting"><h2>my writing</h2><p>new: short pieces from my notes app, sent in by email. it&#x27;s called <a href="writing.html">chainmail</a>.</p></section>
+
+<section id="written"><h2>things i&#x27;ve written</h2><ul><li><a href="https://www.protein.xyz/sex-and-the-internet/">mindy seu on sex and the internet</a> (Protein)</li><li><a href="https://midnight.agency/thoughts/dreaming-and-designing-more-accessible-web">dreaming and designing a more accessible web</a> (Midnight Agency)</li><li><a href="https://midnight.agency/thoughts/coding-a-more-creative-and-playful-web">coding a more creative and playful web</a> (Midnight Agency)</li><li><a href="https://midnight.agency/thoughts/composing-a-flexible-and-modular-web">composing a flexible and modular web</a> (Midnight Agency)</li><li><a href="https://morningfyi.substack.com/p/020-uh-oh-meet">burn after reading: uh oh, meet o</a> (morningfyi)</li><li><a href="https://morningfyi.substack.com/p/024-entering-limb-with">burn after reading: entering limbo</a> (morningfyi)</li></ul></section>
+
+<section id="pods"><h2>podcasts, for the bus</h2><ul><li><a href="https://podcasts.apple.com/gb/podcast/mindy-seu-on-collaboration-community-and/id1449302502?i=1000597869409">mindy seu on collaboration, community and the cyberfeminism index</a></li><li><a href="https://soundcloud.com/proteincommunity/protein-forum-what-can-web2-organisations-learn-from-web3-communities">what can web2 organisations learn from web3 communities?</a> (Protein)</li><li><a href="https://podcasts.apple.com/gb/podcast/cherie-hu-on-water-musics-journey-through-web3/id1449302502?i=1000581859804">cherie hu on water &amp; music&#x27;s journey through web3</a></li><li><a href="https://podcasts.apple.com/gb/podcast/molly-dickson-on-dao-activism-and-fighting-for/id1449302502?i=1000578164761">molly dickson on dao activism</a></li><li><a href="https://podcasts.apple.com/gb/podcast/dame-on-the-need-for-education-accessibility/id1449302502?i=1000559829008">dame on education, accessibility and inclusivity in web3</a></li><li><a href="https://podcasts.apple.com/gb/podcast/nadia-piet-on-creative-ai-and-protopian-futures/id1449302502?i=1000559822732">nadia piet on creative ai and protopian futures</a></li><li><a href="https://podcasts.apple.com/gb/podcast/cyn-bahati-on-her-journey-into-web3-with-her-family/id1449302502?i=1000559818509">cyn bahati on her journey into web3 with her family</a></li><li><a href="https://podcasts.apple.com/gb/podcast/latash%C3%A1-on-the-potential-of-web3-for-music-artists/id1449302502?i=1000552812458">latasha on the potential of web3 for music artists</a></li></ul></section>
+
+<section id="irl"><h2>irl (mostly)</h2><ul><li><a href="https://www.instagram.com/p/DRjYCG8jARb/?img_index=1">olden residency</a></li><li><a href="https://www.instagram.com/p/C52uHshIkjq/?img_index=1">softer london</a> (talk + workshop)</li><li><a href="https://www.arts.ac.uk/creative-computing-institute/public-programme/tech-yard">tech yard</a> (workshop)</li><li><a href="https://www.instagram.com/p/BslwSSPH5Rc/?img_index=2">ovar it</a></li></ul></section>
+
+<section id="foot"><p>this website is mostly plain text: system fonts, no trackers, no photos, one radio that stays quiet until you ask. it&#x27;s easy for me to update and it loads fine on bad wifi.</p><p>thanks for stopping by &lt;3</p><p>say hello: <a href="mailto:inkersolekesia@gmail.com">inkersolekesia@gmail.com</a></p></section>
+</main>
+
+<button class="floatstop" id="floatstop" type="button" hidden><span class="u blk" aria-hidden="true">▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+█████████████████
+▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀</span><span class="t">■ stop KES FM</span></button>
+
+<script>
+/* ===== KES FM engine: paste VERBATIM, do not edit =====
+   it expects: var onAir, var happy, var still, function look() (no-ops are fine),
+   and optionally .tower / .sound elements on the page (it animates them if present) */
+var onAir = false;
+var happy = false;
+var still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+function look(mark) { if (window.paintLook) paintLook(mark); }
+/* ---------------------------------------------------------------
+   KES FM 170.0
+   a jungle machine. there are no samples in here: the break is
+   drummed out of oscillators and noise, recorded into a buffer at
+   136bpm, then played back sped up to 170 and chopped into slices,
+   which is what the old samplers did to records.
+   --------------------------------------------------------------- */
+(function () {
+  var Ctx = window.AudioContext || window.webkitAudioContext;
+  var $ = function (s) { return document.querySelector(s); };
+  var statusEl = $("#status"), tracker = $("#tracker"), infoEl = $("#lcdinfo"), floatStop = $("#floatstop");
+  var tower = $(".tower"), sounds = [].slice.call(document.querySelectorAll(".sound"));
+  if (!Ctx) { statusEl.textContent = "no web audio here, sorry x"; return; }
+
+  var BPM = 170, OLD = 136, RATE = BPM / OLD;
+  var STEP = 60 / BPM / 4, OSTEP = 60 / OLD / 4;   // a 16th note, now and in the original
+
+  // the breaks, written like a tracker. each number is a 16th-note slice of the break.
+  // r = reversed, ^ = pitched up, :3 = roll it three times in one step, -- = nothing
+  var BREAKS = {
+    straight: "00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F 10 11 12 13 14 15 16 17 18 19 1A 1B 1C 1D 1E 1F",
+    chopped:  "00 01 02 03 04 05 06 07 00 01 0A 0B 0C 0D 04 07 10 11 12 13 14 15 0C 0D 18 19 1A 1B 0C 09 r0C 14",
+    rollin:   "00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F 00 01 12 13 ^04 05 ^0C 07 0C 0D 0A 0B 0C:2 0C:2 14:3 04:4"
+  };
+  // basslines in F minor: [step, semitones from F, length in steps]
+  var BASS = {
+    sub:   [[0, 0, 6], [7, 0, 2], [10, 3, 4], [14, 2, 2], [16, -4, 6], [23, -4, 2], [26, -2, 3], [29, -5, 3]],
+    reese: [[0, 0, 10], [10, 3, 6], [16, -4, 10], [26, -5, 6]]
+  };
+  // the cute bit: a music box and a soft pad
+  var BELLS = { 0: 84, 3: 87, 6: 89, 10: 84, 12: 80, 14: 82, 16: 77, 19: 80, 22: 84, 26: 87, 28: 89, 30: 92 };
+  var PADS = { 0: [53, 56, 60, 63, 67], 16: [49, 53, 56, 60, 63] };
+
+  var ac = null, master, comp, drums, bassBus, cuteBus, echoIn, B = null;
+  var breakBuf = null, revBuf = null;
+  var pattern = "straight", bassMode = "sub", cute = false, wantOn = false;
+  var step = 0, nextT = 0, timer = null, raf = 0, queue = [], live = [], shown = 0;
+
+  function parse(str) {
+    return str.trim().split(/\s+/).map(function (t) {
+      var m = /^([r^]?)([0-9A-F]{2})(?::(\d))?$/i.exec(t);
+      if (!m) return null;
+      return { s: parseInt(m[2], 16), rev: m[1] === "r", up: m[1] === "^", n: +(m[3] || 1), label: m[2].toUpperCase() };
+    });
+  }
+  var pats = {};
+  Object.keys(BREAKS).forEach(function (k) { pats[k] = parse(BREAKS[k]); });
+
+  // ✂ chop it: a fresh edit of the straight break every time
+  function chop() {
+    var t = BREAKS.straight.split(" "), out = t.slice(), hx = function (n) { return (n < 16 ? "0" : "") + n.toString(16).toUpperCase(); };
+    for (var b = 1; b < 8; b++) {
+      var at = b * 4, r = Math.random();
+      if (r < .35) { var from = Math.floor(Math.random() * 8) * 4; for (var k = 0; k < 4; k++) out[at + k] = t[from + k]; }
+      else if (r < .5) { out[at + 2] = "0C:2"; out[at + 3] = "14:3"; }
+      else if (r < .62) { out[at] = "r" + hx([4, 12, 20][Math.floor(Math.random() * 3)]); }
+      else if (r < .74) { out[at + 2] = "^" + t[at + 2]; }
+    }
+    out[30] = "0C:2"; out[31] = Math.random() < .5 ? "04:4" : "14:3";
+    BREAKS.chop = out.join(" ");
+    pats.chop = parse(BREAKS.chop);
+  }
+
+  // ---------- record the break ----------
+  function shaper(k) {
+    var n = 1024, c = new Float32Array(n);
+    for (var i = 0; i < n; i++) { var x = i * 2 / n - 1; c[i] = Math.tanh(k * x) / Math.tanh(k); }
+    return c;
+  }
+  function recordBreak() {
+    var sr = 32000, len = Math.ceil((32 * OSTEP + .8) * sr);
+    var Off = window.OfflineAudioContext || window.webkitOfflineAudioContext;
+    var oc = new Off(1, len, sr);
+    var noise = oc.createBuffer(1, sr, sr), nd = noise.getChannelData(0);
+    for (var i = 0; i < nd.length; i++) nd[i] = Math.random() * 2 - 1;
+    var bus = oc.createGain(), sat = oc.createWaveShaper();
+    bus.gain.value = .8; sat.curve = shaper(1.6);
+    bus.connect(sat); sat.connect(oc.destination);
+
+    function hiss(t, type, f, q, v, dec) {
+      var s = oc.createBufferSource(), fl = oc.createBiquadFilter(), g = oc.createGain();
+      s.buffer = noise; fl.type = type; fl.frequency.value = f; fl.Q.value = q;
+      g.gain.setValueAtTime(v, t); g.gain.exponentialRampToValueAtTime(.001, t + dec);
+      s.connect(fl); fl.connect(g); g.connect(bus);
+      s.start(t, Math.random() * .5); s.stop(t + dec + .02);
+    }
+    function tone(t, type, f0, f1, bend, v, dec) {
+      var o = oc.createOscillator(), g = oc.createGain();
+      o.type = type; o.frequency.setValueAtTime(f0, t); o.frequency.exponentialRampToValueAtTime(f1, t + bend);
+      g.gain.setValueAtTime(v, t); g.gain.exponentialRampToValueAtTime(.001, t + dec);
+      o.connect(g); g.connect(bus); o.start(t); o.stop(t + dec + .02);
+    }
+    function kick(t, v) {
+      tone(t, "sine", 165, 48, .08, v, .3);
+      hiss(t, "highpass", 1800, .7, v * .35, .012);
+    }
+    function snare(t, v) {
+      tone(t, "triangle", 215, 185, .03, v * .55, .11);
+      tone(t, "triangle", 380, 330, .03, v * .3, .08);
+      hiss(t, "highpass", 1300, .6, v * .75, .19);
+      hiss(t, "bandpass", 3800, 1.1, v * .5, .07);
+    }
+    // the ride: six detuned squares, filtered, like an old drum machine cymbal
+    var metal = oc.createGain(), metalHP = oc.createBiquadFilter();
+    metal.gain.value = .12; metalHP.type = "highpass"; metalHP.frequency.value = 6000;
+    [205.3, 304.4, 369.6, 522.7, 540, 800].forEach(function (f) {
+      var o = oc.createOscillator(); o.type = "square"; o.frequency.value = f * 1.6; o.connect(metal); o.start(0);
+    });
+    metal.connect(metalHP);
+    function ride(t, v, dec) {
+      var g = oc.createGain();
+      g.gain.value = 0; g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(v, t + .002); g.gain.exponentialRampToValueAtTime(.001, t + dec);
+      g.gain.setValueAtTime(0, t + dec + .01);
+      metalHP.connect(g); g.connect(bus);
+      hiss(t, "highpass", 8500, .7, v * .3, dec * .8);
+    }
+    var at = function (s) { return .01 + s * OSTEP + (Math.random() - .5) * .003; };
+    [0, 2, 10, 11, 18, 19, 26].forEach(function (s) { kick(at(s), s === 11 || s === 19 ? .7 : .95); });
+    [[4, 1], [7, .45], [9, .55], [12, 1], [15, .5], [14, .15], [17, .3], [20, 1], [22, .14], [23, .45], [25, .55], [30, .9], [31, .2]]
+      .forEach(function (p) { snare(at(p[0]), p[1]); });
+    for (var s = 0; s < 32; s += 2) if (s !== 26 && s !== 28) ride(at(s), s % 4 ? .45 : .7, .32);
+    ride(at(26), 1, 1.2); hiss(at(26), "highpass", 4500, .5, .45, 1);   // the crash
+
+    return new Promise(function (ok) {
+      oc.oncomplete = function (e) { ok(e.renderedBuffer); };
+      var p = oc.startRendering();
+      if (p && p.then) p.then(ok);
+    }).then(function (buf) {
+      var d = buf.getChannelData(0), peak = 0;
+      for (var i = 0; i < d.length; i++) peak = Math.max(peak, Math.abs(d[i]));
+      for (i = 0; i < d.length; i++) d[i] *= .9 / (peak || 1);
+      var rb = oc.createBuffer(1, d.length, sr), r = rb.getChannelData(0);
+      for (i = 0; i < d.length; i++) r[i] = d[d.length - 1 - i];
+      breakBuf = buf; revBuf = rb;
+    });
+  }
+
+  // ---------- the live rig ----------
+  function vol() { return +$("#vol").value * .9; }
+  function build() {
+    ac = new Ctx();
+    master = ac.createGain(); master.gain.value = vol();
+    comp = ac.createDynamicsCompressor();
+    comp.threshold.value = -16; comp.knee.value = 8; comp.ratio.value = 4; comp.attack.value = .004; comp.release.value = .18;
+    comp.connect(master); master.connect(ac.destination);
+    drums = ac.createGain(); drums.gain.value = .85; drums.connect(comp);
+    bassBus = ac.createGain(); bassBus.gain.value = .6; bassBus.connect(comp);
+    // a dub echo, for the siren and the cute bits
+    echoIn = ac.createGain();
+    var dl = ac.createDelay(1), fb = ac.createGain(), lp = ac.createBiquadFilter();
+    dl.delayTime.value = STEP * 3; fb.gain.value = .4; lp.type = "lowpass"; lp.frequency.value = 2400;
+    echoIn.connect(dl); dl.connect(lp); lp.connect(fb); fb.connect(dl); lp.connect(comp);
+    cuteBus = ac.createGain(); cuteBus.gain.value = .5; cuteBus.connect(comp);
+    var send = ac.createGain(); send.gain.value = .5; cuteBus.connect(send); send.connect(echoIn);
+    // one bass voice that stays on: a sine sub, plus two detuned saws for the reese
+    var o1 = ac.createOscillator(), o2 = ac.createOscillator(), sub = ac.createOscillator(), lfo = ac.createOscillator();
+    var saw = ac.createGain(), subG = ac.createGain(), grit = ac.createWaveShaper(), lpf = ac.createBiquadFilter(), lfoG = ac.createGain(), env = ac.createGain();
+    o1.type = o2.type = "sawtooth"; o1.detune.value = -13; o2.detune.value = 13; sub.type = "sine";
+    lpf.type = "lowpass"; lpf.frequency.value = 480; lpf.Q.value = 4; lfo.frequency.value = .23; lfoG.gain.value = 300;
+    lfo.connect(lfoG); lfoG.connect(lpf.frequency);
+    grit.curve = shaper(2.5);
+    o1.connect(saw); o2.connect(saw); saw.connect(lpf); lpf.connect(env);
+    sub.connect(grit); grit.connect(subG); subG.connect(env);
+    env.gain.value = 0; env.connect(bassBus);
+    [o1, o2, sub, lfo].forEach(function (o) { o.start(); });
+    B = { o1: o1, o2: o2, sub: sub, saw: saw, subG: subG, env: env };
+    bassMix();
+  }
+  function bassMix() {
+    if (!B) return;
+    var t = ac.currentTime, r = bassMode === "reese";
+    B.saw.gain.setTargetAtTime(r ? .28 : 0, t, .05);
+    B.subG.gain.setTargetAtTime(r ? .5 : .85, t, .05);
+    if (bassMode === "off") B.env.gain.setTargetAtTime(0, t, .03);
+  }
+
+  function slice(tok, t, d, v) {
+    var s = ac.createBufferSource(), g = ac.createGain();
+    s.buffer = tok.rev ? revBuf : breakBuf;
+    s.playbackRate.value = RATE * (tok.up ? 1.26 : 1);
+    var off = tok.rev ? revBuf.duration - (tok.s + 1) * OSTEP : tok.s * OSTEP;
+    g.gain.value = 0;
+    g.gain.setValueAtTime(0, t);
+    g.gain.linearRampToValueAtTime(v, t + (tok.rev ? .01 : .0015));
+    g.gain.setValueAtTime(v, t + d - .004);
+    g.gain.linearRampToValueAtTime(0, t + d + .002);
+    s.connect(g); g.connect(drums);
+    s.start(t, Math.max(0, off)); s.stop(t + d + .01);
+    live.push({ s: s, end: t + d + .01 });
+  }
+  function hz(semi) { return 43.65 * Math.pow(2, semi / 12); }
+  function midi(m) { return 440 * Math.pow(2, (m - 69) / 12); }
+  function bass(i, t) {
+    if (bassMode === "off") return;
+    var line = BASS[bassMode];
+    line.forEach(function (n) {
+      if (n[0] !== i) return;
+      var f = hz(n[1]), end = t + n[2] * STEP, glide = bassMode === "reese" ? .045 : .01;
+      var legato = line.some(function (m) { return m[0] === (n[0] + n[2]) % 32; });
+      B.sub.frequency.setTargetAtTime(f, t, glide);
+      B.o1.frequency.setTargetAtTime(f * 2, t, glide);
+      B.o2.frequency.setTargetAtTime(f * 2, t, glide);
+      B.env.gain.setTargetAtTime(1, t, .006);
+      if (!legato || bassMode === "sub") B.env.gain.setTargetAtTime(0, end - .03, .02);
+    });
+  }
+  function bell(t, m) {
+    [[1, .3, .9], [2, .07, .3], [3.01, .04, .18]].forEach(function (p) {
+      var o = ac.createOscillator(), g = ac.createGain();
+      o.frequency.value = midi(m) * p[0];
+      g.gain.setValueAtTime(p[1], t); g.gain.exponentialRampToValueAtTime(.0005, t + p[2]);
+      o.connect(g); g.connect(cuteBus); o.start(t); o.stop(t + p[2] + .02);
+    });
+  }
+  function pad(t, notes) {
+    var len = 32 * STEP / 2;
+    notes.forEach(function (m, k) {
+      var o = ac.createOscillator(), g = ac.createGain(), f = ac.createBiquadFilter();
+      o.type = "triangle"; o.frequency.value = midi(m); o.detune.value = (k % 2 ? 6 : -6);
+      f.type = "lowpass"; f.frequency.value = 1400;
+      g.gain.value = 0; g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(.035, t + .6);
+      g.gain.setValueAtTime(.035, t + len - .5); g.gain.linearRampToValueAtTime(0, t + len);
+      o.connect(f); f.connect(g); g.connect(cuteBus); o.start(t); o.stop(t + len + .05);
+      live.push({ s: o, end: t + len + .05 });
+    });
+  }
+
+  function play(i, t) {
+    var tok = (pats[pattern] || pats.straight)[i];
+    if (tok) for (var k = 0; k < tok.n; k++) slice(tok, t + k * STEP / tok.n, STEP / tok.n, tok.n > 1 ? .55 + .45 * (k + 1) / tok.n : 1);
+    bass(i, t);
+    if (cute) { if (BELLS[i]) bell(t, BELLS[i]); if (PADS[i]) pad(t, PADS[i]); }
+  }
+  function tick() {
+    if (!ac) return;
+    var ahead = document.hidden ? 1.5 : .12, now = ac.currentTime;
+    while (nextT < now + ahead) {
+      var i = step % 32;
+      play(i, nextT);
+      queue.push([i, nextT]);
+      nextT += STEP; step++;
+    }
+    live = live.filter(function (x) { return x.end > now; });
+  }
+  function draw() {
+    if (!ac) return;
+    var now = ac.currentTime;
+    while (queue.length && queue[0][1] <= now) light(queue.shift()[0]);
+    raf = requestAnimationFrame(draw);
+  }
+  function light(i) {
+    var cells = tracker.children;
+    if (cells[shown]) cells[shown].classList.remove("on");
+    cells[i].classList.add("on"); shown = i;
+    if (i % 4) return;                          // the rest happens on the beat
+    if (!happy) look(i % 8 ? null : "^");
+    if (still) return;
+    if (tower) tower.classList.toggle("lit", i % 8 === 0);
+    sounds.forEach(function (s) { s.classList.remove("thump"); void s.offsetWidth; s.classList.add("thump"); });
+  }
+  function hush(t) {
+    live.forEach(function (x) { try { x.s.stop(t); } catch (e) {} });
+    live = []; queue = [];
+    if (B) {
+      B.env.gain.cancelScheduledValues(t); B.env.gain.setTargetAtTime(0, t, .015);
+      [B.sub, B.o1, B.o2].forEach(function (o) { o.frequency.cancelScheduledValues(t); });
+    }
+  }
+
+  // ---------- the buttons ----------
+  function say(s) { statusEl.textContent = s; }
+  function ui() {
+    document.body.classList.toggle("on-air", onAir);
+    $("#go").setAttribute("aria-pressed", onAir);
+    floatStop.hidden = !onAir;
+    document.querySelectorAll("[data-break]").forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.break === pattern); });
+    $("#chop").setAttribute("aria-pressed", pattern === "chop");
+    document.querySelectorAll("[data-bass]").forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.bass === bassMode); });
+    $("#cute").setAttribute("aria-pressed", cute);
+    infoEl.textContent = "break: " + (pattern === "chop" ? "your chop" : pattern) + " · bass: " + bassMode + " · cute: " + (cute ? "on ✿" : "off") + " · " + BPM + "bpm";
+    var html = "";
+    pats[pattern].forEach(function (t) {
+      html += t ? '<span class="' + (t.rev ? "rev " : "") + (t.up ? "up " : "") + (t.n > 1 ? "roll" : "") + '">' + t.label + "</span>" : '<span class="rest">--</span>';
+    });
+    tracker.innerHTML = html;
+    if (tracker.children[shown] && onAir) tracker.children[shown].classList.add("on");
+  }
+  function go() {
+    if (onAir) return;
+    wantOn = true;
+    if (!ac) build();
+    if (ac.resume) ac.resume();
+    say("tuning in…");
+    (breakBuf ? Promise.resolve() : recordBreak()).then(function () {
+      if (!wantOn || !ac) return;
+      onAir = true; step = 0; queue = []; nextT = ac.currentTime + .08;
+      clearInterval(timer); timer = setInterval(tick, 25); tick();
+      cancelAnimationFrame(raf); raf = requestAnimationFrame(draw);
+      say("● on air ♪");
+      ui();
+    }).catch(function (e) { say("no signal, your browser said no"); console.warn(e); });
+  }
+  function stop() {
+    wantOn = false; onAir = false;
+    clearInterval(timer); timer = null; cancelAnimationFrame(raf);
+    if (ac) {
+      var a = ac, m = master;
+      hush(a.currentTime);
+      m.gain.setTargetAtTime(0, a.currentTime, .01);
+      ac = null; B = null;
+      setTimeout(function () { if (a.close) a.close(); }, 150);
+    }
+    if (tower) tower.classList.remove("lit");
+    if (!happy) look();
+    say("off air");
+    ui();
+  }
+  // ⟲ the DJ pulls the record back by hand and drops it again from the top
+  function pullUp() {
+    if (!onAir || !ac) return;
+    clearInterval(timer);
+    var t = ac.currentTime + .01;
+    hush(t);
+    var s = ac.createBufferSource(), g = ac.createGain(), pos = ((shown + 1) % 32) * OSTEP;
+    s.buffer = revBuf; s.loop = true;
+    s.playbackRate.setValueAtTime(RATE, t);
+    s.playbackRate.linearRampToValueAtTime(RATE * 3, t + .4);
+    s.playbackRate.exponentialRampToValueAtTime(.2, t + 1.05);
+    g.gain.value = 0; g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(.8, t + .02);
+    g.gain.setValueAtTime(.8, t + .75); g.gain.linearRampToValueAtTime(0, t + 1.05);
+    s.connect(g); g.connect(drums);
+    s.start(t, Math.max(0, revBuf.duration - pos)); s.stop(t + 1.1);
+    live.push({ s: s, end: t + 1.1 });
+    say("⟲ pull up! from the top…");
+    if (!happy) look("@");
+    step = 0; nextT = t + 1.15;
+    timer = setInterval(tick, 25);
+    setTimeout(function () { if (onAir) { say("● on air ♪"); if (!happy) look(); } }, 1150);
+  }
+  // a dub siren, sound system style
+  function siren() {
+    if (!ac) build();
+    if (ac.resume) ac.resume();
+    var t = ac.currentTime + .02, o = ac.createOscillator(), l = ac.createOscillator(), lg = ac.createGain(), g = ac.createGain(), f = ac.createBiquadFilter();
+    o.type = "square"; o.frequency.setValueAtTime(380, t); o.frequency.exponentialRampToValueAtTime(820, t + 1.2);
+    l.type = "square"; l.frequency.setValueAtTime(4, t); l.frequency.linearRampToValueAtTime(10, t + 1.4);
+    lg.gain.value = 90; l.connect(lg); lg.connect(o.frequency);
+    f.type = "lowpass"; f.frequency.value = 1800;
+    g.gain.value = 0; g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(.09, t + .03);
+    g.gain.setValueAtTime(.09, t + 1.25); g.gain.linearRampToValueAtTime(0, t + 1.5);
+    o.connect(f); f.connect(g); g.connect(comp); g.connect(echoIn);
+    o.start(t); l.start(t); o.stop(t + 1.55); l.stop(t + 1.55);
+    live.push({ s: o, end: t + 1.55 }, { s: l, end: t + 1.55 });
+  }
+
+  $("#go").onclick = go;
+  $("#stop").onclick = stop;
+  floatStop.onclick = stop;
+  $("#pullup").onclick = pullUp;
+  $("#siren").onclick = siren;
+  $("#chop").onclick = function () { chop(); pattern = "chop"; ui(); };
+  $("#cute").onclick = function () { cute = !cute; ui(); };
+  $("#vol").oninput = function () { if (ac) master.gain.setTargetAtTime(vol(), ac.currentTime, .03); };
+  document.querySelectorAll("[data-break]").forEach(function (b) { b.onclick = function () { pattern = b.dataset.break; ui(); }; });
+  document.querySelectorAll("[data-bass]").forEach(function (b) { b.onclick = function () { bassMode = b.dataset.bass; bassMix(); ui(); }; });
+  ui();
+})();
+
+</script>
+<script>
+/* the scene: one monospace grid worked out for this window. the sky and the antenna on the roof,
+   the tower block's floors going down the page, the garden it stands in at the foot.
+   lines are rows of █, planes are ░▒▓█, light flats are white space. same window, same picture. */
+(function () {
+  var D = document, H = D.documentElement, B = D.body;
+  var $ = function (s) { return D.querySelector(s); };
+  var HOME = B.getAttribute('data-page') === 'home';
+  var STILL = typeof still !== 'undefined' ? still : matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!STILL) H.classList.add('moving');
+  var stage = $('#stage'), paintEl = $('#paint'), gardenEl = $('#garden');
+
+  function rnd(a) { return function () { a = a + 0x6D2B79F5 | 0; var t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+  var ADV = (function () {
+    var s = D.createElement('span'); s.className = 'measure'; s.textContent = '0000000000000000000000000000000000000000';
+    B.appendChild(s); var w = s.getBoundingClientRect().width / 4000; B.removeChild(s); return w || .6;
+  })();
+
+  // block glyphs never quite fill a fractional cell, so the block layer is set a touch tighter than the
+  // cell and scaled back up: rows and columns overlap by a hair and no white seams show between them
+  var INK = (function () {
+    var r = { h: 1.164, top: 0 };
+    try {
+      var c = D.createElement('canvas').getContext('2d'); c.font = '100px ' + getComputedStyle(B).fontFamily;
+      var m = c.measureText('█');
+      if (m.actualBoundingBoxAscent) {
+        r.h = (m.actualBoundingBoxAscent + m.actualBoundingBoxDescent) / 100;
+        if (m.fontBoundingBoxAscent) r.top = ((m.fontBoundingBoxAscent - m.actualBoundingBoxAscent) - (m.fontBoundingBoxDescent - m.actualBoundingBoxDescent)) / 200;
+      }
+    } catch (e) {}
+    return r;
+  })();
+  function blockVars(fs, cw, lh) {
+    var L = INK.h * .96, sy = lh / (L * fs), sx = cw / (cw - .5);
+    var inkTop = INK.top - .02 * INK.h + (L - INK.h) / 2;
+    H.style.setProperty('--bl', L); H.style.setProperty('--bls', (-.5 / fs) + 'em');
+    H.style.setProperty('--bdy', (-inkTop - .02 * INK.h) * sy + 'em'); H.style.setProperty('--bsx', sx); H.style.setProperty('--bsy', sy);
+  }
+
+  /* ---------- pixel letters, drawn with half blocks ---------- */
+  var GL = {
+    P: '####.|#...#|#...#|####.|#....|#....|#....', L: '#....|#....|#....|#....|#....|#....|#####',
+    A: '.###.|#...#|#...#|#####|#...#|#...#|#...#', Y: '#...#|#...#|.#.#.|..#..|..#..|..#..|..#..',
+    O: '.###.|#...#|#...#|#...#|#...#|#...#|.###.', N: '#...#|##..#|#.#.#|#..##|#...#|#...#|#...#',
+    I: '###|.#.|.#.|.#.|.#.|.#.|###', R: '####.|#...#|#...#|####.|#.#..|#..#.|#...#',
+    C: '.###.|#...#|#....|#....|#....|#...#|.###.', H: '#...#|#...#|#...#|#####|#...#|#...#|#...#',
+    M: '#...#|##.##|#.#.#|#.#.#|#...#|#...#|#...#', '>': '#...|##..|###.|####|###.|##..|#...', ' ': '.|.|.|.|.|.|.'
+  };
+  function word(t) {
+    var rows = ['', '', '', '', '', '', ''];
+    t.split('').forEach(function (c, i) { var g = GL[c].split('|'); for (var r = 0; r < 7; r++) rows[r] += (i ? '.' : '') + g[r]; });
+    return rows;
+  }
+  function carve(text, W, Hr, solid) {
+    var g = word(text), gw = text ? g[0].length : 0, ox = Math.floor((W - gw) / 2), oy = Math.max(0, Math.floor((2 * Hr - 7) / 2)), out = [];
+    function on(x, y) { var a = x - ox, b = y - oy, hit = !!text && a >= 0 && a < gw && b >= 0 && b < 7 && g[b][a] === '#'; return solid ? hit : !hit; }
+    for (var r = 0; r < Hr; r++) { var s = ''; for (var x = 0; x < W; x++) { var t = on(x, 2 * r), u = on(x, 2 * r + 1); s += t ? (u ? '█' : '▀') : (u ? '▄' : ' '); } out.push(s); }
+    return out;
+  }
+
+  /* ---------- kes's heart-letter name: 7 rows, every lit dot a <3 ---------- */
+  var NAME = [
+    '..#.....................#........#.............................##.................',
+    '..#..............................#..............................#.........##.##...',
+    '..#..#...###...####....##..#.##..#..#...###..#.##...####..###...#...###..#######..',
+    '..#.#...#...#.#.........#..##..#.#.#...#...#.##..#.#.....#...#..#..#...#.#######..',
+    '..##....#####..###......#..#...#.##....#####.#......###..#...#..#..#####..#####...',
+    '..#.#...#.........#.....#..#...#.#.#...#.....#.........#.#...#..#..#.......###....',
+    '..#..#...###..####.....###.#...#.#..#...###..#.....####...###..###..###.....#.....'
+  ];
+  var WORDS = { kes: [2, 18], inkersole: [23, 66], heart: [69, 79] };
+  function cols(words) { var c = []; words.forEach(function (w, i) { if (i) c.push(-1, -1); for (var x = WORDS[w][0]; x <= WORDS[w][1]; x++) c.push(x); }); return c; }
+  function signLine(words, s) {
+    var cs = cols(words), rows = [];
+    for (var r = 0; r < 7; r++) {
+      var out = '', cur = null, buf = '';
+      cs.forEach(function (c) {
+        var on = c >= 0 && NAME[r][c] === '#';
+        var k = on ? (c >= 69 ? 'h' : 'l s' + Math.min(31, Math.floor((c - 2) * 32 / 65))) : 'o';
+        if (k !== cur) { if (cur) out += '<b class="' + cur + '">' + buf + '</b>'; cur = k; buf = ''; }
+        buf += on ? '&lt;3' : ' .';
+      });
+      rows.push(out + '<b class="' + cur + '">' + buf + '</b>');
+    }
+    return '<span class="sl" style="font-size:' + S.fs * s + 'px;line-height:' + S.lh * s + 'px">' + rows.join('\n') + '</span>';
+  }
+
+  /* ---------- kes's garden: 8 rows, one 204-column repeat ---------- */
+  var GT = ["                  _   _                                                             _   _                                                    _   _                                                          ", "     _           ( `v' )                                              _            ( `v' )            _                                     ( `v' )       _                              _                  ", "   _(_)_          \\   /           \\ | /               @@@           _(_)_           \\   /           _(_)_           @@@       \\ | /          \\   /      _(_)_                @@@       _(_)_     \\ | /      ", "  (_)@(_)          `.'           -- o --             @@@@@         (_)@(_)           `.'           (_)@(_)         @@@@@     -- o --          `.'      (_)@(_)              @@@@@     (_)@(_)   -- o --     ", "    (_)             |             / | \\               @@@            (_)              |              (_)            @@@       / | \\            |         (_)                 @@@        (_)      / | \\      ", "     |\\            /|        ,      |                  |             /|       ,      /|               |\\      ,      |          |             /|         /|      ,            |          |\\        |        ", "     |      \\|/     |       \\|      |/                \\|     \\|/      |      \\|       |     \\|/       |      \\|     \\|          |/    \\|/      |          |     \\|   \\|/     \\|          |         |/    \\|/", ",.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,.,;,,.,,,.,.,;,.,,,.,,.,,"], GK = ["..................p...p.............................................................p...p....................................................p...p..........................................................", ".....p...........p.ppp.p..............................................b............p.ppp.p............p.....................................p.ppp.p.......b..............................p..................", "...ppppp..........p...p...........y.y.y...............lll...........bbbbb...........p...p...........ppppp...........lll.......y.y.y..........p...p......bbbbb................lll.......ppppp.....y.y.y......", "..pppyppp..........ppp...........yy.p.yy.............lllll.........bbbybbb...........ppp...........pppyppp.........lllll.....yy.p.yy..........ppp......bbbybbb..............lllll.....pppyppp...yy.p.yy.....", "....ppp.............g.............y.y.y...............lll............bbb..............g..............ppp............lll.......y.y.y............g.........bbb.................lll........ppp......y.y.y......", ".....gg............gg........g......g..................g.............gg.......g......gg...............gg......g......g..........g.............gg.........gg......g............g..........gg........g........", ".....g......ggg.....g.......gg......gg................gg.....ggg......g......gg.......g.....ggg.......g......gg.....gg..........gg....ggg......g..........g.....gg...ggg.....gg..........g.........gg....ggg", "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg"];
+
+  /* ---------- the grid ---------- */
+  var S = null, ops, lastT;
+  var MODE = { dir: 'h', dens: .06, light: false, seed: 1 };
+  var T_BAY = [['W', 22], ['g1', 20], ['g2', 14], ['g3', 6], ['p', 8], ['b', 9], ['y', 9], ['k', 4]];
+  var T_CALM = [['W', 34], ['g1', 26], ['g2', 17], ['g3', 6], ['p', 3], ['b', 6], ['y', 5], ['k', 3]];
+  var T_QUIET = [['W', 30], ['g1', 30], ['g2', 20], ['g3', 6]];
+  var T_SMALL = [['k', 3], ['y', 3], ['W', 2], ['g2', 2], ['p', 1], ['b', 1]];
+  var T_SMALLQ = [['g3', 3], ['W', 2], ['g2', 2], ['g1', 2]];
+  function pick(r, list, avoid) {
+    var tot = 0, i, x, t; list.forEach(function (e) { tot += e[1]; });
+    for (var n = 0; n < 4; n++) { x = r() * tot; for (i = 0; i < list.length - 1; i++) { x -= list[i][1]; if (x < 0) break; } t = list[i][0]; if (t !== avoid) break; }
+    return t;
+  }
+  function plane(x, y, w, h, t, r, T) {
+    if (w < 1 || h < 1) return;
+    if (!t) { var small = w * S.cw * h * S.lh < S.area * .45; t = pick(r, small ? (T === T_QUIET ? T_SMALLQ : T_SMALL) : (T || T_BAY), lastT); lastT = t; }
+    ops.push({ o: 'P', x: x, y: y, w: w, h: h, t: t });
+  }
+  function lineH(x0, x1, y, k) { if (x1 >= x0) ops.push({ o: 'L', x: x0, y: y, w: x1 - x0 + 1, h: 1, k: k || 'L' }); }
+  function lineV(x, y0, y1, w, k) { if (y1 >= y0) ops.push({ o: 'L', x: x, y: y0, w: w || S.vw, h: y1 - y0 + 1, k: k || 'L' }); }
+  function cell(x, y, c, k) { ops.push({ o: 'C', x: x, y: y, c: c, k: k }); }
+  function blank(x, y, w, h) { ops.push({ o: 'B', x: x, y: y, w: w, h: h }); }
+  // split a rectangle the way Tableau I does: a few lines, planes of mixed size
+  function region(x, y, w, h, seed, T, am) {
+    if (w < 1 || h < 1) return;
+    var r = rnd(seed * 9973 + S.C * 31 + 7), A0 = S.area * (am || 1);
+    (function split(x, y, w, h, d) {
+      var A = w * S.cw * h * S.lh, canV = w >= 2 * S.minW + S.vw, canH = h >= 2 * S.minH + 1;
+      if (d > 7 || !(canV || canH) || A < A0 || (A < A0 * 3 && r() < .4)) { plane(x, y, w, h, null, r, T); return; }
+      if (canV && (!canH || (w * S.cw > h * S.lh ? r() < .78 : r() < .22))) {
+        var a = S.minW + Math.floor(r() * (w - 2 * S.minW - S.vw + 1));
+        lineV(x + a, y, y + h - 1);
+        split(x, y, a, h, d + 1); split(x + a + S.vw, y, w - a - S.vw, h, d + 1);
+      } else {
+        var b = S.minH + Math.floor(r() * (h - 2 * S.minH));
+        lineH(x, x + w - 1, y + b);
+        split(x, y, w, b, d + 1); split(x, y + b + 1, w, h - b - 1, d + 1);
+      }
+    })(x, y, w, h, 0);
+  }
+
+  function put(el, col, row, w) { el.style.left = col * S.cw + 'px'; el.style.top = row * S.lh + 'px'; if (w != null) el.style.width = w * S.cw + 'px'; }
+  function rows(el) { return Math.max(1, Math.round(el.offsetHeight / S.lh)); }
+  function natural(el) { el.style.width = 'max-content'; var n = Math.ceil(el.offsetWidth / S.cw - .05); el.style.width = ''; return n; }
+
+  /* ---------- the tower's columns: wall, flats, the stairwell, window bay, wall ---------- */
+  function columns() {
+    var C = S.C, vw = S.vw, wide = S.wide;
+    var sw = wide ? 6 : 3, padL = wide ? 3 : 2, padR = wide ? 3 : 1, cap = 64, flat = cap + padL + padR, TW, T0;
+    if (wide) {
+      var g = Math.round(C * (HOME ? .13 : .08));
+      TW = Math.min(C - 4, Math.max(HOME ? 4 * vw + sw + flat : 4 * vw + sw + 2 * (38 + padL + padR), C - 2 * g));
+      T0 = Math.round((C - TW) * .45);
+    } else { TW = C - 2; T0 = 1; }
+    var FW = TW - 2 * vw - sw - vw, bw = 0;
+    if (HOME && wide && FW - flat - vw >= 10) { bw = FW - flat - vw; FW = flat; }
+    S.sw = sw; S.padL = padL; S.padR = padR; S.cap = cap;
+    S.T0 = T0; S.TW = TW; S.T1 = T0 + TW; S.fx = T0 + vw; S.FW = FW;
+    S.sx = S.fx + FW + vw; S.bw = bw; S.bx = bw ? S.sx + sw + vw : 0;
+  }
+  function slab(y) { lineH(S.T0, S.sx - 1, y); if (S.bw) lineH(S.sx + S.sw, S.T1 - 1, y); }
+  // the stairwell: a window every few rows, all the way up
+  function stair(y0, y1) {
+    var P = S.wide ? 4 : 3, K = Math.floor((y1 - y0 + 1) / P);
+    for (var k = 0; k < K; k++) {
+      var y = y0 + k * P;
+      ops.push({ o: 'S', x: S.sx, y: y, w: S.sw, h: P - 1, k: 'sw s' + ((K - 1 - k) % 16) });
+      lineH(S.sx, S.sx + S.sw - 1, y + P - 1);
+    }
+  }
+  function frame(y0, roof) {
+    var vw = S.vw, R = S.R;
+    if (roof) lineH(S.T0, S.T1 - 1, y0);
+    lineV(S.T0, y0, R - 1); lineV(S.T1 - vw, y0, R - 1);
+    lineV(S.sx - vw, y0, R - 1); if (S.bw) lineV(S.sx + S.sw, y0, R - 1);
+    stair(roof ? y0 + 1 : y0, S.yG - 1);
+  }
+  // the lower blocks either side, standing in the same garden
+  function neighbours(roofL, roofR) {
+    var C = S.C, vw = S.vw, R = S.R, yG = S.yG;
+    if (!S.wide) return;
+    if (S.T0 >= 10) {
+      var x1 = S.T0 - 3;
+      if (roofL >= 0) lineH(0, x1, roofL);
+      lineV(x1 - vw + 1, Math.max(0, roofL), R - 1);
+      region(0, roofL + 1, x1 - vw + 1, yG - roofL - 1, 300, T_CALM, 1.5);
+    }
+    if (C - S.T1 >= 10) {
+      var x0 = S.T1 + 2;
+      if (roofR >= 0) lineH(x0, C - 1, roofR);
+      lineV(x0, Math.max(0, roofR), R - 1);
+      region(x0 + vw, roofR + 1, C - x0 - vw, yG - roofR - 1, 400, T_CALM, 1.5);
+    }
+  }
+
+  // one flat per floor: content inset in a white plane, the rest of the flat and the bay are windows
+  function room(els, y, i, T) {
+    var fx = S.fx, FW = S.FW, padL = S.padL, padR = S.padR, vw = S.vw;
+    var tw = Math.min(S.cap, FW - padL - padR), nat = 0;
+    els.forEach(function (el) { nat = Math.max(nat, natural(el)); });
+    var w = Math.min(nat, tw), x = fx + padL, row = y + 1;
+    els.forEach(function (el) { put(el, x, 0, w); });
+    els.forEach(function (el) { var n = rows(el); put(el, x, row); el._row = row; row += n + 1; });
+    var hr = row - y, xs = x + w + padR;
+    if (fx + FW - xs - vw >= 9) { lineV(xs, y, y + hr - 1); region(xs + vw, y, fx + FW - xs - vw, hr, 40 + i, T); } else xs = fx + FW;
+    // "(picture to come)": a grey window with its label punched through
+    els.forEach(function (el) {
+      [].forEach.call(el.querySelectorAll('.pic'), function (pic) {
+        var pr = el._row + Math.round(pic.offsetTop / S.lh), n = +el.id.slice(1) || i, cen = xs - fx;
+        var mw = Math.max(Math.min(cen, padL + 20), Math.round(cen * (.5 + .08 * (n % 3))));
+        lineH(fx, xs - 1, pr); lineH(fx, xs - 1, pr + 6);
+        plane(fx, pr + 1, mw, 5, ['g2', 'g1', 'g3'][n % 3]);
+        blank(fx + padL - 1, pr + 3, Math.min(mw - padL + 1, pic.textContent.length + 2), 1);
+        if (cen - mw - vw >= 3) { lineV(fx + mw, pr + 1, pr + 5); region(fx + mw + vw, pr + 1, cen - mw - vw, 5, 60 + n, T_BAY); }
+      });
+    });
+    if (S.bw) region(S.bx, y, S.bw, hr, 70 + i, T);
+    return hr;
+  }
+
+  function layout() {
+    var W = H.clientWidth, Hh = innerHeight;
+    var cwT = W < 560 ? 8 : W < 1000 ? 8.8 : Math.min(10.4, Math.max(9, W / 150));
+    if (HOME) cwT = Math.max(6.5, Math.min(cwT, ADV * Hh / 38.4));
+    var C = Math.max(36, Math.round(W / cwT)), cw = W / C, fs = cw / ADV;
+    var R0 = Math.max(24, Math.round(Hh / (fs * 1.2))), lh = HOME ? Hh / R0 : fs * 1.2, wide = C >= 90;
+    S = { C: C, cw: cw, lh: lh, fs: fs, R0: R0, wide: wide, vw: wide ? 2 : 1, minW: wide ? 5 : 2, minH: 2,
+      area: (wide ? 11000 : 2600) * (HOME ? 1 : 1.6) };
+    H.style.setProperty('--fs', fs + 'px'); H.style.setProperty('--lh', lh + 'px'); H.style.setProperty('--cw', cw + 'px');
+    blockVars(fs, cw, lh);
+    ops = []; lastT = '';
+    columns();
+    if (HOME) home(); else writing();
+    stage.style.height = S.R * lh + 'px';
+    garden();
+    paint();
+    if (HOME) goArt();
+  }
+
+  /* ---------- home: sky, antenna, roof, the floors, the garden ---------- */
+  function nameModes(avail) {
+    var out = [], w = function (ws) { return cols(ws).length * 2; };
+    var gap = function (s) { return '<span class="sl" style="height:' + S.lh * s + 'px"></span>'; };
+    var cap = '<span class="sl cap">inkersole</span>';
+    var s = Math.min(1, avail / w(['inkersole']));
+    if (s >= .6) out.push(signLine(w(['kes', 'heart']) * s <= avail ? ['kes', 'heart'] : ['kes'], s) + gap(s) + signLine(['inkersole'], s));
+    var s2 = Math.min(1, avail / w(['kes']));
+    if (s2 >= .5) {
+      out.push(signLine(w(['kes', 'heart']) * s2 <= avail ? ['kes', 'heart'] : ['kes'], s2) + gap(1) + cap);
+      if (s2 > .5) out.push(signLine(['kes'], .5) + gap(1) + cap);
+    }
+    out.push('<span class="sl cap">kes inkersole</span>');
+    return out;
+  }
+  function home() {
+    var C = S.C, vw = S.vw, wide = S.wide, R0 = S.R0, lh = S.lh, cw = S.cw;
+    var T0 = S.T0, T1 = S.T1, fx = S.fx, FW = S.FW, padL = S.padL;
+    var mw = wide ? 4 : 2, pw = Math.min(34, S.TW - 2 * vw - 4), ch = wide ? 6 : 5, mx, cx;
+    // the transmitter box sits on the roof and the mast stands on it; on a wide tower the mast is the stairwell's
+    if (wide) { mx = S.sx + ((S.sw - mw) >> 1); cx = Math.min(T1 - vw - 2 - pw, Math.max(T0 + vw + 2, mx + (mw >> 1) - Math.round(pw * .3))); }
+    else { cx = T0 + ((S.TW - pw) >> 1); mx = cx + Math.round(pw * .62) - (mw >> 1); }
+    // KES FM's few words: on the roof beside the box when there's room, otherwise across the top of the sky
+    var fm = $('#fm'), bx = fx + padL, room0 = cx - vw - 2 - bx, side = room0 >= 36;
+    var bwid = side ? Math.min(54, room0) : Math.min(56, C - bx - 2);
+    put(fm, bx, 0, bwid);
+    var nb = rows(fm);
+    // the block's name across its top floor: as big as the window allows, while the antenna keeps its height
+    var sign = $('#sign'), art = sign.querySelector('.art'), modes = nameModes(FW - padL - S.padR), sr, yR, yT, by, Hm;
+    for (var m = 0; m < modes.length; m++) {
+      art.innerHTML = modes[m];
+      put(sign, fx + padL, 0, null);
+      sr = Math.ceil(sign.offsetHeight / lh - .05);
+      yR = R0 - 2 - (sr + 4);
+      by = side ? yR - 1 - nb : 1;
+      yT = side ? 3 : by + nb + 2;
+      Hm = yR - ch - 1 - yT;
+      if (Hm >= 12) break;
+    }
+    if (Hm < 4) { yT = Math.max(1, yR - ch - 5); Hm = yR - ch - 1 - yT; }
+    put(sign, fx + padL, yR + 2, null);
+    put($('#quiet'), fx + padL, yR + 2 + sr + 1, null);
+    put(fm, bx, by, bwid);
+    var go = $('#go'); put(go, cx, yR - ch, pw); go.style.height = ch * lh + 'px'; go.querySelector('.art').style.height = ch * lh + 'px';
+    S.go = { w: pw, h: ch };
+
+    /* the antenna */
+    var mb = yR - ch - 2, yC = yT + Math.max(2, Math.round(Hm * .42));
+    var A = Math.max(4, Math.min(Hm, mx - 2)), Bx = Math.max(2, Math.min(Math.round(Hm * .55), C - 1 - mx - mw));
+    var box = { x0: bx - 1, x1: bx + bwid, y0: by - 1, y1: by + nb };
+    var inBox = function (x, y) { return x >= box.x0 && x <= box.x1 && y >= box.y0 && y <= box.y1; };
+    // signal round the tip: three rings that only show on the beat, and the lozenge, always there
+    var tipX = (mx + mw / 2) * cw, tipY = (yT + .5) * lh, r4 = Math.max(4, Hm + 2) * lh;
+    var rx4 = Math.min(r4, Math.min(tipX, C * cw - tipX) * .96);   // a narrow window gets a taller lozenge, still whole
+    [.3, .54, .77, 1].forEach(function (f, k) {
+      var r = r4 * f, rx = rx4 * f, q = k + 1;
+      for (var y = Math.max(0, Math.floor((tipY - r) / lh)); y < yR && y * lh <= tipY + r; y++) {
+        var rem = (1 - Math.abs((y + .5) * lh - tipY) / r) * rx; if (rem < 0) continue;
+        [-1, 1].forEach(function (sg) {
+          var x = Math.floor((tipX + sg * rem) / cw);
+          if (x >= 0 && x < C) cell(x, y, q === 4 ? '·' : '▓', 'q' + q + (inBox(x, y) ? ' cb' : ''));
+        });
+      }
+    });
+    var n = Math.max(1, yC - yT), n2 = Math.max(1, Math.round(n * .66)), k, j, x0, y;
+    for (k = 0; k < n; k++) { y = yC - 1 - k; x0 = mx - 2 * (k + 1) - (mw - 2); for (j = 0; j < mw; j++) if (x0 + j >= 0 && !inBox(x0 + j, y)) cell(x0 + j, y, '█', 'p'); }
+    for (k = 0; k < n2; k++) { y = yC - 1 - k; x0 = mx + mw + 2 * k; for (j = 0; j < mw; j++) if (x0 + j < C && !inBox(x0 + j, y)) cell(x0 + j, y, '█', 'b'); }
+    for (k = 0; ; k++) { y = yC + 1 + k; x0 = mx - A + 2 * k; if (y > mb || x0 + 1 >= mx) break; for (j = 0; j < 2; j++) if (x0 + j >= 0 && !inBox(x0 + j, y)) cell(x0 + j, y, '█', 'y'); }
+    lineH(Math.max(0, mx - A), Math.min(C - 1, mx + mw - 1 + Bx), yC);
+    for (j = 0; j < 3; j++) cell(Math.min(C - 1, mx + mw - 1 + Bx) - j, yC, '█', 'p');
+    var a2 = Math.max(2, Math.round(A * .3));
+    lineH(Math.max(0, mx - a2), Math.min(C - 1, mx + mw - 1 + a2), yT + 1);
+    lineV(mx, yT, mb, mw, 'M');
+    blank(cx, yR - ch, pw, ch);
+    lineH(cx - vw, cx + pw + vw - 1, yR - ch - 1); lineV(cx - vw, yR - ch, yR - 1); lineV(cx + pw, yR - ch, yR - 1);
+    var ax = mx + ((mw - 2) >> 1); cell(ax, yT - 1, '█', 'A'); cell(ax + 1, yT - 1, '█', 'A');
+    // the tracker climbs the mast, a 16th at a time
+    var tr = $('#tracker'), th = Math.min(lh, Math.max(2, Hm - 1) * lh / 16);
+    tr.style.setProperty('--th', th + 'px');
+    tr.style.left = (ax - bx) * cw + 'px'; tr.style.top = ((mb + 1 - by) * lh - 16 * th) + 'px';
+
+    /* the tower: top floor with the name, then a floor per part of kes's site */
+    var hN = sr + 4, yy = yR + 1;
+    if (S.bw) region(S.bx, yy, S.bw, hN, 3, T_QUIET);
+    yy += hN; slab(yy); yy++;
+    var floors = ['#hello', '#presents', '#p1', '#p2', '#p3', '#more', '#mywriting', '#written', '#pods', '#irl', '#foot'];
+    floors.forEach(function (s, i) {
+      yy += room([$(s)], yy, i, i === 0 ? T_QUIET : T_BAY);
+      if (i < floors.length - 1) { slab(yy); yy++; }
+    });
+    S.yG = yy; S.R = yy + 8;
+    frame(yR, true);
+    neighbours(R0 + Math.round((S.yG - R0) * .42), R0 + Math.round((S.yG - R0) * .18));
+  }
+
+  /* ---------- chainmail: the lobby, with a letterbox for every piece ---------- */
+  var FL = ['p', 'g2', 'g1', 'y', 'g2', 'b', 'g1', 'g3', 'g2', 'g1', 'g2'];
+  function boxes(list, y, i) {
+    var fx = S.fx, FW = S.FW, vw = S.vw, padL = S.padL, padR = S.padR, two = list.length === 2;
+    var w1 = two ? (FW - vw) >> 1 : FW, xs = [fx, fx + w1 + vw], ws = [w1, FW - vw - w1], hs = [];
+    if (!two) { var tw0 = Math.min(S.cap, FW - padL - padR); if (FW - tw0 - padL - padR - vw >= 9) ws[0] = tw0 + padL + padR; }
+    list.forEach(function (el, k) {
+      var tw = Math.min(S.cap, ws[k] - padL - padR);
+      put(el, xs[k] + padL, 0, tw); hs.push(rows(el)); put(el, xs[k] + padL, y + 4);
+    });
+    var hm = Math.max.apply(null, hs), hr = hm + 5;
+    list.forEach(function (el, k) {
+      var x = xs[k], w = ws[k], sl = Math.min(14, Math.max(6, Math.round(w / 4)));
+      plane(x, y, w, 3, FL[(i + k) % FL.length]);
+      lineH(x + padL, x + padL + sl - 1, y + 1);
+      if (hm - hs[k] >= 4) { var ly = y + 5 + hs[k]; lineH(x, x + w - 1, ly); region(x, ly + 1, w, y + hr - ly - 1, 90 + i + k, T_QUIET); }
+    });
+    if (two) lineV(fx + w1, y, y + hr - 1);
+    else if (ws[0] < FW) { lineV(fx + ws[0], y, y + hr - 1); region(fx + ws[0] + vw, y, FW - ws[0] - vw, hr, 120 + i, T_QUIET); }
+    return hr;
+  }
+  function writing() {
+    var FW = S.FW, padL = S.padL, padR = S.padR, vw = S.vw, tb = S.wide ? 5 : 4;
+    region(S.fx, 0, FW, tb, 1, T_CALM);
+    var y = tb; slab(y); y++;
+    var t = $('#title'), tw = 49 <= Math.min(S.cap, FW - padL - padR) ? 1 : .5;
+    t.querySelector('.art').innerHTML = '<span class="sl blk" style="font-size:' + S.fs * tw + 'px;height:' + 4 * S.lh * tw + 'px">' + carve('CHAINMAIL', 49, 4, true).join('\n') + '</span>';
+    y += room([t, $('#intro')], y, 0, T_QUIET); slab(y); y++;
+    var arts = [].slice.call(D.querySelectorAll('#main article')), two = FW >= 2 * (38 + padL + padR) + vw;
+    for (var i = 0; i < arts.length; i += two ? 2 : 1) {
+      y += boxes(two && arts[i + 1] ? [arts[i], arts[i + 1]] : [arts[i]], y, i);
+      slab(y); y++;
+    }
+    S.yG = y; S.R = y + 8;
+    frame(0, false);
+    neighbours(-1, -1);
+  }
+
+  /* ---------- the garden, laid over the foot of everything ---------- */
+  function esc(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+  function garden() {
+    var C = S.C, off = HOME ? 0 : 61, out = [];
+    S.gmask = [];
+    for (var r = 0; r < 8; r++) {
+      var s = '', cur = '', buf = '', m = [];
+      for (var x = 0; x < C; x++) {
+        var j = (x + off) % 204, c = GT[r][j], k = GK[r][j];
+        if (k === '.') k = '';
+        m.push(c !== ' ');
+        if (k !== cur) { s += cur ? '<i class="' + cur + '">' + esc(buf) + '</i>' : esc(buf); cur = k; buf = ''; }
+        buf += c;
+      }
+      out.push(s + (cur ? '<i class="' + cur + '">' + esc(buf) + '</i>' : esc(buf)));
+      S.gmask.push(m);
+    }
+    gardenEl.innerHTML = out.join('\n');
+    gardenEl.style.top = S.yG * S.lh + 'px';
+  }
+
+  /* ---------- paint ---------- */
+  var BASE = { p: '█', b: '█', y: '█', k: '█', g1: '░', g2: '▒', g3: '▓' }, ALT = { p: '▓', b: '▓', y: '▓', k: '▓', g1: '▒', g2: '░', g3: '▒' };
+  function texture(p, n, ch, kk) {
+    var base = BASE[p.t]; if (!base) return;
+    var alt = ALT[p.t], r = rnd(n * 7919 + MODE.seed * 104729 + 3), C = S.C, R = S.R, d = MODE.dens, x, y, j, run;
+    if (MODE.light) { if (base === '█') { base = '▓'; alt = '▒'; } else if (base === '▓') { base = '▒'; alt = '░'; } }
+    function set(x, y, c) { if (x < p.w && y < p.h && p.y + y < R) ch[(p.y + y) * C + p.x + x] = c; }
+    for (y = 0; y < p.h && p.y + y < R; y++) for (x = 0; x < p.w; x++) { var i = (p.y + y) * C + p.x + x; if (p.y + y < 0 || p.x + x < 0 || p.x + x >= C) continue; ch[i] = base; kk[i] = p.t; }
+    if (MODE.dir === 'h') { for (y = 0; y < p.h; y++) for (x = 0; x < p.w; x++) if (r() < d) { run = 2 + (r() * 7 | 0); for (j = 0; j < run; j++) set(x + j, y, alt); x += run; } }
+    else if (MODE.dir === 'v') { for (x = 0; x < p.w; x++) for (y = 0; y < p.h; y++) if (r() < d * 1.6) { run = 1 + (r() * 4 | 0); for (j = 0; j < run; j++) set(x, y + j, alt); y += run; } }
+    else { for (y = 0; y < p.h; y += 2) for (x = 0; x < p.w; x += 4) if (r() < d * 3) for (j = 0; j < 8; j++) set(x + (j & 3), y + (j >> 2), alt); }
+  }
+  function paint() {
+    var C = S.C, R = S.R, N = C * R, ch = new Array(N), kk = new Array(N), i, x, y;
+    for (i = 0; i < N; i++) { ch[i] = ' '; kk[i] = ''; }
+    function rect(x0, y0, w, h, c, k) {
+      for (var y = Math.max(0, y0); y < Math.min(R, y0 + h); y++) for (var x = Math.max(0, x0); x < Math.min(C, x0 + w); x++) { ch[y * C + x] = c; kk[y * C + x] = k; }
+    }
+    ops.forEach(function (op, n) {
+      if (op.o === 'P') texture(op, n, ch, kk);
+      else if (op.o === 'L' || op.o === 'S') rect(op.x, op.y, op.w, op.h, '█', op.k);
+      else if (op.o === 'B') rect(op.x, op.y, op.w, op.h, ' ', '');
+      else if (op.x >= 0 && op.x < C && op.y >= 0 && op.y < R) { ch[op.y * C + op.x] = op.c; kk[op.y * C + op.x] = op.k; }
+    });
+    // the flowers stand in front: clear what's behind them
+    for (y = 0; y < 8; y++) for (x = 0; x < C; x++) if (S.gmask[y][x] && S.yG + y < R) { i = (S.yG + y) * C + x; ch[i] = ' '; kk[i] = ''; }
+    var out = [];
+    for (y = 0; y < R; y++) {
+      var s = '', cur = '', buf = '';
+      for (x = 0; x < C; x++) {
+        i = y * C + x;
+        if (kk[i] !== cur) { s += cur ? '<i class="' + cur + '">' + buf + '</i>' : buf; cur = kk[i]; buf = ''; }
+        buf += ch[i];
+      }
+      out.push(s + (cur ? '<i class="' + cur + '">' + buf + '</i>' : buf));
+    }
+    paintEl.innerHTML = out.join('\n');
+  }
+
+  /* ---------- the transmitter box ---------- */
+  function goArt() {
+    var g = $('#go'); if (!g || !S || !S.go) return;
+    var on = g.getAttribute('aria-pressed') === 'true', w = S.go.w, txt = on ? 'ON AIR' : '> PLAY';
+    if (word(txt)[0].length > w - 2) txt = on ? '' : '>';
+    g.querySelector('.art').textContent = carve(txt, w, S.go.h, false).join('\n');
+  }
+
+  /* ---------- sizing: once, then again only when the width changes (or the gate's height) ---------- */
+  var lastW = H.clientWidth, lastH = innerHeight, raf = 0;
+  function resized() {
+    cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(function () {
+      var w = H.clientWidth, h = innerHeight;
+      if (w === lastW && (h === lastH || !(HOME && H.classList.contains('gated')))) return;
+      lastW = w; lastH = h; layout();
+    });
+  }
+  layout();
+  if (window.ResizeObserver) new ResizeObserver(resized).observe(H);
+  addEventListener('resize', resized);
+
+  if (!HOME) return;
+
+  /* ---------- the gate: play, or come in quietly ---------- */
+  function enter(quiet) {
+    if (!H.classList.contains('gated')) return;
+    H.classList.remove('gated');
+    try { sessionStorage.setItem('kesIn', '1'); } catch (e) {}
+    if (quiet) {
+      var h = $('#hello h2'); h.setAttribute('tabindex', '-1');
+      scrollTo({ top: S.R0 * S.lh, behavior: STILL ? 'auto' : 'smooth' });
+      h.focus({ preventScroll: true });
+    }
+    resized();
+  }
+  $('#go').addEventListener('click', function () { enter(false); });
+  $('#quiet').addEventListener('click', function () { enter(true); });
+  D.addEventListener('focusin', function (e) { if (H.classList.contains('gated') && !$('#hero').contains(e.target)) enter(false); });
+  new MutationObserver(goArt).observe($('#go'), { attributes: true, attributeFilter: ['aria-pressed'] });
+
+  /* ---------- the volume, as characters ---------- */
+  var vol = $('#vol'), vt = $('.vtxt');
+  function vb() { var n = Math.round(vol.value * 10); vt.textContent = '[' + Array(n + 1).join('█') + Array(11 - n).join('░') + ']'; }
+  vol.addEventListener('input', vb); vb();
+
+  /* ---------- alive with the music ---------- */
+  var css = '';
+  for (var i = 0; i < 32; i++) css += '.moving .on-air #sign[data-st="' + i + '"] b.s' + i + '{color:var(--pink)}.moving .on-air #sign[data-st="' + i + '"] b.s' + ((i + 31) % 32) + '{color:var(--mp)}';
+  for (i = 0; i < 16; i++) css += '.moving .on-air #stage[data-st="' + i + '"] .s' + i + '{color:var(--yellow)}.moving .on-air #stage[data-st="' + i + '"] .s' + ((i + 15) % 16) + '{color:var(--my)}';
+  var st = D.createElement('style'); st.textContent = css; D.head.appendChild(st);
+  var rot = 0, beat = 0, rwT = 0;
+  function setRot() { stage.classList.remove('o1', 'o2'); if (rot) stage.classList.add('o' + rot); }
+  // look() from the engine: every beat ("^" every other beat), "@" on pull up, nothing on stop/resume
+  window.paintLook = function (m) {
+    if (m === undefined) {
+      clearInterval(rwT); rwT = 0; rot = 0; stage.classList.remove('rw'); setRot();
+      if (!window.onAir) { stage.removeAttribute('data-q'); stage.classList.remove('sway'); }
+      return;
+    }
+    if (STILL) return;
+    if (m === '@') { stage.classList.add('rw'); clearInterval(rwT); rwT = setInterval(function () { rot = (rot + 2) % 3; setRot(); }, 90); return; }
+    beat++; stage.setAttribute('data-q', beat % 4 + 1);
+    if (m === '^') { rot = (rot + 1) % 3; setRot(); stage.classList.toggle('sway'); }
+  };
+  var tr = $('#tracker'), sign = $('#sign');
+  if (!STILL) new MutationObserver(function () {
+    var on = tr.querySelector('.on');
+    if (!on || !window.onAir) { sign.removeAttribute('data-st'); stage.removeAttribute('data-st'); return; }
+    var k = [].indexOf.call(tr.children, on);
+    sign.setAttribute('data-st', k); stage.setAttribute('data-st', k % 16);
+  }).observe(tr, { subtree: true, attributes: true, attributeFilter: ['class'], childList: true });
+  // the break sets the brush direction, the bass sets how thick the paint is
+  var info = $('#lcdinfo');
+  new MutationObserver(function () {
+    var t = info.textContent, br = (/break: ([^·]+?) ·/.exec(t) || [])[1] || 'straight', bs = (/bass: (\w+)/.exec(t) || [])[1] || 'sub';
+    var seed = 1; if (/your/.test(br)) { seed = 7; tr.textContent.split('').forEach(function (c) { seed = (seed * 31 + c.charCodeAt(0)) | 0; }); }
+    var m = { dir: /chop/.test(br) ? 'c' : /rollin/.test(br) ? 'v' : 'h', dens: bs === 'reese' ? .2 : bs === 'off' ? .1 : .06, light: bs === 'off', seed: seed };
+    if (m.dir !== MODE.dir || m.dens !== MODE.dens || m.light !== MODE.light || m.seed !== MODE.seed) { MODE = m; paint(); }
+  }).observe(info, { childList: true, characterData: true, subtree: true });
+})();
+
+</script>
+</body>
+</html>

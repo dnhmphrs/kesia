@@ -1,81 +1,65 @@
-# kes inkersole — personal site
+# kes inkersole — the site
 
-A small static site, built with **Rollup** and deployable to **Vercel**.
-No JavaScript runs on the page — it's plain HTML + CSS. The build just bundles
-the stylesheet, injects it into the page, and copies static files.
+Plain html, plain css, and the words in a few json files. One small script puts them
+together. Nothing to install.
 
-## Project structure
+## What is where
 
 ```
-kes-site/
-├── package.json          # dependencies + scripts (yarn)
-├── rollup.config.mjs     # build config
-├── vercel.json           # Vercel deploy config
-├── src/
-│   ├── index.html        # the page — edit text and links here
-│   ├── main.js           # tiny build entry (just imports the CSS; no page logic)
-│   └── styles/
-│       └── main.css      # all styling
-└── public/               # static files copied as-is (favicon.ico, share image…)
+content/            ← the words. edit these to change what the site says
+  site.json           your name, the three lines under it, your email
+  about.json          the hello paragraphs, the about list, irl
+  projects.json       the projects (title, pictures, link) and the for-fun links
+  writing.json        things you've written, podcasts
+templates/          ← the pages. edit these to change the html
+  index.html          home
+  portfolio.html      projects
+  writing.html        writing + podcasts
+  about.html          about + contact
+style.css           ← the look. empty on purpose: start here
+public/             ← files copied as they are: pictures (img/), favicon, share image
+build.js            ← the script that fills the templates with the content (you can leave it alone)
+dist/               ← the finished site (made by the script, never edit by hand)
 ```
 
-## Prerequisites
+## How the templates work
 
-- [Node.js](https://nodejs.org/) 18 or newer
-- [Yarn](https://yarnpkg.com/) — if you don't have it: `npm install -g yarn`
+A template is a normal html page with a few holes in it:
 
-## Local development
+- `{{site.name}}` is filled with a value from the content files
+  (`site.json` → `site.…`, `about.json` → `about.…`; the lists in `projects.json`
+  and `writing.json` are reached directly: `projects`, `fun`, `written`, `podcasts`).
+- `{{#projects}} … {{/projects}}` repeats what is inside once per project;
+  inside it, `{{title}}` is that project's title.
+- `{{.}}` is the item itself when the list is just words (the roles, the hello paragraphs).
+- `{{#text}} … {{/text}}` shows what is inside only when `text` is not empty.
 
-```bash
-yarn install      # first time only
-yarn dev          # dev server with live reload at http://localhost:5173
+Want a new page? Copy one of the templates, give it a new name, and add it to the
+`<nav>` in the other templates.
+
+## Adding a project
+
+In `content/projects.json`, copy one of the blocks inside `"projects": [ … ]` and change
+it. Put the pictures in `public/img/l/` and point `src` at them (`img/l/your-picture.jpg`).
+`width` and `height` are the picture's real pixel size.
+
+## Seeing it
+
+```
+node build.js
 ```
 
-## Build for production
+Then open `dist/index.html` in a browser. Run the command again after every change.
+(If `node` is not on your machine, install it from https://nodejs.org — version 18 or newer.)
 
-```bash
-yarn build        # outputs the finished site to dist/
-yarn preview      # optional: serve dist/ locally to check the build
-```
+## Going live
 
-## Editing the site
+The site is on Vercel, which watches the `main` branch of this repository. Push to
+`main` and Vercel runs `node build.js` and publishes `dist/`. That is all.
 
-All the text and links live directly in `src/index.html` — edit it like a
-normal web page. To add a project/writing/podcast link, copy an existing
-`<li><a href="...">label</a></li>` line inside the right list and change the
-URL and label. Styling lives in `src/styles/main.css`.
+## The archive
 
-## Favicon
-
-Put `favicon.ico` in the `public/` folder. It's already linked in the page head
-(`<link rel="icon" href="/favicon.ico" />`) and gets copied to the site root on
-build. If it doesn't show after deploying, visit `your-site.com/favicon.ico`
-directly: if the icon loads there it's just browser caching (hard-refresh); if
-you get a 404 the file isn't in `public/`.
-
-## Share / link-preview card
-
-When the link is pasted into iMessage, Slack, LinkedIn or X, the preview comes
-from the `og:` and `twitter:` tags in the `<head>` of `src/index.html`. To make
-the preview image work:
-
-1. Put an image (e.g. `share.png`, ideally ~1200×630 or square ~1200×1200) in
-   `public/`.
-2. In `index.html`, set the `og:image`, `twitter:image`, `og:url` values to the
-   full live URL, e.g. `https://kesinkersole.com/share.png`. Relative paths do
-   not work for share cards — they must be absolute https URLs.
-
-## Deploying to Vercel
-
-### Option A — GitHub (recommended)
-1. Push this folder to a GitHub repo.
-2. vercel.com → Add New… → Project → import the repo.
-3. `vercel.json` sets it up automatically (build `yarn build`, output `dist`).
-4. Deploy. Every `git push` redeploys.
-
-### Option B — Vercel CLI
-```bash
-npm install -g vercel
-vercel            # preview deploy
-vercel --prod     # production
-```
+Every draft made along the way, 157 pages in 26 rounds, is kept at `/archive/`
+(the files live in `public/drafts/` and `public/archive/`). It is not linked from
+the site and is marked noindex. The previous homepage is at `/drafts/home/`, and the
+original code for it is in the git history before this version.
